@@ -1,0 +1,62 @@
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//        jcenter()
+//        google()
+//    }
+//
+//    dependencies {
+//        classpath deps.butterknife_gradle_plugin
+//    }
+//}
+apply plugin: 'com.android.library'
+//apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion build_versions.compile
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            matchingFallbacks = ['debug', 'release']
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            matchingFallbacks = ['debug', 'release']
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+//    compileOptions {
+//        targetCompatibility 1.8
+//        sourceCompatibility 1.8
+//    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+//    api project(':lib-utils')
+    api project(':lib-image-loader')
+    api project(':lib-net')
+
+    api deps.support.app_compat
+    api deps.eventbus
+
+    //应用调试
+    api deps.stetho.stetho
+
+    //butterknife
+//    implementation deps.butterknife.runtime
+//    annotationProcessor deps.butterknife.compiler
+
+    //内存检测
+    debugImplementation deps.leakcanary.leakcanary_android
+    releaseImplementation deps.leakcanary.leakcanary_android_no_op
+
+    api 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
+}

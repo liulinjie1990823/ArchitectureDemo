@@ -1,0 +1,43 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion build_versions.compile
+
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            matchingFallbacks = ['debug', 'release']
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            matchingFallbacks = ['debug', 'release']
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+//    compileOptions {
+//        targetCompatibility 1.8
+//        sourceCompatibility 1.8
+//    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':lib-utils')
+
+    api deps.support.annotations
+    //image
+    api deps.fresco.fresco
+    api deps.fresco.animated_gif
+    api deps.fresco.animated_webp
+    api deps.fresco.webpsupport
+    api deps.fresco.imagepipeline_okhttp3
+
+    api 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+}

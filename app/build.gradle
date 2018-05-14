@@ -1,0 +1,92 @@
+apply plugin: 'com.android.application'
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+android {
+    compileSdkVersion build_versions.compile
+    defaultConfig {
+        applicationId "com.llj.architecturedemo"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode build_versions.version_code
+        versionName build_versions.version_name
+    }
+    signingConfigs {
+        release {
+            storeFile file("../itotemHunbohui.keystore")
+            storePassword "itotem"
+            keyAlias "itotemapp"
+            keyPassword "itotem"
+            v2SigningEnabled false
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+            matchingFallbacks = ['debug', 'release']
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        beta {
+            signingConfig signingConfigs.release
+            matchingFallbacks = ['debug', 'release']
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            signingConfig signingConfigs.release
+            matchingFallbacks = ['debug', 'release']
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+//    compileOptions {
+//        targetCompatibility 1.8
+//        sourceCompatibility 1.8
+//    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                def fileName = "v${defaultConfig.versionName}_${variant.name}_${releaseTime()}.apk"
+                outputFileName = fileName
+            }
+        }
+    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api project(':lib-base')
+
+    api deps.support.app_compat
+    api deps.constraint_layout
+    // Architecture components
+    api deps.lifecycle.runtime
+    api deps.lifecycle.extensions
+//    annotationProcessor deps.lifecycle.compiler
+    //db
+//    implementation deps.room.runtime
+//    annotationProcessor deps.room.compiler
+    //net
+    api deps.retrofit2.retrofit
+    api deps.okhttp_logging_interceptor
+    api deps.gson
+    //butterknife
+//    implementation deps.butterknife.runtime
+//    annotationProcessor deps.butterknife.compiler
+    //事件
+    api deps.eventbus
+    //刷新
+    api deps.smartrefresh.SmartRefreshLayout
+    //
+    api deps.rxjava2
+    api deps.rxandroid
+    //
+//    implementation deps.autoValue.auto_value_annotations
+//    annotationProcessor deps.autoValue.auto_value_compile
+}
