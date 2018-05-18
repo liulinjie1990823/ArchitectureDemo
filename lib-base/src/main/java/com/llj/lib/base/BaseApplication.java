@@ -1,6 +1,9 @@
 package com.llj.lib.base;
 
+import android.app.Activity;
 import android.app.Application;
+import android.support.annotation.CallSuper;
+import android.support.v4.app.Fragment;
 
 import com.facebook.stetho.Stetho;
 import com.llj.lib.base.help.DisplayHelper;
@@ -11,13 +14,28 @@ import com.llj.lib.utils.AToastUtils;
 import com.llj.lib.utils.helper.Utils;
 import com.squareup.leakcanary.LeakCanary;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+
 /**
  * ArchitectureDemo
  * describe:
  * author liulj
  * date 2018/4/25
  */
-public class BaseApplication extends Application {
+public abstract class BaseApplication extends Application implements
+        HasActivityInjector,
+        HasSupportFragmentInjector {
+
+    @Inject DispatchingAndroidInjector<Activity> mActivityInjector;
+    @Inject DispatchingAndroidInjector<Fragment> mSupportFragmentInjector;
+
+
+    @CallSuper
     @Override
     public void onCreate() {
         super.onCreate();
@@ -32,6 +50,7 @@ public class BaseApplication extends Application {
             initLeakCanary();//监听内存溢出
             //initStrictMode();//设置严格模式
         }
+        injectApp();
     }
 
     private void initDisplay() {
@@ -78,9 +97,19 @@ public class BaseApplication extends Application {
         LeakCanary.install(this);
     }
 
+    abstract protected void injectApp();
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Dependencies Injection by dagger.android
+    ///////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void registerActivityLifecycleCallbacks(ActivityLifecycleCallbacks callback) {
-        super.registerActivityLifecycleCallbacks(callback);
+    public AndroidInjector<Activity> activityInjector() {
+        return mActivityInjector;
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return mSupportFragmentInjector;
     }
 }

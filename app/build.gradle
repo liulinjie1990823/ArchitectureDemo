@@ -68,6 +68,7 @@ dependencies {
     // Architecture components
     api deps.lifecycle.runtime
     api deps.lifecycle.extensions
+//    api deps.lifecycle.java8
 //    annotationProcessor deps.lifecycle.compiler
     //db
 //    implementation deps.room.runtime
@@ -89,4 +90,7 @@ dependencies {
     //
 //    implementation deps.autoValue.auto_value_annotations
 //    annotationProcessor deps.autoValue.auto_value_compile
+
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
 }
