@@ -9,7 +9,7 @@ import dagger.Provides;
 
 /**
  * ArchitectureDemo
- * describe:
+ * describe:为Component提供相应的实例
  * author liulj
  * date 2018/5/16
  */

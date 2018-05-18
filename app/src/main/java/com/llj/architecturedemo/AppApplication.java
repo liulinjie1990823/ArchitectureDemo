@@ -8,7 +8,7 @@ import com.llj.lib.base.BaseApplication;
  * author liulj
  * date 2018/5/18
  */
-public class AppApplication extends BaseApplication{
+public class AppApplication extends BaseApplication {
 
     @Override
     public void onCreate() {
@@ -17,5 +17,9 @@ public class AppApplication extends BaseApplication{
 
     @Override
     protected void injectApp() {
+        DaggerAppComponent.builder()
+                .build()
+                .inject(this);
+
     }
 }

@@ -31,8 +31,10 @@ public abstract class BaseApplication extends Application implements
         HasActivityInjector,
         HasSupportFragmentInjector {
 
-    @Inject DispatchingAndroidInjector<Activity> mActivityInjector;
-    @Inject DispatchingAndroidInjector<Fragment> mSupportFragmentInjector;
+    @Inject
+    DispatchingAndroidInjector<Activity> mActivityInjector;
+    @Inject
+    DispatchingAndroidInjector<Fragment> mSupportFragmentInjector;
 
 
     @CallSuper

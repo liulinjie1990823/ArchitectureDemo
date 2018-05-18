@@ -7,15 +7,17 @@ import dagger.android.ContributesAndroidInjector;
 
 /**
  * ArchitectureDemo
- * describe:
+ * describe:定义所有的ActivityInjector
  * author liulj
  * date 2018/5/16
  */
 @Module(subcomponents = {BaseActivityComponent.class})
-public abstract class AllActivitysModule {
+abstract class AppActivitiesModule {
 
+    ///////////////////////////////////////////////////////////////////////////
+    // 定义所有的ActivityInjector
+    ///////////////////////////////////////////////////////////////////////////
     @ContributesAndroidInjector(modules = MainActivityModule.class)
-    abstract MainActivity contributeMainActivitytInjector();
-
+    abstract MainActivity contributeMainActivityInjector();
 
 }

@@ -1,6 +1,6 @@
 package com.llj.architecturedemo;
 
-import com.llj.lib.base.di.module.BaseAppModule;
+import com.llj.lib.base.BaseApplication;
 
 import javax.inject.Singleton;
 
@@ -18,8 +18,10 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Component(modules = {
         AndroidInjectionModule.class,
         AndroidSupportInjectionModule.class,
-        BaseAppModule.class,
+        AppActivitiesModule.class,
 })
 public interface AppComponent {
 
+    //调用该方法才会注入BaseApplication中的@Inject标记的对象
+    void inject(BaseApplication application);
 }

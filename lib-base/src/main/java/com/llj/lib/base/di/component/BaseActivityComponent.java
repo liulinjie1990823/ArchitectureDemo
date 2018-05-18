@@ -8,7 +8,7 @@ import dagger.android.AndroidInjector;
 
 /**
  * ArchitectureDemo
- * describe:
+ * describe:用于生成各个activity的Subcomponent，避免重复写
  * author liulj
  * date 2018/5/16
  */
