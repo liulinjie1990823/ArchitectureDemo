@@ -47,17 +47,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     protected void onResume() {
         super.onResume();
 
-        Observable<String> obs1 = Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                Log.e(TAG, "obs1thread:" + Thread.currentThread());
+        Observable<String> obs1 = Observable.create(emitter -> {
+            Log.e(TAG, "obs1thread:" + Thread.currentThread());
 
-                emitter.onNext("a1");
-                emitter.onNext("a2");
-                emitter.onNext("a3");
+            emitter.onNext("a1");
+            emitter.onNext("a2");
+            emitter.onNext("a3");
 
-                emitter.onComplete();
-            }
+            emitter.onComplete();
         });
 
 //        Observable.interval(2000000, TimeUnit.MILLISECONDS).map(new Function<Long, String>() {
