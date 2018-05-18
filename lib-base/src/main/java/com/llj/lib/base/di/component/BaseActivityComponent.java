@@ -18,5 +18,4 @@ public interface BaseActivityComponent extends AndroidInjector<BaseActivity> {
     @Subcomponent.Builder
     abstract class Builder extends AndroidInjector.Builder<BaseActivity> {
     }
-
 }

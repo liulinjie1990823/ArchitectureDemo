@@ -14,10 +14,6 @@ import dagger.android.ContributesAndroidInjector;
 @Module(subcomponents = {BaseActivityComponent.class})
 abstract class AppActivitiesModule {
 
-    ///////////////////////////////////////////////////////////////////////////
-    // 定义所有的ActivityInjector
-    ///////////////////////////////////////////////////////////////////////////
     @ContributesAndroidInjector(modules = MainActivityModule.class)
     abstract MainActivity contributeMainActivityInjector();
-
 }

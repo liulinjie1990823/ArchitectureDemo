@@ -18,7 +18,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Component(modules = {
         AndroidInjectionModule.class,
         AndroidSupportInjectionModule.class,
-        AppActivitiesModule.class,
+        AppActivitiesModule.class,//将所有的activity注册进来
 })
 public interface AppComponent {
 
