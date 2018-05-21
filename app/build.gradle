@@ -64,11 +64,12 @@ dependencies {
     api project(':lib-base')
 
     implementation deps.support.app_compat
+    //约束布局
     implementation deps.constraint_layout
     // Architecture components
     implementation deps.lifecycle.runtime
     implementation deps.lifecycle.extensions
-//    api deps.lifecycle.java8
+    implementation deps.lifecycle.java8
     annotationProcessor deps.lifecycle.compiler
     //db
     implementation deps.room.runtime
@@ -76,21 +77,16 @@ dependencies {
     //net
     implementation deps.retrofit2.retrofit
     implementation deps.okhttp_logging_interceptor
+    //事件
+    implementation deps.eventbus
+    //数据解析
     implementation deps.gson
     //butterknife
     implementation deps.butterknife.runtime
     annotationProcessor deps.butterknife.compiler
-    //事件
-    implementation deps.eventbus
     //刷新
     implementation deps.smartrefresh.SmartRefreshLayout
-    //
-    implementation deps.rxjava2
-    implementation deps.rxandroid
-    //
-//    implementation deps.autoValue.auto_value_annotations
-//    annotationProcessor deps.autoValue.auto_value_compile
-
+    //dagger编译
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
 }

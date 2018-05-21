@@ -1,9 +1,7 @@
 package com.llj.lib.base.mvp;
 
-import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.support.annotation.NonNull;
 
 import com.llj.lib.base.utils.Preconditions;
@@ -19,7 +17,7 @@ import io.reactivex.disposables.Disposable;
  * author liulj
  * date 2018/5/16
  */
-public class BasePresenter<V extends IView, M extends IModel> implements IPresenter, LifecycleObserver {
+public class BasePresenter<V extends IView, M extends IModel> implements IPresenter {
     protected final String TAG = this.getClass().getSimpleName();
 
     protected CompositeDisposable mCompositeDisposable;
@@ -97,14 +95,10 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
     public void onStop(@NonNull LifecycleOwner owner) {
 
     }
+
     @Override
     public void onDestroy(@NonNull LifecycleOwner owner) {
         owner.getLifecycle().removeObserver(this);
-    }
-
-    @Override
-    public void onLifecycleChanged(@NonNull LifecycleOwner owner, @NonNull Lifecycle.Event event) {
-
     }
 
     /**
@@ -117,13 +111,6 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
     }
 
 
-    /**
-     * 将 {@link Disposable} 添加到 {@link CompositeDisposable} 中统一管理
-     * 可在 {@link Activity#onDestroy()} 中使用 {@link #unDispose()} 停止正在执行的 RxJava 任务,避免内存泄漏
-     * 目前框架已使用 {@link RxLifecycle} 避免内存泄漏,此方法作为备用方案
-     *
-     * @param disposable
-     */
     public void addDispose(Disposable disposable) {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
@@ -131,9 +118,6 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
         mCompositeDisposable.add(disposable);//将所有 Disposable 放入集中处理
     }
 
-    /**
-     * 停止集合中正在执行的 RxJava 任务
-     */
     public void unDispose() {
         if (mCompositeDisposable != null) {
             mCompositeDisposable.clear();//保证 Activity 结束时取消所有正在执行的订阅
