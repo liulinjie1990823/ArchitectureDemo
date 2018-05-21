@@ -7,7 +7,7 @@ package com.llj.architecturedemo;
  * date 2018/5/10
  */
 public class HttpUrl {
-    public static String BASE_URL       = "http://open.jiehun.com.cn";
+    public static String BASE_URL       = "https://www.iteblog.com/api/mobile.php";
     //    public static String UPLOAD_IMG_URL = "http://oss.dmp.jiabasha.cn/";
     public static String UPLOAD_IMG_URL = "http://imgsrv.jiehun.com.cn";
 
@@ -15,7 +15,7 @@ public class HttpUrl {
         if (BuildConfig.BUILD_TYPE.equals("dev")) {//开发环境
             BASE_URL = "";
         } else if (BuildConfig.BUILD_TYPE.equals("debug")) {//测试环境
-            BASE_URL = "http://open.test.jiehun.com.cn";
+            BASE_URL = "https://www.iteblog.com";
             UPLOAD_IMG_URL = "http://oss.test.jiehun.com.cn";
         } else if (BuildConfig.BUILD_TYPE.equals("beta")) {//预发布环境
             BASE_URL = "http://open.jiehun.com.cn";

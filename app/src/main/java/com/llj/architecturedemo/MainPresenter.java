@@ -1,8 +1,7 @@
 package com.llj.architecturedemo;
 
-import com.llj.architecturedemo.model.User;
+import com.llj.architecturedemo.model.Mobile;
 import com.llj.lib.base.mvp.BasePresenter;
-import com.llj.lib.net.IResponse;
 import com.llj.lib.net.RxApiManager;
 
 import javax.inject.Inject;
@@ -23,14 +22,14 @@ public class MainPresenter extends BasePresenter<MainContract.View,MainContract.
     }
 
     public void toast(){
-        Observable user = TestApi.getInstance().getUser();
+        Observable<Mobile> user = TestApi.getInstance().getMobile("13188888888");
         RxApiManager.get().toSubscribe(user,bindLifecycle(),dad);
     }
 
-    private ApiObserver<IResponse<User>> dad=new ApiObserver<IResponse<User>>(1){
+    private ApiObserver<Mobile> dad =new ApiObserver<Mobile>(1){
 
         @Override
-        public void onNext(IResponse<User> tiResponse) {
+        public void onNext(Mobile tiResponse) {
             super.onNext(tiResponse);
         }
     };

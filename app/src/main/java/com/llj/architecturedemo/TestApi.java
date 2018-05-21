@@ -1,12 +1,12 @@
 package com.llj.architecturedemo;
 
-import com.llj.architecturedemo.model.User;
+import com.llj.architecturedemo.model.Mobile;
 import com.llj.lib.net.BaseApi;
-import com.llj.lib.net.IResponse;
-import com.llj.lib.net.RetrofitService;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.Query;
 
 /**
  * ArchitectureDemo
@@ -19,26 +19,26 @@ public class TestApi extends BaseApi {
 
     private TestApiService mTestApiService;
 
-    public interface TestApiService extends RetrofitService {
+    public interface TestApiService {
 
-        @GET("/user")
-        Observable<IResponse<User>> getUser();
+        @Headers("Content-Type: application/x-www-form-urlencoded; charset=UTF-8")
+        @GET("/api/mobile.php")
+        Observable<Mobile> getMobile(@Query("mobile") String mobile);
     }
 
     @Override
     protected void init() {
-        initRetrofit(HttpUrl.BASE_URL);
-        mTestApiService = sTestApi.getRetrofit().create(TestApiService.class);
+        initRetrofit(HttpUrl.BASE_URL,new HeaderInterceptor());
+        mTestApiService = getRetrofit().create(TestApiService.class);
     }
 
     public static TestApi getInstance() {
         return sTestApi;
     }
 
-    public  Observable getUser() {
-        Observable<IResponse<User>> user = mTestApiService.getUser();
+    public Observable<Mobile> getMobile(String mobile) {
+        Observable<Mobile> user = mTestApiService.getMobile(mobile);
         return wrapObservable(user);
-
     }
 
 }
