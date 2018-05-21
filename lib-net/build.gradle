@@ -41,4 +41,8 @@ dependencies {
 
     implementation deps.rxjava2
     implementation deps.rxandroid
+
+    implementation 'com.uber.autodispose:autodispose:0.8.0'
+    implementation 'com.uber.autodispose:autodispose-android:0.8.0'
+    implementation 'com.uber.autodispose:autodispose-android-archcomponents:0.8.0'
 }

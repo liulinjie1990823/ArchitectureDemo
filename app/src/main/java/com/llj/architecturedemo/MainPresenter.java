@@ -1,9 +1,13 @@
 package com.llj.architecturedemo;
 
+import com.llj.architecturedemo.model.User;
 import com.llj.lib.base.mvp.BasePresenter;
-import com.llj.lib.utils.AToastUtils;
+import com.llj.lib.net.IResponse;
+import com.llj.lib.net.RxApiManager;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observable;
 
 /**
  * ArchitectureDemo
@@ -19,7 +23,16 @@ public class MainPresenter extends BasePresenter<MainContract.View,MainContract.
     }
 
     public void toast(){
-        AToastUtils.show("SDADADADADADAD");
+        Observable user = TestApi.getInstance().getUser();
+        RxApiManager.get().toSubscribe(user,bindLifecycle(),dad);
     }
+
+    private ApiObserver<IResponse<User>> dad=new ApiObserver<IResponse<User>>(1){
+
+        @Override
+        public void onNext(IResponse<User> tiResponse) {
+            super.onNext(tiResponse);
+        }
+    };
 
 }

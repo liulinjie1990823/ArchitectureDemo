@@ -1,10 +1,11 @@
 package com.llj.lib.net;
 
+import com.uber.autodispose.AutoDisposeConverter;
+
 import java.util.HashMap;
 import java.util.Set;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
@@ -76,12 +77,12 @@ public class RxApiManager implements RxActionManager<Object> {
     }
 
 
-    public <T> void toSubscribe(Observable<T> observable, ObservableTransformer transformer, BaseApiObserver<T> observer) {
+    public <T> void toSubscribe(Observable<T> observable, AutoDisposeConverter<T> autoDisposeConverter, BaseApiObserver<T> observer) {
         if (observer.getTag() > 0) {
             add(observer.getTag(), observer.getDisposable());
         }
-        observable.compose(transformer)
-                .observeOn(AndroidSchedulers.mainThread())
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .as(autoDisposeConverter)
                 .subscribe(observer);
     }
 }

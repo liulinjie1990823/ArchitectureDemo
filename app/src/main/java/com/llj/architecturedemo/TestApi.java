@@ -2,6 +2,7 @@ package com.llj.architecturedemo;
 
 import com.llj.architecturedemo.model.User;
 import com.llj.lib.net.BaseApi;
+import com.llj.lib.net.IResponse;
 import com.llj.lib.net.RetrofitService;
 
 import io.reactivex.Observable;
@@ -21,7 +22,7 @@ public class TestApi extends BaseApi {
     public interface TestApiService extends RetrofitService {
 
         @GET("/user")
-        Observable<User> getUser();
+        Observable<IResponse<User>> getUser();
     }
 
     @Override
@@ -34,8 +35,8 @@ public class TestApi extends BaseApi {
         return sTestApi;
     }
 
-    public Observable getUser() {
-        Observable<User> user = mTestApiService.getUser();
+    public  Observable getUser() {
+        Observable<IResponse<User>> user = mTestApiService.getUser();
         return wrapObservable(user);
 
     }

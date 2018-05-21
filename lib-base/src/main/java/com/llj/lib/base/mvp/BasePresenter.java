@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 import com.llj.lib.base.BaseEvent;
 import com.llj.lib.base.utils.Preconditions;
 import com.llj.lib.utils.LogUtil;
+import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.AutoDisposeConverter;
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -24,7 +27,8 @@ import io.reactivex.disposables.Disposable;
 public class BasePresenter<V extends IView, M extends IModel> implements IPresenter {
     protected final String TAG = this.getClass().getSimpleName();
 
-    protected CompositeDisposable mCompositeDisposable;
+    CompositeDisposable mCompositeDisposable;
+    private LifecycleOwner mLifecycleOwner;
 
     protected M mModel;
     protected V mRootView;
@@ -83,33 +87,33 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
 
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG,"BasePresenter onCreate"+owner.getLifecycle().getCurrentState());
-
+        LogUtil.e(TAG, "BasePresenter onCreate" + owner.getLifecycle().getCurrentState());
+        mLifecycleOwner = owner;
     }
 
     @Override
     public void onStart(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG,"BasePresenter onStart"+owner.getLifecycle().getCurrentState());
+        LogUtil.e(TAG, "BasePresenter onStart" + owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onResume(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG,"BasePresenter onResume"+owner.getLifecycle().getCurrentState());
+        LogUtil.e(TAG, "BasePresenter onResume" + owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onPause(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG,"BasePresenter onPause"+owner.getLifecycle().getCurrentState());
+        LogUtil.e(TAG, "BasePresenter onPause" + owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onStop(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG,"BasePresenter onStop"+owner.getLifecycle().getCurrentState());
+        LogUtil.e(TAG, "BasePresenter onStop" + owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onDestroy(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG,"BasePresenter onDestroy"+owner.getLifecycle().getCurrentState());
+        LogUtil.e(TAG, "BasePresenter onDestroy" + owner.getLifecycle().getCurrentState());
         destroy();
         owner.getLifecycle().removeObserver(this);
     }
@@ -123,6 +127,12 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
         return true;
     }
 
+    @Override
+    public <T> AutoDisposeConverter<T> bindLifecycle() {
+        if (null == mLifecycleOwner)
+            throw new NullPointerException("lifecycleOwner == null");
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(mLifecycleOwner));
+    }
 
     public void addDispose(Disposable disposable) {
         if (mCompositeDisposable == null) {

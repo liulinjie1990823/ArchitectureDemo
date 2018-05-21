@@ -75,4 +75,8 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
 
+    api 'com.uber.autodispose:autodispose:0.8.0'
+    api 'com.uber.autodispose:autodispose-android:0.8.0'
+    api 'com.uber.autodispose:autodispose-android-archcomponents:0.8.0'
+
 }

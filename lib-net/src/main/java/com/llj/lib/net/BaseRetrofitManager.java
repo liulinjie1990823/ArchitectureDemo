@@ -64,12 +64,12 @@ public abstract class BaseRetrofitManager {
     }
 
 
-    protected  <T> Observable wrapObservable(Observable<T> observable) {
+    protected  <T> Observable wrapObservable(Observable<IResponse<T>> observable) {
         return observable
                 .subscribeOn(Schedulers.io())//指定io
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new ExceptionFunction<T>());
+                .onErrorResumeNext(new ExceptionFunction<>());
 //                .map((Function<? super T, ? extends R>) new ResultFunction<T>());
 
     }
