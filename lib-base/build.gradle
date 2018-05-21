@@ -44,12 +44,12 @@ dependencies {
     api project(':lib-image-loader')
     api project(':lib-net')
 
-    api deps.support.app_compat
-    api deps.eventbus
+    implementation deps.support.app_compat
+    implementation deps.eventbus
 //    api deps.lifecycle.java8
 
     //应用调试
-    api deps.stetho.stetho
+    implementation deps.stetho.stetho
 
     //butterknife
     implementation deps.butterknife.runtime
@@ -59,10 +59,8 @@ dependencies {
     debugImplementation deps.leakcanary.leakcanary_android
     releaseImplementation deps.leakcanary.leakcanary_android_no_op
 
-//    api 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
-//    api 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.1'
-//    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
-
+    implementation deps.rxjava2
+    implementation deps.rxandroid
 
     api 'com.google.dagger:dagger:2.16'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'

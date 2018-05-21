@@ -39,6 +39,6 @@ dependencies {
 
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
 
-    api deps.rxjava2
-    api deps.rxandroid
+    implementation deps.rxjava2
+    implementation deps.rxandroid
 }

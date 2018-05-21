@@ -69,17 +69,17 @@ dependencies {
     implementation deps.lifecycle.runtime
     implementation deps.lifecycle.extensions
 //    api deps.lifecycle.java8
-//    annotationProcessor deps.lifecycle.compiler
+    annotationProcessor deps.lifecycle.compiler
     //db
-//    implementation deps.room.runtime
-//    annotationProcessor deps.room.compiler
+    implementation deps.room.runtime
+    annotationProcessor deps.room.compiler
     //net
     implementation deps.retrofit2.retrofit
     implementation deps.okhttp_logging_interceptor
     implementation deps.gson
     //butterknife
-//    implementation deps.butterknife.runtime
-//    annotationProcessor deps.butterknife.compiler
+    implementation deps.butterknife.runtime
+    annotationProcessor deps.butterknife.compiler
     //事件
     implementation deps.eventbus
     //刷新
