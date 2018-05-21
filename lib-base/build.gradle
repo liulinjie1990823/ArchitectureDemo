@@ -18,6 +18,12 @@ android {
     defaultConfig {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
     }
 
     buildTypes {
@@ -64,10 +70,9 @@ dependencies {
     api deps.rxandroid
 
     //依赖注入
-    api 'com.google.dagger:dagger:2.16'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
     api 'com.google.dagger:dagger-android:2.16'
     api 'com.google.dagger:dagger-android-support:2.16' // if you use the support libraries
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
 
 }

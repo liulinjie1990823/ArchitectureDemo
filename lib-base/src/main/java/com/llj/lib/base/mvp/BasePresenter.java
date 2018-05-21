@@ -4,9 +4,13 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.support.annotation.NonNull;
 
+import com.llj.lib.base.BaseEvent;
 import com.llj.lib.base.utils.Preconditions;
+import com.llj.lib.utils.LogUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -64,40 +68,49 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
         unDispose();//解除订阅
 
         if (mModel != null) {
-            mModel.onDestroy();
+            mModel.destroy();
         }
         this.mModel = null;
         this.mRootView = null;
         this.mCompositeDisposable = null;
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(BaseEvent event) {
+    }
+
+
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
+        LogUtil.e(TAG,"BasePresenter onCreate"+owner.getLifecycle().getCurrentState());
 
     }
 
     @Override
     public void onStart(@NonNull LifecycleOwner owner) {
-
+        LogUtil.e(TAG,"BasePresenter onStart"+owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onResume(@NonNull LifecycleOwner owner) {
-
+        LogUtil.e(TAG,"BasePresenter onResume"+owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onPause(@NonNull LifecycleOwner owner) {
-
+        LogUtil.e(TAG,"BasePresenter onPause"+owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onStop(@NonNull LifecycleOwner owner) {
-
+        LogUtil.e(TAG,"BasePresenter onStop"+owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onDestroy(@NonNull LifecycleOwner owner) {
+        LogUtil.e(TAG,"BasePresenter onDestroy"+owner.getLifecycle().getCurrentState());
+        destroy();
         owner.getLifecycle().removeObserver(this);
     }
 

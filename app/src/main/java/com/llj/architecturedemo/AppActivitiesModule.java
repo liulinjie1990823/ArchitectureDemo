@@ -1,6 +1,7 @@
 package com.llj.architecturedemo;
 
 import com.llj.lib.base.di.component.BaseActivityComponent;
+import com.llj.lib.base.di.scope.ActivityScope;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -14,6 +15,7 @@ import dagger.android.ContributesAndroidInjector;
 @Module(subcomponents = {BaseActivityComponent.class})
 abstract class AppActivitiesModule {
 
+    @ActivityScope
     @ContributesAndroidInjector(modules = MainActivityModule.class)
     abstract MainActivity contributeMainActivityInjector();
 }

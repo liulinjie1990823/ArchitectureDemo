@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 
 import com.llj.lib.base.BaseActivity;
 
@@ -47,6 +46,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     protected void onResume() {
         super.onResume();
 
+        mPresenter.toast();
         Observable<String> obs1 = Observable.create(emitter -> {
             Log.e(TAG, "obs1thread:" + Thread.currentThread());
 
@@ -119,11 +119,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void getIntentData(Intent intent) {
 
-    }
-
-    @Override
-    protected View layoutView() {
-        return null;
     }
 
     @Override

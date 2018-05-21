@@ -13,6 +13,8 @@ import android.view.View;
 import com.llj.lib.base.mvp.IPresenter;
 import com.llj.lib.utils.AInputMethodManagerUtils;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 
@@ -23,10 +25,10 @@ import dagger.android.AndroidInjection;
  * date 2018/5/15
  */
 public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity {
-    public static String TAG_LOG;
+    public String TAG_LOG;
 
-    @Nullable
-    protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
+    @Inject
+    protected P mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +54,6 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         initData();
     }
 
-    protected abstract void getIntentData(Intent intent);
 
     @MainThread
     protected void initLifecycleObserver(@NonNull Lifecycle lifecycle) {
@@ -62,13 +63,43 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         }
     }
 
-    protected abstract View layoutView();
+    @MainThread
+    protected void getIntentData(Intent intent) {
+    }
 
+    @MainThread
+    protected View layoutView() {
+        return null;
+    }
+
+    @MainThread
     protected abstract int layoutId();
 
+    @MainThread
     protected abstract void initViews(@Nullable Bundle savedInstanceState);
 
     protected abstract void initData();
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 
     @Override
     protected void onDestroy() {

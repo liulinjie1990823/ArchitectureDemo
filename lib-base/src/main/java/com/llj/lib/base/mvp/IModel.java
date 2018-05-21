@@ -9,7 +9,7 @@ package com.llj.lib.base.mvp;
 public interface IModel {
 
     /**
-     * 在框架中 {@link BasePresenter#onDestroy()} 时会默认调用 {@link IModel#onDestroy()}
+     * 在框架中 {@link BasePresenter#destroy()} 时会默认调用 {@link IModel#destroy()}
      */
-    void onDestroy();
+    void destroy();
 }

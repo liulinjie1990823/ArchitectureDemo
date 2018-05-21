@@ -1,6 +1,7 @@
 package com.llj.architecturedemo;
 
 import com.llj.lib.base.mvp.BasePresenter;
+import com.llj.lib.utils.AToastUtils;
 
 import javax.inject.Inject;
 
@@ -15,6 +16,10 @@ public class MainPresenter extends BasePresenter<MainContract.View,MainContract.
     @Inject
     public MainPresenter(MainContract.Model model, MainContract.View rootView) {
         super(model, rootView);
+    }
+
+    public void toast(){
+        AToastUtils.show("SDADADADADADAD");
     }
 
 }
