@@ -1,7 +1,5 @@
 package com.llj.lib.image.loader;
 
-import com.llj.lib.utils.ASpUtils;
-
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -25,9 +23,9 @@ public class ReceivedCookiesInterceptor implements Interceptor {
         if (!headers.isEmpty()) {
             HashSet<String> cookies = new HashSet<>(headers);
 
-            ASpUtils.getDefaultSharedPreferences().edit()
-                    .putStringSet(Constants.SP_KEY_COOKIE, cookies)
-                    .apply();
+//            ASpUtils.getDefaultSharedPreferences().edit()
+//                    .putStringSet(Constants.SP_KEY_COOKIE, cookies)
+//                    .apply();
         }
 
         return originalResponse;

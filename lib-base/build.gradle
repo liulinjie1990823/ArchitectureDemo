@@ -40,7 +40,7 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-//    api project(':lib-utils')
+    api project(':lib-utils')
     api project(':lib-image-loader')
     api project(':lib-net')
 

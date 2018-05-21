@@ -28,16 +28,16 @@ android {
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':lib-utils')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':lib-utils')
 
-    api deps.retrofit2.retrofit
-    api deps.retrofit2.gson
-    api deps.retrofit2.adapter_rxjava2
+    implementation deps.retrofit2.retrofit
+    implementation deps.retrofit2.gson
+    implementation deps.retrofit2.adapter_rxjava2
 
-    api deps.okhttp_logging_interceptor
+    implementation deps.okhttp_logging_interceptor
 
-    api 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
 
     api deps.rxjava2
     api deps.rxandroid
