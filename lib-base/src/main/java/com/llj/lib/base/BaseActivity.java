@@ -18,6 +18,7 @@ import com.llj.lib.utils.AInputMethodManagerUtils;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import dagger.android.AndroidInjection;
 
 /**
@@ -35,11 +36,16 @@ public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialo
     @Inject
     protected D mRequestDialog;
 
+    private Unbinder mUnbinder;
+
+    //<editor-fold desc="生命周期">
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
 
         super.onCreate(savedInstanceState);
+
+        addCurrentActivity(this);
 
         TAG_LOG = getClass().getSimpleName();
 
@@ -51,7 +57,7 @@ public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialo
         } else {
             setContentView(layoutView);
         }
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
 
         checkRequestDialog();
 
@@ -62,25 +68,6 @@ public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialo
         initData();
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // IBaseActivity
-    ///////////////////////////////////////////////////////////////////////////
-    @Override
-    public void initLifecycleObserver(@NonNull Lifecycle lifecycle) {
-        //将mPresenter作为生命周期观察者添加到lifecycle中
-        if (mPresenter != null) {
-            lifecycle.addObserver(mPresenter);
-        }
-    }
-
-    @Override
-    public void superOnBackPressed() {
-        super.onBackPressed();
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // 生命周期
-    ///////////////////////////////////////////////////////////////////////////
     @Override
     protected void onStart() {
         super.onStart();
@@ -104,25 +91,48 @@ public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialo
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
 
-
-    ///////////////////////////////////////////////////////////////////////////
-    // 处理点击外部影藏输入法
-    ///////////////////////////////////////////////////////////////////////////
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            AInputMethodManagerUtils.hideSoftInputFromWindow(this);
+        //防止窗口泄漏，关闭dialog同时结束相关请求
+        Dialog requestDialog = (Dialog) getRequestDialog();
+        if (requestDialog.isShowing()) {
+            requestDialog.cancel();
         }
-        return super.onTouchEvent(event);
 
+        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
+            mUnbinder.unbind();
+        }
+        mUnbinder = null;
+
+        if (mPresenter != null) {
+            mPresenter = null;
+        }
+
+        //移除列表中的activity
+        removeCurrentActivity(this);
+    }
+    //</editor-fold >
+
+    //<editor-fold desc="IBaseActivity">
+    @Override
+    public void initLifecycleObserver(@NonNull Lifecycle lifecycle) {
+        //将mPresenter作为生命周期观察者添加到lifecycle中
+        if (mPresenter != null) {
+            lifecycle.addObserver(mPresenter);
+        }
     }
 
+    @Override
+    public void superOnBackPressed() {
+        super.onBackPressed();
+    }
 
-    ///////////////////////////////////////////////////////////////////////////
-    //IRequestDialogHandler
-    ///////////////////////////////////////////////////////////////////////////
+    @Override
+    public void backToLauncher() {
+        moveTaskToBack(true);
+    }
+    //</editor-fold >
+
+    //<editor-fold desc="IRequestDialogHandler">
     @Override
     public IRequestDialog getRequestDialog() {
         return mRequestDialog;
@@ -139,24 +149,37 @@ public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialo
         }
         IRequestDialog requestDialog = getRequestDialog();
         ((Dialog) requestDialog).setOnCancelListener(dialog -> {
-            LogUtil.i(TAG_LOG, "cancelOkHttpCall:" + getRequestDialog().getTag());
-            cancelOkHttpCall(getRequestDialog().getTag());
+            LogUtil.i(TAG_LOG, "cancelOkHttpCall:" + getRequestDialog().getRequestTag());
+            cancelOkHttpCall(getRequestDialog().getRequestTag());
         });
     }
 
 
     @Override
-    public void setTag(int tag) {
+    public void setRequestTag(int tag) {
         if (getRequestDialog() != null) {
-            getRequestDialog().setTag(tag);
+            getRequestDialog().setRequestTag(tag);
         }
     }
 
     @Override
-    public int getTag() {
+    public int getRequestTag() {
         if (getRequestDialog() != null) {
-            return getRequestDialog().getTag();
+            return getRequestDialog().getRequestTag();
         }
         return -1;
     }
+    //</editor-fold >
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 处理点击外部影藏输入法
+    ///////////////////////////////////////////////////////////////////////////
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            AInputMethodManagerUtils.hideSoftInputFromWindow(this);
+        }
+        return super.onTouchEvent(event);
+    }
+
 }

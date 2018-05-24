@@ -78,8 +78,8 @@ public class RxApiManager implements RxActionManager<Object> {
 
 
     public <T> void toSubscribe(Observable<T> observable, AutoDisposeConverter<T> autoDisposeConverter, BaseApiObserver<T> observer) {
-        if (observer.getTag() > 0) {
-            add(observer.getTag(), observer.getDisposable());
+        if (observer.getRequestTag() > 0) {
+            add(observer.getRequestTag(), observer.getDisposable());
         }
         observable.observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposeConverter)

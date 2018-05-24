@@ -113,8 +113,8 @@ public  abstract class BaseDialog extends Dialog implements IRequestDialogHandle
         }
         IRequestDialog requestDialog = getRequestDialog();
         ((Dialog)requestDialog).setOnCancelListener(dialog -> {
-            Log.i(TAG_LOG, "cancelOkHttpCall:" + getRequestDialog().getTag());
-            cancelOkHttpCall(getRequestDialog().getTag());
+            Log.i(TAG_LOG, "cancelOkHttpCall:" + getRequestDialog().getRequestTag());
+            cancelOkHttpCall(getRequestDialog().getRequestTag());
         });
     }
     @Override

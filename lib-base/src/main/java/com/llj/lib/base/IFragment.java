@@ -9,11 +9,7 @@ import android.support.annotation.NonNull;
  * author liulj
  * date 2018/5/24
  */
-public interface IBaseActivity extends IActivityStack {
+public interface IFragment {
 
     void initLifecycleObserver(@NonNull Lifecycle lifecycle);
-
-    void superOnBackPressed();
-
-    void backToLauncher();
 }

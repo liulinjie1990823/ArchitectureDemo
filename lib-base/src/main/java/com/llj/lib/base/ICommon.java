@@ -15,6 +15,9 @@ public interface ICommon {
     default void getIntentData(Intent intent) {
     }
 
+    default void getArgumentsData(Bundle bundle) {
+    }
+
     default View layoutView() {
         return null;
     }

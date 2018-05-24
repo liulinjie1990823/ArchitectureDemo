@@ -2,7 +2,7 @@ package com.llj.lib.base.mvp;
 
 import android.arch.lifecycle.DefaultLifecycleObserver;
 
-import com.llj.lib.net.IRequestDialog;
+import com.llj.lib.base.IEvent;
 import com.uber.autodispose.AutoDisposeConverter;
 
 /**
@@ -11,9 +11,8 @@ import com.uber.autodispose.AutoDisposeConverter;
  * author liulj
  * date 2018/5/16
  */
-public interface IPresenter extends DefaultLifecycleObserver {
+public interface IPresenter extends DefaultLifecycleObserver,IEvent {
 
     <T> AutoDisposeConverter<T> bindLifecycle();
 
-    IRequestDialog getRequestDialog();
 }

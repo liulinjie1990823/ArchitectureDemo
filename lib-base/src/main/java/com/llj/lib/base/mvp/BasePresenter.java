@@ -6,13 +6,11 @@ import android.support.annotation.NonNull;
 
 import com.llj.lib.base.BaseEvent;
 import com.llj.lib.base.utils.Preconditions;
-import com.llj.lib.net.IRequestDialog;
 import com.llj.lib.utils.LogUtil;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.AutoDisposeConverter;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -61,15 +59,12 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
                 ((LifecycleOwner) mRootView).getLifecycle().addObserver((LifecycleObserver) mModel);
             }
         }
-        if (useEventBus() && !EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
+        register(this);
     }
 
     private void destroy() {
-        if (useEventBus() && EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
+        unregister(this);
+
         unDispose();//解除订阅
 
         if (mModel != null) {
@@ -119,25 +114,11 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
         owner.getLifecycle().removeObserver(this);
     }
 
-    /**
-     * 是否使用 {@link EventBus},默认为使用(true)，
-     *
-     * @return
-     */
-    public boolean useEventBus() {
-        return true;
-    }
-
     @Override
     public <T> AutoDisposeConverter<T> bindLifecycle() {
         if (null == mLifecycleOwner)
             throw new NullPointerException("lifecycleOwner == null");
         return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(mLifecycleOwner));
-    }
-
-    @Override
-    public IRequestDialog getRequestDialog() {
-        return mRootView.getRequestDialog();
     }
 
     public void addDispose(Disposable disposable) {

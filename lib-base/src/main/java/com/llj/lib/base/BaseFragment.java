@@ -1,0 +1,189 @@
+package com.llj.lib.base;
+
+import android.app.Dialog;
+import android.arch.lifecycle.Lifecycle;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.llj.lib.base.mvp.IPresenter;
+import com.llj.lib.base.widget.LoadingDialog;
+import com.llj.lib.net.IRequestDialog;
+import com.llj.lib.utils.LogUtil;
+
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
+/**
+ * ArchitectureDemo
+ * describe:
+ * author liulj
+ * date 2018/5/24
+ */
+public abstract class BaseFragment<P extends IPresenter, D extends IRequestDialog> extends Fragment
+        implements IFragment, IFragmentLazy, ICommon, IUiHandler, IRequestDialogHandler {
+
+    public String  TAG_LOG;
+    public Context mContext;
+
+    private boolean mIsInit;
+    private boolean mIsVisible;
+
+    @Inject
+    protected P mPresenter;
+    @Inject
+    protected D mRequestDialog;
+
+    private Unbinder mUnbinder;
+
+    //<editor-fold desc="生命周期">
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view;
+        View layoutView = layoutView();
+        if (layoutView != null) {
+            view = layoutView;
+        } else {
+            view = inflater.inflate(layoutId(), null);
+        }
+        mUnbinder = ButterKnife.bind(this, view);
+
+        checkRequestDialog();
+
+        getArgumentsData(getArguments());
+
+        initViews(savedInstanceState);
+
+        return view;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        //当fragment在viewPager中的时候需要实现懒加载的模式
+        if (isVisibleToUser) {
+            mIsVisible = true;
+            //当使用viewPager进行预加载fragment的时候,先调用setUserVisibleHint,后调用onViewCreated
+            //所以刚开始是mIsInit=true,mIsVisible为false
+            if (hasInitAndVisible()) {
+                onLazyLoad();
+            }
+        } else {
+            mIsVisible = false;
+        }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // 已经完成初始化
+        mIsInit = true;
+        //
+        initViews(savedInstanceState);
+        //
+        if (useLazyLoad()) {
+            if (hasInitAndVisible()) {
+                onLazyLoad();
+            }
+        } else {
+            initData();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        //防止窗口泄漏
+        Dialog requestDialog = (Dialog) getRequestDialog();
+        if (requestDialog.isShowing()) {
+            requestDialog.cancel();
+        }
+
+        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
+            mUnbinder.unbind();
+        }
+        mUnbinder = null;
+
+        if (mPresenter != null) {
+            mPresenter = null;
+        }
+    }
+    //</editor-fold >
+
+    //<editor-fold desc="IFragment">
+    @Override
+    public void initLifecycleObserver(@NonNull Lifecycle lifecycle) {
+        //将mPresenter作为生命周期观察者添加到lifecycle中
+        if (mPresenter != null) {
+            lifecycle.addObserver(mPresenter);
+        }
+    }
+    //</editor-fold >
+
+    //<editor-fold desc="IFragmentLazy">
+    @Override
+    public boolean hasInitAndVisible() {
+        return mIsInit && mIsVisible;
+    }
+
+    @Override
+    public void onLazyLoad() {
+        LogUtil.LLJi("mIsInit:" + mIsInit + ",mIsVisible:" + mIsVisible);
+    }
+    //</editor-fold >
+
+    //<editor-fold desc="IRequestDialogHandler">
+    @Override
+    public IRequestDialog getRequestDialog() {
+        return mRequestDialog;
+    }
+
+    @Override
+    public IRequestDialog initRequestDialog() {
+        return null;
+    }
+
+    public void checkRequestDialog() {
+        if (mRequestDialog == null) {
+            mRequestDialog = (D) new LoadingDialog(getContext());
+        }
+        IRequestDialog requestDialog = getRequestDialog();
+        ((Dialog) requestDialog).setOnCancelListener(dialog -> {
+            com.facebook.stetho.common.LogUtil.i(TAG_LOG, "cancelOkHttpCall:" + getRequestDialog().getRequestTag());
+            cancelOkHttpCall(getRequestDialog().getRequestTag());
+        });
+    }
+
+
+    @Override
+    public void setRequestTag(int tag) {
+        if (getRequestDialog() != null) {
+            getRequestDialog().setRequestTag(tag);
+        }
+    }
+
+    @Override
+    public int getRequestTag() {
+        if (getRequestDialog() != null) {
+            return getRequestDialog().getRequestTag();
+        }
+        return -1;
+    }
+    //</editor-fold >
+}

@@ -7,7 +7,7 @@ package com.llj.lib.net;
  * date 2018/5/11
  */
 public interface ITag {
-    void setTag(int tag);
+    void setRequestTag(int tag);
 
-    int getTag();
+    int getRequestTag();
 }

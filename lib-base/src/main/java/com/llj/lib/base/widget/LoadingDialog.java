@@ -45,12 +45,12 @@ public class LoadingDialog extends BaseDialog implements IRequestDialog {
 
 
     @Override
-    public void setTag(int tag) {
+    public void setRequestTag(int tag) {
         mTag = tag;
     }
 
     @Override
-    public int getTag() {
+    public int getRequestTag() {
         return mTag;
     }
 }

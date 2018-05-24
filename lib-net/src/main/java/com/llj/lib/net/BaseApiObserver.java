@@ -21,7 +21,7 @@ public abstract class BaseApiObserver<T> implements Observer<T>, IObserverTag {
     public BaseApiObserver(IRequestDialog IRequestDialog) {
         mIRequestDialog = IRequestDialog;
         if (mIRequestDialog != null) {
-            setTag(IRequestDialog.getTag());
+            setRequestTag(IRequestDialog.getRequestTag());
         }
     }
 
@@ -46,12 +46,12 @@ public abstract class BaseApiObserver<T> implements Observer<T>, IObserverTag {
     }
 
     @Override
-    public void setTag(int tag) {
+    public void setRequestTag(int tag) {
         this.mTag = tag;
     }
 
     @Override
-    public int getTag() {
+    public int getRequestTag() {
         return mTag;
     }
 
