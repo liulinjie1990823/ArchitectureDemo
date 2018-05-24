@@ -1,11 +1,7 @@
 package com.llj.architecturedemo;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
-
-import com.llj.lib.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +13,7 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
+public class MainActivity extends MyBaseActivity<MainPresenter> implements MainContract.View {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     private Observer<String> mObserver = new Observer<String>() {
@@ -110,30 +106,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-
-
-    }
-
-    @Override
-    protected void getIntentData(Intent intent) {
-
-    }
-
-    @Override
-    protected int layoutId() {
+    public int layoutId() {
         return R.layout.activity_main;
     }
 
     @Override
-    protected void initViews(@Nullable Bundle savedInstanceState) {
-        if (mPresenter != null) {
-        }
+    public void initViews(Bundle savedInstanceState) {
+
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
 
     }
 }

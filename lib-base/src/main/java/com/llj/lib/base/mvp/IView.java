@@ -1,12 +1,14 @@
 package com.llj.lib.base.mvp;
 
+import com.llj.lib.base.IRequestDialogHandler;
+
 /**
  * ArchitectureDemo
  * describe:
  * author liulj
  * date 2018/5/16
  */
-public interface IView {
+public interface IView extends IRequestDialogHandler{
 
 //    /**
 //     * 显示加载

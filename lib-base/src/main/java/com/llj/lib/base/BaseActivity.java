@@ -1,16 +1,18 @@
 package com.llj.lib.base;
 
+import android.app.Dialog;
 import android.arch.lifecycle.Lifecycle;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.facebook.stetho.common.LogUtil;
 import com.llj.lib.base.mvp.IPresenter;
+import com.llj.lib.base.widget.LoadingDialog;
+import com.llj.lib.net.IRequestDialog;
 import com.llj.lib.utils.AInputMethodManagerUtils;
 
 import javax.inject.Inject;
@@ -24,11 +26,14 @@ import dagger.android.AndroidInjection;
  * author liulj
  * date 2018/5/15
  */
-public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity {
+public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialog> extends AppCompatActivity
+        implements IBaseActivity, ICommon, IUiHandler, IRequestDialogHandler {
     public String TAG_LOG;
 
     @Inject
     protected P mPresenter;
+    @Inject
+    protected D mRequestDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,39 +53,34 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         }
         ButterKnife.bind(this);
 
+        checkRequestDialog();
+
         initLifecycleObserver(getLifecycle());
 
         initViews(savedInstanceState);
+
         initData();
     }
 
-
-    @MainThread
-    protected void initLifecycleObserver(@NonNull Lifecycle lifecycle) {
+    ///////////////////////////////////////////////////////////////////////////
+    // IBaseActivity
+    ///////////////////////////////////////////////////////////////////////////
+    @Override
+    public void initLifecycleObserver(@NonNull Lifecycle lifecycle) {
         //将mPresenter作为生命周期观察者添加到lifecycle中
         if (mPresenter != null) {
             lifecycle.addObserver(mPresenter);
         }
     }
 
-    @MainThread
-    protected void getIntentData(Intent intent) {
+    @Override
+    public void superOnBackPressed() {
+        super.onBackPressed();
     }
 
-    @MainThread
-    protected View layoutView() {
-        return null;
-    }
-
-    @MainThread
-    protected abstract int layoutId();
-
-    @MainThread
-    protected abstract void initViews(@Nullable Bundle savedInstanceState);
-
-    protected abstract void initData();
-
-
+    ///////////////////////////////////////////////////////////////////////////
+    // 生命周期
+    ///////////////////////////////////////////////////////////////////////////
     @Override
     protected void onStart() {
         super.onStart();
@@ -120,7 +120,43 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     }
 
 
-    public void superOnBackPressed() {
-        super.onBackPressed();
+    ///////////////////////////////////////////////////////////////////////////
+    //IRequestDialogHandler
+    ///////////////////////////////////////////////////////////////////////////
+    @Override
+    public IRequestDialog getRequestDialog() {
+        return mRequestDialog;
+    }
+
+    @Override
+    public IRequestDialog initRequestDialog() {
+        return null;
+    }
+
+    public void checkRequestDialog() {
+        if (mRequestDialog == null) {
+            mRequestDialog = (D) new LoadingDialog(this);
+        }
+        IRequestDialog requestDialog = getRequestDialog();
+        ((Dialog) requestDialog).setOnCancelListener(dialog -> {
+            LogUtil.i(TAG_LOG, "cancelOkHttpCall:" + getRequestDialog().getTag());
+            cancelOkHttpCall(getRequestDialog().getTag());
+        });
+    }
+
+
+    @Override
+    public void setTag(int tag) {
+        if (getRequestDialog() != null) {
+            getRequestDialog().setTag(tag);
+        }
+    }
+
+    @Override
+    public int getTag() {
+        if (getRequestDialog() != null) {
+            return getRequestDialog().getTag();
+        }
+        return -1;
     }
 }

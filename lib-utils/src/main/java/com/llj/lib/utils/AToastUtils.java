@@ -38,12 +38,20 @@ public class AToastUtils {
             show(Utils.getApp().getResources().getText(resId), Toast.LENGTH_SHORT);
     }
 
+    public static void showLong(int resId) {
+        if (Utils.getApp() != null && Utils.getApp().getResources() != null)
+            show(Utils.getApp().getResources().getText(resId), Toast.LENGTH_LONG);
+    }
+
     public static void show(int resId, int duration) {
         show(Utils.getApp().getResources().getText(resId), duration);
     }
 
     public static void show(CharSequence text) {
         show(text, Toast.LENGTH_SHORT);
+    }
+    public static void showLong(CharSequence text) {
+        show(text, Toast.LENGTH_LONG);
     }
 
 

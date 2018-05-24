@@ -1,19 +1,27 @@
 package com.llj.lib.net;
 
-import android.app.Dialog;
-
 /**
  * ArchitectureDemo
  * describe:
  * author liulj
- * date 2018/5/10
+ * date 2018/5/24
  */
-public interface IRequestDialog extends ITag{
+public interface IRequestDialog extends ITag {
+    IRequestDialog getRequestDialog();
 
-    Dialog getDialog();
+    default void showRequestDialog() {
+        if (getRequestDialog() != null) {
+            getRequestDialog().showRequestDialog();
+        }
+    }
 
-    void customShow();
+    default void dismissRequestDialog() {
+        if (getRequestDialog() != null) {
+            getRequestDialog().dismissRequestDialog();
+        }
+    }
 
-    void customDismiss();
-
+    default void cancelOkHttpCall(int requestTag) {
+        RxApiManager.get().cancel(requestTag);
+    }
 }

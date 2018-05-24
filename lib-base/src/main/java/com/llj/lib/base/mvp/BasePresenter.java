@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.llj.lib.base.BaseEvent;
 import com.llj.lib.base.utils.Preconditions;
+import com.llj.lib.net.IRequestDialog;
 import com.llj.lib.utils.LogUtil;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.AutoDisposeConverter;
@@ -52,7 +53,7 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
     }
 
 
-    public void start() {
+    private void start() {
         //将 LifecycleObserver 注册给 LifecycleOwner 后 @OnLifecycleEvent 才可以正常使用
         if (mRootView != null && mRootView instanceof LifecycleOwner) {
             ((LifecycleOwner) mRootView).getLifecycle().addObserver(this);
@@ -65,7 +66,7 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
         }
     }
 
-    public void destroy() {
+    private void destroy() {
         if (useEventBus() && EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
@@ -132,6 +133,11 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
         if (null == mLifecycleOwner)
             throw new NullPointerException("lifecycleOwner == null");
         return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(mLifecycleOwner));
+    }
+
+    @Override
+    public IRequestDialog getRequestDialog() {
+        return mRootView.getRequestDialog();
     }
 
     public void addDispose(Disposable disposable) {

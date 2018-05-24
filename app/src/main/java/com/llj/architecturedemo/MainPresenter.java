@@ -26,7 +26,7 @@ public class MainPresenter extends BasePresenter<MainContract.View,MainContract.
         RxApiManager.get().toSubscribe(user,bindLifecycle(),dad);
     }
 
-    private ApiObserver<Mobile> dad =new ApiObserver<Mobile>(1){
+    private ApiObserver<Mobile> dad =new ApiObserver<Mobile>(mRootView){
 
         @Override
         public void onNext(Mobile tiResponse) {

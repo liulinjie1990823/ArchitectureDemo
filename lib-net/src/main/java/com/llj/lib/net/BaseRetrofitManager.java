@@ -28,7 +28,7 @@ public abstract class BaseRetrofitManager {
     }
 
     private Retrofit createRetrofit() {
-        return createRetrofit(null, null);
+        return createRetrofit(null, new Interceptor[]{});
     }
 
     private Retrofit createRetrofit(Interceptor... interceptors) {
@@ -36,7 +36,7 @@ public abstract class BaseRetrofitManager {
     }
 
     private Retrofit createRetrofit(String baseUrl) {
-        return createRetrofit(baseUrl, null);
+        return createRetrofit(baseUrl, new Interceptor[]{});
     }
 
     private Retrofit createRetrofit(String baseUrl, Interceptor... interceptors) {
@@ -61,7 +61,7 @@ public abstract class BaseRetrofitManager {
             //锁定代码块
             synchronized (BaseRetrofitManager.class) {
                 if (mRetrofit == null) {
-                    mRetrofit = createRetrofit(baseUrl, null);
+                    mRetrofit = createRetrofit(baseUrl);
                 }
             }
         }
