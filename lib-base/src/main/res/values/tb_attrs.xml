@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CommonToolbar">
+
+        <!-- 左边文本框文字内容 -->
+        <attr name="toolbar_li_contain_height" format="reference|dimension"/>
+        <!-- 左边文本框文字内容 -->
+        <attr name="toolbar_lefttext" format="reference|string"/>
+        <!-- 左边文本框文字大小 -->
+        <attr name="toolbar_lefttext_size" format="reference|dimension"/>
+        <!-- 左边文本框文字颜色 -->
+        <attr name="toolbar_lefttext_color" format="reference|color"/>
+        <!-- 左边leftdrawable -->
+        <attr name="toolbar_lefttext_drawable_left" format="reference|color"/>
+        <!-- 左边文本框外层布局padding左边属性 -->
+        <attr name="toolbar_lefttext_padding_left" format="reference|dimension"/>
+        <!-- 左边文本框外层布局padding左边属性 -->
+        <attr name="toolbar_lefttext_padding_right" format="reference|dimension"/>
+        <!-- 左边文本框外层布局padding左边属性 -->
+        <attr name="toolbar_lefttext_drawable_padding" format="reference|dimension"/>
+        <!-- 左边文本框外层布局weight属性 -->
+        <attr name="toolbar_lefttext_weight" format="float"/>
+        <!-- 左边文本框的visibility属性 -->
+        <attr name="toolbar_lefttext_visibility">
+
+            <!-- Visible on screen; the default value. -->
+            <enum name="visible" value="0"/>
+            <!-- Not displayed, but taken into account during layout (space is left for it). -->
+            <enum name="invisible" value="4"/>
+            <!-- Completely hidden, as if the view had not been added. -->
+            <enum name="gone" value="8"/>
+        </attr>
+
+        <!-- 中间文本框文字内容 -->
+        <attr name="toolbar_centertext" format="reference|string"/>
+        <!-- 中间文本框文字大小 -->
+        <attr name="toolbar_centertext_size" format="reference|dimension"/>
+        <!-- 中间文本框文字颜色 -->
+        <attr name="toolbar_centertext_color" format="reference|color"/>
+        <!-- 中间文本框背景颜色 -->
+        <attr name="toolbar_centertext_background_drawable" format="reference|color"/>
+        <!-- 中间文本框weight属性 -->
+        <attr name="toolbar_centertext_weight" format="float"/>
+        <!-- 中间文本框的visibility属性 -->
+        <attr name="toolbar_centertext_visibility">
+
+            <!-- Visible on screen; the default value. -->
+            <enum name="visible" value="0"/>
+            <!-- Not displayed, but taken into account during layout (space is left for it). -->
+            <enum name="invisible" value="4"/>
+            <!-- Completely hidden, as if the view had not been added. -->
+            <enum name="gone" value="8"/>
+        </attr>
+
+        <!-- 右边文本框文字内容 -->
+        <attr name="toolbar_righttext" format="reference|string"/>
+        <!-- 右边文本框文字 大小 -->
+        <attr name="toolbar_righttext_size" format="reference|dimension"/>
+        <!-- 右边文本框文字颜色 -->
+        <attr name="toolbar_righttext_color" format="reference|color"/>
+        <!-- 右边文本框背景颜色 -->
+        <attr name="toolbar_righttext_drawable_right" format="reference|color"/>
+        <!-- 右边文本框布局padding属性 -->
+        <attr name="toolbar_righttext_padding_left" format="reference|dimension"/>
+        <!-- 右边文本框布局padding属性 -->
+        <attr name="toolbar_righttext_padding_right" format="reference|dimension"/>
+        <!-- 右边文本框布局padding属性 -->
+        <attr name="toolbar_righttext_drawable_padding" format="reference|dimension"/>
+        <!-- 右边文本框布局weight属性 -->
+        <attr name="toolbar_righttext_weight" format="float"/>
+        <!-- 右边文本框的visibility属性 -->
+        <attr name="toolbar_righttext_visibility">
+            <!-- Visible on screen; the default value. -->
+            <enum name="visible" value="0"/>
+            <!-- Not displayed, but taken into account during layout (space is left for it). -->
+            <enum name="invisible" value="4"/>
+            <!-- Completely hidden, as if the view had not been added. -->
+            <enum name="gone" value="8"/>
+        </attr>
+
+
+        <!-- 右边文本框文字内容 -->
+        <attr name="toolbar_right_two_text" format="reference|string"/>
+        <!-- 右边文本框文字 大小 -->
+        <attr name="toolbar_right_two_text_size" format="reference|dimension"/>
+        <!-- 右边文本框文字颜色 -->
+        <attr name="toolbar_right_two_text_color" format="reference|color"/>
+        <!-- 右边文本框背景颜色 -->
+        <attr name="toolbar_right_two_text_drawable_right" format="reference|color"/>
+        <!-- 右边文本框布局padding属性 -->
+        <attr name="toolbar_right_two_text_padding_left" format="reference|dimension"/>
+        <!-- 右边文本框布局padding属性 -->
+        <attr name="toolbar_right_two_text_padding_right" format="reference|dimension"/>
+        <!-- 右边文本框布局padding属性 -->
+        <attr name="toolbar_right_two_text_drawable_padding" format="reference|dimension"/>
+        <!-- 右边文本框布局weight属性 -->
+        <attr name="toolbar_right_two_text_weight" format="float"/>
+        <!-- 右边文本框的visibility属性 -->
+        <attr name="toolbar_right_two_text_visibility">
+            <!-- Visible on screen; the default value. -->
+            <enum name="visible" value="0"/>
+            <!-- Not displayed, but taken into account during layout (space is left for it). -->
+            <enum name="invisible" value="4"/>
+            <!-- Completely hidden, as if the view had not been added. -->
+            <enum name="gone" value="8"/>
+        </attr>
+
+
+        <attr name="toolbar_line_background" format="reference|color"/>
+        <attr name="toolbar_line_visibility">
+
+            <!-- Visible on screen; the default value. -->
+            <enum name="visible" value="0"/>
+            <!-- Not displayed, but taken into account during layout (space is left for it). -->
+            <enum name="invisible" value="4"/>
+            <!-- Completely hidden, as if the view had not been added. -->
+            <enum name="gone" value="8"/>
+        </attr>
+    </declare-styleable>
+
+</resources>

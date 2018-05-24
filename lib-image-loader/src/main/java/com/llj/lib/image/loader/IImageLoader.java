@@ -11,7 +11,7 @@ import android.widget.ImageView;
  * author liulj
  * date 2018/5/4
  */
-public interface ImageLoaderInterface<T extends ImageView> {
+public interface IImageLoader<T extends ImageView> {
 
     void init(Context context);
 

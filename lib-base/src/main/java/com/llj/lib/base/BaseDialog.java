@@ -20,11 +20,13 @@ import butterknife.ButterKnife;
  * author liulj
  * date 2018/5/24
  */
-public  abstract class BaseDialog extends Dialog implements IRequestDialogHandler {
+public abstract class BaseDialog extends Dialog implements IRequestDialogHandler {
     public final String TAG_LOG = BaseDialog.class.getSimpleName();
 
     protected static final int MATCH = ViewGroup.LayoutParams.MATCH_PARENT;
     protected static final int WRAP  = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+    private IRequestDialog mRequestDialog;
 
     public BaseDialog(Context context) {
         super(context, R.style.dim_dialog);
@@ -60,10 +62,6 @@ public  abstract class BaseDialog extends Dialog implements IRequestDialogHandle
             checkRequestDialog();
         }
         performCreate(savedInstanceState);
-    }
-
-    public boolean needLoadingDialog() {
-        return true;
     }
 
 
@@ -102,7 +100,11 @@ public  abstract class BaseDialog extends Dialog implements IRequestDialogHandle
         params.gravity = gravity;
         window.setAttributes(params);
     }
-    private IRequestDialog mRequestDialog;
+
+
+    public boolean needLoadingDialog() {
+        return true;
+    }
 
     public void checkRequestDialog() {
         if (mRequestDialog == null) {
@@ -112,11 +114,12 @@ public  abstract class BaseDialog extends Dialog implements IRequestDialogHandle
             }
         }
         IRequestDialog requestDialog = getRequestDialog();
-        ((Dialog)requestDialog).setOnCancelListener(dialog -> {
+        ((Dialog) requestDialog).setOnCancelListener(dialog -> {
             Log.i(TAG_LOG, "cancelOkHttpCall:" + getRequestDialog().getRequestTag());
             cancelOkHttpCall(getRequestDialog().getRequestTag());
         });
     }
+
     @Override
     public IRequestDialog initRequestDialog() {
         return null;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/li_contain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.llj.lib.base.widget.CommonToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        myapp:toolbar_centertext_color="@color/common_toolbar_center_text_color"
+        myapp:toolbar_centertext_size="@dimen/common_toolbar_center_text_size"
+        myapp:toolbar_lefttext_color="@color/common_toolbar_left_text_color"
+        myapp:toolbar_lefttext_padding_left="@dimen/common_toolbar_left_padding"
+        myapp:toolbar_lefttext_size="@dimen/common_toolbar_left_text_size"
+        myapp:toolbar_li_contain_height="@dimen/common_toolbar_height"
+        myapp:toolbar_line_background="@color/common_toolbar_line_color"
+        myapp:toolbar_line_visibility="visible"
+        myapp:toolbar_righttext_color="@color/common_toolbar_right_text_color"
+        myapp:toolbar_righttext_padding_right="@dimen/common_toolbar_right_padding"
+        myapp:toolbar_righttext_size="@dimen/common_toolbar_right_text_size"
+        />
+
+</LinearLayout>

@@ -127,8 +127,8 @@ public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialo
     }
 
     @Override
-    public void backToLauncher() {
-        moveTaskToBack(true);
+    public void backToLauncher(boolean nonRoot) {
+        moveTaskToBack(nonRoot);
     }
     //</editor-fold >
 

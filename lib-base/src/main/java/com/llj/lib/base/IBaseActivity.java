@@ -15,5 +15,5 @@ public interface IBaseActivity extends IActivityStack {
 
     void superOnBackPressed();
 
-    void backToLauncher();
+    void backToLauncher(boolean nonRoot);
 }

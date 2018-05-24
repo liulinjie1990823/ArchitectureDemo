@@ -11,15 +11,15 @@ import com.facebook.drawee.view.GenericDraweeView;
  * author liulj
  * date 2018/5/4
  */
-public class ImageLoader implements ImageLoaderInterface<GenericDraweeView> {
+public class ImageLoader implements IImageLoader<GenericDraweeView> {
 
-    private static ImageLoaderInterface sImageLoader;
+    private static IImageLoader sImageLoader;
 
     private ImageLoader(Context context) {
         FrescoUtils.initFresco(context);
     }
 
-    public static ImageLoaderInterface getInstance(Context context) {
+    public static IImageLoader getInstance(Context context) {
         synchronized (ImageLoader.class) {
             if (sImageLoader == null) {
                 sImageLoader = new ImageLoader(context);
