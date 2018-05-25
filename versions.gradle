@@ -164,10 +164,10 @@ deps.butterknife_gradle_plugin = "com.jakewharton:butterknife-gradle-plugin:$ver
 ext.deps = deps
 
 def build_versions = [:]
-build_versions.compile = 26
+build_versions.compile = 27
 build_versions.min_sdk = 15
-build_versions.target_sdk = 26
-build_versions.build_tools = "27.0.2"
+build_versions.target_sdk = 27
+build_versions.build_tools = "27.0.3"
 build_versions.verson_code = 1
 build_versions.verson_name = "1.0"
 ext.build_versions = build_versions
@@ -176,6 +176,7 @@ ext.build_versions = build_versions
 def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
+    handler.mavenCentral()
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     handler.maven { url "https://jitpack.io" }
 }

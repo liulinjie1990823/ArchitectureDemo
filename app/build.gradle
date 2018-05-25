@@ -6,12 +6,20 @@ def releaseTime() {
 
 android {
     compileSdkVersion build_versions.compile
+    buildToolsVersion build_versions.build_tools
     defaultConfig {
         applicationId "com.llj.architecturedemo"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
+
         versionCode build_versions.version_code
         versionName build_versions.version_name
+
+        resConfigs "en", "xxhdpi"
+
+        ndk {
+            abiFilters "armeabi"
+        }
     }
     signingConfigs {
         release {
@@ -29,6 +37,7 @@ android {
             matchingFallbacks = ['debug', 'release']
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            ext.alwaysUpdateBuildId = false
         }
         beta {
             signingConfig signingConfigs.release
@@ -56,6 +65,19 @@ android {
                 outputFileName = fileName
             }
         }
+    }
+    //停用 PNG 处理
+    aaptOptions {
+        cruncherEnabled false
+    }
+
+    //DEX 构建特性
+    dexOptions {
+        preDexLibraries true
+        maxProcessCount 8
+        // Instead of setting the heap size for the DEX process, increase Gradle's
+        // heap size to enable dex-in-process. To learm more, read the next section.
+        // javaMaxHeapSize "2048m"
     }
 }
 

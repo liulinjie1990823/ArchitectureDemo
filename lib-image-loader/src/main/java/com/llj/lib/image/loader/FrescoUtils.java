@@ -87,12 +87,12 @@ public class FrescoUtils {
         builder.connectTimeout(15000, TimeUnit.MILLISECONDS);
         builder.writeTimeout(15000, TimeUnit.MILLISECONDS);
         builder.readTimeout(15000, TimeUnit.MILLISECONDS);
-        builder.cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context)));
+        builder.cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context.getApplicationContext())));
 //        builder.addInterceptor(new AddCookiesInterceptor());
 //        builder.addInterceptor(new ReceivedCookiesInterceptor());
 
         //配置ImagePipelineConfig
-        ImagePipelineConfig.Builder newBuilder = OkHttpImagePipelineConfigFactory.newBuilder(context, builder.build());
+        ImagePipelineConfig.Builder newBuilder = OkHttpImagePipelineConfigFactory.newBuilder(context.getApplicationContext(), builder.build());
 
         //内存配置
         final MemoryCacheParams bitmapCacheParams = new MemoryCacheParams(
