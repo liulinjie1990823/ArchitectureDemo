@@ -2,15 +2,18 @@ package com.llj.lib.base;
 
 import android.app.Activity;
 import android.app.Application;
+import android.os.StrictMode;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 
 import com.facebook.stetho.Stetho;
+import com.llj.lib.base.help.CrashHelper;
 import com.llj.lib.base.help.DisplayHelper;
 import com.llj.lib.base.help.FilePathHelper;
 import com.llj.lib.image.loader.ImageLoader;
 import com.llj.lib.utils.AActivityManagerUtils;
 import com.llj.lib.utils.AToastUtils;
+import com.llj.lib.utils.LogUtil;
 import com.llj.lib.utils.helper.Utils;
 import com.squareup.leakcanary.LeakCanary;
 
@@ -50,7 +53,7 @@ public abstract class BaseApplication extends Application implements
             initCrashHandler();//异常捕捉
             initStetho();//设置okhttp请求调试
             initLeakCanary();//监听内存溢出
-            //initStrictMode();//设置严格模式
+            initStrictMode();//设置严格模式
         }
         injectApp();
     }
@@ -73,7 +76,10 @@ public abstract class BaseApplication extends Application implements
     }
 
     private void initCrashHandler() {
-
+        if (!BuildConfig.DEBUG) {
+            return;
+        }
+        CrashHelper.getInstance().init(this, LogUtil::LLJe);
     }
 
     private void initStetho() {
@@ -97,6 +103,16 @@ public abstract class BaseApplication extends Application implements
             return;
         }
         LeakCanary.install(this);
+    }
+
+    private void initStrictMode() {
+        if (!BuildConfig.DEBUG) {
+            return;
+        }
+        //设置线程策略
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyDialog().build());
+        //设置虚拟机策略
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
     }
 
     abstract protected void injectApp();

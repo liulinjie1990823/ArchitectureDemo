@@ -13,6 +13,10 @@ import java.util.LinkedList;
 public class AActivityStackUtils {
     private static final LinkedList<Activity> sActivityList = new LinkedList<>();
 
+    public static int size() {
+        return sActivityList.size();
+    }
+
     /**
      * 获得当前最顶层的activity
      *
@@ -87,6 +91,7 @@ public class AActivityStackUtils {
 
     public static void exitApp() {
         removeAllActivity();
+        AToastUtils.destroyToast();
         System.exit(0);
     }
 
