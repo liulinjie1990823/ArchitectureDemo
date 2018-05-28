@@ -12,6 +12,9 @@ import com.llj.lib.base.mvp.IView;
 public class MainContract {
 
     interface View extends IView {
+
+        void toast();
+
     }
 
     interface Model extends IModel {

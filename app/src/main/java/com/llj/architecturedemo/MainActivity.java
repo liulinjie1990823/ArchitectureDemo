@@ -39,10 +39,14 @@ public class MainActivity extends MyBaseActivity<MainPresenter> implements MainC
     };
 
     @Override
+    public void toast() {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
-        mPresenter.toast();
         Observable<String> obs1 = Observable.create(emitter -> {
             Log.e(TAG, "obs1thread:" + Thread.currentThread());
 

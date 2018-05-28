@@ -30,19 +30,19 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
     private LifecycleOwner      mLifecycleOwner;
 
     protected M mModel;
-    protected V mRootView;
+    protected V mView;
 
-    public BasePresenter(M model, V rootView) {
+    public BasePresenter(M model, V view) {
         Preconditions.checkNotNull(model, "%s cannot be null", IModel.class.getName());
-        Preconditions.checkNotNull(rootView, "%s cannot be null", IView.class.getName());
+        Preconditions.checkNotNull(view, "%s cannot be null", IView.class.getName());
         this.mModel = model;
-        this.mRootView = rootView;
+        this.mView = view;
         start();
     }
 
-    public BasePresenter(V rootView) {
-        Preconditions.checkNotNull(rootView, "%s cannot be null", IView.class.getName());
-        this.mRootView = rootView;
+    public BasePresenter(V view) {
+        Preconditions.checkNotNull(view, "%s cannot be null", IView.class.getName());
+        this.mView = view;
         start();
     }
 
@@ -53,10 +53,10 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
 
     private void start() {
         //将 LifecycleObserver 注册给 LifecycleOwner 后 @OnLifecycleEvent 才可以正常使用
-        if (mRootView != null && mRootView instanceof LifecycleOwner) {
-            ((LifecycleOwner) mRootView).getLifecycle().addObserver(this);
+        if (mView != null && mView instanceof LifecycleOwner) {
+            ((LifecycleOwner) mView).getLifecycle().addObserver(this);
             if (mModel != null && mModel instanceof LifecycleObserver) {
-                ((LifecycleOwner) mRootView).getLifecycle().addObserver((LifecycleObserver) mModel);
+                ((LifecycleOwner) mView).getLifecycle().addObserver((LifecycleObserver) mModel);
             }
         }
         register(this);
@@ -71,7 +71,7 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
             mModel.destroy();
         }
         this.mModel = null;
-        this.mRootView = null;
+        this.mView = null;
         this.mCompositeDisposable = null;
     }
 
