@@ -1,8 +1,9 @@
 package com.llj.architecturedemo;
 
+import android.databinding.ViewDataBinding;
+
 import com.llj.lib.base.BaseActivity;
 import com.llj.lib.base.mvp.IPresenter;
-import com.llj.lib.base.widget.LoadingDialog;
 
 /**
  * ArchitectureDemo
@@ -10,5 +11,5 @@ import com.llj.lib.base.widget.LoadingDialog;
  * author liulj
  * date 2018/5/24
  */
-public abstract class MyBaseActivity<P extends IPresenter> extends BaseActivity<P ,LoadingDialog> {
+public abstract class MyBaseActivity<P extends IPresenter,B extends ViewDataBinding> extends BaseActivity<P ,B> {
 }

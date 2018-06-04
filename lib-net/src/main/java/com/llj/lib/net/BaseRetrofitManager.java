@@ -1,8 +1,5 @@
 package com.llj.lib.net;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -79,13 +76,5 @@ public abstract class BaseRetrofitManager {
     }
 
 
-    protected <T> Observable wrapObservable(Observable<T> observable) {
-        return observable
-                .subscribeOn(Schedulers.io())//指定io
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new ExceptionFunction<>());
-//                .map((Function<? super T, ? extends R>) new ResultFunction<T>());
 
-    }
 }

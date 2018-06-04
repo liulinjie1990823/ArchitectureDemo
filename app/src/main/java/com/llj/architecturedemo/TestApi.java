@@ -17,28 +17,28 @@ import retrofit2.http.Query;
 public class TestApi extends BaseApi {
     private static TestApi sTestApi = new TestApi();
 
-    private TestApiService mTestApiService;
+    private static TestApiService mTestApiService;
 
-    public interface TestApiService {
+    private TestApiService getTestApiService() {
+        return mTestApiService;
+    }
+
+    @Override
+    protected void init() {
+        initRetrofit(HttpUrl.BASE_URL, new HeaderInterceptor());
+        mTestApiService = getRetrofit().create(TestApiService.class);
+    }
+
+    public static TestApiService getInstance() {
+        return sTestApi.getTestApiService();
+    }
+
+    interface TestApiService {
 
         @Headers("Content-Type: application/x-www-form-urlencoded; charset=UTF-8")
         @GET("/api/mobile.php")
         Observable<Mobile> getMobile(@Query("mobile") String mobile);
     }
-
-    @Override
-    protected void init() {
-        initRetrofit(HttpUrl.BASE_URL,new HeaderInterceptor());
-        mTestApiService = getRetrofit().create(TestApiService.class);
-    }
-
-    public static TestApi getInstance() {
-        return sTestApi;
-    }
-
-    public Observable<Mobile> getMobile(String mobile) {
-        Observable<Mobile> user = mTestApiService.getMobile(mobile);
-        return wrapObservable(user);
-    }
-
 }
+
+

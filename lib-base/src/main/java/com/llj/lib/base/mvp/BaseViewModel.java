@@ -1,12 +1,14 @@
 package com.llj.lib.base.mvp;
 
+import android.arch.lifecycle.ViewModel;
+
 /**
  * ArchitectureDemo
  * describe:
  * author liulj
- * date 2018/5/16
+ * date 2018/5/29
  */
-public class BaseModel implements IModel {
+public class BaseViewModel extends ViewModel implements IModel{
     /**
      * 在框架中 {@link BasePresenter#destroy()} 时会默认调用 {@link IModel#destroy()}
      */

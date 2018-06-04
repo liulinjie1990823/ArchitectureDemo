@@ -1,18 +1,13 @@
 package com.llj.lib.base.mvp;
 
-import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.support.annotation.NonNull;
 
-import com.llj.lib.base.BaseEvent;
 import com.llj.lib.base.utils.Preconditions;
 import com.llj.lib.utils.LogUtil;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.AutoDisposeConverter;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -23,68 +18,54 @@ import io.reactivex.disposables.Disposable;
  * author liulj
  * date 2018/5/16
  */
-public class BasePresenter<V extends IView, M extends IModel> implements IPresenter {
+public class BasePresenter<M extends BaseViewModel, V extends IView> implements IPresenter {
     private final String TAG = this.getClass().getSimpleName();
 
     private CompositeDisposable mCompositeDisposable;
-    private LifecycleOwner      mLifecycleOwner;
 
-    protected M mModel;
+    protected M mViewModel;
     protected V mView;
 
-    public BasePresenter(M model, V view) {
-        Preconditions.checkNotNull(model, "%s cannot be null", IModel.class.getName());
+    public BasePresenter(M viewModel, V view) {
+        Preconditions.checkNotNull(viewModel, "%s cannot be null", IModel.class.getName());
         Preconditions.checkNotNull(view, "%s cannot be null", IView.class.getName());
-        this.mModel = model;
+        this.mViewModel = viewModel;
         this.mView = view;
-        start();
+        init();
     }
 
     public BasePresenter(V view) {
         Preconditions.checkNotNull(view, "%s cannot be null", IView.class.getName());
         this.mView = view;
-        start();
+        init();
     }
 
     public BasePresenter() {
-        start();
+        init();
     }
 
+    @Override
+    public void init() {
 
-    private void start() {
-        //将 LifecycleObserver 注册给 LifecycleOwner 后 @OnLifecycleEvent 才可以正常使用
-        if (mView != null && mView instanceof LifecycleOwner) {
-            ((LifecycleOwner) mView).getLifecycle().addObserver(this);
-            if (mModel != null && mModel instanceof LifecycleObserver) {
-                ((LifecycleOwner) mView).getLifecycle().addObserver((LifecycleObserver) mModel);
-            }
-        }
-        register(this);
     }
 
-    private void destroy() {
-        unregister(this);
+    @Override
+    public void destroy() {
 
         unDispose();//解除订阅
 
-        if (mModel != null) {
-            mModel.destroy();
+        if (mViewModel != null) {
+            mViewModel.destroy();
         }
-        this.mModel = null;
+        this.mViewModel = null;
         this.mView = null;
         this.mCompositeDisposable = null;
-    }
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(BaseEvent event) {
     }
 
 
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
         LogUtil.e(TAG, "BasePresenter onCreate" + owner.getLifecycle().getCurrentState());
-        mLifecycleOwner = owner;
     }
 
     @Override
@@ -116,9 +97,7 @@ public class BasePresenter<V extends IView, M extends IModel> implements IPresen
 
     @Override
     public <T> AutoDisposeConverter<T> bindLifecycle() {
-        if (null == mLifecycleOwner)
-            throw new NullPointerException("lifecycleOwner == null");
-        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(mLifecycleOwner));
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(mView.getLifecycle()));
     }
 
     public void addDispose(Disposable disposable) {

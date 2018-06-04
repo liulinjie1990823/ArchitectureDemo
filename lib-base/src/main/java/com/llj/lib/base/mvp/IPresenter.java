@@ -2,7 +2,6 @@ package com.llj.lib.base.mvp;
 
 import android.arch.lifecycle.DefaultLifecycleObserver;
 
-import com.llj.lib.base.IEvent;
 import com.uber.autodispose.AutoDisposeConverter;
 
 /**
@@ -11,8 +10,11 @@ import com.uber.autodispose.AutoDisposeConverter;
  * author liulj
  * date 2018/5/16
  */
-public interface IPresenter extends DefaultLifecycleObserver,IEvent {
+public interface IPresenter extends DefaultLifecycleObserver {
 
     <T> AutoDisposeConverter<T> bindLifecycle();
+
+    void init();
+    void destroy();
 
 }

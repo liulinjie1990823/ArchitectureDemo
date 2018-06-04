@@ -1,11 +1,11 @@
 package com.llj.lib.base;
 
+import android.databinding.ViewDataBinding;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.llj.lib.base.mvp.IPresenter;
 import com.llj.lib.base.widget.CommonToolbar;
-import com.llj.lib.net.IRequestDialog;
 
 /**
  * ArchitectureDemo
@@ -13,7 +13,7 @@ import com.llj.lib.net.IRequestDialog;
  * author liulj
  * date 2018/5/24
  */
-public abstract class BaseToolbarActivity<P extends IPresenter, D extends IRequestDialog> extends BaseActivity<P, D> {
+public abstract class BaseToolbarActivity<P extends IPresenter, B extends ViewDataBinding> extends BaseActivity<P, B> {
     public CommonToolbar mCommonToolbar;
 
     @Override
@@ -30,13 +30,19 @@ public abstract class BaseToolbarActivity<P extends IPresenter, D extends IReque
         }
         return rootView;
     }
+
+    @Override
+    public int layoutId() {
+        return R.layout.base_title_layout;
+    }
+
     /**
      * 初始化头部栏
      *
      * @param view
      */
     private void initToolbar(View view) {
-        mCommonToolbar =  view.findViewById(R.id.toolbar);
+        mCommonToolbar = view.findViewById(R.id.toolbar);
         mCommonToolbar.setLeftTextOnClickListener(v -> onBackPressed());
     }
 }

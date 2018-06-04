@@ -19,6 +19,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
         AndroidInjectionModule.class,
         AndroidSupportInjectionModule.class,
         AppActivitiesModule.class,//将所有的activity注册进来
+        ViewModelModule.class,
 })
 public interface AppComponent {
 

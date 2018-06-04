@@ -1,6 +1,7 @@
 package com.llj.lib.base;
 
 import android.content.Intent;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.llj.lib.base.mvp.IPresenter;
-import com.llj.lib.net.IRequestDialog;
 import com.llj.lib.utils.AFragmentUtils;
 import com.llj.lib.utils.AParseUtils;
 
@@ -23,7 +23,7 @@ import java.lang.annotation.RetentionPolicy;
  * author liulj
  * date 2018/5/24
  */
-public abstract class BaseTabActivity<P extends IPresenter, D extends IRequestDialog> extends BaseActivity<P, D> {
+public abstract class BaseTabActivity<P extends IPresenter, B extends ViewDataBinding> extends BaseActivity<P, B> {
     public static final int TAB_ZERO  = 0;
     public static final int TAB_ONE   = 1;
     public static final int TAB_TWO   = 2;

@@ -2,6 +2,8 @@ package com.llj.lib.base;
 
 import android.app.Dialog;
 import android.arch.lifecycle.Lifecycle;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,10 +17,11 @@ import com.llj.lib.base.widget.LoadingDialog;
 import com.llj.lib.net.IRequestDialog;
 import com.llj.lib.utils.AInputMethodManagerUtils;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import dagger.android.AndroidInjection;
 
 /**
@@ -27,16 +30,15 @@ import dagger.android.AndroidInjection;
  * author liulj
  * date 2018/5/15
  */
-public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialog> extends AppCompatActivity
-        implements IBaseActivity, ICommon, IUiHandler, IRequestDialogHandler {
+public abstract class BaseActivity<P extends IPresenter, B extends ViewDataBinding> extends AppCompatActivity
+        implements IBaseActivity, ICommon, IUiHandler,IEvent, IRequestDialogHandler {
     public String TAG_LOG;
 
     @Inject
     protected P mPresenter;
-    @Inject
-    protected D mRequestDialog;
+    protected B mDataBinding;
 
-    private Unbinder mUnbinder;
+    protected IRequestDialog mRequestDialog;
 
     //<editor-fold desc="生命周期">
     @Override
@@ -53,15 +55,17 @@ public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialo
 
         View layoutView = layoutView();
         if (layoutView == null) {
-            setContentView(layoutId());
+            mDataBinding = DataBindingUtil.setContentView(this, layoutId());
         } else {
             setContentView(layoutView);
+            mDataBinding = DataBindingUtil.inflate(getLayoutInflater(), layoutId(), null, false);
         }
-        mUnbinder = ButterKnife.bind(this);
 
         checkRequestDialog();
 
         initLifecycleObserver(getLifecycle());
+
+        register(this);
 
         initViews(savedInstanceState);
 
@@ -98,12 +102,11 @@ public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialo
             requestDialog.cancel();
         }
 
-        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
-            mUnbinder.unbind();
-        }
-        mUnbinder = null;
+        //注销事件总线
+        unregister(this);
 
         if (mPresenter != null) {
+            mPresenter.destroy();
             mPresenter = null;
         }
 
@@ -111,6 +114,10 @@ public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialo
         removeCurrentActivity(this);
     }
     //</editor-fold >
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(BaseEvent event) {
+    }
 
     //<editor-fold desc="IBaseActivity">
     @Override
@@ -145,7 +152,10 @@ public abstract class BaseActivity<P extends IPresenter, D extends IRequestDialo
 
     public void checkRequestDialog() {
         if (mRequestDialog == null) {
-            mRequestDialog = (D) new LoadingDialog(this);
+            mRequestDialog = initRequestDialog();
+            if (mRequestDialog == null) {
+                mRequestDialog = new LoadingDialog(this);
+            }
         }
         IRequestDialog requestDialog = getRequestDialog();
         ((Dialog) requestDialog).setOnCancelListener(dialog -> {

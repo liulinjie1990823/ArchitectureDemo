@@ -3,6 +3,10 @@ package com.llj.architecturedemo;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.llj.architecturedemo.databinding.ActivityMainBinding;
+import com.llj.architecturedemo.model.Mobile;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +17,7 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class MainActivity extends MyBaseActivity<MainPresenter> implements MainContract.View {
+public class MainActivity extends MyBaseActivity<MainPresenter, ActivityMainBinding> implements MainContract.View {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     private Observer<String> mObserver = new Observer<String>() {
@@ -39,8 +43,8 @@ public class MainActivity extends MyBaseActivity<MainPresenter> implements MainC
     };
 
     @Override
-    public void toast() {
-
+    public void toast(Mobile mobile) {
+        showLongToast(new Gson().toJson(mobile));
     }
 
     @Override

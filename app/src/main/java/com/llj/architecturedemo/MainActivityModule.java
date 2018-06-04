@@ -1,7 +1,5 @@
 package com.llj.architecturedemo;
 
-import com.llj.lib.base.widget.LoadingDialog;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,12 +17,9 @@ public class MainActivityModule {
     }
 
     @Provides
-    MainContract.Model provideModel(MainModel model) {
+    MainContract.ViewModel provideModel(MainContractViewModel model) {
         return model;
     }
 
-    @Provides
-    LoadingDialog provideLoadingDialog(MainActivity activity) {
-        return new LoadingDialog(activity);
-    }
+
 }

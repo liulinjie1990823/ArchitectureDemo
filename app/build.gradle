@@ -20,6 +20,9 @@ android {
         ndk {
             abiFilters "armeabi"
         }
+        dataBinding {
+            enabled = true
+        }
     }
     signingConfigs {
         release {

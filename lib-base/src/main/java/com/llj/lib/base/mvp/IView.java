@@ -1,5 +1,7 @@
 package com.llj.lib.base.mvp;
 
+import android.arch.lifecycle.LifecycleOwner;
+
 import com.llj.lib.base.IRequestDialogHandler;
 
 /**
@@ -8,7 +10,7 @@ import com.llj.lib.base.IRequestDialogHandler;
  * author liulj
  * date 2018/5/16
  */
-public interface IView extends IRequestDialogHandler{
+public interface IView extends LifecycleOwner, IRequestDialogHandler{
 
 //    /**
 //     * 显示加载

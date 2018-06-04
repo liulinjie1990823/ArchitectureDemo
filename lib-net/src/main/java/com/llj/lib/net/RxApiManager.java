@@ -8,6 +8,7 @@ import java.util.Set;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * ArchitectureDemo
@@ -78,11 +79,23 @@ public class RxApiManager implements RxActionManager<Object> {
 
 
     public <T> void toSubscribe(Observable<T> observable, AutoDisposeConverter<T> autoDisposeConverter, BaseApiObserver<T> observer) {
+        observable=wrapObservable(observable);
+
         if (observer.getRequestTag() > 0) {
             add(observer.getRequestTag(), observer.getDisposable());
         }
         observable.observeOn(AndroidSchedulers.mainThread())
                 .as(autoDisposeConverter)
                 .subscribe(observer);
+    }
+
+    public <T> Observable wrapObservable(Observable<T> observable) {
+        return observable
+                .subscribeOn(Schedulers.io())//指定io
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new ExceptionFunction<>());
+//                .map((Function<? super T, ? extends R>) new ResultFunction<T>());
+
     }
 }
