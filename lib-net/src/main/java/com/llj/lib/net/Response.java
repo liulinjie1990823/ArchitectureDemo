@@ -6,7 +6,7 @@ package com.llj.lib.net;
  * author liulj
  * date 2018/5/7
  */
-public interface IResponse<T> {
+public interface Response<T> {
 
     int getCode();
 

@@ -12,6 +12,7 @@ import com.llj.architecturedemo.db.dao.MobileDao;
 import com.llj.architecturedemo.db.model.MobileEntity;
 import com.llj.lib.net.BaseApiObserver;
 import com.llj.lib.net.IRequestDialog;
+import com.llj.lib.net.Response;
 import com.llj.lib.net.RxApiManager;
 import com.uber.autodispose.AutoDisposeConverter;
 
@@ -50,9 +51,9 @@ public class MobileRepository {
         RxApiManager.get().toSubscribe(mobile, autoDisposeConverter, new BaseApiObserver<MobileEntity>(iRequestDialog) {
 
             @Override
-            public void onNext(MobileEntity mobile) {
-                super.onNext(mobile);
-                mMobileMutableLiveData.setValue(mobile);
+            public void onNext(Response<MobileEntity> response) {
+                super.onNext(response);
+                mMobileMutableLiveData.setValue(response.getData());
             }
         });
         return mMobileMutableLiveData;
@@ -100,7 +101,7 @@ public class MobileRepository {
                 result.addSource(testLive, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
-                        result.setValue("成功咯"+s);
+                        result.setValue("成功咯" + s);
                     }
                 });//双层嵌套，前提是前面有removeSource
             }

@@ -9,7 +9,7 @@ import io.reactivex.disposables.Disposable;
  * author liulj
  * date 2018/5/7
  */
-public abstract class BaseApiObserver<T> implements Observer<T>, IObserverTag {
+public abstract class BaseApiObserver<T> implements Observer<Response<T>>, IObserverTag {
     private Disposable     mDisposable;
     private int            mTag;
     private IRequestDialog mIRequestDialog;
@@ -31,7 +31,7 @@ public abstract class BaseApiObserver<T> implements Observer<T>, IObserverTag {
     }
 
     @Override
-    public void onNext(T t) {
+    public void onNext(Response<T> response) {
 
     }
 
