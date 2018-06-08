@@ -31,6 +31,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':lib-utils')
 
+    implementation deps.lifecycle.extensions
+
     implementation deps.retrofit2.retrofit
     implementation deps.retrofit2.gson
     implementation deps.retrofit2.adapter_rxjava2

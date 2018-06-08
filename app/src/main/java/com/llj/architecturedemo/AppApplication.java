@@ -18,6 +18,7 @@ public class AppApplication extends BaseApplication {
     @Override
     protected void injectApp() {
         DaggerAppComponent.builder()
+                .application(this)
                 .build()
                 .inject(this);
 

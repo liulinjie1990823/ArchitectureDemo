@@ -1,30 +1,22 @@
-package com.llj.architecturedemo.model;
+package com.llj.architecturedemo.db.model;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 
 /**
  * ArchitectureDemo
  * describe:
  * author liulj
- * date 2018/5/21
+ * date 2018/6/6
  */
-public class Mobile {
-
-    /**
-     * id : 18889
-     * phone : 1318888
-     * province : 山东
-     * city : 济南
-     * service_provider : 中国联通
-     * city_code : 0531
-     * postcode : 250000
-     * ret : 0
-     * searchStr : 13188888888
-     * operator : 中国联通
-     * from : https://www.iteblog.com/api/mobile.php
-     * ip : 218.108.186.200
-     * ua : Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36
-     */
-
-    private String id;
+@Entity(
+        tableName = "mobile",
+        indices = @Index("id")
+)
+public class MobileEntity {
+    @PrimaryKey
+    private long id;
     private String phone;
     private String province;
     private String city;
@@ -38,11 +30,15 @@ public class Mobile {
     private String ip;
     private String ua;
 
-    public String getId() {
+    public MobileEntity(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

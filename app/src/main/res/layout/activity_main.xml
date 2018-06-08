@@ -6,7 +6,7 @@
 
         <variable
             name="mobile"
-            type="com.llj.architecturedemo.model.Mobile"/>
+            type="com.llj.architecturedemo.db.model.MobileEntity"/>
 
     </data>
 

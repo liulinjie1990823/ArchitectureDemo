@@ -1,5 +1,7 @@
 package com.llj.architecturedemo;
 
+import android.arch.lifecycle.ViewModelProviders;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -17,9 +19,8 @@ public class MainActivityModule {
     }
 
     @Provides
-    MainContract.ViewModel provideModel(MainContractViewModel model) {
-        return model;
+    MainContract.ViewModel provideModel(MainActivity activity) {
+        return ViewModelProviders.of(activity).get(MainContractViewModel.class);
     }
-
 
 }

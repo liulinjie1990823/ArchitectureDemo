@@ -19,7 +19,7 @@ import io.reactivex.disposables.Disposable;
  * date 2018/5/16
  */
 public class BasePresenter<M extends BaseViewModel, V extends IView> implements IPresenter {
-    private final String TAG = this.getClass().getSimpleName();
+    protected final String TAG = this.getClass().getSimpleName();
 
     private CompositeDisposable mCompositeDisposable;
 

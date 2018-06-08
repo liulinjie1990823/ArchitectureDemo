@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.llj.architecturedemo.databinding.ActivityMainBinding;
-import com.llj.architecturedemo.model.Mobile;
+import com.llj.architecturedemo.db.model.MobileEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class MainActivity extends MyBaseActivity<MainPresenter, ActivityMainBind
     };
 
     @Override
-    public void toast(Mobile mobile) {
+    public void toast(MobileEntity mobile) {
         showLongToast(new Gson().toJson(mobile));
     }
 
