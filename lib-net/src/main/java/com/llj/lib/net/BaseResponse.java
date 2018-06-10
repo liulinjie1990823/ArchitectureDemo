@@ -6,7 +6,7 @@ package com.llj.lib.net;
  * author liulj
  * date 2018/5/7
  */
-public class BaseResponse<T> implements IResponse<T>  {
+public class BaseResponse<T> implements IResponse<T> {
     private int    code;
     private String msg;
     private T      data;

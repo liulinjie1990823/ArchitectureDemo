@@ -1,6 +1,6 @@
 package com.llj.lib.net;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
 /**
@@ -9,9 +9,9 @@ import io.reactivex.functions.Function;
  * author liulj
  * date 2018/5/7
  */
-public class ExceptionFunction<R> implements Function<Throwable, Observable<R>> {
+public class ExceptionFunction<R> implements Function<Throwable, Single<R>> {
     @Override
-    public Observable<R> apply(Throwable throwable) {
-        return Observable.error(ExceptionHandle.handleException(throwable));
+    public Single<R> apply(Throwable throwable) {
+        return Single.error(ExceptionHandle.handleException(throwable));
     }
 }

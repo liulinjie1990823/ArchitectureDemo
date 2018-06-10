@@ -1,6 +1,8 @@
 package com.llj.lib.net;
 
-import io.reactivex.Observer;
+import android.support.annotation.NonNull;
+
+import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -9,7 +11,7 @@ import io.reactivex.disposables.Disposable;
  * author liulj
  * date 2018/5/7
  */
-public abstract class BaseApiObserver<T> implements Observer<Response<T>>, IObserverTag {
+public abstract class BaseApiObserver<Data> implements SingleObserver<IResponse<Data>>, IObserverTag {
     private Disposable     mDisposable;
     private int            mTag;
     private IRequestDialog mIRequestDialog;
@@ -26,24 +28,19 @@ public abstract class BaseApiObserver<T> implements Observer<Response<T>>, IObse
     }
 
     @Override
-    public void onSubscribe(Disposable d) {
+    public void onSubscribe(@NonNull Disposable d) {
         mDisposable = d;
     }
 
     @Override
-    public void onNext(Response<T> response) {
+    public void onSuccess(@NonNull IResponse<Data> response) {
 
     }
 
     @Override
-    public void onError(Throwable t) {
-
+    public void onError(@NonNull Throwable t) {
     }
 
-    @Override
-    public void onComplete() {
-
-    }
 
     @Override
     public void setRequestTag(int tag) {

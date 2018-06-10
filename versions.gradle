@@ -3,7 +3,7 @@ def versions = [:]
 versions.android_gradle_plugin = "3.1.3"
 
 versions.arch_core = "1.1.1"
-versions.room = "1.1.0-beta3"
+versions.room = "1.1.0"
 versions.lifecycle = "1.1.1"
 
 versions.support = "27.1.1"

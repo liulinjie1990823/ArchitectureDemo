@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.support.annotation.NonNull;
 
 import com.llj.lib.base.utils.Preconditions;
+import com.llj.lib.net.IResponse;
 import com.llj.lib.utils.LogUtil;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.AutoDisposeConverter;
@@ -96,7 +97,7 @@ public class BasePresenter<M extends BaseViewModel, V extends IView> implements 
     }
 
     @Override
-    public <T> AutoDisposeConverter<T> bindLifecycle() {
+    public <Data> AutoDisposeConverter<IResponse<Data>> bindLifecycle() {
         return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(mView.getLifecycle()));
     }
 

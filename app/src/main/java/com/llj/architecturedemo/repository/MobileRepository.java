@@ -12,14 +12,15 @@ import com.llj.architecturedemo.db.dao.MobileDao;
 import com.llj.architecturedemo.db.model.MobileEntity;
 import com.llj.lib.net.BaseApiObserver;
 import com.llj.lib.net.IRequestDialog;
-import com.llj.lib.net.Response;
+import com.llj.lib.net.IResponse;
 import com.llj.lib.net.RxApiManager;
 import com.uber.autodispose.AutoDisposeConverter;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
+import retrofit2.Response;
 
 /**
  * ArchitectureDemo
@@ -42,20 +43,21 @@ public class MobileRepository {
     }
 
 
-    public LiveData<MobileEntity> getMobile(AutoDisposeConverter<MobileEntity> autoDisposeConverter, IRequestDialog iRequestDialog) {
+    public LiveData<MobileEntity> getMobile(AutoDisposeConverter<IResponse<MobileEntity>> autoDisposeConverter, IRequestDialog iRequestDialog) {
         if (mMobileMutableLiveData == null) {
             mMobileMutableLiveData = new MediatorLiveData<>();
         }
-        Observable<MobileEntity> mobile = mApiService.getMobile("13188888888");
+        Single<Response<IResponse<MobileEntity>>> mobile = mApiService.getMobile("13188888888");
 
-        RxApiManager.get().toSubscribe(mobile, autoDisposeConverter, new BaseApiObserver<MobileEntity>(iRequestDialog) {
+        RxApiManager.get().subscribeApi(mobile, autoDisposeConverter, new BaseApiObserver<MobileEntity>(iRequestDialog) {
 
             @Override
-            public void onNext(Response<MobileEntity> response) {
-                super.onNext(response);
+            public void onSuccess(@NonNull IResponse<MobileEntity> response) {
+                super.onSuccess(response);
                 mMobileMutableLiveData.setValue(response.getData());
             }
         });
+
         return mMobileMutableLiveData;
     }
 
