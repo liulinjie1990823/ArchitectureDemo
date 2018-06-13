@@ -2,7 +2,7 @@ package com.llj.lib.base.mvp;
 
 import android.arch.lifecycle.DefaultLifecycleObserver;
 
-import com.llj.lib.net.IResponse;
+import com.llj.lib.net.BaseResponse;
 import com.uber.autodispose.AutoDisposeConverter;
 
 /**
@@ -13,9 +13,10 @@ import com.uber.autodispose.AutoDisposeConverter;
  */
 public interface IPresenter extends DefaultLifecycleObserver {
 
-    <Data> AutoDisposeConverter<IResponse<Data>> bindLifecycle();
+    <Data> AutoDisposeConverter<BaseResponse<Data>> bindRequestLifecycle();
 
     void init();
+
     void destroy();
 
 }

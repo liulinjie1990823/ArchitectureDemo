@@ -18,12 +18,12 @@ public class BaseResponse<T> implements IResponse<T> {
 
     @Override
     public String getMsg() {
-        return null;
+        return msg;
     }
 
     @Override
     public T getData() {
-        return null;
+        return data;
     }
 
 

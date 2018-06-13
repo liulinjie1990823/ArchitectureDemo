@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * ArchitectureDemo
@@ -19,17 +18,21 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public class OkHttpClientManager {
 
-    public static OkHttpClient getApiOkHttpClient() {
+    public static final int OK_CONNECT_TIMEOUT = 15_000;
+    public static final int OK_WRITE_TIMEOUT   = 15_000;
+    public static final int OK_READ_TIMEOUT    = 15_000;
+
+    public static OkHttpClient.Builder okHttpClientBuilder() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.addInterceptor(new HttpLoggingInterceptor())
+        builder
                 .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(Utils.getApp())))
-                .connectTimeout(15000, TimeUnit.MILLISECONDS)
-                .writeTimeout(15000, TimeUnit.MILLISECONDS)
-                .readTimeout(15000, TimeUnit.MILLISECONDS);
-        return builder.build();
+                .connectTimeout(OK_CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
+                .writeTimeout(OK_WRITE_TIMEOUT, TimeUnit.MILLISECONDS)
+                .readTimeout(OK_READ_TIMEOUT, TimeUnit.MILLISECONDS);
+        return builder;
     }
 
-    public static OkHttpClient getApiOkHttpClient(Interceptor... interceptors) {
+    public static OkHttpClient.Builder okHttpClientBuilder(Interceptor... interceptors) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (interceptors != null && interceptors.length != 0) {
             for (Interceptor interceptor : interceptors) {
@@ -39,11 +42,11 @@ public class OkHttpClientManager {
                 builder.addInterceptor(interceptor);
             }
         }
-        builder.addInterceptor(new HttpLoggingInterceptor())
+        builder
                 .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(Utils.getApp())))
-                .connectTimeout(15000, TimeUnit.MILLISECONDS)
-                .writeTimeout(15000, TimeUnit.MILLISECONDS)
-                .readTimeout(15000, TimeUnit.MILLISECONDS);
-        return builder.build();
+                .connectTimeout(OK_CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
+                .writeTimeout(OK_WRITE_TIMEOUT, TimeUnit.MILLISECONDS)
+                .readTimeout(OK_READ_TIMEOUT, TimeUnit.MILLISECONDS);
+        return builder;
     }
 }

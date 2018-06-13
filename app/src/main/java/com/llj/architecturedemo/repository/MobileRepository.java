@@ -11,8 +11,8 @@ import com.llj.architecturedemo.api.TestApiService;
 import com.llj.architecturedemo.db.dao.MobileDao;
 import com.llj.architecturedemo.db.model.MobileEntity;
 import com.llj.lib.net.BaseApiObserver;
+import com.llj.lib.net.BaseResponse;
 import com.llj.lib.net.IRequestDialog;
-import com.llj.lib.net.IResponse;
 import com.llj.lib.net.RxApiManager;
 import com.uber.autodispose.AutoDisposeConverter;
 
@@ -34,57 +34,48 @@ public class MobileRepository {
     private       TestApiService mApiService;
 
 
-    private MediatorLiveData<MobileEntity> mMobileMutableLiveData;
-
     @Inject
     MobileRepository(MobileDao mobileDao, TestApiService apiService) {
         this.mMobileDao = mobileDao;
         this.mApiService = apiService;
     }
 
-
-    public LiveData<MobileEntity> getMobile(AutoDisposeConverter<IResponse<MobileEntity>> autoDisposeConverter, IRequestDialog iRequestDialog) {
-        if (mMobileMutableLiveData == null) {
-            mMobileMutableLiveData = new MediatorLiveData<>();
-        }
-        Single<Response<IResponse<MobileEntity>>> mobile = mApiService.getMobile("13188888888");
+    public LiveData<MobileEntity> getMobile(AutoDisposeConverter<BaseResponse<MobileEntity>> autoDisposeConverter, IRequestDialog iRequestDialog) {
+        MutableLiveData<MobileEntity> mutableLiveData = new MutableLiveData<>();
+        Single<Response<BaseResponse<MobileEntity>>> mobile = mApiService.getMobile("13188888888");
 
         RxApiManager.get().subscribeApi(mobile, autoDisposeConverter, new BaseApiObserver<MobileEntity>(iRequestDialog) {
-
             @Override
-            public void onSuccess(@NonNull IResponse<MobileEntity> response) {
+            public void onSuccess(@NonNull BaseResponse<MobileEntity> response) {
                 super.onSuccess(response);
-                mMobileMutableLiveData.setValue(response.getData());
+                mutableLiveData.setValue(response.getData());
             }
         });
-
-        return mMobileMutableLiveData;
+        return mutableLiveData;
     }
 
 
     public LiveData<MobileEntity> getTest() {
-        if (mMobileMutableLiveData == null) {
-            mMobileMutableLiveData = new MediatorLiveData<>();
-        }
+        MutableLiveData<MobileEntity> mMobileMutableLiveData = new MediatorLiveData<>();
         MutableLiveData<MobileEntity> liveData = new MutableLiveData<>();
         liveData.setValue(new MobileEntity(1));
 
         MutableLiveData<MobileEntity> liveData2 = new MutableLiveData<>();
         liveData2.setValue(new MobileEntity(2));
 
-        mMobileMutableLiveData.addSource(liveData, new Observer<MobileEntity>() {
-            @Override
-            public void onChanged(@Nullable MobileEntity mobileEntity) {
-                mMobileMutableLiveData.setValue(mobileEntity);
-            }
-        });
-
-        mMobileMutableLiveData.addSource(liveData2, new Observer<MobileEntity>() {
-            @Override
-            public void onChanged(@Nullable MobileEntity mobileEntity) {
-                mMobileMutableLiveData.setValue(mobileEntity);
-            }
-        });
+//        mMobileMutableLiveData.addSource(liveData, new Observer<MobileEntity>() {
+//            @Override
+//            public void onChanged(@Nullable MobileEntity mobileEntity) {
+//                mMobileMutableLiveData.setValue(mobileEntity);
+//            }
+//        });
+//
+//        mMobileMutableLiveData.addSource(liveData2, new Observer<MobileEntity>() {
+//            @Override
+//            public void onChanged(@Nullable MobileEntity mobileEntity) {
+//                mMobileMutableLiveData.setValue(mobileEntity);
+//            }
+//        });
 
         return mMobileMutableLiveData;
     }

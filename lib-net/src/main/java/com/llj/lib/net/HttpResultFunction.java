@@ -9,9 +9,9 @@ import retrofit2.Response;
  * author liulj
  * date 2018/5/7
  */
-public class HttpResultFunction<T> implements Function<Response<IResponse<T>>, IResponse<T>>{
+public class HttpResultFunction<T> implements Function<Response<BaseResponse<T>>, BaseResponse<T>>{
     @Override
-    public IResponse<T> apply(Response<IResponse<T>> response) throws Exception {
+    public BaseResponse<T> apply(Response<BaseResponse<T>> response) throws Exception {
         return response.body();
     }
 }

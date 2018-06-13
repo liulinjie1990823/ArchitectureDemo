@@ -1,9 +1,13 @@
 package com.llj.architecturedemo;
 
 import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.llj.architecturedemo.db.model.MobileEntity;
 import com.llj.lib.base.mvp.BasePresenter;
 
 import javax.inject.Inject;
@@ -44,9 +48,13 @@ public class MainPresenter extends BasePresenter<MainContractViewModel, MainCont
 //
 //        mViewModel.setQuery("test");
 //
-
-        mViewModel.getMobile(bindLifecycle(), mView).observe(mView, mobile -> {
-            mView.toast(mobile);
+        LiveData<MobileEntity> mobileLivData = mViewModel.getMobile(bindRequestLifecycle(), mView);
+        mobileLivData.removeObservers(mView);
+        mobileLivData.observe(mView, new Observer<MobileEntity>() {
+            @Override
+            public void onChanged(@Nullable MobileEntity mobileEntity) {
+                mView.toast(mobileEntity);
+            }
         });
     }
 }

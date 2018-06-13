@@ -9,9 +9,9 @@ import io.reactivex.functions.Function;
  * author liulj
  * date 2018/5/7
  */
-public class ExceptionFunction<R> implements Function<Throwable, Single<R>> {
+public class ExceptionFunction<Data> implements Function<Throwable, Single<BaseResponse<Data>>> {
     @Override
-    public Single<R> apply(Throwable throwable) {
+    public Single<BaseResponse<Data>> apply(Throwable throwable) {
         return Single.error(ExceptionHandle.handleException(throwable));
     }
 }

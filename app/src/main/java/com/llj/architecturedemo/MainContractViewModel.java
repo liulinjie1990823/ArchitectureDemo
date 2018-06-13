@@ -4,8 +4,8 @@ import android.arch.lifecycle.LiveData;
 
 import com.llj.architecturedemo.db.model.MobileEntity;
 import com.llj.architecturedemo.repository.MobileRepository;
+import com.llj.lib.net.BaseResponse;
 import com.llj.lib.net.IRequestDialog;
-import com.llj.lib.net.IResponse;
 import com.uber.autodispose.AutoDisposeConverter;
 
 import javax.inject.Inject;
@@ -37,7 +37,7 @@ public class MainContractViewModel extends MainContract.ViewModel {
         return mMobileRepository.getResult();
     }
 
-    public LiveData<MobileEntity> getMobile(AutoDisposeConverter<IResponse<MobileEntity>> autoDisposeConverter, IRequestDialog iRequestDialog) {
+    public LiveData<MobileEntity> getMobile(AutoDisposeConverter<BaseResponse<MobileEntity>> autoDisposeConverter, IRequestDialog iRequestDialog) {
         return mMobileRepository.getMobile(autoDisposeConverter,iRequestDialog);
     }
 

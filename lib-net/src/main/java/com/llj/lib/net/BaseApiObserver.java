@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable;
  * author liulj
  * date 2018/5/7
  */
-public abstract class BaseApiObserver<Data> implements SingleObserver<IResponse<Data>>, IObserverTag {
+public abstract class BaseApiObserver<Data> implements SingleObserver<BaseResponse<Data>>, IObserverTag {
     private Disposable     mDisposable;
     private int            mTag;
     private IRequestDialog mIRequestDialog;
@@ -33,7 +33,7 @@ public abstract class BaseApiObserver<Data> implements SingleObserver<IResponse<
     }
 
     @Override
-    public void onSuccess(@NonNull IResponse<Data> response) {
+    public void onSuccess(@NonNull BaseResponse<Data> response) {
 
     }
 

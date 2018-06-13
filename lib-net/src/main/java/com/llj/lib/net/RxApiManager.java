@@ -8,6 +8,7 @@ import java.util.Set;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
@@ -78,21 +79,41 @@ public class RxApiManager implements RxActionManager<Object> {
         }
     }
 
+    /**
+     * @param single
+     * @param autoDisposeConverter
+     * @param observer
+     * @param <Data>
+     */
+    public <Data> void subscribeApi(Single<Response<BaseResponse<Data>>> single,
+                                    AutoDisposeConverter<BaseResponse<Data>> autoDisposeConverter,
+                                    BaseApiObserver<Data> observer) {
+        subscribeApi(single, new HttpResultFunction<>(), new ExceptionFunction<>(), autoDisposeConverter, observer);
+    }
 
-    public <Data> void subscribeApi(Single<Response<IResponse<Data>>> observable,
-                                      AutoDisposeConverter<IResponse<Data>> autoDisposeConverter,
-                                      BaseApiObserver<Data> observer) {
+    /**
+     * @param single               Single
+     * @param httpResult           http结果处理
+     * @param error                错误处理
+     * @param autoDisposeConverter 生命周期管理
+     * @param observer             观察者
+     * @param <Data>               data数据
+     */
+    public <Data> void subscribeApi(Single<Response<BaseResponse<Data>>> single,
+                                    Function<Response<BaseResponse<Data>>, BaseResponse<Data>> httpResult,
+                                    Function<Throwable, Single<BaseResponse<Data>>> error,
+                                    AutoDisposeConverter<BaseResponse<Data>> autoDisposeConverter,
+                                    BaseApiObserver<Data> observer) {
 
         if (observer.getRequestTag() > 0) {
             add(observer.getRequestTag(), observer.getDisposable());
         }
-
-        observable
+        single
                 .subscribeOn(Schedulers.io())//指定io
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new HttpResultFunction<>())
-                .onErrorResumeNext(new ExceptionFunction<>())
+                .map(httpResult)
+                .onErrorResumeNext(error)
                 .as(autoDisposeConverter)
                 .subscribe(observer);
     }

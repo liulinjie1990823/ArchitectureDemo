@@ -44,7 +44,7 @@ public abstract class BaseRetrofitManager {
             builder.baseUrl(baseUrl);
         }
         builder.addConverterFactory(GsonConverterFactory.create()); //解析方法
-        builder.client(OkHttpClientManager.getApiOkHttpClient(interceptors));
+        builder.client(OkHttpClientManager.okHttpClientBuilder(interceptors).build());
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         return builder.build();
     }
