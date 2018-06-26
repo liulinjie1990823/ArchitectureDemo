@@ -1,4 +1,6 @@
-package com.llj.lib.net;
+package com.llj.lib.net.response;
+
+import android.support.annotation.Nullable;
 
 /**
  * ArchitectureDemo
@@ -10,6 +12,12 @@ public class BaseResponse<T> implements IResponse<T> {
     private int    code;
     private String msg;
     private T      data;
+
+    public BaseResponse(int code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
 
     @Override
     public int getCode() {
@@ -30,5 +38,10 @@ public class BaseResponse<T> implements IResponse<T> {
     @Override
     public boolean isOk() {
         return code == 0;
+    }
+
+
+    public static <T> BaseResponse<T> success(@Nullable T data) {
+        return new BaseResponse<>(0, "", data);
     }
 }

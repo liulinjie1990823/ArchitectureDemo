@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.llj.lib.base.mvp.IPresenter;
 import com.llj.lib.base.widget.LoadingDialog;
-import com.llj.lib.net.IRequestDialog;
+import com.llj.lib.net.observer.ITag;
 import com.llj.lib.utils.LogUtil;
 
 import javax.inject.Inject;
@@ -27,8 +27,8 @@ import butterknife.Unbinder;
  * author liulj
  * date 2018/5/24
  */
-public abstract class BaseFragment<P extends IPresenter, D extends IRequestDialog> extends Fragment
-        implements IFragment, IFragmentLazy, ICommon, IUiHandler, IRequestDialogHandler {
+public abstract class BaseFragment<P extends IPresenter> extends Fragment
+        implements IFragment, IFragmentLazy, ICommon, IUiHandler, ILoadingDialogHandler {
 
     public String  TAG_LOG;
     public Context mContext;
@@ -37,11 +37,10 @@ public abstract class BaseFragment<P extends IPresenter, D extends IRequestDialo
     private boolean mIsVisible;
 
     @Inject
-    protected P mPresenter;
-    @Inject
-    protected D mRequestDialog;
+    protected P        mPresenter;
+    private   Unbinder mUnbinder;
 
-    private Unbinder mUnbinder;
+    protected ITag mRequestDialog;
 
     //<editor-fold desc="生命周期">
     @Override
@@ -110,7 +109,7 @@ public abstract class BaseFragment<P extends IPresenter, D extends IRequestDialo
         super.onDestroy();
 
         //防止窗口泄漏
-        Dialog requestDialog = (Dialog) getRequestDialog();
+        Dialog requestDialog = (Dialog) getLoadingDialog();
         if (requestDialog.isShowing()) {
             requestDialog.cancel();
         }
@@ -144,44 +143,43 @@ public abstract class BaseFragment<P extends IPresenter, D extends IRequestDialo
 
     @Override
     public void onLazyLoad() {
-        LogUtil.LLJi("mIsInit:" + mIsInit + ",mIsVisible:" + mIsVisible);
+        LogUtil.e(TAG_LOG, "mIsInit:" + mIsInit + ",mIsVisible:" + mIsVisible);
     }
     //</editor-fold >
 
-    //<editor-fold desc="IRequestDialogHandler">
+    //<editor-fold desc="ILoadingDialogHandler">
     @Override
-    public IRequestDialog getRequestDialog() {
+    public ITag getLoadingDialog() {
         return mRequestDialog;
     }
 
     @Override
-    public IRequestDialog initRequestDialog() {
+    public ITag initLoadingDialog() {
         return null;
     }
 
     public void checkRequestDialog() {
         if (mRequestDialog == null) {
-            mRequestDialog = (D) new LoadingDialog(getContext());
+            mRequestDialog = initLoadingDialog();
         }
-        IRequestDialog requestDialog = getRequestDialog();
-        ((Dialog) requestDialog).setOnCancelListener(dialog -> {
-            com.facebook.stetho.common.LogUtil.i(TAG_LOG, "cancelOkHttpCall:" + getRequestDialog().getRequestTag());
-            cancelOkHttpCall(getRequestDialog().getRequestTag());
-        });
+        if (mRequestDialog == null) {
+            mRequestDialog = new LoadingDialog(mContext);
+        }
+        setRequestTag(hashCode());
     }
 
 
     @Override
     public void setRequestTag(int tag) {
-        if (getRequestDialog() != null) {
-            getRequestDialog().setRequestTag(tag);
+        if (getLoadingDialog() != null) {
+            getLoadingDialog().setRequestTag(tag);
         }
     }
 
     @Override
     public int getRequestTag() {
-        if (getRequestDialog() != null) {
-            return getRequestDialog().getRequestTag();
+        if (getLoadingDialog() != null) {
+            return getLoadingDialog().getRequestTag();
         }
         return -1;
     }

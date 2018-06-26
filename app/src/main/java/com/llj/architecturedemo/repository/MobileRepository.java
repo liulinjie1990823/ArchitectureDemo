@@ -10,11 +10,9 @@ import android.support.annotation.Nullable;
 import com.llj.architecturedemo.api.TestApiService;
 import com.llj.architecturedemo.db.dao.MobileDao;
 import com.llj.architecturedemo.db.model.MobileEntity;
-import com.llj.lib.net.BaseApiObserver;
-import com.llj.lib.net.BaseResponse;
-import com.llj.lib.net.IRequestDialog;
-import com.llj.lib.net.RxApiManager;
-import com.uber.autodispose.AutoDisposeConverter;
+import com.llj.lib.base.mvp.IView;
+import com.llj.lib.base.net.NetworkBoundResource;
+import com.llj.lib.net.response.BaseResponse;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -40,18 +38,63 @@ public class MobileRepository {
         this.mApiService = apiService;
     }
 
-    public LiveData<MobileEntity> getMobile(AutoDisposeConverter<BaseResponse<MobileEntity>> autoDisposeConverter, IRequestDialog iRequestDialog) {
-        MutableLiveData<MobileEntity> mutableLiveData = new MutableLiveData<>();
-        Single<Response<BaseResponse<MobileEntity>>> mobile = mApiService.getMobile("13188888888");
 
-        RxApiManager.get().subscribeApi(mobile, autoDisposeConverter, new BaseApiObserver<MobileEntity>(iRequestDialog) {
+    public LiveData<BaseResponse<MobileEntity>> getMobile(String phone, IView view) {
+
+        return new NetworkBoundResource<MobileEntity>() {
+
+            @NonNull
             @Override
-            public void onSuccess(@NonNull BaseResponse<MobileEntity> response) {
-                super.onSuccess(response);
-                mutableLiveData.setValue(response.getData());
+            protected LiveData<MobileEntity> loadFromDb() {
+                return mMobileDao.selectMobileByPhone(phone);
             }
-        });
-        return mutableLiveData;
+
+            @Override
+            protected boolean shouldFetch(@Nullable MobileEntity mobileEntity) {
+                return mobileEntity == null;
+            }
+
+            @NonNull
+            @Override
+            protected IView view() {
+                return view;
+            }
+
+            @NonNull
+            @Override
+            protected Single<Response<BaseResponse<MobileEntity>>> createCall() {
+                return mApiService.getMobile(phone);
+            }
+
+
+            @Override
+            protected void saveCallResult(@NonNull MobileEntity item) {
+                mMobileDao.insert(item);
+            }
+
+            @Override
+            protected void onFetchFailed() {
+                super.onFetchFailed();
+            }
+        }.asLiveData();
+
+//        MutableLiveData<MobileEntity> mutableLiveData = new MutableLiveData<>();
+//
+//        Single<Response<BaseResponse<MobileEntity>>> mobile = mApiService.getMobile("13188888888")
+//                .doOnSubscribe(view)
+//                .doFinally(view);
+//
+//        RxApiManager.get().subscribeApi(
+//                mobile,
+//                view.bindRequestLifecycle(),
+//                new ApiObserver<MobileEntity>(view) {
+//                    @Override
+//                    public void onSuccess(@NonNull BaseResponse<MobileEntity> response) {
+//                        super.onSuccess(response);
+//                        mutableLiveData.setValue(response.getData());
+//                    }
+//                });
+//        return mutableLiveData;
     }
 
 

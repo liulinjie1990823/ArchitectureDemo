@@ -57,6 +57,9 @@ dependencies {
     implementation deps.support.app_compat
     implementation deps.eventbus
     implementation deps.lifecycle.java8
+    implementation deps.lifecycle.extensions
+
+    implementation deps.retrofit2.retrofit
 
     //应用调试
     implementation deps.stetho.stetho

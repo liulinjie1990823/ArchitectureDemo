@@ -1,4 +1,4 @@
-package com.llj.lib.net;
+package com.llj.lib.net.response;
 
 import io.reactivex.functions.Function;
 import retrofit2.Response;
@@ -9,7 +9,7 @@ import retrofit2.Response;
  * author liulj
  * date 2018/5/7
  */
-public class HttpResultFunction<T> implements Function<Response<BaseResponse<T>>, BaseResponse<T>>{
+public class HttpResponseFunction<T> implements Function<Response<BaseResponse<T>>, BaseResponse<T>>{
     @Override
     public BaseResponse<T> apply(Response<BaseResponse<T>> response) throws Exception {
         return response.body();

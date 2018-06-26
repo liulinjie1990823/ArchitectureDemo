@@ -1,5 +1,8 @@
 package com.llj.lib.net;
 
+import com.llj.lib.net.url.BaseHttpUrl;
+import com.llj.lib.net.utils.OkHttpClientUtils;
+
 import okhttp3.Interceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -44,7 +47,7 @@ public abstract class BaseRetrofitManager {
             builder.baseUrl(baseUrl);
         }
         builder.addConverterFactory(GsonConverterFactory.create()); //解析方法
-        builder.client(OkHttpClientManager.okHttpClientBuilder(interceptors).build());
+        builder.client(OkHttpClientUtils.okHttpClientBuilder(interceptors).build());
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         return builder.build();
     }

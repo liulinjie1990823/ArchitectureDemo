@@ -1,4 +1,4 @@
-package com.llj.lib.net;
+package com.llj.lib.net.utils;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;

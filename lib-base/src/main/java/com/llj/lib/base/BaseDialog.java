@@ -4,15 +4,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.llj.lib.base.widget.LoadingDialog;
-import com.llj.lib.net.IRequestDialog;
+import com.llj.lib.net.observer.ITag;
 
 import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
 
 /**
  * ArchitectureDemo
@@ -20,13 +20,13 @@ import butterknife.ButterKnife;
  * author liulj
  * date 2018/5/24
  */
-public abstract class BaseDialog extends Dialog implements IRequestDialogHandler {
-    public final String TAG_LOG = BaseDialog.class.getSimpleName();
+public abstract class BaseDialog extends Dialog implements ILoadingDialogHandler<Disposable> {
+    public String TAG_LOG;
 
     protected static final int MATCH = ViewGroup.LayoutParams.MATCH_PARENT;
     protected static final int WRAP  = ViewGroup.LayoutParams.WRAP_CONTENT;
 
-    private IRequestDialog mRequestDialog;
+    private ITag mRequestDialog;
 
     public BaseDialog(Context context) {
         super(context, R.style.dim_dialog);
@@ -54,6 +54,7 @@ public abstract class BaseDialog extends Dialog implements IRequestDialogHandler
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TAG_LOG = getClass().getSimpleName();
         // 第一次show的时候会调用该方法
         // bindViews();
         // initViews();
@@ -108,26 +109,37 @@ public abstract class BaseDialog extends Dialog implements IRequestDialogHandler
 
     public void checkRequestDialog() {
         if (mRequestDialog == null) {
-            mRequestDialog = initRequestDialog();
+            mRequestDialog = initLoadingDialog();
             if (mRequestDialog == null) {
                 mRequestDialog = new LoadingDialog(getContext());
             }
         }
-        IRequestDialog requestDialog = getRequestDialog();
-        ((Dialog) requestDialog).setOnCancelListener(dialog -> {
-            Log.i(TAG_LOG, "cancelOkHttpCall:" + getRequestDialog().getRequestTag());
-            cancelOkHttpCall(getRequestDialog().getRequestTag());
-        });
+        setRequestTag(hashCode());
     }
 
     @Override
-    public IRequestDialog initRequestDialog() {
+    public ITag initLoadingDialog() {
         return null;
     }
 
     @Override
-    public IRequestDialog getRequestDialog() {
+    public ITag getLoadingDialog() {
         return mRequestDialog;
     }
 
+    //如果该RequestDialog和请求关联就设置tag
+    @Override
+    public void setRequestTag(int tag) {
+        if (getLoadingDialog() != null) {
+            getLoadingDialog().setRequestTag(tag);
+        }
+    }
+
+    @Override
+    public int getRequestTag() {
+        if (getLoadingDialog() != null) {
+            return getLoadingDialog().getRequestTag();
+        }
+        return -1;
+    }
 }

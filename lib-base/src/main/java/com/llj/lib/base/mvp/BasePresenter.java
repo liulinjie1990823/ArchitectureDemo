@@ -4,11 +4,7 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.support.annotation.NonNull;
 
 import com.llj.lib.base.utils.Preconditions;
-import com.llj.lib.net.BaseResponse;
 import com.llj.lib.utils.LogUtil;
-import com.uber.autodispose.AutoDispose;
-import com.uber.autodispose.AutoDisposeConverter;
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -94,11 +90,6 @@ public class BasePresenter<M extends BaseViewModel, V extends IView> implements 
         LogUtil.e(TAG, "BasePresenter onDestroy" + owner.getLifecycle().getCurrentState());
         destroy();
         owner.getLifecycle().removeObserver(this);
-    }
-
-    @Override
-    public <Data> AutoDisposeConverter<BaseResponse<Data>> bindRequestLifecycle() {
-        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(mView.getLifecycle()));
     }
 
     public void addDispose(Disposable disposable) {

@@ -1,6 +1,8 @@
-package com.llj.lib.net;
+package com.llj.lib.net.observer;
 
 import android.support.annotation.NonNull;
+
+import com.llj.lib.net.response.BaseResponse;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
@@ -12,18 +14,16 @@ import io.reactivex.disposables.Disposable;
  * date 2018/5/7
  */
 public abstract class BaseApiObserver<Data> implements SingleObserver<BaseResponse<Data>>, IObserverTag {
-    private Disposable     mDisposable;
-    private int            mTag;
-    private IRequestDialog mIRequestDialog;
+    private Disposable mDisposable;
+    private int        mTag;
 
     public BaseApiObserver(int tag) {
         mTag = tag;
     }
 
-    public BaseApiObserver(IRequestDialog IRequestDialog) {
-        mIRequestDialog = IRequestDialog;
-        if (mIRequestDialog != null) {
-            setRequestTag(IRequestDialog.getRequestTag());
+    public BaseApiObserver(ITag iTag) {
+        if (iTag != null) {
+            mTag = iTag.getRequestTag();
         }
     }
 

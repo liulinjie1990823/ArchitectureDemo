@@ -21,5 +21,8 @@ public interface MobileDao {
     void insert(MobileEntity mobileEntity);
 
     @Query("SELECT * FROM mobile WHERE id=:id")
-    LiveData<MobileEntity> selectMobiles(String id);
+    LiveData<MobileEntity> selectMobile(String id);
+
+    @Query("SELECT * FROM mobile WHERE phone=:phone")
+    LiveData<MobileEntity> selectMobileByPhone(String phone);
 }

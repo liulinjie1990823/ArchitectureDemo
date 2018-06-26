@@ -1,12 +1,15 @@
 package com.llj.lib.net;
 
+import com.llj.lib.net.exception.ExceptionFunction;
+import com.llj.lib.net.observer.BaseApiObserver;
+import com.llj.lib.net.response.BaseResponse;
+import com.llj.lib.net.response.HttpResponseFunction;
 import com.uber.autodispose.AutoDisposeConverter;
 
 import java.util.HashMap;
 import java.util.Set;
 
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -88,7 +91,7 @@ public class RxApiManager implements RxActionManager<Object> {
     public <Data> void subscribeApi(Single<Response<BaseResponse<Data>>> single,
                                     AutoDisposeConverter<BaseResponse<Data>> autoDisposeConverter,
                                     BaseApiObserver<Data> observer) {
-        subscribeApi(single, new HttpResultFunction<>(), new ExceptionFunction<>(), autoDisposeConverter, observer);
+        subscribeApi(single, new HttpResponseFunction<>(), new ExceptionFunction<>(), autoDisposeConverter, observer);
     }
 
     /**
@@ -111,7 +114,7 @@ public class RxApiManager implements RxActionManager<Object> {
         single
                 .subscribeOn(Schedulers.io())//指定io
                 .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
                 .map(httpResult)
                 .onErrorResumeNext(error)
                 .as(autoDisposeConverter)

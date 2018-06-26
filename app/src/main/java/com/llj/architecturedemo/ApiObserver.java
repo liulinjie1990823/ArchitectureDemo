@@ -1,7 +1,10 @@
 package com.llj.architecturedemo;
 
-import com.llj.lib.net.BaseApiObserver;
-import com.llj.lib.net.IRequestDialog;
+import android.support.annotation.NonNull;
+
+import com.llj.lib.net.observer.BaseApiObserver;
+import com.llj.lib.net.observer.ITag;
+import com.llj.lib.net.response.BaseResponse;
 
 /**
  * ArchitectureDemo
@@ -10,11 +13,17 @@ import com.llj.lib.net.IRequestDialog;
  * date 2018/5/8
  */
 public class ApiObserver<T> extends BaseApiObserver<T> {
-    public ApiObserver(int tag) {
-        super(tag);
+    public ApiObserver(ITag iTag) {
+        super(iTag);
     }
 
-    public ApiObserver(IRequestDialog IRequestDialog) {
-        super(IRequestDialog);
+    @Override
+    public void onSuccess(@NonNull BaseResponse<T> response) {
+        super.onSuccess(response);
+    }
+
+    @Override
+    public void onError(@NonNull Throwable t) {
+        super.onError(t);
     }
 }

@@ -1,4 +1,6 @@
-package com.llj.lib.net;
+package com.llj.lib.net.exception;
+
+import com.llj.lib.net.response.BaseResponse;
 
 import io.reactivex.Single;
 import io.reactivex.functions.Function;

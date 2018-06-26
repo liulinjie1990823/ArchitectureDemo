@@ -1,4 +1,4 @@
-package com.llj.lib.net;
+package com.llj.lib.net.utils;
 
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -16,7 +16,7 @@ import okhttp3.OkHttpClient;
  * author liulj
  * date 2018/5/7
  */
-public class OkHttpClientManager {
+public class OkHttpClientUtils {
 
     public static final int OK_CONNECT_TIMEOUT = 15_000;
     public static final int OK_WRITE_TIMEOUT   = 15_000;

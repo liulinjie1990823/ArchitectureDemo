@@ -11,10 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.facebook.stetho.common.LogUtil;
 import com.llj.lib.base.mvp.IPresenter;
 import com.llj.lib.base.widget.LoadingDialog;
-import com.llj.lib.net.IRequestDialog;
+import com.llj.lib.net.observer.ITag;
 import com.llj.lib.utils.AInputMethodManagerUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -23,6 +22,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import io.reactivex.disposables.Disposable;
 
 /**
  * ArchitectureDemo
@@ -31,14 +31,14 @@ import dagger.android.AndroidInjection;
  * date 2018/5/15
  */
 public abstract class BaseActivity<P extends IPresenter, B extends ViewDataBinding> extends AppCompatActivity
-        implements IBaseActivity, ICommon, IUiHandler,IEvent, IRequestDialogHandler {
+        implements IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler<Disposable> {
     public String TAG_LOG;
 
     @Inject
     protected P mPresenter;
     protected B mDataBinding;
 
-    protected IRequestDialog mRequestDialog;
+    protected ITag mRequestDialog;
 
     //<editor-fold desc="生命周期">
     @Override
@@ -97,7 +97,7 @@ public abstract class BaseActivity<P extends IPresenter, B extends ViewDataBindi
         super.onDestroy();
 
         //防止窗口泄漏，关闭dialog同时结束相关请求
-        Dialog requestDialog = (Dialog) getRequestDialog();
+        Dialog requestDialog = (Dialog) getLoadingDialog();
         if (requestDialog.isShowing()) {
             requestDialog.cancel();
         }
@@ -115,9 +115,11 @@ public abstract class BaseActivity<P extends IPresenter, B extends ViewDataBindi
     }
     //</editor-fold >
 
+    //<editor-fold desc="事件总线">
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(BaseEvent event) {
     }
+    //</editor-fold >
 
     //<editor-fold desc="IBaseActivity">
     @Override
@@ -139,51 +141,45 @@ public abstract class BaseActivity<P extends IPresenter, B extends ViewDataBindi
     }
     //</editor-fold >
 
-    //<editor-fold desc="IRequestDialogHandler">
+    //<editor-fold desc="ILoadingDialogHandler">
     @Override
-    public IRequestDialog getRequestDialog() {
+    public ITag getLoadingDialog() {
         return mRequestDialog;
     }
 
     @Override
-    public IRequestDialog initRequestDialog() {
+    public ITag initLoadingDialog() {
         return null;
     }
 
     public void checkRequestDialog() {
         if (mRequestDialog == null) {
-            mRequestDialog = initRequestDialog();
+            mRequestDialog = initLoadingDialog();
             if (mRequestDialog == null) {
                 mRequestDialog = new LoadingDialog(this);
             }
         }
-        IRequestDialog requestDialog = getRequestDialog();
-        ((Dialog) requestDialog).setOnCancelListener(dialog -> {
-            LogUtil.i(TAG_LOG, "cancelOkHttpCall:" + getRequestDialog().getRequestTag());
-            cancelOkHttpCall(getRequestDialog().getRequestTag());
-        });
+        setRequestTag(hashCode());
     }
 
-
+    //如果该RequestDialog和请求关联就设置tag
     @Override
     public void setRequestTag(int tag) {
-        if (getRequestDialog() != null) {
-            getRequestDialog().setRequestTag(tag);
+        if (getLoadingDialog() != null) {
+            getLoadingDialog().setRequestTag(tag);
         }
     }
 
     @Override
     public int getRequestTag() {
-        if (getRequestDialog() != null) {
-            return getRequestDialog().getRequestTag();
+        if (getLoadingDialog() != null) {
+            return getLoadingDialog().getRequestTag();
         }
         return -1;
     }
     //</editor-fold >
 
-    ///////////////////////////////////////////////////////////////////////////
-    // 处理点击外部影藏输入法
-    ///////////////////////////////////////////////////////////////////////////
+    //<editor-fold desc="处理点击外部影藏输入法">
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -191,5 +187,6 @@ public abstract class BaseActivity<P extends IPresenter, B extends ViewDataBindi
         }
         return super.onTouchEvent(event);
     }
+    //</editor-fold >
 
 }

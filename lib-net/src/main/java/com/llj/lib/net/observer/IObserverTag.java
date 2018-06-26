@@ -1,4 +1,4 @@
-package com.llj.lib.net;
+package com.llj.lib.net.observer;
 
 import io.reactivex.disposables.Disposable;
 

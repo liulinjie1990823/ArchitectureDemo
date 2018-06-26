@@ -1,7 +1,7 @@
 package com.llj.architecturedemo.api;
 
 import com.llj.architecturedemo.db.model.MobileEntity;
-import com.llj.lib.net.BaseResponse;
+import com.llj.lib.net.response.BaseResponse;
 
 import io.reactivex.Single;
 import retrofit2.Response;
@@ -16,7 +16,6 @@ import retrofit2.http.Query;
  */
 public interface TestApiService {
 
-//    @Headers("Content-Type: application/x-www-form-urlencoded; charset=UTF-8")
     @GET("/api/mobile.php")
     Single<Response<BaseResponse<MobileEntity>>> getMobile(@Query("mobile") String mobile);
 }

@@ -1,5 +1,9 @@
 package com.llj.lib.net;
 
+import com.llj.lib.net.exception.ExceptionFunction;
+import com.llj.lib.net.observer.BaseApiObserver;
+import com.llj.lib.net.response.BaseResponse;
+import com.llj.lib.net.response.HttpResponseFunction;
 import com.uber.autodispose.AutoDisposeConverter;
 
 import io.reactivex.Single;
@@ -18,14 +22,14 @@ public abstract class ApiSingle<Data> extends Single<Response<BaseResponse<Data>
             AutoDisposeConverter<BaseResponse<Data>> autoDisposeConverter,
             BaseApiObserver<Data> observer) {
         RxApiManager.get().subscribeApi(this,
-                new MyHttpResultFunction<>(),
+                new MyHttpResponseFunction<>(),
                 new MyExceptionFunction<>(),
                 autoDisposeConverter,
                 observer);
     }
 
 
-    public static class MyHttpResultFunction<T> extends HttpResultFunction<T> {
+    public static class MyHttpResponseFunction<T> extends HttpResponseFunction<T> {
 
     }
 
