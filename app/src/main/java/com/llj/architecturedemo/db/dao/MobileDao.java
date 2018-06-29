@@ -6,7 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.llj.architecturedemo.db.model.MobileEntity;
+import com.llj.architecturedemo.db.entity.MobileEntity;
 
 /**
  * ArchitectureDemo

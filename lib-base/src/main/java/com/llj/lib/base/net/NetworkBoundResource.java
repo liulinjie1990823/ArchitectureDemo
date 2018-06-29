@@ -11,6 +11,7 @@ import com.llj.lib.base.mvp.IView;
 import com.llj.lib.net.RxApiManager;
 import com.llj.lib.net.observer.BaseApiObserver;
 import com.llj.lib.net.response.BaseResponse;
+import com.llj.lib.net.response.IResponse;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,7 +26,7 @@ import retrofit2.Response;
  */
 public abstract class NetworkBoundResource<Data> {
 
-    private final MediatorLiveData<BaseResponse<Data>> mLiveData = new MediatorLiveData<>();
+    private final MediatorLiveData<IResponse<Data>> mLiveData = new MediatorLiveData<>();
 
 
     @MainThread
@@ -47,21 +48,31 @@ public abstract class NetworkBoundResource<Data> {
     private void fetchFromNetwork(final LiveData<Data> dbSource) {
         Single<Response<BaseResponse<Data>>> apiCall = createCall();
 
+
+        BaseApiObserver<Data> baseApiObserver = new BaseApiObserver<Data>(view()) {
+            @Override
+            public void onSuccess(@NonNull BaseResponse<Data> response) {
+                super.onSuccess(response);
+
+                Data data = processResponse(response);
+                if (data != null) {
+                    saveCallResult(data);
+                }
+
+                AndroidSchedulers.mainThread().scheduleDirect(() ->
+                        mLiveData.addSource(loadFromDb(), newData ->
+                                mLiveData.setValue(BaseResponse.success(newData))));
+            }
+
+            @Override
+            public void onError(@NonNull Throwable t) {
+                super.onError(t);
+            }
+        };
         RxApiManager.get().subscribeApi(
                 apiCall,
                 view().bindRequestLifecycle(),
-                new BaseApiObserver<Data>(view()) {
-                    @Override
-                    public void onSuccess(@NonNull BaseResponse<Data> response) {
-                        super.onSuccess(response);
-
-                        saveCallResult(processResponse(response));
-
-                        AndroidSchedulers.mainThread().scheduleDirect(() ->
-                                mLiveData.addSource(loadFromDb(), newData ->
-                                        mLiveData.setValue(BaseResponse.success(newData))));
-                    }
-                });
+                baseApiObserver);
 
     }
 
@@ -88,7 +99,7 @@ public abstract class NetworkBoundResource<Data> {
     protected abstract void saveCallResult(@NonNull Data item);
 
     @WorkerThread
-    protected Data processResponse(BaseResponse<Data> response) {
+    protected Data processResponse(IResponse<Data> response) {
         return response.getData();
     }
 
@@ -96,7 +107,7 @@ public abstract class NetworkBoundResource<Data> {
     }
 
 
-    public LiveData<BaseResponse<Data>> asLiveData() {
+    public LiveData<IResponse<Data>> asLiveData() {
         return mLiveData;
     }
 }

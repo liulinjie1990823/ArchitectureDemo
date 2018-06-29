@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.llj.lib.base.mvp.IPresenter;
+import com.llj.lib.base.mvvm.BaseViewModel;
 import com.llj.lib.base.widget.LoadingDialog;
 import com.llj.lib.net.observer.ITag;
 import com.llj.lib.utils.AInputMethodManagerUtils;
@@ -28,15 +28,15 @@ import io.reactivex.disposables.Disposable;
  * ArchitectureDemo
  * describe:
  * author liulj
- * date 2018/5/15
+ * date 2018/6/30
  */
-public abstract class BaseActivity<P extends IPresenter, B extends ViewDataBinding> extends AppCompatActivity
+public abstract class MVVMBaseActivity<VM extends BaseViewModel, B extends ViewDataBinding> extends AppCompatActivity
         implements IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler<Disposable> {
     public String TAG_LOG;
 
     @Inject
-    protected P mPresenter;
-    protected B mDataBinding;
+    protected VM mViewModel;
+    protected B  mDataBinding;
 
     protected ITag mRequestDialog;
 
@@ -105,11 +105,6 @@ public abstract class BaseActivity<P extends IPresenter, B extends ViewDataBindi
         //注销事件总线
         unregister(this);
 
-        if (mPresenter != null) {
-            mPresenter.destroy();
-            mPresenter = null;
-        }
-
         //移除列表中的activity
         removeCurrentActivity(this);
     }
@@ -124,10 +119,6 @@ public abstract class BaseActivity<P extends IPresenter, B extends ViewDataBindi
     //<editor-fold desc="IBaseActivity">
     @Override
     public void initLifecycleObserver(@NonNull Lifecycle lifecycle) {
-        //将mPresenter作为生命周期观察者添加到lifecycle中
-        if (mPresenter != null) {
-            lifecycle.addObserver(mPresenter);
-        }
     }
 
     @Override

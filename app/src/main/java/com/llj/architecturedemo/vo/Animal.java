@@ -1,4 +1,4 @@
-package com.llj.architecturedemo.model;
+package com.llj.architecturedemo.vo;
 
 /**
  * ArchitectureDemo

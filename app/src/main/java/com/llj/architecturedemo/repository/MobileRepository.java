@@ -9,10 +9,12 @@ import android.support.annotation.Nullable;
 
 import com.llj.architecturedemo.api.TestApiService;
 import com.llj.architecturedemo.db.dao.MobileDao;
-import com.llj.architecturedemo.db.model.MobileEntity;
+import com.llj.architecturedemo.db.entity.MobileEntity;
+import com.llj.lib.base.mvp.BaseRepository;
 import com.llj.lib.base.mvp.IView;
 import com.llj.lib.base.net.NetworkBoundResource;
 import com.llj.lib.net.response.BaseResponse;
+import com.llj.lib.net.response.IResponse;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -27,10 +29,9 @@ import retrofit2.Response;
  * date 2018/6/6
  */
 @Singleton
-public class MobileRepository {
+public class MobileRepository extends BaseRepository {
     private final MobileDao      mMobileDao;
     private       TestApiService mApiService;
-
 
     @Inject
     MobileRepository(MobileDao mobileDao, TestApiService apiService) {
@@ -39,14 +40,14 @@ public class MobileRepository {
     }
 
 
-    public LiveData<BaseResponse<MobileEntity>> getMobile(String phone, IView view) {
+    public LiveData<IResponse<MobileEntity>> getMobile(String phone, IView view) {
 
         return new NetworkBoundResource<MobileEntity>() {
 
             @NonNull
             @Override
             protected LiveData<MobileEntity> loadFromDb() {
-                return mMobileDao.selectMobileByPhone(phone);
+                return mMobileDao.selectMobileByPhone("1318888");
             }
 
             @Override
@@ -66,7 +67,6 @@ public class MobileRepository {
                 return mApiService.getMobile(phone);
             }
 
-
             @Override
             protected void saveCallResult(@NonNull MobileEntity item) {
                 mMobileDao.insert(item);
@@ -76,6 +76,7 @@ public class MobileRepository {
             protected void onFetchFailed() {
                 super.onFetchFailed();
             }
+
         }.asLiveData();
 
 //        MutableLiveData<MobileEntity> mutableLiveData = new MutableLiveData<>();

@@ -4,7 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
 import com.llj.architecturedemo.db.dao.MobileDao;
-import com.llj.architecturedemo.db.model.MobileEntity;
+import com.llj.architecturedemo.db.entity.MobileEntity;
 
 /**
  * ArchitectureDemo

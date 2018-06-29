@@ -1,6 +1,6 @@
 package com.llj.architecturedemo.api;
 
-import com.llj.architecturedemo.db.model.MobileEntity;
+import com.llj.architecturedemo.db.entity.MobileEntity;
 import com.llj.lib.net.response.BaseResponse;
 
 import io.reactivex.Single;

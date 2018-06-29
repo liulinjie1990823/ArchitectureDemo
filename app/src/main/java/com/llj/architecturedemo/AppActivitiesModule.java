@@ -1,5 +1,7 @@
 package com.llj.architecturedemo;
 
+import com.llj.architecturedemo.module.MainActivityModule;
+import com.llj.architecturedemo.ui.activity.MainActivity;
 import com.llj.lib.base.di.component.BaseActivityComponent;
 import com.llj.lib.base.di.scope.ActivityScope;
 

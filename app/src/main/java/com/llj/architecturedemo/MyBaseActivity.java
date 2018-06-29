@@ -1,8 +1,6 @@
 package com.llj.architecturedemo;
 
-import android.databinding.ViewDataBinding;
-
-import com.llj.lib.base.BaseActivity;
+import com.llj.lib.base.MvpBaseActivity;
 import com.llj.lib.base.mvp.IPresenter;
 
 /**
@@ -11,5 +9,5 @@ import com.llj.lib.base.mvp.IPresenter;
  * author liulj
  * date 2018/5/24
  */
-public abstract class MyBaseActivity<P extends IPresenter,B extends ViewDataBinding> extends BaseActivity<P ,B> {
+public abstract class MyBaseActivity<P extends IPresenter> extends MvpBaseActivity<P> {
 }

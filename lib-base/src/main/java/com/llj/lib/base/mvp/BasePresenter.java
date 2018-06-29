@@ -15,18 +15,18 @@ import io.reactivex.disposables.Disposable;
  * author liulj
  * date 2018/5/16
  */
-public class BasePresenter<M extends BaseViewModel, V extends IView> implements IPresenter {
+public class BasePresenter<R extends BaseRepository, V extends IView> implements IPresenter {
     protected final String TAG = this.getClass().getSimpleName();
 
     private CompositeDisposable mCompositeDisposable;
 
-    protected M mViewModel;
+    protected R mRepository;
     protected V mView;
 
-    public BasePresenter(M viewModel, V view) {
-        Preconditions.checkNotNull(viewModel, "%s cannot be null", IModel.class.getName());
+    public BasePresenter(R repository, V view) {
+        Preconditions.checkNotNull(repository, "%s cannot be null", BaseRepository.class.getName());
         Preconditions.checkNotNull(view, "%s cannot be null", IView.class.getName());
-        this.mViewModel = viewModel;
+        this.mRepository = repository;
         this.mView = view;
         init();
     }
@@ -51,10 +51,6 @@ public class BasePresenter<M extends BaseViewModel, V extends IView> implements 
 
         unDispose();//解除订阅
 
-        if (mViewModel != null) {
-            mViewModel.destroy();
-        }
-        this.mViewModel = null;
         this.mView = null;
         this.mCompositeDisposable = null;
     }

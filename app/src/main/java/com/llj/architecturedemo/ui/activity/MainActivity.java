@@ -1,11 +1,14 @@
-package com.llj.architecturedemo;
+package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.llj.architecturedemo.databinding.ActivityMainBinding;
-import com.llj.architecturedemo.db.model.MobileEntity;
+import com.llj.architecturedemo.MyBaseActivity;
+import com.llj.architecturedemo.R;
+import com.llj.architecturedemo.db.entity.MobileEntity;
+import com.llj.architecturedemo.presenter.MainPresenter;
+import com.llj.architecturedemo.view.MainContractView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class MainActivity extends MyBaseActivity<MainPresenter, ActivityMainBinding> implements MainContract.View {
+public class MainActivity extends MyBaseActivity<MainPresenter> implements MainContractView {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     private Observer<String> mObserver = new Observer<String>() {

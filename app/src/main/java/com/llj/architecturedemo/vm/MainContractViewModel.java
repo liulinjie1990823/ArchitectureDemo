@@ -1,10 +1,12 @@
-package com.llj.architecturedemo;
+package com.llj.architecturedemo.vm;
 
 import android.arch.lifecycle.LiveData;
 
-import com.llj.architecturedemo.db.model.MobileEntity;
+import com.llj.architecturedemo.db.entity.MobileEntity;
 import com.llj.architecturedemo.repository.MobileRepository;
 import com.llj.lib.base.mvp.IView;
+import com.llj.lib.base.mvvm.BaseViewModel;
+import com.llj.lib.net.response.IResponse;
 
 import javax.inject.Inject;
 
@@ -14,7 +16,7 @@ import javax.inject.Inject;
  * author liulj
  * date 2018/5/29
  */
-public class MainContractViewModel extends MainContract.ViewModel {
+public class MainContractViewModel extends BaseViewModel {
 
     private LiveData<MobileEntity> test;
 
@@ -34,8 +36,8 @@ public class MainContractViewModel extends MainContract.ViewModel {
         return mMobileRepository.getResult();
     }
 
-    public LiveData<MobileEntity> getMobile(IView view) {
-        return mMobileRepository.getMobile(view);
+    public LiveData<IResponse<MobileEntity>> getMobile(String phone, IView view) {
+        return mMobileRepository.getMobile(phone, view);
     }
 
     public void setQuery(String originalInput) {

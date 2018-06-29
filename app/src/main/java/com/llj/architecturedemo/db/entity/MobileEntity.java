@@ -1,4 +1,4 @@
-package com.llj.architecturedemo.db.model;
+package com.llj.architecturedemo.db.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
