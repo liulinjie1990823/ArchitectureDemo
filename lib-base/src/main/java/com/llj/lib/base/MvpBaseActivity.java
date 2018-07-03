@@ -2,6 +2,7 @@ package com.llj.lib.base;
 
 import android.app.Dialog;
 import android.arch.lifecycle.Lifecycle;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,7 +23,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.AndroidInjection;
-import io.reactivex.disposables.Disposable;
 
 /**
  * ArchitectureDemo
@@ -31,8 +31,10 @@ import io.reactivex.disposables.Disposable;
  * date 2018/5/15
  */
 public abstract class MvpBaseActivity<P extends IPresenter> extends AppCompatActivity
-        implements IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler<Disposable> {
-    public String TAG_LOG;
+        implements IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler {
+    public String TAG;
+
+    public Context mContext;
 
     @Inject
     protected P        mPresenter;
@@ -43,13 +45,20 @@ public abstract class MvpBaseActivity<P extends IPresenter> extends AppCompatAct
     //<editor-fold desc="生命周期">
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
+        mContext=this;
+
+        try {
+            AndroidInjection.inject(this);
+        }catch (Exception e){
+
+        }
+
 
         super.onCreate(savedInstanceState);
 
         addCurrentActivity(this);
 
-        TAG_LOG = getClass().getSimpleName();
+        TAG = getClass().getSimpleName();
 
         getIntentData(getIntent());
 

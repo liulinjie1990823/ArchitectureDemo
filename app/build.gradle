@@ -26,7 +26,8 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString(),
+                             moduleName           : project.getName()]
             }
         }
     }
@@ -92,7 +93,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':lib-base')
+    api project(':component-service')
 
     implementation deps.support.app_compat
     //约束布局
@@ -115,6 +116,8 @@ dependencies {
     //butterknife
     implementation deps.butterknife.runtime
     annotationProcessor deps.butterknife.compiler
+    //跳转路由
+    annotationProcessor deps.arouter.compiler
     //刷新
     implementation deps.smartrefresh.SmartRefreshLayout
     //dagger编译

@@ -12,8 +12,7 @@ import io.reactivex.functions.Consumer;
  * author liulj
  * date 2018/5/24
  */
-public interface ILoadingDialogHandler<T extends
-        Disposable> extends Consumer<T>,
+public interface ILoadingDialogHandler extends Consumer<Disposable>,
         Action,
         ITag {
     ITag initLoadingDialog();

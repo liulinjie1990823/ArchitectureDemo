@@ -20,4 +20,8 @@ abstract class AppActivitiesModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = MainActivityModule.class)
     abstract MainActivity contributeMainActivityInjector();
+
+//    @ActivityScope
+//    abstract SecondActivity contributeSecondActivityInjector();
+
 }

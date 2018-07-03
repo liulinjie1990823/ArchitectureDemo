@@ -1,18 +1,26 @@
 package com.llj.architecturedemo.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
 import com.llj.architecturedemo.MyBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.db.entity.MobileEntity;
 import com.llj.architecturedemo.presenter.MainPresenter;
 import com.llj.architecturedemo.view.MainContractView;
+import com.llj.component.service.arouter.CRouter;
+import com.llj.lib.base.listeners.OnMyClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -20,8 +28,14 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+@Route(path = CRouter.APP_MAIN_ACTIVITY)
 public class MainActivity extends MyBaseActivity<MainPresenter> implements MainContractView {
-    public static final String TAG = MainActivity.class.getSimpleName();
+    @BindView(R.id.tv_click) TextView mTvClick;
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
 
     private Observer<String> mObserver = new Observer<String>() {
         @Override
@@ -129,5 +143,13 @@ public class MainActivity extends MyBaseActivity<MainPresenter> implements MainC
     @Override
     public void initData() {
 
+        mTvClick.setOnClickListener(new OnMyClickListener() {
+            @Override
+            public void onCanClick(View v) {
+                SecondActivity.start(mContext);
+            }
+        });
+
     }
+
 }

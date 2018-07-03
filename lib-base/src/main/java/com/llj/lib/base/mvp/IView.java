@@ -8,15 +8,13 @@ import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.AutoDisposeConverter;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
-import io.reactivex.disposables.Disposable;
-
 /**
  * ArchitectureDemo
  * describe:
  * author liulj
  * date 2018/5/16
  */
-public interface IView extends LifecycleOwner, ILoadingDialogHandler<Disposable> {
+public interface IView extends LifecycleOwner, ILoadingDialogHandler {
 
     default <Data> AutoDisposeConverter<BaseResponse<Data>> bindRequestLifecycle() {
         return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(getLifecycle()));

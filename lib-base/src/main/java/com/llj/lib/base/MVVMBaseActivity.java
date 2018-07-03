@@ -22,7 +22,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import io.reactivex.disposables.Disposable;
 
 /**
  * ArchitectureDemo
@@ -31,7 +30,7 @@ import io.reactivex.disposables.Disposable;
  * date 2018/6/30
  */
 public abstract class MVVMBaseActivity<VM extends BaseViewModel, B extends ViewDataBinding> extends AppCompatActivity
-        implements IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler<Disposable> {
+        implements IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler {
     public String TAG_LOG;
 
     @Inject

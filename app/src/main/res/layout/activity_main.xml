@@ -22,5 +22,16 @@
             android:text="@{mobile.city}"
             android:textSize="40dp"/>
 
+
+        <TextView
+            android:id="@+id/tv_click"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/bisque"
+            android:padding="40dp"
+            android:text="MainActivity"
+            android:textColor="@color/black"
+            android:textSize="14dp"/>
+
     </android.support.constraint.ConstraintLayout>
 </layout>

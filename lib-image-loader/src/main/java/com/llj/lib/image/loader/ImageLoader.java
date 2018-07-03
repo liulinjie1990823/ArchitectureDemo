@@ -1,7 +1,6 @@
 package com.llj.lib.image.loader;
 
 import android.content.Context;
-import android.support.annotation.ColorInt;
 
 import com.facebook.drawee.view.GenericDraweeView;
 
@@ -28,9 +27,6 @@ public class ImageLoader implements IImageLoader<GenericDraweeView> {
         return sImageLoader;
     }
 
-
-    public ImageLoader(Builder builder) {
-    }
 
     @Override
     public void init(Context context) {
@@ -108,60 +104,4 @@ public class ImageLoader implements IImageLoader<GenericDraweeView> {
         FrescoUtils.clearCaches();
     }
 
-    public static class Builder {
-        GenericDraweeView view;
-        int               resId;
-        String            urlOrPath;
-
-        int width;
-        int height;
-
-        boolean isCircle;
-        float[] radii;
-
-        int   borderColor;
-        float borderWidth;
-
-        boolean autoPlayAnimations;
-
-        public Builder(GenericDraweeView view, int resId) {
-            this.view = view;
-            this.resId = resId;
-        }
-
-        public Builder(GenericDraweeView view, String urlOrPath) {
-            this.view = view;
-            this.urlOrPath = urlOrPath;
-        }
-
-
-        public Builder resize(int width, int height) {
-            this.width = width;
-            this.height = height;
-            return this;
-        }
-
-        public Builder asCircle(@ColorInt int color, float width) {
-            isCircle = true;
-            return this;
-        }
-
-        public Builder setBorder(@ColorInt int color, float width) {
-            borderColor = color;
-            borderWidth = width;
-            return this;
-        }
-
-        public Builder setCornersRadii(float[] radii) {
-            this.radii = radii;
-            return this;
-        }
-
-
-        public ImageLoader build() {
-            return new ImageLoader(this);
-        }
-
-
-    }
 }

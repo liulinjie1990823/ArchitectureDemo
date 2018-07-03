@@ -58,32 +58,32 @@ public class BasePresenter<R extends BaseRepository, V extends IView> implements
 
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG, "BasePresenter onCreate" + owner.getLifecycle().getCurrentState());
+        LogUtil.e(TAG, TAG + " onCreate()" + "state:" + owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onStart(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG, "BasePresenter onStart" + owner.getLifecycle().getCurrentState());
+        LogUtil.e(TAG, TAG + " onStart()" + "state:" + owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onResume(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG, "BasePresenter onResume" + owner.getLifecycle().getCurrentState());
+        LogUtil.e(TAG, TAG + " onResume()" + "state:" + owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onPause(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG, "BasePresenter onPause" + owner.getLifecycle().getCurrentState());
+        LogUtil.e(TAG, TAG + " onPause()" + "state:" + owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onStop(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG, "BasePresenter onStop" + owner.getLifecycle().getCurrentState());
+        LogUtil.e(TAG, TAG + " onStop()" + "state:" + owner.getLifecycle().getCurrentState());
     }
 
     @Override
     public void onDestroy(@NonNull LifecycleOwner owner) {
-        LogUtil.e(TAG, "BasePresenter onDestroy" + owner.getLifecycle().getCurrentState());
+        LogUtil.e(TAG, TAG + " onDestroy()" + "state:" + owner.getLifecycle().getCurrentState());
         destroy();
         owner.getLifecycle().removeObserver(this);
     }

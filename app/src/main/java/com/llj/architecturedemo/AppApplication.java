@@ -1,6 +1,6 @@
 package com.llj.architecturedemo;
 
-import com.llj.lib.base.BaseApplication;
+import com.llj.component.service.ComponentApplication;
 
 /**
  * ArchitectureDemo
@@ -8,7 +8,7 @@ import com.llj.lib.base.BaseApplication;
  * author liulj
  * date 2018/5/18
  */
-public class AppApplication extends BaseApplication {
+public class AppApplication extends ComponentApplication {
 
     @Override
     public void onCreate() {

@@ -46,8 +46,9 @@ public abstract class NetworkBoundResource<Data> {
     }
 
     private void fetchFromNetwork(final LiveData<Data> dbSource) {
-        Single<Response<BaseResponse<Data>>> apiCall = createCall();
-
+        Single<Response<BaseResponse<Data>>> apiCall = createCall()
+                .doOnSubscribe(view())
+                .doFinally(view());
 
         BaseApiObserver<Data> baseApiObserver = new BaseApiObserver<Data>(view()) {
             @Override

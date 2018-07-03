@@ -48,8 +48,10 @@ public abstract class BaseApplication extends Application implements
             Utils.init(this);
             initDisplay();// 初始化屏幕宽高信息
             initSavePath();// 初始化文件存储路径
-            initImageLoader();
+
+            initImageLoader();//图片加载器
             initToast();//全局toast初始化
+
             initCrashHandler();//异常捕捉
             initStetho();//设置okhttp请求调试
             initLeakCanary();//监听内存溢出
@@ -66,16 +68,16 @@ public abstract class BaseApplication extends Application implements
         FilePathHelper.init(this);
     }
 
-    private void initImageLoader() {
+    protected void initImageLoader() {
         ImageLoader.getInstance(this);
     }
 
 
-    private void initToast() {
+    protected void initToast() {
         AToastUtils.init();
     }
 
-    private void initCrashHandler() {
+    protected void initCrashHandler() {
         if (!BuildConfig.DEBUG) {
             return;
         }

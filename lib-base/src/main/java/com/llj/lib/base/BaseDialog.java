@@ -12,7 +12,6 @@ import com.llj.lib.base.widget.LoadingDialog;
 import com.llj.lib.net.observer.ITag;
 
 import butterknife.ButterKnife;
-import io.reactivex.disposables.Disposable;
 
 /**
  * ArchitectureDemo
@@ -20,7 +19,7 @@ import io.reactivex.disposables.Disposable;
  * author liulj
  * date 2018/5/24
  */
-public abstract class BaseDialog extends Dialog implements ILoadingDialogHandler<Disposable> {
+public abstract class BaseDialog extends Dialog implements ILoadingDialogHandler {
     public String TAG_LOG;
 
     protected static final int MATCH = ViewGroup.LayoutParams.MATCH_PARENT;

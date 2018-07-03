@@ -66,7 +66,7 @@ dependencies {
 
     //butterknife
     implementation deps.butterknife.runtime
-    annotationProcessor deps.butterknife.compiler
+//    annotationProcessor deps.butterknife.compiler
 
     //内存检测
     debugImplementation deps.leakcanary.leakcanary_android
