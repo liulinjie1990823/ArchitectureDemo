@@ -46,11 +46,15 @@ public abstract class NetworkBoundResource<Data> {
     }
 
     private void fetchFromNetwork(final LiveData<Data> dbSource) {
-        Single<Response<BaseResponse<Data>>> apiCall = createCall()
-                .doOnSubscribe(view())
-                .doFinally(view());
+        IView view = view();
 
-        BaseApiObserver<Data> baseApiObserver = new BaseApiObserver<Data>(view()) {
+        //Single
+        Single<Response<BaseResponse<Data>>> apiCall = createCall()
+                .doOnSubscribe(view)
+                .doFinally(view);
+
+        //Observer
+        BaseApiObserver<Data> baseApiObserver = new BaseApiObserver<Data>(view) {
             @Override
             public void onSuccess(@NonNull BaseResponse<Data> response) {
                 super.onSuccess(response);
@@ -70,11 +74,16 @@ public abstract class NetworkBoundResource<Data> {
                 super.onError(t);
             }
         };
+
+        //Disposable
+        view.setRequestTag(tag());
+        view.addDisposable(tag(),baseApiObserver.getDisposable());
+
+        //subscribe
         RxApiManager.get().subscribeApi(
                 apiCall,
                 view().bindRequestLifecycle(),
                 baseApiObserver);
-
     }
 
 
@@ -90,6 +99,10 @@ public abstract class NetworkBoundResource<Data> {
     @NonNull
     @MainThread
     protected abstract IView view();
+
+    @NonNull
+    @MainThread
+    protected abstract int tag();
 
     @NonNull
     @MainThread

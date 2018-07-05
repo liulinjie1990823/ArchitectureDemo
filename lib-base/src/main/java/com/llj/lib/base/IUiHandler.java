@@ -4,10 +4,13 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.widget.TextView;
 
+import com.llj.lib.base.listeners.OnMyClickListener;
 import com.llj.lib.utils.ACollectionUtils;
 import com.llj.lib.utils.ATextUtils;
 import com.llj.lib.utils.AToastUtils;
@@ -25,6 +28,20 @@ public interface IUiHandler {
     ///////////////////////////////////////////////////////////////////////////
     // ui相关操作
     ///////////////////////////////////////////////////////////////////////////
+
+
+    default void setOnClickListener(View view, @Nullable View.OnClickListener onClickListener) {
+        if (onClickListener == null) {
+            view.setOnClickListener(null);
+        } else {
+            view.setOnClickListener(new OnMyClickListener() {
+                @Override
+                public void onCanClick(View v) {
+                    onClickListener.onClick(v);
+                }
+            });
+        }
+    }
 
     default CharSequence getTextStr(TextView textView) {
         return ATextUtils.getText(textView);

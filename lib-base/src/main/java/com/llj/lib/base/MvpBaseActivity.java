@@ -6,23 +6,27 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.facebook.stetho.common.LogUtil;
 import com.llj.lib.base.mvp.IPresenter;
 import com.llj.lib.base.widget.LoadingDialog;
 import com.llj.lib.net.observer.ITag;
-import com.llj.lib.utils.AInputMethodManagerUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Set;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.AndroidInjection;
+import io.reactivex.disposables.Disposable;
 
 /**
  * ArchitectureDemo
@@ -31,10 +35,12 @@ import dagger.android.AndroidInjection;
  * date 2018/5/15
  */
 public abstract class MvpBaseActivity<P extends IPresenter> extends AppCompatActivity
-        implements IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler {
+        implements IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
     public String TAG;
 
     public Context mContext;
+
+    private ArrayMap<Integer, Disposable> mCancelableTask;
 
     @Inject
     protected P        mPresenter;
@@ -45,14 +51,15 @@ public abstract class MvpBaseActivity<P extends IPresenter> extends AppCompatAct
     //<editor-fold desc="生命周期">
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        mContext=this;
+        mContext = this;
 
         try {
             AndroidInjection.inject(this);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
+        mCancelableTask = new ArrayMap<>();
 
         super.onCreate(savedInstanceState);
 
@@ -114,6 +121,9 @@ public abstract class MvpBaseActivity<P extends IPresenter> extends AppCompatAct
         //注销事件总线
         unregister(this);
 
+        //移除所有的任务
+        removeAllDisposable();
+
         if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
             mUnbinder.unbind();
         }
@@ -126,6 +136,33 @@ public abstract class MvpBaseActivity<P extends IPresenter> extends AppCompatAct
 
         //移除列表中的activity
         removeCurrentActivity(this);
+    }
+    //</editor-fold >
+
+    //<editor-fold desc="任务处理">
+    @Override
+    public void addDisposable(int tag, Disposable disposable) {
+        mCancelableTask.put(tag, disposable);
+    }
+
+    @Override
+    public void removeDisposable(int tag) {
+        Disposable disposable = mCancelableTask.get(tag);
+        if (!disposable.isDisposed()) {
+            disposable.dispose();
+            mCancelableTask.remove(tag);
+        }
+    }
+
+    @Override
+    public void removeAllDisposable() {
+        if (mCancelableTask.isEmpty()) {
+            return;
+        }
+        Set<Integer> keys = mCancelableTask.keySet();
+        for (Integer apiKey : keys) {
+            removeDisposable(apiKey);
+        }
     }
     //</editor-fold >
 
@@ -172,6 +209,10 @@ public abstract class MvpBaseActivity<P extends IPresenter> extends AppCompatAct
             if (mRequestDialog == null) {
                 mRequestDialog = new LoadingDialog(this);
             }
+            ((Dialog) mRequestDialog).setOnCancelListener(dialog -> {
+                LogUtil.i(TAG, "cancelTask:" + mRequestDialog.getRequestTag());
+                removeDisposable(mRequestDialog.getRequestTag());
+            });
         }
         setRequestTag(hashCode());
     }
@@ -196,10 +237,7 @@ public abstract class MvpBaseActivity<P extends IPresenter> extends AppCompatAct
     //<editor-fold desc="处理点击外部影藏输入法">
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            AInputMethodManagerUtils.hideSoftInputFromWindow(this);
-        }
-        return super.onTouchEvent(event);
+        return onTouchEvent(this, event);
     }
     //</editor-fold >
 

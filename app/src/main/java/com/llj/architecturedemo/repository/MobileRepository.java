@@ -50,6 +50,12 @@ public class MobileRepository extends BaseRepository {
                 return mMobileDao.selectMobileByPhone("1318888");
             }
 
+            @NonNull
+            @Override
+            protected int tag() {
+                return view.hashCode();
+            }
+
             @Override
             protected boolean shouldFetch(@Nullable MobileEntity mobileEntity) {
                 return mobileEntity == null;

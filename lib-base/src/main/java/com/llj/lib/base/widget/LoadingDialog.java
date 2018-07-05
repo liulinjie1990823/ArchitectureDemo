@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 
-import com.facebook.stetho.common.LogUtil;
 import com.llj.lib.base.BaseDialog;
 import com.llj.lib.base.R;
 import com.llj.lib.net.observer.ITag;
@@ -47,11 +46,6 @@ public class LoadingDialog extends BaseDialog implements ITag {
         if (mTag <= 0) {
             throw new RuntimeException("请先添加mTag");
         }
-
-        setOnCancelListener(dialog -> {
-            LogUtil.i(TAG_LOG, "cancelOkHttpCall:" + getRequestTag());
-            cancelOkHttpCall(getRequestTag());
-        });
     }
 
     @Override

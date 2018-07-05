@@ -1,7 +1,5 @@
 package com.llj.lib.net.observer;
 
-import com.llj.lib.net.RxApiManager;
-
 /**
  * ArchitectureDemo
  * describe:
@@ -13,7 +11,4 @@ public interface ITag {
 
     int getRequestTag();
 
-    default void cancelOkHttpCall(int requestTag) {
-        RxApiManager.get().cancel(requestTag);
-    }
 }

@@ -108,9 +108,6 @@ public class RxApiManager implements RxActionManager<Object> {
                                     AutoDisposeConverter<BaseResponse<Data>> autoDisposeConverter,
                                     BaseApiObserver<Data> observer) {
 
-        if (observer.getRequestTag() > 0) {
-            add(observer.getRequestTag(), observer.getDisposable());
-        }
         single
                 .subscribeOn(Schedulers.io())//指定io
                 .unsubscribeOn(Schedulers.io())
