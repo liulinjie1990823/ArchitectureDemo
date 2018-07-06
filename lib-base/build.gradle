@@ -77,8 +77,12 @@ dependencies {
     api deps.rxandroid
 
     //依赖注入
-    api 'com.google.dagger:dagger-android:2.16'
-    api 'com.google.dagger:dagger-android-support:2.16' // if you use the support libraries
+    api ('com.google.dagger:dagger-android:2.16'){
+        exclude group: 'com.android.support'
+    }
+    api ('com.google.dagger:dagger-android-support:2.16'){
+        exclude group: 'com.android.support'
+    } // if you use the support libraries
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
 

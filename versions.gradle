@@ -4,7 +4,7 @@ versions.android_gradle_plugin = "3.1.3"
 
 versions.support = "27.1.1"
 
-versions.dagger = "2.11"
+versions.dagger = "2.16"
 
 versions.arouter_api = "1.3.1"
 versions.arouter_compiler = "1.1.4"
@@ -24,12 +24,28 @@ versions.gson = "2.8.2"
 
 versions.fresco = "1.9.0"
 
+versions.constraint_layout = "1.1.2"
 versions.smartrefresh = "1.1.0-alpha-7"
+versions.MagicIndicator = "1.5.0"
+versions.AutoScrollViewPager = "v1.0.2"
+versions.badgeview = "1.1.3"
+versions.fillblankview = "2.1@aar"
+versions.vlayout = "1.2.16@aar"
+versions.flowlayout = "1.1.2"
+versions.pickerView = "3.2.7"
+versions.ExpandableTextView = "1.0.3"
+versions.universalAdapter = "1.0.6"
+versions.socialization = "1.0.12"
 
 versions.auto_value = "1.6"
 
 versions.stetho = "1.5.0"
 versions.leakcanary = "1.5.4"
+versions.timber = "4.7.1"
+
+
+versions.rxjava2 = "2.1.16"
+versions.rx_android = "2.0.2"
 
 
 versions.junit = "4.12"
@@ -39,11 +55,7 @@ versions.apache_commons = "2.5"
 versions.mockito = "2.7.19"
 versions.mockito_all = "1.10.19"
 versions.dexmaker = "2.2.0"
-versions.constraint_layout = "1.0.2"
 versions.glide = "3.8.0"
-versions.timber = "4.5.1"
-versions.rxjava2 = "2.1.13"
-versions.rx_android = "2.0.1"
 versions.atsl_runner = "1.0.1"
 versions.atsl_rules = "1.0.1"
 versions.hamcrest = "1.3"
@@ -131,12 +143,11 @@ leakcanary.leakcanary_android_no_op = "com.squareup.leakcanary:leakcanary-androi
 deps.leakcanary = leakcanary
 
 def dagger = [:]
-dagger.runtime = "com.google.dagger:dagger:$versions.dagger"
+dagger.dagger = "com.google.dagger:dagger:$versions.dagger"
+dagger.compiler = "com.google.dagger:dagger-compiler:$versions.dagger"
 dagger.android = "com.google.dagger:dagger-android:$versions.dagger"
 dagger.android_support = "com.google.dagger:dagger-android-support:$versions.dagger"
-dagger.compiler = "com.google.dagger:dagger-compiler:$versions.dagger"
 dagger.android_support_compiler = "com.google.dagger:dagger-android-processor:$versions.dagger"
-
 deps.dagger = dagger
 
 def espresso = [:]
@@ -161,6 +172,16 @@ kotlin.test = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 deps.kotlin = kotlin
 
+deps.socialization = "com.llj.socialization:lib-socialization:$versions.socialization"
+deps.universalAdapter = "com.llj.adapter:lib-universalAdapter:$versions.universalAdapter"
+deps.ExpandableTextView = "cn.carbs.android:ExpandableTextView:$versions.ExpandableTextView"
+deps.pickerView = "com.contrarywind:Android-PickerView:$versions.pickerView"
+deps.flowlayout = "com.hyman:flowlayout-lib:$versions.flowlayout"
+deps.vlayout = "com.alibaba.android:vlayout:$versions.vlayout"
+deps.fillblankview = "com.xw.repo:fillblankview:$versions.fillblankview"
+deps.badgeview = "q.rorbin:badgeview:$versions.badgeview"
+deps.AutoScrollViewPager = "com.github.demoNo:AutoScrollViewPager:$versions.AutoScrollViewPager"
+deps.MagicIndicator = "com.github.hackware1993:MagicIndicator:$versions.magicIndicator"
 deps.paging = "android.arch.paging:runtime:$versions.paging"
 deps.glide = "com.github.bumptech.glide:glide:$versions.glide"
 deps.dexmaker = "com.linkedin.dexmaker:dexmaker-mockito:$versions.dexmaker"

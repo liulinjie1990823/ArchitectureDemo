@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--Guideline-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/brown">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/gu1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.2"/>
+
+            <android.support.constraint.Guideline
+                android:id="@+id/gu2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.25"/>
+
+            <TextView
+                android:id="@+id/tv_23"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/mediumpurple"
+                android:gravity="center"
+                android:text="哈大大大大哈大大大大哈"
+                android:textSize="14dp"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/gu1"
+                />
+
+            <TextView
+                android:id="@+id/tv_24"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@color/mediumpurple"
+                android:gravity="center"
+                android:text="哈大大大大哈大大大大哈"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/gu2"
+                app:layout_constraintTop_toBottomOf="@+id/tv_23"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!--layout_goneMarginLeft-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:background="@color/forestgreen"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/brown"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_26"
+                app:layout_goneMarginLeft="30dp"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!--左居中-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/forestgreen"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:background="@color/brown"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_3"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!--wrap_content+右加权-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/forestgreen"
+                android:gravity="center"
+                android:text="哈大大大大da"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/brown"
+                android:gravity="center"
+                android:text="哈大大大大哈大大大大哈大大大大哈大大大大哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toRightOf="@id/tv_1"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!--右居中-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/forestgreen"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_6"/>
+
+            <TextView
+                android:id="@+id/tv_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/brown"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!--wrap_content+左加权-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/forestgreen"
+                android:gravity="center"
+                android:text="哈大大大大哈大大大大哈大大大大哈大大大大哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_8"/>
+
+            <TextView
+                android:id="@+id/tv_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/brown"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!--spread-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/mediumpurple"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_10"
+                />
+
+            <TextView
+                android:id="@+id/tv_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/forestgreen"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_9"
+                app:layout_constraintRight_toLeftOf="@+id/tv_11"
+                />
+
+            <TextView
+                android:id="@+id/tv_11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/brown"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_10"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+        <!--spread_inside-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/mediumpurple"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_13"
+                />
+
+            <TextView
+                android:id="@+id/tv_13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/forestgreen"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_12"
+                app:layout_constraintRight_toLeftOf="@+id/tv_14"
+                />
+
+            <TextView
+                android:id="@+id/tv_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/brown"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_13"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+        <!--packed-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/mediumpurple"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_16"
+                />
+
+            <TextView
+                android:id="@+id/tv_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/forestgreen"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_15"
+                app:layout_constraintRight_toLeftOf="@+id/tv_17"
+                />
+
+            <TextView
+                android:id="@+id/tv_17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/brown"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_16"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+        <!--Weighted spread-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_18"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/mediumpurple"
+                android:gravity="center"
+                android:text="哈大大大大哈大大大大哈大大大大哈大大大大哈大大大大"
+                android:textSize="14dp"
+
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_19"
+                />
+
+            <TextView
+                android:id="@+id/tv_19"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/forestgreen"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintHorizontal_weight="2"
+                app:layout_constraintLeft_toRightOf="@+id/tv_18"
+                app:layout_constraintRight_toLeftOf="@+id/tv_20"
+                />
+
+            <TextView
+                android:id="@+id/tv_20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/brown"
+                android:gravity="center"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_19"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+        <!--居中-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/mediumpurple"
+                android:gravity="center"
+                android:text="哈大大大大哈大大大大哈"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+        <!--加权-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_22"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/mediumpurple"
+                android:gravity="center"
+                android:text="哈大大大大哈大大大大哈"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+        <!--layout_constraintHorizontal_bias-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/mediumpurple"
+                android:gravity="center"
+                android:text="哈大大大大哈大大大大哈"
+                android:textSize="14dp"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+        <!--layout_constraintDimensionRatio-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/mediumpurple"
+                android:text="哈大大大大哈大大大大哈"
+                android:textSize="14dp"
+                app:layout_constraintDimensionRatio="5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+
+        </android.support.constraint.ConstraintLayout>
+        <!--layout_constraintDimensionRatio-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/brown"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="0dp"
+                android:background="@color/mediumpurple"
+                android:gravity="center"
+                android:text="哈大大大大哈大大大大哈"
+                android:textSize="14dp"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </LinearLayout>
+</ScrollView>
