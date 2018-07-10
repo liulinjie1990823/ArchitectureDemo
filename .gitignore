@@ -48,7 +48,6 @@ captures/
 
 # Other
 .svn
-*.properties
 
 #freeline
 freeline.py
