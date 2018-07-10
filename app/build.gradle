@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'walle'
 
 def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
@@ -37,7 +38,17 @@ android {
             storePassword "itotem"
             keyAlias "itotemapp"
             keyPassword "itotem"
-            v2SigningEnabled false
+            v2SigningEnabled true
+        }
+    }
+    flavorDimensions "free"
+
+    productFlavors {
+        wm {
+            dimension "free"
+        }
+        mt {
+            dimension "free"
         }
     }
 
@@ -62,6 +73,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        def dirs = ['p_app', 'p_widget']
+        main {
+            manifest.srcFile 'src/p_app/main/AndroidManifest.xml'
+            dirs.each { dir ->
+                java.srcDir("src/${dir}/main/java")
+                res.srcDir("src/${dir}/main/res")
+            }
+        }
+
+        wm {
+            dirs.each { dir ->
+                java.srcDir("src/${dir}/wm/java")
+                res.srcDir("src/${dir}/wm/res")
+            }
+        }
+        mt {
+            dirs.each { dir ->
+                java.srcDir("src/${dir}/mt/java")
+                res.srcDir("src/${dir}/mt/res")
+            }
+        }
+    }
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -126,4 +162,14 @@ dependencies {
     api 'com.google.dagger:dagger-android:2.16'
     api 'com.google.dagger:dagger-android-support:2.16' // if you use the support libraries
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
+
+    implementation 'com.meituan.android.walle:library:1.1.6'
+}
+
+walle {
+    apkOutputFolder = new File("${project.buildDir}/outputs/channels")
+    apkFileNameFormat = '${appName}-${channel}-${buildType}-v${versionName}-${versionCode}-${buildTime}-${flavorName}.apk'
+    //configFile与channelFile两者必须存在一个，否则无法生成渠道包。两者都存在时优先执行configFile
+    channelFile = new File("${project.getProjectDir()}/channel")
+    //configFile = new File("${project.getProjectDir()}/config.json")
 }

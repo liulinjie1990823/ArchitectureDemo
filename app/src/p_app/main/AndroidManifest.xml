@@ -24,6 +24,7 @@
         <activity
             android:name=".ui.activity.SecondActivity"
             />
+        <activity android:name="com.llj.widget.ui.activity.ConstraintActivity"/>
     </application>
 
 </manifest>

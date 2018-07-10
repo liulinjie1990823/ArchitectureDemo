@@ -16,6 +16,8 @@ import com.llj.architecturedemo.presenter.MainPresenter;
 import com.llj.architecturedemo.view.MainContractView;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.listeners.OnMyClickListener;
+import com.llj.lib.utils.AToastUtils;
+import com.meituan.android.walle.WalleChannelReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +69,9 @@ public class MainActivity extends MyBaseActivity<MainPresenter> implements MainC
     @Override
     protected void onResume() {
         super.onResume();
+
+        String channel = WalleChannelReader.getChannel(this.getApplicationContext());
+        AToastUtils.show(channel);
 
         Observable<String> obs1 = Observable.create(emitter -> {
             Log.e(TAG, "obs1thread:" + Thread.currentThread());
@@ -146,7 +151,8 @@ public class MainActivity extends MyBaseActivity<MainPresenter> implements MainC
         mTvClick.setOnClickListener(new OnMyClickListener() {
             @Override
             public void onCanClick(View v) {
-                SecondActivity.start(mContext);
+//                SecondActivity.start(mContext);
+                CRouter.start(CRouter.WIDGET_CONSTRAINT_ACTIVITY);
             }
         });
 
