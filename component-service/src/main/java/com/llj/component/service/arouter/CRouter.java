@@ -14,10 +14,11 @@ import com.alibaba.android.arouter.launcher.ARouter;
  */
 public class CRouter {
 
-    public static final String APP_MAIN_ACTIVITY        = "/app/MainActivity";
+    public static final String APP_MAIN_ACTIVITY          = "/app/MainActivity";
     public static final String APP_SECOND_ACTIVITY        = "/app/SecondActivity";
-    public static final String APP_MEMORY_LEAK_ACTIVITY = "/app/MemoryLeakActivity";
+    public static final String APP_MEMORY_LEAK_ACTIVITY   = "/app/MemoryLeakActivity";
     public static final String WIDGET_CONSTRAINT_ACTIVITY = "/widget/ConstraintActivity";
+    public static final String CIRCLE_VIEW_ACTIVITY       = "/widget/CircleViewActivity";
 
     public static void start(String path) {
         ARouter.getInstance().build(path).navigation();

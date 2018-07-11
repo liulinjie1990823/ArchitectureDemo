@@ -152,7 +152,9 @@ public class MainActivity extends MyBaseActivity<MainPresenter> implements MainC
             @Override
             public void onCanClick(View v) {
 //                SecondActivity.start(mContext);
-                CRouter.start(CRouter.WIDGET_CONSTRAINT_ACTIVITY);
+//                CRouter.start(CRouter.WIDGET_CONSTRAINT_ACTIVITY);
+                CRouter.start(CRouter.CIRCLE_VIEW_ACTIVITY);
+
             }
         });
 

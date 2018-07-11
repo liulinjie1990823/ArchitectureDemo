@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.llj.widget.ui.widget.CircleView
+        android:id="@+id/iv_top_bag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        />
+
+    <ImageView
+        android:id="@+id/iv_top_bag_sticky"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="500px"
+        android:background="@drawable/shape_arc"
+        android:visibility="gone"/>
+</RelativeLayout>

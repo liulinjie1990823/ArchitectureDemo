@@ -25,6 +25,7 @@
             android:name=".ui.activity.SecondActivity"
             />
         <activity android:name="com.llj.widget.ui.activity.ConstraintActivity"/>
+        <activity android:name="com.llj.widget.ui.activity.CircleViewActivity"/>
     </application>
 
 </manifest>
