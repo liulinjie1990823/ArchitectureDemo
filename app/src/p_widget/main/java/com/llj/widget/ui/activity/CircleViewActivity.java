@@ -12,6 +12,8 @@ import com.llj.architecturedemo.R;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.widget.ui.widget.CircleView;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 
 /**
@@ -24,7 +26,7 @@ import butterknife.BindView;
 public class CircleViewActivity extends MyBaseActivity {
     @BindView(R.id.iv_top_bag)        CircleView mIvTopBag;
     @BindView(R.id.iv_top_bag_sticky) ImageView  mIvTopBagSticky;
-
+ArrayList
     @Override
     public int layoutId() {
         return R.layout.activity_circle_view;
