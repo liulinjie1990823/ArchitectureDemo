@@ -13,8 +13,8 @@ import com.google.gson.annotations.SerializedName
  */
 @Entity(tableName = "mobile",
         indices = [Index("id")])
-data class MobileEntity(@field:PrimaryKey
-                        var id: Long) {
+data class MobileEntity constructor(@field:PrimaryKey
+                                    var id: Long) {
     var phone: String? = null
     var province: String? = null
     var city: String? = null

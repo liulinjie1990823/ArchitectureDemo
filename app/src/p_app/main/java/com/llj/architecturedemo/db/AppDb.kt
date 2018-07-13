@@ -14,6 +14,5 @@ import com.llj.architecturedemo.db.entity.MobileEntity
  */
 @Database(entities = [MobileEntity::class], version = 1)
 abstract class AppDb : RoomDatabase() {
-
     abstract fun mobileDao(): MobileDao
 }

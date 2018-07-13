@@ -16,8 +16,8 @@ import javax.inject.Inject
  * author liulj
  * date 2018/5/29
  */
-class MainContractViewModel @Inject
-constructor(private val mMobileRepository: MobileRepository) : BaseViewModel() {
+class MainContractViewModel @Inject constructor(private val mMobileRepository: MobileRepository)
+    : BaseViewModel() {
 
     private val test: LiveData<MobileEntity>? = null
 
@@ -26,7 +26,7 @@ constructor(private val mMobileRepository: MobileRepository) : BaseViewModel() {
         get() = mMobileRepository.getResult()
 
     fun getTest(): LiveData<MobileEntity> {
-        return mMobileRepository.test
+        return mMobileRepository.getTest()
     }
 
     fun getMobile(phone: String, view: IView): LiveData<IResponse<MobileEntity>> {

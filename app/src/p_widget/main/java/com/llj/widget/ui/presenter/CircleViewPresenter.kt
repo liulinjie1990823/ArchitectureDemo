@@ -12,8 +12,8 @@ import javax.inject.Inject
  * author liulj
  * date 2018/7/13
  */
-class CircleViewPresenter @Inject constructor(view: CircleViewView)
-    : BasePresenter<MobileRepository, CircleViewView>(view) {
+class CircleViewPresenter @Inject constructor(repository: MobileRepository, view: CircleViewView)
+    : BasePresenter<MobileRepository, CircleViewView>(repository, view) {
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)

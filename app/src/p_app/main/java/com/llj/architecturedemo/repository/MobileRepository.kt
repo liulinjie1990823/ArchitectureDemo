@@ -23,39 +23,19 @@ import javax.inject.Singleton
  * date 2018/6/6
  */
 @Singleton
-class MobileRepository @Inject
-internal constructor(private val mMobileDao: MobileDao, private val mApiService: TestApiService) : BaseRepository() {
+class MobileRepository @Inject constructor(private val mMobileDao: MobileDao, private val mApiService: TestApiService)
+    : BaseRepository() {
 
+    fun getTest(): LiveData<MobileEntity> {
+        val mMobileMutableLiveData = MediatorLiveData<MobileEntity>()
+        val liveData = MutableLiveData<MobileEntity>()
+        liveData.value = MobileEntity(1)
 
-    //        mMobileMutableLiveData.addSource(liveData, new Observer<MobileEntity>() {
-    //            @Override
-    //            public void onChanged(@Nullable MobileEntity mobileEntity) {
-    //                mMobileMutableLiveData.setValue(mobileEntity);
-    //            }
-    //        });
-    //
-    //        mMobileMutableLiveData.addSource(liveData2, new Observer<MobileEntity>() {
-    //            @Override
-    //            public void onChanged(@Nullable MobileEntity mobileEntity) {
-    //                mMobileMutableLiveData.setValue(mobileEntity);
-    //            }
-    //        });
-    val test: LiveData<MobileEntity>
-        get() {
-            val mMobileMutableLiveData = MediatorLiveData<MobileEntity>()
-            val liveData = MutableLiveData<MobileEntity>()
-            liveData.value = MobileEntity(1)
+        val liveData2 = MutableLiveData<MobileEntity>()
+        liveData2.value = MobileEntity(2)
 
-            val liveData2 = MutableLiveData<MobileEntity>()
-            liveData2.value = MobileEntity(2)
-
-            return mMobileMutableLiveData
-        }
-
-    private val result = MediatorLiveData<String>()
-
-    private val testLive = MutableLiveData<String>()
-
+        return mMobileMutableLiveData
+    }
 
     fun getMobile(phone: String, view: IView): LiveData<IResponse<MobileEntity>> {
 
@@ -91,38 +71,24 @@ internal constructor(private val mMobileDao: MobileDao, private val mApiService:
             }
 
         }.asLiveData()
-
-        //        MutableLiveData<MobileEntity> mutableLiveData = new MutableLiveData<>();
-        //
-        //        Single<Response<BaseResponse<MobileEntity>>> mobile = mApiService.getMobile("13188888888")
-        //                .doOnSubscribe(view)
-        //                .doFinally(view);
-        //
-        //        RxApiManager.get().subscribeApi(
-        //                mobile,
-        //                view.bindRequestLifecycle(),
-        //                new ApiObserver<MobileEntity>(view) {
-        //                    @Override
-        //                    public void onSuccess(@NonNull BaseResponse<MobileEntity> response) {
-        //                        super.onSuccess(response);
-        //                        mutableLiveData.setValue(response.getData());
-        //                    }
-        //                });
-        //        return mutableLiveData;
     }
+
+    private val result = MediatorLiveData<String>()
 
     fun setQuery(originalInput: String) {
         result.removeSource(testLive)
         testLive.value = originalInput
         result.addSource(testLive) { str ->
-            result.removeSource(testLive)//先移除
+            result.removeSource(testLive) //先移除
             if (str == null) {
             } else {
-                result.addSource(testLive) { s -> result.value = "成功咯" + s!! }//双层嵌套，前提是前面有removeSource
+                result.addSource(testLive) { s -> result.value = "成功咯" + s!! } //双层嵌套，前提是前面有removeSource
             }
         }
-        testLive.value = "test1"//注意这里和remove就是使用双层嵌套的原因
+        testLive.value = "test1" //注意这里和remove就是使用双层嵌套的原因
     }
+
+    private val testLive = MutableLiveData<String>()
 
     fun getResult(): LiveData<String> {
         return result
