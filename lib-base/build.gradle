@@ -1,14 +1,3 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-        google()
-    }
-
-    dependencies {
-        classpath deps.butterknife_gradle_plugin
-    }
-}
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt' // kapt 插件
@@ -21,12 +10,6 @@ android {
     defaultConfig {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-
-//        javaCompileOptions {
-//            annotationProcessorOptions {
-//                arguments = [moduleName: project.getName()]
-//            }
-//        }
     }
 
     buildTypes {
