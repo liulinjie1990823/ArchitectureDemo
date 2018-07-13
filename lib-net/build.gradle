@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion build_versions.compile
@@ -56,4 +57,6 @@ dependencies {
         exclude group: 'com.android.support'
         exclude group: 'io.reactivex.rxjava2'
     }
+    implementation deps.kotlin_stdlib_jdk7
 }
+

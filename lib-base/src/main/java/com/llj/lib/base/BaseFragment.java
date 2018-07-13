@@ -16,6 +16,8 @@ import com.llj.lib.base.widget.LoadingDialog;
 import com.llj.lib.net.observer.ITag;
 import com.llj.lib.utils.LogUtil;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -170,14 +172,14 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment
 
 
     @Override
-    public void setRequestTag(int tag) {
+    public void setRequestTag(@NotNull Object tag) {
         if (getLoadingDialog() != null) {
             getLoadingDialog().setRequestTag(tag);
         }
     }
 
     @Override
-    public int getRequestTag() {
+    public Object getRequestTag() {
         if (getLoadingDialog() != null) {
             return getLoadingDialog().getRequestTag();
         }

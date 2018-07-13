@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt' // kapt 插件
 apply plugin: 'walle'
 
 def releaseTime() {
@@ -139,10 +141,10 @@ dependencies {
     implementation deps.lifecycle.runtime
     implementation deps.lifecycle.extensions
     implementation deps.lifecycle.java8
-    annotationProcessor deps.lifecycle.compiler
+    kapt deps.lifecycle.compiler
     //db
     implementation deps.room.runtime
-    annotationProcessor deps.room.compiler
+    kapt deps.room.compiler
     //net
     implementation deps.retrofit2.retrofit
     implementation deps.okhttp_logging_interceptor
@@ -152,20 +154,22 @@ dependencies {
     implementation deps.gson
     //butterknife
     implementation deps.butterknife.runtime
-    annotationProcessor deps.butterknife.compiler
+    kapt deps.butterknife.compiler
     //跳转路由
-    annotationProcessor deps.arouter.compiler
+    kapt deps.arouter.compiler
     //刷新
     implementation deps.smartrefresh.SmartRefreshLayout
     //dagger编译
     api 'com.google.dagger:dagger:2.16'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
+    kapt 'com.google.dagger:dagger-compiler:2.16'
     api 'com.google.dagger:dagger-android:2.16'
     api 'com.google.dagger:dagger-android-support:2.16' // if you use the support libraries
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
+    kapt 'com.google.dagger:dagger-android-processor:2.16'
 
     implementation 'com.meituan.android.walle:library:1.1.6'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation deps.kotlin_stdlib_jdk7
+
+    kapt "com.android.databinding:compiler:3.1.3"
 }
 
 walle {
@@ -175,6 +179,12 @@ walle {
     channelFile = new File("${project.getProjectDir()}/channel")
     //configFile = new File("${project.getProjectDir()}/config.json")
 }
-repositories {
-    mavenCentral()
+
+kapt {
+//    generateStubs = true
+    arguments {
+        arg("moduleName", project.getName())
+//        arg("room.schemaLocation": "$projectDir/schemas".toString())
+    }
 }
+

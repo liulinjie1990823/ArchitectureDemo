@@ -7,14 +7,14 @@
 
 
     <com.llj.widget.ui.widget.CircleView
-        android:id="@+id/iv_top_bag"
+        android:id="@+id/mIvTopBag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
         />
 
     <ImageView
-        android:id="@+id/iv_top_bag_sticky"
+        android:id="@+id/mIvTopBagSticky"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:visibility="visible"/>

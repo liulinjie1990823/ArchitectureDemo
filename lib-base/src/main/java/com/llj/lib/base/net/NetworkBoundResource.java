@@ -13,8 +13,11 @@ import com.llj.lib.net.observer.BaseApiObserver;
 import com.llj.lib.net.response.BaseResponse;
 import com.llj.lib.net.response.IResponse;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import retrofit2.Response;
 
 
@@ -54,7 +57,14 @@ public abstract class NetworkBoundResource<Data> {
                 .doFinally(view);
 
         //Observer
-        BaseApiObserver<Data> baseApiObserver = new BaseApiObserver<Data>(view) {
+        BaseApiObserver<Data> baseApiObserver = new BaseApiObserver<Data>(tag()) {
+
+            @Override
+            public void onSubscribe(@NotNull Disposable d) {
+                super.onSubscribe(d);
+                view.addDisposable(getRequestTag(), getDisposable());
+            }
+
             @Override
             public void onSuccess(@NonNull BaseResponse<Data> response) {
                 super.onSuccess(response);
@@ -74,10 +84,6 @@ public abstract class NetworkBoundResource<Data> {
                 super.onError(t);
             }
         };
-
-        //Disposable
-        view.setRequestTag(tag());
-        view.addDisposable(tag(),baseApiObserver.getDisposable());
 
         //subscribe
         RxApiManager.get().subscribeApi(
@@ -102,7 +108,7 @@ public abstract class NetworkBoundResource<Data> {
 
     @NonNull
     @MainThread
-    protected abstract int tag();
+    protected abstract Object tag();
 
     @NonNull
     @MainThread
