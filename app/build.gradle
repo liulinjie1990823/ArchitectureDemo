@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt' // kapt 插件
 apply plugin: 'walle'
+apply plugin: 'task-time'
 
 def releaseTime() {
     return new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("UTC+8"))

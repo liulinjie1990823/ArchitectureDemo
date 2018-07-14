@@ -1,1 +1,1 @@
-include ':app', ':lib-base', ':lib-utils', ':lib-image-loader', ':lib-net', ':lib-webview', ':lib-image-select', ':lib-permission', ':component-service'
+include ':app', ':lib-base', ':lib-utils', ':lib-image-loader', ':lib-net', ':lib-webview', ':lib-image-select', ':lib-permission', ':component-service', ':time-gradle-plugin'

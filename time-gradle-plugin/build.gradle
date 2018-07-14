@@ -1,0 +1,38 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release'
+
+dependencies {
+//    compile 'com.android.tools.build:gradle:2.3.2'
+//    compile group: 'org.javassist', name: 'javassist', version: '3.20.0-GA'
+    //gradle sdk
+    compile gradleApi()
+    //groovy sdk
+    compile localGroovy()
+}
+
+repositories {
+    jcenter()
+}
+
+group = 'com.llj'
+version = '0.0.1'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../repo'))
+        }
+    }
+}
+
+publish {
+    userOrg = 'liulinjie1990823'
+    groupId = 'com.llj'
+    artifactId = 'time-gradle-plugin'
+    publishVersion = '0.0.1'
+    desc = '计算task时间的插件'
+    bintrayUser=project.bintrayUser
+    bintrayKey=project.bintrayKey
+    licences = ['Apache-2.0']
+}
