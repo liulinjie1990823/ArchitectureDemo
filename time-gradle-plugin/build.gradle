@@ -1,5 +1,9 @@
 apply plugin: 'groovy'
 
+repositories {
+    jcenter()
+}
+
 dependencies {
     //gradle sdk
     compile gradleApi()
@@ -7,10 +11,5 @@ dependencies {
     compile localGroovy()
 }
 
-repositories {
-    jcenter()
-}
-
-//apply from: "bintrayUpload.gradle"
+apply from: "uploadArchives.gradle"
 apply from: "pluginBintrayUpload.gradle"
-//apply from: "uploadArchives.gradle"

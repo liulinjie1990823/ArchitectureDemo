@@ -1,10 +1,4 @@
-/**
- * 打包plugin到本地
- */
-apply plugin: 'maven'
-//com.github.dcendents.android-maven是依赖maven插件的，但是在最新的Android Gradle3.1.3
-//中使用时，uploadArchives区块会导致编译失败
-//apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.github.dcendents.android-maven'
 
 // load properties
 Properties properties = new Properties()
