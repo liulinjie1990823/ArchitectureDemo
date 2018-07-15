@@ -38,4 +38,5 @@ dependencies {
 
 }
 
+apply from: "uploadArchives.gradle"
 apply from: "bintrayUpload.gradle"
