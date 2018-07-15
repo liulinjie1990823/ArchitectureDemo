@@ -27,6 +27,7 @@ def projectDescription = properties.getProperty("project.description")
 def webSiteUrl = properties.getProperty("project.webSiteUrl")
 def issueTrackerUrl = properties.getProperty("project.issueTrackerUrl")
 def vscUrl = properties.getProperty("project.vscUrl")
+def projectLicense = properties.getProperty("project.license")
 
 def developerId = properties.getProperty("developer.id")
 def developerName = properties.getProperty("developer.name")
@@ -122,7 +123,7 @@ bintray {
         websiteUrl = webSiteUrl
         issueTrackerUrl = issueTrackerUrl
         vcsUrl = vscUrl
-        licenses = ["Apache-2.0"]
+        licenses = [projectLicense]
         publish = true
     }
 }
