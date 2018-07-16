@@ -48,12 +48,12 @@ android {
     flavorDimensions "free"
 
     productFlavors {
-        wm {
-            dimension "free"
-        }
-        mt {
-            dimension "free"
-        }
+//        wm {
+//            dimension "free"
+//        }
+//        mt {
+//            dimension "free"
+//        }
     }
 
     buildTypes {
@@ -88,18 +88,18 @@ android {
             }
         }
 
-        wm {
-            dirs.each { dir ->
-                java.srcDir("src/${dir}/wm/java")
-                res.srcDir("src/${dir}/wm/res")
-            }
-        }
-        mt {
-            dirs.each { dir ->
-                java.srcDir("src/${dir}/mt/java")
-                res.srcDir("src/${dir}/mt/res")
-            }
-        }
+//        wm {
+//            dirs.each { dir ->
+//                java.srcDir("src/${dir}/wm/java")
+//                res.srcDir("src/${dir}/wm/res")
+//            }
+//        }
+//        mt {
+//            dirs.each { dir ->
+//                java.srcDir("src/${dir}/mt/java")
+//                res.srcDir("src/${dir}/mt/res")
+//            }
+//        }
     }
 
     compileOptions {
