@@ -23,8 +23,8 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility build_versions.compile_jdk
+        sourceCompatibility build_versions.compile_jdk
     }
 }
 
@@ -58,6 +58,6 @@ dependencies {
         exclude group: 'com.android.support'
         exclude group: 'io.reactivex.rxjava2'
     }
-    implementation deps.kotlin_stdlib_jdk7
+    implementation deps.kotlin_stdlib_jdk8
 }
 

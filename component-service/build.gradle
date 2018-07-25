@@ -23,8 +23,8 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility build_versions.compile_jdk
+        sourceCompatibility build_versions.compile_jdk
     }
     lintOptions {
         abortOnError false
@@ -36,5 +36,5 @@ dependencies {
     api project(':lib-base')
 
     api deps.arouter.api
-    implementation deps.kotlin_stdlib_jdk7
+    implementation deps.kotlin_stdlib_jdk8
 }

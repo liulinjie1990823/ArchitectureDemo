@@ -37,7 +37,34 @@ allprojects {
     }
 }
 
+beforeEvaluate {
+    println 'lifecycle beforeEvaluate'
+}
+gradle.beforeProject { project ->
+    println "lifecycle beforeProject of $project"
+}
+gradle.afterProject { project, projectState ->
+    println "lifecycle afterProject of $project"
+}
+gradle.projectsLoaded { project ->
+    println "lifecycle projectsLoaded of $project"
+}
+gradle.settingsEvaluated {
+    println 'lifecycle settingsEvaluated'
+}
+gradle.buildStarted {
+    println 'lifecycle buildStarted'
+}
+gradle.buildFinished {
+    println 'lifecycle buildFinished'
+}
+gradle.projectsEvaluated { project ->
+    println "lifecycle projectsEvaluated of $project"
+}
+
 afterEvaluate {
+    println 'lifecycle afterEvaluate'
+
     tasks.matching {
         it.name.startsWith('dex')
     }.each { dx ->
@@ -47,6 +74,14 @@ afterEvaluate {
         dx.additionalParameters += '--set-max-idx-number=48000'
     }
 }
+
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        kotlinOptions.suppressWarnings = true
+    }
+}
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir

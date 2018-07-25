@@ -9,10 +9,10 @@ import android.os.Bundle
 import android.support.v4.util.ArrayMap
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
-import com.facebook.stetho.common.LogUtil
 import com.llj.lib.base.mvvm.BaseViewModel
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
+import com.llj.lib.utils.LogUtil
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
@@ -27,8 +27,8 @@ import javax.inject.Inject
  */
 abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCompatActivity(),
         IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
-    var mTag: String? = null
-    var mContext: Context? = null
+    protected var mTag: String? = null
+    protected var mContext: Context? = null
 
     @Inject lateinit var mViewModel: VM
     private lateinit var mDataBinding: B
@@ -188,7 +188,8 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
 
     //<editor-fold desc="处理点击外部影藏输入法">
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return onTouchEvent(this, event)
+        onTouchEvent(this, event)
+        return super<AppCompatActivity>.onTouchEvent(event)
     }
     //</editor-fold >
 

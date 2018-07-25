@@ -22,8 +22,8 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility build_versions.compile_jdk
+        sourceCompatibility build_versions.compile_jdk
     }
 }
 

@@ -1,7 +1,9 @@
 package com.llj.architecturedemo
 
 import com.llj.architecturedemo.module.MainActivityModule
+import com.llj.architecturedemo.module.SecondActivityModule
 import com.llj.architecturedemo.ui.activity.MainActivity
+import com.llj.architecturedemo.ui.activity.SecondActivity
 import com.llj.lib.base.di.component.BaseActivityComponent
 import com.llj.lib.base.di.scope.ActivityScope
 import com.llj.widget.ui.activity.CircleViewActivity
@@ -22,6 +24,10 @@ internal abstract class ActivityBuilder {
     @ActivityScope
     @ContributesAndroidInjector(modules = [MainActivityModule::class])
     internal abstract fun contributeMainActivityInjector(): MainActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [SecondActivityModule::class])
+    internal abstract fun contributeSecondActivityInjector(): SecondActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [CircleViewActivityModule::class])

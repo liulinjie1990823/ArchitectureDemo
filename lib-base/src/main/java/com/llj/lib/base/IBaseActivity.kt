@@ -20,10 +20,9 @@ interface IBaseActivity : IActivityStack {
 
     fun backToLauncher(nonRoot: Boolean)
 
-    fun onTouchEvent(activity: Activity, event: MotionEvent): Boolean {
+    fun onTouchEvent(activity: Activity, event: MotionEvent) {
         if (event.action == MotionEvent.ACTION_DOWN) {
             AInputMethodManagerUtils.hideSoftInputFromWindow(activity)
         }
-        return activity.onTouchEvent(event)
     }
 }

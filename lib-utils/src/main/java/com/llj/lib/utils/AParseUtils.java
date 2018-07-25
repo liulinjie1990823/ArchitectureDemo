@@ -14,7 +14,7 @@ public class AParseUtils {
      * @param string
      * @return
      */
-    public static Integer parseInt(String string) {
+    public static int parseInt(String string) {
         return parseInt(string, 0);
     }
 
@@ -25,10 +25,10 @@ public class AParseUtils {
      * @param def
      * @return
      */
-    public static Integer parseInt(String string, Integer def) {
+    public static int parseInt(String string, int def) {
         if (TextUtils.isEmpty(string))
             return def;
-        Integer num = def;
+        int num = def;
         try {
             num = Integer.parseInt(string);
         } catch (Exception e) {
@@ -43,8 +43,8 @@ public class AParseUtils {
      * @param string
      * @return
      */
-    public static Long parseLong(String string) {
-        return parseLong(string, 0l);
+    public static long parseLong(String string) {
+        return parseLong(string, 0L);
     }
 
     /**
@@ -54,10 +54,10 @@ public class AParseUtils {
      * @param def
      * @return
      */
-    public static Long parseLong(String string, Long def) {
+    public static long parseLong(String string, long def) {
         if (TextUtils.isEmpty(string))
             return def;
-        Long num = def;
+        long num = def;
         try {
             num = Long.parseLong(string);
         } catch (Exception e) {

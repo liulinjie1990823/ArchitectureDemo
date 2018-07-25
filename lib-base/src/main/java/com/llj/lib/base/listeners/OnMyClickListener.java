@@ -10,7 +10,7 @@ import android.view.View;
  * date 2018/5/24
  */
 public abstract class OnMyClickListener implements View.OnClickListener {
-    private static final long CLICK_INTERVAL = 400;
+    public static final long CLICK_INTERVAL = 400;
     private long mLastClickTime;
 
     @Override

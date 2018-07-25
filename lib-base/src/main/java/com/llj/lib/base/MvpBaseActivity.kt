@@ -28,8 +28,8 @@ import javax.inject.Inject
  */
 abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
         IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
-    var mTag: String? = null
-    var mContext: Context? = null
+    lateinit var mTag: String
+    lateinit var mContext: Context
 
     @Inject lateinit var mPresenter: P
     private lateinit var mUnbinder: Unbinder
@@ -195,7 +195,8 @@ abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
 
     //<editor-fold desc="处理点击外部影藏输入法">
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return onTouchEvent(this, event)
+        onTouchEvent(this, event)
+        return super<AppCompatActivity>.onTouchEvent(event)
     }
     //</editor-fold >
 
