@@ -33,9 +33,9 @@ dependencies {
     debugImplementation deps.smartrefresh.SmartRefreshLayout
     debugImplementation deps.kotlin_stdlib_jdk8
 
-    debugCompileOnly deps.support.recyclerview
-    debugCompileOnly deps.smartrefresh.SmartRefreshLayout
-    debugCompileOnly deps.kotlin_stdlib_jdk8
+    releaseCompileOnly deps.support.recyclerview
+    releaseCompileOnly deps.smartrefresh.SmartRefreshLayout
+    releaseCompileOnly deps.kotlin_stdlib_jdk8
 }
 
 apply from: "uploadArchives.gradle"

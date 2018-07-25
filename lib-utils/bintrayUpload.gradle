@@ -25,7 +25,7 @@ def projectName = properties.getProperty("project.name")
 def projectPackaging = properties.getProperty("project.packaging")
 def projectDescription = properties.getProperty("project.description")
 def webSiteUrl = properties.getProperty("project.webSiteUrl")
-def issueTrackerUrl = properties.getProperty("project.issueTrackerUrl")
+def issueUrl = properties.getProperty("project.issueTrackerUrl")
 def vscUrl = properties.getProperty("project.vscUrl")
 def projectLicense = properties.getProperty("project.license")
 
@@ -125,7 +125,7 @@ bintray {
         version projectVersionName
         desc = projectDescription
         websiteUrl = webSiteUrl
-        issueTrackerUrl = issueTrackerUrl
+        issueTrackerUrl = issueUrl
         vcsUrl = vscUrl
         licenses = [projectLicense]
         publish = true
