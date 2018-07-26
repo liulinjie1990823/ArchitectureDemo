@@ -1,31 +1,3 @@
-apply plugin: 'com.android.library'
-
-android {
-    compileSdkVersion build_versions.compile
-    buildToolsVersion build_versions.build_tools
-
-    defaultConfig {
-        minSdkVersion build_versions.min_sdk
-        targetSdkVersion build_versions.target_sdk
-    }
-
-    buildTypes {
-        debug {
-            minifyEnabled false
-            matchingFallbacks = ['debug', 'release']
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        release {
-            minifyEnabled false
-            matchingFallbacks = ['debug', 'release']
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        targetCompatibility build_versions.compile_jdk
-        sourceCompatibility build_versions.compile_jdk
-    }
-}
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')

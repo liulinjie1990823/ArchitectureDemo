@@ -5,17 +5,21 @@ buildscript {
     apply from: 'versions.gradle'
     addRepos(repositories)
     dependencies {
+        //
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
+        //android插件
         classpath deps.android_gradle_plugin
+        //kotlin插件
         classpath deps.kotlin_gradle_plugin
+        //butterknife插件
         classpath deps.butterknife_gradle_plugin
+        //渠道包插件
         classpath 'com.meituan.android.walle:plugin:1.1.6'
-
-//        classpath 'com.llj:time-gradle-plugin:0.0.1'
-
-        //上传bintray
+        //上传bintray插件
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+
+        //classpath 'com.llj:time-gradle-plugin:0.0.1'
     }
 }
 
@@ -36,39 +40,7 @@ allprojects {
     }
 }
 
-configure(subprojects.findAll { it.name != 'app' && it.name != 'time-gradle-plugin' }) {
-    apply plugin: 'com.android.library'
-
-    android {
-        compileSdkVersion build_versions.compile
-        buildToolsVersion build_versions.build_tools
-
-        defaultConfig {
-            minSdkVersion build_versions.min_sdk
-            targetSdkVersion build_versions.target_sdk
-        }
-
-        buildTypes {
-            debug {
-                minifyEnabled false
-                matchingFallbacks = ['debug', 'release']
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            }
-            release {
-                minifyEnabled false
-                matchingFallbacks = ['debug', 'release']
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            }
-        }
-        compileOptions {
-            targetCompatibility build_versions.compile_jdk
-            sourceCompatibility build_versions.compile_jdk
-        }
-        lintOptions {
-            abortOnError false
-        }
-    }
-}
+apply from:"libraryConfigure.gradle"
 
 afterEvaluate {
     println 'lifecycle afterEvaluate'

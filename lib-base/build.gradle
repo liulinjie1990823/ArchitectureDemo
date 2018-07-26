@@ -1,38 +1,10 @@
-apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt' // kapt 插件
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
-    compileSdkVersion build_versions.compile
-    buildToolsVersion build_versions.build_tools
-
-    defaultConfig {
-        minSdkVersion build_versions.min_sdk
-        targetSdkVersion build_versions.target_sdk
-    }
-
-    buildTypes {
-        debug {
-            minifyEnabled false
-            matchingFallbacks = ['debug', 'release']
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        release {
-            minifyEnabled false
-            matchingFallbacks = ['debug', 'release']
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        targetCompatibility build_versions.compile_jdk
-        sourceCompatibility build_versions.compile_jdk
-    }
     dataBinding {
         enabled = true
-    }
-    lintOptions {
-        abortOnError false
     }
 }
 
@@ -69,7 +41,7 @@ dependencies {
     }
     api('com.google.dagger:dagger-android-support:2.16') {
         exclude group: 'com.android.support'
-    } // if you use the support libraries
+    }
     kapt 'com.google.dagger:dagger-compiler:2.16'
     kapt 'com.google.dagger:dagger-android-processor:2.16'
 

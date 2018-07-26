@@ -1,11 +1,3 @@
-include ':app',
-        ':lib-base',
-        ':lib-utils',
-        ':lib-image-loader',
-        ':lib-net',
-        ':lib-webview',
-        ':lib-image-select',
-        ':lib-permission',
-        ':component-service',
-        ':time-gradle-plugin',
-        ':lib-universalAdapter'
+/**
+ * 工程gradle相关工具
+ */
