@@ -5,10 +5,6 @@ apply plugin: 'kotlin-kapt' // kapt 插件
 apply plugin: 'walle'
 //apply plugin: 'task-time'
 
-def releaseTime() {
-    return new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("UTC+8"))
-}
-
 android {
     compileSdkVersion build_versions.compile
     buildToolsVersion build_versions.build_tools
@@ -17,8 +13,8 @@ android {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
 
-        versionCode 1
-        versionName "1.0"
+        versionCode build_versions.version_code
+        versionName build_versions.version_name
 
         resConfigs "en", "xxhdpi"
 
@@ -180,18 +176,17 @@ dependencies {
 }
 
 walle {
+    // 指定渠道包的输出路径
     apkOutputFolder = new File("${project.buildDir}/outputs/channels")
+    // 定制渠道包的APK的文件名称
     apkFileNameFormat = '${appName}_${channel}_${flavorName}${buildType}_v${versionName}_${versionCode}-${buildTime}.apk'
-    //configFile与channelFile两者必须存在一个，否则无法生成渠道包。两者都存在时优先执行configFile
+    // 渠道配置文件
     channelFile = new File("${project.getProjectDir()}/channel")
-    //configFile = new File("${project.getProjectDir()}/config.json")
 }
 
 kapt {
-//    generateStubs = true
     arguments {
         arg("moduleName", project.getName())
-//        arg("room.schemaLocation": "$projectDir/schemas".toString())
     }
 }
 
@@ -208,7 +203,7 @@ task zipChannels(type: Zip) {
 
 task taskX {
     doLast {
-        println 'taskX'
+        println releaseTime()
     }
 }
 task taskY {

@@ -3,6 +3,9 @@ package com.llj.architecturedemo.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.text.Editable
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -12,6 +15,7 @@ import com.llj.adapter.refresh.RefreshHelper
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.MyBaseActivity
 import com.llj.architecturedemo.R
+import com.llj.architecturedemo.R.id.*
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.architecturedemo.presenter.SecondPresenter
 import com.llj.architecturedemo.view.SecondView
@@ -41,6 +45,16 @@ class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             context.startActivity(intent)
         }
+
+        val handle2: Handler by lazy {
+            object : Handler(Looper.getMainLooper()) {
+                override fun handleMessage(msg: Message?) {
+                    super.handleMessage(msg)
+                }
+
+            }
+        }
+
     }
 
     override fun layoutId(): Int {
@@ -48,6 +62,7 @@ class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
+
 
         mTvClick.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
@@ -57,6 +72,8 @@ class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
+
+
         mTvClick.setOnClickListener(View.OnClickListener { v ->
             LogUtil.LLJi(mTag, v.hashCode())
             LogUtil.LLJi(mTag, v.hashCode())
@@ -126,6 +143,7 @@ class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
                 return
             }
             viewHolder.setText(R.id.tv_title, item.title)
+
         }
 
     }
@@ -133,5 +151,34 @@ class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
     data class Test(var title: String? = null) {
         var name: String? = null
     }
+
+
+    private val mHandler: MyHandler = MyHandler()
+
+    inner class MyHandler : Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            mContext.resources
+        }
+    }
+
+    val handle: Handler by lazy {
+        object : Handler(Looper.getMainLooper()) {
+            override fun handleMessage(msg: Message?) {
+                super.handleMessage(msg)
+                mContext.resources
+            }
+
+        }
+    }
+
+    val handle2 = object : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            mContext.resources
+        }
+
+    }
+
 
 }

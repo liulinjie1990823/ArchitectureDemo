@@ -2,6 +2,7 @@ package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.MyBaseActivity;
@@ -29,6 +30,25 @@ public class MemoryLeakActivity extends MyBaseActivity {
         }, 10000000);
 
     }
+
+    class MyHandler extends Handler {
+       public MyHandler(Callback callback) {
+           super(callback);
+       }
+
+       @Override
+        public void handleMessage(Message msg) {
+            mContext.databaseList();
+            super.handleMessage(msg);
+        }
+    }
+
+    private final Handler dada = new MyHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            return false;
+        }
+    });
 
     @Override
     public void initData() {

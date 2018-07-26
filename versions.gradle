@@ -206,9 +206,11 @@ ext.deps = deps
 
 def build_versions = [:]
 build_versions.compile = 27
+build_versions.build_tools = "27.0.3"
 build_versions.min_sdk = 15
 build_versions.target_sdk = 27
-build_versions.build_tools = "27.0.3"
+build_versions.version_code = 100
+build_versions.version_name = "1.0.0"
 build_versions.compile_jdk = 1.8
 ext.build_versions = build_versions
 
@@ -223,3 +225,9 @@ def addRepos(RepositoryHandler handler) {
 }
 
 ext.addRepos = this.&addRepos
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+:08:00"))
+}
+
+ext.releaseTime=this.&releaseTime

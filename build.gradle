@@ -1,5 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 apply plugin: 'com.github.ben-manes.versions'
+
 buildscript {
     apply from: 'versions.gradle'
     addRepos(repositories)
@@ -8,10 +9,7 @@ buildscript {
         classpath deps.android_gradle_plugin
         classpath deps.kotlin_gradle_plugin
         classpath deps.butterknife_gradle_plugin
-//        classpath deps.bintray_release
         classpath 'com.meituan.android.walle:plugin:1.1.6'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
 
 //        classpath 'com.llj:time-gradle-plugin:0.0.1'
 
@@ -23,6 +21,7 @@ buildscript {
 
 allprojects {
     addRepos(repositories)
+
     gradle.taskGraph.whenReady {
         tasks.each { task ->
             if (task.name.contains("Test")
@@ -36,6 +35,67 @@ allprojects {
         }
     }
 }
+
+configure(subprojects.findAll { it.name != 'app' && it.name != 'time-gradle-plugin' }) {
+    apply plugin: 'com.android.library'
+
+    android {
+        compileSdkVersion build_versions.compile
+        buildToolsVersion build_versions.build_tools
+
+        defaultConfig {
+            minSdkVersion build_versions.min_sdk
+            targetSdkVersion build_versions.target_sdk
+        }
+
+        buildTypes {
+            debug {
+                minifyEnabled false
+                matchingFallbacks = ['debug', 'release']
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+            release {
+                minifyEnabled false
+                matchingFallbacks = ['debug', 'release']
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+        compileOptions {
+            targetCompatibility build_versions.compile_jdk
+            sourceCompatibility build_versions.compile_jdk
+        }
+        lintOptions {
+            abortOnError false
+        }
+    }
+}
+
+afterEvaluate {
+    println 'lifecycle afterEvaluate'
+
+    tasks.matching {
+        it.name.startsWith('dex')
+    }.each { dx ->
+        if (dx.additionalParameters == null) {
+            dx.additionalParameters = []
+        }
+        dx.additionalParameters += '--set-max-idx-number=48000'
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        kotlinOptions.suppressWarnings = true
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+
+
 
 beforeEvaluate {
     println 'lifecycle beforeEvaluate'
@@ -60,29 +120,4 @@ gradle.buildFinished {
 }
 gradle.projectsEvaluated { project ->
     println "lifecycle projectsEvaluated of $project"
-}
-
-afterEvaluate {
-    println 'lifecycle afterEvaluate'
-
-    tasks.matching {
-        it.name.startsWith('dex')
-    }.each { dx ->
-        if (dx.additionalParameters == null) {
-            dx.additionalParameters = []
-        }
-        dx.additionalParameters += '--set-max-idx-number=48000'
-    }
-}
-
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        kotlinOptions.suppressWarnings = true
-    }
-}
-
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }
