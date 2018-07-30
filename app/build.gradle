@@ -18,19 +18,9 @@ android {
 
         resConfigs "en", "xxhdpi"
 
-        ndk {
-            abiFilters "armeabi"
-        }
-        dataBinding {
-            enabled = true
-        }
+        ndk { abiFilters "armeabi" }
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString(),
-                             moduleName           : project.getName()]
-            }
-        }
+        dataBinding { enabled = true }
     }
     signingConfigs {
         release {
@@ -44,34 +34,19 @@ android {
     flavorDimensions "free"
 
     productFlavors {
-//        wm {
-//            dimension "free"
-//        }
-//        mt {
-//            dimension "free"
-//        }
+//        wm { dimension "free" }
+//        mt { dimension "free" }
     }
 
     buildTypes {
-        debug {
-            signingConfig signingConfigs.release
-            matchingFallbacks = ['debug', 'release']
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            ext.alwaysUpdateBuildId = false
-        }
-        beta {
-            signingConfig signingConfigs.release
-            matchingFallbacks = ['debug', 'release']
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        release {
-            signingConfig signingConfigs.release
-            matchingFallbacks = ['debug', 'release']
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+        debug {}
+        release {}
+    }
+    buildTypes.all { type ->
+        type.matchingFallbacks = ['debug']
+        type.signingConfig = signingConfigs.release
+        type.minifyEnabled = false
+        type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
     }
 
     sourceSets {
@@ -83,7 +58,6 @@ android {
                 res.srcDir("src/${dir}/main/res")
             }
         }
-
 //        wm {
 //            dirs.each { dir ->
 //                java.srcDir("src/${dir}/wm/java")
@@ -190,28 +164,14 @@ kapt {
     }
 }
 
+//打包任务
+apply from: "../zipChannel.gradle"
 
-task zipChannels(type: Zip) {
-    println 'zipChannels'
-    from 'build/outputs/channels'    //需要打包的文件夹内容
-//    into 'build/outputs/channels'  //zip包里面的的文件夹路径
-    baseName "$project.name-channels"
-    extension 'zip'
-    destinationDir file("$buildDir/outputs")  //输出路径
-//    dependsOn 'assembleReleaseChannels'
-}
 
-task taskX {
-    doLast {
-        println releaseTime()
-    }
-}
-task taskY {
-    doLast {
-        println 'taskY'
-    }
-}
-taskY.mustRunAfter taskX
+//测试
+apply from: "../test.gradle"
+
+
 
 
 

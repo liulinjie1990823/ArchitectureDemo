@@ -25,25 +25,12 @@ buildscript {
 
 allprojects {
     addRepos(repositories)
-
-    gradle.taskGraph.whenReady {
-        tasks.each { task ->
-            if (task.name.contains("Test")
-                    || task.name.contains("mockableAndroidJar")
-                    || task.name.contains("Lint")
-                    || task.name.contains("Aidl")
-                    || task.name.contains("Ndk")
-            ) {
-                task.enabled = false
-            }
-        }
-    }
 }
 
-apply from:"libraryConfigure.gradle"
+//配置类库相关属性
+apply from: "libraryConfigure.gradle"
 
 afterEvaluate {
-    println 'lifecycle afterEvaluate'
 
     tasks.matching {
         it.name.startsWith('dex')
@@ -68,10 +55,6 @@ task clean(type: Delete) {
 
 
 
-
-beforeEvaluate {
-    println 'lifecycle beforeEvaluate'
-}
 gradle.beforeProject { project ->
     println "lifecycle beforeProject of $project"
 }

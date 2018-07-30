@@ -1,0 +1,49 @@
+task taska {
+    doLast {
+        println 'taska'
+        println releaseTime()
+    }
+}
+task taskb {
+    doLast {
+        println 'taskb'
+    }
+}
+task taskc {
+    println 'taskc'
+}
+task taskd {
+    println 'taskd'
+}
+
+
+
+
+
+//tasks.getByName("assembleReleaseChannels").mustRunAfter taskX
+//taskY.mustRunAfter taskX
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

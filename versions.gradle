@@ -231,7 +231,7 @@ def addRepos(RepositoryHandler handler) {
 ext.addRepos = this.&addRepos
 
 def releaseTime() {
-    return new Date().format("yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+:08:00"))
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("GMT+:08:00"))
 }
 
 ext.releaseTime=this.&releaseTime
