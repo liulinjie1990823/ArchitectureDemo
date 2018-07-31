@@ -45,17 +45,21 @@ allprojects {
 
 subprojects {
     //过滤每个工程任务表中无用的任务
-    gradle.taskGraph.whenReady {taskGraph ->
+    gradle.taskGraph.whenReady { taskGraph ->
 
         taskGraph.allTasks.each { task ->
 
             println "${task.project.name} gradle.taskGraph.whenReady:${task.name}"
 
             if (task.name.contains("Test")
+                    || task.name.contains("test")
                     || task.name.contains("mockableAndroidJar")
                     || task.name.contains("Lint")
+                    || task.name.contains("lint")
                     || task.name.contains("Aidl")
+                    || task.name.contains("aidl")
                     || task.name.contains("Ndk")
+                    || task.name.contains("ndk")
             ) {
                 task.enabled = false
             }
@@ -63,7 +67,9 @@ subprojects {
     }
 
     //配置类库公用的配置
-    if (it.name != 'app' && it.name != 'time-gradle-plugin') {
+    if (it.name != 'app'
+            && it.name != 'time-gradle-plugin'
+            && it.name != 'libs') {
 
         apply plugin: 'com.android.library'
 

@@ -221,6 +221,8 @@ ext.build_versions = build_versions
 
 def addRepos(RepositoryHandler handler) {
     handler.maven { url uri('./repo') }
+    handler.flatDir { dirs '../lib', '../libs' }
+    handler.mavenLocal()
     handler.google()
     handler.jcenter()
     handler.mavenCentral()
@@ -234,4 +236,4 @@ def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("GMT+:08:00"))
 }
 
-ext.releaseTime=this.&releaseTime
+ext.releaseTime = this.&releaseTime

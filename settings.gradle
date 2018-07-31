@@ -8,4 +8,5 @@ include ':app',
         ':lib-permission',
         ':component-service',
         ':time-gradle-plugin',
-        ':lib-universalAdapter'
+        ':lib-universalAdapter',
+        ':libs'

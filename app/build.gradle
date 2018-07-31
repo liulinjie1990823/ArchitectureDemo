@@ -168,7 +168,6 @@ kapt {
 //打包任务
 apply from: "../zipChannel.gradle"
 
-
 //测试
 apply from: "../test.gradle"
 
