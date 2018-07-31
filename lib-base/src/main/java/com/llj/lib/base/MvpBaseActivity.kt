@@ -23,7 +23,7 @@ import javax.inject.Inject
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/5/15
  */
 abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
@@ -32,7 +32,7 @@ abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
     lateinit var mContext: Context
 
     @Inject lateinit var mPresenter: P
-    private lateinit var mUnbinder: Unbinder
+    private lateinit var mUnBinder: Unbinder
     private var mRequestDialog: ITag? = null
 
     private val mCancelableTask: ArrayMap<Any, Disposable> = ArrayMap()
@@ -56,7 +56,7 @@ abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
         val layoutView = layoutView()
         if (layoutView == null) setContentView(layoutId()) else setContentView(layoutView)
 
-        mUnbinder = ButterKnife.bind(this)
+        mUnBinder = ButterKnife.bind(this)
 
         checkRequestDialog()
 
@@ -102,7 +102,7 @@ abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
         //移除所有的任务
         removeAllDisposable()
 
-        mUnbinder.unbind()
+        mUnBinder.unbind()
 
         mPresenter.destroy()
 
@@ -145,9 +145,7 @@ abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
     //<editor-fold desc="IBaseActivity">
     override fun initLifecycleObserver(lifecycle: Lifecycle) {
         //将mPresenter作为生命周期观察者添加到lifecycle中
-        if (mPresenter != null) {
-            lifecycle.addObserver(mPresenter!!)
-        }
+        lifecycle.addObserver(mPresenter)
     }
 
     override fun superOnBackPressed() {

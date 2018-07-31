@@ -6,7 +6,7 @@ package com.llj.architecturedemo.vo;
  * author liulj
  * date 2018/4/26
  */
-public   class Animal {
+public class Animal {
 
 
     /**
@@ -16,7 +16,7 @@ public   class Animal {
      * serviceTime : 1525231679
      */
 
-    private int code;
+    private int      code;
     private String   message;
     private DataBean data;
     private int      serviceTime;
@@ -59,7 +59,7 @@ public   class Animal {
          * about_us :
          */
 
-        private int client_id;
+        private int    client_id;
         private String about_us;
 
         public int getClient_id() {
