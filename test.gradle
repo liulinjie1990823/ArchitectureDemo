@@ -16,12 +16,61 @@ task taskd {
     println 'taskd'
 }
 
-
-
-
-
 //tasks.getByName("assembleReleaseChannels").mustRunAfter taskX
 //taskY.mustRunAfter taskX
+
+//BuildListener
+gradle.settingsEvaluated {
+    println "lifecycle settingsEvaluated of $it"
+}
+gradle.projectsLoaded {
+    println "lifecycle projectsLoaded of $it"
+}
+gradle.projectsEvaluated {
+    println "lifecycle projectsEvaluated of $it"
+}
+gradle.buildStarted {
+    println "lifecycle buildStarted of $it"
+}
+gradle.buildFinished {
+    println 'lifecycle buildFinished'
+}
+
+//ProjectEvaluationListener
+gradle.beforeProject { project ->
+    println "lifecycle beforeProject of $project"
+}
+gradle.afterProject { project, projectState ->
+    println "lifecycle afterProject of $project"
+}
+
+
+allprojects {
+    //配置中或者配置后会调用
+    tasks.whenTaskAdded { task ->
+        println "${task.project.name} whenTaskAdded:${task.name}"
+    }
+
+    //TaskExecutionListener
+    //过滤每个工程任务表中无用的任务
+    gradle.taskGraph.whenReady { taskGraph ->
+
+        taskGraph.allTasks.each { task ->
+
+            println "${task.project.name} allprojects:gradle.taskGraph.whenReady:${task.name}"
+        }
+    }
+    //task执行开始前
+    gradle.taskGraph.beforeTask { task ->
+        println "${task.project.name} gradle.taskGraph.beforeTask:${task.name}"
+    }
+    //task执行开始后
+    gradle.taskGraph.afterTask { task, taskState ->
+        println "${task.project.name} gradle.taskGraph.afterTask:${task.name}"
+    }
+}
+
+
 
 
 

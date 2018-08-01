@@ -2,54 +2,11 @@
  * 工程类库共用相关配置
  */
 
-//configure(subprojects.findAll()) {
-//    if (it.name != 'app' && it.name != 'time-gradle-plugin') {
-//
-//        apply plugin: 'com.android.library'
-//        android {
-//            compileSdkVersion build_versions.compile
-//            buildToolsVersion build_versions.build_tools
-//
-//            defaultConfig {
-//                minSdkVersion build_versions.min_sdk
-//                targetSdkVersion build_versions.target_sdk
-//            }
-//
-//            buildTypes {
-//                debug {
-//                    minifyEnabled false
-//                    matchingFallbacks = ['debug', 'release']
-//                    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//                }
-//                release {
-//                    minifyEnabled false
-//                    matchingFallbacks = ['debug', 'release']
-//                    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//                }
-//            }
-//            compileOptions {
-//                targetCompatibility build_versions.compile_jdk
-//                sourceCompatibility build_versions.compile_jdk
-//            }
-//            lintOptions {
-//                abortOnError false
-//            }
-//        }
-//    }
-//}
 allprojects {
-    tasks.whenTaskAdded { task ->
-        println "${task.project.name} whenTaskAdded:${task.name}"
-    }
-}
-
-subprojects {
-    //过滤每个工程任务表中无用的任务
+//过滤每个工程任务表中无用的任务
     gradle.taskGraph.whenReady { taskGraph ->
 
         taskGraph.allTasks.each { task ->
-
-            println "${task.project.name} gradle.taskGraph.whenReady:${task.name}"
 
             if (task.name.contains("Test")
                     || task.name.contains("test")
@@ -65,7 +22,9 @@ subprojects {
             }
         }
     }
+}
 
+subprojects {
     //配置类库公用的配置
     if (it.name != 'app'
             && it.name != 'time-gradle-plugin'

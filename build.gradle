@@ -52,27 +52,5 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-
-
-
-gradle.beforeProject { project ->
-    println "lifecycle beforeProject of $project"
-}
-gradle.afterProject { project, projectState ->
-    println "lifecycle afterProject of $project"
-}
-gradle.projectsLoaded { project ->
-    println "lifecycle projectsLoaded of $project"
-}
-gradle.settingsEvaluated {
-    println 'lifecycle settingsEvaluated'
-}
-gradle.buildStarted {
-    println 'lifecycle buildStarted'
-}
-gradle.buildFinished {
-    println 'lifecycle buildFinished'
-}
-gradle.projectsEvaluated { project ->
-    println "lifecycle projectsEvaluated of $project"
-}
+//测试
+apply from: "test.gradle"
