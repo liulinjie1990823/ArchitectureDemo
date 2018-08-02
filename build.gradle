@@ -6,7 +6,7 @@ buildscript {
     addRepos(repositories)
     dependencies {
         //
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
         //android插件
         classpath deps.android_gradle_plugin
         //kotlin插件
