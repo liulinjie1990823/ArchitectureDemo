@@ -46,6 +46,22 @@
                 />
 
             <TextView
+                android:id="@+id/tv_qq_title_target"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQ分享标题+链接"
+                />
+
+            <TextView
+                android:id="@+id/tv_qq_description_target"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQ分享描述+链接"
+                />
+
+            <TextView
                 android:id="@+id/tv_qq_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,6 +113,22 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="QQzone分享描述"
+                />
+
+            <TextView
+                android:id="@+id/tv_qqzone_title_target"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQzone分享标题+target"
+                />
+
+            <TextView
+                android:id="@+id/tv_qqzone_description_target"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQzone分享描述+target"
                 />
 
             <TextView

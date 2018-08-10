@@ -73,7 +73,9 @@ public class ImageDecoder {
      *
      * @param url        图片地址
      * @param resultFile 本地图片路径
+     *
      * @return 本地图片路径地址字符串
+     *
      * @throws IOException
      */
     private static String downloadImageToUri(String url, File resultFile) throws IOException {
@@ -94,7 +96,9 @@ public class ImageDecoder {
      *
      * @param context   上下文
      * @param pathOrUrl 照片路径(本地或者网络，用来获取后缀用)
+     *
      * @return 本地的一个新的存放地址
+     *
      * @throws Exception
      */
     private static File getCacheFile(Context context, String pathOrUrl) throws Exception {
@@ -117,6 +121,7 @@ public class ImageDecoder {
      *
      * @param path          路径
      * @param defaultSuffix 默认的后缀
+     *
      * @return 后缀
      */
     private static String getSuffix(String path, String defaultSuffix) {
@@ -130,6 +135,9 @@ public class ImageDecoder {
         if (TextUtils.isEmpty(suffix)) {
             return defaultSuffix;
         }
+        if (suffix.contains("?")) {
+            suffix = suffix.substring(0, suffix.indexOf("?"));
+        }
         return suffix;
     }
 
@@ -138,6 +146,7 @@ public class ImageDecoder {
      *
      * @param inputStream  输入流
      * @param outputStream 输出流
+     *
      * @throws IOException
      */
     private static void copyFile(InputStream inputStream, OutputStream outputStream)
@@ -157,7 +166,9 @@ public class ImageDecoder {
      *
      * @param origin 源文件
      * @param result 目标文件
+     *
      * @return 目标文件的地址字符串
+     *
      * @throws IOException
      */
     private static String decodeFile(File origin, File result) throws IOException {
@@ -172,6 +183,7 @@ public class ImageDecoder {
      * @param file    本地地址
      * @param format  照片规格
      * @param quality 照片质量
+     *
      * @return 保存后的文件
      */
     private static File bitmapToFile(Bitmap bitmap, File file, Bitmap.CompressFormat format, int quality) {
@@ -194,6 +206,7 @@ public class ImageDecoder {
      * @param imagePath 图片地址
      * @param size      压缩bitmap的最长边
      * @param length    字节数组的大小
+     *
      * @return 缩略图的字节数组
      */
     public static byte[] compress2Byte(String imagePath, int size, int length) {

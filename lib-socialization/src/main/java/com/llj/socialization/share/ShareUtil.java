@@ -64,7 +64,10 @@ public class ShareUtil {
 
 
     //分享title
-    public static void shareTitle(Context context, @SharePlatformType.Platform int platform, String title, ShareListener listener) {
+    public static void shareTitle(Context context,
+                                  @SharePlatformType.Platform int platform,
+                                  String title,
+                                  ShareListener listener) {
         mType = TYPE_TITLE;
 
         mPlatform = platform;
@@ -76,8 +79,12 @@ public class ShareUtil {
         ResponseActivity.start(context, TYPE);
     }
 
+
     //分享内容
-    public static void shareDescription(Context context, @SharePlatformType.Platform int platform, String description, ShareListener listener) {
+    public static void shareDescription(Context context,
+                                        @SharePlatformType.Platform int platform,
+                                        String description,
+                                        ShareListener listener) {
         mType = TYPE_DESCRIPTION;
 
         mPlatform = platform;
@@ -90,7 +97,12 @@ public class ShareUtil {
     }
 
     //分享标题内容
-    public static void shareText(Context context, @SharePlatformType.Platform int platform, String title, String description, String targetUrl, ShareListener listener) {
+    public static void shareText(Context context,
+                                 @SharePlatformType.Platform int platform,
+                                 String title,
+                                 String description,
+                                 String targetUrl,
+                                 ShareListener listener) {
         mType = TYPE_TEXT;
 
         mPlatform = platform;
@@ -106,7 +118,10 @@ public class ShareUtil {
     }
 
     //纯图分享
-    public static void shareImage(Context context, @SharePlatformType.Platform final int platform, final String urlOrPath, ShareListener listener) {
+    public static void shareImage(Context context,
+                                  @SharePlatformType.Platform final int platform,
+                                  final String urlOrPath,
+                                  ShareListener listener) {
         mType = TYPE_IMAGE;
 
         mPlatform = platform;
@@ -119,7 +134,10 @@ public class ShareUtil {
     }
 
     //纯图分享
-    public static void shareImage(Context context, @SharePlatformType.Platform final int platform, ShareImageObject shareImageObject, ShareListener listener) {
+    public static void shareImage(Context context,
+                                  @SharePlatformType.Platform final int platform,
+                                  ShareImageObject shareImageObject,
+                                  ShareListener listener) {
         mType = TYPE_IMAGE;
 
         mPlatform = platform;
@@ -132,7 +150,10 @@ public class ShareUtil {
     }
 
     //纯图分享
-    public static void shareImage(Context context, @SharePlatformType.Platform final int platform, final Bitmap bitmap, ShareListener listener) {
+    public static void shareImage(Context context,
+                                  @SharePlatformType.Platform final int platform,
+                                  final Bitmap bitmap,
+                                  ShareListener listener) {
         mType = TYPE_IMAGE;
 
         mPlatform = platform;
@@ -145,7 +166,13 @@ public class ShareUtil {
     }
 
     //图文分享
-    public static void shareMedia(Context context, @SharePlatformType.Platform int platform, String title, String description, Bitmap thumb, String targetUrl, ShareListener listener) {
+    public static void shareMedia(Context context,
+                                  @SharePlatformType.Platform int platform,
+                                  String title,
+                                  String description,
+                                  Bitmap thumb,
+                                  String targetUrl,
+                                  ShareListener listener) {
         mType = TYPE_MEDIA;
 
         mPlatform = platform;
@@ -161,7 +188,13 @@ public class ShareUtil {
     }
 
     //图文分享
-    public static void shareMedia(Context context, @SharePlatformType.Platform int platform, String title, String description, String thumbUrlOrPath, String targetUrl, ShareListener listener) {
+    public static void shareMedia(Context context,
+                                  @SharePlatformType.Platform int platform,
+                                  String title,
+                                  String description,
+                                  String thumbUrlOrPath,
+                                  String targetUrl,
+                                  ShareListener listener) {
         mType = TYPE_MEDIA;
 
         mPlatform = platform;

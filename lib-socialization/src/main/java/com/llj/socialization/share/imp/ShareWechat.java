@@ -50,7 +50,10 @@ public class ShareWechat implements ShareInterface {
     }
 
     @Override
-    public void shareTitle(Activity activity, int platform, String title, String targetUrl) {
+    public void shareTitle(Activity activity,
+                           int platform,
+                           String title,
+                           String targetUrl) {
         WXTextObject textObject = new WXTextObject();
         textObject.text = title;
 
