@@ -76,15 +76,10 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         //当fragment在viewPager中的时候需要实现懒加载的模式
-        if (isVisibleToUser) {
-            mIsVisible = true;
-            //当使用viewPager进行预加载fragment的时候,先调用setUserVisibleHint,后调用onViewCreated
-            //所以刚开始是mIsInit=true,mIsVisible为false
-            if (hasInitAndVisible()) {
-                onLazyLoad();
-            }
-        } else {
-            mIsVisible = false;
+        //当使用viewPager进行预加载fragment的时候,先调用setUserVisibleHint,后调用onViewCreated
+        //所以刚开始是mIsInit=true,mIsVisible为false
+        if (hasInitAndVisible()) {
+            onLazyLoad();
         }
     }
 
@@ -140,7 +135,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment
     //<editor-fold desc="IFragmentLazy">
     @Override
     public boolean hasInitAndVisible() {
-        return mIsInit && mIsVisible;
+        return mIsInit && getUserVisibleHint();
     }
 
     @Override

@@ -10,7 +10,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
  * author liulj
  * date 2018/7/20
  */
-class RefreshHelper<Item, Holder : ViewHolder> : IRefresh<Item> {
+class RefreshHelper<Item, Holder : ViewHolder> : IRefresh<Item, Holder> {
 
     private lateinit var mPagerHelper: PagerHelper
 
@@ -31,6 +31,10 @@ class RefreshHelper<Item, Holder : ViewHolder> : IRefresh<Item> {
         this.mSmartRefreshLayout = mSmartRefreshLayout
         this.mAdapter = mAdapter
         mPagerHelper = PagerHelper(pageSize)
+    }
+
+    override fun getAdapter(): ListBasedAdapter<Item, Holder>? {
+        return mAdapter
     }
 
     override fun size(): Int {

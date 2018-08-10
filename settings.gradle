@@ -9,4 +9,5 @@ include 'app',
         ':component-service',
         ':time-gradle-plugin',
         ':lib-universalAdapter',
+        ':lib-socialization',
         ':libs'

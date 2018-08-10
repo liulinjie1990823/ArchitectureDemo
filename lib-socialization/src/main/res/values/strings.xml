@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">lib-socialization</string>
+    <string name="share_image_failure">分享图片失败</string>
+    <string name="load_image_failure">加载图片失败</string>
+    <string name="compress_image_failure">压缩图片失败</string>
+    <string name="share_web_failure">分享网页失败</string>
+    <string name="local_file_does_not_exist">本地文件不存在</string>
+    <string name="incorrect_parameter_passed_in">参数传入有误</string>
+</resources>

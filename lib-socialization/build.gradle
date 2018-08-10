@@ -1,0 +1,26 @@
+
+dependencies {
+    implementation deps.bolts
+    //调试的时候依赖
+    debugApi fileTree(include: ['*.jar'], dir: 'libs')
+    debugApi deps.okhttp
+    debugApi deps.support.app_compat
+    debugApi deps.support.annotations
+    debugApi 'com.sina.weibo.sdk:core:4.1.4:openDefaultRelease@aar'
+//    debugApi 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.4.0'
+//    debugApi 'com.sina.weibo.sdk:core:4.2.0:openDefaultRelease@aar'
+
+
+
+    //release的时候用CompileOnly，仅仅是编译额时候依赖下面的包，这样打出来的arr包就没有如下包
+    releaseCompileOnly fileTree(include: ['*.jar'], dir: 'libs')
+    releaseCompileOnly deps.okhttp
+    releaseCompileOnly deps.support.app_compat
+    releaseCompileOnly deps.support.annotations
+    releaseCompileOnly 'com.sina.weibo.sdk:core:4.1.4:openDefaultRelease@aar'
+//    releaseCompileOnly 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.4.0'
+//    releaseCompileOnly 'com.sina.weibo.sdk:core:4.1.4:openDefaultRelease@aar'
+}
+
+apply from: "uploadArchives.gradle"
+apply from: "bintrayUpload.gradle"

@@ -24,6 +24,7 @@ import java.util.*
 @Route(path = CRouter.APP_MAIN_ACTIVITY)
 class MainActivity : MyBaseActivity<MainPresenter>(), MainContractView {
 
+
     private val mObserver = object : Observer<String> {
         override fun onSubscribe(d: Disposable) {
 
@@ -123,7 +124,7 @@ class MainActivity : MyBaseActivity<MainPresenter>(), MainContractView {
 
     override fun initData() {
         setOnClickListener(mTvClick, View.OnClickListener {
-            CRouter.start(CRouter.APP_SECOND_ACTIVITY)
+            CRouter.start(CRouter.APP_SHARE_ACTIVITY)
         })
     }
 }

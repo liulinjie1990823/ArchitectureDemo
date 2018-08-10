@@ -1,0 +1,124 @@
+package com.llj.socialization.login;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+
+import com.llj.socialization.INFO;
+import com.llj.socialization.Logger;
+import com.llj.socialization.ResponseActivity;
+import com.llj.socialization.login.callback.LoginListener;
+import com.llj.socialization.login.imp.LoginQQ;
+import com.llj.socialization.login.imp.LoginSina;
+import com.llj.socialization.login.imp.LoginWeChat;
+import com.llj.socialization.login.interfaces.LoginInterface;
+import com.llj.socialization.login.model.BaseToken;
+import com.llj.socialization.login.model.LoginResult;
+
+/**
+ * PROJECT:babyphoto_app
+ * DESCRIBE:
+ * Created by llj on 2017/1/18.
+ */
+
+public class LoginUtil {
+    public static final String TAG  = LoginUtil.class.getSimpleName();
+    public static final int    TYPE = 799;
+
+    private static LoginInterface mLoginInstance;
+    private static LoginListener  mLoginListenerWrap;
+
+    private static int mPlatform;
+
+    private static boolean isFetchUserInfo;
+
+
+    public static void login(Context context, @LoginPlatformType.Platform int platform, LoginListener listener) {
+        login(context, platform, listener, true);
+    }
+
+    public static void login(Context context, @LoginPlatformType.Platform int platform, LoginListener listener, boolean fetchUserInfo) {
+        listener.setPlatform(platform);
+
+        mPlatform = platform;
+        mLoginListenerWrap = buildWrapListener(listener);
+        isFetchUserInfo = fetchUserInfo;
+
+        ResponseActivity.start(context, TYPE, platform);
+    }
+
+    private static LoginListenerWrap buildWrapListener(LoginListener listener) {
+        return new LoginListenerWrap(listener);
+    }
+
+    public static void perform(Activity activity) {
+        mLoginInstance = getPlatform(mPlatform, activity);
+
+        if (mLoginListenerWrap == null || mLoginInstance == null) {
+            activity.finish();
+            return;
+        }
+        if (!mLoginInstance.isInstalled(activity)) {
+            mLoginListenerWrap.onLoginResponse(new LoginResult(mPlatform, LoginResult.RESPONSE_SHARE_NOT_INSTALL));
+            activity.finish();
+            return;
+        }
+        mLoginListenerWrap.onStart();
+
+        mLoginInstance.doLogin(activity, isFetchUserInfo);
+    }
+
+    private static LoginInterface getPlatform(@LoginPlatformType.Platform int platform, Activity activity) {
+        switch (platform) {
+            case LoginPlatformType.QQ:
+                return new LoginQQ(activity, mLoginListenerWrap, isFetchUserInfo);
+            case LoginPlatformType.SINA:
+                return new LoginSina(activity, mLoginListenerWrap, isFetchUserInfo);
+            case LoginPlatformType.WECHAT:
+                return new LoginWeChat(activity, mLoginListenerWrap, isFetchUserInfo);
+        }
+        return null;
+    }
+
+    public static void handleResult(int requestCode, int resultCode, Intent data) {
+        if (mLoginInstance != null) {
+            mLoginInstance.handleResult(requestCode, resultCode, data);
+        }
+    }
+
+    public static void recycle() {
+        if (mLoginInstance != null) {
+            mLoginInstance.recycle();
+        }
+        mLoginInstance = null;
+        mLoginListenerWrap = null;
+        mPlatform = 0;
+        isFetchUserInfo = false;
+    }
+
+    private static class LoginListenerWrap extends LoginListener {
+
+        private LoginListener mListener;
+
+        LoginListenerWrap(LoginListener listener) {
+            mListener = listener;
+            setPlatform(mListener.getPlatform());
+        }
+
+        @Override
+        public void onStart() {
+            mListener.onStart();
+        }
+
+        @Override
+        public void beforeFetchUserInfo(BaseToken token) {
+            Logger.e(INFO.LOGIN_AUTH_SUCCESS);
+            mListener.beforeFetchUserInfo(token);
+        }
+
+        @Override
+        public void onLoginResponse(LoginResult result) {
+            mListener.onLoginResponse(result);
+        }
+    }
+}

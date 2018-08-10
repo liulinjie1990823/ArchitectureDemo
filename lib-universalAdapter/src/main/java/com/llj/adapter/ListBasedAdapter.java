@@ -115,6 +115,9 @@ public abstract class ListBasedAdapter<Item, Holder extends ViewHolder> extends 
 
     @Override
     public boolean addAll(@NonNull Collection<? extends Item> collection) {
+        if (collection == null || collection.isEmpty()) {
+            return false;
+        }
         int location = mList.size();
         if (mList.addAll(collection)) {
             onItemRangeInserted(location, collection.size());
@@ -125,6 +128,9 @@ public abstract class ListBasedAdapter<Item, Holder extends ViewHolder> extends 
 
     @Override
     public boolean addAll(int index, @NonNull Collection<? extends Item> collection) {
+        if (collection == null || collection.isEmpty()) {
+            return false;
+        }
         if (mList.addAll(index, collection)) {
             onItemRangeInserted(index, collection.size());
             return true;

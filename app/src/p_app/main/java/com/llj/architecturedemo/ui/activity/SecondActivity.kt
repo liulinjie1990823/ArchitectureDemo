@@ -15,7 +15,6 @@ import com.llj.adapter.refresh.RefreshHelper
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.MyBaseActivity
 import com.llj.architecturedemo.R
-import com.llj.architecturedemo.R.id.*
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.architecturedemo.presenter.SecondPresenter
 import com.llj.architecturedemo.view.SecondView
@@ -73,17 +72,20 @@ class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
             }
         })
 
-
-        mTvClick.setOnClickListener(View.OnClickListener { v ->
-            LogUtil.LLJi(mTag, v.hashCode())
-            LogUtil.LLJi(mTag, v.hashCode())
-        })
         mTvClick.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 LogUtil.LLJi(mTag, v?.hashCode())
                 LogUtil.LLJi(mTag, v?.hashCode())
             }
         })
+        mTvClick.setOnClickListener(View.OnClickListener { v ->
+            LogUtil.LLJi(mTag, v.hashCode())
+            LogUtil.LLJi(mTag, v.hashCode())
+        })
+        mTvClick.setOnClickListener { v ->
+            LogUtil.LLJi(mTag, v?.hashCode())
+            LogUtil.LLJi(mTag, v?.hashCode())
+        }
         mTvClick.setOnClickListener {
             LogUtil.LLJi(mTag, it.hashCode())
             LogUtil.LLJi(mTag, it.hashCode())

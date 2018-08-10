@@ -13,7 +13,7 @@ open class BasePresenter<R : BaseRepository, V : IView> : IPresenter {
     protected val mTag = this.javaClass.simpleName
 
     protected var mRepository: R? = null
-    protected lateinit var mView: V
+    protected var mView: V
 
     constructor(repository: R, view: V) {
         this.mRepository = repository

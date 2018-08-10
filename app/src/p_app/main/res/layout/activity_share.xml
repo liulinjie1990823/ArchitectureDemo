@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.llj.socialization.MainActivity">
+
+        <!--qq-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQ"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_qq_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQ分享标题"
+                />
+
+            <TextView
+                android:id="@+id/tv_qq_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQ分享描述"
+                />
+
+            <TextView
+                android:id="@+id/tv_qq_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQ分享文本"
+                />
+
+            <TextView
+                android:id="@+id/tv_qq_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQ分享纯图"
+                />
+
+            <TextView
+                android:id="@+id/tv_qq_image_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQ分享图文"
+                />
+        </LinearLayout>
+        <!--QQzone-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQzone"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_qqzone_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQzone分享标题"
+                />
+
+            <TextView
+                android:id="@+id/tv_qqzone_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQzone分享描述"
+                />
+
+            <TextView
+                android:id="@+id/tv_qqzone_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQzone分享文本"
+                />
+
+            <TextView
+                android:id="@+id/tv_qqzone_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQzone分享纯图"
+                />
+
+            <TextView
+                android:id="@+id/tv_qqzone_image_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="QQzone分享图文"
+                />
+        </LinearLayout>
+        <!--wechat-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_wechat_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat分享标题"/>
+            <TextView
+                android:id="@+id/tv_wechat_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat分享描述"/>
+            <TextView
+                android:id="@+id/tv_wechat_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat分享文本"/>
+
+            <TextView
+                android:id="@+id/tv_wechat_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat分享图片"/>
+
+            <TextView
+                android:id="@+id/tv_wechat_webpage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat分享页面"/>
+        </LinearLayout>
+        <!--wechat_circle-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat_circle"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_wechat_circle_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat朋友圈分享标题"/>
+            <TextView
+                android:id="@+id/tv_wechat_circle_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat朋友圈分享内容"/>
+            <TextView
+                android:id="@+id/tv_wechat_circle_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat朋友圈分享文本"/>
+
+            <TextView
+                android:id="@+id/tv_wechat_circle_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat朋友圈分享图片"/>
+
+            <TextView
+                android:id="@+id/tv_wechat_circle_webpage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat朋友圈分享页面"/>
+        </LinearLayout>
+        <!--sign-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="新浪微博"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="新浪分享"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+        <!--短信-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_sms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="短信"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+        <!--复制-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="复制"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
