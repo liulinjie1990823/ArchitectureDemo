@@ -1,5 +1,6 @@
 package com.llj.adapter.observable;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -33,4 +34,9 @@ public interface ObservableList<T> extends List<T> {
      * @throws IllegalStateException if no transaction is currently running.
      */
     void endTransaction();
+
+
+    default boolean isEmpty(Collection<? extends T> list) {
+        return list == null || list.isEmpty();
+    }
 }

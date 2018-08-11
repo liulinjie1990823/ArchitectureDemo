@@ -50,12 +50,12 @@ class RefreshHelper<Item, Holder : ViewHolder> : IRefresh<Item, Holder> {
         }
     }
 
-    //
-    override fun handleData(hasNextPage: Boolean, list: Collection<Item>) {
+    override fun handleData(hasNextPage: Boolean, list: Collection<Item>?) {
         checkHasMoreData(hasNextPage)
-        if (!isEmpty(list)) {
-            mAdapter?.addAll(list)
+        if (isEmpty(list)) {
+            return
         }
+        mAdapter?.addAll(list!!)
     }
 
     private fun <T> isEmpty(list: Collection<T>?): Boolean {

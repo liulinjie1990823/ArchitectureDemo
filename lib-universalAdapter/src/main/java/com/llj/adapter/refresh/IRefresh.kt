@@ -12,7 +12,7 @@ import com.llj.adapter.ViewHolder
 interface IRefresh<Item, Holder : ViewHolder> : IPager {
     fun finishRefreshOrLoadMore(success: Boolean)
 
-    fun handleData(hasNextPage: Boolean, list: Collection<Item>)
+    fun handleData(hasNextPage: Boolean, list: Collection<Item>?)
 
     fun size(): Int
 
