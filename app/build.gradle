@@ -150,8 +150,8 @@ dependencies {
     api 'com.google.dagger:dagger-android-support:2.16' // if you use the support libraries
     kapt 'com.google.dagger:dagger-android-processor:2.16'
 
-    implementation 'com.meituan.android.walle:library:1.1.6'
-    implementation deps.kotlin_stdlib_jdk8
+    implementation deps.walle
+    implementation deps.kotlin.stdlib_jdk8
 
 //    kapt "com.android.databinding:compiler:3.1.3"
 }

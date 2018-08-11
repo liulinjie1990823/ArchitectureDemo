@@ -1,3 +1,20 @@
 /**
  * 工程gradle相关工具
  */
+
+
+def getVersionNameAdvanced() {
+    def xmlFile = project.file("AndroidManifest.xml")
+    def rootManifest = new XmlSlurper().parse(xmlFile)
+    return rootManifest['@android:versionName']
+}
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("GMT+:08:00"))
+}
+
+
+ext {
+    releaseTime = this.&releaseTime
+    getVersionNameAdvanced = this.&getVersionNameAdvanced
+}

@@ -13,7 +13,7 @@ dependencies {
 
     implementation deps.okhttp_logging_interceptor
 
-    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    implementation deps.PersistentCookieJar
 
     implementation deps.rxjava2
     implementation deps.rxandroid
@@ -30,6 +30,6 @@ dependencies {
         exclude group: 'com.android.support'
         exclude group: 'io.reactivex.rxjava2'
     }
-    implementation deps.kotlin_stdlib_jdk8
+    implementation deps.kotlin.stdlib_jdk8
 }
 

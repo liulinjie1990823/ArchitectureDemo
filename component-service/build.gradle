@@ -6,5 +6,5 @@ dependencies {
     api project(':lib-base')
 
     api deps.arouter.api
-    implementation deps.kotlin_stdlib_jdk8
+    implementation deps.kotlin.stdlib_jdk8
 }

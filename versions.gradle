@@ -48,22 +48,11 @@ versions.stetho = "1.5.0"
 versions.leakcanary = "1.6.1"
 versions.timber = "4.7.1"
 
-
 versions.rxjava2 = "2.2.0"
 versions.rx_android = "2.0.2"
 
-
-versions.junit = "4.12"
-versions.espresso = "3.0.1"
 versions.mockwebserver = "3.8.1"
-versions.apache_commons = "2.5"
-versions.mockito = "2.7.19"
-versions.mockito_all = "1.10.19"
-versions.dexmaker = "2.2.0"
 versions.glide = "3.8.0"
-versions.atsl_runner = "1.0.1"
-versions.atsl_rules = "1.0.1"
-versions.hamcrest = "1.3"
 versions.paging = "1.0.0-beta1"
 def deps = [:]
 
@@ -72,7 +61,7 @@ deps.butterknife_gradle_plugin = "com.jakewharton:butterknife-gradle-plugin:$ver
 deps.kotlin_gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 deps.kotlin_stdlib_jdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
 deps.kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
-deps.bintray_release = "com.novoda:bintray-release:$versions.bintray_release"
+deps.bintray_release_plugin = "com.novoda:bintray-release:$versions.bintray_release"
 
 
 def support = [:]
@@ -164,21 +153,6 @@ dagger.android_support = "com.google.dagger:dagger-android-support:$versions.dag
 dagger.android_support_compiler = "com.google.dagger:dagger-android-processor:$versions.dagger"
 deps.dagger = dagger
 
-def espresso = [:]
-espresso.core = "com.android.support.test.espresso:espresso-core:$versions.espresso"
-espresso.contrib = "com.android.support.test.espresso:espresso-contrib:$versions.espresso"
-espresso.intents = "com.android.support.test.espresso:espresso-intents:$versions.espresso"
-deps.espresso = espresso
-
-def atsl = [:]
-atsl.runner = "com.android.support.test:runner:$versions.atsl_runner"
-atsl.rules = "com.android.support.test:rules:$versions.atsl_runner"
-deps.atsl = atsl
-
-def mockito = [:]
-mockito.core = "org.mockito:mockito-core:$versions.mockito"
-mockito.all = "org.mockito:mockito-all:$versions.mockito_all"
-deps.mockito = mockito
 
 def kotlin = [:]
 kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jre7:$versions.kotlin"
@@ -198,14 +172,11 @@ deps.AutoScrollViewPager = "com.github.demoNo:AutoScrollViewPager:$versions.Auto
 deps.MagicIndicator = "com.github.hackware1993:MagicIndicator:$versions.magicIndicator"
 deps.paging = "android.arch.paging:runtime:$versions.paging"
 deps.glide = "com.github.bumptech.glide:glide:$versions.glide"
-deps.dexmaker = "com.linkedin.dexmaker:dexmaker-mockito:$versions.dexmaker"
 deps.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
 deps.timber = "com.jakewharton.timber:timber:$versions.timber"
-deps.junit = "junit:junit:$versions.junit"
 deps.mock_web_server = "com.squareup.okhttp3:mockwebserver:$versions.mockwebserver"
 deps.rxjava2 = "io.reactivex.rxjava2:rxjava:$versions.rxjava2"
 deps.rx_android = "io.reactivex.rxjava2:rxandroid:$versions.rx_android"
-deps.hamcrest = "org.hamcrest:hamcrest-all:$versions.hamcrest"
 
 ext.deps = deps
 
@@ -237,8 +208,3 @@ def addRepos(RepositoryHandler handler) {
 
 ext.addRepos = this.&addRepos
 
-def releaseTime() {
-    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("GMT+:08:00"))
-}
-
-ext.releaseTime = this.&releaseTime
