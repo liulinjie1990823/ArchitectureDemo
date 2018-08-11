@@ -9,7 +9,8 @@ android {
     compileSdkVersion build_versions.compile
     buildToolsVersion build_versions.build_tools
     defaultConfig {
-        applicationId "com.llj.architecturedemo"
+        applicationId "com.china.hunbohui"
+//        applicationId "com.llj.architecturedemo"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
 
@@ -114,6 +115,7 @@ dependencies {
     api project(':lib-socialization')
 //    api project(':lib-universalAdapter')
     implementation 'com.llj.adapter:lib-universalAdapter:1.0.7'
+    implementation 'com.llj:lib-image-loader:0.0.1'
 
     implementation deps.support.app_compat
     implementation deps.support.recyclerview

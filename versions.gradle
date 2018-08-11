@@ -221,9 +221,11 @@ ext.build_versions = build_versions
 
 
 def addRepos(RepositoryHandler handler) {
+    //本地的maven仓库，需要maven格式的包
     handler.maven { url uri('./repo') }
-    handler.flatDir { dirs '../lib', '../libs' }
     handler.mavenLocal()
+    //工程中的lib文件夹，依赖aar和jar文件
+    handler.flatDir { dirs '../lib', '../libs' }
     handler.google()
     handler.jcenter()
     handler.mavenCentral()

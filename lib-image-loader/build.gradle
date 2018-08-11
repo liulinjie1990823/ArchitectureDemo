@@ -12,3 +12,6 @@ dependencies {
 
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
 }
+
+apply from: "uploadArchives.gradle"
+apply from: "bintrayUpload.gradle"
