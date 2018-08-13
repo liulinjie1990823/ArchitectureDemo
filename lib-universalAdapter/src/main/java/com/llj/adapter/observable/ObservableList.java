@@ -1,6 +1,5 @@
 package com.llj.adapter.observable;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -35,8 +34,4 @@ public interface ObservableList<T> extends List<T> {
      */
     void endTransaction();
 
-
-    default boolean isEmpty(Collection<? extends T> list) {
-        return list == null || list.isEmpty();
-    }
 }
