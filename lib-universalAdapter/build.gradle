@@ -11,5 +11,5 @@ dependencies {
     releaseCompileOnly deps.kotlin.stdlib_jdk8
 }
 
-apply from: "uploadArchives.gradle"
-apply from: "bintrayUpload.gradle"
+apply from: "../uploadArchives.gradle"
+apply from: "../bintrayUpload.gradle"

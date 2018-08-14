@@ -19,5 +19,5 @@ dependencies {
 //    releaseCompileOnly 'com.sina.weibo.sdk:core:4.1.4:openDefaultRelease@aar'
 }
 
-apply from: "uploadArchives.gradle"
-apply from: "bintrayUpload.gradle"
+apply from: "../uploadArchives.gradle"
+apply from: "../bintrayUpload.gradle"

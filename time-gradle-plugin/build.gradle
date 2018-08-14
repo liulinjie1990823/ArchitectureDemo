@@ -11,5 +11,5 @@ dependencies {
     compile localGroovy()
 }
 
-apply from: "uploadArchives.gradle"
-apply from: "pluginBintrayUpload.gradle"
+apply from: "../uploadArchives.gradle"
+apply from: "../pluginBintrayUpload.gradle"

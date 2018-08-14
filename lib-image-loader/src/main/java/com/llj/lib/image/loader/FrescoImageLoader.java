@@ -5,23 +5,23 @@ import android.content.Context;
 import com.facebook.drawee.view.GenericDraweeView;
 
 /**
- * ArchitectureDemo
- * describe:图片加载器
- * author liulj
- * date 2018/5/4
+ * ArchitectureDemo.
+ * describe:
+ * author llj
+ * date 2018/8/14
  */
-public class ImageLoader implements IImageLoader<GenericDraweeView> {
+public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> {
 
-    private static IImageLoader sImageLoader;
+    private static ICustomImageLoader sImageLoader;
 
-    private ImageLoader(Context context) {
+    private FrescoImageLoader(Context context) {
         FrescoUtils.initFresco(context);
     }
 
-    public static IImageLoader getInstance(Context context) {
-        synchronized (ImageLoader.class) {
+    public static ICustomImageLoader getInstance(Context context) {
+        synchronized (FrescoImageLoader.class) {
             if (sImageLoader == null) {
-                sImageLoader = new ImageLoader(context);
+                sImageLoader = new FrescoImageLoader(context);
             }
         }
         return sImageLoader;
@@ -103,5 +103,4 @@ public class ImageLoader implements IImageLoader<GenericDraweeView> {
     public void clearCaches() {
         FrescoUtils.clearCaches();
     }
-
 }

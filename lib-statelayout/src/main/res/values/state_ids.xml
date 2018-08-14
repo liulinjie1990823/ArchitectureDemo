@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="state_empty_click" type="id"/>
+    <item name="state_no_net_click" type="id"/>
+    <item name="state_error_click" type="id"/>
+</resources>

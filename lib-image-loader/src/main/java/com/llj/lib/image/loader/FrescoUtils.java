@@ -183,10 +183,11 @@ public class FrescoUtils {
         return size;
     }
 
-    public static  void clearMemoryCaches() {
+    public static void clearMemoryCaches() {
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
         imagePipeline.clearMemoryCaches();
     }
+
     public static void clearDiskCaches() {
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
         imagePipeline.clearDiskCaches();
@@ -196,8 +197,6 @@ public class FrescoUtils {
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
         imagePipeline.clearCaches();
     }
-
-
 
 
     /**
@@ -227,6 +226,7 @@ public class FrescoUtils {
      * mSimpleDraweeView.setHierarchy(hierarchy);
      *
      * @param context
+     *
      * @return
      */
     public static GenericDraweeHierarchy getGenericDraweeHierarchy(Context context) {
@@ -261,6 +261,7 @@ public class FrescoUtils {
      * @param url
      * @param width
      * @param height
+     *
      * @return
      */
     public static ImageRequest getImageRequest(String url, int width, int height) {
@@ -288,6 +289,7 @@ public class FrescoUtils {
      *
      * @param imageRequest
      * @param view
+     *
      * @return
      */
     public static DraweeController getDraweeController(ImageRequest imageRequest, SimpleDraweeView view) {
@@ -459,40 +461,39 @@ public class FrescoUtils {
             if (!filterUrl.startsWith("http:/")) {
                 filterUrl = "file://" + filterUrl;
             }
-            RoundingParams roundingParams = null;
-            if (isCircle) {
-                //圆形
-                roundingParams = RoundingParams.asCircle();
-            } else if (radii != null) {
-                //圆角
-                roundingParams = RoundingParams.fromCornersRadii(radii);
-            }
-            //边框以及颜色
-            if (borderColor > 0 && borderWidth > 0) {
-                if (roundingParams == null) {
-                    roundingParams = new RoundingParams();
+            GenericDraweeHierarchy hierarchy = view.getHierarchy();
+
+            //RoundingParams
+            RoundingParams roundingParams = hierarchy.getRoundingParams();
+            if (roundingParams == null) {
+                if (isCircle) {
+                    //圆形
+                    roundingParams = RoundingParams.asCircle();
+                } else if (radii != null) {
+                    //圆角
+                    roundingParams = RoundingParams.fromCornersRadii(radii);
+                } else {
+                    //矩形
                 }
+            }
+
+            //边框以及颜色
+            if (roundingParams != null && borderColor > 0 && borderWidth > 0) {
                 roundingParams.setBorder(borderColor, borderWidth);
             }
 
-            GenericDraweeHierarchyBuilder genericDraweeHierarchyBuilder = null;
-            if (roundingParams != null || placeholderId > 0 || failureImageId > 0) {
-                genericDraweeHierarchyBuilder = GenericDraweeHierarchyBuilder.newInstance(view.getResources());
-                //需要圆形处理就设置
-                if (roundingParams != null) {
-                    genericDraweeHierarchyBuilder.setRoundingParams(roundingParams);
-                }
-                //需要设置加载时候图
-                if (placeholderId > 0) {
-                    genericDraweeHierarchyBuilder.setPlaceholderImage(placeholderId);
-                }
-                //需要设置加载错误图
-                if (failureImageId > 0) {
-                    genericDraweeHierarchyBuilder.setFailureImage(failureImageId);
-                }
+            //需要圆形处理就设置
+            if (roundingParams != null) {
+                hierarchy.setRoundingParams(roundingParams);
             }
-            if (genericDraweeHierarchyBuilder != null) {
-                view.setHierarchy(genericDraweeHierarchyBuilder.build());
+
+            //需要设置加载时候图
+            if (placeholderId > 0) {
+                hierarchy.setPlaceholderImage(placeholderId);
+            }
+            //需要设置加载错误图
+            if (failureImageId > 0) {
+                hierarchy.setFailureImage(failureImageId);
             }
 
             //请求参数
@@ -530,6 +531,7 @@ public class FrescoUtils {
      * @param autoPlayAnimations gif是否自动播放
      * @param view               需要显示的view
      * @param listener           加载监听
+     *
      * @return 返回DraweeController
      */
     public static void setController(int resId,
@@ -540,41 +542,39 @@ public class FrescoUtils {
                                      GenericDraweeView view,
                                      BaseControllerListener<ImageInfo> listener) {
         if (resId != 0 && view != null) {
+            GenericDraweeHierarchy hierarchy = view.getHierarchy();
 
-            RoundingParams roundingParams = null;
-            if (isCircle) {
-                //圆形
-                roundingParams = RoundingParams.asCircle();
-            } else if (radii != null) {
-                //圆角
-                roundingParams = RoundingParams.fromCornersRadii(radii);
-            }
-            //边框以及颜色
-            if (borderColor > 0 && borderWidth > 0) {
-                if (roundingParams == null) {
-                    roundingParams = new RoundingParams();
+            //RoundingParams
+            RoundingParams roundingParams = hierarchy.getRoundingParams();
+            if (roundingParams == null) {
+                if (isCircle) {
+                    //圆形
+                    roundingParams = RoundingParams.asCircle();
+                } else if (radii != null) {
+                    //圆角
+                    roundingParams = RoundingParams.fromCornersRadii(radii);
+                } else {
+                    //矩形
                 }
+            }
+
+            //边框以及颜色
+            if (roundingParams != null && borderColor > 0 && borderWidth > 0) {
                 roundingParams.setBorder(borderColor, borderWidth);
             }
 
-            GenericDraweeHierarchyBuilder genericDraweeHierarchyBuilder = null;
-            if (roundingParams != null || placeholderId > 0 || failureImageId > 0) {
-                genericDraweeHierarchyBuilder = GenericDraweeHierarchyBuilder.newInstance(view.getResources());
-                //需要圆形处理就设置
-                if (roundingParams != null) {
-                    genericDraweeHierarchyBuilder.setRoundingParams(roundingParams);
-                }
-                //需要设置加载时候图
-                if (placeholderId > 0) {
-                    genericDraweeHierarchyBuilder.setPlaceholderImage(placeholderId);
-                }
-                //需要设置加载错误图
-                if (failureImageId > 0) {
-                    genericDraweeHierarchyBuilder.setFailureImage(failureImageId);
-                }
+            //需要圆形处理就设置
+            if (roundingParams != null) {
+                hierarchy.setRoundingParams(roundingParams);
             }
-            if (genericDraweeHierarchyBuilder != null) {
-                view.setHierarchy(genericDraweeHierarchyBuilder.build());
+
+            //需要设置加载时候图
+            if (placeholderId > 0) {
+                hierarchy.setPlaceholderImage(placeholderId);
+            }
+            //需要设置加载错误图
+            if (failureImageId > 0) {
+                hierarchy.setFailureImage(failureImageId);
             }
 
             //请求参数
@@ -589,6 +589,7 @@ public class FrescoUtils {
 
             PipelineDraweeControllerBuilder draweeControllerBuilder = Fresco.newDraweeControllerBuilder();
             draweeControllerBuilder.setImageRequest(imageRequest);//
+            draweeControllerBuilder.setAutoPlayAnimations(autoPlayAnimations);//
 
             if (listener != null) {
                 draweeControllerBuilder.setControllerListener(listener);//
@@ -596,7 +597,6 @@ public class FrescoUtils {
             if (view.getController() != null) {
                 draweeControllerBuilder.setOldController(view.getController());//
             }
-            draweeControllerBuilder.setAutoPlayAnimations(autoPlayAnimations);//
 
             view.setController(draweeControllerBuilder.build());
         }
@@ -611,6 +611,7 @@ public class FrescoUtils {
      * @param autoPlayAnimations gif是否自动播放
      * @param view               需要显示的view
      * @param listener           加载监听
+     *
      * @return 返回DraweeController
      */
     private static DraweeController getDraweeController(String url, int width, int height, boolean autoPlayAnimations, DraweeView view, BaseControllerListener<ImageInfo> listener) {

@@ -11,18 +11,17 @@ import android.widget.TextView
 
 import com.llj.lib.base.listeners.OnMyClickListener
 import com.llj.lib.utils.ACollectionUtils
+import com.llj.lib.utils.ADisplayUtils
 import com.llj.lib.utils.ATextUtils
 import com.llj.lib.utils.AToastUtils
 
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/5/24
  */
 interface IUiHandler {
-
-
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -91,5 +90,13 @@ interface IUiHandler {
 
     fun getCompatDrawable(context: Context, @DrawableRes id: Int): Drawable? {
         return ContextCompat.getDrawable(context, id)
+    }
+
+    fun dip2px(context: Context, dpValue: Int): Int {
+        return ADisplayUtils.dp2px(context, dpValue.toFloat())
+    }
+
+    fun nullToEmpty(destination: CharSequence?): CharSequence {
+        return destination ?: ""
     }
 }

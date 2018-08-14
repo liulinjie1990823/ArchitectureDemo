@@ -13,5 +13,5 @@ dependencies {
     implementation deps.PersistentCookieJar
 }
 
-apply from: "uploadArchives.gradle"
-apply from: "bintrayUpload.gradle"
+apply from: "../uploadArchives.gradle"
+apply from: "../bintrayUpload.gradle"
