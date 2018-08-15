@@ -20,7 +20,6 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.DraweeView;
 import com.facebook.drawee.view.GenericDraweeView;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.cache.MemoryCacheParams;
 import com.facebook.imagepipeline.common.ImageDecodeOptions;
 import com.facebook.imagepipeline.common.ResizeOptions;
@@ -33,15 +32,9 @@ import com.facebook.imagepipeline.listener.RequestLoggingListener;
 import com.facebook.imagepipeline.producers.NetworkFetcher;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
 
 /**
  * Created by liulj on 16/4/7.
@@ -82,17 +75,7 @@ public class FrescoUtils {
         //设置多少内存来存放图片缓存
         final int MAX_MEMORY_CACHE_SIZE = MAX_HEAP_SIZE / 4;
 
-        //网络请求
-        OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
-        builder.connectTimeout(15000, TimeUnit.MILLISECONDS);
-        builder.writeTimeout(15000, TimeUnit.MILLISECONDS);
-        builder.readTimeout(15000, TimeUnit.MILLISECONDS);
-        builder.cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context.getApplicationContext())));
-//        builder.addInterceptor(new AddCookiesInterceptor());
-//        builder.addInterceptor(new ReceivedCookiesInterceptor());
-
-        //配置ImagePipelineConfig
-        ImagePipelineConfig.Builder newBuilder = OkHttpImagePipelineConfigFactory.newBuilder(context.getApplicationContext(), builder.build());
+        ImagePipelineConfig.Builder newBuilder = ImagePipelineConfig.newBuilder(context.getApplicationContext());
 
         //内存配置
         final MemoryCacheParams bitmapCacheParams = new MemoryCacheParams(

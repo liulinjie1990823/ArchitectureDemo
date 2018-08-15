@@ -3,6 +3,14 @@ package com.llj.lib.image.loader;
 import android.content.Context;
 
 import com.facebook.drawee.view.GenericDraweeView;
+import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 
 /**
  * ArchitectureDemo.
@@ -15,7 +23,7 @@ public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> 
     private static ICustomImageLoader<GenericDraweeView> sImageLoader;
 
     private FrescoImageLoader(Context context) {
-        FrescoUtils.initFresco(context);
+        init(context);
     }
 
     public static ICustomImageLoader<GenericDraweeView> getInstance(Context context) {
@@ -30,7 +38,14 @@ public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> 
 
     @Override
     public void init(Context context) {
-        FrescoUtils.initFresco(context);
+        //网络请求，使用OkHttpClient会经过代理
+        OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
+        builder.connectTimeout(15000, TimeUnit.MILLISECONDS);
+        builder.writeTimeout(15000, TimeUnit.MILLISECONDS);
+        builder.readTimeout(15000, TimeUnit.MILLISECONDS);
+        builder.cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context.getApplicationContext())));
+
+        FrescoUtils.initFresco(context, new OkHttpNetworkFetcher(builder.build()));
     }
 
     ///////////////////////////////////////////////////////////////////////////
