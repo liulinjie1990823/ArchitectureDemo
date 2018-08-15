@@ -9,7 +9,6 @@ import com.facebook.stetho.Stetho
 import com.llj.lib.base.help.CrashHelper
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.help.FilePathHelper
-import com.llj.lib.image.loader.ImageLoader
 import com.llj.lib.utils.AActivityManagerUtils
 import com.llj.lib.utils.AToastUtils
 import com.llj.lib.utils.LogUtil
@@ -41,16 +40,16 @@ abstract class BaseApplication : Application(),
         super.onCreate()
         if (AActivityManagerUtils.isRunningProcess(this)) {
             Utils.init(this)
-            initDisplay()// 初始化屏幕宽高信息
-            initSavePath()// 初始化文件存储路径
+            initDisplay() // 初始化屏幕宽高信息
+            initSavePath() // 初始化文件存储路径
 
-            initImageLoader()//图片加载器
-            initToast()//全局toast初始化
+            initImageLoader() //图片加载器
+            initToast() //全局toast初始化
 
-            initCrashHandler()//异常捕捉
-            initStetho()//设置okhttp请求调试
-            initLeakCanary()//监听内存溢出
-            initStrictMode()//设置严格模式
+            initCrashHandler() //异常捕捉
+            initStetho() //设置okhttp请求调试
+            initLeakCanary() //监听内存溢出
+            initStrictMode() //设置严格模式
         }
         injectApp()
     }
@@ -64,7 +63,6 @@ abstract class BaseApplication : Application(),
     }
 
     protected fun initImageLoader() {
-        ImageLoader.getInstance(this)
     }
 
 

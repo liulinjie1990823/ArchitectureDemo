@@ -22,6 +22,8 @@ import com.llj.socialization.share.model.ShareResult
  */
 @Route(path = CRouter.APP_SHARE_ACTIVITY)
 class ShareActivity : MvcBaseActivity() {
+
+
     override fun layoutId(): Int {
         return R.layout.activity_share
     }

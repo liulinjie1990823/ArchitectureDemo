@@ -113,9 +113,10 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':component-service')
     api project(':lib-socialization')
+    api project(':lib-image-loader')
 //    api project(':lib-universalAdapter')
-    implementation 'com.llj.adapter:lib-universalAdapter:1.0.7'
-    implementation 'com.llj:lib-image-loader:0.0.1'
+    implementation 'com.llj.adapter:lib-universalAdapter:1.0.10'
+//    implementation 'com.llj:lib-image-loader:0.0.1'
 
     implementation deps.support.app_compat
     implementation deps.support.recyclerview

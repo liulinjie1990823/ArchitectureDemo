@@ -29,7 +29,7 @@ import butterknife.Unbinder;
  * author liulj
  * date 2018/5/24
  */
-public abstract class BaseFragment<P extends IPresenter> extends Fragment
+public abstract class MvpBaseFragment<P extends IPresenter> extends Fragment
         implements IFragment, IFragmentLazy, ICommon, IUiHandler, ILoadingDialogHandler {
 
     public String  TAG_LOG;

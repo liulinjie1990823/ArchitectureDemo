@@ -2,6 +2,7 @@ package com.llj.lib.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +20,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/5/24
  */
 public abstract class BaseTabActivity<P extends IPresenter> extends MvpBaseActivity<P> {
@@ -47,12 +48,13 @@ public abstract class BaseTabActivity<P extends IPresenter> extends MvpBaseActiv
     private OnItemReClickListener mOnItemReClickListener;//tab重复点击的监听
 
 
+    @CallSuper
     @Override
     public void getIntentData(Intent intent) {
         mShowItem = getIntent().getIntExtra("mShowItem", 0);
     }
 
-
+    @CallSuper
     @Override
     public void initViews(Bundle savedInstanceState) {
         mFragmentManager = getSupportFragmentManager();
@@ -69,6 +71,7 @@ public abstract class BaseTabActivity<P extends IPresenter> extends MvpBaseActiv
     /**
      * 有可能被意外销毁之前调用，主动销毁不调用 1.按home回到主页
      */
+    @CallSuper
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -181,6 +184,7 @@ public abstract class BaseTabActivity<P extends IPresenter> extends MvpBaseActiv
      * 监听返回键,先相应mOnBackPressedListener方法的回调
      * fragment中的方法可以实现该方法来控制返回键
      */
+    @CallSuper
     @Override
     public void onBackPressed() {
         if (mOnBackPressedListener != null) {

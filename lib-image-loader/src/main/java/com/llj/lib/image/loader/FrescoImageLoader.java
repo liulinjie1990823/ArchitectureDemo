@@ -12,13 +12,13 @@ import com.facebook.drawee.view.GenericDraweeView;
  */
 public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> {
 
-    private static ICustomImageLoader sImageLoader;
+    private static ICustomImageLoader<GenericDraweeView> sImageLoader;
 
     private FrescoImageLoader(Context context) {
         FrescoUtils.initFresco(context);
     }
 
-    public static ICustomImageLoader getInstance(Context context) {
+    public static ICustomImageLoader<GenericDraweeView> getInstance(Context context) {
         synchronized (FrescoImageLoader.class) {
             if (sImageLoader == null) {
                 sImageLoader = new FrescoImageLoader(context);

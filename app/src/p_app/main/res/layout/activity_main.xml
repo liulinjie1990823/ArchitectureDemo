@@ -1,37 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <data>
-
-        <variable
-            name="mobile"
-            type="com.llj.architecturedemo.db.entity.MobileEntity"/>
-
-    </data>
-
-
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/fl_contain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.activity.MainActivity">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{mobile.city}"
-            android:textSize="40dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 
-        <TextView
-            android:id="@+id/mTvClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/bisque"
-            android:padding="40dp"
-            android:text="MainActivity"
-            android:textColor="@color/black"
-            android:textSize="14dp"/>
+    <LinearLayout
+        android:id="@+id/ll_footer_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"/>
 
-    </android.support.constraint.ConstraintLayout>
-</layout>
+</LinearLayout>

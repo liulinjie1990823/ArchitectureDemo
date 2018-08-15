@@ -8,13 +8,13 @@ import android.view.View
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/5/24
  */
 interface ICommon {
     fun getIntentData(intent: Intent) {}
 
-    fun getArgumentsData(bundle: Bundle) {}
+    fun getArgumentsData(bundle: Bundle?) {}
 
     fun layoutView(): View? {
         return null

@@ -1,16 +1,31 @@
 package com.llj.architecturedemo.ui.activity
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.util.Log
-import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
+import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.facebook.drawee.view.GenericDraweeView
+import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.Gson
-import com.llj.architecturedemo.MyBaseActivity
+import com.llj.adapter.ListBasedAdapter
+import com.llj.adapter.UniversalBind
+import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.architecturedemo.presenter.MainPresenter
+import com.llj.architecturedemo.ui.fragment.HomeFragment
+import com.llj.architecturedemo.ui.fragment.MineFragment
+import com.llj.architecturedemo.ui.fragment.SecondFragment
+import com.llj.architecturedemo.ui.fragment.ThirdFragment
 import com.llj.architecturedemo.view.MainContractView
 import com.llj.component.service.arouter.CRouter
+import com.llj.lib.base.BaseTabActivity
+import com.llj.lib.base.IUiHandler
+import com.llj.lib.image.loader.FrescoImageLoader
+import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.utils.AToastUtils
 import com.meituan.android.walle.WalleChannelReader
 import io.reactivex.Observable
@@ -18,11 +33,17 @@ import io.reactivex.ObservableOnSubscribe
 import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 @Route(path = CRouter.APP_MAIN_ACTIVITY)
-class MainActivity : MyBaseActivity<MainPresenter>(), MainContractView {
+class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
+
+    @BindView(R.id.ll_footer_bar) lateinit var mLlFooterBar: LinearLayout
+
+    private lateinit var mTabAdapter: TabAdapter
+
+    override fun getFragmentId(): Int {
+        return R.id.fl_contain
+    }
 
 
     private val mObserver = object : Observer<String> {
@@ -120,11 +141,77 @@ class MainActivity : MyBaseActivity<MainPresenter>(), MainContractView {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
+
+
+        val arrayListOf = arrayListOf<Tab>()
+        arrayListOf.add(Tab("首页", "http://pic7.photophoto.cn/20080407/0034034859692813_b.jpg",
+                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", true))
+        arrayListOf.add(Tab("首页", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
+                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", true))
+        arrayListOf.add(Tab("首页", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
+                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", true))
+        arrayListOf.add(Tab("首页", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
+                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", true))
+
+        mTabAdapter = UniversalBind.Builder(mLlFooterBar, TabAdapter(arrayListOf))
+                .build()
+                .getAdapter()
+
+        super.initViews(savedInstanceState)
+
     }
 
     override fun initData() {
-        setOnClickListener(mTvClick, View.OnClickListener {
-            CRouter.start(CRouter.APP_SHARE_ACTIVITY)
-        })
     }
+
+    private inner class TabAdapter(list: ArrayList<Tab>?) : ListBasedAdapter<Tab, ViewHolderHelper>(list), IUiHandler {
+
+        private var mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(mContext.applicationContext)
+
+        init {
+            addItemLayout(R.layout.item_main_activity_tab)
+        }
+
+        override fun onBindViewHolder(viewHolder: ViewHolderHelper, data: Tab?, position: Int) {
+            if (data == null) {
+                return
+            }
+            val image = viewHolder.getView<SimpleDraweeView>(R.id.iv_tab_image)
+            val text = viewHolder.getView<TextView>(R.id.tv_tab_text)
+
+            val imageUrl: String? = if (data.select) data.selectImage else data.normalImage
+            mImageLoad.loadImage(imageUrl, 120, 120, image)
+            setText(text, data.text)
+
+            viewHolder.itemView.setOnClickListener {
+                selectItemFromTagByClick(it)
+            }
+        }
+    }
+
+    override fun makeFragment(showItem: Int): Fragment {
+        when (showItem) {
+            0 -> return HomeFragment()
+            1 -> return SecondFragment()
+            2 -> return ThirdFragment()
+            3 -> return MineFragment()
+        }
+        return HomeFragment()
+    }
+
+    override fun setSelectImage(showItem: Int) {
+        val childCount = mLlFooterBar.childCount
+        for (i in 0 until childCount) {
+            mTabAdapter[i]?.select = (showItem == i)
+        }
+        mTabAdapter.notifyDataSetChanged()
+    }
+
+    inner class Tab(var text: String,
+                    var normalImage: String,
+                    var selectImage: String,
+                    var select: Boolean
+    )
+
+
 }

@@ -5,7 +5,7 @@
 
 def versions = [
         android_gradle_plugin: "3.1.4",
-        kotlin               : '1.2.51',
+        kotlin               : '1.2.60',
         bintray_release      : '0.8.1',
         walle                : '1.1.6',
 
@@ -174,10 +174,10 @@ ext {
 
 def addRepos(RepositoryHandler handler) {
     //本地的maven仓库，需要maven格式的包
-    handler.maven { url uri('./repo') }
-    handler.mavenLocal()
+//    handler.maven { url uri('./repo') }//插件
+//    handler.mavenLocal()
     //工程中的lib文件夹，依赖aar和jar文件
-    handler.flatDir { dirs '../lib', '../libs' }
+
     handler.google()
     handler.jcenter()
     handler.mavenCentral()
@@ -185,6 +185,7 @@ def addRepos(RepositoryHandler handler) {
     handler.maven { url "https://jitpack.io" }
     //微博的maven地址
     handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
+    handler.flatDir { dirs '../lib', '../libs' }
 }
 
 ext.addRepos = this.&addRepos

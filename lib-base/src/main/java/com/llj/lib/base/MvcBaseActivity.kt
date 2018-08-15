@@ -10,14 +10,13 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import com.facebook.stetho.common.LogUtil
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
+import com.llj.lib.utils.LogUtil
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-
 
 
 /**
@@ -31,7 +30,7 @@ abstract class MvcBaseActivity : AppCompatActivity(),
     lateinit var mTag: String
     lateinit var mContext: Context
 
-    private lateinit var mUnbinder: Unbinder
+    private lateinit var mUnBinder: Unbinder
     private var mRequestDialog: ITag? = null
 
     private val mCancelableTask: ArrayMap<Any, Disposable> = ArrayMap()
@@ -55,7 +54,7 @@ abstract class MvcBaseActivity : AppCompatActivity(),
         val layoutView = layoutView()
         if (layoutView == null) setContentView(layoutId()) else setContentView(layoutView)
 
-        mUnbinder = ButterKnife.bind(this)
+        mUnBinder = ButterKnife.bind(this)
 
         checkRequestDialog()
 
@@ -101,7 +100,7 @@ abstract class MvcBaseActivity : AppCompatActivity(),
         //移除所有的任务
         removeAllDisposable()
 
-        mUnbinder.unbind()
+        mUnBinder.unbind()
 
         //移除列表中的activity
         removeCurrentActivity(this)
@@ -189,8 +188,8 @@ abstract class MvcBaseActivity : AppCompatActivity(),
 
     //<editor-fold desc="处理点击外部影藏输入法">
     override fun onTouchEvent(event: MotionEvent): Boolean {
-         onTouchEvent(this, event)
-       return super<AppCompatActivity>.onTouchEvent(event)
+        onTouchEvent(this, event)
+        return super<AppCompatActivity>.onTouchEvent(event)
     }
     //</editor-fold >
 
