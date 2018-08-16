@@ -1,0 +1,50 @@
+package com.llj.architecturedemo.widget
+
+import android.content.Context
+import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
+import com.llj.lib.utils.LogUtil
+
+/**
+ * ArchitectureDemo.
+ * describe:
+ * author llj
+ * date 2018/8/16
+ */
+class MyTextView : View {
+    constructor(context: Context?) : super(context)
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+
+    private val mTag: String = "MyTextView"
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+
+        when (ev?.action) {
+            MotionEvent.ACTION_DOWN -> LogUtil.e(mTag, "dispatchTouchEvent:ACTION_DOWN")
+            MotionEvent.ACTION_MOVE -> LogUtil.e(mTag, "dispatchTouchEvent:ACTION_MOVE")
+            MotionEvent.ACTION_UP -> LogUtil.e(mTag, "dispatchTouchEvent:ACTION_UP")
+        }
+        val dispatchTouchEvent = super.dispatchTouchEvent(ev)
+
+        LogUtil.e(mTag, "dispatchTouchEvent:$dispatchTouchEvent")
+
+        return dispatchTouchEvent
+    }
+
+    override fun onTouchEvent(ev: MotionEvent?): Boolean {
+
+        when (ev?.action) {
+            MotionEvent.ACTION_DOWN -> LogUtil.e(mTag, "onTouchEvent:ACTION_DOWN")
+            MotionEvent.ACTION_MOVE -> LogUtil.e(mTag, "onTouchEvent:ACTION_MOVE")
+            MotionEvent.ACTION_UP -> LogUtil.e(mTag, "onTouchEvent:ACTION_UP")
+        }
+        var onTouchEvent = super.onTouchEvent(ev)
+
+        LogUtil.e(mTag, "onTouchEvent:$onTouchEvent")
+
+        return onTouchEvent
+    }
+
+}

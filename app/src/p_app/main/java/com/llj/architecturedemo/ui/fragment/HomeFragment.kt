@@ -27,6 +27,7 @@ class HomeFragment : BaseFragment() {
     override fun initViews(savedInstanceState: Bundle?) {
         val arrayList = arrayListOf<Data>()
         arrayList.add(Data("ConstraintActivity", CRouter.WIDGET_CONSTRAINT_ACTIVITY))
+        arrayList.add(Data("TouchEventActivity", CRouter.APP_TOUCH_EVENT_ACTIVITY))
 
         UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
                 .setLinearLayoutManager()
