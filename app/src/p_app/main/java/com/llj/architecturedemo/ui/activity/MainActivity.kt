@@ -142,11 +142,11 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         arrayListOf.add(Tab("首页", "http://pic7.photophoto.cn/20080407/0034034859692813_b.jpg",
                 "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", true))
         arrayListOf.add(Tab("首页", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
-                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", true))
+                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", false))
         arrayListOf.add(Tab("首页", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
-                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", true))
-        arrayListOf.add(Tab("首页", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
-                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", true))
+                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", false))
+        arrayListOf.add(Tab("我的", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
+                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", false))
 
         mTabAdapter = UniversalBind.Builder(mLlFooterBar, TabAdapter(arrayListOf))
                 .build()
@@ -161,7 +161,7 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
 
     private inner class TabAdapter(list: ArrayList<Tab>?) : ListBasedAdapter<Tab, ViewHolderHelper>(list), IUiHandler {
 
-        private var mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(mContext.applicationContext)
+        private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(mContext.applicationContext)
 
         init {
             addItemLayout(R.layout.item_main_activity_tab)
@@ -177,6 +177,9 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
             val imageUrl: String? = if (data.select) data.selectImage else data.normalImage
             mImageLoad.loadImage(imageUrl, 120, 120, image)
             setText(text, data.text)
+            viewHolder.itemView.tag = position
+
+            viewHolder.itemView.isSelected = data.select
 
             viewHolder.itemView.setOnClickListener {
                 selectItemFromTagByClick(it)
@@ -202,7 +205,7 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         mTabAdapter.notifyDataSetChanged()
     }
 
-    inner class Tab(var text: String,
+   private inner class Tab(var text: String,
                     var normalImage: String,
                     var selectImage: String,
                     var select: Boolean

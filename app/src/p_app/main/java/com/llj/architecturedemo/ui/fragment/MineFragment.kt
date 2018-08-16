@@ -10,16 +10,15 @@ import com.llj.lib.base.BaseFragment
  * author llj
  * date 2018/8/15
  */
-class MineFragment :BaseFragment() {
+class MineFragment : BaseFragment() {
     override fun layoutId(): Int {
-    return R.layout.fragment_mine
+        return R.layout.fragment_mine
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun initData() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

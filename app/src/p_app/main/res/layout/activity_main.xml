@@ -13,6 +13,7 @@
 
     <LinearLayout
         android:id="@+id/ll_footer_bar"
+        android:background="@color/wheat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"/>

@@ -9,8 +9,8 @@ android {
     compileSdkVersion build_versions.compile
     buildToolsVersion build_versions.build_tools
     defaultConfig {
-        applicationId "com.china.hunbohui"
-//        applicationId "com.llj.architecturedemo"
+//        applicationId "com.china.hunbohui"
+        applicationId "com.llj.architecturedemo"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
 
