@@ -2,6 +2,8 @@ package com.llj.lib.utils;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -33,29 +35,30 @@ public class AToastUtils {
             sHandler = new Handler(Looper.getMainLooper());
     }
 
-    public static void show(int resId) {
+    public static void show(@StringRes int resId) {
         if (Utils.getApp() != null && Utils.getApp().getResources() != null)
             show(Utils.getApp().getResources().getText(resId), Toast.LENGTH_SHORT);
     }
 
-    public static void showLong(int resId) {
+    public static void showLong(@StringRes int resId) {
         if (Utils.getApp() != null && Utils.getApp().getResources() != null)
             show(Utils.getApp().getResources().getText(resId), Toast.LENGTH_LONG);
     }
 
-    public static void show(int resId, int duration) {
+    public static void show(@StringRes int resId, int duration) {
         show(Utils.getApp().getResources().getText(resId), duration);
     }
 
-    public static void show(CharSequence text) {
+    public static void show(@Nullable CharSequence text) {
         show(text, Toast.LENGTH_SHORT);
     }
-    public static void showLong(CharSequence text) {
+
+    public static void showLong(@Nullable CharSequence text) {
         show(text, Toast.LENGTH_LONG);
     }
 
 
-    public static void show(final CharSequence text, final int duration) {
+    public static void show(@Nullable final CharSequence text, final int duration) {
         if (Utils.getApp() == null) {
             LogUtil.e(TAG, "mContext为空");
         }
@@ -89,7 +92,7 @@ public class AToastUtils {
         }
     }
 
-    public static void show(int resId, Object... args) {
+    public static void show(@StringRes int resId, Object... args) {
         show(String.format(Utils.getApp().getResources().getString(resId), args), Toast.LENGTH_SHORT);
     }
 
@@ -97,7 +100,7 @@ public class AToastUtils {
         show(String.format(format, args), Toast.LENGTH_SHORT);
     }
 
-    public static void show(int resId, int duration, Object... args) {
+    public static void show(@StringRes int resId, int duration, Object... args) {
         show(String.format(Utils.getApp().getResources().getString(resId), args), duration);
     }
 

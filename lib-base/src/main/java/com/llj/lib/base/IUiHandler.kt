@@ -44,15 +44,15 @@ interface IUiHandler {
         return ATextUtils.getText(textView)
     }
 
-    fun setText(textView: TextView, destination: CharSequence) {
+    fun setText(textView: TextView, destination: CharSequence?) {
         ATextUtils.setText(textView, destination)
     }
 
-    fun setText(textView: TextView, destination: CharSequence, defaultStr: CharSequence) {
+    fun setText(textView: TextView, destination: CharSequence?, defaultStr: CharSequence) {
         ATextUtils.setText(textView, destination, defaultStr)
     }
 
-    fun showToast(content: String) {
+    fun showToast(content: CharSequence?) {
         AToastUtils.show(content)
     }
 
@@ -60,7 +60,7 @@ interface IUiHandler {
         AToastUtils.show(resId)
     }
 
-    fun showLongToast(content: String) {
+    fun showLongToast(content: CharSequence?) {
         AToastUtils.showLong(content)
     }
 
@@ -68,7 +68,7 @@ interface IUiHandler {
         AToastUtils.showLong(resId)
     }
 
-    fun isEmpty(text: CharSequence): Boolean {
+    fun isEmpty(text: CharSequence?): Boolean {
         return android.text.TextUtils.isEmpty(text)
     }
 
@@ -76,7 +76,7 @@ interface IUiHandler {
         return android.text.TextUtils.isEmpty(getTextStr(textView))
     }
 
-    fun isEmpty(list: Collection<*>): Boolean {
+    fun isEmpty(list: Collection<Any?>): Boolean {
         return ACollectionUtils.isEmpty<Any>(list)
     }
 
@@ -92,8 +92,8 @@ interface IUiHandler {
         return ContextCompat.getDrawable(context, id)
     }
 
-    fun dip2px(context: Context, dpValue: Int): Int {
-        return ADisplayUtils.dp2px(context, dpValue.toFloat())
+    fun dip2px(context: Context, dpValue: Float): Int {
+        return ADisplayUtils.dp2px(context, dpValue)
     }
 
     fun nullToEmpty(destination: CharSequence?): CharSequence {

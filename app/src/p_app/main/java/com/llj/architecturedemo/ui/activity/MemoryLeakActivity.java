@@ -18,6 +18,8 @@ import com.llj.component.service.arouter.CRouter;
  */
 @Route(path = CRouter.APP_MEMORY_LEAK_ACTIVITY)
 public class MemoryLeakActivity extends MyBaseActivity {
+    public static final int SHOW_TYPE_ALBUM = 0;
+
     private Animal mAnimal = new Animal();
 
     @Override

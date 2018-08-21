@@ -1,6 +1,7 @@
 package com.llj.architecturedemo.ui.fragment
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.widget.TextView
 import butterknife.BindView
@@ -15,22 +16,29 @@ import com.llj.lib.base.BaseFragment
  * ArchitectureDemo.
  * describe:
  * author llj
- * date 2018/8/15
+ * date 2018/8/16
  */
-class HomeFragment : BaseFragment() {
+class ItemFragment : BaseFragment() {
+
+    companion object {
+        fun getInstance(): Fragment {
+            return ItemFragment()
+        }
+    }
+
     @BindView(R.id.recyclerView) lateinit var mRecyclerView: RecyclerView
 
     override fun layoutId(): Int {
-        return R.layout.fragment_home
+        return R.layout.fragment_item
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-        val arrayList = arrayListOf<Data>()
-        arrayList.add(Data("ConstraintActivity", CRouter.WIDGET_CONSTRAINT_ACTIVITY))
-        arrayList.add(Data("TouchEventActivity", CRouter.APP_TOUCH_EVENT_ACTIVITY))
-        arrayList.add(Data("RecycleViewActivity", CRouter.APP_RECYCLE_VIEW_ACTIVITY))
-        arrayList.add(Data("NestedScrollViewActivity", CRouter.APP_RECYCLE_VIEW_ACTIVITY))
 
+        val arrayList = arrayListOf<Data>()
+
+        for (i in 0 until 100) {
+            arrayList.add(Data("text$i", CRouter.WIDGET_CONSTRAINT_ACTIVITY))
+        }
         UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
                 .setLinearLayoutManager()
                 .build()
@@ -38,8 +46,8 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initData() {
-
     }
+
 
     private inner class MyAdapter(list: MutableList<Data>?) : ListBasedAdapter<Data, ViewHolderHelper>(list) {
         init {
@@ -52,10 +60,6 @@ class HomeFragment : BaseFragment() {
             }
             val textView = viewHolder.getView<TextView>(R.id.tv_text)
             setText(textView, item.text)
-
-            viewHolder.itemView.setOnClickListener {
-                CRouter.start(item.path)
-            }
         }
     }
 

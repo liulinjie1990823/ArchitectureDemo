@@ -69,6 +69,8 @@
         <activity android:name="com.llj.widget.ui.activity.CircleViewActivity"/>
         <activity android:name="com.llj.widget.ui.activity.TestActivity"/>
         <activity android:name=".ui.activity.TouchEventActivity"/>
+        <activity android:name=".ui.activity.NestedScrollViewActivity"/>
+        <activity android:name=".ui.activity.RecycleViewActivity"/>
     </application>
 
 </manifest>

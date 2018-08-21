@@ -154,6 +154,9 @@ dependencies {
     implementation deps.walle
     implementation deps.kotlin.stdlib_jdk8
 
+    implementation  deps.MagicIndicator
+    implementation  deps.support.design
+
 //    kapt "com.android.databinding:compiler:3.1.3"
 }
 

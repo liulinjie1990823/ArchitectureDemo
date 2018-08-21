@@ -1,6 +1,7 @@
 package com.llj.lib.utils;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +27,7 @@ public class ATextUtils {
      * 判断TextView中的内容是否为空
      *
      * @param textView 文本框
+     *
      * @return true 文本框中没有文字
      */
     public static boolean isEmpty(TextView textView) {
@@ -39,6 +41,7 @@ public class ATextUtils {
      *
      * @param str
      * @param match
+     *
      * @return
      */
     public static String replace(String str, String match) {
@@ -59,11 +62,11 @@ public class ATextUtils {
      *
      * @param textView 文本框
      */
-    public static String getText(TextView textView) {
+    public static String getText(@Nullable TextView textView) {
         return getText(textView, true);
     }
 
-    public static String getText(TextView textView, boolean shouldTrim) {
+    public static String getText(@Nullable TextView textView, boolean shouldTrim) {
         if (textView == null) {
             return "";
         }
@@ -76,9 +79,10 @@ public class ATextUtils {
     /**
      * @param textView
      * @param string
+     *
      * @return
      */
-    public static boolean equals(TextView textView, CharSequence string) {
+    public static boolean equals(@Nullable TextView textView, CharSequence string) {
         return getText(textView).equals(string);
     }
 
@@ -163,6 +167,7 @@ public class ATextUtils {
      *
      * @param textView
      * @param text     文字
+     *
      * @return
      */
     public static float getTextViewLength(TextView textView, String text) {
@@ -177,6 +182,7 @@ public class ATextUtils {
      * @param charSequence       提供的字符串
      * @param textView           显示文字的textView
      * @param availableTextWidth 三行除去省略号的长度
+     *
      * @return 截取后的字符串
      */
     public static CharSequence getEndEllipsizeStr(CharSequence charSequence, TextView textView, int availableTextWidth) {
@@ -187,6 +193,7 @@ public class ATextUtils {
      * MD5加密，大写
      *
      * @param s 需要加密的String
+     *
      * @return 加密后String
      */
     public static final String MD5(String s) {
@@ -215,6 +222,7 @@ public class ATextUtils {
      * MD5加密，小写
      *
      * @param s 需要加密的String
+     *
      * @return 加密后String
      */
     public static final String md5(String s) {
@@ -245,6 +253,7 @@ public class ATextUtils {
      *
      * @param max  可以显示的最大字数，超过则在中间显示星号
      * @param name
+     *
      * @return
      */
     public static String formatName(int max, String name) {
@@ -265,6 +274,7 @@ public class ATextUtils {
      * 默认的转换的名字
      *
      * @param name
+     *
      * @return
      */
     public static String formatName(String name) {
