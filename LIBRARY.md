@@ -24,7 +24,8 @@ eventbus
 arouter
 
 ##### 渠道包
-walle
+https://github.com/Meituan-Dianping/walle
+https://github.com/Tencent/VasDolly/
 
 ##### ui
 刷新：SmartRefreshLayout
