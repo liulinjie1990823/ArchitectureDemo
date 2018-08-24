@@ -12,10 +12,10 @@ import com.llj.login.R
  * author llj
  * date 2018/8/22
  */
-@Route(path = CRouter.LOGIN_LOGIN_ACTIVITY)
-class LoginActivity : MvcBaseActivity() {
+@Route(path = CRouter.LOGIN_REGISTER_ACTIVITY)
+class RegisterActivity : MvcBaseActivity() {
     override fun layoutId(): Int {
-        return R.layout.login_activity_login
+        return R.layout.login_activity_register
     }
 
     override fun initViews(savedInstanceState: Bundle?) {

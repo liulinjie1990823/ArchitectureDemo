@@ -2,8 +2,11 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':lib-utils')
-//    implementation 'com.llj:lib-utils:0.0.1'
+    if (useMaven) {
+        api deps.utils
+    } else {
+        api project(':lib-utils')
+    }
 
     implementation deps.kotlin.stdlib_jdk8
 
@@ -21,8 +24,6 @@ dependencies {
     implementation deps.retrofit2.adapter_rxjava2
     implementation deps.okhttp_logging_interceptor
     implementation deps.PersistentCookieJar
-
-
 
 }
 

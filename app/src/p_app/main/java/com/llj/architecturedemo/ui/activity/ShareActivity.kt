@@ -40,7 +40,7 @@ class ShareActivity : MvcBaseActivity() {
             if (shareResult == null) {
                 return
             }
-            when (shareResult.getResponse()) {
+            when (shareResult.response) {
                 ShareResult.RESPONSE_SHARE_NOT_INSTALL -> showLongToast("应用未安装")
                 ShareResult.RESPONSE_SHARE_SUCCESS -> showLongToast("分享成功")
                 ShareResult.RESPONSE_SHARE_FAILURE -> if (!TextUtils.isEmpty(shareResult.getMessage())) {

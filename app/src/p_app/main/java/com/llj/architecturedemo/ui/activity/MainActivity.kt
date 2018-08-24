@@ -163,6 +163,7 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
 
         private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(mContext.applicationContext)
 
+
         init {
             addItemLayout(R.layout.item_main_activity_tab)
         }

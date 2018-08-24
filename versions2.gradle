@@ -84,7 +84,7 @@ ext {
             ],
             //框架
             dagger                    : [
-                    runtime                  : "com.google.dagger:dagger:$versions.dagger",
+                    runtime                 : "com.google.dagger:dagger:$versions.dagger",
                     compiler                : "com.google.dagger:dagger-compiler:$versions.dagger",
                     android                 : "com.google.dagger:dagger-android:$versions.dagger",
                     android_support         : "com.google.dagger:dagger-android-support:$versions.dagger",
@@ -147,9 +147,9 @@ ext {
             ],
             //工具
             socialization             : "com.llj.socialization:lib-socialization:1.0.14",
-            imageLoader             : "com.llj:lib-image-loader:0.0.1",
-            universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.7",
-            utils                     : "com.llj:lib-utils:0.0.1",
+            imageLoader               : "com.llj:lib-image-loader:0.0.1",
+            universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.10",
+            utils                     : "com.llj:lib-utils:0.0.2",
             //ui
             smartrefresh              : [
                     SmartRefreshLayout: "com.scwang.smartrefresh:SmartRefreshLayout:$versions.smartrefresh",
