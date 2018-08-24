@@ -4,10 +4,7 @@
 
 subprojects {
     //配置类库公用的配置
-    if (it.name != 'app'
-            && it.name != 'time-gradle-plugin'
-            && it.name != 'libs') {
-
+    if (it.name.startsWith('lib-')) {
         apply plugin: 'com.android.library'
 
         android {

@@ -9,21 +9,26 @@ import com.alibaba.android.arouter.launcher.ARouter;
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/7/3
  */
 public class CRouter {
 
-    public static final String APP_MAIN_ACTIVITY          = "/app/MainActivity";
-    public static final String APP_SECOND_ACTIVITY        = "/app/SecondActivity";
-    public static final String APP_TOUCH_EVENT_ACTIVITY        = "/app/TouchEventActivity";
-    public static final String APP_RECYCLE_VIEW_ACTIVITY        = "/app/RecycleViewActivity";
-    public static final String APP_NESTED_SCROLLVIEW_ACTIVITY        = "/app/NestedScrollViewActivity";
-    public static final String APP_LINEAR_LAYOUT_ACTIVITY        = "/app/LinearLayoutActivity";
-    public static final String APP_SHARE_ACTIVITY        = "/app/ShareActivity";
-    public static final String APP_MEMORY_LEAK_ACTIVITY   = "/app/MemoryLeakActivity";
-    public static final String WIDGET_CONSTRAINT_ACTIVITY = "/widget/ConstraintActivity";
-    public static final String CIRCLE_VIEW_ACTIVITY       = "/widget/CircleViewActivity";
+    //app
+    public static final String APP_MAIN_ACTIVITY              = "/app/MainActivity";
+    public static final String APP_SECOND_ACTIVITY            = "/app/SecondActivity";
+    public static final String APP_TOUCH_EVENT_ACTIVITY       = "/app/TouchEventActivity";
+    public static final String APP_RECYCLE_VIEW_ACTIVITY      = "/app/RecycleViewActivity";
+    public static final String APP_NESTED_SCROLLVIEW_ACTIVITY = "/app/NestedScrollViewActivity";
+    public static final String APP_LINEAR_LAYOUT_ACTIVITY     = "/app/LinearLayoutActivity";
+    public static final String APP_COMPONENT_ACTIVITY         = "/app/ComponentActivity";
+    public static final String APP_SHARE_ACTIVITY             = "/app/ShareActivity";
+    public static final String APP_MEMORY_LEAK_ACTIVITY       = "/app/MemoryLeakActivity";
+    public static final String WIDGET_CONSTRAINT_ACTIVITY     = "/app/widget/ConstraintActivity";
+    public static final String CIRCLE_VIEW_ACTIVITY           = "/app/widget/CircleViewActivity";
+
+    //login
+    public static final String LOGIN_LOGIN_ACTIVITY = "/login/LoginActivity";
 
     public static void start(String path) {
         ARouter.getInstance().build(path).navigation();

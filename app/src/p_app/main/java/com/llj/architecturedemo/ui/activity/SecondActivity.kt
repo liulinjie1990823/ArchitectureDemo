@@ -6,8 +6,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.support.v4.view.ViewPager
+import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.view.View
+import android.widget.TextView
+import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
@@ -21,7 +25,7 @@ import com.llj.architecturedemo.view.SecondView
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.listeners.MyTextWatcher
 import com.llj.lib.utils.LogUtil
-import kotlinx.android.synthetic.main.activity_second.*
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
 
 /**
  * ArchitectureDemo
@@ -31,7 +35,9 @@ import kotlinx.android.synthetic.main.activity_second.*
  */
 @Route(path = CRouter.APP_SECOND_ACTIVITY)
 class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
-
+    @BindView(R.id.mTvClick) lateinit var mTvClick: TextView
+    @BindView(R.id.mRefreshLayout) lateinit var mRefreshLayout: SmartRefreshLayout
+    @BindView(R.id.mRecyclerView) lateinit var mRecyclerView: RecyclerView
     override fun toast(mobile: MobileEntity?) {
     }
 

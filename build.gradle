@@ -19,6 +19,7 @@ buildscript {
         //上传bintray插件
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.billy.android:autoregister:1.4.1'
 
 //        classpath 'com.llj:time-gradle-plugin:0.0.2'
     }
@@ -47,9 +48,11 @@ allprojects {
         }
     }
 }
-
-//配置类库相关属性
+apply from: "init.gradle"
+//配置library相关属性
 apply from: "libraryConfigure.gradle"
+//配置module相关属性
+apply from: "moduleConfigure.gradle"
 
 afterEvaluate {
 
@@ -74,4 +77,4 @@ task clean(type: Delete) {
 }
 
 //测试
-apply from: "test.gradle"
+//apply from: "test.gradle"

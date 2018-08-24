@@ -1,0 +1,14 @@
+//先加载local.properties文件
+Properties properties = new Properties()
+try {
+    def localFile = project.rootProject.file("local.properties")
+    if (localFile != null && localFile.exists()) {
+        properties.load(localFile.newDataInputStream())
+    }
+} catch (Exception ignored) {
+    println("local.properties not found")
+}
+
+ext.useComponent = properties.getProperty("useComponent")=="true"
+ext.useMaven = properties.getProperty("useMaven")=="true"
+

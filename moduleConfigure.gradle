@@ -1,0 +1,58 @@
+/**
+ * 工程类库共用相关配置
+ */
+
+subprojects {
+    if (it.name == 'app'
+            || it.name.startsWith('module-')
+            || it.name.startsWith('component-')) {
+        if (useComponent) {
+            apply from: "../cc-settings.gradle"
+        } else {
+            if (it.name == 'app') {
+                apply plugin: 'com.android.application'
+            } else {
+                apply plugin: 'com.android.library'
+            }
+        }
+        apply plugin: 'kotlin-android'
+        apply plugin: 'kotlin-kapt'
+
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+
+        if (it.name != 'app') {
+            android {
+                compileSdkVersion build_versions.compile
+                buildToolsVersion build_versions.build_tools
+
+                defaultConfig {
+                    minSdkVersion build_versions.min_sdk
+                    targetSdkVersion build_versions.target_sdk
+                }
+
+                buildTypes {
+                    debug {
+                        minifyEnabled false
+                        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                    }
+                }
+                buildTypes.all { type ->
+                    type.matchingFallbacks = ['debug']
+                    type.minifyEnabled = false
+                    type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
+                }
+                compileOptions {
+                    targetCompatibility build_versions.compile_jdk
+                    sourceCompatibility build_versions.compile_jdk
+                }
+                lintOptions {
+                    abortOnError false
+                }
+            }
+        }
+    }
+}

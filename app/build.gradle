@@ -1,7 +1,3 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt' // kapt 插件
 apply plugin: 'walle'
 //apply plugin: 'task-time'
 
@@ -111,53 +107,43 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':component-service')
-    api project(':lib-socialization')
-    api project(':lib-image-loader')
-//    api project(':lib-universalAdapter')
-    implementation 'com.llj.adapter:lib-universalAdapter:1.0.10'
-//    implementation 'com.llj:lib-image-loader:0.0.1'
+    if (useComponent) {
+        addComponent 'module-login'
+    } else {
+        api project(':module-login')
+    }
 
-    implementation deps.support.app_compat
-    implementation deps.support.recyclerview
-    //约束布局
-    implementation deps.constraint_layout
-    // Architecture components
-    implementation deps.lifecycle.runtime
-    implementation deps.lifecycle.extensions
-    implementation deps.lifecycle.java8
+    api project(':component-service')
+
+    if (useMaven) {
+        implementation deps.universalAdapter
+        implementation deps.imageLoader
+        implementation deps.socialization
+    } else {
+        implementation project(':lib-universalAdapter')
+        implementation project(':lib-image-loader')
+        implementation project(':lib-socialization')
+    }
+
+    kapt deps.dagger.compiler
+    kapt deps.dagger.android_support_compiler
+
+    implementation deps.walle
+    //lifecycle
     kapt deps.lifecycle.compiler
     //db
-    implementation deps.room.runtime
     kapt deps.room.compiler
-    //net
-    implementation deps.retrofit2.retrofit
-    implementation deps.okhttp_logging_interceptor
-    //事件
-    implementation deps.eventbus
-    //数据解析
-    implementation deps.gson
     //butterknife
-    implementation deps.butterknife.runtime
     kapt deps.butterknife.compiler
     //跳转路由
     kapt deps.arouter.compiler
-    //刷新
+    //ui
     implementation deps.smartrefresh.SmartRefreshLayout
-    //dagger编译
-    api 'com.google.dagger:dagger:2.16'
-    kapt 'com.google.dagger:dagger-compiler:2.16'
-    api 'com.google.dagger:dagger-android:2.16'
-    api 'com.google.dagger:dagger-android-support:2.16' // if you use the support libraries
-    kapt 'com.google.dagger:dagger-android-processor:2.16'
+    implementation deps.MagicIndicator
+    implementation deps.support.design
+    implementation deps.support.recyclerview
+    implementation deps.constraint_layout
 
-    implementation deps.walle
-    implementation deps.kotlin.stdlib_jdk8
-
-    implementation  deps.MagicIndicator
-    implementation  deps.support.design
-
-//    kapt "com.android.databinding:compiler:3.1.3"
 }
 
 walle {
@@ -167,12 +153,6 @@ walle {
     apkFileNameFormat = '${appName}_${channel}_${flavorName}${buildType}_v${versionName}_${versionCode}-${buildTime}.apk'
     // 渠道配置文件
     channelFile = new File("${project.getProjectDir()}/channel")
-}
-
-kapt {
-    arguments {
-        arg("moduleName", project.getName())
-    }
 }
 
 //打包任务

@@ -10,54 +10,57 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':lib-utils')
+    if (useMaven) {
+        api deps.utils
+    } else {
+        api project(':lib-utils')
+    }
+
     api project(':lib-net')
+    //kotlin
+    api deps.kotlin.stdlib_jdk8
 
-    implementation deps.support.app_compat
-    implementation deps.eventbus
-    implementation deps.lifecycle.java8
-    implementation deps.lifecycle.extensions
+    //support
+    api deps.support.app_compat
 
-    implementation deps.retrofit2.retrofit
+    //Architecture components
+    api deps.lifecycle.runtime
+    api deps.lifecycle.java8
+    api deps.lifecycle.extensions
+    //db
+    api deps.room.runtime
 
-    //应用调试
-    implementation deps.stetho.stetho
+    //dagger解耦
+    api deps.dagger.runtime
+    api deps.dagger.android
+    api deps.dagger.android_support
+    kapt deps.dagger.compiler
+    kapt deps.dagger.android_support_compiler
 
-    //butterknife
-    implementation deps.butterknife.runtime
-
-    //内存检测
-    debugImplementation deps.leakcanary.leakcanary_android
-    releaseImplementation deps.leakcanary.leakcanary_android_no_op
-
-    //
+    //rx
     api deps.rxjava2
     api deps.rxandroid
 
-    //依赖注入
-    api('com.google.dagger:dagger-android:2.16') {
-        exclude group: 'com.android.support'
-    }
-    api('com.google.dagger:dagger-android-support:2.16') {
-        exclude group: 'com.android.support'
-    }
-    kapt 'com.google.dagger:dagger-compiler:2.16'
-    kapt 'com.google.dagger:dagger-android-processor:2.16'
-
+    //autodispose
     api deps.autodispose.autodispose
     api deps.autodispose.autodispose_android
     api deps.autodispose.autodispose_android_arch
 
-    implementation deps.kotlin.stdlib_jdk8
+    //butterknife
+    api deps.butterknife.runtime
 
-//    kapt "com.android.databinding:compiler:3.1.3"
+    //事件
+    api deps.eventbus
 
-}
+    //网络
+    api deps.retrofit2.retrofit
+    api deps.okhttp_logging_interceptor
+    api deps.gson
 
-kapt {
-//    generateStubs = true
-    arguments {
-        arg("moduleName", project.getName())
-    }
+    //应用调试
+    implementation deps.stetho.stetho
+    //内存检测
+    debugImplementation deps.leakcanary.leakcanary_android
+    releaseImplementation deps.leakcanary.leakcanary_android_no_op
 }
 

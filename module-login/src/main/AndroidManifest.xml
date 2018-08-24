@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.llj.login">
+
+    <application>
+        <activity android:name=".ui.activity.LoginActivity"/>
+    </application>
+</manifest>

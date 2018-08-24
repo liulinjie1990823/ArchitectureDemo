@@ -173,7 +173,7 @@ abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
             if (mRequestDialog == null) {
                 mRequestDialog = LoadingDialog(this)
             }
-            (mRequestDialog as Dialog).setOnCancelListener { dialog ->
+            (mRequestDialog as Dialog).setOnCancelListener {
                 LogUtil.i(mTag, "cancelTask:" + mRequestDialog?.getRequestTag())
                 removeDisposable(mRequestDialog?.getRequestTag())
             }

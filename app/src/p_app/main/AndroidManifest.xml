@@ -72,6 +72,7 @@
         <activity android:name=".ui.activity.NestedScrollViewActivity"/>
         <activity android:name=".ui.activity.RecycleViewActivity"/>
         <activity android:name=".ui.activity.LinearLayoutActivity"/>
+        <activity android:name=".ui.activity.ComponentActivity"/>
     </application>
 
 </manifest>

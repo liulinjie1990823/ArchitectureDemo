@@ -5,31 +5,24 @@ dependencies {
     implementation project(':lib-utils')
 //    implementation 'com.llj:lib-utils:0.0.1'
 
+    implementation deps.kotlin.stdlib_jdk8
+
     implementation deps.lifecycle.extensions
-
-    implementation deps.retrofit2.retrofit
-    implementation deps.retrofit2.gson
-    implementation deps.retrofit2.adapter_rxjava2
-
-    implementation deps.okhttp_logging_interceptor
-
-    implementation deps.PersistentCookieJar
 
     implementation deps.rxjava2
     implementation deps.rxandroid
 
-    implementation('com.uber.autodispose:autodispose:0.8.0') {
-        exclude group: 'com.android.support'
-        exclude group: 'io.reactivex.rxjava2'
-    }
-    implementation('com.uber.autodispose:autodispose-android:0.8.0') {
-        exclude group: 'com.android.support'
-        exclude group: 'io.reactivex.rxjava2'
-    }
-    implementation('com.uber.autodispose:autodispose-android-archcomponents:0.8.0') {
-        exclude group: 'com.android.support'
-        exclude group: 'io.reactivex.rxjava2'
-    }
-    implementation deps.kotlin.stdlib_jdk8
+    implementation deps.autodispose.autodispose
+    implementation deps.autodispose.autodispose_android
+    implementation deps.autodispose.autodispose_android_arch
+
+    implementation deps.retrofit2.retrofit
+    implementation deps.retrofit2.gson
+    implementation deps.retrofit2.adapter_rxjava2
+    implementation deps.okhttp_logging_interceptor
+    implementation deps.PersistentCookieJar
+
+
+
 }
 
