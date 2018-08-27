@@ -1,4 +1,5 @@
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api deps.support.app_compat
 }

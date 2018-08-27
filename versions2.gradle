@@ -43,7 +43,7 @@ ext {
             compile     : 27,
             build_tools : "27.0.3",
             min_sdk     : 14,
-            target_sdk  : 22,
+            target_sdk  : 27,
             version_code: 100,
             version_name: "1.0.0",
             compile_jdk : 1.8,
@@ -82,6 +82,7 @@ ext {
                     rxjava2 : "android.arch.persistence.room:rxjava2:$versions.room",
                     testing : "android.arch.persistence.room:testing:$versions.room",
             ],
+            permission                : " com.yanzhenjie:permission:2.0.0-rc12",
             //框架
             dagger                    : [
                     runtime                 : "com.google.dagger:dagger:$versions.dagger",

@@ -9,7 +9,7 @@ import io.reactivex.functions.Consumer
 /**
  * ArchitectureDemo
  * describe: 供activity和dialog使用，
- * author liulj
+ * author llj
  * date 2018/5/24
  */
 interface ILoadingDialogHandler : Consumer<Disposable>, Action, ITag {

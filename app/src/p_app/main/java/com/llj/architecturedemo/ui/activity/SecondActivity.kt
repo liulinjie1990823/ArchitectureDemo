@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.view.View
@@ -80,21 +79,21 @@ class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
 
         mTvClick.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                LogUtil.LLJi(mTag, v?.hashCode())
-                LogUtil.LLJi(mTag, v?.hashCode())
+                LogUtil.LLJi(mTagLog, v?.hashCode())
+                LogUtil.LLJi(mTagLog, v?.hashCode())
             }
         })
         mTvClick.setOnClickListener(View.OnClickListener { v ->
-            LogUtil.LLJi(mTag, v.hashCode())
-            LogUtil.LLJi(mTag, v.hashCode())
+            LogUtil.LLJi(mTagLog, v.hashCode())
+            LogUtil.LLJi(mTagLog, v.hashCode())
         })
         mTvClick.setOnClickListener { v ->
-            LogUtil.LLJi(mTag, v?.hashCode())
-            LogUtil.LLJi(mTag, v?.hashCode())
+            LogUtil.LLJi(mTagLog, v?.hashCode())
+            LogUtil.LLJi(mTagLog, v?.hashCode())
         }
         mTvClick.setOnClickListener {
-            LogUtil.LLJi(mTag, it.hashCode())
-            LogUtil.LLJi(mTag, it.hashCode())
+            LogUtil.LLJi(mTagLog, it.hashCode())
+            LogUtil.LLJi(mTagLog, it.hashCode())
         }
 
         mTvClick.setOnClickListener {

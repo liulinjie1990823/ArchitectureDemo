@@ -47,15 +47,15 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         }
 
         override fun onNext(s: String) {
-            Log.e(mTag, "onNext:$s")
+            Log.e(mTagLog, "onNext:$s")
         }
 
         override fun onError(e: Throwable) {
-            Log.e(mTag, "onError:" + e.message)
+            Log.e(mTagLog, "onError:" + e.message)
         }
 
         override fun onComplete() {
-            Log.e(mTag, "onComplete:")
+            Log.e(mTagLog, "onComplete:")
         }
     }
 

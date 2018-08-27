@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import com.facebook.stetho.common.LogUtil
 import com.llj.lib.base.mvp.IPresenter
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
@@ -28,7 +27,7 @@ import javax.inject.Inject
  */
 abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
         IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
-    lateinit var mTag: String
+    val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context
 
     @Inject lateinit var mPresenter: P
@@ -40,7 +39,6 @@ abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
     //<editor-fold desc="生命周期">
     override fun onCreate(savedInstanceState: Bundle?) {
         mContext = this
-        mTag = this.javaClass.simpleName
 
         try {
             AndroidInjection.inject(this)
@@ -113,7 +111,7 @@ abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
 
     //<editor-fold desc="任务处理">
     override fun addDisposable(tag: Any, disposable: Disposable) {
-        mCancelableTask.put(tag, disposable)
+        mCancelableTask[tag] = disposable
     }
 
     override fun removeDisposable(tag: Any?) {
@@ -172,10 +170,6 @@ abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
 
             if (mRequestDialog == null) {
                 mRequestDialog = LoadingDialog(this)
-            }
-            (mRequestDialog as Dialog).setOnCancelListener {
-                LogUtil.i(mTag, "cancelTask:" + mRequestDialog?.getRequestTag())
-                removeDisposable(mRequestDialog?.getRequestTag())
             }
         }
         setRequestTag(hashCode())

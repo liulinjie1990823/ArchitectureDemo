@@ -74,7 +74,7 @@ abstract class BaseApplication : Application(),
         if (!BuildConfig.DEBUG) {
             return
         }
-        CrashHelper.getInstance().init(this, { LogUtil.LLJe(it) })
+        CrashHelper.getInstance().init(this) { LogUtil.LLJe(it) }
     }
 
     private fun initStetho() {

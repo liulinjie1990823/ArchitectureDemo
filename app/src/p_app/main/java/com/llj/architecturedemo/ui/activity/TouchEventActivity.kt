@@ -31,13 +31,13 @@ class TouchEventActivity : MvcBaseActivity() {
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
 
         when (ev?.action) {
-            MotionEvent.ACTION_DOWN -> LogUtil.e(mTag, "dispatchTouchEvent:ACTION_DOWN")
-            MotionEvent.ACTION_MOVE -> LogUtil.e(mTag, "dispatchTouchEvent:ACTION_MOVE")
-            MotionEvent.ACTION_UP -> LogUtil.e(mTag, "dispatchTouchEvent:ACTION_UP")
+            MotionEvent.ACTION_DOWN -> LogUtil.e(mTagLog, "dispatchTouchEvent:ACTION_DOWN")
+            MotionEvent.ACTION_MOVE -> LogUtil.e(mTagLog, "dispatchTouchEvent:ACTION_MOVE")
+            MotionEvent.ACTION_UP -> LogUtil.e(mTagLog, "dispatchTouchEvent:ACTION_UP")
         }
         val dispatchTouchEvent = super.dispatchTouchEvent(ev)
 
-        LogUtil.e(mTag, "dispatchTouchEvent:$dispatchTouchEvent")
+        LogUtil.e(mTagLog, "dispatchTouchEvent:$dispatchTouchEvent")
 
         return dispatchTouchEvent
     }
@@ -46,13 +46,13 @@ class TouchEventActivity : MvcBaseActivity() {
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> LogUtil.e(mTag, "onTouchEvent:ACTION_DOWN")
-            MotionEvent.ACTION_MOVE -> LogUtil.e(mTag, "onTouchEvent:ACTION_MOVE")
-            MotionEvent.ACTION_UP -> LogUtil.e(mTag, "onTouchEvent:ACTION_UP")
+            MotionEvent.ACTION_DOWN -> LogUtil.e(mTagLog, "onTouchEvent:ACTION_DOWN")
+            MotionEvent.ACTION_MOVE -> LogUtil.e(mTagLog, "onTouchEvent:ACTION_MOVE")
+            MotionEvent.ACTION_UP -> LogUtil.e(mTagLog, "onTouchEvent:ACTION_UP")
         }
         val onTouchEvent = super.onTouchEvent(event)
 
-        LogUtil.e(mTag, "onTouchEvent:$onTouchEvent")
+        LogUtil.e(mTagLog, "onTouchEvent:$onTouchEvent")
 
         return onTouchEvent
     }

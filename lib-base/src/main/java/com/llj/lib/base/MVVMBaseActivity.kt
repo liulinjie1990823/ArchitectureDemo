@@ -12,7 +12,6 @@ import android.view.MotionEvent
 import com.llj.lib.base.mvvm.BaseViewModel
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
-import com.llj.lib.utils.LogUtil
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
@@ -27,8 +26,8 @@ import javax.inject.Inject
  */
 abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCompatActivity(),
         IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
-    protected var mTag: String? = null
-    protected var mContext: Context? = null
+    val mTagLog: String = this.javaClass.simpleName
+    lateinit var mContext: Context
 
     @Inject lateinit var mViewModel: VM
     private lateinit var mDataBinding: B
@@ -39,7 +38,6 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
     //<editor-fold desc="生命周期">
     override fun onCreate(savedInstanceState: Bundle?) {
         mContext = this
-        mTag = this.javaClass.simpleName
 
         try {
             AndroidInjection.inject(this)
@@ -110,7 +108,7 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
 
     //<editor-fold desc="任务处理">
     override fun addDisposable(tag: Any, disposable: Disposable) {
-        mCancelableTask.put(tag, disposable)
+        mCancelableTask[tag] = disposable
     }
 
     override fun removeDisposable(tag: Any?) {
@@ -166,11 +164,6 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
 
             if (mRequestDialog == null) {
                 mRequestDialog = LoadingDialog(this)
-            }
-
-            (mRequestDialog as Dialog).setOnCancelListener {
-                LogUtil.i(mTag, "cancelTask:" + mRequestDialog?.getRequestTag())
-                removeDisposable(mRequestDialog?.getRequestTag())
             }
         }
         setRequestTag(hashCode())

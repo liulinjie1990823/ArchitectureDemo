@@ -12,7 +12,6 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
-import com.llj.lib.utils.LogUtil
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
@@ -22,12 +21,12 @@ import org.greenrobot.eventbus.ThreadMode
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/5/15
  */
 abstract class MvcBaseActivity : AppCompatActivity(),
         IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
-    lateinit var mTag: String
+    val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context
 
     private lateinit var mUnBinder: Unbinder
@@ -38,7 +37,6 @@ abstract class MvcBaseActivity : AppCompatActivity(),
     //<editor-fold desc="生命周期">
     override fun onCreate(savedInstanceState: Bundle?) {
         mContext = this
-        mTag = this.javaClass.simpleName
 
         try {
             AndroidInjection.inject(this)
@@ -109,7 +107,7 @@ abstract class MvcBaseActivity : AppCompatActivity(),
 
     //<editor-fold desc="任务处理">
     override fun addDisposable(tag: Any, disposable: Disposable) {
-        mCancelableTask.put(tag, disposable)
+        mCancelableTask[tag] = disposable
     }
 
     override fun removeDisposable(tag: Any?) {
@@ -167,10 +165,6 @@ abstract class MvcBaseActivity : AppCompatActivity(),
 
             if (mRequestDialog == null) {
                 mRequestDialog = LoadingDialog(this)
-            }
-            (mRequestDialog as Dialog).setOnCancelListener {
-                LogUtil.i(mTag, "cancelTask:" + mRequestDialog?.getRequestTag())
-                removeDisposable(mRequestDialog?.getRequestTag())
             }
         }
         setRequestTag(hashCode())

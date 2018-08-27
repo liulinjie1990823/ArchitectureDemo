@@ -12,25 +12,24 @@ import com.llj.lib.net.observer.ITag
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/5/24
  */
 abstract class BaseDialog : Dialog, ILoadingDialogHandler {
+
     companion object {
-        protected val MATCH = ViewGroup.LayoutParams.MATCH_PARENT
-        protected val WRAP = ViewGroup.LayoutParams.WRAP_CONTENT
+        const val MATCH = ViewGroup.LayoutParams.MATCH_PARENT
+        const val WRAP = ViewGroup.LayoutParams.WRAP_CONTENT
     }
 
-    var TAG: String? = null
+    constructor(context: Context?) : super(context, R.style.dim_dialog)
+    constructor(context: Context?, themeResId: Int) : super(context, themeResId)
+
+    val mTagLog: String = this.javaClass.simpleName
 
     private var mRequestDialog: ITag? = null
 
-    constructor(context: Context) : super(context, R.style.dim_dialog) {
-        bindViews()
-        initViews()
-    }
-
-    constructor(context: Context, theme: Int) : super(context, theme) {
+    init {
         bindViews()
         initViews()
     }
@@ -62,11 +61,11 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
     protected abstract fun setWindowParam()
 
 
-    fun setWindowParams(gravity: Int) {
+    protected fun setWindowParams(gravity: Int) {
         setWindowParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, gravity)
     }
 
-    fun setWindowParams(height: Int, gravity: Int) {
+    protected fun setWindowParams(height: Int, gravity: Int) {
         setWindowParams(ViewGroup.LayoutParams.MATCH_PARENT, height, gravity)
     }
 
