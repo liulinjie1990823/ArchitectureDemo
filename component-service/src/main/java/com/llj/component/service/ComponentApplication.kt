@@ -7,7 +7,7 @@ import com.llj.lib.base.BaseApplication
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/7/3
  */
 abstract class ComponentApplication : BaseApplication() {

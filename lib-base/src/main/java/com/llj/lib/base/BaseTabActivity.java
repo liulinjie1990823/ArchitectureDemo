@@ -3,7 +3,6 @@ package com.llj.lib.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,9 +13,6 @@ import com.llj.lib.base.mvp.IPresenter;
 import com.llj.lib.utils.AFragmentUtils;
 import com.llj.lib.utils.AParseUtils;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 /**
  * ArchitectureDemo
  * describe:
@@ -24,24 +20,10 @@ import java.lang.annotation.RetentionPolicy;
  * date 2018/5/24
  */
 public abstract class BaseTabActivity<P extends IPresenter> extends MvpBaseActivity<P> {
-    public static final int TAB_ZERO  = 0;
-    public static final int TAB_ONE   = 1;
-    public static final int TAB_TWO   = 2;
-    public static final int TAB_THREE = 3;
-    public static final int TAB_FOUR  = 4;
-
-    @IntDef({TAB_ZERO,
-            TAB_ONE,
-            TAB_TWO,
-            TAB_THREE,
-            TAB_FOUR})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Tab {
-    }
 
     private FragmentManager mFragmentManager;
-    public int mHideItem = TAB_ONE;
-    public int mShowItem = TAB_ONE;//因为xml中第一个tab的tag从0开始
+    public int mHideItem = 0;
+    public int mShowItem = 0;//因为xml中第一个tab的tag从0开始
     private Fragment mCurrentFragment;//当前显示的fragment
 
     private OnBackPressedListener mOnBackPressedListener;//返回监听
@@ -60,8 +42,8 @@ public abstract class BaseTabActivity<P extends IPresenter> extends MvpBaseActiv
         mFragmentManager = getSupportFragmentManager();
         // 从savedInstanceState获取到保存的mCurrentItem
         if (savedInstanceState != null) {
-            mHideItem = savedInstanceState.getInt("mHideItem", TAB_ONE);
-            mShowItem = savedInstanceState.getInt("mShowItem", TAB_ONE);
+            mHideItem = savedInstanceState.getInt("mHideItem", 0);
+            mShowItem = savedInstanceState.getInt("mShowItem", 0);
         }
         // 第一次进入默认显示第1页
         performSelectItem(mHideItem, mShowItem, true);
@@ -150,6 +132,7 @@ public abstract class BaseTabActivity<P extends IPresenter> extends MvpBaseActiv
      * 创建对应的Fragment,从0开始
      *
      * @param showItem
+     *
      * @return
      */
     public abstract Fragment makeFragment(int showItem);

@@ -8,7 +8,7 @@ import com.llj.login.R
 
 /**
  * ArchitectureDemo.
- * describe:
+ * describe:登录界面
  * author llj
  * date 2018/8/22
  */

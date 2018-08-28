@@ -39,7 +39,7 @@ android {
 
     buildTypes {
         debug {}
-        beta {}
+//        beta {}
         release {}
     }
     buildTypes.all { type ->
