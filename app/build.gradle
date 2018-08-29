@@ -40,7 +40,9 @@ android {
     buildTypes {
         debug {}
 //        beta {}
-        release {}
+        release {
+            
+        }
     }
     buildTypes.all { type ->
         type.matchingFallbacks = ['debug']

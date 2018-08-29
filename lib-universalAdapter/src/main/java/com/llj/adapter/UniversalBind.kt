@@ -7,7 +7,7 @@ import com.llj.adapter.converter.UniversalConverterFactory
 /**
  * MerchantCenter
  * describe:
- * author liulj
+ * author llj
  * date 2018/7/16
  */
 class UniversalBind<Item, Holder : ViewHolder, T : ListBasedAdapter<Item, Holder>>(builder: UniversalBind.Builder<Item, Holder, T>) {
