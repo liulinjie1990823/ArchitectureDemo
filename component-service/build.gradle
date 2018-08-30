@@ -6,4 +6,10 @@ dependencies {
     api project(':lib-base')
 
     api deps.arouter.api
+
+    api deps.fresco.fresco
+    api deps.fresco.animated_gif
+    api deps.fresco.animated_webp
+    api deps.fresco.webpsupport
+    api deps.fresco.imagepipeline_okhttp3
 }

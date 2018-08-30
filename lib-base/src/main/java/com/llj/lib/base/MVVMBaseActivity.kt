@@ -21,7 +21,7 @@ import javax.inject.Inject
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/6/30
  */
 abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCompatActivity(),

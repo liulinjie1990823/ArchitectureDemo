@@ -15,10 +15,8 @@ def versions = [
 
         dagger               : "2.17",
         autodispose          : "1.0.0-RC2",
-
         arouter_api          : "1.4.0",
         arouter_compiler     : "1.2.1",
-
         butterknife          : "8.4.0",
 
         retrofit2            : "2.4.0",
@@ -148,7 +146,7 @@ ext {
             ],
             //工具
             socialization             : "com.llj.socialization:lib-socialization:1.0.14",
-            imageLoader               : "com.llj:lib-image-loader:0.0.1",
+            imageLoader               : "com.llj:lib-image-loader:0.0.2",
             universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.10",
             utils                     : "com.llj:lib-utils:0.0.2",
             //ui
