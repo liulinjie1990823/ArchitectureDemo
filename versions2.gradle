@@ -145,8 +145,12 @@ ext {
                     auto_value_compile    : "com.google.auto.value:auto-value:$versions.auto_value",
             ],
             //工具
-            socialization             : "com.llj.socialization:lib-socialization:1.0.14",
+            base                      : "com.llj:lib-base:0.0.1",
             imageLoader               : "com.llj:lib-image-loader:0.0.2",
+            imageSelect               : "com.llj:lib-image-select:0.0.1",
+            net                       : "com.llj:lib-net:0.0.1",
+            socialization             : "com.llj.socialization:lib-socialization:1.0.14",
+            statelayout               : "com.llj:lib-statelayout:0.0.1",
             universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.10",
             utils                     : "com.llj:lib-utils:0.0.2",
             //ui
@@ -185,6 +189,7 @@ def addRepos(RepositoryHandler handler) {
     handler.maven { url "https://jitpack.io" }
     //微博的maven地址
     handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
+    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
     handler.flatDir { dirs '../lib', '../libs' }
 }
 

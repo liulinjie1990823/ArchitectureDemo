@@ -41,7 +41,7 @@ android {
         debug {}
 //        beta {}
         release {
-            
+
         }
     }
     buildTypes.all { type ->
@@ -107,46 +107,6 @@ android {
     }
 }
 
-dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    if (useComponent) {
-        addComponent 'module-login'
-    } else {
-        api project(':module-login')
-    }
-
-    api project(':component-service')
-
-    if (useMaven) {
-        implementation deps.universalAdapter
-        implementation deps.imageLoader
-        implementation project(':lib-socialization')
-    } else {
-        implementation project(':lib-universalAdapter')
-        implementation project(':lib-image-loader')
-        implementation project(':lib-socialization')
-    }
-
-    kapt deps.dagger.compiler
-    kapt deps.dagger.android_support_compiler
-
-    implementation deps.walle
-    //lifecycle
-    kapt deps.lifecycle.compiler
-    //db
-    kapt deps.room.compiler
-    //butterknife
-    kapt deps.butterknife.compiler
-    //跳转路由
-    kapt deps.arouter.compiler
-    //ui
-    implementation deps.smartrefresh.SmartRefreshLayout
-    implementation deps.MagicIndicator
-    implementation deps.support.design
-    implementation deps.support.recyclerview
-    implementation deps.constraint_layout
-
-}
 
 walle {
     // 指定渠道包的输出路径

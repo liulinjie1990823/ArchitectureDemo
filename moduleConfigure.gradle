@@ -23,7 +23,7 @@ subprojects {
                 arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
-
+        //android
         if (it.name != 'app') {
             android {
                 compileSdkVersion build_versions.compile
@@ -53,6 +53,79 @@ subprojects {
                     abortOnError false
                 }
             }
+        }
+
+        if (it.name.startsWith('component-service')) {
+            dependencies {
+                implementation fileTree(dir: 'libs', include: ['*.jar'])
+                api deps.arouter.api
+
+                if (useMaven) {
+                    api deps.base
+                    api deps.imageLoader
+                    api deps.imageSelect
+                    api deps.net
+                    api project(':lib-socialization')
+                    api deps.statelayout
+                    api deps.universalAdapter
+                    api deps.utils
+                } else {
+                    api project(':lib-base')
+                    api project(':lib-image-loader')
+                    api project(':lib-image-select')
+                    api project(':lib-net')
+                    api project(':lib-socialization')
+                    api project(':lib-statelayout')
+                    api project(':lib-universalAdapter')
+                    api project(':lib-utils')
+                }
+
+                api deps.fresco.fresco
+                api deps.fresco.animated_gif
+                api deps.fresco.animated_webp
+                api deps.fresco.webpsupport
+                api deps.fresco.imagepipeline_okhttp3
+
+                //ui
+                api deps.smartrefresh.SmartRefreshLayout
+                api deps.MagicIndicator
+                api deps.support.design
+                api deps.support.recyclerview
+                api deps.constraint_layout
+            }
+        } else if (it.name.startsWith('app') || it.name.startsWith('module-')) {
+            dependencies {
+                implementation fileTree(include: ['*.jar'], dir: 'libs')
+                api project(':component-service')
+
+                kapt deps.dagger.compiler
+                kapt deps.dagger.android_support_compiler
+
+                //lifecycle
+                kapt deps.lifecycle.compiler
+                //db
+                kapt deps.room.compiler
+                //butterknife
+                kapt deps.butterknife.compiler
+                //跳转路由
+                kapt deps.arouter.compiler
+
+
+            }
+
+            if (it.name.startsWith('app')) {
+                dependencies {
+                    implementation deps.walle
+
+                    if (useComponent) {
+                        addComponent 'module-login'
+                    } else {
+                        api project(':module-login')
+                    }
+
+                }
+            }
+
         }
     }
 }

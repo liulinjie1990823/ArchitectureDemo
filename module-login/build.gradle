@@ -1,15 +1,7 @@
 
 
-
 android {
     resourcePrefix "login_"
 }
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api project(':component-service')
-
-    //跳转路由
-    kapt deps.arouter.compiler
-}
 

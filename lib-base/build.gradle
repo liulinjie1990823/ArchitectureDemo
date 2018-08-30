@@ -11,9 +11,9 @@ android {
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     if (useMaven) {
-        api deps.utils
+        implementation deps.utils
     } else {
-        api project(':lib-utils')
+        implementation project(':lib-utils')
     }
 
     api project(':lib-net')
@@ -63,4 +63,8 @@ dependencies {
     debugImplementation deps.leakcanary.leakcanary_android
     releaseImplementation deps.leakcanary.leakcanary_android_no_op
 }
+
+apply from: "../uploadArchives.gradle"
+apply from: "../bintrayUpload.gradle"
+
 
