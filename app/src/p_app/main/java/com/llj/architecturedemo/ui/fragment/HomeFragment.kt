@@ -34,6 +34,7 @@ class HomeFragment : BaseFragment() {
         arrayList.add(Data("ComponentActivity", CRouter.APP_COMPONENT_ACTIVITY))
         arrayList.add(Data("LoginActivity", CRouter.LOGIN_LOGIN_ACTIVITY))
         arrayList.add(Data("RegisterActivity", CRouter.LOGIN_REGISTER_ACTIVITY))
+        arrayList.add(Data("HookActivity", CRouter.APP_HOOK_ACTIVITY))
 
         UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
                 .setLinearLayoutManager()
