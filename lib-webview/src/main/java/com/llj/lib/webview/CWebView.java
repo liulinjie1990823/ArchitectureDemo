@@ -12,9 +12,7 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.tencent.smtt.export.external.interfaces.JsPromptResult;
@@ -24,8 +22,6 @@ import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
 import com.tencent.smtt.export.external.interfaces.WebResourceError;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
-import com.tencent.smtt.sdk.CookieManager;
-import com.tencent.smtt.sdk.CookieSyncManager;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
@@ -34,32 +30,18 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * https://blog.csdn.net/carson_ho/article/details/52693322
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/5/8
  */
 public class CWebView extends WebView {
 
     private MyWebChromeClient.OpenFileChooserCallBack mOpenFileChooserCallBack;
 
-    private MyWebChromeClient.OpenFileChooserCallBack openFileChooserCallBack = new MyWebChromeClient.OpenFileChooserCallBack() {
-        @Override
-        public void openFileChooserCallBack(ValueCallback<Uri> uploadMsg, String acceptType) {
-            if (mOpenFileChooserCallBack != null) {
-                mOpenFileChooserCallBack.openFileChooserCallBack(uploadMsg, acceptType);
-            }
-        }
-
-        @Override
-        public boolean showFileChooserCallBack(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
-            return mOpenFileChooserCallBack != null && mOpenFileChooserCallBack.showFileChooserCallBack(webView, filePathCallback, fileChooserParams);
-        }
-    };
 
     //设置打开文件监听
     public void setOpenFileChooserCallBack(MyWebChromeClient.OpenFileChooserCallBack openFileChooserCallBack) {
@@ -125,8 +107,6 @@ public class CWebView extends WebView {
         webSettings.setSupportMultipleWindows(false);
         // 排版适应屏幕,内容将自动缩放
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        // 启动应用缓存
-        webSettings.setAppCacheEnabled(false);
         // 设置缓存模式
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
@@ -141,13 +121,26 @@ public class CWebView extends WebView {
         final String cachePath = getContext().getDir("appCache", Context.MODE_PRIVATE).getPath();
         webSettings.setAppCachePath(cachePath);
         webSettings.setAppCacheMaxSize(5 * 1024 * 1024);
+
         //启用JavaScript执行,同时打开Indexed Database 存储机制
         webSettings.setJavaScriptEnabled(true);
-        //
+
+        //缓存模式如下：
+        //LOAD_CACHE_ONLY: 不使用网络，只读取本地缓存数据
+        //LOAD_DEFAULT: （默认）根据cache-control决定是否从网络上取数据。
+        //LOAD_NO_CACHE: 不使用缓存，只从网络获取数据.
+        //LOAD_CACHE_ELSE_NETWORK，只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。
         if (isNetworkConnected()) {
             webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);//根据cache-control决定是否从网络上取数据。
         } else {
             webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//没网，则从本地获取，即离线加载
+        }
+
+        //WebView先不要自动加载图片，等页面finish后再发起图片加载
+        if (Build.VERSION.SDK_INT >= 19) {
+            webSettings.setLoadsImagesAutomatically(true);
+        } else {
+            webSettings.setLoadsImagesAutomatically(false);
         }
 
 
@@ -155,6 +148,7 @@ public class CWebView extends WebView {
 
     private void initWebViewClient() {
         setWebViewClient(new WebViewClient() {
+            //对url进行拦截
             @Override
             public boolean shouldOverrideUrlLoading(WebView webView, String s) {
                 return super.shouldOverrideUrlLoading(webView, s);
@@ -169,6 +163,9 @@ public class CWebView extends WebView {
             @Override
             public void onReceivedError(WebView webView, WebResourceRequest webResourceRequest, WebResourceError webResourceError) {
                 super.onReceivedError(webView, webResourceRequest, webResourceError);
+                //出现错误先清除原来的界面，再显示我们要显示的页面
+                // loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+                // mErrorFrame.setVisibility(View.VISIBLE);
                 switch (webResourceError.getErrorCode()) {
                     case 404:
                         break;
@@ -190,6 +187,9 @@ public class CWebView extends WebView {
             @Override
             public void onPageFinished(WebView webView, String s) {
                 super.onPageFinished(webView, s);
+                if (!webView.getSettings().getLoadsImagesAutomatically()) {
+                    webView.getSettings().setLoadsImagesAutomatically(true);
+                }
             }
 
             //可以拦截到所有的网页中资源请求，比如加载JS，图片以及Ajax请求等等
@@ -202,7 +202,19 @@ public class CWebView extends WebView {
 
     private void initWebChromeClient() {
         MyWebChromeClient myWebChromeClient = new MyWebChromeClient();
-        myWebChromeClient.setOpenFileChooserCallBack(openFileChooserCallBack);
+        myWebChromeClient.setOpenFileChooserCallBack(new MyWebChromeClient.OpenFileChooserCallBack() {
+            @Override
+            public void openFileChooserCallBack(ValueCallback<Uri> uploadMsg, String acceptType) {
+                if (mOpenFileChooserCallBack != null) {
+                    mOpenFileChooserCallBack.openFileChooserCallBack(uploadMsg, acceptType);
+                }
+            }
+
+            @Override
+            public boolean showFileChooserCallBack(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+                return mOpenFileChooserCallBack != null && mOpenFileChooserCallBack.showFileChooserCallBack(webView, filePathCallback, fileChooserParams);
+            }
+        });
         setWebChromeClient(myWebChromeClient);
     }
 
@@ -216,12 +228,7 @@ public class CWebView extends WebView {
     }
 
     private void initLongClickListener() {
-        setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return true;
-            }
-        });
+        setOnLongClickListener(v -> true);
     }
 
 
@@ -238,31 +245,21 @@ public class CWebView extends WebView {
 
     public void performDestroy() {
         loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+        //只会webview访问历史记录里的所有记录除了当前访问记录
         clearHistory();
-        removeAllCookie();
+        //这个api仅仅清除自动完成填充的表单数据，并不会清除WebView存储到本地的数据
+        clearFormData();
+        //
         clearCache(true);
+        //移除cookie
+        CookiesUtil.removeAllCookie(getContext());
 
         ((ViewGroup) getParent()).removeView(this);
         super.destroy();
     }
 
-    //移除所有的cookie
-    private void removeAllCookie() {
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookie();
 
-        CookieSyncManager.createInstance(getContext());
-        CookieSyncManager.getInstance().sync();
-
-    }
-
-    //根据url移除cookie
-    public void removeCookie(String url) {
-        CookieManager mCookieManager = CookieManager.getInstance();
-        CookieSyncManager mCookieSyncManager = CookieSyncManager.createInstance(getContext());
-        clearCookieByUrl(url, mCookieManager, mCookieSyncManager);
-    }
-
+    //返回处理
     public void onBackPressed() {
         if (canGoBack()) {
             goBack();
@@ -276,56 +273,6 @@ public class CWebView extends WebView {
         }
     }
 
-
-    private static void clearCookieByUrl(String url, CookieManager pCookieManager, CookieSyncManager pCookieSyncManager) {
-        Uri uri = Uri.parse(url);
-        String host = uri.getHost();
-        clearCookieByUrlInternal(url, pCookieManager, pCookieSyncManager);
-        clearCookieByUrlInternal("http://." + host, pCookieManager, pCookieSyncManager);
-        clearCookieByUrlInternal("https://." + host, pCookieManager, pCookieSyncManager);
-    }
-
-    private static void clearCookieByUrlInternal(String url, CookieManager pCookieManager, CookieSyncManager pCookieSyncManager) {
-        if (TextUtils.isEmpty(url)) {
-            return;
-        }
-        String cookieString = pCookieManager.getCookie(url);
-        Vector<String> cookie = getCookieNamesByUrl(cookieString);
-        if (cookie == null || cookie.isEmpty()) {
-            return;
-        }
-        int len = cookie.size();
-        for (int i = 0; i < len; i++) {
-            pCookieManager.setCookie(url, cookie.get(i) + "=-1");
-        }
-        pCookieSyncManager.sync();
-    }
-
-    private static Vector<String> getCookieNamesByUrl(String cookie) {
-        if (TextUtils.isEmpty(cookie)) {
-            return null;
-        }
-        String[] cookieField = cookie.split(";");
-        int len = cookieField.length;
-        for (int i = 0; i < len; i++) {
-            cookieField[i] = cookieField[i].trim();
-        }
-        Vector<String> allCookieField = new Vector<>();
-        for (int i = 0; i < len; i++) {
-            if (TextUtils.isEmpty(cookieField[i])) {
-                continue;
-            }
-            if (!cookieField[i].contains("=")) {
-                continue;
-            }
-            String[] singleCookieField = cookieField[i].split("=");
-            allCookieField.add(singleCookieField[0]);
-        }
-        if (allCookieField.isEmpty()) {
-            return null;
-        }
-        return allCookieField;
-    }
 
     private void goToUpdate(Context context, String url) {
         //去下载
@@ -372,7 +319,7 @@ public class CWebView extends WebView {
         return false;
     }
 
-    private static class MyWebChromeClient extends WebChromeClient {
+    public static class MyWebChromeClient extends WebChromeClient {
         private OpenFileChooserCallBack mOpenFileChooserCallBack;
 
         public interface OpenFileChooserCallBack {
@@ -401,11 +348,12 @@ public class CWebView extends WebView {
         }
 
         // For Android >= 4.1
+        @Override
         public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
             mOpenFileChooserCallBack.openFileChooserCallBack(uploadMsg, acceptType);
         }
 
-        // For Lollipop 5.0+ Devices
+        // For Android >= 5.0
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         public boolean onShowFileChooser(WebView mWebView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
             return mOpenFileChooserCallBack.showFileChooserCallBack(mWebView, filePathCallback, fileChooserParams);

@@ -1,4 +1,6 @@
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation deps.lifecycle.java8
 }

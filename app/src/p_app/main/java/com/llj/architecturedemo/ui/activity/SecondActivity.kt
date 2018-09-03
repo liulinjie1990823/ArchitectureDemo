@@ -29,7 +29,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/7/3
  */
 @Route(path = CRouter.APP_SECOND_ACTIVITY)

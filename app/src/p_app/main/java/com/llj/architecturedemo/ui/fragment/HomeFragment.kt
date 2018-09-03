@@ -27,6 +27,7 @@ class HomeFragment : BaseFragment() {
     override fun initViews(savedInstanceState: Bundle?) {
         val arrayList = arrayListOf<Data>()
         arrayList.add(Data("ConstraintActivity", CRouter.WIDGET_CONSTRAINT_ACTIVITY))
+        arrayList.add(Data("SecondActivity", CRouter.APP_SECOND_ACTIVITY))
         arrayList.add(Data("TouchEventActivity", CRouter.APP_TOUCH_EVENT_ACTIVITY))
         arrayList.add(Data("RecycleViewActivity", CRouter.APP_RECYCLE_VIEW_ACTIVITY))
         arrayList.add(Data("NestedScrollViewActivity", CRouter.APP_RECYCLE_VIEW_ACTIVITY))
