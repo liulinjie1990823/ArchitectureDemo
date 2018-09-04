@@ -10,6 +10,7 @@ import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.BaseFragment
+import com.llj.lib.webview.CWebViewActivity
 
 /**
  * ArchitectureDemo.
@@ -36,6 +37,7 @@ class HomeFragment : BaseFragment() {
         arrayList.add(Data("LoginActivity", CRouter.LOGIN_LOGIN_ACTIVITY))
         arrayList.add(Data("RegisterActivity", CRouter.LOGIN_REGISTER_ACTIVITY))
         arrayList.add(Data("HookActivity", CRouter.APP_HOOK_ACTIVITY))
+        arrayList.add(Data("CWebViewActivity", "CWebViewActivity"))
 
         UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
                 .setLinearLayoutManager()
@@ -60,7 +62,11 @@ class HomeFragment : BaseFragment() {
             setText(textView, item.text)
 
             viewHolder.itemView.setOnClickListener {
-                CRouter.start(item.path)
+                when (item.path) {
+                    "CWebViewActivity" -> CWebViewActivity.start(mContext, "http://m.reallycar.cn/ocert")
+                    else -> CRouter.start(item.path)
+                }
+
             }
         }
     }

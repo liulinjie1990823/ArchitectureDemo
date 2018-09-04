@@ -29,6 +29,8 @@ import javax.inject.Inject
 abstract class BaseApplication : Application(),
         HasActivityInjector,
         HasSupportFragmentInjector {
+    val mTagLog: String = this.javaClass.simpleName
+
     @Inject
     lateinit var mActivityInjector: DispatchingAndroidInjector<Activity>
     @Inject

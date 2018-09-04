@@ -69,6 +69,7 @@ subprojects {
                     api deps.statelayout
                     api deps.universalAdapter
                     api deps.utils
+                    api project(':lib-webview')
                 } else {
                     api project(':lib-base')
                     api project(':lib-image-loader')
@@ -78,6 +79,7 @@ subprojects {
                     api project(':lib-statelayout')
                     api project(':lib-universalAdapter')
                     api project(':lib-utils')
+                    api project(':lib-webview')
                 }
 
                 api deps.fresco.fresco
