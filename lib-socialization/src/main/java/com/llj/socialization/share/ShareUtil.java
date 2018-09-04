@@ -11,14 +11,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.llj.socialization.INFO;
+import com.llj.socialization.R;
 import com.llj.socialization.ResponseActivity;
 import com.llj.socialization.share.callback.ShareListener;
-import com.llj.socialization.share.imp.ShareQq;
-import com.llj.socialization.share.imp.ShareQzone;
-import com.llj.socialization.share.imp.ShareSina;
-import com.llj.socialization.share.imp.ShareWechat;
-import com.llj.socialization.share.interfaces.ShareInterface;
-import com.llj.socialization.share.model.ShareImageObject;
+import com.llj.socialization.share.interfaces.IShare;
 import com.llj.socialization.share.model.ShareResult;
 import com.llj.socialization.share.process.ImageDecoder;
 
@@ -34,180 +30,109 @@ import bolts.Task;
  */
 
 public class ShareUtil {
-    public static final String TAG  = ShareUtil.class.getSimpleName();
-    public static final int    TYPE = 10086;
+    public static final String TAG          = ShareUtil.class.getSimpleName();
+    public static final int    REQUEST_CODE = 10086;
 
-    private static ShareInterface mShareInterface;
-    public static  ShareListener  mShareListenerWrap;
+    private static IShare        sIShare;
+    public static  ShareListener mShareListenerWrap;
 
     private static int mType;
     private final static int TYPE_TITLE       = 1;
     private final static int TYPE_DESCRIPTION = 2;
     private final static int TYPE_TEXT        = 3;
     private final static int TYPE_IMAGE       = 4;
-    private final static int TYPE_MEDIA       = 5;
+    private final static int TYPE_WEB         = 5;
 
     private static int mPlatform;
 
-    private static String mTitle;
-    private static String mDescription;
-    private static String mTargetUrl;
+    private static ShareObject mShareObject;
 
-    private static ShareImageObject mShareImageObject;
 
-    private static void reset() {
-        mTitle = null;
-        mDescription = null;
-        mTargetUrl = null;
-        mShareImageObject = null;
+    public static void sendFailure(Context context, ShareListener shareListener, String message) {
+        if (context instanceof Activity) {
+            ((Activity) context).finish();
+        }
+        shareListener.onShareResponse(new ShareResult(shareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, message));
     }
 
-
-    //分享title
-    public static void shareTitle(Context context,
-                                  @SharePlatformType.Platform int platform,
-                                  String title,
-                                  ShareListener listener) {
-        mType = TYPE_TITLE;
-
+    private static void commonShare(Context context,
+                                    @SharePlatformType.Platform int platform,
+                                    ShareObject shareObject,
+                                    ShareListener listener) {
         mPlatform = platform;
-        mTitle = title;
+        mShareObject = shareObject;
 
         listener.setPlatform(platform);
         mShareListenerWrap = buildWrapListener(listener);
 
-        ResponseActivity.start(context, TYPE);
+        ResponseActivity.start(context, REQUEST_CODE);
+    }
+
+    //分享title
+    public static void shareTitle(Context context,
+                                  @SharePlatformType.Platform int platform,
+                                  ShareObject shareObject,
+                                  ShareListener listener) {
+        if (shareObject == null || TextUtils.isEmpty(shareObject.getTitle())) {
+            sendFailure(context, listener, context.getString(R.string.incorrect_parameter_passed_in));
+            return;
+        }
+
+        mType = TYPE_TITLE;
+
+        commonShare(context, platform, shareObject, listener);
     }
 
 
     //分享内容
     public static void shareDescription(Context context,
                                         @SharePlatformType.Platform int platform,
-                                        String description,
+                                        ShareObject shareObject,
                                         ShareListener listener) {
+        if (shareObject == null || TextUtils.isEmpty(shareObject.getDescription())) {
+            sendFailure(context, listener, context.getString(R.string.incorrect_parameter_passed_in));
+            return;
+        }
         mType = TYPE_DESCRIPTION;
-
-        mPlatform = platform;
-        mDescription = description;
-
-        listener.setPlatform(platform);
-        mShareListenerWrap = buildWrapListener(listener);
-
-        ResponseActivity.start(context, TYPE);
+        commonShare(context, platform, shareObject, listener);
     }
 
     //分享标题内容
     public static void shareText(Context context,
                                  @SharePlatformType.Platform int platform,
-                                 String title,
-                                 String description,
-                                 String targetUrl,
+                                 ShareObject shareObject,
                                  ShareListener listener) {
+        if (shareObject == null || (TextUtils.isEmpty(shareObject.getTitle()) && TextUtils.isEmpty(shareObject.getDescription()))) {
+            sendFailure(context, listener, context.getString(R.string.incorrect_parameter_passed_in));
+            return;
+        }
         mType = TYPE_TEXT;
-
-        mPlatform = platform;
-        mTitle = title;
-        mDescription = description;
-        mTargetUrl = targetUrl;
-
-
-        listener.setPlatform(platform);
-        mShareListenerWrap = buildWrapListener(listener);
-
-        ResponseActivity.start(context, TYPE);
+        commonShare(context, platform, shareObject, listener);
     }
 
     //纯图分享
     public static void shareImage(Context context,
                                   @SharePlatformType.Platform final int platform,
-                                  final String urlOrPath,
+                                  ShareObject shareObject,
                                   ShareListener listener) {
+        if (shareObject == null || (TextUtils.isEmpty(shareObject.getImageUrlOrPath()) && shareObject.getImageBitmap() == null)) {
+            sendFailure(context, listener, context.getString(R.string.incorrect_parameter_passed_in));
+            return;
+        }
         mType = TYPE_IMAGE;
-
-        mPlatform = platform;
-        mShareImageObject = new ShareImageObject(urlOrPath);
-
-        listener.setPlatform(platform);
-        mShareListenerWrap = buildWrapListener(listener);
-
-        ResponseActivity.start(context, TYPE);
+        commonShare(context, platform, shareObject, listener);
     }
 
-    //纯图分享
-    public static void shareImage(Context context,
-                                  @SharePlatformType.Platform final int platform,
-                                  ShareImageObject shareImageObject,
-                                  ShareListener listener) {
-        mType = TYPE_IMAGE;
-
-        mPlatform = platform;
-        mShareImageObject = shareImageObject;
-
-        listener.setPlatform(platform);
-        mShareListenerWrap = buildWrapListener(listener);
-
-        ResponseActivity.start(context, TYPE);
-    }
-
-    //纯图分享
-    public static void shareImage(Context context,
-                                  @SharePlatformType.Platform final int platform,
-                                  final Bitmap bitmap,
-                                  ShareListener listener) {
-        mType = TYPE_IMAGE;
-
-        mPlatform = platform;
-        mShareImageObject = new ShareImageObject(bitmap);
-
-        listener.setPlatform(platform);
-        mShareListenerWrap = buildWrapListener(listener);
-
-        ResponseActivity.start(context, TYPE);
-    }
 
     //图文分享
-    public static void shareMedia(Context context,
-                                  @SharePlatformType.Platform int platform,
-                                  String title,
-                                  String description,
-                                  Bitmap thumb,
-                                  String targetUrl,
-                                  ShareListener listener) {
-        mType = TYPE_MEDIA;
-
-        mPlatform = platform;
-        mTitle = title;
-        mDescription = description;
-        mTargetUrl = targetUrl;
-        mShareImageObject = new ShareImageObject(thumb);
-
-        listener.setPlatform(platform);
-        mShareListenerWrap = buildWrapListener(listener);
-
-        ResponseActivity.start(context, TYPE);
+    public static void shareWeb(Context context,
+                                @SharePlatformType.Platform int platform,
+                                ShareObject shareObject,
+                                ShareListener listener) {
+        mType = TYPE_WEB;
+        commonShare(context, platform, shareObject, listener);
     }
 
-    //图文分享
-    public static void shareMedia(Context context,
-                                  @SharePlatformType.Platform int platform,
-                                  String title,
-                                  String description,
-                                  String thumbUrlOrPath,
-                                  String targetUrl,
-                                  ShareListener listener) {
-        mType = TYPE_MEDIA;
-
-        mPlatform = platform;
-        mTitle = title;
-        mDescription = description;
-        mTargetUrl = targetUrl;
-        mShareImageObject = new ShareImageObject(thumbUrlOrPath);
-
-        listener.setPlatform(platform);
-        mShareListenerWrap = buildWrapListener(listener);
-
-        ResponseActivity.start(context, TYPE);
-    }
 
     /**
      * 执行分享操作
@@ -216,14 +141,14 @@ public class ShareUtil {
      */
     public static void perform(Activity activity) {
         //获取对应平台
-        mShareInterface = getPlatform(mPlatform, activity);
+        sIShare = getPlatform(mPlatform, activity);
 
-        if (mShareListenerWrap == null || mShareInterface == null) {
+        if (mShareListenerWrap == null || sIShare == null) {
             activity.finish();
             return;
         }
 
-        if (!mShareInterface.isInstalled(activity)) {
+        if (!sIShare.isInstalled(activity)) {
             mShareListenerWrap.onShareResponse(new ShareResult(mPlatform, ShareResult.RESPONSE_SHARE_NOT_INSTALL));
             activity.finish();
             return;
@@ -232,36 +157,51 @@ public class ShareUtil {
 
         switch (mType) {
             case TYPE_TITLE:
-                mShareInterface.shareTitle(activity, mPlatform, mTitle, mTargetUrl);
+                sIShare.shareTitle(activity, mPlatform, mShareObject);
                 break;
             case TYPE_DESCRIPTION:
-                mShareInterface.shareDescription(activity, mPlatform, mDescription, mTargetUrl);
+                sIShare.shareDescription(activity, mPlatform, mShareObject);
                 break;
             case TYPE_TEXT:
-                mShareInterface.shareText(activity, mPlatform, mTitle, mDescription, mTargetUrl);
+                sIShare.shareText(activity, mPlatform, mShareObject);
                 break;
             case TYPE_IMAGE:
-                mShareInterface.shareImage(activity, mPlatform, mShareImageObject, mTargetUrl);
+                sIShare.shareImage(activity, mPlatform, mShareObject);
                 break;
-            case TYPE_MEDIA:
-                mShareInterface.shareMedia(activity, mPlatform, mTitle, mDescription, mShareImageObject, mTargetUrl);
+            case TYPE_WEB:
+                sIShare.shareWeb(activity, mPlatform, mShareObject);
                 break;
         }
     }
 
-    private static ShareInterface getPlatform(@SharePlatformType.Platform int platform, Context context) {
-        switch (platform) {
-            case SharePlatformType.WECHAT:
-            case SharePlatformType.WECHAT_CIRCLE:
-                return new ShareWechat(context, mShareListenerWrap);
-            case SharePlatformType.QQ:
-                return new ShareQq(context, mShareListenerWrap);
-            case SharePlatformType.QQ_ZONE:
-                return new ShareQzone(context, mShareListenerWrap);
-            case SharePlatformType.SINA:
-                return new ShareSina(context, mShareListenerWrap);
+    private static IShare getPlatform(@SharePlatformType.Platform int platform, Context context) {
+
+        Class clazz;
+        IShare share = null;
+        try {
+            switch (platform) {
+                case SharePlatformType.WECHAT:
+                case SharePlatformType.WECHAT_CIRCLE:
+                    clazz = Class.forName("com.llj.lib.socialization.wechat.share.ShareWechat");
+                    break;
+                case SharePlatformType.QQ:
+                    clazz = Class.forName("com.llj.lib.socialization.qq.share.ShareQq");
+                    break;
+                case SharePlatformType.QQ_ZONE:
+                    clazz = Class.forName("com.llj.lib.socialization.qq.share.ShareQzone");
+                    break;
+                case SharePlatformType.SINA:
+                    clazz = Class.forName("com.llj.lib.socialization.sina.share.ShareSina");
+                    break;
+                default:
+                    clazz = Class.forName("com.llj.lib.socialization.qq.share.ShareQq");
+                    break;
+            }
+            share = (IShare) clazz.newInstance();
+            share.init(context,mShareListenerWrap);
+        } catch (Exception e) {
         }
-        return null;
+        return share;
     }
 
     private static ShareListenerWrap buildWrapListener(ShareListener listener) {
@@ -289,33 +229,33 @@ public class ShareUtil {
     }
 
     public static class ImageDecoderCallable implements Callable<String> {
-        private Activity         mActivity;
-        private ShareImageObject mShareImageObject;
-        private ShareListener    mShareListener;
+        private Activity      mActivity;
+        private ShareObject   mShareObject;
+        private ShareListener mShareListener;
 
-        public ImageDecoderCallable(Activity activity, ShareImageObject shareImageObject, ShareListener shareListener) {
+        public ImageDecoderCallable(Activity activity, ShareObject shareObject, ShareListener shareListener) {
             mActivity = activity;
-            mShareImageObject = shareImageObject;
+            mShareObject = shareObject;
             mShareListener = shareListener;
         }
 
         @Override
         public String call() throws Exception {
-            if (mShareImageObject == null) {
+            if (mShareObject == null) {
                 return null;
             }
-            if (ShareUtil.isGifPath(mShareImageObject.getPathOrUrl())) {
+            if (ShareUtil.isGifPath(mShareObject.getImageUrlOrPath())) {
                 //gif
-                return ImageDecoder.decode(mActivity, mShareImageObject);
+                return ImageDecoder.decode(mActivity, mShareObject);
             } else {
                 //非gif
-                String imageLocalPath = ImageDecoder.decode(mActivity, mShareImageObject);
+                String imageLocalPath = ImageDecoder.decode(mActivity, mShareObject);
 
                 //使用备用的bitmap
                 if (TextUtils.isEmpty(imageLocalPath)) {
-                    mShareImageObject.setPathOrUrl("");
-                    mShareImageObject.setBitmap(mShareListener.getExceptionImage());
-                    imageLocalPath = ImageDecoder.decode(mActivity, mShareImageObject);
+                    mShareObject.setImageUrlOrPath("");
+                    mShareObject.setImageBitmap(mShareListener.getExceptionImage());
+                    imageLocalPath = ImageDecoder.decode(mActivity, mShareObject);
                 }
                 //抛出
                 if (TextUtils.isEmpty(imageLocalPath)) {
@@ -363,10 +303,10 @@ public class ShareUtil {
         }
     }
 
-    public static void handleResult(Intent data) {
+    public static void handleResult(int requestCode, int resultCode, Intent data) {
         // 微博分享会同时回调onActivityResult和onNewIntent， 而且前者返回的intent为null
-        if (mShareInterface != null && data != null) {
-            mShareInterface.handleResult(data);
+        if (sIShare != null && data != null) {
+            sIShare.handleResult(requestCode, resultCode, data);
         } else if (data == null) {
             if (mPlatform != SharePlatformType.SINA) {
                 Log.e(TAG, INFO.HANDLE_DATA_NULL);
@@ -377,22 +317,19 @@ public class ShareUtil {
     }
 
     public static void recycle() {
-        mTitle = null;
-        mDescription = null;
-        mTargetUrl = null;
 
         // bitmap recycle
-        if (mShareImageObject != null
-                && mShareImageObject.getBitmap() != null
-                && !mShareImageObject.getBitmap().isRecycled()) {
-            mShareImageObject.getBitmap().recycle();
+        if (mShareObject != null
+                && mShareObject.getImageBitmap() != null
+                && !mShareObject.getImageBitmap().isRecycled()) {
+            mShareObject.getImageBitmap().recycle();
         }
-        mShareImageObject = null;
+        mShareObject = null;
 
-        if (mShareInterface != null) {
-            mShareInterface.recycle();
+        if (sIShare != null) {
+            sIShare.recycle();
         }
-        mShareInterface = null;
+        sIShare = null;
 
         mShareListenerWrap = null;
     }

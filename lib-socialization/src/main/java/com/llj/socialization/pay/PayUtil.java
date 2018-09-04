@@ -7,8 +7,7 @@ import android.content.Intent;
 import com.llj.socialization.ResponseActivity;
 import com.llj.socialization.login.LoginPlatformType;
 import com.llj.socialization.pay.callback.PayListener;
-import com.llj.socialization.pay.imp.PayWechat;
-import com.llj.socialization.pay.interfaces.PayInterface;
+import com.llj.socialization.pay.interfaces.IPay;
 import com.llj.socialization.pay.model.PayParam;
 import com.llj.socialization.pay.model.PayResult;
 
@@ -22,8 +21,8 @@ public class PayUtil {
     public static final String TAG  = PayUtil.class.getSimpleName();
     public static final int    TYPE = 780;
 
-    private static PayInterface mPayInterface;
-    private static PayListener  mPayListenerWrap;
+    private static IPay        sMIPay;
+    private static PayListener mPayListenerWrap;
 
     private static int      mPlatform;
     private static PayParam mPayParam;
@@ -45,32 +44,43 @@ public class PayUtil {
 
 
     public static void perform(Activity activity) {
-        mPayInterface = getPlatform(mPlatform, activity);
+        sMIPay = getPlatform(mPlatform, activity);
 
-        if (mPayListenerWrap == null || mPayInterface == null) {
+        if (mPayListenerWrap == null || sMIPay == null) {
             activity.finish();
             return;
         }
-        if (!mPayInterface.isInstalled(activity)) {
-            mPayListenerWrap.onPayResponse(new PayResult(mPlatform,PayResult.RESPONSE_PAY_NOT_INSTALL));
+        if (!sMIPay.isInstalled(activity)) {
+            mPayListenerWrap.onPayResponse(new PayResult(mPlatform, PayResult.RESPONSE_PAY_NOT_INSTALL));
             activity.finish();
             return;
         }
         mPayListenerWrap.onStart();
-        mPayInterface.doPay(mPayParam);
+        sMIPay.doPay(mPayParam);
     }
 
-    private static PayInterface getPlatform(@PayPlatformType.Platform int platform, Context context) {
-        switch (platform) {
-            case PayPlatformType.WECHAT:
-                return new PayWechat(context, mPayListenerWrap);
+    private static IPay getPlatform(@PayPlatformType.Platform int platform, Context context) {
+        Class clazz;
+        IPay pay = null;
+        try {
+            switch (platform) {
+                case PayPlatformType.WECHAT:
+                    clazz = Class.forName("com.llj.lib.socialization.wechat.pay.PayWechat");
+                    break;
+                default:
+                    clazz = Class.forName("com.llj.lib.socialization.wechat.pay.PayWechat");
+                    break;
+            }
+            pay = (IPay) clazz.newInstance();
+            pay.init(context, mPayListenerWrap);
+        } catch (Exception e) {
         }
-        return null;
+        return pay;
     }
 
     public static void handleResult(int requestCode, int resultCode, Intent data) {
-        if (mPayInterface != null) {
-            mPayInterface.handleResult(requestCode, resultCode, data);
+        if (sMIPay != null) {
+            sMIPay.handleResult(requestCode, resultCode, data);
         }
     }
 
@@ -95,10 +105,10 @@ public class PayUtil {
     }
 
     public static void recycle() {
-        if (mPayInterface != null) {
-            mPayInterface.recycle();
+        if (sMIPay != null) {
+            sMIPay.recycle();
         }
-        mPayInterface = null;
+        sMIPay = null;
         mPayListenerWrap = null;
         mPlatform = 0;
     }

@@ -27,6 +27,7 @@ class HomeFragment : BaseFragment() {
 
     override fun initViews(savedInstanceState: Bundle?) {
         val arrayList = arrayListOf<Data>()
+        arrayList.add(Data("ShareActivity", CRouter.APP_SHARE_ACTIVITY))
         arrayList.add(Data("ConstraintActivity", CRouter.WIDGET_CONSTRAINT_ACTIVITY))
         arrayList.add(Data("SecondActivity", CRouter.APP_SECOND_ACTIVITY))
         arrayList.add(Data("TouchEventActivity", CRouter.APP_TOUCH_EVENT_ACTIVITY))

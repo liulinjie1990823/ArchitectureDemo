@@ -5,9 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
-import com.sina.weibo.sdk.WbSdk;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-
 import java.util.List;
 
 /**
@@ -36,19 +33,4 @@ public class InstallUtil {
         return false;
     }
 
-    /**
-     * @param mIWXAPI
-     * @return
-     */
-    public static boolean isWeChatInstalled(IWXAPI mIWXAPI) {
-        return mIWXAPI.isWXAppInstalled();
-    }
-
-    /**
-     * @param context
-     * @return
-     */
-    public static boolean isSinaInstalled(Context context) {
-        return WbSdk.isWbInstall(context);
-    }
 }

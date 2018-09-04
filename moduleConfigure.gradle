@@ -65,7 +65,9 @@ subprojects {
                     api deps.imageLoader
                     api deps.imageSelect
                     api deps.net
-                    api project(':lib-socialization')
+                    api project(':lib-socialization-qq')
+                    api project(':lib-socialization-sina')
+                    api project(':lib-socialization-wechat')
                     api deps.statelayout
                     api deps.universalAdapter
                     api deps.utils
@@ -75,7 +77,9 @@ subprojects {
                     api project(':lib-image-loader')
                     api project(':lib-image-select')
                     api project(':lib-net')
-                    api project(':lib-socialization')
+                    api project(':lib-socialization-qq')
+                    api project(':lib-socialization-sina')
+                    api project(':lib-socialization-wechat')
                     api project(':lib-statelayout')
                     api project(':lib-universalAdapter')
                     api project(':lib-utils')

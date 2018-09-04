@@ -13,7 +13,7 @@ def useComponent = properties.getProperty("useComponent") == "true"
 def useMaven = properties.getProperty("useMaven") == "true"
 
 
-include ':time-gradle-plugin'
+include ':time-gradle-plugin', ':lib-socialization-qq', ':lib-socialization-wechat', ':lib-socialization-sina'
 
 include 'app',
         ':module-login',

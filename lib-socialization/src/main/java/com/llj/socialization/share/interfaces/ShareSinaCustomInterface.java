@@ -2,8 +2,8 @@ package com.llj.socialization.share.interfaces;
 
 import android.app.Activity;
 
+import com.llj.socialization.share.ShareObject;
 import com.llj.socialization.share.callback.ShareListener;
-import com.llj.socialization.share.model.ShareImageObject;
 
 /**
  * PROJECT:babyphoto_app
@@ -11,6 +11,6 @@ import com.llj.socialization.share.model.ShareImageObject;
  * Created by llj on 2017/1/19.
  */
 
-public interface ShareSinaCustomInterface extends ShareInterface {
-    void shareCustom(Activity activity, int platform, String description, ShareImageObject shareImageObject, ShareListener listener);
+public interface ShareSinaCustomInterface extends IShare {
+    void shareCustom(Activity activity, int platform, ShareObject shareObject, ShareListener listener);
 }
