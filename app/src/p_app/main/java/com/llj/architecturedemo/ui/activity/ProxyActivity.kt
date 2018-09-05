@@ -1,7 +1,11 @@
 package com.llj.architecturedemo.ui.activity
 
 import android.os.Bundle
+import android.widget.TextView
+import butterknife.BindView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.R
+import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.MvcBaseActivity
 import com.llj.lib.utils.LogUtil
 import java.lang.reflect.InvocationHandler
@@ -15,12 +19,24 @@ import java.lang.reflect.Proxy
  * author llj
  * date 2018/8/28
  */
+@Route(path = CRouter.APP_PROXY_ACTIVITY)
 class ProxyActivity : MvcBaseActivity() {
+    @BindView(R.id.tv_click) lateinit var mTvClick: TextView
     override fun layoutId(): Int {
+
         return R.layout.activity_proxy
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
+        mTvClick.setOnClickListener {
+            val realSubject1 = RealSubject1()
+            val dynamicProxyHandler = DynamicProxyHandler(realSubject1)
+
+            val newProxyInstance1 = Proxy.newProxyInstance(realSubject1.javaClass.classLoader,
+                    realSubject1.javaClass.interfaces,
+                    dynamicProxyHandler)
+
+        }
     }
 
     override fun initData() {

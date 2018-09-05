@@ -4,4 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/tv_click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="JDK动态代理"
+        android:textColor="@color/black"
+        android:textSize="24dp"/>
+
 </android.support.constraint.ConstraintLayout>

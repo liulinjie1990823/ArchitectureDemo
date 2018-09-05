@@ -28,6 +28,7 @@ class HomeFragment : BaseFragment() {
     override fun initViews(savedInstanceState: Bundle?) {
         val arrayList = arrayListOf<Data>()
         arrayList.add(Data("ShareActivity", CRouter.APP_SHARE_ACTIVITY))
+        arrayList.add(Data("MemoryLeakActivity", CRouter.APP_MEMORY_LEAK_ACTIVITY))
         arrayList.add(Data("ConstraintActivity", CRouter.WIDGET_CONSTRAINT_ACTIVITY))
         arrayList.add(Data("SecondActivity", CRouter.APP_SECOND_ACTIVITY))
         arrayList.add(Data("TouchEventActivity", CRouter.APP_TOUCH_EVENT_ACTIVITY))
@@ -38,6 +39,7 @@ class HomeFragment : BaseFragment() {
         arrayList.add(Data("LoginActivity", CRouter.LOGIN_LOGIN_ACTIVITY))
         arrayList.add(Data("RegisterActivity", CRouter.LOGIN_REGISTER_ACTIVITY))
         arrayList.add(Data("HookActivity", CRouter.APP_HOOK_ACTIVITY))
+        arrayList.add(Data("ProxyActivity", CRouter.APP_PROXY_ACTIVITY))
         arrayList.add(Data("CWebViewActivity", "CWebViewActivity"))
 
         UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
