@@ -1,0 +1,47 @@
+apply from: "../cc-settings.gradle"
+
+android {
+    compileSdkVersion build_versions.compile
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        applicationId build_versions.applicationId
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+
+        versionCode build_versions.version_code
+        versionName build_versions.version_name
+
+        resConfigs "en", "xxhdpi"
+
+        ndk { abiFilters "armeabi" }
+
+        manifestPlaceholders = [qq_id: "1103566659"]
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildTypes.all { type ->
+        type.matchingFallbacks = ['debug']
+        type.minifyEnabled = false
+        type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
+    }
+    compileOptions {
+        targetCompatibility build_versions.compile_jdk
+        sourceCompatibility build_versions.compile_jdk
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':component-service')
+    api project(':lib-component-annotation')
+    annotationProcessor project(':lib-component-compiler')
+}

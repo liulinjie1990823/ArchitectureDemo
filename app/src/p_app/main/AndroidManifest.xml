@@ -76,6 +76,7 @@
         <activity android:name=".ui.activity.ProxyActivity"/>
         <activity android:name=".ui.activity.HookActivity"/>
         <activity android:name=".ui.activity.StubActivity"/>
+        <activity android:name=".ui.activity.AptActivity"/>
     </application>
 
 </manifest>

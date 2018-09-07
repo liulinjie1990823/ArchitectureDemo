@@ -5,6 +5,10 @@
 subprojects {
     //配置类库公用的配置
     if (it.name.startsWith('lib-')) {
+        if (it.name.startsWith('lib-component-annotation')
+                || it.name.startsWith('lib-component-compiler')) {
+            return
+        }
         apply plugin: 'com.android.library'
 
         android {

@@ -1,0 +1,89 @@
+/**
+ * 工程类库共用相关配置
+ */
+
+subprojects {
+    if (it.name == 'app'
+            || it.name.startsWith('module-')) {
+
+        if (it.name.startsWith('module-java')) {
+            return
+        }
+        if (useComponent) {
+            apply from: "../cc-settings.gradle"
+        } else {
+            if (it.name == 'app') {
+                apply plugin: 'com.android.application'
+            } else {
+                apply plugin: 'com.android.library'
+            }
+        }
+        apply plugin: 'kotlin-android'
+        apply plugin: 'kotlin-kapt'
+
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+
+        //android
+        if (it.name != 'app') {
+            android {
+                compileSdkVersion build_versions.compile
+                buildToolsVersion build_versions.build_tools
+
+                defaultConfig {
+                    applicationId build_versions.applicationId
+                    minSdkVersion build_versions.min_sdk
+                    targetSdkVersion build_versions.target_sdk
+
+                    versionCode build_versions.version_code
+                    versionName build_versions.version_name
+
+                    resConfigs "en", "xxhdpi"
+
+                    ndk { abiFilters "armeabi" }
+
+                    manifestPlaceholders = [qq_id: "1103566659"]
+                }
+
+                buildTypes {
+                    debug {
+                        minifyEnabled false
+                        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                    }
+                }
+                buildTypes.all { type ->
+                    type.matchingFallbacks = ['debug']
+                    type.minifyEnabled = false
+                    type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
+                }
+                compileOptions {
+                    targetCompatibility build_versions.compile_jdk
+                    sourceCompatibility build_versions.compile_jdk
+                }
+                lintOptions {
+                    abortOnError false
+                }
+            }
+        }
+
+        dependencies {
+            implementation fileTree(include: ['*.jar'], dir: 'libs')
+            api project(':component-service')
+
+            kapt deps.dagger.compiler
+            kapt deps.dagger.android_support_compiler
+
+            //lifecycle
+            kapt deps.lifecycle.compiler
+            //db
+            kapt deps.room.compiler
+            //butterknife
+            kapt deps.butterknife.compiler
+            //跳转路由
+            kapt deps.arouter.compiler
+        }
+    }
+}
