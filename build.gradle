@@ -2,7 +2,7 @@
 apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
-    apply from: 'versions2.gradle'
+    apply from: 'configureVersions2.gradle'
     apply from: 'utils.gradle'
     addRepos(repositories)
     dependencies {
