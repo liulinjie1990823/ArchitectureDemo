@@ -38,13 +38,15 @@ def versions = [
 ]
 ext {
     build_versions = [
-            compile     : 27,
-            build_tools : "27.0.3",
-            min_sdk     : 14,
-            target_sdk  : 27,
-            version_code: 100,
-            version_name: "1.0.0",
-            compile_jdk : 1.8,
+            //com.china.hunbohui
+            applicationId: "com.llj.architecturedemo",
+            compile      : 27,
+            build_tools  : "27.0.3",
+            min_sdk      : 14,
+            target_sdk   : 27,
+            version_code : 100,
+            version_name : "1.0.0",
+            compile_jdk  : 1.8,
     ]
     deps = [
             //插件
@@ -153,6 +155,7 @@ ext {
             statelayout               : "com.llj:lib-statelayout:0.0.1",
             universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.10",
             utils                     : "com.llj:lib-utils:0.0.2",
+            webView                   : "com.llj:lib-webview:0.0.1",
             //ui
             smartrefresh              : [
                     SmartRefreshLayout: "com.scwang.smartrefresh:SmartRefreshLayout:$versions.smartrefresh",

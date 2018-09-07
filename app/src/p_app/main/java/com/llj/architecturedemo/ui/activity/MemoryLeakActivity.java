@@ -3,12 +3,15 @@ package com.llj.architecturedemo.ui.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.llj.architecturedemo.MyBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.vo.Animal;
 import com.llj.component.service.arouter.CRouter;
+import com.llj.lib.base.MvcBaseActivity;
+
+import butterknife.BindView;
 
 /**
  * ArchitectureDemo.
@@ -17,7 +20,8 @@ import com.llj.component.service.arouter.CRouter;
  * date 2018/7/2
  */
 @Route(path = CRouter.APP_MEMORY_LEAK_ACTIVITY)
-public class MemoryLeakActivity extends MyBaseActivity {
+public class MemoryLeakActivity extends MvcBaseActivity {
+    @BindView(R.id.constraintLayout) ConstraintLayout mConstraintLayout;
     public static final int SHOW_TYPE_ALBUM = 0;
 
     private Animal mAnimal = new Animal();

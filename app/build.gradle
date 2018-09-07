@@ -6,7 +6,7 @@ android {
     buildToolsVersion build_versions.build_tools
     defaultConfig {
 //        applicationId "com.china.hunbohui"
-        applicationId "com.llj.architecturedemo"
+        applicationId build_versions.applicationId
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
 
@@ -107,6 +107,16 @@ android {
     }
 }
 
+dependencies {
+    implementation deps.walle
+
+    if (useComponent) {
+        addComponent 'module-login'
+    } else {
+        api project(':module-login')
+    }
+
+}
 
 walle {
     // 指定渠道包的输出路径

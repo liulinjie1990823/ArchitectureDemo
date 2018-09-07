@@ -24,6 +24,7 @@ public class CRouter {
     public static final String APP_COMPONENT_ACTIVITY         = "/app/ComponentActivity";
     public static final String APP_SHARE_ACTIVITY             = "/app/ShareActivity";
     public static final String APP_MEMORY_LEAK_ACTIVITY       = "/app/MemoryLeakActivity";
+    public static final String APP_APT_ACTIVITY      = "/app/AptActivity";
     public static final String APP_HOOK_ACTIVITY              = "/app/HookActivity";
     public static final String WIDGET_CONSTRAINT_ACTIVITY     = "/app/widget/ConstraintActivity";
     public static final String CIRCLE_VIEW_ACTIVITY           = "/app/widget/CircleViewActivity";

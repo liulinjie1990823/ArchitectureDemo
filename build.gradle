@@ -50,9 +50,9 @@ allprojects {
 }
 apply from: "init.gradle"
 //配置library相关属性
-apply from: "libraryConfigure.gradle"
+apply from: "configureLibrary.gradle"
 //配置module相关属性
-apply from: "moduleConfigure.gradle"
+apply from: "configureModule.gradle"
 
 afterEvaluate {
 
