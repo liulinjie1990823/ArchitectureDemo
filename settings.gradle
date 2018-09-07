@@ -16,7 +16,10 @@ def useMaven = properties.getProperty("useMaven") == "true"
 include ':time-gradle-plugin',
         ':lib-component-compiler',
         ':lib-component-annotation',
-        ':lib-component-api'
+        ':lib-component-api',
+        ':lib-socialization-qq',
+        ':lib-socialization-wechat',
+        ':lib-socialization-sina'
 
 include 'app',
         ':component-service',
