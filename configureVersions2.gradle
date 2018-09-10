@@ -120,6 +120,7 @@ ext {
             okhttp_logging_interceptor: "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
             okhttp                    : "com.squareup.okhttp3:okhttp:$versions.okhttp",
             gson                      : "com.google.code.gson:gson:2.8.5",
+            fastjson                  : "com.alibaba:fastjson:1.1.70.android",
             bolts                     : "com.parse.bolts:bolts-tasks:1.4.0",
             PersistentCookieJar       : "com.github.franmontiel:PersistentCookieJar:v1.0.1",
             //图片加载
