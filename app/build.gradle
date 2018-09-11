@@ -9,6 +9,7 @@ android {
         applicationId build_versions.applicationId
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
+        multiDexEnabled true
 
         versionCode build_versions.version_code
         versionName build_versions.version_name
@@ -57,6 +58,7 @@ android {
             dirs.each { dir ->
                 java.srcDir("src/${dir}/main/java")
                 res.srcDir("src/${dir}/main/res")
+                assets.srcDirs("src/${dir}/main/assets")
             }
         }
 //        wm {
@@ -111,8 +113,10 @@ dependencies {
 
     if (useComponent) {
         addComponent 'module-login'
+        addComponent 'module-java'
     } else {
         api project(':module-login')
+        api project(':module-java')
     }
 
 }

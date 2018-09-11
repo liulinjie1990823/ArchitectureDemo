@@ -1,9 +1,12 @@
 package com.llj.architecturedemo
 
+import android.content.Context
+import android.support.multidex.MultiDex
 import com.llj.component.service.ComponentApplication
 import com.llj.socialization.SocialConstants
 import com.llj.socialization.share.SocialConfig
 import com.llj.socialization.share.SocialManager
+
 
 /**
  * ArchitectureDemo
@@ -23,5 +26,10 @@ class AppApplication : ComponentApplication() {
                 .sign("1476913513", "http://www.jiehun.com.cn/api/weibo/_grant", SocialConstants.SCOPE)
         SocialManager.init(config)
 
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 }
