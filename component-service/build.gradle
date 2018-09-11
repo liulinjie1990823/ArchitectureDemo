@@ -19,7 +19,6 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -46,7 +45,7 @@ dependencies {
         api deps.imageLoader
         api deps.imageSelect
         api deps.net
-        api project(':lib-socialization')
+        api deps.socialization
         api deps.statelayout
         api deps.universalAdapter
         api deps.utils

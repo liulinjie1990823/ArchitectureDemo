@@ -28,12 +28,12 @@ if (!useMaven) {
             ':lib-image-loader',
             ':lib-image-select',
             ':lib-net',
+            ':lib-socialization',
             ':lib-universalAdapter',
             ':lib-statelayout',
             ':lib-utils',
             ':lib-webview'
 }
-include ':lib-socialization',
-        ':libs'
+include ':libs'
 
 

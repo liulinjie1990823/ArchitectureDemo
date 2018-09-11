@@ -41,7 +41,6 @@ android {
         debug {}
 //        beta {}
         release {
-
         }
     }
     buildTypes.all { type ->

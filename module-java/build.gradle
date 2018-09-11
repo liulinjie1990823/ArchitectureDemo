@@ -1,11 +1,15 @@
 apply from: "../cc-settings.gradle"
 
+def isApplication = pluginManager.hasPlugin("com.android.application")
+
 android {
     compileSdkVersion build_versions.compile
     buildToolsVersion build_versions.build_tools
 
     defaultConfig {
-        applicationId build_versions.applicationId
+        if (isApplication) {
+            applicationId build_versions.applicationId
+        }
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
 
