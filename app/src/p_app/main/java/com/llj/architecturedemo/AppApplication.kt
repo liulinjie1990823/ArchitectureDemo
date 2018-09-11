@@ -1,7 +1,6 @@
 package com.llj.architecturedemo
 
 import android.content.Context
-import android.support.multidex.MultiDex
 import com.llj.component.service.ComponentApplication
 import com.llj.socialization.SocialConstants
 import com.llj.socialization.share.SocialConfig
@@ -30,6 +29,6 @@ class AppApplication : ComponentApplication() {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        MultiDex.install(this)
+//        MultiDex.install(this)
     }
 }

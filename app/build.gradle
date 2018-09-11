@@ -1,4 +1,5 @@
 apply plugin: 'walle'
+apply plugin: 'com.getkeepsafe.dexcount'
 //apply plugin: 'task-time'
 
 android {
@@ -39,15 +40,21 @@ android {
     }
 
     buildTypes {
-        debug {}
-//        beta {}
+        debug {
+//            minifyEnabled true
+//            useProguard false
+//            shrinkResources false
+        }
         release {
+//            minifyEnabled true
+//            shrinkResources true
         }
     }
     buildTypes.all { type ->
         type.matchingFallbacks = ['debug']
         type.signingConfig = signingConfigs.release
-        type.minifyEnabled = false
+//        type.minifyEnabled = true
+//        type.shrinkResources = true
         type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
     }
 
