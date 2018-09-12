@@ -46,6 +46,4 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':component-service')
-    api project(':lib-component-annotation')
-    annotationProcessor project(':lib-component-compiler')
 }

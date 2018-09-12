@@ -2,6 +2,7 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.support.app_compat
+    api deps.component_annotation
 }
 
 apply from: "../uploadArchives.gradle"

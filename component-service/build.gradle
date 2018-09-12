@@ -43,6 +43,7 @@ dependencies {
     if (useMaven) {
         api deps.base
         api deps.base_mvvm
+        api deps.component_api
         api deps.imageLoader
         api deps.imageSelect
         api deps.net
@@ -54,6 +55,7 @@ dependencies {
     } else {
         api project(':lib-base')
         api project(':lib-base-mvvm')
+        api project(':lib-component-api')
         api project(':lib-image-loader')
         api project(':lib-image-select')
         api project(':lib-net')
@@ -64,7 +66,7 @@ dependencies {
         api project(':lib-webview')
     }
 
-    api project(':lib-component-api')
+
 
     api deps.fresco.fresco
     api deps.fresco.animated_gif

@@ -150,6 +150,9 @@ ext {
             //工具
             base                      : "com.llj:lib-base:0.0.2",
             base_mvvm                 : "com.llj:lib-base-mvvm:0.0.2",
+            component_annotation      : "com.llj:lib-component-annotation:0.0.1",
+            component_api             : "com.llj:lib-component-api:0.0.1",
+            component_compiler        : "com.llj:lib-component-compiler:0.0.1",
             imageLoader               : "com.llj:lib-image-loader:0.0.2",
             imageSelect               : "com.llj:lib-image-select:0.0.1",
             net                       : "com.llj:lib-net:0.0.1",

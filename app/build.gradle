@@ -125,6 +125,11 @@ dependencies {
         api project(':module-login')
         api project(':module-java')
     }
+    if (useMaven) {
+        kapt deps.component_compiler
+    } else {
+        kapt project(':lib-component-compiler')
+    }
 
 }
 

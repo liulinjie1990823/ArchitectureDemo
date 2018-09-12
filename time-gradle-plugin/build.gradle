@@ -12,4 +12,4 @@ dependencies {
 }
 
 apply from: "../uploadArchives.gradle"
-apply from: "../pluginBintrayUpload.gradle"
+apply from: "../bintrayUpload.gradle"
