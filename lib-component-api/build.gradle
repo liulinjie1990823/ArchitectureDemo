@@ -1,8 +1,11 @@
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.support.app_compat
-    api deps.component_annotation
+    if (useMaven) {
+        api deps.component_annotation
+    } else {
+        api project(':lib-component-annotation')
+    }
 }
 
 apply from: "../uploadArchives.gradle"

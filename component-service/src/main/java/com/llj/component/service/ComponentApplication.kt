@@ -3,7 +3,9 @@ package com.llj.component.service
 import android.support.annotation.CallSuper
 import android.util.Log
 import com.alibaba.android.arouter.launcher.ARouter
+import com.facebook.stetho.Stetho
 import com.llj.lib.base.BaseApplication
+import com.squareup.leakcanary.LeakCanary
 import com.tencent.smtt.sdk.QbSdk
 
 /**
@@ -34,5 +36,33 @@ abstract class ComponentApplication : BaseApplication() {
             override fun onCoreInitFinished() {
             }
         })
+    }
+
+    override fun isDebug(): Boolean {
+        return BuildConfig.DEBUG
+    }
+
+    override fun initStetho() {
+        super.initStetho()
+        if (!isDebug()) {
+            return
+        }
+        val build = Stetho.newInitializerBuilder(this)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                .build()
+        Stetho.initialize(build)
+    }
+
+    override fun initLeakCanary() {
+        if (!isDebug()) {
+            return
+        }
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return
+        }
+        LeakCanary.install(this)
     }
 }

@@ -91,7 +91,7 @@ ext {
                     android_support         : "com.google.dagger:dagger-android-support:$versions.dagger",
                     android_support_compiler: "com.google.dagger:dagger-android-processor:$versions.dagger",
             ],
-            rxjava2                   : "io.reactivex.rxjava2:rxjava:2.2.1",
+            rxjava2                   : "io.reactivex.rxjava2:rxjava:2.2.2",
             rxandroid                 : "io.reactivex.rxjava2:rxandroid:2.1.0",
             autodispose               : [
                     autodispose             : "com.uber.autodispose:autodispose:$versions.autodispose",
@@ -155,7 +155,7 @@ ext {
             component_compiler        : "com.llj:lib-component-compiler:0.0.1",
             imageLoader               : "com.llj:lib-image-loader:0.0.2",
             imageSelect               : "com.llj:lib-image-select:0.0.1",
-            net                       : "com.llj:lib-net:0.0.1",
+            net                       : "com.llj:lib-net:0.0.2",
             socialization             : "com.llj.socialization:lib-socialization:1.0.15",
             statelayout               : "com.llj:lib-statelayout:0.0.1",
             universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.10",

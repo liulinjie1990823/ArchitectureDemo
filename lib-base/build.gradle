@@ -8,13 +8,15 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
+
     if (useMaven) {
         implementation deps.utils
+        implementation deps.net
     } else {
         implementation project(':lib-utils')
+        implementation project(':lib-net')
     }
 
-    api project(':lib-net')
     //kotlin
     api deps.kotlin.stdlib_jdk8
 
@@ -55,11 +57,6 @@ dependencies {
     api deps.okhttp_logging_interceptor
     api deps.gson
 
-    //应用调试
-    implementation deps.stetho.stetho
-    //内存检测
-    debugImplementation deps.leakcanary.leakcanary_android
-    releaseImplementation deps.leakcanary.leakcanary_android_no_op
 }
 
 apply from: "../uploadArchives.gradle"

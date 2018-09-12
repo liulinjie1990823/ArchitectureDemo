@@ -11,8 +11,10 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     if (useMaven) {
         api deps.base
+        implementation deps.net
     } else {
         api project(':lib-base')
+        implementation project(':lib-net')
     }
 }
 
