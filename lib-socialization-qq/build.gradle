@@ -7,3 +7,5 @@ dependencies {
     api project(':lib-socialization')
 
 }
+apply from: "../uploadArchives.gradle"
+apply from: "../bintrayUpload.gradle"

@@ -48,6 +48,9 @@ dependencies {
         api deps.imageSelect
         api deps.net
         api deps.socialization
+        api deps.socialization_qq
+        api deps.socialization_sina
+        api deps.socialization_wechat
         api deps.statelayout
         api deps.universalAdapter
         api deps.utils
@@ -60,6 +63,9 @@ dependencies {
         api project(':lib-image-select')
         api project(':lib-net')
         api project(':lib-socialization')
+        api project(':lib-socialization-qq')
+        api project(':lib-socialization-sina')
+        api project(':lib-socialization-wechat')
         api project(':lib-statelayout')
         api project(':lib-universalAdapter')
         api project(':lib-utils')
