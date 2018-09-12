@@ -42,6 +42,7 @@ dependencies {
 
     if (useMaven) {
         api deps.base
+        api deps.base_mvvm
         api deps.imageLoader
         api deps.imageSelect
         api deps.net
@@ -52,6 +53,7 @@ dependencies {
         api deps.webView
     } else {
         api project(':lib-base')
+        api project(':lib-base-mvvm')
         api project(':lib-image-loader')
         api project(':lib-image-select')
         api project(':lib-net')

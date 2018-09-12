@@ -72,15 +72,19 @@ abstract class BaseApplication : Application(),
         AToastUtils.init()
     }
 
+    protected fun isDebug(): Boolean {
+        return false
+    }
+
     protected fun initCrashHandler() {
-        if (!BuildConfig.DEBUG) {
+        if (!isDebug()) {
             return
         }
         CrashHelper.getInstance().init(this) { LogUtil.LLJe(it) }
     }
 
     private fun initStetho() {
-        if (!BuildConfig.DEBUG) {
+        if (!isDebug()) {
             return
         }
         val build = Stetho.newInitializerBuilder(this)
@@ -91,7 +95,7 @@ abstract class BaseApplication : Application(),
     }
 
     private fun initLeakCanary() {
-        if (!BuildConfig.DEBUG) {
+        if (!isDebug()) {
             return
         }
         if (LeakCanary.isInAnalyzerProcess(this)) {
@@ -103,7 +107,7 @@ abstract class BaseApplication : Application(),
     }
 
     private fun initStrictMode() {
-        if (!BuildConfig.DEBUG) {
+        if (!isDebug()) {
             return
         }
         //设置线程策略

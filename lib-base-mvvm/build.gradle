@@ -1,0 +1,22 @@
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt' // kapt 插件
+
+android {
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    if (useMaven) {
+        api deps.base
+    } else {
+        api project(':lib-base')
+    }
+}
+
+apply from: "../uploadArchives.gradle"
+apply from: "../bintrayUpload.gradle"
+
+

@@ -25,6 +25,7 @@ include 'app',
 
 if (!useMaven) {
     include ':lib-base',
+            ':lib-base-mvvm',
             ':lib-image-loader',
             ':lib-image-select',
             ':lib-net',

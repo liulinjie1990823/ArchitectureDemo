@@ -148,7 +148,8 @@ ext {
                     auto_value_compile    : "com.google.auto.value:auto-value:$versions.auto_value",
             ],
             //工具
-            base                      : "com.llj:lib-base:0.0.1",
+            base                      : "com.llj:lib-base:0.0.2",
+            base_mvvm                 : "com.llj:lib-base-mvvm:0.0.2",
             imageLoader               : "com.llj:lib-image-loader:0.0.2",
             imageSelect               : "com.llj:lib-image-select:0.0.1",
             net                       : "com.llj:lib-net:0.0.1",

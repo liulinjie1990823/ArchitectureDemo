@@ -3,9 +3,7 @@ apply plugin: 'kotlin-kapt' // kapt 插件
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
-    dataBinding {
-        enabled = true
-    }
+
 }
 
 dependencies {
