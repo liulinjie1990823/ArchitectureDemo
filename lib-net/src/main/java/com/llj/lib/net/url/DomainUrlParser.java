@@ -11,7 +11,7 @@ import okhttp3.HttpUrl;
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/6/20
  */
 public class DomainUrlParser implements UrlParser {

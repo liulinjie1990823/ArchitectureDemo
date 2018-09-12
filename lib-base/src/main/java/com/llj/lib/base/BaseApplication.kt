@@ -5,7 +5,6 @@ import android.app.Application
 import android.os.StrictMode
 import android.support.annotation.CallSuper
 import android.support.v4.app.Fragment
-import com.facebook.stetho.Stetho
 import com.llj.lib.base.help.CrashHelper
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.help.FilePathHelper
@@ -13,7 +12,6 @@ import com.llj.lib.utils.AActivityManagerUtils
 import com.llj.lib.utils.AToastUtils
 import com.llj.lib.utils.LogUtil
 import com.llj.lib.utils.helper.Utils
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -64,46 +62,34 @@ abstract class BaseApplication : Application(),
         FilePathHelper.init(this)
     }
 
-    protected fun initImageLoader() {
+    open protected fun isDebug(): Boolean {
+        return false
+    }
+
+    open protected fun initImageLoader() {
     }
 
 
-    protected fun initToast() {
+    open protected fun initToast() {
         AToastUtils.init()
     }
 
-    protected fun initCrashHandler() {
-        if (!BuildConfig.DEBUG) {
+
+    open protected fun initCrashHandler() {
+        if (!isDebug()) {
             return
         }
         CrashHelper.getInstance().init(this) { LogUtil.LLJe(it) }
     }
 
-    private fun initStetho() {
-        if (!BuildConfig.DEBUG) {
-            return
-        }
-        val build = Stetho.newInitializerBuilder(this)
-                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-                .build()
-        Stetho.initialize(build)
+    open protected fun initStetho() {
     }
 
-    private fun initLeakCanary() {
-        if (!BuildConfig.DEBUG) {
-            return
-        }
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return
-        }
-        LeakCanary.install(this)
+    open protected fun initLeakCanary() {
     }
 
-    private fun initStrictMode() {
-        if (!BuildConfig.DEBUG) {
+    open protected fun initStrictMode() {
+        if (!isDebug()) {
             return
         }
         //设置线程策略

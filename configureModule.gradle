@@ -26,7 +26,7 @@ subprojects {
                 arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
-
+        def isApplication = it.pluginManager.hasPlugin("com.android.application")
         //android
         if (it.name != 'app') {
             android {
@@ -34,7 +34,9 @@ subprojects {
                 buildToolsVersion build_versions.build_tools
 
                 defaultConfig {
-                    applicationId build_versions.applicationId
+                    if (isApplication) {
+                        applicationId build_versions.applicationId
+                    }
                     minSdkVersion build_versions.min_sdk
                     targetSdkVersion build_versions.target_sdk
 
@@ -50,7 +52,6 @@ subprojects {
 
                 buildTypes {
                     debug {
-                        minifyEnabled false
                         proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
                     }
                 }
