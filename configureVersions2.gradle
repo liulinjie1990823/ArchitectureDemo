@@ -38,8 +38,8 @@ def versions = [
 ]
 ext {
     build_versions = [
-            //com.china.hunbohui
-            applicationId: "com.llj.architecturedemo",
+           //applicationId: "com.llj.architecturedemo",
+            applicationId: "com.china.hunbohui",
             compile      : 27,
             build_tools  : "27.0.3",
             min_sdk      : 14,

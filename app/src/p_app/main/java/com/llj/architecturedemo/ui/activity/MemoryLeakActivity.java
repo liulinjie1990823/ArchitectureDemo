@@ -13,7 +13,6 @@ import com.llj.lib.utils.LogUtil;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 /**
  * ArchitectureDemo.
@@ -36,12 +35,8 @@ public class MemoryLeakActivity extends MvcBaseActivity {
     public void initViews(Bundle savedInstanceState) {
 
 
-        DynamicProxyHandler dynamicProxyHandler = new DynamicProxyHandler(new RealSubject1());
-        Proxy.newProxyInstance(dynamicProxyHandler.getClass().getClassLoader(), dynamicProxyHandler.getClass().getInterfaces(), dynamicProxyHandler);
-
-        new Handler().postDelayed(() -> {
-
-        }, 10000000);
+//        DynamicProxyHandler dynamicProxyHandler = new DynamicProxyHandler(new RealSubject1());
+//        Proxy.newProxyInstance(dynamicProxyHandler.getClass().getClassLoader(), dynamicProxyHandler.getClass().getInterfaces(), dynamicProxyHandler);
 
     }
 
@@ -57,12 +52,27 @@ public class MemoryLeakActivity extends MvcBaseActivity {
         }
     }
 
-    private final Handler mHandler = new MyHandler(new Handler.Callback() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    //    private final Handler mHandler = new MyHandler(new Handler.Callback() {
+//        @Override
+//        public boolean handleMessage(Message msg) {
+//            return false;
+//        }
+//    });
+
+    private final Handler mHandler = new Handler() {
         @Override
-        public boolean handleMessage(Message msg) {
-            return false;
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            showLongToast("测试内存泄漏");
+            mHandler.sendEmptyMessageDelayed(1, 10000);
         }
-    });
+    };
 
     @Override
     public void initData() {

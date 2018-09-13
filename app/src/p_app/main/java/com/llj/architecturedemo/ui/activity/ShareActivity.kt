@@ -14,6 +14,8 @@ import com.llj.socialization.share.ShareObject
 import com.llj.socialization.share.ShareUtil
 import com.llj.socialization.share.callback.ShareListener
 import com.llj.socialization.share.model.ShareResult
+import java.lang.ref.WeakReference
+
 
 /**
  * ArchitectureDemo.
@@ -35,22 +37,28 @@ class ShareActivity : MvcBaseActivity() {
     override fun initData() {
     }
 
+    private class MyShareListener : ShareListener {
 
-    private val mShareListener = object : ShareListener() {
+        private var mActivity: WeakReference<MvcBaseActivity>
+
+        constructor(activity: MvcBaseActivity) : super() {
+            mActivity = WeakReference(activity)
+        }
+
         override fun onShareResponse(shareResult: ShareResult?) {
             if (shareResult == null) {
                 return
             }
             when (shareResult.response) {
-                ShareResult.RESPONSE_SHARE_NOT_INSTALL -> showLongToast("应用未安装")
-                ShareResult.RESPONSE_SHARE_SUCCESS -> showLongToast("分享成功")
-                ShareResult.RESPONSE_SHARE_FAILURE -> if (!TextUtils.isEmpty(shareResult.getMessage())) {
-                    showLongToast(shareResult.getMessage())
+                ShareResult.RESPONSE_SHARE_NOT_INSTALL -> mActivity.get()?.showLongToast("应用未安装")
+                ShareResult.RESPONSE_SHARE_SUCCESS -> mActivity.get()?.showLongToast("分享成功")
+                ShareResult.RESPONSE_SHARE_FAILURE -> if (!TextUtils.isEmpty(shareResult.message)) {
+                    mActivity.get()?.showLongToast(shareResult.message)
                 } else {
-                    showLongToast("分享失败")
+                    mActivity.get()?.showLongToast("分享失败")
                 }
-                ShareResult.RESPONSE_SHARE_HAS_CANCEL -> showLongToast("分享已取消")
-                ShareResult.RESPONSE_SHARE_AUTH_DENIED -> showLongToast("分享被拒绝")
+                ShareResult.RESPONSE_SHARE_HAS_CANCEL -> mActivity.get()?.showLongToast("分享已取消")
+                ShareResult.RESPONSE_SHARE_AUTH_DENIED -> mActivity.get()?.showLongToast("分享被拒绝")
             }
         }
 
@@ -61,7 +69,11 @@ class ShareActivity : MvcBaseActivity() {
         override fun getExceptionImage(): Bitmap? {
             return null
         }
+
     }
+
+    private val mShareListener = MyShareListener(this)
+
 
     @OnClick(R.id.tv_qq_title,
             R.id.tv_qq_title_target,
