@@ -65,4 +65,7 @@ abstract class ComponentApplication : BaseApplication() {
         }
         LeakCanary.install(this)
     }
+
+    override fun initStrictMode() {
+    }
 }

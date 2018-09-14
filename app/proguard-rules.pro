@@ -55,11 +55,17 @@
 -keep public class * extends android.app.backup.BackupAgentHelper
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.view.View
--keep class android.support.** {*;}
+#-keep class android.support.** {*;}
+
+#-keep public class * extends com.llj.lib.base.MvcBaseActivity {
+#*;
+#}
+#-keep public class * extends com.llj.lib.base.MvpBaseActivity
+#-keep public class * extends com.llj.lib.base.MVVMBaseActivity
 
 # 保留继承的
--keep public class * extends android.support.v4.**
--keep public class * extends android.support.v7.**
+#-keep public class * extends android.support.v4.**
+#-keep public class * extends android.support.v7.**
 -keep public class * extends android.support.annotation.**
 
 #表示不混淆下面声明的类，最后这两个类我们基本也用不上，是接入Google原生的一些服务时使用的。

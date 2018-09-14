@@ -75,6 +75,7 @@
         <activity android:name=".ui.activity.HookActivity"/>
         <activity android:name=".ui.activity.StubActivity"/>
         <activity android:name=".ui.activity.AptActivity"/>
+        <activity android:name=".ui.activity.RxJava2Activity"/>
     </application>
 
 </manifest>

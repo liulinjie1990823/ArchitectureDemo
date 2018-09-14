@@ -22,6 +22,9 @@ import java.lang.reflect.Method;
  */
 @Route(path = CRouter.APP_MEMORY_LEAK_ACTIVITY)
 public class MemoryLeakActivity extends MvcBaseActivity {
+
+    public static final String TAG = MemoryLeakActivity.class.getSimpleName();
+
     public static final int SHOW_TYPE_ALBUM = 0;
 
     private Animal mAnimal = new Animal();
@@ -33,7 +36,7 @@ public class MemoryLeakActivity extends MvcBaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-
+        this.getClass().getSimpleName();
 
 //        DynamicProxyHandler dynamicProxyHandler = new DynamicProxyHandler(new RealSubject1());
 //        Proxy.newProxyInstance(dynamicProxyHandler.getClass().getClassLoader(), dynamicProxyHandler.getClass().getInterfaces(), dynamicProxyHandler);
@@ -112,6 +115,14 @@ public class MemoryLeakActivity extends MvcBaseActivity {
             return method.invoke(mObject, args);
         }
 
+
+    }
+
+    private void map2() {
+
+    }
+
+    public void map3() {
 
     }
 
