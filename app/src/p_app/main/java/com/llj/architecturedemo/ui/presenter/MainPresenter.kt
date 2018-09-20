@@ -1,8 +1,8 @@
-package com.llj.architecturedemo.presenter
+package com.llj.architecturedemo.ui.presenter
 
 import android.arch.lifecycle.LifecycleOwner
 import com.llj.architecturedemo.repository.MobileRepository
-import com.llj.architecturedemo.view.MainContractView
+import com.llj.architecturedemo.ui.view.MainContractView
 import com.llj.lib.base.mvp.BasePresenter
 import javax.inject.Inject
 

@@ -1,7 +1,7 @@
-package com.llj.architecturedemo.module
+package com.llj.architecturedemo.ui.module
 
 import com.llj.architecturedemo.ui.activity.SecondActivity
-import com.llj.architecturedemo.view.SecondView
+import com.llj.architecturedemo.ui.view.SecondView
 import dagger.Module
 import dagger.Provides
 
@@ -13,7 +13,6 @@ import dagger.Provides
  */
 @Module
 class SecondActivityModule {
-
     @Provides
     internal fun provideView(activity: SecondActivity): SecondView {
         return activity

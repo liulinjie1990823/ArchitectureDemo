@@ -19,8 +19,8 @@ import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.MyBaseActivity
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.db.entity.MobileEntity
-import com.llj.architecturedemo.presenter.SecondPresenter
-import com.llj.architecturedemo.view.SecondView
+import com.llj.architecturedemo.ui.presenter.SecondPresenter
+import com.llj.architecturedemo.ui.view.SecondView
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.listeners.MyTextWatcher
 import com.llj.lib.utils.LogUtil

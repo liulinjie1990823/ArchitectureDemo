@@ -1,9 +1,9 @@
-package com.llj.architecturedemo.presenter
+package com.llj.architecturedemo.ui.presenter
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import com.llj.architecturedemo.repository.MobileRepository
-import com.llj.architecturedemo.view.IRequestView
+import com.llj.architecturedemo.ui.view.IRequestView
 import com.llj.lib.base.mvp.BasePresenter
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.llj.architecturedemo.view
+package com.llj.architecturedemo.ui.view
 
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.lib.base.mvp.IView
@@ -9,7 +9,7 @@ import com.llj.lib.base.mvp.IView
  * author liulj
  * date 2018/6/4
  */
-interface MainContractView : IView {
+interface SecondView : IView {
 
     fun toast(mobile: MobileEntity?)
 }

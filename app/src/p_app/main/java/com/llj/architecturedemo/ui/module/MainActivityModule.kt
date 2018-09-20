@@ -1,7 +1,7 @@
-package com.llj.architecturedemo.module
+package com.llj.architecturedemo.ui.module
 
 import com.llj.architecturedemo.ui.activity.MainActivity
-import com.llj.architecturedemo.view.MainContractView
+import com.llj.architecturedemo.ui.view.MainContractView
 
 import dagger.Module
 import dagger.Provides

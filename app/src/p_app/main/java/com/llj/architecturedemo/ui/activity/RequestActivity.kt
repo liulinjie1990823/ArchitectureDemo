@@ -4,8 +4,8 @@ import android.os.Bundle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.db.entity.MobileEntity
-import com.llj.architecturedemo.presenter.RequestPresenter
-import com.llj.architecturedemo.view.IRequestView
+import com.llj.architecturedemo.ui.presenter.RequestPresenter
+import com.llj.architecturedemo.ui.view.IRequestView
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.MvpBaseActivity
 

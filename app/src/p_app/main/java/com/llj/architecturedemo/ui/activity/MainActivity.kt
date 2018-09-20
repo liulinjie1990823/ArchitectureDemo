@@ -15,12 +15,12 @@ import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.db.entity.MobileEntity
-import com.llj.architecturedemo.presenter.MainPresenter
+import com.llj.architecturedemo.ui.presenter.MainPresenter
 import com.llj.architecturedemo.ui.fragment.HomeFragment
 import com.llj.architecturedemo.ui.fragment.MineFragment
 import com.llj.architecturedemo.ui.fragment.SecondFragment
 import com.llj.architecturedemo.ui.fragment.ThirdFragment
-import com.llj.architecturedemo.view.MainContractView
+import com.llj.architecturedemo.ui.view.MainContractView
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.BaseTabActivity
 import com.llj.lib.base.IUiHandler

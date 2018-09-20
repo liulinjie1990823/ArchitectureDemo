@@ -1,14 +1,15 @@
 package com.llj.architecturedemo
 
-import com.llj.architecturedemo.module.MainActivityModule
-import com.llj.architecturedemo.module.SecondActivityModule
 import com.llj.architecturedemo.ui.activity.MainActivity
+import com.llj.architecturedemo.ui.activity.RequestActivity
 import com.llj.architecturedemo.ui.activity.SecondActivity
+import com.llj.architecturedemo.ui.module.MainActivityModule
+import com.llj.architecturedemo.ui.module.RequestActivityModule
+import com.llj.architecturedemo.ui.module.SecondActivityModule
 import com.llj.lib.base.di.component.BaseActivityComponent
 import com.llj.lib.base.di.scope.ActivityScope
 import com.llj.widget.ui.activity.CircleViewActivity
 import com.llj.widget.ui.module.CircleViewActivityModule
-
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -32,5 +33,9 @@ internal abstract class ActivityBuilder {
     @ActivityScope
     @ContributesAndroidInjector(modules = [CircleViewActivityModule::class])
     internal abstract fun contributeCircleViewActivityInjector(): CircleViewActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [RequestActivityModule::class])
+    internal abstract fun contributeRequestActivityInjector(): RequestActivity
 
 }

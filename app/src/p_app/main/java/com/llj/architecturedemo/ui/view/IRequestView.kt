@@ -1,4 +1,4 @@
-package com.llj.architecturedemo.view
+package com.llj.architecturedemo.ui.view
 
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.lib.base.mvp.IView
