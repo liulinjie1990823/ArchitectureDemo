@@ -25,4 +25,8 @@ interface IBaseActivity : IActivityStack {
             AInputMethodManagerUtils.hideSoftInputFromWindow(activity)
         }
     }
+
+    fun moduleName(): String {
+        return "app"
+    }
 }

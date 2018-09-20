@@ -1,35 +1,46 @@
-package com.llj.architecturedemo
+package com.llj.login.api
 
-import android.app.Application
-import android.arch.persistence.room.Room
-import com.llj.architecturedemo.api.TestApiService
-import com.llj.architecturedemo.db.AppDb
-import com.llj.architecturedemo.db.dao.MobileDao
-import com.llj.component.service.ComponentHttpUrl
+import android.content.Context
+import com.llj.lib.net.BaseApi
 import com.llj.lib.net.Interceptors.InterceptorFactory
 import com.llj.lib.net.ssl.SSLFactory
 import com.llj.lib.net.utils.OkHttpClientUtils
 import com.llj.lib.net.utils.RetrofitUtils
-import dagger.Module
-import dagger.Provides
 import okhttp3.Cache
+import okhttp3.Interceptor
 import retrofit2.Retrofit
 import java.io.File
-import javax.inject.Singleton
 
 /**
- * ArchitectureDemo
+ * ArchitectureDemo.
  * describe:
- * author liulj
- * date 2018/6/6
+ * author llj
+ * date 2018/9/18
  */
-@Module
-internal class AppModule {
+class LoginApi(context: Context) : BaseApi<LoginApiService>(context) {
 
-    @Singleton
-    @Provides
-    fun provideRetrofit(context: Application): Retrofit {
-        val builder = RetrofitUtils.createRxJava2Retrofit(ComponentHttpUrl.BASE_URL)
+
+    companion object {
+        private var mLoginApi: LoginApi? = null
+
+        fun getInstance(context: Context): LoginApi {
+            synchronized(LoginApi::class.java) {
+                if (mLoginApi == null) {
+                    mLoginApi = LoginApi(context)
+                }
+            }
+            return mLoginApi as LoginApi
+        }
+    }
+
+    fun getService(): LoginApiService {
+        mService = mLoginApi?.retrofit?.create(LoginApiService::class.java)!!
+        return mService
+    }
+
+
+    override fun createRetrofit(context: Context, baseUrl: String, vararg interceptors: Interceptor?): Retrofit {
+        val builder = RetrofitUtils.createRxJava2Retrofit(baseUrl)
 
         val okHttpClientBuilder = OkHttpClientUtils.okHttpClientBuilder()
 
@@ -59,21 +70,7 @@ internal class AppModule {
         return builder.build()
     }
 
-    @Singleton
-    @Provides
-    fun provideGithubService(retrofit: Retrofit): TestApiService {
-        return retrofit.create(TestApiService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideAppDb(app: Application): AppDb {
-        return Room.databaseBuilder(app, AppDb::class.java, "app.db").build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideMobileDao(appDb: AppDb): MobileDao {
-        return appDb.mobileDao()
+    override fun init(context: Context) {
+        mLoginApi?.initRetrofit(context, null, null)
     }
 }

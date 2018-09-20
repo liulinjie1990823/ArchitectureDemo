@@ -9,7 +9,7 @@ import dagger.android.AndroidInjector
 /**
  * ArchitectureDemo
  * describe:用于生成各个activity的Subcomponent，避免重复写
- * author liulj
+ * author llj
  * date 2018/5/16
  */
 @Subcomponent(modules = [AndroidInjectionModule::class])

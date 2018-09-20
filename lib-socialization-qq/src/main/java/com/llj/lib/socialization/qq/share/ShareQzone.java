@@ -18,6 +18,7 @@ import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.ShareQzoneInterface;
 import com.llj.socialization.share.model.ShareResult;
 import com.llj.socialization.share.process.ImageDecoder;
+import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzonePublish;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.tauth.IUiListener;
@@ -181,8 +182,39 @@ public class ShareQzone implements ShareQzoneInterface {
      */
     @Override
     public void shareImage(Activity activity, int platform, @NonNull ShareObject shareObject) {
-        ShareUtil.sendFailure(activity, mShareListener, "暂不支持纯图片分享");
-        return;
+        final Bundle params = new Bundle();
+        params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE);
+
+        if (!TextUtils.isEmpty(mAppName)) {
+            params.putString(QQShare.SHARE_TO_QQ_APP_NAME, mAppName);
+        }
+        if (!TextUtils.isEmpty(shareObject.getTargetUrl())) {
+            params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
+        }
+
+        Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+                .continueWith(new Continuation<String, Void>() {
+                    @Override
+                    public Void then(Task<String> task) throws Exception {
+                        if (task.getError() != null) {
+                            Log.e(TAG, Log.getStackTraceString(task.getError()));
+                            ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.share_image_failure));
+                            return null;
+                        }
+                        if (TextUtils.isEmpty(task.getResult())) {
+                            ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
+                            return null;
+                        }
+                        if (!new File(task.getResult()).exists()) {
+                            Log.e(TAG, activity.getString(R.string.local_file_does_not_exist));
+                            ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.local_file_does_not_exist));
+                            return null;
+                        }
+                        params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, task.getResult());
+                        shareToQzone(activity, params);
+                        return null;
+                    }
+                }, Task.UI_THREAD_EXECUTOR);
     }
 
 

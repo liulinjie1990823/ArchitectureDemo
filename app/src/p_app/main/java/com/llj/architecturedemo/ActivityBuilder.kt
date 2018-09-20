@@ -15,7 +15,7 @@ import dagger.android.ContributesAndroidInjector
 /**
  * ArchitectureDemo
  * describe:定义所有的ActivityInjector
- * author liulj
+ * author llj
  * date 2018/5/16
  */
 @Module(subcomponents = [BaseActivityComponent::class])

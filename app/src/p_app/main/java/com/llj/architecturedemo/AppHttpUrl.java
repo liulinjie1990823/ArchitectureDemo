@@ -6,7 +6,7 @@ package com.llj.architecturedemo;
  * author liulj
  * date 2018/5/10
  */
-public class HttpUrl {
+public class AppHttpUrl {
     public static String BASE_URL       = "https://www.iteblog.com/api/mobile.php";
     public static String UPLOAD_IMG_URL = "http://imgsrv.jiehun.com.cn";
 

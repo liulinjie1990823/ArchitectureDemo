@@ -38,8 +38,8 @@ def versions = [
 ]
 ext {
     build_versions = [
-           //applicationId: "com.llj.architecturedemo",
-            applicationId: "com.china.hunbohui",
+           applicationId: "com.llj.architecturedemo",
+//            applicationId: "com.china.hunbohui",
             compile      : 27,
             build_tools  : "27.0.3",
             min_sdk      : 14,
@@ -156,10 +156,10 @@ ext {
             imageLoader               : "com.llj:lib-image-loader:0.0.2",
             imageSelect               : "com.llj:lib-image-select:0.0.1",
             net                       : "com.llj:lib-net:0.0.2",
-            socialization             : "com.llj.socialization:lib-socialization:2.0.0",
-            socialization_qq          : "com.llj:lib-socialization-qq:2.0.0",
-            socialization_sina        : "com.llj:lib-socialization-sina:2.0.0",
-            socialization_wechat      : "com.llj:lib-socialization-wechat:2.0.0",
+            socialization             : "com.llj.socialization:lib-socialization:2.0.1",
+            socialization_qq          : "com.llj:lib-socialization-qq:2.0.1",
+            socialization_sina        : "com.llj:lib-socialization-sina:2.0.1",
+            socialization_wechat      : "com.llj:lib-socialization-wechat:2.0.1",
             statelayout               : "com.llj:lib-statelayout:0.0.1",
             universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.10",
             utils                     : "com.llj:lib-utils:0.0.2",

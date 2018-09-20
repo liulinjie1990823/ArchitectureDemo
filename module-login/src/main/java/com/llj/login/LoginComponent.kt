@@ -1,7 +1,8 @@
-package com.llj.architecturedemo
+package com.llj.login
 
 import android.app.Activity
 import android.app.Application
+import com.llj.architecturedemo.LoginComponentModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -10,19 +11,19 @@ import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 /**
- * ArchitectureDemo
+ * ArchitectureDemo.
  * describe:
  * author llj
- * date 2018/5/18
+ * date 2018/9/19
  */
 @Singleton
 @Component(modules = [
     AndroidInjectionModule::class,
     AndroidSupportInjectionModule::class,
-    ActivityBuilder::class, //将所有的activity注册进来
-    AppModule::class,
-    ViewModelModule::class])
-interface AppComponent {
+    LoginActivityBuilder::class, //将所有的activity注册进来
+    LoginComponentModule::class
+])
+interface LoginComponent {
 
     @Component.Builder
     interface Builder {
@@ -31,11 +32,10 @@ interface AppComponent {
         @BindsInstance
         fun application(application: Application): Builder
 
-        fun build(): AppComponent
+        fun build(): LoginComponent
     }
-
     //调用该方法才会注入BaseApplication中的@Inject标记的对象
-//    override fun inject(application: BaseApplication)
+    //    override fun inject(application: BaseApplication)
 
     fun activityInjector(): DispatchingAndroidInjector<Activity>
 }

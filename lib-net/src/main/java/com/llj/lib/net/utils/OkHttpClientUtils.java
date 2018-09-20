@@ -1,5 +1,7 @@
 package com.llj.lib.net.utils;
 
+import android.support.annotation.Nullable;
+
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
@@ -32,7 +34,7 @@ public class OkHttpClientUtils {
         return builder;
     }
 
-    public static OkHttpClient.Builder okHttpClientBuilder(Interceptor... interceptors) {
+    public static OkHttpClient.Builder okHttpClientBuilder(@Nullable Interceptor... interceptors) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (interceptors != null && interceptors.length != 0) {
             for (Interceptor interceptor : interceptors) {

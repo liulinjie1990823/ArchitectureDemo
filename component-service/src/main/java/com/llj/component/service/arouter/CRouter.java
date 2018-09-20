@@ -33,6 +33,7 @@ public class CRouter {
 
     //login
     public static final String LOGIN_LOGIN_ACTIVITY    = "/login/LoginActivity";
+    public static final String LOGIN_PHONE_LOGIN_ACTIVITY    = "/login/PhoneLoginActivity";
     public static final String LOGIN_REGISTER_ACTIVITY = "/login/RegisterActivity";
 
     public static void start(String path) {

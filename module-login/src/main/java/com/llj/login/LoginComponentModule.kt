@@ -1,15 +1,12 @@
 package com.llj.architecturedemo
 
 import android.app.Application
-import android.arch.persistence.room.Room
-import com.llj.architecturedemo.api.TestApiService
-import com.llj.architecturedemo.db.AppDb
-import com.llj.architecturedemo.db.dao.MobileDao
 import com.llj.component.service.ComponentHttpUrl
 import com.llj.lib.net.Interceptors.InterceptorFactory
 import com.llj.lib.net.ssl.SSLFactory
 import com.llj.lib.net.utils.OkHttpClientUtils
 import com.llj.lib.net.utils.RetrofitUtils
+import com.llj.login.api.LoginApiService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -24,7 +21,7 @@ import javax.inject.Singleton
  * date 2018/6/6
  */
 @Module
-internal class AppModule {
+internal class LoginComponentModule {
 
     @Singleton
     @Provides
@@ -61,19 +58,8 @@ internal class AppModule {
 
     @Singleton
     @Provides
-    fun provideGithubService(retrofit: Retrofit): TestApiService {
-        return retrofit.create(TestApiService::class.java)
+    fun provideGithubService(retrofit: Retrofit): LoginApiService {
+        return retrofit.create(LoginApiService::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun provideAppDb(app: Application): AppDb {
-        return Room.databaseBuilder(app, AppDb::class.java, "app.db").build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideMobileDao(appDb: AppDb): MobileDao {
-        return appDb.mobileDao()
-    }
 }

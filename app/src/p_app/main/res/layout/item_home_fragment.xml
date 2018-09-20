@@ -13,6 +13,7 @@
         android:padding="5dp"
         android:textColor="@color/black"
         android:textSize="24dp"
+        android:textStyle="bold"
         tools:text="测试"/>
 
 </LinearLayout>

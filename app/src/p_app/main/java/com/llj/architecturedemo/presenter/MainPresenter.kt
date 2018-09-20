@@ -9,7 +9,7 @@ import javax.inject.Inject
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/5/17
  */
 class MainPresenter @Inject constructor(repository: MobileRepository, view: MainContractView)

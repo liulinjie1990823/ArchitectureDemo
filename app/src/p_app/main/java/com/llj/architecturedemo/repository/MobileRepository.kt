@@ -23,7 +23,8 @@ import javax.inject.Singleton
  * date 2018/6/6
  */
 @Singleton
-class MobileRepository @Inject constructor(private val mMobileDao: MobileDao, private val mApiService: TestApiService)
+class MobileRepository @Inject constructor(private val mMobileDao: MobileDao,
+                                           private val mApiService: TestApiService)
     : BaseRepository() {
 
     fun getTest(): LiveData<MobileEntity> {
