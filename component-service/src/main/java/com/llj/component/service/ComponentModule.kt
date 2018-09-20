@@ -1,11 +1,6 @@
-package com.llj.architecturedemo
+package com.llj.component.service
 
 import android.app.Application
-import android.arch.persistence.room.Room
-import com.llj.architecturedemo.api.TestApiService
-import com.llj.architecturedemo.db.AppDb
-import com.llj.architecturedemo.db.dao.MobileDao
-import com.llj.component.service.ComponentHttpUrl
 import com.llj.lib.net.Interceptors.InterceptorFactory
 import com.llj.lib.net.ssl.SSLFactory
 import com.llj.lib.net.utils.OkHttpClientUtils
@@ -15,18 +10,16 @@ import dagger.Provides
 import okhttp3.Cache
 import retrofit2.Retrofit
 import java.io.File
-import javax.inject.Singleton
 
 /**
- * ArchitectureDemo
+ * ArchitectureDemo.
  * describe:
- * author liulj
- * date 2018/6/6
+ * author llj
+ * date 2018/9/20
  */
 @Module
-internal class AppModule {
+class ComponentModule {
 
-    @Singleton
     @Provides
     fun provideRetrofit(context: Application): Retrofit {
         val builder = RetrofitUtils.createRxJava2Retrofit(ComponentHttpUrl.BASE_URL)
@@ -57,23 +50,5 @@ internal class AppModule {
         builder.client(okHttpClientBuilder.build())
 
         return builder.build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideGithubService(retrofit: Retrofit): TestApiService {
-        return retrofit.create(TestApiService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideAppDb(app: Application): AppDb {
-        return Room.databaseBuilder(app, AppDb::class.java, "app.db").build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideMobileDao(appDb: AppDb): MobileDao {
-        return appDb.mobileDao()
     }
 }

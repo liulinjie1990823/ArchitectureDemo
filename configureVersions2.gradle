@@ -5,7 +5,7 @@
 
 def versions = [
         android_gradle_plugin: "3.1.4",
-        kotlin               : '1.2.61',
+        kotlin               : '1.2.70',
         bintray_release      : '0.8.1',
         walle                : '1.1.6',
 
@@ -148,14 +148,14 @@ ext {
                     auto_value_compile    : "com.google.auto.value:auto-value:$versions.auto_value",
             ],
             //工具
-            base                      : "com.llj:lib-base:0.0.2",
-            base_mvvm                 : "com.llj:lib-base-mvvm:0.0.2",
+            base                      : "com.llj:lib-base:0.0.3",
+            base_mvvm                 : "com.llj:lib-base-mvvm:0.0.3",
             component_annotation      : "com.llj:lib-component-annotation:0.0.1",
             component_api             : "com.llj:lib-component-api:0.0.1",
             component_compiler        : "com.llj:lib-component-compiler:0.0.1",
             imageLoader               : "com.llj:lib-image-loader:0.0.2",
             imageSelect               : "com.llj:lib-image-select:0.0.1",
-            net                       : "com.llj:lib-net:0.0.2",
+            net                       : "com.llj:lib-net:0.0.3",
             socialization             : "com.llj.socialization:lib-socialization:2.0.1",
             socialization_qq          : "com.llj:lib-socialization-qq:2.0.1",
             socialization_sina        : "com.llj:lib-socialization-sina:2.0.1",

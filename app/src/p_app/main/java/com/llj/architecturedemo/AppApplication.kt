@@ -2,6 +2,7 @@ package com.llj.architecturedemo
 
 import android.app.Activity
 import android.content.Context
+import android.support.multidex.MultiDex
 import com.billy.cc.core.component.CC
 import com.llj.component.service.ComponentApplication
 import com.llj.lib.base.MvpBaseActivity
@@ -22,9 +23,8 @@ class AppApplication : ComponentApplication() {
 
     override fun injectApp() {
         mAppComponent = DaggerAppComponent.builder()
-                .application(this)
+                .component(mComponent)
                 .build()
-
 
         //调用LoginComponent中的dagger组件
         CC.obtainBuilder("LoginModule")
@@ -41,7 +41,7 @@ class AppApplication : ComponentApplication() {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        //        MultiDex.install(this)
+        MultiDex.install(this)
     }
 
     override fun activityInjector(): AndroidInjector<Activity>? {

@@ -18,16 +18,6 @@ class MainPresenter @Inject constructor(repository: MobileRepository, view: Main
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
-
-        //        val mobileLivData = mRepository?.getMobile("13188888888", mView)
-        //        mobileLivData?.removeObservers(mView)
-        //        mobileLivData?.observe(mView, Observer { baseResponse ->
-        //
-        //            if (baseResponse != null) {
-        //                mView.toast(baseResponse.data)
-        //            }
-        //
-        //        })
     }
 
 }

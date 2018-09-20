@@ -92,4 +92,8 @@ dependencies {
     //内存检测
     debugImplementation deps.leakcanary.leakcanary_android
     releaseImplementation deps.leakcanary.leakcanary_android_no_op
+
+
+    kapt deps.dagger.compiler
+    kapt deps.dagger.android_support_compiler
 }

@@ -3,7 +3,7 @@ package com.llj.login.component
 import android.app.Activity
 import com.billy.cc.core.component.CC
 import com.billy.cc.core.component.IComponent
-import com.llj.lib.base.BaseApplication
+import com.llj.component.service.ComponentApplication
 import com.llj.login.DaggerLoginComponent
 import com.llj.login.LoginComponent
 
@@ -25,8 +25,9 @@ class LoginModule : IComponent {
             return false
         }
         if ("init" == cc.actionName) {
+            val componentApplication = cc.context as ComponentApplication
             mLoginComponent = DaggerLoginComponent.builder()
-                    .application(cc.context.applicationContext as BaseApplication)
+                    .component(componentApplication.mComponent)
                     .build()
         } else if ("inject" == cc.actionName) {
             val activity = cc.context as Activity
