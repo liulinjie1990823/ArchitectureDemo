@@ -41,8 +41,8 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
-            useProguard true
+            minifyEnabled true
+            useProguard false
             shrinkResources false
         }
         release {
@@ -61,7 +61,7 @@ android {
     }
 
     sourceSets {
-        def dirs = ['p_app', 'p_widget']
+        def dirs = ['p_app', 'p_widget','p_loading']
         main {
             manifest.srcFile 'src/p_app/main/AndroidManifest.xml'
             dirs.each { dir ->

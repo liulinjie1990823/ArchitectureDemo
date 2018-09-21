@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.annotation.Keep
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -43,6 +44,9 @@ class RxJava2Activity : MvcBaseActivity() {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
+
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
 
         val arrayList = arrayListOf<Data>()
         arrayList.add(Data("map", "map"))
@@ -136,6 +140,7 @@ class RxJava2Activity : MvcBaseActivity() {
                 })
 
     }
+
     private fun never() {
         Observable.never<String>()
                 .subscribe(object : Observer<String> {

@@ -1,6 +1,7 @@
 package com.llj.architecturedemo.ui.activity
 
 import android.os.Bundle
+import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.db.entity.MobileEntity
@@ -8,6 +9,7 @@ import com.llj.architecturedemo.ui.presenter.RequestPresenter
 import com.llj.architecturedemo.ui.view.IRequestView
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.MvpBaseActivity
+
 
 /**
  * ArchitectureDemo.
@@ -21,6 +23,9 @@ class RequestActivity : MvpBaseActivity<RequestPresenter>(), IRequestView {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
     override fun layoutId(): Int {

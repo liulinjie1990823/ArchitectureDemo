@@ -4,6 +4,7 @@ import android.support.annotation.CallSuper
 import com.alibaba.android.arouter.launcher.ARouter
 import com.facebook.stetho.Stetho
 import com.llj.lib.base.BaseApplication
+import com.llj.lib.image.loader.FrescoImageLoader
 import com.squareup.leakcanary.LeakCanary
 
 /**
@@ -43,6 +44,11 @@ abstract class ComponentApplication : BaseApplication() {
 
     override fun isDebug(): Boolean {
         return BuildConfig.DEBUG
+    }
+
+    override fun initImageLoader() {
+        super.initImageLoader()
+        FrescoImageLoader.getInstance(this.applicationContext)
     }
 
     override fun initStetho() {

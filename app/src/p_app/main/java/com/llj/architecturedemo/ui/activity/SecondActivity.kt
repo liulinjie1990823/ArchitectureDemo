@@ -22,6 +22,8 @@ import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.architecturedemo.ui.presenter.SecondPresenter
 import com.llj.architecturedemo.ui.view.SecondView
 import com.llj.component.service.arouter.CRouter
+import com.llj.component.service.statusbar.LightStatusBarCompat
+import com.llj.component.service.statusbar.StatusBarCompat
 import com.llj.lib.base.listeners.MyTextWatcher
 import com.llj.lib.utils.LogUtil
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -66,7 +68,8 @@ class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-
+        StatusBarCompat.setStatusBarColor(this,getCompatColor(mContext,R.color.black))
+        LightStatusBarCompat.setLightStatusBar(window,false)
 
         mTvClick.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable?) {

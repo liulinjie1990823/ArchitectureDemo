@@ -52,15 +52,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/MyAppTheme.NoActionBar"
         tools:replace="android:allowBackup,android:icon,android:name,android:theme,android:label">
-        <activity android:name=".ui.activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.MemoryLeakActivity"/>
         <activity android:name=".ui.activity.SecondActivity"/>
         <activity android:name="com.llj.widget.ui.activity.ConstraintActivity"/>
@@ -77,6 +72,19 @@
         <activity android:name=".ui.activity.AptActivity"/>
         <activity android:name=".ui.activity.RxJava2Activity"/>
         <activity android:name=".ui.activity.RequestActivity"/>
+
+        <activity
+            android:name="com.llj.loading.ui.activity.LoadingActivity"
+            android:theme="@style/MyAppTheme.NoActionBar.Loading">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name="com.llj.loading.ui.activity.GuideActivity"/>
     </application>
 
 </manifest>

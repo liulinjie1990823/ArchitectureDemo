@@ -15,7 +15,9 @@ import javax.inject.Inject
 class MainPresenter @Inject constructor(repository: MobileRepository, view: MainContractView)
     : BasePresenter<MobileRepository, MainContractView>(repository, view) {
 
-
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
+    }
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
     }
