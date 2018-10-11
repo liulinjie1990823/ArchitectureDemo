@@ -65,6 +65,10 @@ public class LightStatusBarCompat {
         }
     }
 
+    /**
+     * @param window
+     * @param lightStatusBar true 字体为黑色 false 字体为白色
+     */
     public static void setLightStatusBar(Window window, boolean lightStatusBar) {
         IMPL.setLightStatusBar(window, lightStatusBar);
     }

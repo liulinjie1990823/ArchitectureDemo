@@ -6,7 +6,6 @@ android {
     compileSdkVersion build_versions.compile
     buildToolsVersion build_versions.build_tools
     defaultConfig {
-//        applicationId "com.china.hunbohui"
         applicationId build_versions.applicationId
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk

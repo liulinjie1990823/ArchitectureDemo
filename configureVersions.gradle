@@ -17,7 +17,7 @@ def versions = [
         autodispose          : "1.0.0-RC2",
         arouter_api          : "1.4.0",
         arouter_compiler     : "1.2.1",
-        butterknife          : "8.4.0",
+        butterknife          : "9.0.0-rc1",
 
         retrofit2            : "2.4.0",
         okhttp               : "3.11.0",

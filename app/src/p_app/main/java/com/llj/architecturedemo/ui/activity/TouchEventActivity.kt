@@ -2,6 +2,7 @@ package com.llj.architecturedemo.ui.activity
 
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.R
 import com.llj.component.service.arouter.CRouter
@@ -22,6 +23,8 @@ class TouchEventActivity : MvcBaseActivity() {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
     }
 
     override fun initData() {
