@@ -9,9 +9,17 @@ subprojects {
         if (it.name.startsWith('module-java')) {
             return
         }
+
         if (useComponent) {
-            apply from: "../cc-settings.gradle"
+            //使用组件
+            if (it.name == 'app') {
+                ext.mainApp = true
+            } else {
+//            ext.alwaysLib = true
+            }
+            apply from: rootProject.file('cc-settings-2.gradle')
         } else {
+            //不使用组件
             if (it.name == 'app') {
                 apply plugin: 'com.android.application'
             } else {

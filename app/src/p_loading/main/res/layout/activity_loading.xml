@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="婚芭莎"
-            android:textColor="@color/component_333333"
+            android:textColor="@color/color_333333"
             android:textSize="21dp"
             app:layout_constraintLeft_toLeftOf="@+id/tv_sub_title"
             app:layout_constraintTop_toTopOf="@+id/sdv_icon"/>
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="千万新人都在用的筹婚APP"
-            android:textColor="@color/component_333333"
+            android:textColor="@color/color_333333"
             android:textSize="13dp"
             app:layout_constraintBottom_toBottomOf="@+id/sdv_icon"
             app:layout_constraintLeft_toRightOf="@+id/sdv_icon"

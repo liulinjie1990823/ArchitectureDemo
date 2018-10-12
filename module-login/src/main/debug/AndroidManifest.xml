@@ -6,7 +6,8 @@
         android:allowBackup="false"
         android:icon="@mipmap/demo_a_ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/demo_a_AppTheme">
+        android:theme="@style/MyAppTheme.NoActionBar"
+       >
         <activity android:name="com.llj.login.ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

@@ -1,7 +1,12 @@
-
-
 android {
+    defaultConfig {
+        multiDexEnabled true
+    }
     resourcePrefix "login_"
+}
+
+dependencies {
+    implementation deps.multidex
 }
 
 

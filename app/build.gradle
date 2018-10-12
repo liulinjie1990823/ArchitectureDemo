@@ -1,5 +1,6 @@
-apply plugin: 'walle'
+
 apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'walle'
 //apply plugin: 'task-time'
 
 android {
@@ -60,7 +61,7 @@ android {
     }
 
     sourceSets {
-        def dirs = ['p_app', 'p_widget','p_loading']
+        def dirs = ['p_app', 'p_widget','p_loading','p_mine','p_login']
         main {
             manifest.srcFile 'src/p_app/main/AndroidManifest.xml'
             dirs.each { dir ->
@@ -135,14 +136,14 @@ dependencies {
 
 }
 
-walle {
-    // 指定渠道包的输出路径
-    apkOutputFolder = new File("${project.buildDir}/outputs/channels")
-    // 定制渠道包的APK的文件名称
-    apkFileNameFormat = '${appName}_${channel}_${flavorName}${buildType}_v${versionName}_${versionCode}-${buildTime}.apk'
-    // 渠道配置文件
-    channelFile = new File("${project.getProjectDir()}/channel")
-}
+//walle {
+//    // 指定渠道包的输出路径
+//    apkOutputFolder = new File("${project.buildDir}/outputs/channels")
+//    // 定制渠道包的APK的文件名称
+//    apkFileNameFormat = '${appName}_${channel}_${flavorName}${buildType}_v${versionName}_${versionCode}-${buildTime}.apk'
+//    // 渠道配置文件
+//    channelFile = new File("${project.getProjectDir()}/channel")
+//}
 
 //打包任务
 apply from: "../zipChannel.gradle"
