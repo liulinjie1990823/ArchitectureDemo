@@ -1,5 +1,6 @@
 package com.llj.lib.base
 
+import android.app.Activity
 import android.app.Dialog
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
@@ -20,7 +21,7 @@ import com.llj.lib.utils.LogUtil
  * date 2018/8/15
  */
 abstract class BaseFragment : android.support.v4.app.Fragment(), IFragment, IFragmentLazy, ICommon, IUiHandler, ILoadingDialogHandler {
-    lateinit var mTag: String
+    lateinit var mTagLog: String
     lateinit var mContext: Context
 
     private var mIsInit: Boolean = false
@@ -33,7 +34,13 @@ abstract class BaseFragment : android.support.v4.app.Fragment(), IFragment, IFra
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-        mTag = this.javaClass.simpleName
+        mTagLog = this.javaClass.simpleName
+    }
+
+    override fun onAttach(activity: Activity?) {
+        super.onAttach(activity)
+        mContext = activity!!
+        mTagLog = this.javaClass.simpleName
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -107,7 +114,7 @@ abstract class BaseFragment : android.support.v4.app.Fragment(), IFragment, IFra
     }
 
     override fun onLazyLoad() {
-        LogUtil.e(mTag, "mIsInit:$mIsInit,mIsVisible:$mIsVisible")
+        LogUtil.e(mTagLog, "mIsInit:$mIsInit,mIsVisible:$mIsVisible")
     }
     //</editor-fold >
 
