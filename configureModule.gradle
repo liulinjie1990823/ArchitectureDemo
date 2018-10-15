@@ -18,6 +18,7 @@ subprojects {
 //            ext.alwaysLib = true
             }
             apply from: rootProject.file('cc-settings-2.gradle')
+            apply plugin: 'com.jakewharton.butterknife'
         } else {
             //不使用组件
             if (it.name == 'app') {
