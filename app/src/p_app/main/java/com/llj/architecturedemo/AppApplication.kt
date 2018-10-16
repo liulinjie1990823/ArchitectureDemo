@@ -7,12 +7,14 @@ import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.Context
 import android.os.Bundle
 import android.support.multidex.MultiDex
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import com.billy.cc.core.component.CC
 import com.llj.component.service.ComponentApplication
 import com.llj.component.service.statusbar.LightStatusBarCompat
 import com.llj.component.service.statusbar.StatusBarCompat
 import com.llj.lib.base.MvpBaseActivity
+import com.llj.lib.base.MvpBaseFragment
 import com.llj.socialization.SocialConstants
 import com.llj.socialization.share.SocialConfig
 import com.llj.socialization.share.SocialManager
@@ -22,7 +24,7 @@ import dagger.android.AndroidInjector
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/5/18
  */
 class AppApplication : ComponentApplication() {
@@ -114,10 +116,29 @@ class AppApplication : ComponentApplication() {
             } else if ("login" == mvpBaseActivity.moduleName()) {
                 CC.obtainBuilder("LoginModule")
                         .setContext(activity)
-                        .setActionName("inject")
+                        .setActionName("injectActivity")
                         .build()
                         .call()
             }
         }
     }
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
+        return AndroidInjector { fragment ->
+            val mvpBaseFragment = fragment as MvpBaseFragment<*>
+
+            if ("app" == mvpBaseFragment.moduleName()) {
+                //主工程
+                mAppComponent.supportFragmentInjector().inject(fragment)
+            } else if ("login" == mvpBaseFragment.moduleName()) {
+                CC.obtainBuilder("LoginModule")
+                        .setContext(fragment.context)
+                        .addParam("fragment",fragment.tag)
+                        .setActionName("injectFragment")
+                        .build()
+                        .call()
+            }
+        }
+    }
+
 }

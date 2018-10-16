@@ -19,7 +19,7 @@ interface LoginApiService {
     @GET("/api/mobile.php")
     fun phoneLogin(@Body map: HashMap<String, Any>): Single<Response<BaseResponse<UserInfoVo>>>
 
-    @GET("/api/mobile.php")
+    @GET("user/account/get-login")
     fun accountLogin(@Body map: HashMap<String, Any>): Single<Response<BaseResponse<UserInfoVo>>>
 
 }

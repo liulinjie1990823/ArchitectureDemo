@@ -1,10 +1,12 @@
 package com.llj.lib.base
 
+import android.app.Activity
 import android.app.Dialog
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.util.ArrayMap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +16,18 @@ import com.llj.lib.base.mvp.IPresenter
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
 import com.llj.lib.utils.LogUtil
+import dagger.android.support.AndroidSupportInjection
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/5/24
  */
-abstract class MvpBaseFragment<P : IPresenter> : Fragment(), IFragment, IFragmentLazy, ICommon, IUiHandler, ILoadingDialogHandler {
+abstract class MvpBaseFragment<P : IPresenter> : Fragment(),
+        IFragment, IFragmentLazy, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
 
     val mTagLog: String = this.javaClass.simpleName
     var mContext: Context? = null
@@ -35,20 +40,32 @@ abstract class MvpBaseFragment<P : IPresenter> : Fragment(), IFragment, IFragmen
 
     private var mRequestDialog: ITag? = null
 
+    private val mCancelableTask: ArrayMap<Any, Disposable> = ArrayMap()
+
     //<editor-fold desc="生命周期">
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         mContext = context
     }
 
+    override fun onAttach(activity: Activity?) {
+        super.onAttach(activity)
+        mContext = activity
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        try {
+            AndroidSupportInjection.inject(this)
+        } catch (e: Exception) {
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View
         val layoutView = layoutView()
-        if (layoutView != null) {
-            view = layoutView
-        } else {
-            view = inflater.inflate(layoutId(), null)
-        }
+        view = layoutView ?: inflater.inflate(layoutId(), null)
+
         mUnBinder = ButterKnife.bind(this, view)
 
         checkRequestDialog()
@@ -87,18 +104,44 @@ abstract class MvpBaseFragment<P : IPresenter> : Fragment(), IFragment, IFragmen
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
 
         //防止窗口泄漏
         val requestDialog = getLoadingDialog() as Dialog?
-        if (requestDialog!!.isShowing) {
+        if (requestDialog != null && requestDialog.isShowing) {
             requestDialog.cancel()
         }
 
+        removeAllDisposable()
+
         mUnBinder.unbind()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
 
         mPresenter.destroy()
+    }
+    //</editor-fold >
+
+    //<editor-fold desc="任务处理">
+    override fun addDisposable(tag: Any, disposable: Disposable) {
+        if (mContext is ITask) {
+            (mContext as ITask).addDisposable(tag, disposable)
+        }
+    }
+
+    override fun removeDisposable(tag: Any?) {
+        if (mContext is ITask) {
+            (mContext as ITask).removeDisposable(tag)
+        }
+    }
+
+    override fun removeAllDisposable() {
+        if (mContext is ITask) {
+            (mContext as ITask).removeAllDisposable()
+        }
     }
     //</editor-fold >
 

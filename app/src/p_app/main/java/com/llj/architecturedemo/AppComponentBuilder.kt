@@ -7,6 +7,7 @@ import com.llj.architecturedemo.ui.module.MainActivityModule
 import com.llj.architecturedemo.ui.module.RequestActivityModule
 import com.llj.architecturedemo.ui.module.SecondActivityModule
 import com.llj.lib.base.di.component.BaseActivityComponent
+import com.llj.lib.base.di.component.BaseFragmentComponent
 import com.llj.lib.base.di.scope.ActivityScope
 import com.llj.widget.ui.activity.CircleViewActivity
 import com.llj.widget.ui.module.CircleViewActivityModule
@@ -19,8 +20,8 @@ import dagger.android.ContributesAndroidInjector
  * author llj
  * date 2018/5/16
  */
-@Module(subcomponents = [BaseActivityComponent::class])
-internal abstract class ActivityBuilder {
+@Module(subcomponents = [BaseActivityComponent::class, BaseFragmentComponent::class])
+internal abstract class AppComponentBuilder {
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [MainActivityModule::class])

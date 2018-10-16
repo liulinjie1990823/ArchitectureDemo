@@ -31,7 +31,6 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
 
     init {
         bindViews()
-        initViews()
     }
 
     private fun bindViews() {
@@ -48,8 +47,7 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
     override fun onCreate(savedInstanceState: Bundle) {
         super.onCreate(savedInstanceState)
         // 第一次show的时候会调用该方法
-        // bindViews();
-        // initViews();
+        initViews()
         setWindowParam()
         if (needLoadingDialog()) {
             checkRequestDialog()

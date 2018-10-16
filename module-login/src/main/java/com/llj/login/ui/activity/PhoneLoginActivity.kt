@@ -5,6 +5,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.component.service.arouter.CRouter
 import com.llj.login.LoginMvpBaseActivity
 import com.llj.login.R
+import com.llj.login.ui.model.UserInfoVo
 import com.llj.login.ui.presenter.PhoneLoginPresenter
 import com.llj.login.ui.view.PhoneLoginView
 
@@ -16,6 +17,9 @@ import com.llj.login.ui.view.PhoneLoginView
  */
 @Route(path = CRouter.LOGIN_PHONE_LOGIN_ACTIVITY)
 class PhoneLoginActivity : LoginMvpBaseActivity<PhoneLoginPresenter>(), PhoneLoginView {
+    override fun onSuccessUserInfo(userInfoVo: UserInfoVo?) {
+    }
+
     override fun initData() {
     }
 

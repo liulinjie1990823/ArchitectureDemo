@@ -12,9 +12,9 @@ import dagger.Provides
  * date 2018/9/19
  */
 @Module
-class PhoneLoginModule {
+class PhoneLoginActivityModule {
     @Provides
-    internal fun provideView(activity: PhoneLoginActivity): PhoneLoginView {
+    internal fun providePhoneLoginActivity(activity: PhoneLoginActivity): PhoneLoginView {
         return activity
     }
 }

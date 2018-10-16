@@ -46,7 +46,6 @@ class LoginActivity : MvcBaseActivity() {
     }
 
     override fun initData() {
-
         initTab()
     }
 

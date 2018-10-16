@@ -1,6 +1,7 @@
 package com.llj.login
 
 import android.app.Activity
+import android.support.v4.app.Fragment
 import com.llj.architecturedemo.LoginComponentModule
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -17,12 +18,12 @@ import javax.inject.Singleton
 @Singleton
 @Component(
         dependencies = [
-            com.llj.component.service.Component::class
+            com.llj.component.service.Component::class //依赖库中的Component，可以获得一些字段
         ],
         modules = [
             AndroidInjectionModule::class,
             AndroidSupportInjectionModule::class,
-            LoginActivityBuilder::class, //将所有的activity注册进来
+            LoginComponentBuilder::class, //将所有的Activity,Fragment注册进来
             LoginComponentModule::class
         ])
 interface LoginComponent {
@@ -40,4 +41,5 @@ interface LoginComponent {
     //    override fun inject(application: BaseApplication)
 
     fun activityInjector(): DispatchingAndroidInjector<Activity>
+    fun supportFragmentInjector(): DispatchingAndroidInjector<Fragment>
 }

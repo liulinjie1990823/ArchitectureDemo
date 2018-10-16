@@ -39,6 +39,7 @@ class PhoneLoginPresenter @Inject constructor(mRepository: LoginRepository, mVie
 
             override fun onSuccess(response: BaseResponse<UserInfoVo>) {
                 super.onSuccess(response)
+                mView.onSuccessUserInfo(response.data)
 
             }
 

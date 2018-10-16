@@ -13,6 +13,7 @@ import butterknife.Unbinder
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
 import com.llj.lib.utils.LogUtil
+import io.reactivex.disposables.Disposable
 
 /**
  * ArchitectureDemo.
@@ -20,7 +21,8 @@ import com.llj.lib.utils.LogUtil
  * author llj
  * date 2018/8/15
  */
-abstract class BaseFragment : android.support.v4.app.Fragment(), IFragment, IFragmentLazy, ICommon, IUiHandler, ILoadingDialogHandler {
+abstract class BaseFragment : android.support.v4.app.Fragment(),
+        IFragment, IFragmentLazy, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
     lateinit var mTagLog: String
     lateinit var mContext: Context
 
@@ -46,11 +48,8 @@ abstract class BaseFragment : android.support.v4.app.Fragment(), IFragment, IFra
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View
         val layoutView = layoutView()
-        if (layoutView != null) {
-            view = layoutView
-        } else {
-            view = inflater.inflate(layoutId(), null)
-        }
+        view = layoutView ?: inflater.inflate(layoutId(), null)
+
         mUnBinder = ButterKnife.bind(this, view)
 
         checkRequestDialog()
@@ -89,8 +88,8 @@ abstract class BaseFragment : android.support.v4.app.Fragment(), IFragment, IFra
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
 
         //防止窗口泄漏
         val requestDialog = getLoadingDialog() as Dialog?
@@ -98,7 +97,30 @@ abstract class BaseFragment : android.support.v4.app.Fragment(), IFragment, IFra
             requestDialog.cancel()
         }
 
+        removeAllDisposable()
+
         mUnBinder.unbind()
+    }
+    //</editor-fold >
+
+
+    //<editor-fold desc="任务处理">
+    override fun addDisposable(tag: Any, disposable: Disposable) {
+        if (mContext is ITask) {
+            (mContext as ITask).addDisposable(tag, disposable)
+        }
+    }
+
+    override fun removeDisposable(tag: Any?) {
+        if (mContext is ITask) {
+            (mContext as ITask).removeDisposable(tag)
+        }
+    }
+
+    override fun removeAllDisposable() {
+        if (mContext is ITask) {
+            (mContext as ITask).removeAllDisposable()
+        }
     }
     //</editor-fold >
 

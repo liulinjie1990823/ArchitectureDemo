@@ -3,6 +3,8 @@ package com.llj.architecturedemo.ui.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputFilter;
+import android.widget.EditText;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.R;
@@ -37,6 +39,7 @@ public class MemoryLeakActivity extends MvcBaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         this.getClass().getSimpleName();
+        new EditText(this).setFilters(new InputFilter[]{});
 
 //        DynamicProxyHandler dynamicProxyHandler = new DynamicProxyHandler(new RealSubject1());
 //        Proxy.newProxyInstance(dynamicProxyHandler.getClass().getClassLoader(), dynamicProxyHandler.getClass().getInterfaces(), dynamicProxyHandler);
