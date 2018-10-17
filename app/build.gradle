@@ -118,15 +118,12 @@ android {
 }
 
 dependencies {
-    implementation deps.walle
     implementation deps.multidex
 
     if (useComponent) {
         addComponent 'module-login'
-//        addComponent 'module-java'
     } else {
         api project(':module-login')
-//        api project(':module-java')
     }
     if (useMaven) {
         kapt deps.component_compiler
@@ -136,14 +133,14 @@ dependencies {
 
 }
 
-//walle {
-//    // 指定渠道包的输出路径
-//    apkOutputFolder = new File("${project.buildDir}/outputs/channels")
-//    // 定制渠道包的APK的文件名称
-//    apkFileNameFormat = '${appName}_${channel}_${flavorName}${buildType}_v${versionName}_${versionCode}-${buildTime}.apk'
-//    // 渠道配置文件
-//    channelFile = new File("${project.getProjectDir()}/channel")
-//}
+walle {
+    // 指定渠道包的输出路径
+    apkOutputFolder = new File("${project.buildDir}/outputs/channels")
+    // 定制渠道包的APK的文件名称
+    apkFileNameFormat = '${appName}_${channel}_${flavorName}${buildType}_v${versionName}_${versionCode}-${buildTime}.apk'
+    // 渠道配置文件
+    channelFile = new File("${project.getProjectDir()}/channel")
+}
 
 //打包任务
 apply from: "../zipChannel.gradle"

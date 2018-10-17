@@ -39,6 +39,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api deps.arouter.api
+    api deps.permission
+    implementation deps.walle
+
 
     if (useMaven) {
         api deps.base

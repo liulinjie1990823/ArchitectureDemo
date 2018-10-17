@@ -20,11 +20,11 @@ import javax.inject.Singleton
 class LoginRepository @Inject constructor(private val mApiService: LoginApiService)
     : BaseRepository() {
 
-    public fun phoneLogin(map: HashMap<String, Any>): Single<Response<BaseResponse<UserInfoVo>>> {
+    fun phoneLogin(map: HashMap<String, Any>): Single<Response<BaseResponse<UserInfoVo>>> {
         return mApiService.phoneLogin(map)
     }
 
-    public fun accountLogin(map: HashMap<String, Any>): Single<Response<BaseResponse<UserInfoVo>>> {
+    fun accountLogin(map: HashMap<String, Any>): Single<Response<BaseResponse<UserInfoVo>>> {
         return mApiService.accountLogin(map)
     }
 

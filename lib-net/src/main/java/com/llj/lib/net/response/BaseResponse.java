@@ -2,6 +2,8 @@ package com.llj.lib.net.response;
 
 import android.support.annotation.Nullable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * ArchitectureDemo
  * describe:
@@ -10,6 +12,7 @@ import android.support.annotation.Nullable;
  */
 public class BaseResponse<T> implements IResponse<T> {
     private int    code;
+    @SerializedName("message")
     private String msg;
     private T      data;
 

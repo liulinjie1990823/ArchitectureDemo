@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 /**
  * 版本操作类
  *
- * @author liulj
+ * @author llj
  */
 public class APackageMangerUtils {
     /**
@@ -18,7 +19,7 @@ public class APackageMangerUtils {
      * @param context
      * @return
      */
-    public static int getAppVersionCode(Context context) {
+    public static int getAppVersionCode(@NonNull Context context) {
         int versionCode = 0;
         try {
             PackageManager pm = context.getPackageManager();
@@ -37,7 +38,7 @@ public class APackageMangerUtils {
      * @param context
      * @return
      */
-    public static String getAppVersionName(Context context) {
+    public static String getAppVersionName(@NonNull Context context) {
         String versionCode = null;
         try {
             PackageManager pm = context.getPackageManager();
@@ -55,7 +56,7 @@ public class APackageMangerUtils {
      * @param context
      * @return
      */
-    public static int getOurVersionCode(Context context) {
+    public static int getOurVersionCode(@NonNull Context context) {
         int versionCode = -1;
 
         try {
@@ -69,7 +70,7 @@ public class APackageMangerUtils {
     }
 
     //获取渠道名
-    public static String getChannel(Context context) {
+    public static String getChannel(@NonNull Context context) {
         ApplicationInfo appInfo = null;
         try {
             appInfo = context.getApplicationContext().getPackageManager().getApplicationInfo(context.getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);

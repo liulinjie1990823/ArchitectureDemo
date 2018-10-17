@@ -7,10 +7,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 import android.support.v4.content.FileProvider;
-
-import com.llj.lib.utils.helper.Utils;
 
 import java.io.File;
 
@@ -29,7 +28,7 @@ public class AIntentUtils {
     }
 
     //
-    public static void goToUpdate(Context context, String url) {
+    public static void goToUpdate(@NonNull Context context, String url) {
         //去下载
         Intent intent = new Intent(Intent.ACTION_VIEW);
         String downLoadUrl = url;
@@ -50,8 +49,8 @@ public class AIntentUtils {
      * @param filePath The path of file.
      * @return the intent of install app
      */
-    public static Intent getInstallAppIntent(final String filePath) {
-        return getInstallAppIntent(getFileByPath(filePath), false);
+    public static Intent getInstallAppIntent(@NonNull Context context,final String filePath) {
+        return getInstallAppIntent(context,getFileByPath(filePath), false);
     }
 
     /**
@@ -62,8 +61,8 @@ public class AIntentUtils {
      * @param file The file.
      * @return the intent of install app
      */
-    public static Intent getInstallAppIntent(final File file) {
-        return getInstallAppIntent(file, false);
+    public static Intent getInstallAppIntent(@NonNull Context context,final File file) {
+        return getInstallAppIntent(context,file, false);
     }
 
     /**
@@ -75,8 +74,8 @@ public class AIntentUtils {
      * @param isNewTask True to add flag of new task, false otherwise.
      * @return the intent of install app
      */
-    public static Intent getInstallAppIntent(final String filePath, final boolean isNewTask) {
-        return getInstallAppIntent(getFileByPath(filePath), isNewTask);
+    public static Intent getInstallAppIntent(@NonNull Context context,final String filePath, final boolean isNewTask) {
+        return getInstallAppIntent(context,getFileByPath(filePath), isNewTask);
     }
 
     /**
@@ -88,7 +87,7 @@ public class AIntentUtils {
      * @param isNewTask True to add flag of new task, false otherwise.
      * @return the intent of install app
      */
-    public static Intent getInstallAppIntent(final File file, final boolean isNewTask) {
+    public static Intent getInstallAppIntent(@NonNull Context context,final File file, final boolean isNewTask) {
         if (file == null) return null;
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri data;
@@ -97,8 +96,8 @@ public class AIntentUtils {
             data = Uri.fromFile(file);
         } else {
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            String authority = Utils.getApp().getPackageName() + ".utilcode.provider";
-            data = FileProvider.getUriForFile(Utils.getApp(), authority, file);
+            String authority = context.getPackageName() + ".utilcode.provider";
+            data = FileProvider.getUriForFile(context, authority, file);
         }
         intent.setDataAndType(data, type);
         return getIntent(intent, isNewTask);
@@ -115,8 +114,10 @@ public class AIntentUtils {
      * @return the intent of install app
      */
     @Deprecated
-    public static Intent getInstallAppIntent(final String filePath, final String authority) {
-        return getInstallAppIntent(getFileByPath(filePath), authority, false);
+    public static Intent getInstallAppIntent(@NonNull Context context,
+                                             final String filePath,
+                                             final String authority) {
+        return getInstallAppIntent(context,getFileByPath(filePath), authority, false);
     }
 
     /**
@@ -130,8 +131,10 @@ public class AIntentUtils {
      * @return the intent of install app
      */
     @Deprecated
-    public static Intent getInstallAppIntent(final File file, final String authority) {
-        return getInstallAppIntent(file, authority, false);
+    public static Intent getInstallAppIntent(@NonNull Context context,
+                                             final File file,
+                                             final String authority) {
+        return getInstallAppIntent(context,file, authority, false);
     }
 
     /**
@@ -146,10 +149,11 @@ public class AIntentUtils {
      * @return the intent of install app
      */
     @Deprecated
-    public static Intent getInstallAppIntent(final String filePath,
+    public static Intent getInstallAppIntent(@NonNull Context context,
+                                             final String filePath,
                                              final String authority,
                                              final boolean isNewTask) {
-        return getInstallAppIntent(getFileByPath(filePath), authority, isNewTask);
+        return getInstallAppIntent(context,getFileByPath(filePath), authority, isNewTask);
     }
 
     /**
@@ -164,7 +168,8 @@ public class AIntentUtils {
      * @return the intent of install app
      */
     @Deprecated
-    public static Intent getInstallAppIntent(final File file,
+    public static Intent getInstallAppIntent(@NonNull Context context,
+                                             final File file,
                                              final String authority,
                                              final boolean isNewTask) {
         if (file == null) return null;
@@ -175,7 +180,7 @@ public class AIntentUtils {
             data = Uri.fromFile(file);
         } else {
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            data = FileProvider.getUriForFile(Utils.getApp(), authority, file);
+            data = FileProvider.getUriForFile(context, authority, file);
         }
         intent.setDataAndType(data, type);
         return getIntent(intent, isNewTask);
@@ -210,8 +215,9 @@ public class AIntentUtils {
      * @param packageName The name of the package.
      * @return the intent of launch app
      */
-    public static Intent getLaunchAppIntent(final String packageName) {
-        return getLaunchAppIntent(packageName, false);
+    public static Intent getLaunchAppIntent(@NonNull Context context,
+                                            final String packageName) {
+        return getLaunchAppIntent(context,packageName, false);
     }
 
     /**
@@ -221,8 +227,10 @@ public class AIntentUtils {
      * @param isNewTask   True to add flag of new task, false otherwise.
      * @return the intent of launch app
      */
-    public static Intent getLaunchAppIntent(final String packageName, final boolean isNewTask) {
-        Intent intent = Utils.getApp().getPackageManager().getLaunchIntentForPackage(packageName);
+    public static Intent getLaunchAppIntent(@NonNull Context context,
+                                            final String packageName,
+                                            final boolean isNewTask) {
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
         if (intent == null) return null;
         return getIntent(intent, isNewTask);
     }

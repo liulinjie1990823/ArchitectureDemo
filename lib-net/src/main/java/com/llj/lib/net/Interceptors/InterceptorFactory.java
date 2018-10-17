@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.llj.lib.net.url.DomainUrlParser;
 import com.llj.lib.net.url.UrlParser;
 import com.llj.lib.utils.ANetWorkUtils;
+import com.llj.lib.utils.helper.Utils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,7 +26,7 @@ import static android.Manifest.permission.ACCESS_NETWORK_STATE;
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/6/12
  */
 public class InterceptorFactory {
@@ -49,15 +50,18 @@ public class InterceptorFactory {
 
         return chain.proceed(request);
     };
+
+    //设置日志的Interceptor
     public static Interceptor HTTP_LOGGING_INTERCEPTOR          = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
+    //设置缓存的header
     public static Interceptor RESPONSE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
         @RequiresPermission(ACCESS_NETWORK_STATE)
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
             Response response = chain.proceed(request);
-            if (ANetWorkUtils.isNetworkConnected()) {
+            if (ANetWorkUtils.isNetworkConnected(Utils.getApp())) {
                 int maxAge = 60; // read from cache
                 return response.newBuilder()
                         .removeHeader("Pragma")

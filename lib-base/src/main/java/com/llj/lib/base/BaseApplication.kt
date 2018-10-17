@@ -62,33 +62,33 @@ abstract class BaseApplication : Application(),
         FilePathHelper.init(this)
     }
 
-    open protected fun isDebug(): Boolean {
+    protected open fun isDebug(): Boolean {
         return false
     }
 
-    open protected fun initImageLoader() {
+    protected open fun initImageLoader() {
     }
 
 
-    open protected fun initToast() {
+    protected open fun initToast() {
         AToastUtils.init()
     }
 
 
-    open protected fun initCrashHandler() {
+    protected open fun initCrashHandler() {
         if (!isDebug()) {
             return
         }
         CrashHelper.getInstance().init(this) { LogUtil.LLJe(it) }
     }
 
-    open protected fun initStetho() {
+    protected open fun initStetho() {
     }
 
-    open protected fun initLeakCanary() {
+    protected open fun initLeakCanary() {
     }
 
-    open protected fun initStrictMode() {
+    protected open fun initStrictMode() {
         if (!isDebug()) {
             return
         }

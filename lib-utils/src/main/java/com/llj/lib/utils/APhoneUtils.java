@@ -5,12 +5,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-
-import com.llj.lib.utils.helper.Utils;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -27,8 +26,8 @@ public class APhoneUtils {
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isPhone() {
-        TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
+    public static boolean isPhone(@NonNull Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return tm != null && tm.getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
     }
 
@@ -41,8 +40,8 @@ public class APhoneUtils {
      */
     @SuppressLint("HardwareIds")
     @RequiresPermission(READ_PHONE_STATE)
-    public static String getDeviceId() {
-        TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
+    public static String getDeviceId(@NonNull Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return tm != null ? tm.getDeviceId() : "";
     }
 
@@ -55,8 +54,8 @@ public class APhoneUtils {
      */
     @SuppressLint("HardwareIds")
     @RequiresPermission(READ_PHONE_STATE)
-    public static String getIMEI() {
-        TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
+    public static String getIMEI(@NonNull Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return tm != null ? tm.getImei() : "";
         }
@@ -72,8 +71,8 @@ public class APhoneUtils {
      */
     @SuppressLint("HardwareIds")
     @RequiresPermission(READ_PHONE_STATE)
-    public static String getMEID() {
-        TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
+    public static String getMEID(@NonNull Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return tm != null ? tm.getMeid() : "";
         } else {
@@ -90,8 +89,8 @@ public class APhoneUtils {
      */
     @SuppressLint("HardwareIds")
     @RequiresPermission(READ_PHONE_STATE)
-    public static String getIMSI() {
-        TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
+    public static String getIMSI(@NonNull Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return tm != null ? tm.getSubscriberId() : "";
     }
 
@@ -106,8 +105,8 @@ public class APhoneUtils {
      * <li>{@link TelephonyManager#PHONE_TYPE_SIP }</li>
      * </ul>
      */
-    public static int getPhoneType() {
-        TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
+    public static int getPhoneType(@NonNull Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return tm != null ? tm.getPhoneType() : -1;
     }
 
@@ -116,8 +115,8 @@ public class APhoneUtils {
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isSimCardReady() {
-        TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
+    public static boolean isSimCardReady(@NonNull Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return tm != null && tm.getSimState() == TelephonyManager.SIM_STATE_READY;
     }
 
@@ -126,8 +125,8 @@ public class APhoneUtils {
      *
      * @return the sim operator name
      */
-    public static String getSimOperatorName() {
-        TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
+    public static String getSimOperatorName(@NonNull Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return tm != null ? tm.getSimOperatorName() : "";
     }
 
@@ -136,8 +135,8 @@ public class APhoneUtils {
      *
      * @return the sim operator
      */
-    public static String getSimOperatorByMnc() {
-        TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
+    public static String getSimOperatorByMnc(@NonNull Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String operator = tm != null ? tm.getSimOperator() : null;
         if (operator == null) return null;
         switch (operator) {
@@ -177,8 +176,8 @@ public class APhoneUtils {
      */
     @SuppressLint("HardwareIds")
     @RequiresPermission(READ_PHONE_STATE)
-    public static String getPhoneStatus() {
-        TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
+    public static String getPhoneStatus(@NonNull Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (tm == null) return "";
         String str = "";
         str += "DeviceId(IMEI) = " + tm.getDeviceId() + "\n";
@@ -204,8 +203,8 @@ public class APhoneUtils {
      *
      * @param phoneNumber The phone number.
      */
-    public static void dial(final String phoneNumber) {
-        Utils.getApp().startActivity(AIntentUtils.getDialIntent(phoneNumber, true));
+    public static void dial(@NonNull Context context,final String phoneNumber) {
+        context.startActivity(AIntentUtils.getDialIntent(phoneNumber, true));
     }
 
     /**
@@ -215,8 +214,8 @@ public class APhoneUtils {
      * @param phoneNumber The phone number.
      */
     @RequiresPermission(CALL_PHONE)
-    public static void call(final String phoneNumber) {
-        Utils.getApp().startActivity(AIntentUtils.getCallIntent(phoneNumber, true));
+    public static void call(@NonNull Context context,final String phoneNumber) {
+        context.startActivity(AIntentUtils.getCallIntent(phoneNumber, true));
     }
 
     /**
@@ -225,8 +224,8 @@ public class APhoneUtils {
      * @param phoneNumber The phone number.
      * @param content     The content.
      */
-    public static void sendSms(final String phoneNumber, final String content) {
-        Utils.getApp().startActivity(AIntentUtils.getSendSmsIntent(phoneNumber, content, true));
+    public static void sendSms(@NonNull Context context,final String phoneNumber, final String content) {
+        context.startActivity(AIntentUtils.getSendSmsIntent(phoneNumber, content, true));
     }
 
     /**
@@ -237,10 +236,10 @@ public class APhoneUtils {
      * @param content     The content.
      */
     @RequiresPermission(SEND_SMS)
-    public static void sendSmsSilent(final String phoneNumber, final String content) {
+    public static void sendSmsSilent(@NonNull Context context,final String phoneNumber, final String content) {
         if (TextUtils.isEmpty(content))
             return;
-        PendingIntent sentIntent = PendingIntent.getBroadcast(Utils.getApp(), 0, new Intent(), 0);
+        PendingIntent sentIntent = PendingIntent.getBroadcast(context, 0, new Intent(), 0);
         SmsManager smsManager = SmsManager.getDefault();
         if (content.length() >= 70) {
             List<String> ms = smsManager.divideMessage(content);
@@ -256,6 +255,7 @@ public class APhoneUtils {
      * 隐藏手机号中间四位
      *
      * @param string 手机号码
+     *
      * @return
      */
     public static String hideMobileCenter(String string) {
@@ -269,7 +269,9 @@ public class APhoneUtils {
      * only check start with "+86" or "86" ex +8615911119999 13100009999 replace +86 or 86 with ""
      *
      * @param mobile
+     *
      * @return
+     *
      * @throws Exception
      */
     public static String filter86Mobile(String mobile) {

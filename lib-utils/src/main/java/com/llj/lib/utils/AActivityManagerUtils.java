@@ -38,7 +38,7 @@ public class AActivityManagerUtils {
      * @return true 前台 false 后台
      */
     @SuppressWarnings("deprecation")
-    public static boolean isApplicationInForeground(Context context) {
+    public static boolean isApplicationInForeground(@NonNull Context context) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             final List<RunningAppProcessInfo> processInfos = activityManager.getRunningAppProcesses();
@@ -77,7 +77,7 @@ public class AActivityManagerUtils {
      * @param packageName 需要检查是否位于栈顶的App的包名
      * @return
      */
-    public static boolean isRunningTask(Context context, String packageName) {
+    public static boolean isRunningTask(@NonNull Context context, String packageName) {
         ActivityManager am = (ActivityManager) context.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
         if (am == null) {
             return false;

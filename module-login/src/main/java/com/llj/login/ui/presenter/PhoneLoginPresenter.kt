@@ -7,7 +7,9 @@ import com.llj.lib.net.response.BaseResponse
 import com.llj.login.ui.model.UserInfoVo
 import com.llj.login.ui.repository.LoginRepository
 import com.llj.login.ui.view.PhoneLoginView
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import retrofit2.Response
 import java.util.*
 import javax.inject.Inject
 
@@ -21,13 +23,31 @@ class PhoneLoginPresenter @Inject constructor(mRepository: LoginRepository, mVie
     : BasePresenter<LoginRepository, PhoneLoginView>(mRepository, mView) {
 
 
-    public fun phoneLogin(map: HashMap<String, Any>, showLoading: Boolean) {
+    //手机登录
+    fun phoneLogin(map: HashMap<String, Any>, showLoading: Boolean) {
         //Single
         var phoneLogin = mRepository?.phoneLogin(map)
         if (showLoading) {
             phoneLogin = phoneLogin?.doOnSubscribe(mView)?.doFinally(mView)
         }
+        if (phoneLogin != null) {
+            subscribeLogin(phoneLogin)
+        }
+    }
 
+    //账号登录
+    fun accountLogin(map: HashMap<String, Any>, showLoading: Boolean) {
+        //Single
+        var phoneLogin = mRepository?.accountLogin(map)
+        if (showLoading) {
+            phoneLogin = phoneLogin?.doOnSubscribe(mView)?.doFinally(mView)
+        }
+        if (phoneLogin != null) {
+            subscribeLogin(phoneLogin)
+        }
+    }
+
+    private fun subscribeLogin(single: Single<Response<BaseResponse<UserInfoVo>>>) {
         //Observer
         val baseApiObserver = object : BaseApiObserver<UserInfoVo>(mView.getRequestTag()) {
 
@@ -50,10 +70,9 @@ class PhoneLoginPresenter @Inject constructor(mRepository: LoginRepository, mVie
 
         //subscribe
         RxApiManager.get().subscribeApi<UserInfoVo>(
-                phoneLogin,
+                single,
                 mView.bindRequestLifecycle(),
                 baseApiObserver)
-
     }
 
 
