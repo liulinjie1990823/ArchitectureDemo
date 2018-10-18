@@ -1,10 +1,11 @@
 package com.llj.login.ui.presenter
 
+import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.mvp.BasePresenter
 import com.llj.lib.net.RxApiManager
 import com.llj.lib.net.observer.BaseApiObserver
 import com.llj.lib.net.response.BaseResponse
-import com.llj.login.ui.model.UserInfoVo
+import com.llj.login.ui.model.MobileInfoVo
 import com.llj.login.ui.repository.LoginRepository
 import com.llj.login.ui.view.PhoneLoginView
 import io.reactivex.Single
@@ -45,6 +46,39 @@ class PhoneLoginPresenter @Inject constructor(mRepository: LoginRepository, mVie
         if (phoneLogin != null) {
             subscribeLogin(phoneLogin)
         }
+    }
+
+    //获取手机号信息
+    fun getMobileInfo(mobile: String, showLoading: Boolean) {
+        //Single
+        var getMobileInfo = mRepository?.getMobileInfo(mobile)
+        if (showLoading) {
+            getMobileInfo = getMobileInfo?.doOnSubscribe(mView)?.doFinally(mView)
+        }
+        //Observer
+        val baseApiObserver = object : BaseApiObserver<MobileInfoVo>(mView.getRequestTag()) {
+
+            override fun onSubscribe(d: Disposable) {
+                super.onSubscribe(d)
+                //将请求添加到请求map中
+                mView.addDisposable(getRequestTag(), d)
+            }
+
+            override fun onSuccess(response: BaseResponse<MobileInfoVo>) {
+                super.onSuccess(response)
+
+            }
+
+            override fun onError(t: Throwable) {
+                super.onError(t)
+            }
+        }
+
+        //subscribe
+        RxApiManager.get().subscribeApi<MobileInfoVo>(
+                getMobileInfo,
+                mView.bindRequestLifecycle(),
+                baseApiObserver)
     }
 
     private fun subscribeLogin(single: Single<Response<BaseResponse<UserInfoVo>>>) {

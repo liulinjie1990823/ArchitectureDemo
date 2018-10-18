@@ -34,9 +34,12 @@ class ComponentModule {
         okHttpClientBuilder.addInterceptor(urlHandlerInterceptor) //多url域名拦截
         okHttpClientBuilder.addInterceptor(HeaderInterceptor()) //自定义header
         //okHttpClientBuilder.addInterceptor(InterceptorFactory.AGENT_INTERCEPTOR)//自定义ua
-        okHttpClientBuilder.addInterceptor(InterceptorFactory.REQUEST_CACHE_CONTROL_INTERCEPTOR)
+        //设置http请求header的缓存字段，可以控制返回数据的缓存，但是是在一条线程内，会导致页面显示变慢，应该先显示页面，再将数据进行缓存，所以不推荐
+        //okHttpClientBuilder.addInterceptor(InterceptorFactory.REQUEST_CACHE_CONTROL_INTERCEPTOR)
+        //通过addInterceptor添加，这样即使是获取的缓存数据也能打印出来
         okHttpClientBuilder.addInterceptor(InterceptorFactory.HTTP_LOGGING_INTERCEPTOR) //日志拦截
-        okHttpClientBuilder.addNetworkInterceptor(InterceptorFactory.RESPONSE_CACHE_CONTROL_INTERCEPTOR)
+        //设置http返回header的缓存字段，一般不用自己设置，由服务端设置
+        //okHttpClientBuilder.addNetworkInterceptor(InterceptorFactory.RESPONSE_CACHE_CONTROL_INTERCEPTOR)
 
         //缓存文件夹
         val cacheFile = File(context.externalCacheDir, "http")

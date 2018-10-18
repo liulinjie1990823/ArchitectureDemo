@@ -15,6 +15,7 @@ import com.llj.component.service.statusbar.LightStatusBarCompat
 import com.llj.component.service.statusbar.StatusBarCompat
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.MvpBaseFragment
+import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
 import com.llj.socialization.SocialConstants
 import com.llj.socialization.share.SocialConfig
 import com.llj.socialization.share.SocialManager
@@ -68,27 +69,7 @@ class AppApplication : ComponentApplication() {
         })
 
 
-        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
-            override fun onActivityPaused(activity: Activity?) {
-            }
-
-            override fun onActivityResumed(activity: Activity?) {
-
-            }
-
-            override fun onActivityStarted(activity: Activity?) {
-
-            }
-
-            override fun onActivityDestroyed(activity: Activity?) {
-            }
-
-            override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
-            }
-
-            override fun onActivityStopped(activity: Activity?) {
-            }
-
+        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
             override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
                 if (activity == null) {
                     return

@@ -1,9 +1,10 @@
 package com.llj.login.ui.repository
 
+import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.mvp.BaseRepository
 import com.llj.lib.net.response.BaseResponse
 import com.llj.login.api.LoginApiService
-import com.llj.login.ui.model.UserInfoVo
+import com.llj.login.ui.model.MobileInfoVo
 import io.reactivex.Single
 import retrofit2.Response
 import java.util.*
@@ -28,4 +29,7 @@ class LoginRepository @Inject constructor(private val mApiService: LoginApiServi
         return mApiService.accountLogin(map)
     }
 
+    fun getMobileInfo(mobile: String): Single<Response<BaseResponse<MobileInfoVo>>> {
+        return mApiService.getMobileInfo(mobile)
+    }
 }

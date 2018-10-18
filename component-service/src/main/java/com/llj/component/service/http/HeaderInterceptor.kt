@@ -7,7 +7,6 @@ import android.webkit.WebSettings
 import com.llj.component.service.R
 import com.llj.component.service.preference.ConfigPreference
 import com.llj.component.service.preference.UserInfoPreference
-import com.llj.lib.base.BaseApplication
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.utils.APackageMangerUtils
 import com.llj.lib.utils.APhoneUtils
@@ -22,7 +21,7 @@ import java.util.*
 /**
  * ArchitectureDemo.
  * describe:
- * author l
+ * author llj
  * date 2018/10/16
  */
 class HeaderInterceptor : Interceptor {

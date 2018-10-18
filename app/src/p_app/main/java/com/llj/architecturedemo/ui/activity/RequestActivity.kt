@@ -22,7 +22,6 @@ class RequestActivity : MvpBaseActivity<RequestPresenter>(), IRequestView {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-
     }
 
     override fun layoutId(): Int {

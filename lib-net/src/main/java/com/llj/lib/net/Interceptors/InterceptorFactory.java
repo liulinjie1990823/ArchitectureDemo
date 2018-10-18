@@ -40,9 +40,11 @@ public class InterceptorFactory {
     };
 
     public static Interceptor REQUEST_CACHE_CONTROL_INTERCEPTOR = chain -> {
-        CacheControl.Builder cacheBuilder = new CacheControl.Builder();
-        cacheBuilder.maxAge(60 * 5, TimeUnit.SECONDS);
-        CacheControl cacheControl = cacheBuilder.build();
+        //Cache-Control max-age=300
+        CacheControl cacheControl = new CacheControl.Builder()
+                .maxAge(30 * 1, TimeUnit.SECONDS)
+                .maxStale(30 * 1, TimeUnit.SECONDS)
+                .build();
         Request request = chain.request();
         request = request.newBuilder()
                 .cacheControl(cacheControl)
@@ -52,7 +54,7 @@ public class InterceptorFactory {
     };
 
     //设置日志的Interceptor
-    public static Interceptor HTTP_LOGGING_INTERCEPTOR          = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+    public static Interceptor HTTP_LOGGING_INTERCEPTOR = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
     //设置缓存的header
     public static Interceptor RESPONSE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
@@ -62,10 +64,12 @@ public class InterceptorFactory {
             Request request = chain.request();
             Response response = chain.proceed(request);
             if (ANetWorkUtils.isNetworkConnected(Utils.getApp())) {
-                int maxAge = 60; // read from cache
+                CacheControl cacheControl = new CacheControl.Builder()
+                        .maxAge(30 * 2, TimeUnit.SECONDS)
+                        .build();
                 return response.newBuilder()
                         .removeHeader("Pragma")
-                        .header("Cache-Control", "public ,max-age=" + maxAge)
+                        .header("Cache-Control", cacheControl.toString())
                         .build();
             } else {
                 int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
@@ -78,15 +82,15 @@ public class InterceptorFactory {
     };
 
     public static class UrlHandlerInterceptor implements Interceptor {
-        private static final String DOMAIN_HEADER_KEY       = "Domain-Name";
-        public static final  String DOMAIN_HEADER = DOMAIN_HEADER_KEY + ": ";
+        private static final String DOMAIN_HEADER_KEY = "Domain-Name";
+        public static final  String DOMAIN_HEADER     = DOMAIN_HEADER_KEY + ": ";
 
         private final Map<String, HttpUrl> mDomainNameHub = new HashMap<>();
 
         private UrlParser mUrlParser;
 
         public UrlHandlerInterceptor() {
-            mUrlParser=new DomainUrlParser();
+            mUrlParser = new DomainUrlParser();
         }
 
         @Override
@@ -131,6 +135,7 @@ public class InterceptorFactory {
          * 取出对应 {@code domainName} 的 Url(BaseUrl)
          *
          * @param domainName
+         *
          * @return
          */
         public synchronized HttpUrl fetchDomain(String domainName) {
@@ -161,6 +166,7 @@ public class InterceptorFactory {
          * 存放 Domain(BaseUrl) 的容器中是否存在这个 {@code domainName}
          *
          * @param domainName {@code domainName}
+         *
          * @return {@code true} 为存在, {@code false} 为不存在
          */
         public synchronized boolean haveDomain(String domainName) {

@@ -12,8 +12,8 @@ import com.llj.lib.utils.LogUtil
 open class BasePresenter<R : BaseRepository, V : IView> : IPresenter {
     protected val mTag = this.javaClass.simpleName
 
-    protected var mRepository: R? = null
-    protected var mView: V
+     var mRepository: R? = null
+     var mView: V
 
     constructor(repository: R, view: V) {
         this.mRepository = repository

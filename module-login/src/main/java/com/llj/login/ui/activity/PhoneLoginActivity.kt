@@ -3,9 +3,9 @@ package com.llj.login.ui.activity
 import android.os.Bundle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.component.service.arouter.CRouter
+import com.llj.component.service.vo.UserInfoVo
 import com.llj.login.LoginMvpBaseActivity
 import com.llj.login.R
-import com.llj.login.ui.model.UserInfoVo
 import com.llj.login.ui.presenter.PhoneLoginPresenter
 import com.llj.login.ui.view.PhoneLoginView
 

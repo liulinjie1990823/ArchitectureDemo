@@ -7,6 +7,7 @@ package com.llj.component.service.vo
  */
 
 class UserInfoVo {
+
     /**
      * 用户id
      */
@@ -130,6 +131,7 @@ class UserInfoVo {
     var token_expire_time: Long = 0
 
     var token_expice_time: String? = null
+
 
     inner class UserAddressInfo {
         var uid: String? = null

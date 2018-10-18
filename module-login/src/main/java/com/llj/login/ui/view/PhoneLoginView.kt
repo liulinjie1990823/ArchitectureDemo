@@ -1,7 +1,7 @@
 package com.llj.login.ui.view
 
+import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.mvp.IView
-import com.llj.login.ui.model.UserInfoVo
 
 /**
  * ArchitectureDemo.

@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import butterknife.BindView
 import com.llj.component.service.utils.CharInputFilter
+import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.listeners.MyTextWatcher
 import com.llj.lib.base.listeners.OnMyClickListener
 import com.llj.lib.utils.ARegexUtils
@@ -15,7 +16,6 @@ import com.llj.lib.utils.AToastUtils
 import com.llj.login.LoginMvpBaseFragment
 import com.llj.login.R
 import com.llj.login.R2
-import com.llj.login.ui.model.UserInfoVo
 import com.llj.login.ui.presenter.PhoneLoginPresenter
 import com.llj.login.ui.view.PhoneLoginView
 import com.yanzhenjie.permission.AndPermission
@@ -73,6 +73,11 @@ class PasswordLoginFragment : LoginMvpBaseFragment<PhoneLoginPresenter>(), Phone
 
     override fun initData() {
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mPresenter.getMobileInfo("18767152095", true)
     }
 
     private fun login() {
