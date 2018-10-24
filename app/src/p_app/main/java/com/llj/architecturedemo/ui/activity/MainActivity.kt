@@ -146,7 +146,7 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         //获取deviceId需要权限
         AndPermission.with(Utils.getApp())
                 .runtime()
-                .permission(Manifest.permission.READ_PHONE_STATE)
+                .permission(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .onGranted {
                 }
                 .onDenied { permissions ->
@@ -170,8 +170,8 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         val arrayListOf = arrayListOf<Tab>()
         arrayListOf.add(Tab("首页", "http://pic7.photophoto.cn/20080407/0034034859692813_b.jpg",
                 "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", true))
-        arrayListOf.add(Tab("首页", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
-                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", false))
+        arrayListOf.add(Tab("首页", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png",
+                "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png", false))
         arrayListOf.add(Tab("首页", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
                 "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", false))
         arrayListOf.add(Tab("我的", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",

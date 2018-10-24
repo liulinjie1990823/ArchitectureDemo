@@ -26,10 +26,23 @@ public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> 
         init(context);
     }
 
+    private FrescoImageLoader(Context context, OkHttpClient okHttpClient) {
+        init(context, okHttpClient);
+    }
+
     public static ICustomImageLoader<GenericDraweeView> getInstance(Context context) {
         synchronized (FrescoImageLoader.class) {
             if (sImageLoader == null) {
                 sImageLoader = new FrescoImageLoader(context);
+            }
+        }
+        return sImageLoader;
+    }
+
+    public static ICustomImageLoader<GenericDraweeView> getInstance(Context context, OkHttpClient okHttpClient) {
+        synchronized (FrescoImageLoader.class) {
+            if (sImageLoader == null) {
+                sImageLoader = new FrescoImageLoader(context, okHttpClient);
             }
         }
         return sImageLoader;
@@ -45,7 +58,17 @@ public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> 
         builder.readTimeout(15000, TimeUnit.MILLISECONDS);
         builder.cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context.getApplicationContext())));
 
-        FrescoUtils.initFresco(context, new OkHttpNetworkFetcher(builder.build()));
+        FrescoUtils.initFresco(context);
+    }
+
+    @Override
+    public void init(Context context, OkHttpClient okHttpClient) {
+        if (okHttpClient != null) {
+            FrescoUtils.initFresco(context, new OkHttpNetworkFetcher(okHttpClient));
+        } else {
+            FrescoUtils.initFresco(context, null);
+        }
+
     }
 
     ///////////////////////////////////////////////////////////////////////////

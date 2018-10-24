@@ -1,6 +1,5 @@
 package com.llj.architecturedemo.ui.fragment
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
@@ -32,8 +31,6 @@ import com.llj.architecturedemo.ui.presenter.VlayoutPresenter
 import com.llj.architecturedemo.ui.view.IVlayoutView
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
-import com.llj.component.service.statusbar.LightStatusBarCompat
-import com.llj.component.service.statusbar.StatusBarCompat
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.OnMyClickListener
@@ -115,9 +112,6 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
     }
 
     override fun initViews(bundle: Bundle?) {
-        StatusBarCompat.translucentStatusBar(mContext as Activity, true)
-        LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, false)
-
 
         val statusBarHeight = DisplayHelper.STATUS_BAR_HEIGHT
         mVStatusBar.layoutParams.height = statusBarHeight

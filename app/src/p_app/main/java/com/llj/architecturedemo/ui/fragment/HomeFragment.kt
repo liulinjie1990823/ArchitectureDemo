@@ -28,6 +28,7 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
+
         val arrayList = arrayListOf<Data>()
         arrayList.add(Data("RequestActivity", CRouter.APP_REQUEST_ACTIVITY))
         arrayList.add(Data("RxJava2Activity", CRouter.APP_RXJAVA2_ACTIVITY))

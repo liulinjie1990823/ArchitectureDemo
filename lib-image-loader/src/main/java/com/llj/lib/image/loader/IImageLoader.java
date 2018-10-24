@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.view.View;
 
+import okhttp3.OkHttpClient;
+
 /**
  * ArchitectureDemo
  * describe:
@@ -13,6 +15,8 @@ import android.view.View;
 public interface IImageLoader<T extends View> {
 
     void init(Context context);
+
+    void init(Context context, OkHttpClient okHttpClient);
 
     void loadImage(@DrawableRes int resId, int width, int height, T view);
 

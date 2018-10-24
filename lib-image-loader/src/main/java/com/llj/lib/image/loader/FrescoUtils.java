@@ -422,6 +422,10 @@ public class FrescoUtils {
         setController(resId, width, height, false, false, radii, borderColor, borderWidth, 0, 0, view, null);
     }
 
+    private static boolean isNetPath(String url) {
+        return url.startsWith("http://") || url.startsWith("https://");
+    }
+
     /**
      * 使用Fresco加载图片,设置Controller
      *
@@ -441,7 +445,7 @@ public class FrescoUtils {
                                      BaseControllerListener<ImageInfo> listener) {
         if (!TextUtils.isEmpty(url) && view != null) {
             String filterUrl = url;
-            if (!filterUrl.startsWith("http:/")) {
+            if (!isNetPath(filterUrl)) {
                 filterUrl = "file://" + filterUrl;
             }
             GenericDraweeHierarchy hierarchy = view.getHierarchy();

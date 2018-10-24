@@ -48,7 +48,7 @@ abstract class ComponentApplication : BaseApplication() {
 
     override fun initImageLoader() {
         super.initImageLoader()
-        FrescoImageLoader.getInstance(this.applicationContext)
+        FrescoImageLoader.getInstance(this.applicationContext,mComponent.okHttpClient())
     }
 
     override fun initStetho() {

@@ -10,6 +10,7 @@ import android.support.multidex.MultiDex
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import com.billy.cc.core.component.CC
+import com.llj.architecturedemo.ui.activity.MainActivity
 import com.llj.component.service.ComponentApplication
 import com.llj.component.service.statusbar.LightStatusBarCompat
 import com.llj.component.service.statusbar.StatusBarCompat
@@ -74,10 +75,16 @@ class AppApplication : ComponentApplication() {
                 if (activity == null) {
                     return
                 }
-                StatusBarCompat.setStatusBarColor(activity, ContextCompat.getColor(activity, R.color.white))
-                LightStatusBarCompat.setLightStatusBar(activity.window, true)
+                if (activity is MainActivity) {
+                    //覆盖白字
+                    StatusBarCompat.translucentStatusBar(activity, true)
+                    LightStatusBarCompat.setLightStatusBar(activity.window, false)
+                } else {
+                    //白低黑字
+                    StatusBarCompat.setStatusBarColor(activity, ContextCompat.getColor(activity, R.color.white))
+                    LightStatusBarCompat.setLightStatusBar(activity.window, true)
+                }
             }
-
         })
 
     }
@@ -114,7 +121,7 @@ class AppApplication : ComponentApplication() {
             } else if ("login" == mvpBaseFragment.moduleName()) {
                 CC.obtainBuilder("LoginModule")
                         .setContext(fragment.context)
-                        .addParam("fragment",fragment.tag)
+                        .addParam("fragment", fragment.tag)
                         .setActionName("injectFragment")
                         .build()
                         .call()

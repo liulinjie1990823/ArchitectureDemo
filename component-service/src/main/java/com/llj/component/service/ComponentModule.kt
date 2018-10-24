@@ -10,6 +10,7 @@ import com.llj.lib.net.utils.RetrofitUtils
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import java.io.File
 
@@ -23,9 +24,8 @@ import java.io.File
 class ComponentModule {
 
     @Provides
-    fun provideRetrofit(context: Application): Retrofit {
+    fun provideOkHttpClient(context: Application): OkHttpClient {
 
-        val builder = RetrofitUtils.createRxJava2Retrofit(ComponentHttpUrl.BASE_URL)
 
         val okHttpClientBuilder = OkHttpClientUtils.okHttpClientBuilder()
 
@@ -54,7 +54,15 @@ class ComponentModule {
         okHttpClientBuilder.hostnameVerifier { hostname, session -> true }
 
 
-        builder.client(okHttpClientBuilder.build())
+        return okHttpClientBuilder.build()
+    }
+
+    @Provides
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+
+        val builder = RetrofitUtils.createRxJava2Retrofit(ComponentHttpUrl.BASE_URL)
+
+        builder.client(okHttpClient)
 
         return builder.build()
     }
