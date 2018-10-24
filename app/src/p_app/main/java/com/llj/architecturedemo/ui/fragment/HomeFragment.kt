@@ -2,6 +2,7 @@ package com.llj.architecturedemo.ui.fragment
 
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.widget.TextView
 import butterknife.BindView
 import com.llj.adapter.ListBasedAdapter
@@ -20,6 +21,7 @@ import com.llj.lib.webview.CWebViewActivity
  */
 class HomeFragment : BaseFragment() {
     @BindView(R.id.recyclerView) lateinit var mRecyclerView: RecyclerView
+    @BindView(R.id.tv_update) lateinit var mUpdate: TextView
 
     override fun layoutId(): Int {
         return R.layout.fragment_home
@@ -50,6 +52,11 @@ class HomeFragment : BaseFragment() {
                 .setLinearLayoutManager()
                 .build()
                 .getAdapter()
+
+
+        mUpdate.setOnClickListener {
+            mRecyclerView.adapter?.notifyDataSetChanged()
+        }
     }
 
     override fun initData() {
@@ -65,8 +72,10 @@ class HomeFragment : BaseFragment() {
             if (item == null) {
                 return
             }
+            Log.e("onBindViewHolder", position.toString())
+
             val textView = viewHolder.getView<TextView>(R.id.tv_text)
-            setText(textView, item.text)
+            setText(textView, position.toString() + "  " + item.text)
 
             viewHolder.itemView.setOnClickListener {
                 when (item.path) {

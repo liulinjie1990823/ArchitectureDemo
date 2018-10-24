@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_baby_home_top"/>
+
+    <View
+        android:id="@+id/v_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:alpha="0"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cv_header"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:paddingRight="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/v_status_bar">
+
+        <TextView
+            android:id="@+id/tv_city"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableRight="@drawable/ic_baby_home_down_arrow"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="杭州"
+            android:textColor="@color/white"
+            android:textSize="13dp"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+
+        <View
+            android:id="@+id/v_search_bg"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:background="@drawable/shape_baby_home_search_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/tv_city"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_baby_home_search"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:text="搜索"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/v_search_bg"
+            app:layout_constraintLeft_toLeftOf="@+id/v_search_bg"
+            app:layout_constraintRight_toRightOf="@+id/v_search_bg"
+            app:layout_constraintTop_toTopOf="@+id/v_search_bg"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <com.llj.component.service.refreshLayout.JHSmartRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_header">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingBottom="30dp"/>
+
+    </com.llj.component.service.refreshLayout.JHSmartRefreshLayout>
+
+
+</android.support.constraint.ConstraintLayout>

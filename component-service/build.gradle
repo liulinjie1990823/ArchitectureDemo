@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.jakewharton.butterknife'
 
 kapt {
     arguments {
@@ -86,6 +87,8 @@ dependencies {
     //ui
     api deps.smartrefresh.SmartRefreshLayout
     api deps.MagicIndicator
+    api deps.vlayout
+    api deps.AutoScrollViewPager
     api deps.support.design
     api deps.support.recyclerview
     api deps.constraint_layout
@@ -96,7 +99,7 @@ dependencies {
     debugImplementation deps.leakcanary.leakcanary_android
     releaseImplementation deps.leakcanary.leakcanary_android_no_op
 
-
+    kapt deps.butterknife.compiler
     kapt deps.dagger.compiler
     kapt deps.dagger.android_support_compiler
 }

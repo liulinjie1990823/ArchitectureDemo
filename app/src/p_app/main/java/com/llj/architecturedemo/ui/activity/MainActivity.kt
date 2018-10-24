@@ -1,5 +1,7 @@
 package com.llj.architecturedemo.ui.activity
 
+import android.Manifest
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -17,8 +19,8 @@ import com.llj.architecturedemo.R
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.architecturedemo.ui.fragment.HomeFragment
 import com.llj.architecturedemo.ui.fragment.MineFragment
-import com.llj.architecturedemo.ui.fragment.SecondFragment
 import com.llj.architecturedemo.ui.fragment.ThirdFragment
+import com.llj.architecturedemo.ui.fragment.VlayoutFragment
 import com.llj.architecturedemo.ui.presenter.MainPresenter
 import com.llj.architecturedemo.ui.view.MainContractView
 import com.llj.component.service.arouter.CRouter
@@ -26,6 +28,10 @@ import com.llj.lib.base.BaseTabActivity
 import com.llj.lib.base.IUiHandler
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
+import com.llj.lib.utils.AToastUtils
+import com.llj.lib.utils.helper.Utils
+import com.yanzhenjie.permission.AndPermission
+import com.yanzhenjie.permission.Permission
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
@@ -137,6 +143,29 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
 
     override fun initViews(savedInstanceState: Bundle?) {
 
+        //获取deviceId需要权限
+        AndPermission.with(Utils.getApp())
+                .runtime()
+                .permission(Manifest.permission.READ_PHONE_STATE)
+                .onGranted {
+                }
+                .onDenied { permissions ->
+                    AToastUtils.show(permissions?.toString())
+                }
+                .rationale { context, permissions, executor ->
+                    val permissionNames = Permission.transformText(context, permissions)
+                    val message = "读取电话状态"
+
+                    AlertDialog.Builder(context)
+                            .setCancelable(false)
+                            .setTitle("提示")
+                            .setMessage(message)
+                            .setPositiveButton("继续") { dialog, which -> executor.execute() }
+                            .setNegativeButton("取消") { dialog, which -> executor.cancel() }
+                            .show()
+                }
+                .start()
+
 
         val arrayListOf = arrayListOf<Tab>()
         arrayListOf.add(Tab("首页", "http://pic7.photophoto.cn/20080407/0034034859692813_b.jpg",
@@ -191,7 +220,7 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
     override fun makeFragment(showItem: Int): Fragment {
         when (showItem) {
             0 -> return HomeFragment()
-            1 -> return SecondFragment()
+            1 -> return VlayoutFragment()
             2 -> return ThirdFragment()
             3 -> return MineFragment()
         }
@@ -206,10 +235,10 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         mTabAdapter.notifyDataSetChanged()
     }
 
-   private inner class Tab(var text: String,
-                    var normalImage: String,
-                    var selectImage: String,
-                    var select: Boolean
+    private inner class Tab(var text: String,
+                            var normalImage: String,
+                            var selectImage: String,
+                            var select: Boolean
     )
 
 

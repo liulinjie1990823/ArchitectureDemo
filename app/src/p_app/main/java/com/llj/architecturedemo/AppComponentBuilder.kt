@@ -3,12 +3,15 @@ package com.llj.architecturedemo
 import com.llj.architecturedemo.ui.activity.MainActivity
 import com.llj.architecturedemo.ui.activity.RequestActivity
 import com.llj.architecturedemo.ui.activity.SecondActivity
+import com.llj.architecturedemo.ui.fragment.VlayoutFragment
 import com.llj.architecturedemo.ui.module.MainActivityModule
 import com.llj.architecturedemo.ui.module.RequestActivityModule
 import com.llj.architecturedemo.ui.module.SecondActivityModule
+import com.llj.architecturedemo.ui.module.VlayoutFragmentModule
 import com.llj.lib.base.di.component.BaseActivityComponent
 import com.llj.lib.base.di.component.BaseFragmentComponent
 import com.llj.lib.base.di.scope.ActivityScope
+import com.llj.lib.base.di.scope.FragmentScope
 import com.llj.widget.ui.activity.CircleViewActivity
 import com.llj.widget.ui.module.CircleViewActivityModule
 import dagger.Module
@@ -39,4 +42,7 @@ internal abstract class AppComponentBuilder {
     @ContributesAndroidInjector(modules = [RequestActivityModule::class])
     internal abstract fun contributeRequestActivityInjector(): RequestActivity
 
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [VlayoutFragmentModule::class])
+    internal abstract fun contributeVlayoutFragmentInjector(): VlayoutFragment
 }

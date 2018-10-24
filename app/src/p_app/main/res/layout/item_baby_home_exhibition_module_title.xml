@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_exhibition_module_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:textColor="@color/cl_333333"
+        android:textSize="20dp"
+        android:maxLength="10"
+        android:textStyle="bold"
+        tools:text="婴芭莎·儿博会"/>
+
+    <TextView
+        android:id="@+id/tv_exhibition_module_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="20"
+        android:layout_marginTop="3dp"
+        android:includeFontPadding="false"
+        android:textColor="@color/color_CCCCCC"
+        android:textSize="13dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_exhibition_module_title"
+        tools:text="琶洲保利世贸博览馆 9月8-9日"/>
+
+</android.support.constraint.ConstraintLayout>

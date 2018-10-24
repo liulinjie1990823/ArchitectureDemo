@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_baby_home_limited_time_bg">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sv_image"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        app:roundWithOverlayColor="@color/white"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:roundBottomLeft="true"
+        app:roundTopLeft="true"
+        app:roundBottomRight="false"
+        app:roundTopRight="false"
+        app:roundedCornerRadius="5dp"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/cl_333333"
+        android:textSize="15dp"
+        app:layout_constraintLeft_toRightOf="@+id/sv_image"
+        app:layout_constraintTop_toTopOf="@+id/sv_image"
+        tools:text="搪胶玩具"/>
+
+    <TextView
+        android:id="@+id/tv_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/cl_999999"
+        android:textSize="12dp"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        tools:text="搪胶玩具"/>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -76,7 +76,7 @@ interface IUiHandler {
         return android.text.TextUtils.isEmpty(getTextStr(textView))
     }
 
-    fun isEmpty(list: Collection<Any?>): Boolean {
+    fun isEmpty(list: Collection<Any?>?): Boolean {
         return ACollectionUtils.isEmpty<Any>(list)
     }
 

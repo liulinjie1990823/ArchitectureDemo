@@ -30,7 +30,7 @@ abstract class MvpBaseFragment<P : IPresenter> : Fragment(),
         IFragment, IFragmentLazy, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
 
     val mTagLog: String = this.javaClass.simpleName
-    var mContext: Context? = null
+    lateinit var mContext: Context
 
     private var mIsInit: Boolean = false
     private val mIsVisible: Boolean = false
@@ -45,16 +45,18 @@ abstract class MvpBaseFragment<P : IPresenter> : Fragment(),
     //<editor-fold desc="生命周期">
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        mContext = context
     }
 
     override fun onAttach(activity: Activity?) {
         super.onAttach(activity)
-        mContext = activity
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mContext = context!!
+
         try {
             AndroidSupportInjection.inject(this)
         } catch (e: Exception) {
