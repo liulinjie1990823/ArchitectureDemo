@@ -29,7 +29,7 @@ def versions = [
         auto_value           : "1.6",
 
         stetho               : "1.5.0",
-        leakcanary           : "1.6.1",
+        leakcanary           : "1.6.2",
         timber               : "4.7.1",
 
         mockwebserver        : "3.8.1",
@@ -43,7 +43,7 @@ ext {
             compile      : 28,
             build_tools  : "28.0.3",
             min_sdk      : 14,
-            target_sdk   : 21,
+            target_sdk   : 28,
             version_code : 100,
             version_name : "1.0.0",
             compile_jdk  : 1.8,
@@ -93,7 +93,7 @@ ext {
                     android_support         : "com.google.dagger:dagger-android-support:$versions.dagger",
                     android_support_compiler: "com.google.dagger:dagger-android-processor:$versions.dagger",
             ],
-            rxjava2                   : "io.reactivex.rxjava2:rxjava:2.2.2",
+            rxjava2                   : "io.reactivex.rxjava2:rxjava:2.2.3",
             rxandroid                 : "io.reactivex.rxjava2:rxandroid:2.1.0",
             autodispose               : [
                     autodispose             : "com.uber.autodispose:autodispose:$versions.autodispose",
@@ -155,7 +155,7 @@ ext {
             component_annotation      : "com.llj:lib-component-annotation:0.0.1",
             component_api             : "com.llj:lib-component-api:0.0.1",
             component_compiler        : "com.llj:lib-component-compiler:0.0.1",
-            imageLoader               : "com.llj:lib-image-loader:0.0.2",
+            imageLoader               : "com.llj:lib-image-loader:0.0.3",
             imageSelect               : "com.llj:lib-image-select:0.0.1",
             net                       : "com.llj:lib-net:0.0.6",
             socialization             : "com.llj.socialization:lib-socialization:2.0.1",
@@ -174,7 +174,7 @@ ext {
             constraint_layout         : "com.android.support.constraint:constraint-layout:2.0.0-alpha2",//约束布局
             MagicIndicator            : "com.github.hackware1993:MagicIndicator:1.5.0",//tab
             badgeview                 : "q.rorbin:badgeview:1.1.3",//标签
-            vlayout                   : "com.alibaba.android:vlayout:1.2.16@aar",
+            vlayout                   : "com.alibaba.android:vlayout:1.2.18@aar",
             ExpandableTextView        : "cn.carbs.android:ExpandableTextView:1.0.3",//折叠TextView
             pickerView                : "com.contrarywind:Android-PickerView:3.2.7",//选择城市
             hyman_flowlayout          : "com.hyman:flowlayout-lib:1.1.2",//流式布局
