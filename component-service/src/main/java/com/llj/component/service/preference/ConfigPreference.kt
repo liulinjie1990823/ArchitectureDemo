@@ -51,7 +51,7 @@ class ConfigPreference {
     }
 
     fun getCityId(): String {
-        return getSharedPreferences().getString(KEY_CITY_ID, "")
+        return getSharedPreferences().getString(KEY_CITY_ID, "110900")
     }
 
     fun getCityName(): String {

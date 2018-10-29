@@ -6,7 +6,6 @@ import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,20 +21,20 @@ import java.util.Locale;
  */
 public class ATimeUtils {
 
-    public static final String FORMAT_ZERO       = "yyyy:MM:dd HH:mm:ss";
-    public static final String FORMAT_ONE        = "yyyy年MM月dd日 HH时mm分ss秒";
-    public static final String FORMAT_TWO        = "yyyy-MM-dd HH:mm:ss";
-    public static final String FORMAT_THREE      = "yyyy/MM/dd HH:mm:ss";
-    public static final String FORMAT_FOUR       = "yyyy年MM月dd日 HH时mm分ss秒 E";
-    public static final String FORMAT_FIVE       = "yyyy/MM/dd E";
-    public static final String FORMAT_SIX        = "yyyy/MM/dd";
-    public static final String FORMAT_SEVEN      = "yyyy-MM-dd HH:mm";
-    public static final String FORMAT_EIGHT      = "yyyy年MM月dd日";
-    public static final String FORMAT_NINE       = "yyyy-MM-dd";
-    public static final String FORMAT_TEN        = "mm:ss";
-    public static final String FORMAT_CLEVEN     = "yy/MM/dd HH:mm:ss";
-    public static final String FORMAT_TWELVE     = "yy/MM/dd";
-    public static final String FORMAT_THIRTEEN   = "HH:mm";
+    public static final String FORMAT_ZERO        = "yyyy:MM:dd HH:mm:ss";
+    public static final String FORMAT_ONE         = "yyyy年MM月dd日 HH时mm分ss秒";
+    public static final String FORMAT_TWO         = "yyyy-MM-dd HH:mm:ss";
+    public static final String FORMAT_THREE       = "yyyy/MM/dd HH:mm:ss";
+    public static final String FORMAT_FOUR        = "yyyy年MM月dd日 HH时mm分ss秒 E";
+    public static final String FORMAT_FIVE        = "yyyy/MM/dd E";
+    public static final String FORMAT_SIX         = "yyyy/MM/dd";
+    public static final String FORMAT_SEVEN       = "yyyy-MM-dd HH:mm";
+    public static final String FORMAT_EIGHT       = "yyyy年MM月dd日";
+    public static final String FORMAT_NINE        = "yyyy-MM-dd";
+    public static final String FORMAT_TEN         = "mm:ss";
+    public static final String FORMAT_CLEVEN      = "yy/MM/dd HH:mm:ss";
+    public static final String FORMAT_TWELVE      = "yy/MM/dd";
+    public static final String FORMAT_THIRTEEN    = "HH:mm";
     public static final String FORMAT_FOURTEEN    = "yy/MM/dd HH:mm";
     public static final String FORMAT_FIFTEEN     = "HH:mm:ss";
     public static final String FORMAT_SIZTEEN     = "yyyyMMdd";
@@ -62,12 +61,11 @@ public class ATimeUtils {
      * Number of milliseconds in a standard day.
      */
     public static final long   MILLIS_PER_DAY     = 24 * MILLIS_PER_HOUR;
+    /**
+     *
+     */
+    public static final long   MILLIS_PER_MONTH   = 20 * MILLIS_PER_HOUR;
 
-    public static final long TIME_LESS_THAN_TIME_STAMP = -28800001;
-
-    public static final long DOUBLE_CURRENT_TIME_MILLS = System.currentTimeMillis() * 2;
-
-    public static final long TIME_MINIMAL_TIME_STAMP = -28800000;
 
     /**
      * 在给定的时间上加上一天
@@ -84,6 +82,7 @@ public class ATimeUtils {
      * 在给定的时间上加上一个月
      *
      * @param mill
+     *
      * @return
      */
     public static Calendar addCalendarMonth(long mill) {
@@ -97,6 +96,7 @@ public class ATimeUtils {
      * 在给定的时间上加上一年
      *
      * @param mill
+     *
      * @return
      */
     public static Calendar addCalendarYear(long mill) {
@@ -122,6 +122,7 @@ public class ATimeUtils {
      * 去掉当天时间的时分秒的毫秒值，相当于回到0点
      *
      * @param mill
+     *
      * @return
      */
     public static long removeHms(Long mill) {
@@ -371,6 +372,7 @@ public class ATimeUtils {
      * 1.Date转换为Calendar
      *
      * @param date
+     *
      * @return calendar
      */
     public static Calendar dateToCalendar(Date date) {
@@ -381,6 +383,7 @@ public class ATimeUtils {
 
     /**
      * @param milliseconds
+     *
      * @return
      */
     public static Calendar millToCalendar(long milliseconds) {
@@ -395,6 +398,7 @@ public class ATimeUtils {
      * @param format 1："yyyy年MM月dd日 HH时mm分ss秒" 2:"yyyy-MM-dd HH:mm:ss"
      *               3:"yyyy/MM/dd HH:mm:ss" 4:"yyyy年MM月dd日 HH时mm分ss秒 E "
      *               5:"yyyy/MM/dd E" 6."yyyy/MM/dd"
+     *
      * @return dateStr 指定格式字符串
      */
     public static String getCurrentTimeString(String format) {
@@ -405,6 +409,7 @@ public class ATimeUtils {
      * 3.获取指定时间与当前时间毫秒数差的绝对值
      *
      * @param milliseconds 指定毫秒数
+     *
      * @return 毫秒数绝对值, 是毫秒，不是秒
      */
     public static Long getDifferMilliseconds(long milliseconds) {
@@ -417,6 +422,7 @@ public class ATimeUtils {
      * 4.获取返回时间于当前时间对比后的值
      *
      * @param date 获取的时间
+     *
      * @return 返回时间于当前时间对比后的值
      */
     public static final String getTimeDiff(Date date) {
@@ -449,11 +455,12 @@ public class ATimeUtils {
      *
      * @param beforeTimeMill
      * @param format
+     *
      * @return
      */
     @SuppressWarnings("deprecation")
     @SuppressLint("SimpleDateFormat")
-    public static String getTimeString(Long beforeTimeMill, int format) {
+    public static String getTimeString(Long beforeTimeMill, String format) {
         Date currentDate = new Date();
         Date beforeDate = new Date(beforeTimeMill);
         if (currentDate.getYear() == beforeDate.getYear()) {
@@ -568,6 +575,7 @@ public class ATimeUtils {
      *
      * @param calendarBirth
      * @param calendarNow
+     *
      * @return
      */
     public static int getMonthsOfAge(Calendar calendarBirth, Calendar calendarNow) {
@@ -580,6 +588,7 @@ public class ATimeUtils {
      * 判断这一天是否是月底
      *
      * @param calendar
+     *
      * @return
      */
     public static boolean isEndOfMonth(Calendar calendar) {
@@ -592,7 +601,9 @@ public class ATimeUtils {
     /**
      * @param minDate
      * @param maxDate
+     *
      * @return
+     *
      * @throws ParseException
      */
     public static ArrayMap<String, List<String>> getMonthBetween(long minDate, long maxDate) throws ParseException {
@@ -629,6 +640,7 @@ public class ATimeUtils {
      * 6.
      *
      * @param context
+     *
      * @return
      */
     @SuppressLint("SimpleDateFormat")
@@ -671,6 +683,7 @@ public class ATimeUtils {
      *
      * @param month 月份
      * @param day   天
+     *
      * @return 星座
      */
     public static final String getConstellation(int month, int day) {
@@ -701,160 +714,39 @@ public class ATimeUtils {
         return null;
     }
 
+
     /**
      * 8.将指定milliseconds转换成指定格式的字符串
      *
      * @param format 1："yyyy年MM月dd日 HH时mm分ss秒" 2:"yyyy-MM-dd HH:mm:ss"
      *               3:"yyyy/MM/dd HH:mm:ss" 4:"yyyy年MM月dd日 HH时mm分ss秒 E "
      *               5:"yyyy/MM/dd E" 6."yyyy/MM/dd"7.yyyy-MM-dd HH:mm
+     *
      * @return dateStr 指定格式字符串
      */
-    public static final String millisecondsToString(int format, Long milliseconds) {
+    public static String millisecondsToString(String format, Long milliseconds) {
         if (milliseconds == null) {
             milliseconds = System.currentTimeMillis();
         }
         return dateToString(format, new Date(milliseconds));
     }
 
-
-    public static String getCustomerTime(long mills) {
-        Calendar calendarToday = Calendar.getInstance();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(mills);
-        if (calendarToday.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) && calendarToday.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
-            if (calendarToday.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
-                return "今天" + dateToString(13, new Date(mills));
-            }
-            calendarToday.add(Calendar.DAY_OF_MONTH, -1);
-            if (calendarToday.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
-                return "昨天" + dateToString(13, new Date(mills));
-            }
-            return dateToString(FORMAT_NINETEEN, new Date(mills));
-        }
-        return millisecondsToString(8, mills);
-    }
-
-    // --------------------------------------------------------------------------------------------------------
-
+    /**
+     * 9.
+     *
+     * @param format
+     * @param date
+     *
+     * @return
+     */
     public static String dateToString(String format, Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         return simpleDateFormat.format(date);
     }
 
-    public static String millisecondsToString(String format, Long mills) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-        if (ANumberUtils.isEmpty(mills))
-            return simpleDateFormat.format(new Date(0));
-        return simpleDateFormat.format(new Date(mills));
-    }
 
-    /**
-     * <p>
-     * 9.将指定Date转换成指定格式的字符串
-     * </p>
-     *
-     * @param format 格式 <li>1."yyyy年MM月dd日 HH时mm分ss秒"</li> <li>
-     *               2."yyyy-MM-dd HH:mm:ss"</li> <li>3."yyyy/MM/dd HH:mm:ss"</li>
-     *               <li>4."yyyy年MM月dd日 HH时mm分ss秒 E "</li> <li>5."yyyy/MM/dd E"</li>
-     *               <li>
-     *               6."yyyy/MM/dd"</li> <li>7."yyyy-MM-dd HH:mm"</li> <li>
-     *               8."yyyy年MM月dd日"</li> <li>9."yyyy-MM-dd"</li>
-     * @return dateStr 指定格式字符串
-     */
-    @SuppressLint("SimpleDateFormat")
-    public static String dateToString(int format, Date date) {
-        SimpleDateFormat simpleDateFormat;
-        String dateStr = null;
-        switch (format) {
-            case 0:
-                simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 1:
-                simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 2:
-                simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 3:
-                simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 4:
-                simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒 E ");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 5:
-                simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd E");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 6:
-                simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 7:
-                simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 8:
-                simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 9:
-                simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 10:
-                simpleDateFormat = new SimpleDateFormat("mm:ss");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 11:
-                simpleDateFormat = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 12:
-                simpleDateFormat = new SimpleDateFormat("yy/MM/dd");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 13:
-                simpleDateFormat = new SimpleDateFormat("HH:mm");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 14:
-                simpleDateFormat = new SimpleDateFormat("yy/MM/dd HH:mm");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 15:
-                simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 16:
-                simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 17:
-                simpleDateFormat = new SimpleDateFormat("yyyy年MM月");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 18:
-                simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 19:
-                simpleDateFormat = new SimpleDateFormat("MM月dd日 HH:mm");
-                dateStr = simpleDateFormat.format(date);
-                break;
-            case 20:
-                simpleDateFormat = new SimpleDateFormat("yyyy:M:d HH:mm:ss");
-                dateStr = simpleDateFormat.format(date);
-                break;
-        }
+    // --------------------------------------------------------------------------------------------------------
 
-        return dateStr;
-    }
 
     /**
      * 10.字符串转换为date,也可以使用androidAPI中的DateFormat来实现
@@ -866,62 +758,20 @@ public class ATimeUtils {
      *                6."yyyy/MM/dd"</li> <li>7."yyyy-MM-dd HH:mm"</li> <li>
      *                8."yyyy年MM月dd日"</li> <li>9."yyyy-MM-dd"</li>
      * @param dateStr 时间字符串
+     *
      * @return date格式
-     * @throws ParseException
      */
     @SuppressLint("SimpleDateFormat")
-    public static final Date stringToDate(int format, String dateStr) throws ParseException {
-        Date date = null;
+    public static Date stringToDate(String format, String dateStr) {
         if (!TextUtils.isEmpty(dateStr)) {
-            SimpleDateFormat simpleDateFormat;
-            switch (format) {
-                case 1:
-                    simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-                    date = simpleDateFormat.parse(dateStr);
-                    break;
-                case 2:
-                    simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    date = simpleDateFormat.parse(dateStr);
-                    break;
-                case 3:
-                    simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                    date = simpleDateFormat.parse(dateStr);
-                    break;
-                case 4:
-                    simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒 E ");
-                    date = simpleDateFormat.parse(dateStr);
-                    break;
-                case 5:
-                    simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd E");
-                    date = simpleDateFormat.parse(dateStr);
-                    break;
-                case 6:
-                    simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                    date = simpleDateFormat.parse(dateStr);
-                    break;
-                case 7:
-                    simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
-                    date = simpleDateFormat.parse(dateStr);
-                    break;
-                case 8:
-                    simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd");
-                    date = simpleDateFormat.parse(dateStr);
-                    break;
-                case 9:
-                    simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    date = simpleDateFormat.parse(dateStr);
-                    break;
-                case 10:
-                    simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-                    date = simpleDateFormat.parse(dateStr);
-                    break;
-                case 11:
-                    simpleDateFormat = new SimpleDateFormat("yyyy年MM月");
-                    date = simpleDateFormat.parse(dateStr);
-                    break;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+            try {
+                return simpleDateFormat.parse(dateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
         }
-        return date;
+        return new Date();
     }
 
     /**
@@ -935,150 +785,54 @@ public class ATimeUtils {
      *                3:"yyyy/MM/dd HH:mm:ss" 4:"yyyy年MM月dd日 HH时mm分ss秒 E "
      *                5:"yyyy/MM/dd E" 6."yyyy/MM/dd"
      * @param dateStr 时间字符串
+     *
      * @return Milliseconds
-     * @throws ParseException
      */
-    public static final long stringToMilliseconds(int format, String dateStr) {
-        try {
-            return stringToDate(format, dateStr).getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return 0;
+    public static long stringToMilliseconds(String format, String dateStr) {
+        return stringToDate(format, dateStr).getTime();
     }
 
     /**
      * 12.返回一个日时分秒的集合
      *
-     * @param type         倒计时类型1.日时分秒，2.日时分，3.时分秒
      * @param milliseconds 毫秒数
+     *
      * @return 日时分秒的集合1.日时分秒集合大小为8；2.日时分集合大小为6；3.时分秒集合大小为6
      */
-    public static final List<String> countDownString(int type, long milliseconds) {
+    public static List<String> countDownString(long milliseconds) {
         List<String> list = new ArrayList<String>();
-        long day = 0;
-        long hour = 0;
-        long minute = 0;
-        long second = 0;
-        second = milliseconds;
-        day = second / (1000 * 60 * 60 * 24);
-        hour = (second - day * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-        minute = (second - day * (1000 * 60 * 60 * 24) - hour * (1000 * 60 * 60)) / (1000 * 60);
-        second = (second - day * (1000 * 60 * 60 * 24) - hour * (1000 * 60 * 60) - minute * (1000 * 60)) / (1000);
-        switch (type) {
-            case 1:
-                // 日时分秒
-                addDateList(day, list);
-                addDateList(hour, list);
-                addDateList(minute, list);
-                addDateList(second, list);
-                break;
-            case 2:
-                // 日时分
-                addDateList(day, list);
-                addDateList(hour, list);
-                addDateList(minute, list);
-                break;
-            case 3:
-                // 时分秒
-                addDateList(hour, list);
-                addDateList(minute, list);
-                addDateList(second, list);
-                break;
-        }
+        long day = milliseconds / MILLIS_PER_DAY;
+        long hour = milliseconds % MILLIS_PER_DAY / MILLIS_PER_HOUR;
+        long minute = milliseconds % MILLIS_PER_DAY % MILLIS_PER_HOUR / MILLIS_PER_MINUTE;
+        long second = milliseconds % MILLIS_PER_DAY % MILLIS_PER_HOUR % MILLIS_PER_MINUTE / MILLIS_PER_SECOND;
+
+        list.add(append0IfLessThan9(day));
+        list.add(append0IfLessThan9(hour));
+        list.add(append0IfLessThan9(minute));
+        list.add(append0IfLessThan9(second));
         return list;
     }
 
     // -------------------------------------------------------------------------------------------------------->
 
     /**
-     * 13. 在小于10的数前面加0
-     *
-     * @param date int类型数据
-     * @return
-     */
-    public static final String to0Date(int date) {
-        String str = null;
-        if (date < 10) {
-            str = "0" + date;
-        } else {
-            str = "" + date;
-        }
-        return str;
-    }
-
-    /**
-     * 往集合里添加日时分秒数据
-     *
-     * @param date
-     * @param list
-     */
-    private static final void addDateList(long date, List<String> list) {
-        String str1 = null;
-        String str2 = null;
-        if (date == 0) {
-            list.add("0");
-            list.add("0");
-        } else if (date > 0 && date < 10) {
-            list.add("0");
-            list.add(date + "");
-        } else if (date >= 10) {
-            String str = date + "";
-            str1 = str.split("")[1];
-            str2 = str.split("")[2];
-            list.add(str1);
-            list.add(str2);
-        }
-    }
-
-    /**
-     * @param mill
-     * @return
-     */
-    public static String awayFromFuture(long mill) {
-        BigInteger bigInteger = BigInteger.valueOf(mill);
-        if (bigInteger.subtract(BigInteger.valueOf(30 * 24 * 60 * 60).multiply(BigInteger.valueOf(1000))).signum() > 0) {
-            String month = bigInteger.divide(BigInteger.valueOf(30 * 24 * 60 * 60).multiply(BigInteger.valueOf(1000))).toString();
-            return month + "月";
-        } else if (mill > 24 * 60 * 60 * 1000) {
-            long day = mill / (24 * 60 * 60 * 1000);
-            return day + "天";
-        } else if (mill > 60 * 60 * 1000) {
-            long hour = mill / (60 * 60 * 1000);
-            return hour + "小时";
-        } else if (mill > 60 * 1000) {
-            long minute = mill / (60 * 1000);
-            return minute + "分钟";
-        } else if (mill > 1000) {
-            long seconds = mill / (1000);
-            return seconds + "秒";
-        }
-        return null;
-    }
-
-    /**
      * @param num
+     *
      * @return
      */
-    public static String append0IfLessThan9(int num) {
-//        if (num < 1) {
-//            throw new RuntimeException(" error");
-//        }
-        if (num < 10) {
-            return "0" + num;
-        }
-        return "" + num;
+    public static String append0IfLessThan9(long num) {
+        return (num < 10) ? ("0" + num) : ("" + num);
     }
 
     public static class SimpleCalendar {
         public long millis;
-        public int year       = -1;
-        public int month      = -1;
-        public int day        = -1;
-        public int hour       = -1;
-        public int minute     = -1;
-        public int second     = -1;
-        public int millSecond = -1;
+        public int  year       = -1;
+        public int  month      = -1;
+        public int  day        = -1;
+        public int  hour       = -1;
+        public int  minute     = -1;
+        public int  second     = -1;
+        public int  millSecond = -1;
 
         public SimpleCalendar() {
         }
@@ -1144,22 +898,18 @@ public class ATimeUtils {
      *
      * @param endDate
      * @param nowDate
+     *
      * @return
      */
     public static String getDatePoor(Date endDate, Date nowDate) {
-
-        long nd = 1000 * 24 * 60 * 60;
-        long nh = 1000 * 60 * 60;
-        long nm = 1000 * 60;
-        // long ns = 1000;
         // 获得两个时间的毫秒时间差异
         long diff = endDate.getTime() - nowDate.getTime();
         // 计算差多少天
-        long day = diff / nd;
+        long day = diff / MILLIS_PER_DAY;
         // 计算差多少小时
-        long hour = diff % nd / nh;
+        long hour = diff % MILLIS_PER_DAY / MILLIS_PER_HOUR;
         // 计算差多少分钟
-        long min = diff % nd % nh / nm;
+        long min = diff % MILLIS_PER_DAY % MILLIS_PER_HOUR / MILLIS_PER_MINUTE;
         // 计算差多少秒//输出结果
         // long sec = diff % nd % nh % nm / ns;
         return day + " 天 " + hour + " 小时 " + min + " 分钟";

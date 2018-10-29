@@ -3,6 +3,8 @@ package com.llj.architecturedemo.ui.fragment
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.constraint.ConstraintLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
@@ -37,10 +39,14 @@ import com.llj.lib.base.listeners.OnMyClickListener
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.net.response.BaseResponse
+import com.llj.lib.utils.ATimeUtils
+import com.llj.lib.utils.ATimeUtils.countDownString
+import com.llj.lib.utils.ATimeUtils.stringToDate
 import com.llj.lib.utils.helper.Utils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import net.lucode.hackware.magicindicator.MagicIndicator
+import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -88,6 +94,10 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
         }
         //设置适配器
         (mRecyclerView.adapter as DelegateAdapter).setAdapters(mAdapters as List<DelegateAdapter.Adapter<RecyclerView.ViewHolder>>?)
+
+
+        mMyHandler.removeMessages(1)
+        mMyHandler.sendEmptyMessageDelayed(1, 1000)
     }
 
     override fun onDataError(e: Throwable) {
@@ -112,6 +122,8 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
     }
 
     override fun initViews(bundle: Bundle?) {
+
+        mMyHandler = MyHandler(this)
 
         val statusBarHeight = DisplayHelper.STATUS_BAR_HEIGHT
         mVStatusBar.layoutParams.height = statusBarHeight
@@ -159,7 +171,8 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
                 val circleNavigator = ScaleCircleNavigator(mContext)
                 circleNavigator.setCircleCount(list.size)
                 circleNavigator.setMaxRadius(10)
-                circleNavigator.setMinRadius(10)
+                circleNavigator.setMinRadius(8)
+                circleNavigator.setCircleSpacing(16)
                 circleNavigator.setNormalCircleColor(Color.parseColor("#4dffffff"))
                 circleNavigator.setSelectedCircleColor(Color.WHITE)
                 indicator.navigator = circleNavigator
@@ -331,9 +344,46 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
                 val svImage = holder.getView<SimpleDraweeView>(R.id.sv_image)
                 val title = holder.getView<TextView>(R.id.tv_title)
                 val subTitle = holder.getView<TextView>(R.id.tv_sub_title)
+                val tvHasEnd = holder.getView<TextView>(R.id.tv_has_end)
+
+                val tvDay = holder.getView<TextView>(R.id.tv_day)
+                val tvDayTag = holder.getView<TextView>(R.id.tv_day_tag)
+                val tvHour = holder.getView<TextView>(R.id.tv_hour)
+                val tvHourTag = holder.getView<TextView>(R.id.tv_hour_tag)
+                val tvMinute = holder.getView<TextView>(R.id.tv_minute)
+                val tvMinuteTag = holder.getView<TextView>(R.id.tv_minute_tag)
+                val tvSecond = holder.getView<TextView>(R.id.tv_second)
+                val tvSecondTag = holder.getView<TextView>(R.id.tv_end)
 
                 val data = list[position]
                 if (data != null) {
+
+                    tvHasEnd.visibility = View.GONE
+                    tvDay.visibility = View.GONE
+                    tvDayTag.visibility = View.GONE
+                    tvHour.visibility = View.GONE
+                    tvHourTag.visibility = View.GONE
+                    tvMinute.visibility = View.GONE
+                    tvMinuteTag.visibility = View.GONE
+                    tvSecond.visibility = View.GONE
+                    tvSecondTag.visibility = View.GONE
+
+                    val start = stringToDate("yyyy-MM-dd HH:mm", data.start_time).time - System.currentTimeMillis()
+                    val end = stringToDate("yyyy-MM-dd HH:mm", data.end_time).time - System.currentTimeMillis()
+                    if (start > 0 && !isEmpty(data.start_time)) {
+                        //还有多久开始
+                        val strings = countDownString(start)
+                        setCountDownTime(tvDay, tvDayTag, tvHour, tvHourTag, tvMinute, tvMinuteTag, tvSecond, tvSecondTag, strings, 0)
+                    } else if (end > 0 && !isEmpty(data.end_time)) {
+                        //还有多久结束
+                        val strings = countDownString(end)
+                        setCountDownTime(tvDay, tvDayTag, tvHour, tvHourTag, tvMinute, tvMinuteTag, tvSecond, tvSecondTag, strings, 1)
+                    } else if (end <= 0 && !isEmpty(data.end_time)) {
+                        //已经结束
+                        tvHasEnd.visibility = View.VISIBLE
+                    } else {
+                        //不显示的情况
+                    }
 
                     mImageLoad.loadImage(data.img_url, 220, 220, svImage)
 
@@ -344,9 +394,156 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
                         }
                     })
                 }
+
             }
         }
     }
+
+    private fun setCountDownTime(tvDay: TextView,
+                                 tvDayTag: TextView,
+                                 tvHour: TextView,
+                                 tvHourTag: TextView,
+                                 tvMinute: TextView,
+                                 tvMinuteTag: TextView,
+                                 tvSecond: TextView,
+                                 tvSecondTag: TextView,
+                                 strings: List<String>,
+                                 type: Int) {
+        if ("00" != strings[0]) {
+            tvDay.text = strings[0]
+            tvDay.visibility = View.VISIBLE
+            tvDayTag.visibility = View.VISIBLE
+
+            tvHour.text = strings[1]
+            tvHour.visibility = View.VISIBLE
+            tvHourTag.visibility = View.VISIBLE
+
+            tvMinute.text = strings[2]
+            tvMinute.visibility = View.VISIBLE
+            tvMinuteTag.visibility = View.VISIBLE
+
+            tvSecond.text = strings[3]
+            tvSecond.visibility = View.VISIBLE
+            tvSecondTag.visibility = View.VISIBLE
+        }
+        if ("00" != strings[1]) {
+            tvHour.text = strings[1]
+            tvHour.visibility = View.VISIBLE
+            tvHourTag.visibility = View.VISIBLE
+
+            tvMinute.text = strings[2]
+            tvMinute.visibility = View.VISIBLE
+            tvMinuteTag.visibility = View.VISIBLE
+
+            tvSecond.text = strings[3]
+            tvSecond.visibility = View.VISIBLE
+            tvSecondTag.visibility = View.VISIBLE
+        }
+        if ("00" != strings[2]) {
+            tvMinute.text = strings[2]
+            tvMinute.visibility = View.VISIBLE
+            tvMinuteTag.visibility = View.VISIBLE
+
+            tvSecond.text = strings[3]
+            tvSecond.visibility = View.VISIBLE
+            tvSecondTag.visibility = View.VISIBLE
+        }
+        if ("00" != strings[3]) {
+            tvSecond.text = strings[3]
+            tvSecond.visibility = View.VISIBLE
+            tvSecondTag.visibility = View.VISIBLE
+            if (type == 0) {
+                tvSecondTag.text = "开始"
+            } else {
+                tvSecondTag.text = "结束"
+            }
+        }
+    }
+
+    private class MyHandler(fragment: VlayoutFragment) : Handler() {
+        internal var mWeakReferenceActivity: WeakReference<VlayoutFragment>? = null
+
+        init {
+            mWeakReferenceActivity = WeakReference(fragment)
+        }
+
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            if (msg.what == 1 && null != mWeakReferenceActivity) {
+                val fragment = mWeakReferenceActivity!!.get()
+
+                for (i in fragment!!.mStartPosition until fragment.mStartCount + fragment.mStartPosition) {
+                    val holder = fragment.mRecyclerView.findViewHolderForAdapterPosition(i) as ViewHolderHelper?
+
+                    if (holder != null && fragment.mList != null && !fragment.mList!!.isEmpty()) {
+
+                        val tvHasEnd = holder.getView<TextView>(R.id.tv_has_end)
+
+                        val tvDay = holder.getView<TextView>(R.id.tv_day)
+                        val tvDayTag = holder.getView<TextView>(R.id.tv_day_tag)
+                        val tvHour = holder.getView<TextView>(R.id.tv_hour)
+                        val tvHourTag = holder.getView<TextView>(R.id.tv_hour_tag)
+                        val tvMinute = holder.getView<TextView>(R.id.tv_minute)
+                        val tvMinuteTag = holder.getView<TextView>(R.id.tv_minute_tag)
+                        val tvSecond = holder.getView<TextView>(R.id.tv_second)
+                        val tvSecondTag = holder.getView<TextView>(R.id.tv_end)
+
+                        val data = fragment.mList!!.get(i - fragment.mStartPosition)
+
+                        if (data != null) {
+                            tvHasEnd.visibility = View.GONE
+                            tvDay.visibility = View.GONE
+                            tvDayTag.visibility = View.GONE
+                            tvHour.visibility = View.GONE
+                            tvHourTag.visibility = View.GONE
+                            tvMinute.visibility = View.GONE
+                            tvMinuteTag.visibility = View.GONE
+                            tvSecond.visibility = View.GONE
+                            tvSecondTag.visibility = View.GONE
+
+                            if ("yes" == data.have_time) {
+
+                                //1.data.getStart_time()>当前时间 还有多久开始
+                                //2.data.getStart_time()<当前时间 && data.getEnd_time()为空 已经开始，不显示
+                                //3.data.getStart_time()<当前时间 && data.getEnd_time()>当前时间  还有多久结束
+                                //4.data.getStart_time()为空 && data.getEnd_time()>当前时间  还有多久结束
+                                //4.data.getEnd_time()<当前时间  已经结束
+
+                                val start = ATimeUtils.stringToDate("yyyy-MM-dd HH:mm", data.start_time).time - System.currentTimeMillis()
+                                val end = ATimeUtils.stringToDate("yyyy-MM-dd HH:mm", data.end_time).time - System.currentTimeMillis()
+                                if (start > 0 && !fragment.isEmpty(data.start_time)) {
+                                    //还有多久开始
+                                    val strings = ATimeUtils.countDownString(start)
+                                    fragment.setCountDownTime(tvDay, tvDayTag, tvHour, tvHourTag, tvMinute, tvMinuteTag, tvSecond, tvSecondTag, strings, 0)
+                                } else if (end > 0 && !fragment.isEmpty(data.end_time)) {
+                                    //还有多久结束
+                                    val strings = ATimeUtils.countDownString(end)
+                                    fragment.setCountDownTime(tvDay, tvDayTag, tvHour, tvHourTag, tvMinute, tvMinuteTag, tvSecond, tvSecondTag, strings, 1)
+                                } else if (end <= 0 && !fragment.isEmpty(data.end_time)) {
+                                    //已经结束
+                                    tvHasEnd.visibility = View.VISIBLE
+                                } else {
+                                    //不显示的情况
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+
+                sendEmptyMessageDelayed(1, 1000)
+            }
+        }
+    }
+
+    private lateinit var mMyHandler: MyHandler
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mMyHandler.removeMessages(1)
+    }
+
 
     //推荐活动title
     private fun initRecommendedActivityTitleAdapter(babyHomeModuleVo: BabyHomeModuleVo?): MyDelegateAdapter {
@@ -392,6 +589,9 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
         }
     }
 
+    private var mStartPosition = 0
+    private var mStartCount: Int = 0
+    private var mList: List<BabyHomeModuleItemVo?>? = null
 
     private fun switchBabyHomeModuleVo(babyHomeModuleVo: BabyHomeModuleVo) {
         when (babyHomeModuleVo.block_tmpl) {
@@ -429,8 +629,17 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
             HomeModelType.COUNT_DOWN //限时抢购
             -> if (!isEmpty(babyHomeModuleVo.data)) {
                 val myDelegateAdapter1 = initLimitedTimeTitleAdapter(babyHomeModuleVo)
-                val myDelegateAdapter2 = initLimitedTimeAdapter(babyHomeModuleVo.data!!)
                 mAdapters.add(myDelegateAdapter1)
+
+                //计算限时抢购的开始位置和count
+                mStartPosition = 0
+                for (adapter in mAdapters) {
+                    mStartPosition += adapter.itemCount
+                }
+                mStartCount = babyHomeModuleVo.data!!.size
+                mList = babyHomeModuleVo.data
+
+                val myDelegateAdapter2 = initLimitedTimeAdapter(babyHomeModuleVo.data)
                 mAdapters.add(myDelegateAdapter2)
             }
 
@@ -534,15 +743,15 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
 
     interface ViewType {
         companion object {
-            val BANNER = 1
-            val NAVIGATION = 2
-            val AD = 3
-            val EXHIBITION = 4
-            val EXHIBITION_TITLE = 5
-            val LIMITED_TIME_TITLE = 6
-            val LIMITED_TIME = 7
-            val RECOMMENDED_ACTIVITY_TITLE = 8
-            val RECOMMENDED_ACTIVITY = 9
+            const val BANNER = 1
+            const val NAVIGATION = 2
+            const val AD = 3
+            const val EXHIBITION = 4
+            const val EXHIBITION_TITLE = 5
+            const val LIMITED_TIME_TITLE = 6
+            const val LIMITED_TIME = 7
+            const val RECOMMENDED_ACTIVITY_TITLE = 8
+            const val RECOMMENDED_ACTIVITY = 9
         }
     }
 
