@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.llj.adapter.listener.FooterClickListener;
+import com.llj.adapter.listener.FooterListenerAdapter;
 import com.llj.adapter.listener.FooterLongClickListener;
 import com.llj.adapter.listener.HeaderClickListener;
-import com.llj.adapter.listener.HeaderFooterListenerAdapter;
+import com.llj.adapter.listener.HeaderListenerAdapter;
 import com.llj.adapter.listener.HeaderLongClickListener;
 import com.llj.adapter.listener.ItemClickedListener;
 import com.llj.adapter.listener.ItemDoubleClickedListener;
+import com.llj.adapter.listener.ItemListenerAdapter;
 import com.llj.adapter.listener.ItemLongClickedListener;
 import com.llj.adapter.observable.ListObserver;
 import com.llj.adapter.observable.ListObserverListener;
@@ -28,7 +30,11 @@ import com.llj.adapter.util.ViewHolderHelper;
  * Created by llj on 2017/1/14.
  */
 
-public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implements ListObserver, HeaderFooterListenerAdapter<Item, Holder> {
+public abstract class UniversalAdapter<Item, Holder extends ViewHolder>
+        implements ListObserver,
+        HeaderListenerAdapter,
+        FooterListenerAdapter,
+        ItemListenerAdapter<Item, Holder> {
 
     public static final int COMMON_ITEM = 0;
 
@@ -38,7 +44,7 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
 
     public static class LayoutConfig {
         public @LayoutRes int layoutId;
-        public int type = COMMON_ITEM;
+        public            int type = COMMON_ITEM;
 
         public LayoutConfig(int layoutId, int type) {
             this.layoutId = layoutId;
@@ -72,10 +78,7 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
         listObserver = new SimpleListObserver<>();
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    //
-    ///////////////////////////////////////////////////////////////////////////
-
+    //<editor-fold desc="刷新监听">
     @Override
     public void addListener(ListObserverListener listener) {
         getListObserver().addListener(listener);
@@ -91,16 +94,17 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
         return listObserver;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    //设置监听器
-    ///////////////////////////////////////////////////////////////////////////
+    //</editor-fold >
+
+    //<editor-fold desc="设置item监听器">
+    @Override
     public void setFooterClickListener(FooterClickListener footerClickListener) {
         mFooterClickListener = footerClickListener;
     }
 
+    @Override
     public void setFooterLongClickListener(FooterLongClickListener footerLongClickListener) {
         mFooterLongClickedListener = footerLongClickListener;
-
     }
 
     @Override
@@ -111,13 +115,11 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
     @Override
     public void setHeaderLongClickListener(HeaderLongClickListener headerLongClickedListener) {
         mHeaderLongClickedListener = headerLongClickedListener;
-
     }
 
     @Override
     public void setItemClickedListener(ItemClickedListener<Item, Holder> listener) {
         mItemClickedListener = listener;
-
     }
 
     @Override
@@ -128,12 +130,10 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
     @Override
     public void setItemLongClickedListener(ItemLongClickedListener<Item, Holder> longClickedListener) {
         mItemLongClickedListener = longClickedListener;
-
     }
-    ///////////////////////////////////////////////////////////////////////////
-    //基本方法
-    ///////////////////////////////////////////////////////////////////////////
+    //</editor-fold >
 
+    //<editor-fold desc="基本方法">
     public int getItemPosition(Object object) {
         return PagerAdapter.POSITION_UNCHANGED;
     }
@@ -143,17 +143,33 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
 
     public abstract int getCount();
 
+    public int getInternalCount() {
+        return getHeadersCount() + getCount() + getFootersCount();
+    }
+
+    //ListView使用
+    public int getInternalItemViewTypeCount() {
+        return getItemViewTypeCount() + getFootersCount() + getHeadersCount();
+    }
+
     protected Holder onCreateViewHolder(@NonNull ViewGroup parent, int itemType) {
         return null;
     }
 
-    //必须实现的方法
     protected abstract void onBindViewHolder(@NonNull Holder viewHolder, @Nullable Item item, int position);
 
     protected void onBindHeaderViewHolder(@NonNull ViewHolder holder, int position) {
     }
 
     protected void onBindFooterViewHolder(@NonNull ViewHolder holder, int position) {
+    }
+
+    public ViewHolder onCreateDropDownViewHolder(ViewGroup parent, int itemType) {
+        return onCreateViewHolder(parent, itemType);
+    }
+
+    public void onBindDropDownViewHolder(Holder viewHolder, @Nullable Item item, int position) {
+        onBindViewHolder(viewHolder, item, position);
     }
 
     public abstract void notifyDataSetChanged();
@@ -193,9 +209,9 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
         return false;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // 操作header和footer的方法
-    ///////////////////////////////////////////////////////////////////////////
+    //</editor-fold >
+
+    //<editor-fold desc="添加布局方法">
     public void addHeaderHolder(int type, ViewHolder viewHolder) {
         tryThrowAlreadyBoundException("Cannot bind a header holder post-bind due to limitations of view types and recycling.");
         if (mHeaderHolders.indexOfKey(type) < 0) {
@@ -212,14 +228,9 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
             throw new IllegalStateException("type exits");
         }
         mFooterHolders.put(type, viewHolder);
-        onItemRangeInserted(getFooterStartIndex() + getFootersCount(), 1);
+        onItemRangeInserted(getFooterStartIndex() - 1 + getFootersCount(), 1);
     }
 
-    /**
-     * 配合ViewHolderHelper一起使用
-     *
-     * @param layoutConfig 统一使用ViewHolderHelper为holder
-     */
     public void addItemLayout(LayoutConfig layoutConfig) {
         tryThrowAlreadyBoundException("Cannot bind a header holder post-bind due to limitations of view types and recycling.");
         if (mItemLayouts.indexOfKey(layoutConfig.type) >= 0) {
@@ -241,26 +252,19 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
     public View inflateView(ViewGroup parent, int layoutResId) {
         return LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
     }
-    ///////////////////////////////////////////////////////////////////////////
-    // adapter实现方法
-    ///////////////////////////////////////////////////////////////////////////
 
+    //</editor-fold >
 
-    /**
-     * 这个方法
-     *
-     * @param parent   parent
-     * @param viewType viewType
-     * @return ViewHolder
-     */
+    //<editor-fold desc=" adapter实现方法">
+    @NonNull
     public ViewHolder createViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewHolder viewHolder;
-        if (mHeaderHolders.indexOfKey(viewType) >= 0) {
+        if (mItemLayouts.indexOfKey(viewType) >= 0) {
+            viewHolder = ViewHolderHelper.createViewHolder(parent, mItemLayouts.get(viewType).layoutId);
+        } else if (mHeaderHolders.indexOfKey(viewType) >= 0) {
             viewHolder = mHeaderHolders.get(viewType);
         } else if (mFooterHolders.indexOfKey(viewType) >= 0) {
             viewHolder = mFooterHolders.get(viewType);
-        } else if (mItemLayouts.indexOfKey(viewType) >= 0) {
-            viewHolder = ViewHolderHelper.createViewHolder(parent, mItemLayouts.get(viewType).layoutId);
         } else {
             viewHolder = onCreateViewHolder(parent, viewType);
         }
@@ -268,30 +272,15 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
         return viewHolder;
     }
 
-
-    public void bindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        if (position < getHeadersCount()) {
-            //前面的是header
-            onBindHeaderViewHolder(viewHolder, position);
-        } else if (position > getFooterStartIndex()) {
-            //后面的是footer
-            onBindFooterViewHolder(viewHolder, position - getFooterStartIndex() - 1);
-        } else {
-            //item的位置
-            int adjustedPosition = getAdjustedPosition(position);
-            viewHolder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition);
-            onBindViewHolder((Holder) viewHolder, get(adjustedPosition), adjustedPosition);
-        }
-    }
-
+    @NonNull
     public ViewHolder createDropDownViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewHolder viewHolder;
-        if (mHeaderHolders.indexOfKey(viewType) >= 0) {
+        if (mItemLayouts.indexOfKey(viewType) >= 0) {
+            viewHolder = ViewHolderHelper.createViewHolder(parent, mItemLayouts.get(viewType).layoutId);
+        } else if (mHeaderHolders.indexOfKey(viewType) >= 0) {
             viewHolder = mHeaderHolders.get(viewType);
         } else if (mFooterHolders.indexOfKey(viewType) >= 0) {
             viewHolder = mFooterHolders.get(viewType);
-        } else if (mItemLayouts.indexOfKey(viewType) >= 0) {
-            viewHolder = new ViewHolder(inflateView(parent, mItemLayouts.get(viewType).layoutId));
         } else {
             viewHolder = onCreateDropDownViewHolder(parent, viewType);
         }
@@ -299,63 +288,88 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
         return viewHolder;
     }
 
-    public ViewHolder onCreateDropDownViewHolder(ViewGroup parent, int itemType) {
-        return onCreateViewHolder(parent, itemType);
-    }
 
-    @SuppressWarnings("unchecked")
-    public void bindDropDownViewHolder(ViewHolder viewHolder, int position) {
-        if (position < getHeadersCount()) {
-            onBindHeaderViewHolder(viewHolder, position);
-        } else if (position > getFooterStartIndex()) {
-            onBindFooterViewHolder(viewHolder, position - getFooterStartIndex() - 1);
+    public void bindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        if (getHeadersCount() == 0 && getFootersCount() == 0) {
+            //没有头部和底部
+            int adjustedPosition = getAdjustedPosition(position);
+            viewHolder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition);
+            onBindViewHolder((Holder) viewHolder, get(adjustedPosition), adjustedPosition);
         } else {
-            onBindDropDownViewHolder((Holder) viewHolder, position - getHeadersCount());
+            if (isHeaderPosition(position)) {
+                //前面的是header
+                onBindHeaderViewHolder(viewHolder, position);
+            } else if (isFooterPosition(position)) {
+                //后面的是footer
+                onBindFooterViewHolder(viewHolder, getAdjustedFooterPosition(position));
+            } else {
+                //item的位置
+                int adjustedPosition = getAdjustedPosition(position);
+                viewHolder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition);
+                onBindViewHolder((Holder) viewHolder, get(adjustedPosition), adjustedPosition);
+            }
         }
     }
 
-    public void onBindDropDownViewHolder(Holder viewHolder, int position) {
-        onBindViewHolder(viewHolder, get(position), position);
+    @SuppressWarnings("unchecked")
+    public void bindDropDownViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        if (getHeadersCount() == 0 && getFootersCount() == 0) {
+            int adjustedPosition = getAdjustedPosition(position);
+            viewHolder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition);
+            onBindDropDownViewHolder((Holder) viewHolder, get(adjustedPosition), adjustedPosition);
+        } else {
+            if (isHeaderPosition(position)) {
+                onBindHeaderViewHolder(viewHolder, position);
+            } else if (isFooterPosition(position)) {
+                onBindFooterViewHolder(viewHolder, getAdjustedFooterPosition(position));
+            } else {
+                int adjustedPosition = getAdjustedPosition(position);
+                viewHolder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition);
+                onBindDropDownViewHolder((Holder) viewHolder, get(adjustedPosition), adjustedPosition);
+            }
+        }
+
     }
 
 
     public int getInternalItemViewType(int position) {
         int viewType;
-        if (position < getHeadersCount()) {
+        if (isHeaderPosition(position)) {
             viewType = mHeaderHolders.keyAt(position);
-        } else if (position > getFooterStartIndex()) {
-            viewType = mFooterHolders.keyAt(position);
+        } else if (isFooterPosition(position)) {
+            viewType = mFooterHolders.keyAt(getAdjustedFooterPosition(position));
         } else {
-            viewType = getItemViewType(position - getHeadersCount());
+            viewType = getItemViewType(getAdjustedPosition(position));
         }
         return viewType;
     }
 
-    public int getInternalCount() {
-        return getHeadersCount() + getCount() + getFootersCount();
-    }
+    //</editor-fold >
 
-    /**
-     * ListView使用
-     *
-     * @return count
-     */
-    public int getInternalItemViewTypeCount() {
-        return getItemViewTypeCount() + getFootersCount() + getHeadersCount();
-    }
-    ///////////////////////////////////////////////////////////////////////////
-    //事件方法
-    ///////////////////////////////////////////////////////////////////////////
+    //<editor-fold desc="点击监听">
 
     /**
      * ListView的点击事件
      *
-     * @param position position
-     * @param view     view
+     * @param position
+     * @param view
      */
     public void onItemClicked(int position, View view) {
         ViewHolder holder = (ViewHolder) view.getTag(R.id.com_viewholderTagID);
         onItemClicked(position, holder);
+    }
+
+    /**
+     * ListView的长按点击事件
+     *
+     * @param position position
+     * @param view     view
+     *
+     * @return onItemLongClicked
+     */
+    public boolean onItemLongClicked(int position, View view) {
+        ViewHolder holder = (ViewHolder) view.getTag(R.id.com_viewholderTagID);
+        return onItemLongClicked(position, holder);
     }
 
     /**
@@ -366,13 +380,13 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
      */
     public void onItemClicked(int position, ViewHolder holder) {
         if (internalIsEnabled(position)) {
-            if (position < getHeadersCount()) {
+            if (isHeaderPosition(position)) {
                 if (mHeaderClickListener != null) {
                     mHeaderClickListener.onHeaderClicked(this, holder, position);
                 }
-            } else if (position > getFooterStartIndex()) {
+            } else if (isFooterPosition(position)) {
                 if (mFooterClickListener != null) {
-                    mFooterClickListener.onFooterClicked(this, holder, position - getFooterStartIndex() - 1);
+                    mFooterClickListener.onFooterClicked(this, holder, getAdjustedFooterPosition(position));
                 }
             } else {
                 if (mItemClickedListener != null) {
@@ -381,6 +395,59 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
                 }
             }
         }
+    }
+
+    /**
+     * RecyclerView的双击击事件
+     *
+     * @param position position
+     * @param holder   holder
+     */
+    public void onItemDoubleClicked(int position, ViewHolder holder) {
+        if (internalIsEnabled(position)) {
+            if (isHeaderPosition(position)) {
+                if (mHeaderClickListener != null) {
+                    mHeaderClickListener.onHeaderDoubleClicked(this, holder, position);
+                }
+            } else if (isFooterPosition(position)) {
+                if (mFooterClickListener != null) {
+                    mFooterClickListener.onFooterDoubleClicked(this, holder, getAdjustedFooterPosition(position));
+                }
+            } else {
+                if (mItemDoubleClickedListener != null) {
+                    int adjusted = getAdjustedPosition(position);
+                    mItemDoubleClickedListener.onItemDoubleClicked(this, get(adjusted), (Holder) holder, adjusted);
+                }
+            }
+        }
+    }
+
+    /**
+     * RecyclerView的长按点击事件
+     *
+     * @param position position
+     * @param holder   holder
+     *
+     * @return onItemLongClicked
+     */
+    public boolean onItemLongClicked(int position, ViewHolder holder) {
+        if (internalIsEnabled(position)) {
+            if (isHeaderPosition(position)) {
+                if (mHeaderLongClickedListener != null) {
+                    return mHeaderLongClickedListener.onHeaderLongClicked(this, holder, position);
+                }
+            } else if (isFooterPosition(position)) {
+                if (mFooterLongClickedListener != null) {
+                    return mFooterLongClickedListener.onFooterLongClicked(this, holder, getAdjustedFooterPosition(position));
+                }
+            } else {
+                if (mItemLongClickedListener != null) {
+                    int adjusted = getAdjustedPosition(position);
+                    return mItemLongClickedListener.onItemLongClicked(this, get(adjusted), (Holder) holder, adjusted);
+                }
+            }
+        }
+        return false;
     }
 
     public boolean isSupportDoubleClick() {
@@ -399,71 +466,8 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
         mIsSupportLongClick = supportLongClick;
     }
 
-    /**
-     * RecyclerView的点击事件
-     *
-     * @param position position
-     * @param holder   holder
-     */
-    public void onItemDoubleClicked(int position, ViewHolder holder) {
-        if (internalIsEnabled(position)) {
-            if (position < getHeadersCount()) {
-                if (mHeaderClickListener != null) {
-                    mHeaderClickListener.onHeaderDoubleClicked(this, holder, position);
-                }
-            } else if (position > getFooterStartIndex()) {
-                if (mFooterClickListener != null) {
-                    mFooterClickListener.onFooterDoubleClicked(this, holder, position - getFooterStartIndex() - 1);
-                }
-            } else {
-                if (mItemDoubleClickedListener != null) {
-                    int adjusted = getAdjustedPosition(position);
-                    mItemDoubleClickedListener.onItemDoubleClicked(this, get(adjusted), (Holder) holder, adjusted);
-                }
-            }
-        }
-    }
 
-    /**
-     * ListView的长按点击事件
-     *
-     * @param position position
-     * @param view     view
-     * @return onItemLongClicked
-     */
-    @SuppressWarnings("unchecked")
-    public boolean onItemLongClicked(int position, View view) {
-        ViewHolder holder = (ViewHolder) view.getTag(R.id.com_viewholderTagID);
-        return onItemLongClicked(position, holder);
-    }
-
-    /**
-     * RecyclerView的长按点击事件
-     *
-     * @param position position
-     * @param holder   holder
-     * @return onItemLongClicked
-     */
-    public boolean onItemLongClicked(int position, ViewHolder holder) {
-        if (internalIsEnabled(position)) {
-            if (position < getHeadersCount()) {
-                if (mHeaderLongClickedListener != null) {
-                    return mHeaderLongClickedListener.onHeaderLongClicked(this, holder, position);
-                }
-            } else if (position > getFooterStartIndex()) {
-                if (mFooterLongClickedListener != null) {
-                    return mFooterLongClickedListener.onFooterLongClicked(this, holder, position - getFooterStartIndex() - 1);
-                }
-            } else {
-                if (mItemLongClickedListener != null) {
-                    int adjusted = getAdjustedPosition(position);
-                    return mItemLongClickedListener.onItemLongClicked(this, get(adjusted), (Holder) holder, adjusted);
-                }
-            }
-        }
-        return false;
-    }
-
+    //</editor-fold >
 
     ///////////////////////////////////////////////////////////////////////////
     // 刷新方法,遍历观察者里面的所有监听器
@@ -493,7 +497,7 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    //操作header和footer的方法
+    //操作header和footer位置的方法
     ///////////////////////////////////////////////////////////////////////////
     public int getHeadersCount() {
         return mHeaderHolders.size();
@@ -508,15 +512,19 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
     }
 
     public boolean isFooterPosition(int rawPosition) {
-        return rawPosition > getFooterStartIndex();
+        return rawPosition >= getFooterStartIndex();
     }
 
     public int getAdjustedPosition(int rawPosition) {
         return rawPosition - getHeadersCount();
     }
 
+    public int getAdjustedFooterPosition(int rawPosition) {
+        return rawPosition - getFooterStartIndex();
+    }
+
     private int getFooterStartIndex() {
-        return getHeadersCount() + getCount() - 1;
+        return getHeadersCount() + getCount();
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -554,10 +562,10 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder> implemen
     }
 
     public boolean internalIsEnabled(int position) {
-        if (position < getHeadersCount()) {
+        if (isHeaderPosition(position)) {
             return isHeaderEnabled(position);
-        } else if (position > getFooterStartIndex()) {
-            return isFooterEnabled(position - getFooterStartIndex() - 1);
+        } else if (isFooterPosition(position)) {
+            return isFooterEnabled(getAdjustedFooterPosition(position));
         } else {
             return isEnabled(getAdjustedPosition(position));
         }

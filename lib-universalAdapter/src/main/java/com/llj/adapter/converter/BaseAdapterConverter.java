@@ -7,16 +7,18 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
-import com.llj.adapter.CommonConverter;
+import com.llj.adapter.UniversalConverter;
 import com.llj.adapter.UniversalAdapter;
 import com.llj.adapter.ViewHolder;
 import com.llj.adapter.listener.FooterClickListener;
+import com.llj.adapter.listener.FooterListenerAdapter;
 import com.llj.adapter.listener.FooterLongClickListener;
 import com.llj.adapter.listener.HeaderClickListener;
-import com.llj.adapter.listener.HeaderFooterListenerAdapter;
+import com.llj.adapter.listener.HeaderListenerAdapter;
 import com.llj.adapter.listener.HeaderLongClickListener;
 import com.llj.adapter.listener.ItemClickedListener;
 import com.llj.adapter.listener.ItemDoubleClickedListener;
+import com.llj.adapter.listener.ItemListenerAdapter;
 import com.llj.adapter.listener.ItemLongClickedListener;
 import com.llj.adapter.observable.ListObserver;
 import com.llj.adapter.observable.ListObserverListener;
@@ -30,7 +32,11 @@ import com.llj.adapter.util.UniversalAdapterUtils;
  * Created by llj on 2017/2/11.
  */
 
-public class BaseAdapterConverter<Item, Holder extends ViewHolder> extends BaseAdapter implements HeaderFooterListenerAdapter<Item, Holder>, CommonConverter<Item, Holder> {
+public class BaseAdapterConverter<Item, Holder extends ViewHolder> extends BaseAdapter
+        implements HeaderListenerAdapter,
+        FooterListenerAdapter,
+        ItemListenerAdapter<Item, Holder>,
+        UniversalConverter<Item, Holder> {
 
     private UniversalAdapter<Item, Holder> universalAdapter;
 

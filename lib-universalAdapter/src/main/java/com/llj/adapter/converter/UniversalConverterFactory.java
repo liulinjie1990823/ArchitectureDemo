@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.llj.adapter.CommonConverter;
+import com.llj.adapter.UniversalConverter;
 import com.llj.adapter.UniversalAdapter;
 import com.llj.adapter.ViewHolder;
 
@@ -18,7 +18,7 @@ import com.llj.adapter.ViewHolder;
 
 public class UniversalConverterFactory {
     @SuppressWarnings("unchecked")
-    public static <Item, Holder extends ViewHolder> CommonConverter<Item, Holder> createGeneric(UniversalAdapter<Item, Holder> adapter, ViewGroup viewGroup) {
+    public static <Item, Holder extends ViewHolder> UniversalConverter<Item, Holder> createGeneric(UniversalAdapter<Item, Holder> adapter, ViewGroup viewGroup) {
         if (viewGroup instanceof RecyclerView) {
             return create(adapter, (RecyclerView) viewGroup);
         } else if (viewGroup instanceof AdapterView) {

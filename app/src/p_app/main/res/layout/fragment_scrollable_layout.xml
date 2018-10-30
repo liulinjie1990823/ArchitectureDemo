@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/v_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:alpha="0"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!--toolbar-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cv_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <com.llj.component.service.refreshLayout.JHSmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_toolbar">
+
+        <com.llj.component.service.scrollableLayout.ScrollableLayout
+            android:id="@+id/scrollableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--header-->
+            <LinearLayout
+                android:id="@+id/ll_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+            <!--指示器-->
+            <net.lucode.hackware.magicindicator.MagicIndicator
+                android:id="@+id/tab"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"/>
+
+            <!--左右滑动页面-->
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:overScrollMode="never"/>
+
+        </com.llj.component.service.scrollableLayout.ScrollableLayout>
+
+
+    </com.llj.component.service.refreshLayout.JHSmartRefreshLayout>
+
+</android.support.constraint.ConstraintLayout>

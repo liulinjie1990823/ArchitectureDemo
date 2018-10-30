@@ -28,4 +28,8 @@ class HomeRepository @Inject constructor(private val mApiService: TestApiService
     fun getBabyHome(): Single<Response<BaseResponse<List<BabyHomeModuleVo?>?>>> {
         return mApiService.getBabyHome()
     }
+
+    fun getWeddingHome(): Single<Response<BaseResponse<List<BabyHomeModuleVo?>?>>> {
+        return mApiService.getWeddingHome()
+    }
 }

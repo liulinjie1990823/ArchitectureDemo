@@ -10,13 +10,13 @@ import com.google.gson.annotations.SerializedName;
  * author liulj
  * date 2018/5/7
  */
-public class BaseResponse<T> implements IResponse<T> {
+public class BaseResponse<Data> implements IResponse<Data> {
     private int    code;
     @SerializedName("message")
     private String msg;
-    private T      data;
+    private Data   data;
 
-    public BaseResponse(int code, String msg, T data) {
+    public BaseResponse(int code, String msg, Data data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
@@ -33,7 +33,7 @@ public class BaseResponse<T> implements IResponse<T> {
     }
 
     @Override
-    public T getData() {
+    public Data getData() {
         return data;
     }
 
@@ -44,7 +44,7 @@ public class BaseResponse<T> implements IResponse<T> {
     }
 
 
-    public static <T> BaseResponse<T> success(@Nullable T data) {
+    public static <Data> BaseResponse<Data> success(@Nullable Data data) {
         return new BaseResponse<>(0, "", data);
     }
 }
