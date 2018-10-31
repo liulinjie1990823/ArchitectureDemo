@@ -46,6 +46,4 @@ class LoginModule : IComponent {
         }
         return false
     }
-
-
 }
