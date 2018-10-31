@@ -65,6 +65,7 @@ dependencies {
         api project(':lib-component-api')
         api project(':lib-image-loader')
         api project(':lib-image-select')
+        api project(':lib-image-select-ui')
         api project(':lib-net')
         api project(':lib-socialization')
         api project(':lib-socialization-qq')

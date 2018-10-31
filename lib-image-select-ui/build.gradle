@@ -1,0 +1,14 @@
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.support.recyclerview
+    implementation deps.support.app_compat
+
+    if (useMaven) {
+        implementation deps.universalAdapter
+    } else {
+        implementation project(':lib-universalAdapter')
+    }
+}
+
+apply from: "../uploadArchives.gradle"
+apply from: "../bintrayUpload.gradle"

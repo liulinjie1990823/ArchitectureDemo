@@ -15,8 +15,8 @@ def versions = [
 
         dagger               : "2.17",
         autodispose          : "1.0.0-RC2",
-        arouter_api          : "1.4.0",
-        arouter_compiler     : "1.2.1",
+        arouter_api          : "1.4.1",
+        arouter_compiler     : "1.2.2",
         butterknife          : "9.0.0-rc1",
 
         retrofit2            : "2.4.0",
@@ -62,6 +62,7 @@ ext {
             ],
             //分包
             multidex                  : "com.android.support:multidex:1.0.3",
+            multidex_instrumentation                  : "com.android.support:multidex-instrumentation:1.0.3",
             //支持库
             support                   : [
                     annotations : "com.android.support:support-annotations:$versions.support",

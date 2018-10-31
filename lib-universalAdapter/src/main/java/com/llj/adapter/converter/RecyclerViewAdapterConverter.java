@@ -96,11 +96,13 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
     @Override
     public void setAdapter(@NonNull UniversalAdapter<Item, Holder> universalAdapter) {
         //先移除之前的监听
-        getAdapter().getListObserver().removeListener(mObserverListener);
+        if (getAdapter() != null) {
+            getAdapter().getListObserver().removeListener(mObserverListener);
+        }
 
         this.mUniversalAdapter = universalAdapter;
         //设置新的监听
-        universalAdapter.getListObserver().addListener(mObserverListener);
+        getAdapter().getListObserver().addListener(mObserverListener);
         setHasStableIds(universalAdapter.hasStableIds());
     }
 

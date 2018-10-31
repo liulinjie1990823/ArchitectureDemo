@@ -12,7 +12,6 @@ try {
 def useComponent = properties.getProperty("useComponent") == "true"
 def useMaven = properties.getProperty("useMaven") == "true"
 
-
 //include ':time-gradle-plugin'
 //include ':module-java'
 //include ':libs'
@@ -20,6 +19,7 @@ def useMaven = properties.getProperty("useMaven") == "true"
 include 'app',
         ':component-service',
         ':module-login'
+
 
 if (!useMaven) {
     include ':lib-base',
@@ -29,6 +29,7 @@ if (!useMaven) {
             ':lib-component-compiler',
             ':lib-image-loader',
             ':lib-image-select',
+            ':lib-image-select-ui',
             ':lib-net',
             ':lib-socialization',
             ':lib-socialization-qq',
