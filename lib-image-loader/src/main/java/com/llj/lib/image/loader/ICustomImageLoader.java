@@ -12,19 +12,44 @@ import android.view.View;
  */
 public interface ICustomImageLoader<T extends View> extends IImageLoader<T> {
 
-    void loadImage(@DrawableRes int resId, int width, int height, boolean isCircle, T view);
+    void loadImage(@DrawableRes int resId, int width, int height,
+                   boolean isCircle,
+                   boolean autoPlayAnimations,
+                   T view);
 
-    void loadImage(@DrawableRes int resId, int width, int height, boolean isCircle, @ColorInt int borderColor, float borderWidth, T view);
+    void loadImage(@DrawableRes int resId, int width, int height,
+                   boolean isCircle, @ColorInt int borderColor, float borderWidth,
+                   boolean autoPlayAnimations,
+                   T view);
 
-    void loadImage(@DrawableRes int resId, int width, int height, float[] radii, T view);
+    void loadImage(@DrawableRes int resId, int width, int height,
+                   float[] radii,
+                   boolean autoPlayAnimations,
+                   T view);
 
-    void loadImage(@DrawableRes int resId, int width, int height, float[] radii, @ColorInt int borderColor, float borderWidth, T view);
+    void loadImage(@DrawableRes int resId, int width, int height,
+                   float[] radii, @ColorInt int borderColor, float borderWidth,
+                   boolean autoPlayAnimations,
+                   T view);
 
-    void loadImage(String urlOrPath, int width, int height, boolean isCircle, T view);
 
-    void loadImage(String urlOrPath, int width, int height, boolean isCircle, @ColorInt int borderColor, float borderWidth, T view);
+    void loadImage(String urlOrPath, int width, int height,
+                   boolean isCircle,
+                   boolean autoPlayAnimations,
+                   T view);
 
-    void loadImage(String urlOrPath, int width, int height, float[] radii, T view);
+    void loadImage(String urlOrPath, int width, int height,
+                   boolean isCircle, @ColorInt int borderColor, float borderWidth,
+                   boolean autoPlayAnimations,
+                   T view);
 
-    void loadImage(String urlOrPath, int width, int height, float[] radii, @ColorInt int borderColor, float borderWidth, T view);
+    void loadImage(String urlOrPath, int width, int height,
+                   float[] radii,
+                   boolean autoPlayAnimations,
+                   T view);
+
+    void loadImage(String urlOrPath, int width, int height,
+                   float[] radii, @ColorInt int borderColor, float borderWidth,
+                   boolean autoPlayAnimations,
+                   T view);
 }
