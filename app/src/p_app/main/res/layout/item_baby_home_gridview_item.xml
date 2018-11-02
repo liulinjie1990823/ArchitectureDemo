@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sv_icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:maxLength="8"
+        android:textColor="@color/cl_666666"
+        android:textSize="12dp"
+        app:layout_constraintLeft_toLeftOf="@+id/sv_icon"
+        app:layout_constraintRight_toRightOf="@+id/sv_icon"
+        app:layout_constraintTop_toBottomOf="@+id/sv_icon"
+        tools:text="领券领券领券领券领券领券"/>
+
+</android.support.constraint.ConstraintLayout>

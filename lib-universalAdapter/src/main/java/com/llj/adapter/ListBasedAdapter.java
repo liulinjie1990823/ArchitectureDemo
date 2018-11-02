@@ -52,7 +52,7 @@ public abstract class ListBasedAdapter<Item, Holder extends ViewHolder> extends 
         return null;
     }
 
-    protected void setItemsList(ObservableList<Item> list) {
+    public void setItemsList(ObservableList<Item> list) {
         if (list != null) {
             list.getListObserver().addListener(observableListener);
         }
@@ -65,7 +65,7 @@ public abstract class ListBasedAdapter<Item, Holder extends ViewHolder> extends 
         }
     }
 
-    protected void setItemsList(List<Item> list) {
+    public void setItemsList(List<Item> list) {
         unbindList();
         if (list == null) {
             list = new LinkedList<>();

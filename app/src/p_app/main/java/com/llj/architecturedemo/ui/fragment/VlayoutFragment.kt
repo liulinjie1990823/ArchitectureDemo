@@ -741,20 +741,6 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
         }
     }
 
-    interface ViewType {
-        companion object {
-            const val BANNER = 1
-            const val NAVIGATION = 2
-            const val AD = 3
-            const val EXHIBITION = 4
-            const val EXHIBITION_TITLE = 5
-            const val LIMITED_TIME_TITLE = 6
-            const val LIMITED_TIME = 7
-            const val RECOMMENDED_ACTIVITY_TITLE = 8
-            const val RECOMMENDED_ACTIVITY = 9
-        }
-    }
-
     open class MyDelegateAdapter(private val mContext: Context,
                                  private val mLayoutHelper: LayoutHelper,
                                  private val mLayoutId: Int,

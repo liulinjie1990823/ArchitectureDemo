@@ -29,6 +29,6 @@ interface TestApiService {
     @POST("mobile/get-home/")
     fun getBabyHome(): Single<Response<BaseResponse<List<BabyHomeModuleVo?>?>>>
 
-    @POST("mobile/get-home/")
+    @POST("mobile/baby/get-home/")
     fun getWeddingHome(): Single<Response<BaseResponse<List<BabyHomeModuleVo?>?>>>
 }

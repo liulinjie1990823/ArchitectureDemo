@@ -44,10 +44,9 @@ public class JHRefreshHeader extends FrameLayout implements RefreshHeader {
 
     protected void initViews() {
         View header = LayoutInflater.from(getContext()).inflate(R.layout.common_refresh_header, this);
-        FrescoUtils.setController(R.drawable.service_ic_refresh,100,100,
-                true,
-                false,null,0,0,
-                0,0,mIvLoading,null);
+        FrescoUtils.setController(R.drawable.service_ic_refresh, 100, 100,
+                false, null, 0, 0,
+                0, 0, true, mIvLoading, null);
     }
 
 

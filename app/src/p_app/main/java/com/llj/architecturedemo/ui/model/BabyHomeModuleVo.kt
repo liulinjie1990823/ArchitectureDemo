@@ -1,12 +1,14 @@
 package com.llj.architecturedemo.ui.model
 
+import java.io.Serializable
+
 /**
  * BabyBazaar.
  * describe:
  * author llj
  * date 2018/10/22
  */
-data class BabyHomeModuleVo(val page_name: String? = null) {
+data class BabyHomeModuleVo(val page_name: String? = null):Serializable {
 
     /**
      * page_name : 移动端-首页
@@ -25,6 +27,6 @@ data class BabyHomeModuleVo(val page_name: String? = null) {
     val block_tmpl: String? = null
     val more_title: String? = null
     val more_link: String? = null
-    val data: List<BabyHomeModuleItemVo?>? = null
+    val data: ArrayList<BabyHomeModuleItemVo?>? = null
 
 }

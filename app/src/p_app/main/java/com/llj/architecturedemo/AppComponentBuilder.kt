@@ -3,11 +3,9 @@ package com.llj.architecturedemo
 import com.llj.architecturedemo.ui.activity.MainActivity
 import com.llj.architecturedemo.ui.activity.RequestActivity
 import com.llj.architecturedemo.ui.activity.SecondActivity
+import com.llj.architecturedemo.ui.fragment.ScrollableLayoutFragment
 import com.llj.architecturedemo.ui.fragment.VlayoutFragment
-import com.llj.architecturedemo.ui.module.MainActivityModule
-import com.llj.architecturedemo.ui.module.RequestActivityModule
-import com.llj.architecturedemo.ui.module.SecondActivityModule
-import com.llj.architecturedemo.ui.module.VlayoutFragmentModule
+import com.llj.architecturedemo.ui.module.*
 import com.llj.lib.base.di.component.BaseActivityComponent
 import com.llj.lib.base.di.component.BaseFragmentComponent
 import com.llj.lib.base.di.scope.ActivityScope
@@ -45,4 +43,8 @@ internal abstract class AppComponentBuilder {
     @FragmentScope
     @ContributesAndroidInjector(modules = [VlayoutFragmentModule::class])
     internal abstract fun contributeVlayoutFragmentInjector(): VlayoutFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [ScrollableLayoutFragmentModule::class])
+    internal abstract fun contributeScrollableLayoutFragmentInjector(): ScrollableLayoutFragment
 }

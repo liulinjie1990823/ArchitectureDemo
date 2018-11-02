@@ -42,20 +42,12 @@ public class MergedUniversalAdapter extends UniversalAdapter {
     @Override
     protected ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int itemType) {
         ViewHolder viewHolder = null;
-
-        int typeOffset = 0;
         for (ListPiece piece : listPieces) {
 
-            // offset is used to retrieve the specified item type from the inner adapter
-            // since it has no knowledge of being part of this merged adapter.
-            int adapterItemType = itemType - typeOffset;
-            if (piece.hasViewType(adapterItemType)) {
-                viewHolder = piece.adapter.createViewHolder(parent, adapterItemType);
+            if (piece.hasViewType(itemType)) {
+                viewHolder = piece.adapter.createViewHolder(parent, itemType);
                 break;
             }
-
-            // uses offset to calculate what the view type actually is, as offset by each adapter's viewtype amount.
-            typeOffset += piece.adapter.getInternalItemViewTypeCount();
         }
         if (viewHolder == null) {
             throw new IllegalStateException("ViewHolder returned a null for itemType " + itemType);

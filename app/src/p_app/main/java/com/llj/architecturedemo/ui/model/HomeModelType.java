@@ -24,7 +24,7 @@ public class HomeModelType {
     /**
      * 结婚小工具
      */
-    public static final String HOME_TOOL          = "jiehun_tool";
+    public static final String HOME_JIEHUN_TOOL        = "jiehun_tool";
     /**
      * 商家榜
      */

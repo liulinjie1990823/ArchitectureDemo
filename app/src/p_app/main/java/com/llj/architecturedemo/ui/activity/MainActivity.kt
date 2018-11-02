@@ -19,7 +19,7 @@ import com.llj.architecturedemo.R
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.architecturedemo.ui.fragment.HomeFragment
 import com.llj.architecturedemo.ui.fragment.MineFragment
-import com.llj.architecturedemo.ui.fragment.ThirdFragment
+import com.llj.architecturedemo.ui.fragment.ScrollableLayoutFragment
 import com.llj.architecturedemo.ui.fragment.VlayoutFragment
 import com.llj.architecturedemo.ui.presenter.MainPresenter
 import com.llj.architecturedemo.ui.view.MainContractView
@@ -221,7 +221,7 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         when (showItem) {
             0 -> return HomeFragment()
             1 -> return VlayoutFragment()
-            2 -> return ThirdFragment()
+            2 -> return ScrollableLayoutFragment()
             3 -> return MineFragment()
         }
         return HomeFragment()
