@@ -85,6 +85,9 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
 
         //添加适配器
         mAdapters.clear()
+        mStartPosition = 0
+        mStartCount = 0
+
         val data = result.data
         for (babyHomeModuleVo in data!!) {
             if (babyHomeModuleVo == null || isEmpty(babyHomeModuleVo.block_tmpl)) {
@@ -358,15 +361,15 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
                 val data = list[position]
                 if (data != null) {
 
-                    tvHasEnd.visibility = View.GONE
-                    tvDay.visibility = View.GONE
-                    tvDayTag.visibility = View.GONE
-                    tvHour.visibility = View.GONE
-                    tvHourTag.visibility = View.GONE
-                    tvMinute.visibility = View.GONE
-                    tvMinuteTag.visibility = View.GONE
-                    tvSecond.visibility = View.GONE
-                    tvSecondTag.visibility = View.GONE
+                    tvHasEnd.visibility = View.INVISIBLE
+                    tvDay.visibility = View.INVISIBLE
+                    tvDayTag.visibility = View.INVISIBLE
+                    tvHour.visibility = View.INVISIBLE
+                    tvHourTag.visibility = View.INVISIBLE
+                    tvMinute.visibility = View.INVISIBLE
+                    tvMinuteTag.visibility = View.INVISIBLE
+                    tvSecond.visibility = View.INVISIBLE
+                    tvSecondTag.visibility = View.INVISIBLE
 
                     val start = stringToDate("yyyy-MM-dd HH:mm", data.start_time).time - System.currentTimeMillis()
                     val end = stringToDate("yyyy-MM-dd HH:mm", data.end_time).time - System.currentTimeMillis()
@@ -632,7 +635,6 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
                 mAdapters.add(myDelegateAdapter1)
 
                 //计算限时抢购的开始位置和count
-                mStartPosition = 0
                 for (adapter in mAdapters) {
                     mStartPosition += adapter.itemCount
                 }

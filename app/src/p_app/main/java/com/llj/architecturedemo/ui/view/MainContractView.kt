@@ -1,7 +1,8 @@
 package com.llj.architecturedemo.ui.view
 
-import com.llj.architecturedemo.db.entity.MobileEntity
-import com.llj.lib.base.mvp.IView
+import com.llj.architecturedemo.ui.model.TabListVo
+import com.llj.lib.base.mvp.CBaseView
+import com.llj.lib.net.response.BaseResponse
 
 /**
  * ArchitectureDemo
@@ -9,7 +10,6 @@ import com.llj.lib.base.mvp.IView
  * author liulj
  * date 2018/6/4
  */
-interface MainContractView : IView {
+interface MainContractView : CBaseView<BaseResponse<TabListVo?>> {
 
-    fun toast(mobile: MobileEntity?)
 }

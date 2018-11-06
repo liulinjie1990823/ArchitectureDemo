@@ -24,6 +24,8 @@ import com.llj.adapter.observable.ListObserverListener;
 import com.llj.adapter.observable.SimpleListObserver;
 import com.llj.adapter.util.ViewHolderHelper;
 
+import java.util.List;
+
 /**
  * PROJECT:UniversalAdapter
  * DESCRIBE:
@@ -157,6 +159,10 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder>
     }
 
     protected abstract void onBindViewHolder(@NonNull Holder viewHolder, @Nullable Item item, int position);
+
+
+    protected void onBindViewHolder(@NonNull Holder viewHolder, @Nullable Item item, int position, @NonNull List payloads) {
+    }
 
     protected void onBindHeaderViewHolder(@NonNull ViewHolder holder, int position) {
     }
@@ -307,6 +313,28 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder>
                 int adjustedPosition = getAdjustedPosition(position);
                 viewHolder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition);
                 onBindViewHolder((Holder) viewHolder, get(adjustedPosition), adjustedPosition);
+            }
+        }
+    }
+
+    public void bindViewHolder(@NonNull ViewHolder viewHolder, int position, @NonNull List payloads) {
+        if (getHeadersCount() == 0 && getFootersCount() == 0) {
+            //没有头部和底部
+            int adjustedPosition = getAdjustedPosition(position);
+            viewHolder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition);
+            onBindViewHolder((Holder) viewHolder, get(adjustedPosition), adjustedPosition, payloads);
+        } else {
+            if (isHeaderPosition(position)) {
+                //前面的是header
+                onBindHeaderViewHolder(viewHolder, position);
+            } else if (isFooterPosition(position)) {
+                //后面的是footer
+                onBindFooterViewHolder(viewHolder, getAdjustedFooterPosition(position));
+            } else {
+                //item的位置
+                int adjustedPosition = getAdjustedPosition(position);
+                viewHolder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition);
+                onBindViewHolder((Holder) viewHolder, get(adjustedPosition), adjustedPosition, payloads);
             }
         }
     }

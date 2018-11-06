@@ -3,11 +3,11 @@ package com.llj.architecturedemo.ui.presenter
 import com.llj.architecturedemo.repository.HomeRepository
 import com.llj.architecturedemo.ui.model.BabyHomeModuleVo
 import com.llj.architecturedemo.ui.view.IVlayoutView
-import com.llj.lib.base.mvp.BasePresenter
-import com.llj.lib.net.RxApiManager
+import com.llj.component.service.ADBasePresenter
 import com.llj.lib.net.observer.BaseApiObserver
 import com.llj.lib.net.response.BaseResponse
 import io.reactivex.disposables.Disposable
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -17,14 +17,14 @@ import javax.inject.Inject
  * date 2018/10/24
  */
 class VlayoutPresenter @Inject constructor(repository: HomeRepository, view: IVlayoutView)
-    : BasePresenter<HomeRepository, IVlayoutView>(repository,view) {
+    : ADBasePresenter<HomeRepository, IVlayoutView>(repository,view) {
 
 
     fun getHomeData(isShowDialog: Boolean) {
-        var babyHome = mRepository?.getBabyHome()
+        var single = mRepository!!.getBabyHome(HashMap())
 
         if (isShowDialog) {
-            babyHome = babyHome?.doOnSubscribe(mView)?.doFinally(mView)
+            single = single.doOnSubscribe(mView).doFinally(mView)
         }
 
         //Observer
@@ -49,9 +49,6 @@ class VlayoutPresenter @Inject constructor(repository: HomeRepository, view: IVl
         }
 
         //subscribe
-        RxApiManager.get().subscribeApi(
-                babyHome,
-                mView.bindRequestLifecycle(),
-                baseApiObserver)
+        subscribeApi(single,baseApiObserver)
     }
 }

@@ -10,7 +10,8 @@ data class TabVo(
         val title: String? = null,
         val default_img: String? = null,
         val hover_img: String? = null,
-        val type: String? = null) {
+        val type: String? = null,
+        val link: String? = null) {
 
     /**
      * title : 我是母婴

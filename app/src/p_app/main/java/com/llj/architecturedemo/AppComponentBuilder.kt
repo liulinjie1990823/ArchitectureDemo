@@ -3,6 +3,7 @@ package com.llj.architecturedemo
 import com.llj.architecturedemo.ui.activity.MainActivity
 import com.llj.architecturedemo.ui.activity.RequestActivity
 import com.llj.architecturedemo.ui.activity.SecondActivity
+import com.llj.architecturedemo.ui.fragment.MineFragment
 import com.llj.architecturedemo.ui.fragment.ScrollableLayoutFragment
 import com.llj.architecturedemo.ui.fragment.VlayoutFragment
 import com.llj.architecturedemo.ui.module.*
@@ -47,4 +48,8 @@ internal abstract class AppComponentBuilder {
     @FragmentScope
     @ContributesAndroidInjector(modules = [ScrollableLayoutFragmentModule::class])
     internal abstract fun contributeScrollableLayoutFragmentInjector(): ScrollableLayoutFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [MineFragmentModule::class])
+    internal abstract fun contributeMineFragmentInjector(): MineFragment
 }

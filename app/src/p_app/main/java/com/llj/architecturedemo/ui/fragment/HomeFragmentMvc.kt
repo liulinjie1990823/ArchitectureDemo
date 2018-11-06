@@ -10,7 +10,7 @@ import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.BaseFragment
+import com.llj.lib.base.MvcBaseFragment
 import com.llj.lib.webview.CWebViewActivity
 
 /**
@@ -19,7 +19,7 @@ import com.llj.lib.webview.CWebViewActivity
  * author llj
  * date 2018/8/15
  */
-class HomeFragment : BaseFragment() {
+class HomeFragmentMvc : MvcBaseFragment() {
     @BindView(R.id.recyclerView) lateinit var mRecyclerView: RecyclerView
     @BindView(R.id.tv_update) lateinit var mUpdate: TextView
 

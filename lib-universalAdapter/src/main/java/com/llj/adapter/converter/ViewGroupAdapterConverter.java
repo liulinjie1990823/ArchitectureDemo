@@ -217,6 +217,15 @@ public class ViewGroupAdapterConverter<Item, Holder extends ViewHolder>
         public void onGenericChange(ListObserver<Item> observer) {
             populateAll();
         }
+
+        @Override
+        public void onItemRangeChanged(ListObserver<Item> observer, int startPosition, int itemCount) {
+            super.onItemRangeChanged(observer, startPosition, itemCount);
+            for (int i = startPosition; i < startPosition + itemCount; i++) {
+                ViewGroup childAt = (ViewGroup) getViewGroup().getChildAt(i);
+                getAdapter().bindViewHolder(UniversalAdapterUtils.getViewHolder(childAt), i);
+            }
+        }
     };
 }
 

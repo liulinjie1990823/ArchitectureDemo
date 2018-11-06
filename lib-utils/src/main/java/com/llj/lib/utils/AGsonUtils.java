@@ -188,7 +188,7 @@ public class AGsonUtils {
      *
      * @return
      */
-    public static Gson getDateGson() {
+    public static Gson getDeserializerDateGson() {
         JsonDeserializer<Date> deserialize = new JsonDeserializer<Date>() {
             @Override
             public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -200,7 +200,9 @@ public class AGsonUtils {
                 .setDateFormat(DateFormat.LONG)
                 .create();
     }
-
+    public static String toJson(Object object) {
+        return new Gson().toJson(object);
+    }
     /**
      * 将一个实体类转换为json字符串
      * 将实体类中的Date对象转换成毫秒数
@@ -209,7 +211,7 @@ public class AGsonUtils {
      *
      * @return
      */
-    public static String getObject2Json(Object object) {
+    public static String toJsonSerializeDate(Object object) {
         JsonSerializer<Date> jsonSerializer = new JsonSerializer<Date>() {
             @Override
             public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
@@ -230,7 +232,7 @@ public class AGsonUtils {
      *
      * @return
      */
-    public static String getExposeObject2Json(Object object) {
+    public static String toExposeJsonSerializeDate(Object object) {
         JsonSerializer<Date> jsonSerializer = new JsonSerializer<Date>() {
             @Override
             public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {

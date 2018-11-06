@@ -54,14 +54,18 @@ abstract class MvpBaseFragment<P : IPresenter> : Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         mContext = context!!
+
+        if (arguments !== null) {
+            getArgumentsData(arguments!!)
+        }
 
         try {
             AndroidSupportInjection.inject(this)
         } catch (e: Exception) {
         }
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View
@@ -72,7 +76,7 @@ abstract class MvpBaseFragment<P : IPresenter> : Fragment(),
 
         checkRequestDialog()
 
-        getArgumentsData(arguments)
+        initLifecycleObserver(lifecycle)
 
         initViews(savedInstanceState)
 

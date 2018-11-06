@@ -21,9 +21,9 @@ import io.reactivex.disposables.Disposable
  * author llj
  * date 2018/8/15
  */
-abstract class BaseFragment : android.support.v4.app.Fragment(),
+abstract class MvcBaseFragment : android.support.v4.app.Fragment(),
         IFragment, IFragmentLazy, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
-    lateinit var mTagLog: String
+    val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context
 
     private var mIsInit: Boolean = false
@@ -36,13 +36,18 @@ abstract class BaseFragment : android.support.v4.app.Fragment(),
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-        mTagLog = this.javaClass.simpleName
     }
 
     override fun onAttach(activity: Activity?) {
         super.onAttach(activity)
         mContext = activity!!
-        mTagLog = this.javaClass.simpleName
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (arguments !== null) {
+            getArgumentsData(arguments!!)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,8 +58,6 @@ abstract class BaseFragment : android.support.v4.app.Fragment(),
         mUnBinder = ButterKnife.bind(this, view)
 
         checkRequestDialog()
-
-        getArgumentsData(arguments)
 
         initViews(savedInstanceState)
 

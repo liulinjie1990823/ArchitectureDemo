@@ -17,6 +17,7 @@ class UserInfoPreference {
         private var mUserInfoPreference: UserInfoPreference? = null
 
         private const val FILE_NAME = "pf_userInfo"
+
         private const val KEY = "userInfo"
 
         fun getInstance(): UserInfoPreference {
@@ -36,7 +37,7 @@ class UserInfoPreference {
             return
         }
         val sharedPreferences = getSharedPreferences()
-        sharedPreferences.put(KEY, AGsonUtils.getObject2Json(userInfo), false)
+        sharedPreferences.put(KEY, AGsonUtils.toJson(userInfo), false)
 
     }
 

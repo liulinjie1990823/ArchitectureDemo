@@ -1,6 +1,7 @@
 package com.llj.lib.image.loader;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.facebook.drawee.view.GenericDraweeView;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher;
@@ -112,13 +113,13 @@ public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> 
 
     //<editor-fold desc="加载网络url">
     @Override
-    public void loadImage(String urlOrPath, int width, int height,
+    public void loadImage(@Nullable CharSequence   urlOrPath, int width, int height,
                           GenericDraweeView view) {
         FrescoUtils.setController(urlOrPath, width, height, view);
     }
 
     @Override
-    public void loadImage(String urlOrPath, int width, int height,
+    public void loadImage(@Nullable CharSequence urlOrPath, int width, int height,
                           boolean isCircle,
                           boolean autoPlayAnimations,
                           GenericDraweeView view) {
@@ -126,7 +127,7 @@ public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> 
     }
 
     @Override
-    public void loadImage(String urlOrPath, int width, int height,
+    public void loadImage(@Nullable CharSequence urlOrPath, int width, int height,
                           boolean isCircle, int borderColor, float borderWidth,
                           boolean autoPlayAnimations,
                           GenericDraweeView view) {
@@ -134,7 +135,7 @@ public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> 
     }
 
     @Override
-    public void loadImage(String urlOrPath, int width, int height,
+    public void loadImage(@Nullable CharSequence urlOrPath, int width, int height,
                           float[] radii,
                           boolean autoPlayAnimations,
                           GenericDraweeView view) {
@@ -142,7 +143,7 @@ public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> 
     }
 
     @Override
-    public void loadImage(String urlOrPath, int width, int height,
+    public void loadImage(@Nullable CharSequence urlOrPath, int width, int height,
                           float[] radii, int borderColor, float borderWidth,
                           boolean autoPlayAnimations,
                           GenericDraweeView view) {

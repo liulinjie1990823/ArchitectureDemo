@@ -9,6 +9,5 @@ import android.arch.lifecycle.DefaultLifecycleObserver
  * date 2018/5/16
  */
 interface IPresenter : DefaultLifecycleObserver {
-    fun init()
     fun destroy()
 }

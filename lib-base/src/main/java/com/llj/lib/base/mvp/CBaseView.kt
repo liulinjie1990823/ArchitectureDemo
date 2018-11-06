@@ -11,7 +11,6 @@ import java.util.*
 interface CBaseView<T> : IView {
 
     fun getParams(): HashMap<String, Any>
-
     fun onDataSuccess(result: T)
 
     fun onDataError(e: Throwable)

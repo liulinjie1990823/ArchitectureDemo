@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.facebook.common.internal.Supplier;
@@ -298,7 +299,7 @@ public class FrescoUtils {
     //加载url
     ///////////////////////////////////////////////////////////////////////////
 
-    public static void setController(String url,
+    public static void setController(@Nullable CharSequence  url,
                                      int width, int height,
                                      GenericDraweeView view) {
         setController(url, width, height,
@@ -309,7 +310,7 @@ public class FrescoUtils {
     }
 
 
-    public static void setController(String url,
+    public static void setController(@Nullable CharSequence  url,
                                      int width, int height,
                                      boolean isCircle,
                                      boolean autoPlayAnimations,
@@ -321,7 +322,7 @@ public class FrescoUtils {
     }
 
 
-    public static void setController(String url,
+    public static void setController(@Nullable CharSequence  url,
                                      int width, int height,
                                      boolean isCircle,
                                      @ColorInt int borderColor, float borderWidth,
@@ -335,7 +336,7 @@ public class FrescoUtils {
     }
 
 
-    public static void setController(String url,
+    public static void setController(@Nullable CharSequence  url,
                                      int width, int height,
                                      float[] radii,
                                      boolean autoPlayAnimations,
@@ -348,7 +349,7 @@ public class FrescoUtils {
     }
 
 
-    public static void setController(String url,
+    public static void setController(@Nullable CharSequence url,
                                      int width, int height,
                                      float[] radii,
                                      @ColorInt int borderColor, float borderWidth,
@@ -361,7 +362,7 @@ public class FrescoUtils {
                 view, null);
     }
 
-    public static void setController(String url,
+    public static void setController(@Nullable CharSequence  url,
                                      int width, int height,
                                      boolean autoPlayAnimations,
                                      GenericDraweeView view,
@@ -448,7 +449,7 @@ public class FrescoUtils {
      * @param view               需要显示的view
      * @param listener           加载监听
      */
-    public static void setController(String url,
+    public static void setController(@Nullable CharSequence  url,
                                      int width, int height,
                                      boolean isCircle, float[] radii, @ColorInt int borderColor, float borderWidth,
                                      int placeholderId, int failureImageId,
@@ -456,7 +457,7 @@ public class FrescoUtils {
                                      GenericDraweeView view,
                                      BaseControllerListener<ImageInfo> listener) {
         if (!TextUtils.isEmpty(url) && view != null) {
-            String filterUrl = url;
+            String filterUrl = url.toString();
             if (!isNetPath(filterUrl)) {
                 filterUrl = "file://" + filterUrl;
             }

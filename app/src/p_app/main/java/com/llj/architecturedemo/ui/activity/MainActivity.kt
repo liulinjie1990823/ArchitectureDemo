@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
@@ -12,129 +11,42 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
-import com.llj.architecturedemo.db.entity.MobileEntity
-import com.llj.architecturedemo.ui.fragment.HomeFragment
+import com.llj.architecturedemo.ui.fragment.HomeFragmentMvc
 import com.llj.architecturedemo.ui.fragment.MineFragment
 import com.llj.architecturedemo.ui.fragment.ScrollableLayoutFragment
 import com.llj.architecturedemo.ui.fragment.VlayoutFragment
+import com.llj.architecturedemo.ui.model.TabListVo
+import com.llj.architecturedemo.ui.model.TabVo
 import com.llj.architecturedemo.ui.presenter.MainPresenter
 import com.llj.architecturedemo.ui.view.MainContractView
 import com.llj.component.service.arouter.CRouter
+import com.llj.component.service.preference.ConfigPreference
 import com.llj.lib.base.BaseTabActivity
 import com.llj.lib.base.IUiHandler
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
+import com.llj.lib.net.response.BaseResponse
+import com.llj.lib.utils.AGsonUtils
+import com.llj.lib.utils.ATimeUtils
 import com.llj.lib.utils.AToastUtils
 import com.llj.lib.utils.helper.Utils
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.Permission
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import java.util.*
 
 @Route(path = CRouter.APP_MAIN_ACTIVITY)
 class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
-
     @BindView(R.id.ll_footer_bar) lateinit var mLlFooterBar: LinearLayout
 
     private lateinit var mTabAdapter: TabAdapter
 
     override fun getFragmentId(): Int {
         return R.id.fl_contain
-    }
-
-
-    private val mObserver = object : Observer<String> {
-        override fun onSubscribe(d: Disposable) {
-
-        }
-
-        override fun onNext(s: String) {
-            Log.e(mTagLog, "onNext:$s")
-        }
-
-        override fun onError(e: Throwable) {
-            Log.e(mTagLog, "onError:" + e.message)
-        }
-
-        override fun onComplete() {
-            Log.e(mTagLog, "onComplete:")
-        }
-    }
-
-    override fun toast(mobile: MobileEntity?) {
-        if (mobile != null) {
-            showLongToast(Gson().toJson(mobile))
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-
-        //        val channel = WalleChannelReader.getChannel(this.applicationContext) ?: ""
-        //        AToastUtils.show(channel)
-        //
-        //        val obs1 = Observable.create<String> { emitter ->
-        //            Log.e(mTag, "obs1thread:" + Thread.currentThread())
-        //
-        //            emitter.onNext("a1")
-        //            emitter.onNext("a2")
-        //            emitter.onNext("a3")
-        //
-        //            emitter.onComplete()
-        //        }
-        //
-        //        //        Observable.interval(2000000, TimeUnit.MILLISECONDS).map(new Function<Long, String>() {
-        //        //            @Override
-        //        //            public String apply(Long aLong) throws Exception {
-        //        //                return aLong + "";
-        //        //            }
-        //        //        }).compose(this.<String>bindToLifecycle()).subscribe(mObserver);
-        //
-        //        val observableList = ArrayList<ObservableSource<String>>()
-        //        val obs2 = Observable.create(ObservableOnSubscribe<String> { emitter ->
-        //            Log.e(mTag, "obs2thread:" + Thread.currentThread())
-        //
-        //            Thread.sleep(3000)
-        //            emitter.onNext("b1")
-        //            emitter.onNext("b2")
-        //            emitter.onNext("b3")
-        //
-        //
-        //            emitter.onComplete()
-        //        })
-        //        val obs3 = Observable.just("c1", "c2", "c3")
-        //
-        //        observableList.add(obs1)
-        //        observableList.add(obs2)
-        //        observableList.add(obs3)
-        //
-        //        //        Observable.concat(observableList).subscribe(new Observer<String>() {
-        //        //            @Override
-        //        //            public void onSubscribe(Disposable d) {
-        //        //
-        //        //            }
-        //        //
-        //        //            @Override
-        //        //            public void onNext(String s) {
-        //        //                Log.e(TAG, "onNext:" + s);
-        //        //            }
-        //        //
-        //        //            @Override
-        //        //            public void onError(Throwable e) {
-        //        //                Log.e(TAG, "onError:" + e.getMessage());
-        //        //            }
-        //        //
-        //        //            @Override
-        //        //            public void onComplete() {
-        //        //                Log.e(TAG, "onComplete:" );
-        //        //            }
-        //        //        });
-
     }
 
     override fun layoutId(): Int {
@@ -166,50 +78,88 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
                 }
                 .start()
 
-
-        val arrayListOf = arrayListOf<Tab>()
-        arrayListOf.add(Tab("首页", "http://pic7.photophoto.cn/20080407/0034034859692813_b.jpg",
-                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", true))
-        arrayListOf.add(Tab("首页", "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png",
-                "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png", false))
-        arrayListOf.add(Tab("首页", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
-                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", false))
-        arrayListOf.add(Tab("我的", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
-                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", false))
-
-        mTabAdapter = UniversalBind.Builder(mLlFooterBar, TabAdapter(arrayListOf))
+        mTabAdapter = UniversalBind.Builder(mLlFooterBar, TabAdapter(null))
                 .build()
                 .getAdapter()
 
         super.initViews(savedInstanceState)
 
+        //不同天就更新
+        val tabListUpdateDate = ConfigPreference.getInstance().getTabListUpdateDate()
+        val millisecondsToString = ATimeUtils.millisecondsToString(ATimeUtils.FORMAT_EIGHT, System.currentTimeMillis())
+        if (tabListUpdateDate != millisecondsToString) {
+            mPresenter.getTabBar(false)
+        } else {
+            updateTabByLocal()
+        }
+
+    }
+
+    private fun updateTabByLocal() {
+        val tabList = ConfigPreference.getInstance().getTabList()
+        if (isEmpty(tabList)) {
+            //使用本地的
+        } else {
+            //使用缓存的
+            val list = Gson().fromJson<List<TabVo>>(tabList, object : TypeToken<List<TabVo>>() {}.type)
+            mTabAdapter.addAll(list)
+        }
+
+        performSelectItem(mHideItem, mShowItem, true)
     }
 
     override fun initData() {
     }
 
-    private inner class TabAdapter(list: ArrayList<Tab>?) : ListBasedAdapter<Tab, ViewHolderHelper>(list), IUiHandler {
+    override fun getParams(): HashMap<String, Any> {
+        return HashMap()
+    }
+
+    override fun onDataSuccess(result: BaseResponse<TabListVo?>) {
+
+        val data: TabListVo? = result.data
+        if (data == null || isEmpty(data.tabbar)) {
+            updateTabByLocal()
+            return
+        }
+        //保存到本地
+        ConfigPreference.getInstance().saveTabList(AGsonUtils.toJson(data.tabbar!!))
+
+        //更新tab
+        mTabAdapter.addAll(data.tabbar)
+
+        performSelectItem(mHideItem, mShowItem, true)
+    }
+
+    override fun onDataError(e: Throwable) {
+        updateTabByLocal()
+    }
+
+
+    private inner class TabAdapter(list: ArrayList<TabVo>?) : ListBasedAdapter<TabVo, ViewHolderHelper>(list), IUiHandler {
 
         private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(mContext.applicationContext)
-
 
         init {
             addItemLayout(R.layout.item_main_activity_tab)
         }
 
-        override fun onBindViewHolder(viewHolder: ViewHolderHelper, data: Tab?, position: Int) {
-            if (data == null) {
+        override fun onBindViewHolder(viewHolder: ViewHolderHelper, item: TabVo?, position: Int) {
+            if (item == null) {
                 return
             }
             val image = viewHolder.getView<SimpleDraweeView>(R.id.iv_tab_image)
             val text = viewHolder.getView<TextView>(R.id.tv_tab_text)
 
-            val imageUrl: String? = if (data.select) data.selectImage else data.normalImage
+            //设置图片改变
+            val imageUrl: String? = if (mShowItem == item.type) item.hover_img else item.default_img
             mImageLoad.loadImage(imageUrl, 120, 120, image)
-            setText(text, data.text)
-            viewHolder.itemView.tag = position
 
-            viewHolder.itemView.isSelected = data.select
+            setText(text, item.title)
+            //设置字体颜色的改变
+            viewHolder.itemView.isSelected = mShowItem == item.type
+
+            viewHolder.itemView.tag = item.type
 
             viewHolder.itemView.setOnClickListener {
                 selectItemFromTagByClick(it)
@@ -217,29 +167,37 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         }
     }
 
-    override fun makeFragment(showItem: Int): Fragment {
-        when (showItem) {
-            0 -> return HomeFragment()
-            1 -> return VlayoutFragment()
-            2 -> return ScrollableLayoutFragment()
-            3 -> return MineFragment()
-        }
-        return HomeFragment()
+    companion object {
+        private const val TAB_INDEX = "TAB_INDEX"
+        private const val TAB_TONGSHANG = "TAB_TONGSHANG"
+        private const val TAB_EXPO = "TAB_EXPO"
+        private const val TAB_CASH = "TAB_CASH"
+        private const val TAB_MY = "TAB_MY"
     }
 
-    override fun setSelectImage(showItem: Int) {
+    override fun makeFragment(showItem: String): Fragment {
+        when (showItem) {
+            TAB_INDEX -> return HomeFragmentMvc()
+            TAB_TONGSHANG -> return VlayoutFragment()
+            TAB_EXPO -> return ScrollableLayoutFragment()
+            TAB_CASH -> return ScrollableLayoutFragment()
+            TAB_MY -> return MineFragment()
+        }
+        return HomeFragmentMvc()
+    }
+
+    override fun changeSelectImage(showItem: String) {
+        var showPosition = 0
+        var hidePosition = 0
         val childCount = mLlFooterBar.childCount
         for (i in 0 until childCount) {
-            mTabAdapter[i]?.select = (showItem == i)
+            if (mTabAdapter[i]?.type == showItem) {
+                showPosition = i
+            } else if (mTabAdapter[i]?.type == mHideItem) {
+                hidePosition = i
+            }
         }
-        mTabAdapter.notifyDataSetChanged()
+        mTabAdapter.onItemRangeChanged(showPosition, 1)
+        mTabAdapter.onItemRangeChanged(hidePosition, 1)
     }
-
-    private inner class Tab(var text: String,
-                            var normalImage: String,
-                            var selectImage: String,
-                            var select: Boolean
-    )
-
-
 }

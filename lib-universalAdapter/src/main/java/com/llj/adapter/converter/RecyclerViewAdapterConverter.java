@@ -24,6 +24,8 @@ import com.llj.adapter.observable.ListObserver;
 import com.llj.adapter.observable.ListObserverListener;
 import com.llj.adapter.util.ThreadingUtils;
 
+import java.util.List;
+
 /**
  * PROJECT:UniversalAdapter
  * DESCRIBE:
@@ -131,6 +133,11 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         getAdapter().bindViewHolder((ViewHolder) holder, position);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List payloads) {
+        getAdapter().bindViewHolder((ViewHolder) holder, position,payloads);
     }
 
     @Override

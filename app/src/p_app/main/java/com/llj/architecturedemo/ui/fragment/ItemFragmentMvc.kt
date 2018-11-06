@@ -10,7 +10,7 @@ import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.BaseFragment
+import com.llj.lib.base.MvcBaseFragment
 
 /**
  * ArchitectureDemo.
@@ -18,11 +18,11 @@ import com.llj.lib.base.BaseFragment
  * author llj
  * date 2018/8/16
  */
-class ItemFragment : BaseFragment() {
+class ItemFragmentMvc : MvcBaseFragment() {
 
     companion object {
         fun getInstance(): Fragment {
-            return ItemFragment()
+            return ItemFragmentMvc()
         }
     }
 

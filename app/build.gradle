@@ -120,6 +120,7 @@ android {
 dependencies {
     implementation deps.multidex
     implementation deps.multidex_instrumentation
+    implementation deps.badgeview
 
     if (useComponent) {
         addComponent 'module-login'

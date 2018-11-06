@@ -3,6 +3,8 @@ package com.llj.component.service
 import android.support.annotation.CallSuper
 import com.alibaba.android.arouter.launcher.ARouter
 import com.facebook.stetho.Stetho
+import com.llj.component.service.preference.UserInfoPreference
+import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.BaseApplication
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.squareup.leakcanary.LeakCanary
@@ -13,8 +15,21 @@ import com.squareup.leakcanary.LeakCanary
  * author llj
  * date 2018/7/3
  */
-abstract class ComponentApplication : BaseApplication() {
+ open class ComponentApplication : BaseApplication() {
+    override fun injectApp() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     lateinit var mComponent: Component
+
+    companion object {
+        lateinit var mUserInfoVo: UserInfoVo //用户信息
+
+        fun initUserInfo(userInfo: UserInfoVo?) {
+            UserInfoPreference.getInstance().saveUserInfo(userInfo)
+            mUserInfoVo = UserInfoPreference.getInstance().getUserInfo()
+        }
+    }
 
     @CallSuper
     override fun onCreate() {
@@ -40,7 +55,11 @@ abstract class ComponentApplication : BaseApplication() {
         //            override fun onCoreInitFinished() {
         //            }
         //        })
+
+
+        initUserInfo(null)
     }
+
 
     override fun isDebug(): Boolean {
         return BuildConfig.DEBUG
@@ -48,7 +67,7 @@ abstract class ComponentApplication : BaseApplication() {
 
     override fun initImageLoader() {
         super.initImageLoader()
-        FrescoImageLoader.getInstance(this.applicationContext,mComponent.okHttpClient())
+        FrescoImageLoader.getInstance(this.applicationContext, mComponent.okHttpClient())
     }
 
     override fun initStetho() {

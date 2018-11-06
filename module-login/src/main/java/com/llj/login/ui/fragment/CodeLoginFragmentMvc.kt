@@ -6,7 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import butterknife.BindView
 import com.llj.component.service.utils.CharInputFilter
-import com.llj.lib.base.BaseFragment
+import com.llj.lib.base.MvcBaseFragment
 import com.llj.lib.base.listeners.MyTextWatcher
 import com.llj.login.R
 import com.llj.login.R2
@@ -17,15 +17,15 @@ import com.llj.login.R2
  * author llj
  * date 2018/10/12
  */
-class CodeLoginFragment : BaseFragment() {
+class CodeLoginFragmentMvc : MvcBaseFragment() {
     @BindView(R2.id.et_mobile) lateinit var mEtMobile: EditText
     @BindView(R2.id.et_code) lateinit var mEtCode: EditText
     @BindView(R2.id.tv_get_code) lateinit var mTvGetCode: TextView
     @BindView(R2.id.btn_login) lateinit var mBtnLogin: Button
 
     companion object {
-        public fun getInstance(): CodeLoginFragment {
-            return CodeLoginFragment()
+        public fun getInstance(): CodeLoginFragmentMvc {
+            return CodeLoginFragmentMvc()
         }
     }
 

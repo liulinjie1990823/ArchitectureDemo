@@ -14,7 +14,7 @@ import android.view.View
 interface ICommon {
     fun getIntentData(intent: Intent) {}
 
-    fun getArgumentsData(bundle: Bundle?) {}
+    fun getArgumentsData(bundle: Bundle) {}
 
     fun layoutView(): View? {
         return null

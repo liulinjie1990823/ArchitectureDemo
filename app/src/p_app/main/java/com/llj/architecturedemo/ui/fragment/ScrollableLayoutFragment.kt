@@ -37,7 +37,7 @@ import com.llj.architecturedemo.ui.view.IScrollableLayoutView
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
 import com.llj.component.service.scrollableLayout.ScrollableLayout
-import com.llj.lib.base.BaseFragment
+import com.llj.lib.base.MvcBaseFragment
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.OnMyClickListener
@@ -242,7 +242,7 @@ class ScrollableLayoutFragment : MvpBaseFragment<ScrollableLayoutPresenter>(), I
                 for (i in 0 until babyHomeModuleVo.data!!.size) {
                     val pagerItemData = babyHomeModuleVo.data[i]
                     mTabTitleList.add(pagerItemData?.title)
-                    mFragments.add(DataFragment.getInstance(pagerItemData, i))
+                    mFragments.add(DataFragmentMvc.getInstance(pagerItemData, i))
                 }
             }
         }
@@ -442,15 +442,15 @@ class ScrollableLayoutFragment : MvpBaseFragment<ScrollableLayoutPresenter>(), I
     }
 
     open class HomeGoodsPagerAdapter(fm: FragmentManager,
-                                     private val mFragments: List<BaseFragment>,
+                                     private val mFragmentMvcs: List<MvcBaseFragment>,
                                      private val mTabList: List<String>) : FragmentStatePagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
-            return mFragments[position]
+            return mFragmentMvcs[position]
         }
 
         override fun getCount(): Int {
-            return mFragments.size
+            return mFragmentMvcs.size
         }
     }
 

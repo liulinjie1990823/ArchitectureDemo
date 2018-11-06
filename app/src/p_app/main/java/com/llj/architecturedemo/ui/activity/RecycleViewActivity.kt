@@ -13,7 +13,7 @@ import android.view.animation.DecelerateInterpolator
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.R
-import com.llj.architecturedemo.ui.fragment.ItemFragment
+import com.llj.architecturedemo.ui.fragment.ItemFragmentMvc
 import com.llj.architecturedemo.widget.tab.ITab
 import com.llj.architecturedemo.widget.tab.ITabs
 import com.llj.component.service.arouter.CRouter
@@ -129,13 +129,13 @@ class RecycleViewActivity : MvcBaseActivity() {
 
     private fun switchFragment(type: String?): Fragment {
         if (isEmpty(type)) {
-            return ItemFragment.getInstance()
+            return ItemFragmentMvc.getInstance()
         }
         return when (type) {
-            ITab.SHOW_TYPE_ALBUM -> ItemFragment.getInstance()
-            ITab.SHOW_TYPE_PRODUCT -> ItemFragment.getInstance()
-            ITab.SHOW_TYPE_STORE -> ItemFragment.getInstance()
-            else -> ItemFragment.getInstance()
+            ITab.SHOW_TYPE_ALBUM -> ItemFragmentMvc.getInstance()
+            ITab.SHOW_TYPE_PRODUCT -> ItemFragmentMvc.getInstance()
+            ITab.SHOW_TYPE_STORE -> ItemFragmentMvc.getInstance()
+            else -> ItemFragmentMvc.getInstance()
         }
     }
 

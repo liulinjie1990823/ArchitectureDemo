@@ -14,7 +14,7 @@ import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.MvcBaseActivity
 import com.llj.login.R
 import com.llj.login.R2
-import com.llj.login.ui.fragment.CodeLoginFragment
+import com.llj.login.ui.fragment.CodeLoginFragmentMvc
 import com.llj.login.ui.fragment.PasswordLoginFragment
 import net.lucode.hackware.magicindicator.MagicIndicator
 import net.lucode.hackware.magicindicator.ViewPagerHelper
@@ -91,7 +91,7 @@ class LoginActivity : MvcBaseActivity() {
             override fun getItem(position: Int): Fragment? {
 
                 when (position) {
-                    0 -> return CodeLoginFragment.getInstance()
+                    0 -> return CodeLoginFragmentMvc.getInstance()
                     1 -> return PasswordLoginFragment.getInstance()
                 }
                 return null
