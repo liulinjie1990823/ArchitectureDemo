@@ -1,7 +1,7 @@
 package com.llj.login
 
 import com.llj.lib.base.MvpBaseActivity
-import com.llj.lib.base.mvp.IPresenter
+import com.llj.lib.base.mvp.IBasePresenter
 
 /**
  * ArchitectureDemo.
@@ -9,7 +9,7 @@ import com.llj.lib.base.mvp.IPresenter
  * author llj
  * date 2018/9/20
  */
-abstract class LoginMvpBaseActivity<P : IPresenter> : MvpBaseActivity<P>() {
+abstract class LoginMvpBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>() {
 
     override fun moduleName(): String {
         return "login"

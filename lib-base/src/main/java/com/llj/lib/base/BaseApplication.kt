@@ -2,6 +2,7 @@ package com.llj.lib.base
 
 import android.app.Activity
 import android.app.Application
+import android.app.Service
 import android.os.StrictMode
 import android.support.annotation.CallSuper
 import android.support.v4.app.Fragment
@@ -15,6 +16,7 @@ import com.llj.lib.utils.helper.Utils
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import dagger.android.HasServiceInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
@@ -26,6 +28,7 @@ import javax.inject.Inject
  */
 abstract class BaseApplication : Application(),
         HasActivityInjector,
+        HasServiceInjector,
         HasSupportFragmentInjector {
     val mTagLog: String = this.javaClass.simpleName
 
@@ -33,6 +36,8 @@ abstract class BaseApplication : Application(),
     lateinit var mActivityInjector: DispatchingAndroidInjector<Activity>
     @Inject
     lateinit var mSupportFragmentInjector: DispatchingAndroidInjector<Fragment>
+    @Inject
+    lateinit var mServiceInjector: DispatchingAndroidInjector<Service>
 
 
     @CallSuper
@@ -106,6 +111,10 @@ abstract class BaseApplication : Application(),
 
     override fun activityInjector(): AndroidInjector<Activity>? {
         return mActivityInjector
+    }
+
+    override fun serviceInjector(): AndroidInjector<Service> {
+        return mServiceInjector
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment>? {

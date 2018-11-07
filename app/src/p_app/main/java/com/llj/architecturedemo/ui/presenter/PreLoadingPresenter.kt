@@ -1,34 +1,30 @@
 package com.llj.architecturedemo.ui.presenter
 
 import com.llj.architecturedemo.repository.HomeRepository
-import com.llj.architecturedemo.ui.model.BabyHomeModuleVo
-import com.llj.architecturedemo.ui.view.IScrollableLayoutView
-import com.llj.component.service.ADBaseActivityPresenter
+import com.llj.architecturedemo.ui.model.TabListVo
+import com.llj.architecturedemo.ui.view.IPreLoadingView
+import com.llj.component.service.ADBaseServicePresenter
 import com.llj.lib.net.observer.BaseApiObserver
 import com.llj.lib.net.response.BaseResponse
 import io.reactivex.disposables.Disposable
-import java.util.*
 import javax.inject.Inject
 
 /**
- * ArchitectureDemo.
+ * ArchitectureDemo
  * describe:
  * author llj
- * date 2018/10/24
+ * date 2018/5/17
  */
-class ScrollableLayoutPresenter @Inject constructor(repository: HomeRepository, view: IScrollableLayoutView)
-    : ADBaseActivityPresenter<HomeRepository, IScrollableLayoutView>(repository, view) {
+class PreLoadingPresenter @Inject constructor(repository: HomeRepository, view: IPreLoadingView)
+    : ADBaseServicePresenter<HomeRepository, IPreLoadingView>(repository, view) {
 
 
-    fun getWeddingHome(isShowDialog: Boolean) {
-        var single = mRepository!!.getWeddingHome(HashMap())
-
-        if (isShowDialog) {
-            single = single.doOnSubscribe(mView).doFinally(mView)
-        }
+    //获取二维码信息
+    fun getTabBar() {
+        val single = mRepository!!.getTabBar(mView.getParams())
 
         //Observer
-        val baseApiObserver = object : BaseApiObserver<List<BabyHomeModuleVo?>?>(mView.getRequestTag()) {
+        val baseApiObserver = object : BaseApiObserver<TabListVo?>() {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
@@ -36,7 +32,7 @@ class ScrollableLayoutPresenter @Inject constructor(repository: HomeRepository, 
                 mView.addDisposable(getRequestTag(), d)
             }
 
-            override fun onSuccess(response: BaseResponse<List<BabyHomeModuleVo?>?>) {
+            override fun onSuccess(response: BaseResponse<TabListVo?>) {
                 super.onSuccess(response)
                 mView.onDataSuccess(response)
 

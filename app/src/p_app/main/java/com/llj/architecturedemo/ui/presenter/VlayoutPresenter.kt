@@ -3,7 +3,7 @@ package com.llj.architecturedemo.ui.presenter
 import com.llj.architecturedemo.repository.HomeRepository
 import com.llj.architecturedemo.ui.model.BabyHomeModuleVo
 import com.llj.architecturedemo.ui.view.IVlayoutView
-import com.llj.component.service.ADBasePresenter
+import com.llj.component.service.ADBaseActivityPresenter
 import com.llj.lib.net.observer.BaseApiObserver
 import com.llj.lib.net.response.BaseResponse
 import io.reactivex.disposables.Disposable
@@ -17,7 +17,7 @@ import javax.inject.Inject
  * date 2018/10/24
  */
 class VlayoutPresenter @Inject constructor(repository: HomeRepository, view: IVlayoutView)
-    : ADBasePresenter<HomeRepository, IVlayoutView>(repository,view) {
+    : ADBaseActivityPresenter<HomeRepository, IVlayoutView>(repository,view) {
 
 
     fun getHomeData(isShowDialog: Boolean) {

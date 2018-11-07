@@ -137,7 +137,11 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List payloads) {
-        getAdapter().bindViewHolder((ViewHolder) holder, position,payloads);
+        if (payloads.isEmpty()) {
+            getAdapter().bindViewHolder((ViewHolder) holder, position);
+        } else {
+            getAdapter().bindViewHolder((ViewHolder) holder, position, payloads);
+        }
     }
 
     @Override

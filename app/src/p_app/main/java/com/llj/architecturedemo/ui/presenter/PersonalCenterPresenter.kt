@@ -4,7 +4,7 @@ import com.llj.architecturedemo.repository.HomeRepository
 import com.llj.architecturedemo.ui.model.PersonalCenterCountVo
 import com.llj.architecturedemo.ui.model.PersonalCenterVo
 import com.llj.architecturedemo.ui.view.IMineView
-import com.llj.component.service.ADBasePresenter
+import com.llj.component.service.ADBaseActivityPresenter
 import com.llj.lib.net.observer.BaseApiObserver
 import com.llj.lib.net.response.BaseResponse
 import io.reactivex.disposables.Disposable
@@ -18,7 +18,7 @@ import javax.inject.Inject
  */
 
 class PersonalCenterPresenter @Inject constructor(repository: HomeRepository, view: IMineView)
-    : ADBasePresenter<HomeRepository, IMineView>(repository, view) {
+    : ADBaseActivityPresenter<HomeRepository, IMineView>(repository, view) {
 
     companion object {
         const val GET_PERSONAL_CENTER_INFO = 1

@@ -1,7 +1,7 @@
 package com.llj.login.ui.presenter
 
 import com.llj.component.service.vo.UserInfoVo
-import com.llj.lib.base.mvp.BasePresenter
+import com.llj.lib.base.mvp.BaseActivityPresenter
 import com.llj.lib.net.RxApiManager
 import com.llj.lib.net.observer.BaseApiObserver
 import com.llj.lib.net.response.BaseResponse
@@ -21,7 +21,7 @@ import javax.inject.Inject
  * date 2018/9/18
  */
 class PhoneLoginPresenter @Inject constructor(mRepository: LoginRepository, mView: PhoneLoginView)
-    : BasePresenter<LoginRepository, PhoneLoginView>(mRepository, mView) {
+    : BaseActivityPresenter<LoginRepository, PhoneLoginView>(mRepository, mView) {
 
 
     //手机登录

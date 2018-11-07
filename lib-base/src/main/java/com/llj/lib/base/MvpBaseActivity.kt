@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import com.llj.lib.base.mvp.IPresenter
+import com.llj.lib.base.mvp.IBasePresenter
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
 import dagger.android.AndroidInjection
@@ -25,7 +25,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/5/15
  */
-abstract class MvpBaseActivity<P : IPresenter> : AppCompatActivity(),
+abstract class MvpBaseActivity<P : IBasePresenter> : AppCompatActivity(),
         IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
     val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context

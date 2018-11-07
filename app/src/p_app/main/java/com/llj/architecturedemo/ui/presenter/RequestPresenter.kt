@@ -6,7 +6,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import com.llj.architecturedemo.repository.MobileRepository
 import com.llj.architecturedemo.ui.view.IRequestView
-import com.llj.lib.base.mvp.BasePresenter
+import com.llj.lib.base.mvp.BaseActivityPresenter
 import com.llj.lib.utils.AToastUtils
 import com.llj.lib.utils.helper.Utils
 import com.yanzhenjie.permission.AndPermission
@@ -20,7 +20,7 @@ import javax.inject.Inject
  * date 2018/9/20
  */
 class RequestPresenter @Inject constructor(repository: MobileRepository, view: IRequestView)
-    : BasePresenter<MobileRepository, IRequestView>(repository, view) {
+    : BaseActivityPresenter<MobileRepository, IRequestView>(repository, view) {
 
 
     override fun onResume(owner: LifecycleOwner) {

@@ -6,17 +6,29 @@ package com.llj.architecturedemo.ui.model
  * author llj
  * date 2018/10/24
  */
-data class TabVo(
-        val title: String? = null,
-        val default_img: String? = null,
-        val hover_img: String? = null,
-        val type: String? = null,
-        val link: String? = null) {
+ class TabVo {
 
-    /**
-     * title : 我是母婴
-     * default_img : https://img.tthunbohui.cn/dmp/h/cms/1539878400/jh-img-orig-ga_1053164567104126976_50_37_1531.JPG
-     * hover_img : https://img.tthunbohui.cn/dmp/h/cms/1539878400/jh-img-orig-ga_1053164560141582336_50_37_1456.JPG
-     * type : index
-     */
+    //    var title: String? = null,
+    //    var  default_img: String? = null,
+    //    var  hover_img: String? = null,
+    //    var  default_img_id: Int = 0,
+    //    var  hover_img_id: Int = 0,
+    //    var  type: String? = null,
+    //    var  link: String? = null
+
+
+    var title: String? = null
+    var default_img: String? = null
+    var hover_img: String? = null
+    var default_img_id:  Int = 0
+    var hover_img_id: Int = 0
+    var type: String? = null
+    var link: String? = null
+
+    constructor(title: String?, default_img_id: Int, hover_img_id: Int, type: String?) {
+        this.title = title
+        this.default_img_id = default_img_id
+        this.hover_img_id = hover_img_id
+        this.type = type
+    }
 }

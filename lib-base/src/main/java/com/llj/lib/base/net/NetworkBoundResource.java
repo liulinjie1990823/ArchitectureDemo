@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
-import com.llj.lib.base.mvp.IView;
+import com.llj.lib.base.mvp.IBaseActivityView;
 import com.llj.lib.net.RxApiManager;
 import com.llj.lib.net.observer.BaseApiObserver;
 import com.llj.lib.net.response.BaseResponse;
@@ -49,7 +49,7 @@ public abstract class NetworkBoundResource<Data> {
     }
 
     private void fetchFromNetwork(final LiveData<Data> dbSource) {
-        IView view = view();
+        IBaseActivityView view = view();
 
         //Single
         Single<Response<BaseResponse<Data>>> apiCall = createCall()
@@ -104,7 +104,7 @@ public abstract class NetworkBoundResource<Data> {
 
     @NonNull
     @MainThread
-    protected abstract IView view();
+    protected abstract IBaseActivityView view();
 
     @NonNull
     @MainThread

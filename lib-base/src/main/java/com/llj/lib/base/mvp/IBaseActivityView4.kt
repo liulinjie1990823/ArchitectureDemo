@@ -8,7 +8,7 @@ import java.util.*
  * author liulj
  * date 2018/6/28
  */
-interface CBaseView3<T1, T2, T3> : IView {
+interface IBaseActivityView4<T1, T2, T3, T4> : IBaseActivityView {
 
     fun getParams1(): HashMap<String, Any>
     fun onDataSuccess1(result: T1)
@@ -18,6 +18,9 @@ interface CBaseView3<T1, T2, T3> : IView {
 
     fun getParams3(): HashMap<String, Any>
     fun onDataSuccess3(result: T3)
+
+    fun getParams4(): HashMap<String, Any>
+    fun onDataSuccess4(result: T4)
 
     fun onDataError(tag: Int, e: Throwable)
 }

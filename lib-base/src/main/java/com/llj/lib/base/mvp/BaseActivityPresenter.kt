@@ -9,7 +9,7 @@ import com.llj.lib.utils.LogUtil
  * author liulj
  * date 2018/5/16
  */
-open class BasePresenter<R : BaseRepository, V : IView> : IPresenter {
+open class BaseActivityPresenter<R : BaseRepository, V : IBaseActivityView> : IBasePresenter {
     val mTagLog = this.javaClass.simpleName
 
     var mRepository: R? = null

@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import com.llj.lib.base.mvp.IPresenter
+import com.llj.lib.base.mvp.IBasePresenter
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
 import com.llj.lib.utils.LogUtil
@@ -26,7 +26,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/5/24
  */
-abstract class MvpBaseFragment<P : IPresenter> : Fragment(),
+abstract class MvpBaseFragment<P : IBasePresenter> : Fragment(),
         IFragment, IFragmentLazy, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
 
     val mTagLog: String = this.javaClass.simpleName

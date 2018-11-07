@@ -8,6 +8,6 @@ import android.arch.lifecycle.DefaultLifecycleObserver
  * author liulj
  * date 2018/5/16
  */
-interface IPresenter : DefaultLifecycleObserver {
+interface IBasePresenter : DefaultLifecycleObserver {
     fun destroy()
 }

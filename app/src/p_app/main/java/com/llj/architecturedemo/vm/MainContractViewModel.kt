@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.architecturedemo.repository.MobileRepository
-import com.llj.lib.base.mvp.IView
+import com.llj.lib.base.mvp.IBaseActivityView
 import com.llj.lib.base.mvvm.BaseViewModel
 import com.llj.lib.net.response.IResponse
 
@@ -29,7 +29,7 @@ class MainContractViewModel @Inject constructor(private val mMobileRepository: M
         return mMobileRepository.getTest()
     }
 
-    fun getMobile(phone: String, view: IView): LiveData<IResponse<MobileEntity>> {
+    fun getMobile(phone: String, view: IBaseActivityView): LiveData<IResponse<MobileEntity>> {
         return mMobileRepository.getMobile(phone, view)
     }
 

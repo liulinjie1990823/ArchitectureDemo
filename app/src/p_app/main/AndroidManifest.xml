@@ -85,6 +85,8 @@
 
 
         <activity android:name="com.llj.loading.ui.activity.GuideActivity"/>
+
+        <service android:name=".ui.service.LoadingService"/>
     </application>
 
 </manifest>

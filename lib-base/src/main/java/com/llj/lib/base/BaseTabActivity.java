@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Toast;
 
-import com.llj.lib.base.mvp.IPresenter;
+import com.llj.lib.base.mvp.IBasePresenter;
 import com.llj.lib.utils.AFragmentUtils;
 
 /**
@@ -19,7 +19,7 @@ import com.llj.lib.utils.AFragmentUtils;
  * author llj
  * date 2018/5/24
  */
-public abstract class BaseTabActivity<P extends IPresenter> extends MvpBaseActivity<P> {
+public abstract class BaseTabActivity<P extends IBasePresenter> extends MvpBaseActivity<P> {
     public static final String TAB_INDEX = "index";
 
     private FragmentManager mFragmentManager;
@@ -50,7 +50,7 @@ public abstract class BaseTabActivity<P extends IPresenter> extends MvpBaseActiv
             mShowItem = savedInstanceState.getString("mShowItem", TAB_INDEX);
         }
         // 第一次进入默认显示第1页
-//        performSelectItem(mHideItem, mShowItem, true);
+        performSelectItem(mHideItem, mShowItem, true);
     }
 
 
@@ -106,12 +106,13 @@ public abstract class BaseTabActivity<P extends IPresenter> extends MvpBaseActiv
             }
         }
 
-
-        // 选择image图片
-        changeSelectImage(showItem);
         // 保存当前显示fragment的item
         mHideItem = hideItem;
         mShowItem = showItem;
+
+        // 选择image图片
+        changeSelectImage(showItem, hideItem);
+
         transaction.commitAllowingStateLoss();
     }
 
@@ -146,7 +147,7 @@ public abstract class BaseTabActivity<P extends IPresenter> extends MvpBaseActiv
      *
      * @param showItem
      */
-    public abstract void changeSelectImage(String showItem);
+    public abstract void changeSelectImage(String showItem, String hideItem);
 
     /**
      * 根据view的点击时间触发,并通过tag判断

@@ -7,7 +7,7 @@ import com.llj.architecturedemo.api.TestApiService
 import com.llj.architecturedemo.db.dao.MobileDao
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.lib.base.mvp.BaseRepository
-import com.llj.lib.base.mvp.IView
+import com.llj.lib.base.mvp.IBaseActivityView
 import com.llj.lib.base.net.NetworkBoundResource
 import com.llj.lib.net.response.BaseResponse
 import com.llj.lib.net.response.IResponse
@@ -38,7 +38,7 @@ class MobileRepository @Inject constructor(private val mMobileDao: MobileDao,
         return mMobileMutableLiveData
     }
 
-    fun getMobile(phone: String, view: IView): LiveData<IResponse<MobileEntity>> {
+    fun getMobile(phone: String, view: IBaseActivityView): LiveData<IResponse<MobileEntity>> {
 
         return object : NetworkBoundResource<MobileEntity>() {
 
@@ -55,7 +55,7 @@ class MobileRepository @Inject constructor(private val mMobileDao: MobileDao,
                 return mobileEntity == null
             }
 
-            override fun view(): IView {
+            override fun view(): IBaseActivityView {
                 return view
             }
 

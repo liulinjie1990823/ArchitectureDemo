@@ -58,6 +58,7 @@ class HomeFragmentMvc : MvcBaseFragment() {
         mUpdate.setOnClickListener {
             mRecyclerView.adapter?.notifyDataSetChanged()
         }
+
     }
 
     override fun initData() {

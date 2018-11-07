@@ -1,7 +1,7 @@
 package com.llj.architecturedemo.ui.view
 
 import com.llj.architecturedemo.db.entity.MobileEntity
-import com.llj.lib.base.mvp.IView
+import com.llj.lib.base.mvp.IBaseActivityView
 
 /**
  * ArchitectureDemo
@@ -9,7 +9,7 @@ import com.llj.lib.base.mvp.IView
  * author liulj
  * date 2018/6/4
  */
-interface SecondView : IView {
+interface SecondView : IBaseActivityView {
 
     fun toast(mobile: MobileEntity?)
 }

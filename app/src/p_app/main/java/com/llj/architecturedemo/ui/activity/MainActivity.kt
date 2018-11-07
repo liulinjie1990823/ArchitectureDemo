@@ -31,16 +31,15 @@ import com.llj.lib.base.IUiHandler
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.net.response.BaseResponse
-import com.llj.lib.utils.AGsonUtils
-import com.llj.lib.utils.ATimeUtils
 import com.llj.lib.utils.AToastUtils
 import com.llj.lib.utils.helper.Utils
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.Permission
-import java.util.*
 
 @Route(path = CRouter.APP_MAIN_ACTIVITY)
 class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
+
+
     @BindView(R.id.ll_footer_bar) lateinit var mLlFooterBar: LinearLayout
 
     private lateinit var mTabAdapter: TabAdapter
@@ -82,57 +81,37 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
                 .build()
                 .getAdapter()
 
+        updateTabByLocal()
+
         super.initViews(savedInstanceState)
+    }
 
-        //不同天就更新
-        val tabListUpdateDate = ConfigPreference.getInstance().getTabListUpdateDate()
-        val millisecondsToString = ATimeUtils.millisecondsToString(ATimeUtils.FORMAT_EIGHT, System.currentTimeMillis())
-        if (tabListUpdateDate != millisecondsToString) {
-            mPresenter.getTabBar(false)
-        } else {
-            updateTabByLocal()
-        }
+    private fun getDefaultTabList(): ArrayList<TabVo> {
+        val tabList = ArrayList<TabVo>()
 
+        tabList.add(TabVo(getString(R.string.tab_home), R.drawable.ic_tab_home_normal, R.drawable.ic_tab_home_selected, TAB_INDEX))
+        tabList.add(TabVo(getString(R.string.tab_community), R.drawable.ic_tab_baby_show_normal, R.drawable.ic_tab_baby_show_selected, TAB_TONGSHANG))
+        tabList.add(TabVo("测试", R.drawable.ic_tab_ybs, R.drawable.ic_tab_ybs, TAB_EXPO))
+        tabList.add(TabVo(getString(R.string.tab_coupon), R.drawable.ic_tab_coupon_normal, R.drawable.ic_tab_coupon_selected, TAB_CASH))
+        tabList.add(TabVo(getString(R.string.tab_mine), R.drawable.ic_tab_mine_normal, R.drawable.ic_tab_mine_selected, TAB_MY))
+
+        return tabList
     }
 
     private fun updateTabByLocal() {
         val tabList = ConfigPreference.getInstance().getTabList()
+        val list: List<TabVo>
         if (isEmpty(tabList)) {
             //使用本地的
+            list = getDefaultTabList()
         } else {
             //使用缓存的
-            val list = Gson().fromJson<List<TabVo>>(tabList, object : TypeToken<List<TabVo>>() {}.type)
-            mTabAdapter.addAll(list)
+            list = Gson().fromJson<List<TabVo>>(tabList, object : TypeToken<List<TabVo>>() {}.type)
         }
-
-        performSelectItem(mHideItem, mShowItem, true)
+        mTabAdapter.addAll(list)
     }
 
     override fun initData() {
-    }
-
-    override fun getParams(): HashMap<String, Any> {
-        return HashMap()
-    }
-
-    override fun onDataSuccess(result: BaseResponse<TabListVo?>) {
-
-        val data: TabListVo? = result.data
-        if (data == null || isEmpty(data.tabbar)) {
-            updateTabByLocal()
-            return
-        }
-        //保存到本地
-        ConfigPreference.getInstance().saveTabList(AGsonUtils.toJson(data.tabbar!!))
-
-        //更新tab
-        mTabAdapter.addAll(data.tabbar)
-
-        performSelectItem(mHideItem, mShowItem, true)
-    }
-
-    override fun onDataError(e: Throwable) {
-        updateTabByLocal()
     }
 
 
@@ -152,8 +131,13 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
             val text = viewHolder.getView<TextView>(R.id.tv_tab_text)
 
             //设置图片改变
-            val imageUrl: String? = if (mShowItem == item.type) item.hover_img else item.default_img
-            mImageLoad.loadImage(imageUrl, 120, 120, image)
+            if (item.default_img_id != 0) {
+                val imageUrl: String? = if (mShowItem == item.type) item.hover_img else item.default_img
+                mImageLoad.loadImage(imageUrl, 120, 120, image)
+            } else {
+                val imageId: Int = if (mShowItem == item.type) item.hover_img_id else item.default_img_id
+                mImageLoad.loadImage(imageId, 120, 120, image)
+            }
 
             setText(text, item.title)
             //设置字体颜色的改变
@@ -168,11 +152,11 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
     }
 
     companion object {
-        private const val TAB_INDEX = "TAB_INDEX"
-        private const val TAB_TONGSHANG = "TAB_TONGSHANG"
-        private const val TAB_EXPO = "TAB_EXPO"
-        private const val TAB_CASH = "TAB_CASH"
-        private const val TAB_MY = "TAB_MY"
+        private const val TAB_INDEX = "index"
+        private const val TAB_TONGSHANG = "tongshang"
+        private const val TAB_EXPO = "expo"
+        private const val TAB_CASH = "cash"
+        private const val TAB_MY = "my"
     }
 
     override fun makeFragment(showItem: String): Fragment {
@@ -186,18 +170,28 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         return HomeFragmentMvc()
     }
 
-    override fun changeSelectImage(showItem: String) {
+    override fun changeSelectImage(showItem: String, hideItem: String) {
         var showPosition = 0
         var hidePosition = 0
         val childCount = mLlFooterBar.childCount
         for (i in 0 until childCount) {
             if (mTabAdapter[i]?.type == showItem) {
                 showPosition = i
-            } else if (mTabAdapter[i]?.type == mHideItem) {
+            } else if (showItem != hideItem && mTabAdapter[i]?.type == hideItem) {
                 hidePosition = i
             }
         }
         mTabAdapter.onItemRangeChanged(showPosition, 1)
         mTabAdapter.onItemRangeChanged(hidePosition, 1)
+    }
+
+    override fun getParams(): HashMap<String, Any> {
+        return HashMap()
+    }
+
+    override fun onDataSuccess(result: BaseResponse<TabListVo?>) {
+    }
+
+    override fun onDataError(e: Throwable) {
     }
 }
