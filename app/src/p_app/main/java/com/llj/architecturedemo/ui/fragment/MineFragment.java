@@ -203,8 +203,6 @@ public class MineFragment extends ADMvpBaseFragment<PersonalCenterPresenter> imp
         mPresenter.getPersonalCenterInfo(false);
         mPresenter.getPersonalCenterCount(false);
 
-        int statusBarHeight = DisplayHelper.STATUS_BAR_HEIGHT;
-//        mVStatusBar.getLayoutParams().height = statusBarHeight;
 
         int height = (int) ((DisplayHelper.SCREEN_WIDTH_PIXELS - dip2px(mContext, 54)) * 12 / 64f);
         mCvImage1.getLayoutParams().height = height;
