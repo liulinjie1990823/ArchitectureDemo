@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -25,17 +24,163 @@
         android:src="@drawable/shape_mine_top"
         android:visibility="visible"/>
 
+    <FrameLayout
+        android:id="@+id/fl_toolbar_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/v_white_back"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            >
+
+            <View
+                android:id="@+id/v_status_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0"
+                android:visibility="visible"/>
+
+            <!--黑色-->
+            <android.support.constraint.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="iv_setting1,iv_message1,iv_qr_code1,iv_scanning1"/>
+
+            <!--白色-->
+            <android.support.constraint.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="iv_setting,rl_message,iv_qr_code,iv_scanning"/>
+
+            <!--黑色-->
+            <ImageView
+                android:id="@+id/iv_setting1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:src="@drawable/ic_setting_selected"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <ImageView
+                android:id="@+id/iv_message1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:src="@drawable/ic_message_selected"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_setting1"
+                app:layout_constraintRight_toLeftOf="@+id/iv_setting1"
+                app:layout_constraintTop_toTopOf="@+id/iv_setting1"
+                />
+
+
+            <ImageView
+                android:id="@+id/iv_qr_code1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:src="@drawable/ic_qr_code_selected"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_setting1"
+                app:layout_constraintRight_toLeftOf="@+id/iv_message1"
+                app:layout_constraintTop_toTopOf="@+id/iv_setting1"
+                />
+
+            <ImageView
+                android:id="@+id/iv_scanning1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:src="@drawable/ic_scanning_selected"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_setting1"
+                app:layout_constraintRight_toLeftOf="@+id/iv_qr_code1"
+                app:layout_constraintTop_toTopOf="@+id/iv_setting1"
+                />
+
+            <!--白色-->
+            <ImageView
+                android:id="@+id/iv_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:src="@drawable/ic_setting_selector"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_setting1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_setting1"
+                />
+
+            <RelativeLayout
+                android:id="@+id/rl_message"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_setting1"
+                app:layout_constraintRight_toLeftOf="@+id/iv_setting"
+                app:layout_constraintTop_toTopOf="@+id/iv_setting1">
+
+                <ImageView
+                    android:id="@+id/iv_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:src="@drawable/ic_message_selector"
+                    />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_qr_code"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:src="@drawable/ic_qr_code_selector"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_setting1"
+                app:layout_constraintRight_toLeftOf="@+id/rl_message"
+                app:layout_constraintTop_toTopOf="@+id/iv_setting1"
+                />
+
+            <ImageView
+                android:id="@+id/iv_scanning"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:src="@drawable/ic_scanning_selector"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_setting1"
+                app:layout_constraintRight_toLeftOf="@+id/iv_qr_code"
+                app:layout_constraintTop_toTopOf="@+id/iv_setting1"
+                />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </FrameLayout>
+
     <com.llj.component.service.refreshLayout.JHSmartRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:paddingBottom="35dp"
-        android:visibility="visible">
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fl_toolbar_root">
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollView"
@@ -287,119 +432,5 @@
         </android.support.v4.widget.NestedScrollView>
     </com.llj.component.service.refreshLayout.JHSmartRefreshLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/v_white_back"
-        android:layout_width="match_parent"
-        android:layout_height="44dp">
 
-        <View
-            android:id="@+id/v_status_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0"
-            android:visibility="visible"/>
-
-        <android.support.constraint.Group
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:constraint_referenced_ids="iv_setting1,iv_message1,iv_qr_code1,iv_scanning1"/>
-
-        <android.support.constraint.Group
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:constraint_referenced_ids="iv_setting,rl_message,iv_qr_code,iv_scanning"/>
-
-        <!--黑色-->
-        <ImageView
-            android:id="@+id/iv_setting1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:src="@drawable/ic_setting_selected"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-        <ImageView
-            android:id="@+id/iv_message1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:src="@drawable/ic_message_selected"
-            app:layout_constraintRight_toLeftOf="@+id/iv_setting1"/>
-
-
-        <ImageView
-            android:id="@+id/iv_qr_code1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:src="@drawable/ic_qr_code_selected"
-            app:layout_constraintRight_toLeftOf="@+id/iv_message1"/>
-
-        <ImageView
-            android:id="@+id/iv_scanning1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:src="@drawable/ic_scanning_selected"
-            app:layout_constraintRight_toLeftOf="@+id/iv_qr_code1"/>
-
-        <!--白色-->
-        <ImageView
-            android:id="@+id/iv_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:src="@drawable/ic_setting_selector"
-            android:visibility="gone"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-        <RelativeLayout
-            android:id="@+id/rl_message"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:visibility="gone"
-            app:layout_constraintRight_toLeftOf="@+id/iv_setting">
-
-            <ImageView
-                android:id="@+id/iv_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:padding="4dp"
-                android:src="@drawable/ic_message_selector"
-                />
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/iv_qr_code"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:src="@drawable/ic_qr_code_selector"
-            android:visibility="gone"
-            app:layout_constraintRight_toLeftOf="@+id/iv_message1"/>
-
-        <ImageView
-            android:id="@+id/iv_scanning"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:src="@drawable/ic_scanning_selector"
-            android:visibility="gone"
-            app:layout_constraintRight_toLeftOf="@+id/iv_qr_code1"/>
-
-    </android.support.constraint.ConstraintLayout>
-
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

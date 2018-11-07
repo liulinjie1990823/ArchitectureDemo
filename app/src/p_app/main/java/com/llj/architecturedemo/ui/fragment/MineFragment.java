@@ -172,7 +172,7 @@ public class MineFragment extends ADMvpBaseFragment<PersonalCenterPresenter> imp
         } else {
             //未登录
             //头像
-            mIvHeader.setImageResource(R.drawable.def_user_header);
+            mImageLoad.loadImage(0, dip2px(mContext, 65), dip2px(mContext, 65), mIvHeader);
             mTvLogin.setText(R.string.click_to_login);
             mIvMemberTag.setVisibility(View.GONE);
             mTvDiamondPoints.setVisibility(View.GONE);
@@ -204,10 +204,7 @@ public class MineFragment extends ADMvpBaseFragment<PersonalCenterPresenter> imp
         mPresenter.getPersonalCenterCount(false);
 
         int statusBarHeight = DisplayHelper.STATUS_BAR_HEIGHT;
-        statusBarHeight = 0;
-        mVStatusBar.getLayoutParams().height = statusBarHeight;
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mRefreshLayout.getLayoutParams();
-        layoutParams.topMargin = statusBarHeight + dip2px(mContext, 44);
+//        mVStatusBar.getLayoutParams().height = statusBarHeight;
 
         int height = (int) ((DisplayHelper.SCREEN_WIDTH_PIXELS - dip2px(mContext, 54)) * 12 / 64f);
         mCvImage1.getLayoutParams().height = height;
