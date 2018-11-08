@@ -48,7 +48,27 @@ interface AppComponent {
     //调用inject方法会注入BaseApplication中的@Inject标记的mActivityInjector和mSupportFragmentInjector
     //override fun inject(application: BaseApplication)
 
-    fun activityInjector(): DispatchingAndroidInjector<Activity>
+    //使用组件的话需要注入各自组件中的activity,由于会覆盖，所以不用fun inject(application: BaseApplication)
+    //通过下面两个方法，可以获取各自Component的activityInjector和supportFragmentInjector，在AppApplication中返回
+    //各自组件的activityInjector和supportFragmentInjector，如下代码
 
+//    override fun activityInjector(): AndroidInjector<Activity>? {
+//        return AndroidInjector { activity ->
+//            val mvpBaseActivity = activity as MvpBaseActivity<*>
+//
+//            if ("app" == mvpBaseActivity.moduleName()) {
+//                //主工程
+//                mAppComponent.activityInjector().inject(activity)
+//            } else if ("login" == mvpBaseActivity.moduleName()) {
+//                CC.obtainBuilder("LoginModule")
+//                        .setContext(activity)
+//                        .setActionName("injectActivity")
+//                        .build()
+//                        .call()
+//            }
+//        }
+//    }
+
+    fun activityInjector(): DispatchingAndroidInjector<Activity>
     fun supportFragmentInjector(): DispatchingAndroidInjector<Fragment>
 }
