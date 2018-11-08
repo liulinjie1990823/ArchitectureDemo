@@ -29,11 +29,10 @@ interface TestApiService {
     @POST("/common/tabbar/get-tabbar")
     fun getTabBar(@Body map: HashMap<String, Any>): Single<Response<BaseResponse<TabListVo?>>>
 
-
-    @POST("mobile/get-home/")
+    @POST("mobile/baby/get-home/")
     fun getBabyHome(@Body map: HashMap<String, Any>): Single<Response<BaseResponse<List<BabyHomeModuleVo?>?>>>
 
-    @POST("mobile/baby/get-home/")
+    @POST("mobile/wedding/get-home/")
     fun getWeddingHome(@Body map: HashMap<String, Any>): Single<Response<BaseResponse<List<BabyHomeModuleVo?>?>>>
 
     @POST("user/qrcode")

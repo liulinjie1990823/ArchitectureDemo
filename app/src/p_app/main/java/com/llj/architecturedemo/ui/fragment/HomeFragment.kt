@@ -1,5 +1,6 @@
 package com.llj.architecturedemo.ui.fragment
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -10,6 +11,7 @@ import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
 import com.llj.component.service.arouter.CRouter
+import com.llj.component.service.statusbar.LightStatusBarCompat
 import com.llj.lib.base.MvcBaseFragment
 import com.llj.lib.webview.CWebViewActivity
 
@@ -19,7 +21,7 @@ import com.llj.lib.webview.CWebViewActivity
  * author llj
  * date 2018/8/15
  */
-class HomeFragmentMvc : MvcBaseFragment() {
+class HomeFragment : MvcBaseFragment() {
     @BindView(R.id.recyclerView) lateinit var mRecyclerView: RecyclerView
     @BindView(R.id.tv_update) lateinit var mUpdate: TextView
 
@@ -27,7 +29,15 @@ class HomeFragmentMvc : MvcBaseFragment() {
         return R.layout.fragment_home
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, true)
+        }
+    }
+
     override fun initViews(savedInstanceState: Bundle?) {
+        LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, true)
 
         val arrayList = arrayListOf<Data>()
         arrayList.add(Data("RequestActivity", CRouter.APP_REQUEST_ACTIVITY))

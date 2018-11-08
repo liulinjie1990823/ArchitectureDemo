@@ -1,5 +1,6 @@
 package com.llj.architecturedemo.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -36,6 +38,7 @@ import com.llj.component.service.ADMvpBaseFragment;
 import com.llj.component.service.ComponentApplication;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout;
+import com.llj.component.service.statusbar.LightStatusBarCompat;
 import com.llj.component.service.vo.UserInfoVo;
 import com.llj.lib.base.help.DisplayHelper;
 import com.llj.lib.base.widget.LoadingDialog;
@@ -93,8 +96,9 @@ public class MineFragment extends ADMvpBaseFragment<PersonalCenterPresenter> imp
             R.id.iv_message1,
             R.id.iv_setting1,}) List<ImageView> mIvBlack;
 
-    @BindView(R.id.v_status_bar) View mVStatusBar;
-    @BindView(R.id.v_white_back) View mOverlayView;
+    @BindView(R.id.v_status_bar)    View        mVStatusBar;
+    @BindView(R.id.v_white_back)    View        mOverlayView;
+    @BindView(R.id.fl_toolbar_root) FrameLayout mFlToolbarRoot;
 
     @BindView(R.id.iv_header)         SimpleDraweeView mIvHeader;
     @BindView(R.id.rl_login_wrap)     RelativeLayout   mRlLoginWrap;
@@ -135,6 +139,7 @@ public class MineFragment extends ADMvpBaseFragment<PersonalCenterPresenter> imp
         if (!hidden) {
             //获取相关数量接口
             mPresenter.getPersonalCenterCount(false);
+            LightStatusBarCompat.setLightStatusBar(((Activity) mContext).getWindow(), !(mScrollView.getScrollY() == 0));
         }
     }
 
@@ -186,10 +191,14 @@ public class MineFragment extends ADMvpBaseFragment<PersonalCenterPresenter> imp
     private int   mOffset     = 0;
     private float scrollYTemp = 0;
 
+    private boolean mIsStatusTextBlack;
+
     @Override
     public void initViews(Bundle savedInstanceState) {
-        mOverlayView.setBackgroundColor(Color.parseColor("#ffffff"));
-        mOverlayView.getBackground().mutate().setAlpha(0);
+        LightStatusBarCompat.setLightStatusBar(((Activity) mContext).getWindow(), false);
+
+        mFlToolbarRoot.setBackgroundColor(Color.parseColor("#ffffff"));
+        mFlToolbarRoot.getBackground().mutate().setAlpha(0);
         //获取用户信息
 
         mIsLoadingMushUp = true;
@@ -214,13 +223,22 @@ public class MineFragment extends ADMvpBaseFragment<PersonalCenterPresenter> imp
             public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int i2, int i3) {
                 mParallax.setTranslationY(-scrollY);
                 mIvTopBg.setTranslationY(-scrollY);
+                if (scrollY > 0) {
+                    if (!mIsStatusTextBlack) {
+                        LightStatusBarCompat.setLightStatusBar(((Activity) mContext).getWindow(), true);
+                        mIsStatusTextBlack = true;
+                    }
+                } else {
+                    mIsStatusTextBlack = false;
+                    LightStatusBarCompat.setLightStatusBar(((Activity) mContext).getWindow(), false);
+                }
 
                 scrollYTemp = scrollY > flexibleRange ? flexibleRange : scrollY;
                 float percent = scrollYTemp / flexibleRange;
 
                 if (percent > 0) {
                     if (percent >= 1) {
-                        mOverlayView.getBackground().mutate().setAlpha(255);
+                        mFlToolbarRoot.getBackground().mutate().setAlpha(255);
                         for (ImageView imageView : mIvWhite) {
                             imageView.setAlpha(0f);
                         }
@@ -229,7 +247,7 @@ public class MineFragment extends ADMvpBaseFragment<PersonalCenterPresenter> imp
                         }
                     } else {
                         //上层的title
-                        mOverlayView.getBackground().mutate().setAlpha((int) (getMiddle(percent, 0, 1) * 255));
+                        mFlToolbarRoot.getBackground().mutate().setAlpha((int) (getMiddle(percent, 0, 1) * 255));
                         for (ImageView imageView : mIvWhite) {
                             imageView.setAlpha(1 - (getMiddle(percent, 0, 1)));
                         }
@@ -245,7 +263,7 @@ public class MineFragment extends ADMvpBaseFragment<PersonalCenterPresenter> imp
                     for (ImageView imageView : mIvBlack) {
                         imageView.setAlpha(0f);
                     }
-                    mOverlayView.getBackground().mutate().setAlpha(0);
+                    mFlToolbarRoot.getBackground().mutate().setAlpha(0);
                 }
             }
 

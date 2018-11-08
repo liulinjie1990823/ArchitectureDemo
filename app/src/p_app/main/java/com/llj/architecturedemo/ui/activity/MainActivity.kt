@@ -16,10 +16,7 @@ import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
-import com.llj.architecturedemo.ui.fragment.HomeFragmentMvc
-import com.llj.architecturedemo.ui.fragment.MineFragment
-import com.llj.architecturedemo.ui.fragment.ScrollableLayoutFragment
-import com.llj.architecturedemo.ui.fragment.VlayoutFragment
+import com.llj.architecturedemo.ui.fragment.*
 import com.llj.architecturedemo.ui.model.TabListVo
 import com.llj.architecturedemo.ui.model.TabVo
 import com.llj.architecturedemo.ui.presenter.MainPresenter
@@ -132,11 +129,11 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
 
             //设置图片改变
             if (item.default_img_id != 0) {
-                val imageUrl: String? = if (mShowItem == item.type) item.hover_img else item.default_img
-                mImageLoad.loadImage(imageUrl, 120, 120, image)
-            } else {
                 val imageId: Int = if (mShowItem == item.type) item.hover_img_id else item.default_img_id
                 mImageLoad.loadImage(imageId, 120, 120, image)
+            } else {
+                val imageUrl: String? = if (mShowItem == item.type) item.hover_img else item.default_img
+                mImageLoad.loadImage(imageUrl, 120, 120, image)
             }
 
             setText(text, item.title)
@@ -161,13 +158,13 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
 
     override fun makeFragment(showItem: String): Fragment {
         when (showItem) {
-            TAB_INDEX -> return HomeFragmentMvc()
-            TAB_TONGSHANG -> return VlayoutFragment()
-            TAB_EXPO -> return ScrollableLayoutFragment()
+            TAB_INDEX -> return HomeFragment()
+            TAB_TONGSHANG -> return VLayoutFragment()
+            TAB_EXPO -> return VLayoutFragment2()
             TAB_CASH -> return ScrollableLayoutFragment()
             TAB_MY -> return MineFragment()
         }
-        return HomeFragmentMvc()
+        return HomeFragment()
     }
 
     override fun changeSelectImage(showItem: String, hideItem: String) {

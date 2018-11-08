@@ -18,11 +18,11 @@ import com.llj.lib.base.MvcBaseFragment
  * author llj
  * date 2018/8/16
  */
-class ItemFragmentMvc : MvcBaseFragment() {
+class ItemFragment : MvcBaseFragment() {
 
     companion object {
         fun getInstance(): Fragment {
-            return ItemFragmentMvc()
+            return ItemFragment()
         }
     }
 

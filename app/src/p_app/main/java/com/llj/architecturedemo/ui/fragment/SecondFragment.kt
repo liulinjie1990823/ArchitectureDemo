@@ -10,7 +10,7 @@ import com.llj.lib.base.MvcBaseFragment
  * author llj
  * date 2018/8/15
  */
-class SecondFragmentMvc : MvcBaseFragment() {
+class SecondFragment : MvcBaseFragment() {
     override fun layoutId(): Int {
         return R.layout.fragment_second
     }

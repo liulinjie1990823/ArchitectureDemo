@@ -14,13 +14,13 @@ import org.jetbrains.annotations.Nullable;
  * author llj
  * date 2018/11/2
  */
-public class DataFragmentMvc extends MvcBaseFragment {
+public class DataFragment extends MvcBaseFragment {
 
-    public static DataFragmentMvc getInstance(BabyHomeModuleItemVo data, int position) {
+    public static DataFragment getInstance(BabyHomeModuleItemVo data, int position) {
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
         bundle.putSerializable("data", data);
-        DataFragmentMvc dataFragment = new DataFragmentMvc();
+        DataFragment dataFragment = new DataFragment();
         dataFragment.setArguments(bundle);
         return dataFragment;
     }

@@ -1,5 +1,6 @@
 package com.llj.architecturedemo.ui.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
@@ -37,6 +38,7 @@ import com.llj.architecturedemo.ui.view.IScrollableLayoutView
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
 import com.llj.component.service.scrollableLayout.ScrollableLayout
+import com.llj.component.service.statusbar.LightStatusBarCompat
 import com.llj.lib.base.MvcBaseFragment
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.help.DisplayHelper
@@ -75,11 +77,18 @@ class ScrollableLayoutFragment : MvpBaseFragment<ScrollableLayoutPresenter>(), I
 
     private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(Utils.getApp())
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, true)
+        }
+    }
     override fun layoutId(): Int {
         return R.layout.fragment_scrollable_layout
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
+        LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, true)
 
         val statusBarHeight = DisplayHelper.STATUS_BAR_HEIGHT
         mVStatusBar.layoutParams.height = statusBarHeight
@@ -242,7 +251,7 @@ class ScrollableLayoutFragment : MvpBaseFragment<ScrollableLayoutPresenter>(), I
                 for (i in 0 until babyHomeModuleVo.data!!.size) {
                     val pagerItemData = babyHomeModuleVo.data[i]
                     mTabTitleList.add(pagerItemData?.title)
-                    mFragments.add(DataFragmentMvc.getInstance(pagerItemData, i))
+                    mFragments.add(DataFragment.getInstance(pagerItemData, i))
                 }
             }
         }

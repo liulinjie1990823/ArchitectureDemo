@@ -1,5 +1,6 @@
 package com.llj.architecturedemo.ui.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
@@ -29,10 +30,11 @@ import com.llj.architecturedemo.R
 import com.llj.architecturedemo.ui.model.BabyHomeModuleItemVo
 import com.llj.architecturedemo.ui.model.BabyHomeModuleVo
 import com.llj.architecturedemo.ui.model.HomeModelType
-import com.llj.architecturedemo.ui.presenter.VlayoutPresenter
-import com.llj.architecturedemo.ui.view.IVlayoutView
+import com.llj.architecturedemo.ui.presenter.VLayoutPresenter
+import com.llj.architecturedemo.ui.view.IVLayoutView
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
+import com.llj.component.service.statusbar.LightStatusBarCompat
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.OnMyClickListener
@@ -56,7 +58,7 @@ import kotlin.collections.ArrayList
  * author llj
  * date 2018/10/24
  */
-class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
+class VLayoutFragment : MvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
 
     override fun getParams(): HashMap<String, Any> {
         return HashMap()
@@ -107,7 +109,6 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
         mRefreshLayout.finishRefresh()
     }
 
-    @BindView(R.id.v_status_bar) lateinit var mVStatusBar: View
     @BindView(R.id.tv_city) lateinit var mTvCity: TextView
     @BindView(R.id.v_search_bg) lateinit var mVSearchBg: View
     @BindView(R.id.tv_search) lateinit var mTvSearch: TextView
@@ -120,16 +121,21 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
     private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(Utils.getApp())
 
 
-    override fun initData() {
-
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, false)
+        }
     }
 
-    override fun initViews(bundle: Bundle?) {
+    override fun layoutId(): Int {
+        return R.layout.fragment_vlayout
+    }
+
+    override fun initViews(savedInstanceState: Bundle?) {
+        LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, false)
 
         mMyHandler = MyHandler(this)
-
-        val statusBarHeight = DisplayHelper.STATUS_BAR_HEIGHT
-        mVStatusBar.layoutParams.height = statusBarHeight
 
         mRefreshLayout.setOnRefreshListener {
             mPresenter.getHomeData(false)
@@ -143,19 +149,18 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
             }
         }).setEnableLoadMore(false).setEnableOverScrollDrag(true).setEnableOverScrollBounce(false)
 
-        mPresenter.getHomeData(true)
-
+        mRefreshLayout.autoRefresh()
     }
 
-    override fun layoutId(): Int {
-        return R.layout.fragment_vlayout
+    override fun initData() {
+
     }
 
 
     //banner
-    private fun initBannerAdapter(list: List<BabyHomeModuleItemVo?>): VlayoutFragment.MyDelegateAdapter {
+    private fun initBannerAdapter(list: List<BabyHomeModuleItemVo?>): VLayoutFragment.MyDelegateAdapter {
         val layoutHelper = LinearLayoutHelper()
-        return object : VlayoutFragment.MyDelegateAdapter(mContext, layoutHelper, R.layout.item_baby_home_banner, 1, ViewType.BANNER) {
+        return object : MyDelegateAdapter(mContext, layoutHelper, R.layout.item_baby_home_banner, 1, ViewType.BANNER) {
 
             override fun onBindViewHolder(holder: ViewHolderHelper, position: Int) {
                 super.onBindViewHolder(holder, position)
@@ -204,7 +209,6 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
             }
         }
     }
-
 
     //导航入口
     private fun initNavigationAdapter(list: List<BabyHomeModuleItemVo?>): MyDelegateAdapter {
@@ -292,6 +296,7 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
         val gridLayoutHelper = GridLayoutHelper(2)
         gridLayoutHelper.setPadding(dip2px(mContext, 15f), 0, dip2px(mContext, 15f), 0)
         gridLayoutHelper.bgColor = Color.WHITE
+        gridLayoutHelper.setAutoExpand(false)
 
         return object : MyDelegateAdapter(mContext, gridLayoutHelper, R.layout.item_baby_home_exhibition_module, list.size, ViewType.EXHIBITION) {
 
@@ -463,8 +468,8 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
         }
     }
 
-    private class MyHandler(fragment: VlayoutFragment) : Handler() {
-        internal var mWeakReferenceActivity: WeakReference<VlayoutFragment>? = null
+    private inner class MyHandler(fragment: VLayoutFragment) : Handler() {
+        internal var mWeakReferenceActivity: WeakReference<VLayoutFragment>? = null
 
         init {
             mWeakReferenceActivity = WeakReference(fragment)
@@ -491,7 +496,7 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
                         val tvSecond = holder.getView<TextView>(R.id.tv_second)
                         val tvSecondTag = holder.getView<TextView>(R.id.tv_end)
 
-                        val data = fragment.mList!!.get(i - fragment.mStartPosition)
+                        val data = fragment.mList!![i - fragment.mStartPosition]
 
                         if (data != null) {
                             tvHasEnd.visibility = View.GONE
@@ -694,9 +699,8 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
     //    }
 
 
-    private inner class BannerImageAdapter internal constructor(private val mContext: Context,
-                                                                private val mList: List<BabyHomeModuleItemVo?>)
-        : InfinitePagerAdapter() {
+    private inner class BannerImageAdapter
+    constructor(private val mContext: Context, private val mList: List<BabyHomeModuleItemVo?>) : InfinitePagerAdapter() {
 
         override fun getItemCount(): Int {
             return mList.size
@@ -718,9 +722,8 @@ class VlayoutFragment : MvpBaseFragment<VlayoutPresenter>(), IVlayoutView {
         }
     }
 
-    private inner class AdImageAdapter internal constructor(private val mContext: Context,
-                                                            private val mList: List<BabyHomeModuleItemVo?>)
-        : InfinitePagerAdapter() {
+    private inner class AdImageAdapter
+    constructor(private val mContext: Context, private val mList: List<BabyHomeModuleItemVo?>) : InfinitePagerAdapter() {
 
         override fun getItemCount(): Int {
             return mList.size

@@ -10,6 +10,6 @@ import com.llj.lib.net.response.BaseResponse
  * author llj
  * date 2018/10/24
  */
-interface IVlayoutView : IBaseActivityView1<BaseResponse<List<BabyHomeModuleVo?>?>> {
+interface IVLayoutView : IBaseActivityView1<BaseResponse<List<BabyHomeModuleVo?>?>> {
 
 }
