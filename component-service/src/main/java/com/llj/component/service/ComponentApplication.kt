@@ -15,10 +15,7 @@ import com.squareup.leakcanary.LeakCanary
  * author llj
  * date 2018/7/3
  */
- open class ComponentApplication : BaseApplication() {
-    override fun injectApp() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+abstract class ComponentApplication : BaseApplication() {
 
     lateinit var mComponent: Component
 
