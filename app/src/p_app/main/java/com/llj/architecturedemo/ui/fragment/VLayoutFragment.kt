@@ -21,6 +21,7 @@ import com.alibaba.android.vlayout.LayoutHelper
 import com.alibaba.android.vlayout.VirtualLayoutManager
 import com.alibaba.android.vlayout.layout.GridLayoutHelper
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.github.demono.AutoScrollViewPager
@@ -67,7 +68,7 @@ class VLayoutFragment : MvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
 
     override fun onDataSuccess(result: BaseResponse<List<BabyHomeModuleVo?>?>) {
         mRefreshLayout.finishRefresh()
-        if (result == null || isEmpty(result.data)) {
+        if (isEmpty(result.data)) {
             return
         }
 
@@ -75,12 +76,26 @@ class VLayoutFragment : MvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
         //创建VirtualLayoutManager对象
         val layoutManager = VirtualLayoutManager(mContext)
         mRecyclerView.layoutManager = layoutManager
+        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                when (newState) {
+                    RecyclerView.SCROLL_STATE_IDLE -> Fresco.getImagePipeline().resume()
+                    RecyclerView.SCROLL_STATE_DRAGGING -> Fresco.getImagePipeline().pause()
+                    RecyclerView.SCROLL_STATE_SETTLING -> Fresco.getImagePipeline().pause()
+                }
+            }
+        })
 
         //设置回收复用池大小，（如果一屏内相同类型的 View 个数比较多，需要设置一个合适的大小，防止来回滚动时重新创建 View）
         val viewPool = RecyclerView.RecycledViewPool()
+        viewPool.setMaxRecycledViews(ViewType.BANNER, 1)
+        viewPool.setMaxRecycledViews(ViewType.NAVIGATION, 10)
+        viewPool.setMaxRecycledViews(ViewType.AD, 1)
+        viewPool.setMaxRecycledViews(ViewType.EXHIBITION, 6)
+        viewPool.setMaxRecycledViews(ViewType.LIMITED_TIME, 5)
         mRecyclerView.setRecycledViewPool(viewPool)
-        mRecyclerView.setItemViewCacheSize(2)
-
+        mRecyclerView.setItemViewCacheSize(20)
         //设置适配器
         val delegateAdapter = DelegateAdapter(layoutManager, true)
         mRecyclerView.adapter = delegateAdapter
@@ -214,7 +229,7 @@ class VLayoutFragment : MvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
     private fun initNavigationAdapter(list: List<BabyHomeModuleItemVo?>): MyDelegateAdapter {
 
         val gridLayoutHelper = GridLayoutHelper(5)
-        gridLayoutHelper.setPadding(dip2px(mContext, 12f), 0, dip2px(mContext, 12f), 0)
+        gridLayoutHelper.setPadding(dip2px(mContext, 12f), dip2px(mContext, 10f), dip2px(mContext, 12f), dip2px(mContext, 10f))
         gridLayoutHelper.bgColor = Color.WHITE
         gridLayoutHelper.setAutoExpand(false)
 
@@ -253,7 +268,7 @@ class VLayoutFragment : MvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
 
                 //设置banner
 
-                val height = ((DisplayHelper.SCREEN_WIDTH_PIXELS - dip2px(mContext, 40f)) * 120 / 670f + dip2px(mContext, 20f)).toInt()
+                val height = ((DisplayHelper.SCREEN_WIDTH_PIXELS - dip2px(mContext, 40f)) * 120 / 670f + dip2px(mContext, 30f)).toInt()
                 val width = -1
                 viewPager.layoutParams = VirtualLayoutManager.LayoutParams(width, height)
                 val imageAdapter = AdImageAdapter(mContext, list)
@@ -294,7 +309,7 @@ class VLayoutFragment : MvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
     //展会模块
     private fun initExhibitionModuleAdapter(list: List<BabyHomeModuleItemVo?>): MyDelegateAdapter {
         val gridLayoutHelper = GridLayoutHelper(2)
-        gridLayoutHelper.setPadding(dip2px(mContext, 15f), 0, dip2px(mContext, 15f), 0)
+        gridLayoutHelper.setPadding(dip2px(mContext, 15f), 0, dip2px(mContext, 15f), dip2px(mContext, 5f))
         gridLayoutHelper.bgColor = Color.WHITE
         gridLayoutHelper.setAutoExpand(false)
 
@@ -344,7 +359,7 @@ class VLayoutFragment : MvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
         val layoutHelper = LinearLayoutHelper()
         layoutHelper.bgColor = Color.WHITE
         layoutHelper.setDividerHeight(dip2px(mContext, 10f))
-        layoutHelper.setPadding(dip2px(mContext, 20f), 0, dip2px(mContext, 20f), 0)
+        layoutHelper.setPadding(dip2px(mContext, 20f), 0, dip2px(mContext, 20f), dip2px(mContext, 10f))
         return object : MyDelegateAdapter(mContext, layoutHelper, R.layout.item_baby_home_limited_time, list.size, ViewType.LIMITED_TIME) {
 
             override fun onBindViewHolder(holder: ViewHolderHelper, position: Int) {
