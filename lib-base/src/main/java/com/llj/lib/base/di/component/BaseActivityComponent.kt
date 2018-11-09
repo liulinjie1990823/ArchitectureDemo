@@ -1,6 +1,7 @@
 package com.llj.lib.base.di.component
 
 import com.llj.lib.base.MvpBaseActivity
+import com.llj.lib.base.mvp.IBasePresenter
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjectionModule
@@ -13,8 +14,8 @@ import dagger.android.AndroidInjector
  * date 2018/5/16
  */
 @Subcomponent(modules = [AndroidInjectionModule::class])
-interface BaseActivityComponent : AndroidInjector<MvpBaseActivity<*>> {
+interface BaseActivityComponent : AndroidInjector<MvpBaseActivity<IBasePresenter>> {
 
     @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<MvpBaseActivity<*>>()
+    abstract class Builder : AndroidInjector.Builder<MvpBaseActivity<IBasePresenter>>()
 }

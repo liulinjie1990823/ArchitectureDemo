@@ -13,7 +13,7 @@ def versions = [
         lifecycle            : "1.1.1",
         room                 : "1.1.1",
 
-        dagger               : "2.17",
+        dagger               : "2.19",
         autodispose          : "1.0.0-RC2",
         arouter_api          : "1.4.1",
         arouter_compiler     : "1.2.2",

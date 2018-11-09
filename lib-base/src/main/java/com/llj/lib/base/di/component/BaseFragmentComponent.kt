@@ -1,6 +1,7 @@
 package com.llj.lib.base.di.component
 
 import com.llj.lib.base.MvpBaseFragment
+import com.llj.lib.base.mvp.IBasePresenter
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -12,8 +13,8 @@ import dagger.android.support.AndroidSupportInjectionModule
  * date 2018/5/16
  */
 @Subcomponent(modules = [AndroidSupportInjectionModule::class])
-interface BaseFragmentComponent : AndroidInjector<MvpBaseFragment<*>> {
+interface BaseFragmentComponent : AndroidInjector<MvpBaseFragment<IBasePresenter>> {
 
     @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<MvpBaseFragment<*>>()
+    abstract class Builder : AndroidInjector.Builder<MvpBaseFragment<IBasePresenter>>()
 }
