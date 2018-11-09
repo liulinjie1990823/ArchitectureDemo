@@ -21,6 +21,7 @@ public class CRouter {
     public static final String APP_RECYCLE_VIEW_ACTIVITY      = "/app/RecycleViewActivity";
     public static final String APP_RXJAVA2_ACTIVITY           = "/app/RxJava2Activity";
     public static final String APP_REQUEST_ACTIVITY           = "/app/RequestActivity";
+    public static final String APP_JAVA_TYPE_ACTIVITY           = "/app/JavaTypeActivity";
     public static final String APP_PROXY_ACTIVITY             = "/app/ProxyActivity";
     public static final String APP_NESTED_SCROLLVIEW_ACTIVITY = "/app/NestedScrollViewActivity";
     public static final String APP_LINEAR_LAYOUT_ACTIVITY     = "/app/LinearLayoutActivity";

@@ -62,7 +62,7 @@ ext {
             ],
             //分包
             multidex                  : "com.android.support:multidex:1.0.3",
-            multidex_instrumentation                  : "com.android.support:multidex-instrumentation:1.0.3",
+            multidex_instrumentation  : "com.android.support:multidex-instrumentation:1.0.3",
             //支持库
             support                   : [
                     annotations : "com.android.support:support-annotations:$versions.support",

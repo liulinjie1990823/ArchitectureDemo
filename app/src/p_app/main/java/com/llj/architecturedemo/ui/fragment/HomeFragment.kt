@@ -40,6 +40,7 @@ class HomeFragment : MvcBaseFragment() {
         LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, true)
 
         val arrayList = arrayListOf<Data>()
+        arrayList.add(Data("JavaTypeActivity", CRouter.APP_JAVA_TYPE_ACTIVITY))
         arrayList.add(Data("RequestActivity", CRouter.APP_REQUEST_ACTIVITY))
         arrayList.add(Data("RxJava2Activity", CRouter.APP_RXJAVA2_ACTIVITY))
         arrayList.add(Data("ShareActivity", CRouter.APP_SHARE_ACTIVITY))
