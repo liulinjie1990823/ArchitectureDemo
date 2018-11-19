@@ -6,7 +6,6 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.Context
 import android.os.Bundle
-import android.support.multidex.MultiDex
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import com.billy.cc.core.component.CC
@@ -91,7 +90,7 @@ class AppApplication : ComponentApplication() {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        MultiDex.install(this)
+//        MultiDex.install(this)
     }
 
     override fun activityInjector(): AndroidInjector<Activity>? {

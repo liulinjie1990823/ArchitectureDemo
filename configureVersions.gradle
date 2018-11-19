@@ -5,7 +5,7 @@
 
 def versions = [
         android_gradle_plugin: "3.2.1",
-        kotlin               : '1.3.0',
+        kotlin               : '1.3.10',
         bintray_release      : '0.8.1',
         walle                : '1.1.6',
 
@@ -17,14 +17,14 @@ def versions = [
         autodispose          : "1.0.0-RC2",
         arouter_api          : "1.4.1",
         arouter_compiler     : "1.2.2",
-        butterknife          : "9.0.0-rc1",
+        butterknife          : "9.0.0-rc2",
 
-        retrofit2            : "2.4.0",
-        okhttp               : "3.11.0",
+        retrofit2            : "2.5.0",
+        okhttp               : "3.12.0",
 
         fresco               : "1.10.0",
 
-        smartrefresh         : "1.1.0-alpha-14",
+        smartrefresh         : "1.1.0-alpha-15",
 
         auto_value           : "1.6",
 
@@ -192,7 +192,7 @@ ext {
 
 def addRepos(RepositoryHandler handler) {
     //本地的maven仓库，需要maven格式的包
-//    handler.maven { url uri('./repo') }//插件
+    handler.maven { url uri('./repo') }//插件
 //    handler.mavenLocal()
     //工程中的lib文件夹，依赖aar和jar文件
 

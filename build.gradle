@@ -23,7 +23,7 @@ buildscript {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         classpath 'com.billy.android:cc-register:1.0.6'
 
-//        classpath 'com.llj:time-gradle-plugin:0.0.2'
+//        classpath 'com.llj:plugin-inject:0.0.1'
     }
 }
 
