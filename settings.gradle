@@ -20,6 +20,9 @@ include 'app',
         ':component-service',
         ':module-login'
 
+include 'plugin-tracker-inject'
+
+
 
 if (!useMaven) {
     include ':lib-base',

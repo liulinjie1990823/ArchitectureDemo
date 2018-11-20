@@ -52,8 +52,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MyAppTheme.NoActionBar"
-        tools:replace="android:allowBackup,android:icon,android:name,android:theme,android:label">
+        android:theme="@style/MyAppTheme.NoActionBar">
 
         <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.MemoryLeakActivity"/>

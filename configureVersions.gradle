@@ -22,7 +22,7 @@ def versions = [
         retrofit2            : "2.5.0",
         okhttp               : "3.12.0",
 
-        fresco               : "1.10.0",
+        fresco               : "1.11.0",
 
         smartrefresh         : "1.1.0-alpha-15",
 
