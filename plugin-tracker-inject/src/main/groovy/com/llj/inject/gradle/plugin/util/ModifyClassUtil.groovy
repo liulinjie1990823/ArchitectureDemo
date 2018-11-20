@@ -10,8 +10,7 @@ import org.objectweb.asm.*
  */
 public class ModifyClassUtil {
 
-    public
-    static byte[] modifyClasses(String className, byte[] srcByteCode) {
+    public static byte[] modifyClasses(String className, byte[] srcByteCode) {
         byte[] classBytesCode = null;
         try {
             Log.info("====start modifying ${className}====");
@@ -30,8 +29,7 @@ public class ModifyClassUtil {
     }
 
 
-    private
-    static byte[] modifyClass(byte[] srcClass) throws IOException {
+    private static byte[] modifyClass(byte[] srcClass) throws IOException {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         ClassVisitor methodFilterCV = new MethodFilterClassVisitor(classWriter);
         ClassReader cr = new ClassReader(srcClass);
@@ -39,8 +37,7 @@ public class ModifyClassUtil {
         return classWriter.toByteArray();
     }
 
-    private
-    static void onlyVisitClassMethod(byte[] srcClass) throws IOException {
+    private static void onlyVisitClassMethod(byte[] srcClass) throws IOException {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         MethodFilterClassVisitor methodFilterCV = new MethodFilterClassVisitor(classWriter);
         methodFilterCV.onlyVisit = true;
@@ -60,7 +57,7 @@ public class ModifyClassUtil {
      *            INVOKEINTERFACE.
      * @param owner
      *            the internal name of the method's owner class (see
-     *            {@link org.objectweb.asm.Type#getInternalName() getInternalName}).
+     * {@link org.objectweb.asm.Type#getInternalName() getInternalName}).
      * @param name
      *            the method's name.
      * @param desc
@@ -72,8 +69,7 @@ public class ModifyClassUtil {
      * @param paramOpcodes 参数类型对应的ASM指令
      *
      */
-    private
-    static void visitMethodWithLoadedParams(MethodVisitor methodVisitor, int opcode, String owner, String methodName, String methodDesc, int start, int count, List<Integer> paramOpcodes) {
+    private static void visitMethodWithLoadedParams(MethodVisitor methodVisitor, int opcode, String owner, String methodName, String methodDesc, int start, int count, List<Integer> paramOpcodes) {
         for (int i = start; i < start + count; i++) {
             methodVisitor.visitVarInsn(paramOpcodes[i - start], i);
         }

@@ -6,8 +6,6 @@ dependencies {
     implementation deps.okhttp
     implementation deps.support.app_compat
     implementation deps.support.annotations
-    api 'com.sina.weibo.sdk:core:4.3.0:openDefaultRelease@aar'
-    api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.1.6'
 }
 
 apply from: "../uploadArchives.gradle"
