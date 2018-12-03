@@ -41,31 +41,31 @@ import android.widget.Scroller;
 public class ScrollableLayout extends LinearLayout {
 
     private final String tag = "cp:scrollableLayout";
-    private float mDownX;
-    private float mDownY;
-    private float mLastY;
+    private       float  mDownX;
+    private       float  mDownY;
+    private       float  mLastY;
 
-    private int minY = 0;
-    private int maxY = 0;
-    private int mHeadHeight;
-    private int mExpandHeight;
-    private int mTouchSlop;
-    private int mMinimumVelocity;
-    private int mMaximumVelocity;
+    private int       minY = 0;
+    private int       maxY = 0;
+    private int       mHeadHeight;
+    private int       mExpandHeight;
+    private int       mTouchSlop;
+    private int       mMinimumVelocity;
+    private int       mMaximumVelocity;
     // 方向
     private DIRECTION mDirection;
-    private int mCurY;
-    private int mLastScrollerY;
-    private boolean needCheckUpdown;
-    private boolean updown;
-    private boolean mDisallowIntercept;
-    private boolean isClickHead;
-    private boolean isClickHeadExpand;
+    private int       mCurY;
+    private int       mLastScrollerY;
+    private boolean   needCheckUpdown;
+    private boolean   updown;
+    private boolean   mDisallowIntercept;
+    private boolean   isClickHead;
+    private boolean   isClickHeadExpand;
 
-    private View mHeadView;
+    private View      mHeadView;
     private ViewPager childViewPager;
 
-    private Scroller mScroller;
+    private Scroller        mScroller;
     private VelocityTracker mVelocityTracker;
 
     /**
@@ -275,6 +275,18 @@ public class ScrollableLayout extends LinearLayout {
                 invalidate();
             }
             mLastScrollerY = currY;
+        }
+    }
+
+    //兼容外层布局是SmartRefreshLayout，解决上下滑动冲突
+    @Override
+    public boolean canScrollVertically(int direction) {
+        if (direction > 0) {
+            //向上滑动
+            return true;
+        } else {
+            //向下滑动
+            return !canPtr();
         }
     }
 

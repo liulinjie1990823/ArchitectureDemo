@@ -1,6 +1,5 @@
 package com.llj.architecturedemo.ui.fragment
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
@@ -33,10 +32,9 @@ import com.llj.architecturedemo.ui.model.BabyHomeModuleVo
 import com.llj.architecturedemo.ui.model.HomeModelType
 import com.llj.architecturedemo.ui.presenter.VLayoutPresenter
 import com.llj.architecturedemo.ui.view.IVLayoutView
+import com.llj.component.service.ADMvpBaseFragment
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
-import com.llj.component.service.statusbar.LightStatusBarCompat
-import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.OnMyClickListener
 import com.llj.lib.image.loader.FrescoImageLoader
@@ -59,7 +57,7 @@ import kotlin.collections.ArrayList
  * author llj
  * date 2018/10/24
  */
-class VLayoutFragment : MvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
+class VLayoutFragment : ADMvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
 
     override fun getParams(): HashMap<String, Any> {
         return HashMap()
@@ -136,19 +134,16 @@ class VLayoutFragment : MvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
     private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(Utils.getApp())
 
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden) {
-            LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, false)
-        }
-    }
-
     override fun layoutId(): Int {
         return R.layout.fragment_vlayout
     }
 
+    override fun statusBarTextColorBlack(): Boolean {
+        return false
+    }
+
     override fun initViews(savedInstanceState: Bundle?) {
-        LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, false)
+        super.initViews(savedInstanceState)
 
         mMyHandler = MyHandler(this)
 

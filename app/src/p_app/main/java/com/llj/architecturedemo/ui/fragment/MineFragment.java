@@ -132,7 +132,6 @@ public class MineFragment extends ADMvpBaseFragment<PersonalCenterPresenter> imp
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
         if (!isHidden() && hasInLoading()) {
             showLoadingDialog();
         }
@@ -194,8 +193,13 @@ public class MineFragment extends ADMvpBaseFragment<PersonalCenterPresenter> imp
     private boolean mIsStatusTextBlack;
 
     @Override
+    protected boolean statusBarTextColorBlack() {
+        return false;
+    }
+
+    @Override
     public void initViews(Bundle savedInstanceState) {
-        LightStatusBarCompat.setLightStatusBar(((Activity) mContext).getWindow(), false);
+        super.initViews(savedInstanceState);
 
         mFlToolbarRoot.setBackgroundColor(Color.parseColor("#ffffff"));
         mFlToolbarRoot.getBackground().mutate().setAlpha(0);

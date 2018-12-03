@@ -6,15 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
-
-    <View
-        android:id="@+id/v_status_bar"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:alpha="0"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="parent"/>
 
     <!--toolbar-->
     <android.support.constraint.ConstraintLayout
@@ -64,19 +57,18 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <!--content-->
     <com.llj.component.service.refreshLayout.JHSmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cv_toolbar">
+        android:layout_height="match_parent">
 
         <com.llj.component.service.scrollableLayout.ScrollableLayout
             android:id="@+id/scrollableLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <!--header-->
             <LinearLayout
                 android:id="@+id/ll_header"
                 android:layout_width="match_parent"
@@ -89,15 +81,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
-                android:background="@color/white"/>
+                android:background="@color/white"
+                android:visibility="visible"/>
 
             <!--左右滑动页面-->
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@color/white"
-                android:overScrollMode="never"/>
+                android:overScrollMode="never"
+                android:visibility="visible"/>
 
         </com.llj.component.service.scrollableLayout.ScrollableLayout>
 

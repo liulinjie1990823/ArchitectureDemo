@@ -15,6 +15,7 @@ task taskc {
 task taskd {
     println 'taskd'
 }
+tasks.getByName("taskb").dependsOn taska
 
 //tasks.getByName("assembleReleaseChannels").mustRunAfter taskX
 //taskY.mustRunAfter taskX

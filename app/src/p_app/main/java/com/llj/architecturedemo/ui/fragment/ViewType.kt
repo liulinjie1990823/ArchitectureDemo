@@ -18,5 +18,7 @@ interface ViewType{
         const val LIMITED_TIME = 7
         const val RECOMMENDED_ACTIVITY_TITLE = 8
         const val RECOMMENDED_ACTIVITY = 9
+        const val BANNER_AD = 11
+        const val BROADCAST = 12
     }
 }
