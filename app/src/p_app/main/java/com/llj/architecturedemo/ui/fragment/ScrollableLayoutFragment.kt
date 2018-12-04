@@ -1,6 +1,5 @@
 package com.llj.architecturedemo.ui.fragment
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
@@ -42,8 +41,6 @@ import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
 import com.llj.component.service.scrollableLayout.ScrollableHelper
 import com.llj.component.service.scrollableLayout.ScrollableLayout
-import com.llj.component.service.statusbar.LightStatusBarCompat
-import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.OnMyClickListener
 import com.llj.lib.image.loader.FrescoImageLoader
@@ -105,8 +102,7 @@ class ScrollableLayoutFragment : ADMvpBaseFragment<ScrollableLayoutPresenter>(),
 
         })
 
-
-        mPresenter.getWeddingHome(true)
+        mRefreshLayout.autoRefresh()
     }
 
     override fun initData() {
@@ -136,7 +132,10 @@ class ScrollableLayoutFragment : ADMvpBaseFragment<ScrollableLayoutPresenter>(),
                 simplePagerTitleView.setPadding(dip2px(mContext, 15f), 0, dip2px(mContext, 15f), 0)
 
                 simplePagerTitleView.setOnClickListener {
-                    mViewpager.currentItem = index
+                    mScrollableLayout.expand()
+                    mViewpager.post {
+                        mViewpager.currentItem = index
+                    }
                 }
                 return simplePagerTitleView
             }

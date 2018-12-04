@@ -68,7 +68,7 @@ public class ScrollableHelper {
      * 需要支持其他view可以自行补充实现
      * @return
      */
-    public boolean isTop() {
+    public boolean isScrollableViewTop() {
         View scrollableView = getScrollableView();
         if (scrollableView == null) {
 //            throw new NullPointerException("You should call ScrollableHelper.setCurrentScrollableContainer() to set ScrollableContainer.");

@@ -45,10 +45,12 @@ public class ScrollableLayout extends LinearLayout {
     private       float  mDownY;
     private       float  mLastY;
 
-    private int       minY = 0;
-    private int       maxY = 0;
-    private int       mHeadHeight;
-    private int       mExpandHeight;
+    private int mMinY = 0;
+    private int mMaxY = 0;
+    private int mHeadHeight;
+    private int mExpandHeight;
+
+    //配置的基本参数
     private int       mTouchSlop;
     private int       mMinimumVelocity;
     private int       mMaximumVelocity;
@@ -56,11 +58,11 @@ public class ScrollableLayout extends LinearLayout {
     private DIRECTION mDirection;
     private int       mCurY;
     private int       mLastScrollerY;
-    private boolean   needCheckUpdown;
-    private boolean   updown;
+    private boolean   mNeedCheckUpDown;//是否需要检查上下滚动
+    private boolean   mUpDown;//上下滚动
     private boolean   mDisallowIntercept;
-    private boolean   isClickHead;
-    private boolean   isClickHeadExpand;
+    private boolean   mIsClickHead;//是否点击header区域
+    private boolean   mIsClickHeadExpand;//是否点击header扩展区域
 
     private View      mHeadView;
     private ViewPager childViewPager;
@@ -73,7 +75,19 @@ public class ScrollableLayout extends LinearLayout {
      */
     enum DIRECTION {
         UP,// 向上划
-        DOWN// 向下划
+        DOWN,// 向下划
+        AUTO_COLLAPSE,//自动收缩
+        AUTO_EXPAND//自动展开
+    }
+
+    //向上划
+    public boolean isScrollUp() {
+        return mDirection == DIRECTION.UP;
+    }
+
+    //向下划
+    public boolean isScrollDown() {
+        return mDirection == DIRECTION.DOWN;
     }
 
     public interface OnScrollListener {
@@ -125,8 +139,9 @@ public class ScrollableLayout extends LinearLayout {
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
     }
 
-    public boolean isSticked() {
-        return mCurY == maxY;
+    //是否向上滑动到最大值
+    public boolean isStickied() {
+        return mCurY == mMaxY;
     }
 
     /**
@@ -138,16 +153,30 @@ public class ScrollableLayout extends LinearLayout {
         mExpandHeight = expandHeight;
     }
 
+    //移到最顶端
+    public void expand() {
+        mDirection = DIRECTION.AUTO_EXPAND;
+        mScroller.startScroll(0, mCurY, 0, -mCurY);
+        invalidate();
+    }
+
+    //悬停状态
+    public void collapse() {
+        mDirection = DIRECTION.AUTO_COLLAPSE;
+        mScroller.startScroll(0, mCurY, 0, mMaxY - mCurY);
+        invalidate();
+    }
+
     public int getMaxY() {
-        return maxY;
+        return mMaxY;
     }
 
     public boolean isHeadTop() {
-        return mCurY == minY;
+        return mCurY == mMinY;
     }
 
     public boolean canPtr() {
-        return updown && mCurY == minY && mHelper.isTop();
+        return mUpDown && mCurY == mMinY && mHelper.isScrollableViewTop();
     }
 
     public void requestScrollableLayoutDisallowInterceptTouchEvent(boolean disallowIntercept) {
@@ -165,8 +194,8 @@ public class ScrollableLayout extends LinearLayout {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mDisallowIntercept = false;
-                needCheckUpdown = true;
-                updown = true;
+                mNeedCheckUpDown = true;
+                mUpDown = true;
                 mDownX = currentX;
                 mDownY = currentY;
                 mLastY = currentY;
@@ -183,19 +212,19 @@ public class ScrollableLayout extends LinearLayout {
                 initVelocityTrackerIfNotExists();
                 mVelocityTracker.addMovement(ev);
                 deltaY = mLastY - currentY;
-                if (needCheckUpdown) {
+                if (mNeedCheckUpDown) {
                     if (shiftX > mTouchSlop && shiftX > shiftY) {
-                        needCheckUpdown = false;
-                        updown = false;
+                        mNeedCheckUpDown = false;
+                        mUpDown = false;
                     } else if (shiftY > mTouchSlop && shiftY > shiftX) {
-                        needCheckUpdown = false;
-                        updown = true;
+                        mNeedCheckUpDown = false;
+                        mUpDown = true;
                     }
                 }
 
-                if (updown && shiftY > mTouchSlop && shiftY > shiftX &&
-                        (!isSticked() || mHelper.isTop() || isClickHeadExpand)) {
-
+                if (mUpDown && shiftY > mTouchSlop && shiftY > shiftX &&
+                        (!isStickied() || mHelper.isScrollableViewTop() || mIsClickHeadExpand)) {
+                    //上下滑动，
                     if (childViewPager != null) {
                         childViewPager.requestDisallowInterceptTouchEvent(true);
                     }
@@ -204,27 +233,43 @@ public class ScrollableLayout extends LinearLayout {
                 mLastY = currentY;
                 break;
             case MotionEvent.ACTION_UP:
-                if (updown && shiftY > shiftX && shiftY > mTouchSlop) {
+                if (mUpDown && shiftY > shiftX && shiftY > mTouchSlop) {
                     mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
                     float yVelocity = -mVelocityTracker.getYVelocity();
-                    boolean dislowChild = false;
+                    boolean allowChild = false;
                     if (Math.abs(yVelocity) > mMinimumVelocity) {
                         mDirection = yVelocity > 0 ? DIRECTION.UP : DIRECTION.DOWN;
-                        if ((mDirection == DIRECTION.UP && isSticked()) || (!isSticked() && getScrollY() == 0 && mDirection == DIRECTION.DOWN)) {
-                            dislowChild = true;
+                        if ((isScrollUp() && isStickied()) || (isScrollDown() && (!isStickied()) && getScrollY() == 0)) {
+                            //向上滑动且header已经置顶
+                            allowChild = true;
                         } else {
+                            //控制ScrollableLayout本身fling
+                            //RecycleView中的fling
+                            // public void fling(int velocityX, int velocityY) {
+                            //            RecyclerView.this.setScrollState(2);
+                            //            this.mLastFlingX = this.mLastFlingY = 0;
+                            //            this.mScroller.fling(0, 0, velocityX, velocityY, -2147483648, 2147483647, -2147483648, 2147483647);
+                            //            this.postOnAnimation();
+                            //        }
+                            allowChild = false;
                             mScroller.fling(0, getScrollY(), 0, (int) yVelocity, 0, 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
-                            mScroller.computeScrollOffset();
+//                            mScroller.computeScrollOffset();
                             mLastScrollerY = getScrollY();
                             invalidate();
                         }
                     }
-                    if (!dislowChild && (isClickHead || !isSticked())) {
-                        int action = ev.getAction();
-                        ev.setAction(MotionEvent.ACTION_CANCEL);
-                        boolean dispathResult = super.dispatchTouchEvent(ev);
-                        ev.setAction(action);
-                        return dispathResult;
+                    if (!allowChild && (mIsClickHead || !isStickied())) {
+                        //不允许子view滚动且点击在header且没有置顶，不需要子view滚动
+//                        int action = ev.getAction();
+//                        ev.setAction(MotionEvent.ACTION_CANCEL);
+//                        boolean dispatchResult = super.dispatchTouchEvent(ev);
+//                        ev.setAction(action);
+//                        return dispatchResult;
+                        return true;
+                    } else {
+                        //交给子view滚动
+                        super.dispatchTouchEvent(ev);
+                        return true;
                     }
                 }
                 break;
@@ -250,29 +295,38 @@ public class ScrollableLayout extends LinearLayout {
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
             final int currY = mScroller.getCurrY();
-            if (mDirection == DIRECTION.UP) {
+            if (isScrollUp()) {
                 // 手势向上划
-                if (isSticked()) {
+                if (isStickied()) {
+                    //已经置顶的情况，滑动交给子view来滚动
                     int distance = mScroller.getFinalY() - currY;
                     int duration = calcDuration(mScroller.getDuration(), mScroller.timePassed());
                     mHelper.smoothScrollBy(getScrollerVelocity(distance, duration), distance, duration);
                     mScroller.forceFinished(true);
-                    return;
                 } else {
                     scrollTo(0, currY);
+                    //invalidate();
                 }
-            } else {
+            } else if (isScrollDown()) {
                 // 手势向下划
-                if (mHelper.isTop() || isClickHeadExpand) {
+                if (mHelper.isScrollableViewTop() || mIsClickHeadExpand) {
+                    //开始如果子view没有滚完，先通过super.dispatchTouchEvent(ev)让子view滚动
+                    //然后接着在这里控制ScrollableLayout里的布局整体移动
                     int deltaY = (currY - mLastScrollerY);
                     int toY = getScrollY() + deltaY;
                     scrollTo(0, toY);
-                    if (mCurY <= minY) {
+                    if (mCurY <= mMinY) {
                         mScroller.forceFinished(true);
-                        return;
                     }
+
                 }
                 invalidate();
+            } else {
+                //
+                // 这里调用View的scrollTo()完成实际的滚动
+                scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+                // 必须调用该方法，否则不一定能看到滚动效果
+                //invalidate();
             }
             mLastScrollerY = currY;
         }
@@ -294,25 +348,26 @@ public class ScrollableLayout extends LinearLayout {
     public void scrollBy(int x, int y) {
         int scrollY = getScrollY();
         int toY = scrollY + y;
-        if (toY >= maxY) {
-            toY = maxY;
-        } else if (toY <= minY) {
-            toY = minY;
+        if (toY >= mMaxY) {
+            toY = mMaxY;
+        } else if (toY <= mMinY) {
+            toY = mMinY;
         }
         y = toY - scrollY;
         super.scrollBy(x, y);
     }
 
+
     @Override
     public void scrollTo(int x, int y) {
-        if (y >= maxY) {
-            y = maxY;
-        } else if (y <= minY) {
-            y = minY;
+        if (y >= mMaxY) {
+            y = mMaxY;
+        } else if (y <= mMinY) {
+            y = mMinY;
         }
         mCurY = y;
         if (onScrollListener != null) {
-            onScrollListener.onScroll(y, maxY);
+            onScrollListener.onScroll(y, mMaxY);
         }
         super.scrollTo(x, y);
     }
@@ -339,27 +394,27 @@ public class ScrollableLayout extends LinearLayout {
     }
 
     private void checkIsClickHead(int downY, int headHeight, int scrollY) {
-        isClickHead = downY + scrollY <= headHeight;
+        mIsClickHead = downY + scrollY <= headHeight;
     }
 
     private void checkIsClickHeadExpand(int downY, int headHeight, int scrollY) {
         if (mExpandHeight <= 0) {
-            isClickHeadExpand = false;
+            mIsClickHeadExpand = false;
         }
-        isClickHeadExpand = downY + scrollY <= headHeight + mExpandHeight;
+        mIsClickHeadExpand = downY + scrollY <= headHeight + mExpandHeight;
     }
 
-    private int calcDuration(int duration, int timepass) {
-        return duration - timepass;
+    private int calcDuration(int duration, int timePass) {
+        return duration - timePass;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         mHeadView = getChildAt(0);
         measureChildWithMargins(mHeadView, widthMeasureSpec, 0, MeasureSpec.UNSPECIFIED, 0);
-        maxY = mHeadView.getMeasuredHeight();
+        mMaxY = mHeadView.getMeasuredHeight();
         mHeadHeight = mHeadView.getMeasuredHeight();
-        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(heightMeasureSpec) + maxY, MeasureSpec.EXACTLY));
+        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(heightMeasureSpec) + mMaxY, MeasureSpec.EXACTLY));
     }
 
     @Override
