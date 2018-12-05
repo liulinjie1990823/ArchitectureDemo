@@ -1,5 +1,7 @@
 package com.llj.lib.net.utils;
 
+import android.support.annotation.NonNull;
+
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -12,13 +14,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitUtils {
 
-    public static Retrofit.Builder createRetrofit(String baseUrl) {
+    public static Retrofit.Builder createRetrofit(@NonNull String baseUrl) {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(baseUrl);
         return builder;
     }
 
-    public static Retrofit.Builder createGsonConverterRetrofit(String baseUrl) {
+    public static Retrofit.Builder createGsonConverterRetrofit(@NonNull String baseUrl) {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(baseUrl);
         builder.addConverterFactory(GsonConverterFactory.create()); //解析方法
@@ -26,7 +28,7 @@ public class RetrofitUtils {
     }
 
 
-    public static Retrofit.Builder createRxJava2Retrofit(String baseUrl) {
+    public static Retrofit.Builder createRxJava2Retrofit(@NonNull String baseUrl) {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(baseUrl);
         builder.addConverterFactory(GsonConverterFactory.create()); //解析方法

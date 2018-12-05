@@ -35,7 +35,7 @@ public class DisplayHelper {
         SCREEN_HEIGHT_PIXELS = context.getResources().getDisplayMetrics().heightPixels;
 
         STATUS_BAR_HEIGHT= ADisplayUtils.getStatusBarHeight(context.getApplicationContext());
-        STATUS_BAR_HEIGHT= ADisplayUtils.getNavigationBarOffset(context.getApplicationContext());
+        NAVIGATION_BAR_HEIGHT= ADisplayUtils.getNavigationBarOffset(context.getApplicationContext());
 
         SCREEN_DENSITY = context.getResources().getDisplayMetrics().density;
         SCREEN_DENSITY_DPI = context.getResources().getDisplayMetrics().densityDpi;

@@ -9,12 +9,11 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.llj.lib.utils.helper.Utils;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -41,8 +40,8 @@ public class ANetWorkUtils {
 
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private static NetworkInfo getActiveNetworkInfo() {
-        ConnectivityManager manager = (ConnectivityManager) Utils.getApp().getSystemService(Context.CONNECTIVITY_SERVICE);
+    private static NetworkInfo getActiveNetworkInfo(@NonNull Context context) {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (manager == null)
             return null;
         return manager.getActiveNetworkInfo();
@@ -55,8 +54,8 @@ public class ANetWorkUtils {
      * @throws Exception 没有找到wifi设备
      */
     @RequiresPermission(ACCESS_WIFI_STATE)
-    private static int getWifiState() throws Exception {
-        @SuppressLint("WifiManagerLeak") WifiManager wifiManager = ((WifiManager) Utils.getApp().getSystemService(Context.WIFI_SERVICE));
+    private static int getWifiState(@NonNull Context context) throws Exception {
+        @SuppressLint("WifiManagerLeak") WifiManager wifiManager = ((WifiManager) context.getSystemService(Context.WIFI_SERVICE));
         if (wifiManager != null) {
             return wifiManager.getWifiState();
         } else {
@@ -72,9 +71,9 @@ public class ANetWorkUtils {
      * @return {@code true}: enabled<br>{@code false}: disabled
      */
     @RequiresPermission(ACCESS_WIFI_STATE)
-    public static boolean isWifiEnabled() {
+    public static boolean isWifiEnabled(@NonNull Context context) {
         @SuppressLint("WifiManagerLeak")
-        WifiManager manager = (WifiManager) Utils.getApp().getSystemService(Context.WIFI_SERVICE);
+        WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         return manager != null && manager.isWifiEnabled();
     }
 
@@ -86,9 +85,9 @@ public class ANetWorkUtils {
      * @param enabled True to enabled, false otherwise.
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
-    public static void setWifiEnabled(final boolean enabled) {
+    public static void setWifiEnabled(@NonNull Context context,final boolean enabled) {
         @SuppressLint("WifiManagerLeak")
-        WifiManager manager = (WifiManager) Utils.getApp().getSystemService(Context.WIFI_SERVICE);
+        WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         if (manager == null) return;
         if (enabled) {
             if (!manager.isWifiEnabled()) {
@@ -110,8 +109,8 @@ public class ANetWorkUtils {
      * @return {@code true}: available<br>{@code false}: unavailable
      */
     @RequiresPermission(allOf = {ACCESS_WIFI_STATE, INTERNET})
-    public static boolean isWifiAvailable() {
-        return isWifiEnabled() && isAvailableByPing();
+    public static boolean isWifiAvailable(@NonNull Context context) {
+        return isWifiEnabled(context) && isAvailableByPing();
     }
 
     /**
@@ -122,8 +121,8 @@ public class ANetWorkUtils {
      * @return {@code true}: connected<br>{@code false}: disconnected
      */
     @SuppressLint("MissingPermission")
-    public static boolean isWifiConnected() {
-        NetworkInfo info = getActiveNetworkInfo();
+    public static boolean isWifiConnected(@NonNull Context context) {
+        NetworkInfo info = getActiveNetworkInfo(context);
         return info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
@@ -133,8 +132,8 @@ public class ANetWorkUtils {
      * @return
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    public static boolean isNetworkAvailable() {
-        NetworkInfo info = getActiveNetworkInfo();
+    public static boolean isNetworkAvailable(@NonNull Context context) {
+        NetworkInfo info = getActiveNetworkInfo(context);
         return info != null && info.isAvailable();
     }
 
@@ -146,8 +145,8 @@ public class ANetWorkUtils {
      * @return {@code true}: connected<br>{@code false}: disconnected
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    public static boolean isConnected() {
-        NetworkInfo info = getActiveNetworkInfo();
+    public static boolean isConnected(@NonNull Context context) {
+        NetworkInfo info = getActiveNetworkInfo(context);
         return info != null && info.isConnected();
     }
 
@@ -159,8 +158,8 @@ public class ANetWorkUtils {
      * @return
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    public static boolean isNetworkConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) Utils.getApp().getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isNetworkConnected(@NonNull Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null) {
             return false;
         }
@@ -193,8 +192,8 @@ public class ANetWorkUtils {
 
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private static boolean isConnected(int type) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) Utils.getApp().getSystemService(Context.CONNECTIVITY_SERVICE);
+    private static boolean isConnected(@NonNull Context context,int type) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null) {
             return false;
         }
@@ -220,8 +219,6 @@ public class ANetWorkUtils {
                     return true;
                 }
             }
-//            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-//            return networkInfo != null && networkInfo.isConnected() && networkInfo.getType() == type;
         }
         return false;
     }
@@ -237,8 +234,8 @@ public class ANetWorkUtils {
      * </ul>
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    public static int getActiveNetworkInfoType() {
-        NetworkInfo networkInfo = getActiveNetworkInfo();
+    public static int getActiveNetworkInfoType(@NonNull Context context) {
+        NetworkInfo networkInfo = getActiveNetworkInfo(context);
         return networkInfo == null ? -1 : networkInfo.getType();
     }
 
@@ -248,8 +245,8 @@ public class ANetWorkUtils {
      * @return 当前网络的具体类型。具体类型可参照TelephonyManager中的NETWORK_TYPE_1xRTT、NETWORK_TYPE_CDMA等字段。当前没有网络连接时返回NetworkUtils.NETWORK_TYPE_NO_CONNECTION
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    public static int getActiveNetworkInfoSubtype() {
-        NetworkInfo networkInfo = getActiveNetworkInfo();
+    public static int getActiveNetworkInfoSubtype(@NonNull Context context) {
+        NetworkInfo networkInfo = getActiveNetworkInfo(context);
         return networkInfo != null ? networkInfo.getSubtype() : NETWORK_TYPE_NO_CONNECTION;
     }
 
@@ -259,10 +256,10 @@ public class ANetWorkUtils {
      * @return
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    public static String getActiveNetworkInfoName() {
+    public static String getActiveNetworkInfoName(@NonNull Context context) {
         String type = NETWORK_TYPE_DISCONNECT;
 
-        NetworkInfo networkInfo = getActiveNetworkInfo();
+        NetworkInfo networkInfo = getActiveNetworkInfo(context);
 
         if (networkInfo == null) {
             return type;
@@ -279,7 +276,7 @@ public class ANetWorkUtils {
                     // 默认是wap模式
                     type = NETWORK_TYPE_WAP;
                 } else {
-                    if (isFastMobileNetwork()) {
+                    if (isFastMobileNetwork(context)) {
                         // 3g模式
                         type = NETWORK_TYPE_3G;
                     } else {
@@ -300,8 +297,8 @@ public class ANetWorkUtils {
      *
      * @return
      */
-    private static boolean isFastMobileNetwork() {
-        TelephonyManager telephonyManager = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
+    private static boolean isFastMobileNetwork(@NonNull Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (telephonyManager == null) {
             return false;
         }
@@ -347,12 +344,12 @@ public class ANetWorkUtils {
     @RequiresPermission(allOf = {Manifest.permission.ACCESS_NETWORK_STATE
             , Manifest.permission.CHANGE_WIFI_STATE
             , Manifest.permission.ACCESS_WIFI_STATE})
-    public static String getIpString() {
+    public static String getIpString(@NonNull Context context) {
         String ip = null;
-        String activeNetworkInfoName = getActiveNetworkInfoName();
+        String activeNetworkInfoName = getActiveNetworkInfoName(context);
         if (NETWORK_TYPE_WIFI.equals(activeNetworkInfoName)) {
             // 获取wifi服务
-            @SuppressLint("WifiManagerLeak") WifiManager wifiManager = (WifiManager) Utils.getApp().getSystemService(Context.WIFI_SERVICE);
+            @SuppressLint("WifiManagerLeak") WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
             if (wifiManager == null) {
                 return ip;
             }

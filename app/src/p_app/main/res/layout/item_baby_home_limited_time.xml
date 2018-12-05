@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_baby_home_limited_time_bg">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sv_image"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:roundBottomLeft="true"
+        app:roundBottomRight="false"
+        app:roundTopLeft="true"
+        app:roundTopRight="false"
+        app:roundWithOverlayColor="@color/white"
+        app:roundedCornerRadius="5dp"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/cl_333333"
+        android:textSize="15dp"
+        app:layout_constraintLeft_toRightOf="@+id/sv_image"
+        app:layout_constraintTop_toTopOf="@+id/sv_image"
+        tools:text="搪胶玩具"/>
+
+    <TextView
+        android:id="@+id/tv_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/cl_999999"
+        android:textSize="12dp"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        tools:text="搪胶玩具"/>
+
+    <TextView
+        android:id="@+id/tv_has_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="活动已结束"
+        android:textColor="@color/cl_666666"
+        android:textSize="12dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sub_title"/>
+
+    <TextView
+        android:id="@+id/tv_day"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/shape_baby_home_limited_time_cd_bg"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:textColor="@color/white"
+        android:textSize="11dp"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sub_title"
+        tools:text="01"/>
+
+    <TextView
+        android:id="@+id/tv_day_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:includeFontPadding="false"
+        android:text="天"
+        android:textColor="@color/cl_666666"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_day"
+        app:layout_constraintLeft_toRightOf="@+id/tv_day"
+        app:layout_constraintTop_toTopOf="@+id/tv_day"
+        />
+
+    <TextView
+        android:id="@+id/tv_hour"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/shape_baby_home_limited_time_cd_bg"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:textColor="@color/white"
+        android:textSize="11dp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_day_tag"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sub_title"
+        app:layout_goneMarginLeft="0dp"
+        tools:text="01"/>
+
+
+    <TextView
+        android:id="@+id/tv_hour_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:includeFontPadding="false"
+        android:text=":"
+        android:textColor="@color/cl_666666"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_hour"
+        app:layout_constraintLeft_toRightOf="@+id/tv_hour"
+        app:layout_constraintTop_toTopOf="@+id/tv_hour"
+        />
+
+    <TextView
+        android:id="@+id/tv_minute"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/shape_baby_home_limited_time_cd_bg"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:textColor="@color/white"
+        android:textSize="11dp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_hour_tag"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sub_title"
+        app:layout_goneMarginLeft="0dp"
+        tools:text="01"/>
+
+
+    <TextView
+        android:id="@+id/tv_minute_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:includeFontPadding="false"
+        android:text=":"
+        android:textColor="@color/cl_666666"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_minute"
+        app:layout_constraintLeft_toRightOf="@+id/tv_minute"
+        app:layout_constraintTop_toTopOf="@+id/tv_minute"
+        />
+
+    <TextView
+        android:id="@+id/tv_second"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/shape_baby_home_limited_time_cd_bg"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:textColor="@color/white"
+        android:textSize="11dp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_minute_tag"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sub_title"
+        app:layout_goneMarginLeft="0dp"
+        tools:text="01"/>
+
+
+    <TextView
+        android:id="@+id/tv_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:includeFontPadding="false"
+        android:text="结束"
+        android:textColor="@color/cl_666666"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_second"
+        app:layout_constraintLeft_toRightOf="@+id/tv_second"
+        app:layout_constraintTop_toTopOf="@+id/tv_second"
+        />
+
+
+</android.support.constraint.ConstraintLayout>

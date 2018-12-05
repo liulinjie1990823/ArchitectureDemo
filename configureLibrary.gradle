@@ -1,0 +1,42 @@
+/**
+ * 工程类库共用相关配置
+ */
+
+subprojects {
+    //配置类库公用的配置
+    if (it.name.startsWith('lib-')) {
+        if (it.name.startsWith('lib-component-annotation')
+                || it.name.startsWith('lib-component-compiler')) {
+            return
+        }
+        apply plugin: 'com.android.library'
+
+        android {
+            compileSdkVersion build_versions.compile
+            buildToolsVersion build_versions.build_tools
+
+            defaultConfig {
+                minSdkVersion build_versions.min_sdk
+                targetSdkVersion build_versions.target_sdk
+            }
+
+            buildTypes {
+                debug {
+                    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                }
+            }
+            buildTypes.all { type ->
+                type.matchingFallbacks = ['debug']
+                type.minifyEnabled = false
+                type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
+            }
+            compileOptions {
+                targetCompatibility build_versions.compile_jdk
+                sourceCompatibility build_versions.compile_jdk
+            }
+            lintOptions {
+                abortOnError false
+            }
+        }
+    }
+}

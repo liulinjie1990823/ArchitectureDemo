@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.llj.module.java">
+
+    <application>
+        <activity android:name=".activity.TextActivity"/>
+    </application>
+</manifest>

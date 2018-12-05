@@ -2,10 +2,10 @@ package com.llj.lib.base
 
 import android.app.Activity
 import android.app.Application
+import android.app.Service
 import android.os.StrictMode
 import android.support.annotation.CallSuper
 import android.support.v4.app.Fragment
-import com.facebook.stetho.Stetho
 import com.llj.lib.base.help.CrashHelper
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.help.FilePathHelper
@@ -13,10 +13,10 @@ import com.llj.lib.utils.AActivityManagerUtils
 import com.llj.lib.utils.AToastUtils
 import com.llj.lib.utils.LogUtil
 import com.llj.lib.utils.helper.Utils
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import dagger.android.HasServiceInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
@@ -28,11 +28,16 @@ import javax.inject.Inject
  */
 abstract class BaseApplication : Application(),
         HasActivityInjector,
+        HasServiceInjector,
         HasSupportFragmentInjector {
+    val mTagLog: String = this.javaClass.simpleName
+
     @Inject
     lateinit var mActivityInjector: DispatchingAndroidInjector<Activity>
     @Inject
     lateinit var mSupportFragmentInjector: DispatchingAndroidInjector<Fragment>
+    @Inject
+    lateinit var mServiceInjector: DispatchingAndroidInjector<Service>
 
 
     @CallSuper
@@ -62,46 +67,34 @@ abstract class BaseApplication : Application(),
         FilePathHelper.init(this)
     }
 
-    protected fun initImageLoader() {
+    protected open fun isDebug(): Boolean {
+        return false
+    }
+
+    protected open fun initImageLoader() {
     }
 
 
-    protected fun initToast() {
+    protected open fun initToast() {
         AToastUtils.init()
     }
 
-    protected fun initCrashHandler() {
-        if (!BuildConfig.DEBUG) {
+
+    protected open fun initCrashHandler() {
+        if (!isDebug()) {
             return
         }
         CrashHelper.getInstance().init(this) { LogUtil.LLJe(it) }
     }
 
-    private fun initStetho() {
-        if (!BuildConfig.DEBUG) {
-            return
-        }
-        val build = Stetho.newInitializerBuilder(this)
-                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-                .build()
-        Stetho.initialize(build)
+    protected open fun initStetho() {
     }
 
-    private fun initLeakCanary() {
-        if (!BuildConfig.DEBUG) {
-            return
-        }
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return
-        }
-        LeakCanary.install(this)
+    protected open fun initLeakCanary() {
     }
 
-    private fun initStrictMode() {
-        if (!BuildConfig.DEBUG) {
+    protected open fun initStrictMode() {
+        if (!isDebug()) {
             return
         }
         //设置线程策略
@@ -118,6 +111,10 @@ abstract class BaseApplication : Application(),
 
     override fun activityInjector(): AndroidInjector<Activity>? {
         return mActivityInjector
+    }
+
+    override fun serviceInjector(): AndroidInjector<Service> {
+        return mServiceInjector
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment>? {

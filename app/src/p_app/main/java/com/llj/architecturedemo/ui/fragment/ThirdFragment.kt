@@ -2,7 +2,7 @@ package com.llj.architecturedemo.ui.fragment
 
 import android.os.Bundle
 import com.llj.architecturedemo.R
-import com.llj.lib.base.BaseFragment
+import com.llj.lib.base.MvcBaseFragment
 
 /**
  * ArchitectureDemo.
@@ -10,7 +10,7 @@ import com.llj.lib.base.BaseFragment
  * author llj
  * date 2018/8/15
  */
-class ThirdFragment :BaseFragment() {
+class ThirdFragment :MvcBaseFragment() {
     override fun layoutId(): Int {
     return R.layout.fragment_third
     }

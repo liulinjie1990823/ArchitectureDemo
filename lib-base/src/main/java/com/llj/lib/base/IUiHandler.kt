@@ -76,7 +76,7 @@ interface IUiHandler {
         return android.text.TextUtils.isEmpty(getTextStr(textView))
     }
 
-    fun isEmpty(list: Collection<Any?>): Boolean {
+    fun isEmpty(list: Collection<Any?>?): Boolean {
         return ACollectionUtils.isEmpty<Any>(list)
     }
 
@@ -99,4 +99,34 @@ interface IUiHandler {
     fun nullToEmpty(destination: CharSequence?): CharSequence {
         return destination ?: ""
     }
+
+    fun getMiddle(value: Float, minValue: Float, maxValue: Float): Float {
+        return Math.min(maxValue, Math.max(minValue, value))
+    }
+
+    fun getMiddle(value: Double, minValue: Double, maxValue: Double): Double {
+        return Math.min(maxValue, Math.max(minValue, value))
+    }
+
+    fun getMiddle(value: Int, minValue: Int, maxValue: Int): Int {
+        return Math.min(maxValue, Math.max(minValue, value))
+    }
+
+
+    fun isVisible(view: View): Boolean {
+        return view.visibility == View.VISIBLE
+    }
+
+    fun isInVisible(view: View): Boolean {
+        return view.visibility == View.INVISIBLE
+    }
+
+    fun isNotVisible(view: View): Boolean {
+        return view.visibility == View.INVISIBLE || view.visibility == View.GONE
+    }
+
+    fun isGone(view: View): Boolean {
+        return view.visibility == View.GONE
+    }
+
 }

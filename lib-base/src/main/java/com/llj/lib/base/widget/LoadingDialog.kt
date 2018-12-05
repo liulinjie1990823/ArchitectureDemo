@@ -1,6 +1,7 @@
 package com.llj.lib.base.widget
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Gravity
 import com.llj.lib.base.BaseDialog
@@ -23,6 +24,17 @@ class LoadingDialog(context: Context)
 
     private var mTag: Any = -1
 
+    private var mOnCustomerCancelListener: OnCustomerCancelListener? = null
+
+    interface OnCustomerCancelListener {
+        fun onCancel(dialog: DialogInterface)
+    }
+
+    fun setOnCustomerCancelListener(onCustomerCancelListener: OnCustomerCancelListener) {
+        mOnCustomerCancelListener = onCustomerCancelListener
+    }
+
+
     override fun layoutId(): Int {
         return R.layout.dialog_loading
     }
@@ -33,8 +45,11 @@ class LoadingDialog(context: Context)
             when (context) {
                 is MvcBaseActivity -> (context as ITask).removeDisposable(getRequestTag())
             }
+
+            mOnCustomerCancelListener?.onCancel(it)
         }
     }
+
 
     override fun setWindowParam() {
         val width = ADisplayUtils.dp2px(context, 120f)

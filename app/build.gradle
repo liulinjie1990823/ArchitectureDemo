@@ -1,21 +1,22 @@
+apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'walle'
-//apply plugin: 'task-time'
+apply plugin: 'plugin-tracker-inject'
 
 android {
     compileSdkVersion build_versions.compile
     buildToolsVersion build_versions.build_tools
     defaultConfig {
-//        applicationId "com.china.hunbohui"
-        applicationId "com.llj.architecturedemo"
+        applicationId build_versions.applicationId
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
+        multiDexEnabled true
 
         versionCode build_versions.version_code
         versionName build_versions.version_name
 
         resConfigs "en", "xxhdpi"
 
-        ndk { abiFilters "armeabi" }
+        ndk { abiFilters "armeabi-v7a" }
 
         dataBinding { enabled = true }
 
@@ -38,26 +39,34 @@ android {
     }
 
     buildTypes {
-        debug {}
-//        beta {}
+        debug {
+            minifyEnabled true
+            useProguard false
+            shrinkResources false
+        }
         release {
-
+            minifyEnabled true
+            useProguard false
+            shrinkResources true
         }
     }
     buildTypes.all { type ->
         type.matchingFallbacks = ['debug']
         type.signingConfig = signingConfigs.release
-        type.minifyEnabled = false
+//        type.minifyEnabled = true
+//        type.shrinkResources = true
+//        type.useProguard = true
         type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
     }
 
     sourceSets {
-        def dirs = ['p_app', 'p_widget']
+        def dirs = ['p_app', 'p_widget','p_loading','p_mine','p_login']
         main {
             manifest.srcFile 'src/p_app/main/AndroidManifest.xml'
             dirs.each { dir ->
                 java.srcDir("src/${dir}/main/java")
                 res.srcDir("src/${dir}/main/res")
+                assets.srcDirs("src/${dir}/main/assets")
             }
         }
 //        wm {
@@ -107,6 +116,23 @@ android {
     }
 }
 
+dependencies {
+    implementation deps.multidex
+    implementation deps.multidex_instrumentation
+    implementation deps.badgeview
+
+    if (useComponent) {
+        addComponent 'module-login'
+    } else {
+        api project(':module-login')
+    }
+    if (useMaven) {
+        kapt deps.component_compiler
+    } else {
+        kapt project(':lib-component-compiler')
+    }
+
+}
 
 walle {
     // 指定渠道包的输出路径

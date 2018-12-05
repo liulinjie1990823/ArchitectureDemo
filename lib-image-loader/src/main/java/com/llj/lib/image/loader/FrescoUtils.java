@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.facebook.common.internal.Supplier;
@@ -298,89 +299,79 @@ public class FrescoUtils {
     //加载url
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param url
-     * @param width
-     * @param height
-     * @param view
-     */
-    public static void setController(String url,
+    public static void setController(@Nullable CharSequence  url,
                                      int width, int height,
                                      GenericDraweeView view) {
-        setController(url, width, height, false, false, null, 0, 0, 0, 0, view, null);
+        setController(url, width, height,
+                false, null, 0, 0,
+                0, 0,
+                true,
+                view, null);
     }
 
-    /**
-     * @param url
-     * @param width
-     * @param height
-     * @param isCircle
-     * @param view
-     */
-    public static void setController(String url,
+
+    public static void setController(@Nullable CharSequence  url,
                                      int width, int height,
                                      boolean isCircle,
+                                     boolean autoPlayAnimations,
                                      GenericDraweeView view) {
-        setController(url, width, height, false, isCircle, null, 0, 0, 0, 0, view, null);
+        setController(url, width, height,
+                isCircle, null, 0, 0,
+                0, 0,
+                autoPlayAnimations, view, null);
     }
 
-    /**
-     * @param url
-     * @param width
-     * @param height
-     * @param isCircle
-     * @param borderColor
-     * @param borderWidth
-     * @param view
-     */
-    public static void setController(String url,
+
+    public static void setController(@Nullable CharSequence  url,
                                      int width, int height,
                                      boolean isCircle,
                                      @ColorInt int borderColor, float borderWidth,
+                                     boolean autoPlayAnimations,
                                      GenericDraweeView view) {
-        setController(url, width, height, false, isCircle, null, borderColor, borderWidth, 0, 0, view, null);
+        setController(url, width, height,
+                isCircle, null, borderColor, borderWidth,
+                0, 0,
+                autoPlayAnimations,
+                view, null);
     }
 
-    /**
-     * @param url
-     * @param width
-     * @param height
-     * @param radii
-     * @param view
-     */
-    public static void setController(String url,
+
+    public static void setController(@Nullable CharSequence  url,
                                      int width, int height,
                                      float[] radii,
+                                     boolean autoPlayAnimations,
                                      GenericDraweeView view) {
-        setController(url, width, height, false, false, radii, 0, 0, 0, 0, view, null);
+        setController(url, width, height,
+                false, radii, 0, 0,
+                0, 0,
+                autoPlayAnimations,
+                view, null);
     }
 
-    /**
-     * @param url
-     * @param width
-     * @param height
-     * @param radii
-     * @param borderColor
-     * @param borderWidth
-     * @param view
-     */
-    public static void setController(String url,
+
+    public static void setController(@Nullable CharSequence url,
                                      int width, int height,
                                      float[] radii,
                                      @ColorInt int borderColor, float borderWidth,
+                                     boolean autoPlayAnimations,
                                      GenericDraweeView view) {
-        setController(url, width, height, false, false, radii, borderColor, borderWidth, 0, 0, view, null);
+        setController(url, width, height,
+                false, radii, borderColor, borderWidth,
+                0, 0,
+                autoPlayAnimations,
+                view, null);
     }
 
-    /**
-     * @param url
-     * @param width
-     * @param height
-     * @param view
-     * @param listener
-     */
-    public static void setController(String url, int width, int height, GenericDraweeView view, BaseControllerListener listener) {
-        setController(url, width, height, false, false, null, 0, 0, 0, 0, view, listener);
+    public static void setController(@Nullable CharSequence  url,
+                                     int width, int height,
+                                     boolean autoPlayAnimations,
+                                     GenericDraweeView view,
+                                     BaseControllerListener listener) {
+        setController(url, width, height,
+                false, null, 0, 0,
+                0, 0,
+                autoPlayAnimations,
+                view, listener);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -389,37 +380,63 @@ public class FrescoUtils {
     public static void setController(@DrawableRes int resId,
                                      int width, int height,
                                      GenericDraweeView view) {
-        setController(resId, width, height, false, false, null, 0, 0, 0, 0, view, null);
+        setController(resId, width, height,
+                false, null, 0, 0,
+                0, 0,
+                true,
+                view, null);
     }
 
     public static void setController(@DrawableRes int resId,
                                      int width, int height,
                                      boolean isCircle,
+                                     boolean autoPlayAnimations,
                                      GenericDraweeView view) {
-        setController(resId, width, height, false, isCircle, null, 0, 0, 0, 0, view, null);
+        setController(resId, width, height,
+                isCircle, null, 0, 0,
+                0, 0,
+                autoPlayAnimations,
+                view, null);
     }
 
     public static void setController(@DrawableRes int resId,
                                      int width, int height,
-                                     boolean isCircle,
-                                     @ColorInt int borderColor, float borderWidth,
+                                     boolean isCircle, @ColorInt int borderColor, float borderWidth,
+                                     boolean autoPlayAnimations,
                                      GenericDraweeView view) {
-        setController(resId, width, height, false, isCircle, null, borderColor, borderWidth, 0, 0, view, null);
+        setController(resId, width, height,
+                isCircle, null, borderColor, borderWidth,
+                0, 0,
+                autoPlayAnimations,
+                view, null);
     }
 
     public static void setController(@DrawableRes int resId,
                                      int width, int height,
                                      float[] radii,
+                                     boolean autoPlayAnimations,
                                      GenericDraweeView view) {
-        setController(resId, width, height, false, false, radii, 0, 0, 0, 0, view, null);
+        setController(resId, width, height,
+                false, radii, 0, 0,
+                0, 0,
+                autoPlayAnimations,
+                view, null);
     }
 
     public static void setController(@DrawableRes int resId,
                                      int width, int height,
-                                     float[] radii,
-                                     @ColorInt int borderColor, float borderWidth,
+                                     float[] radii, @ColorInt int borderColor, float borderWidth,
+                                     boolean autoPlayAnimations,
                                      GenericDraweeView view) {
-        setController(resId, width, height, false, false, radii, borderColor, borderWidth, 0, 0, view, null);
+        setController(resId, width, height,
+                false, radii, borderColor, borderWidth,
+                0, 0,
+                autoPlayAnimations,
+                view, null);
+    }
+
+    private static boolean isNetPath(String url) {
+        return url.startsWith("http://") || url.startsWith("https://");
     }
 
     /**
@@ -432,16 +449,16 @@ public class FrescoUtils {
      * @param view               需要显示的view
      * @param listener           加载监听
      */
-    public static void setController(String url,
+    public static void setController(@Nullable CharSequence  url,
                                      int width, int height,
-                                     boolean autoPlayAnimations,
                                      boolean isCircle, float[] radii, @ColorInt int borderColor, float borderWidth,
                                      int placeholderId, int failureImageId,
+                                     boolean autoPlayAnimations,
                                      GenericDraweeView view,
                                      BaseControllerListener<ImageInfo> listener) {
         if (!TextUtils.isEmpty(url) && view != null) {
-            String filterUrl = url;
-            if (!filterUrl.startsWith("http:/")) {
+            String filterUrl = url.toString();
+            if (!isNetPath(filterUrl)) {
                 filterUrl = "file://" + filterUrl;
             }
             GenericDraweeHierarchy hierarchy = view.getHierarchy();
@@ -519,9 +536,9 @@ public class FrescoUtils {
      */
     public static void setController(int resId,
                                      int width, int height,
-                                     boolean autoPlayAnimations,
                                      boolean isCircle, float[] radii, @ColorInt int borderColor, float borderWidth,
                                      int placeholderId, int failureImageId,
+                                     boolean autoPlayAnimations,
                                      GenericDraweeView view,
                                      BaseControllerListener<ImageInfo> listener) {
         if (resId != 0 && view != null) {

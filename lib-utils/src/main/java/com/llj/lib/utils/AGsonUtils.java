@@ -31,6 +31,7 @@ public class AGsonUtils {
      *
      * @param jsonString 里面必须是一个对象
      * @param cls
+     *
      * @return
      */
     public static <T> T getObject(String jsonString, Class<T> cls) {
@@ -62,6 +63,7 @@ public class AGsonUtils {
      * @param jsonString
      * @param typeOfT
      * @param <T>
+     *
      * @return
      */
     public static <T> List<T> getList(String jsonString, Type typeOfT) {
@@ -83,6 +85,7 @@ public class AGsonUtils {
      * @param fileName
      * @param typeOfT
      * @param <T>
+     *
      * @return
      */
     public static <T> List<T> getList(Context context, String fileName, Type typeOfT) {
@@ -103,6 +106,7 @@ public class AGsonUtils {
      * 3.解析成字符串集合
      *
      * @param jsonString
+     *
      * @return
      */
     public static List<String> getStringList(String jsonString) {
@@ -123,6 +127,7 @@ public class AGsonUtils {
      * 4.解析成hashmap
      *
      * @param jsonString
+     *
      * @return
      */
     public static Map<String, Object> getHashMap(String jsonString) {
@@ -141,6 +146,7 @@ public class AGsonUtils {
      * 5.
      *
      * @param jsonString
+     *
      * @return
      */
     public static List<Map<String, Object>> listKeyMap(String jsonString) {
@@ -160,6 +166,7 @@ public class AGsonUtils {
      * 返回long类型的集合
      *
      * @param jsonString
+     *
      * @return
      */
     public static List<Long> getLongList(String jsonString) {
@@ -176,28 +183,45 @@ public class AGsonUtils {
         return list;
     }
 
-    public static Gson getGson() {
-        return new GsonBuilder().registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+    /**
+     * 将json中的毫秒数转换成Date对象
+     *
+     * @return
+     */
+    public static Gson getDeserializerDateGson() {
+        JsonDeserializer<Date> deserialize = new JsonDeserializer<Date>() {
             @Override
             public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                 return new Date(json.getAsJsonPrimitive().getAsLong());
             }
-        }).setDateFormat(DateFormat.LONG).create();
+        };
+        return new GsonBuilder()
+                .registerTypeAdapter(Date.class, deserialize)
+                .setDateFormat(DateFormat.LONG)
+                .create();
     }
-
+    public static String toJson(Object object) {
+        return new Gson().toJson(object);
+    }
     /**
      * 将一个实体类转换为json字符串
+     * 将实体类中的Date对象转换成毫秒数
      *
      * @param object
+     *
      * @return
      */
-    public static String getObject2Json(Object object) {
-        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Date.class, new JsonSerializer<Date>() {
+    public static String toJsonSerializeDate(Object object) {
+        JsonSerializer<Date> jsonSerializer = new JsonSerializer<Date>() {
             @Override
             public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
                 return new JsonPrimitive(src.getTime());
             }
-        }).setDateFormat(DateFormat.LONG);
+        };
+        GsonBuilder gsonBuilder = new GsonBuilder()
+                .registerTypeAdapter(Date.class, jsonSerializer)
+                .setDateFormat(DateFormat.LONG);
+
         return gsonBuilder.create().toJson(object);
     }
 
@@ -205,22 +229,33 @@ public class AGsonUtils {
      * 将有@Expose注释的指定字段转换为json字符串
      *
      * @param object
+     *
      * @return
      */
-    public static String getExposeObject2Json(Object object) {
-        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Date.class, new JsonSerializer<Date>() {
+    public static String toExposeJsonSerializeDate(Object object) {
+        JsonSerializer<Date> jsonSerializer = new JsonSerializer<Date>() {
             @Override
             public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
                 return new JsonPrimitive(src.getTime());
             }
-        }).setDateFormat(DateFormat.LONG);
+        };
+        GsonBuilder gsonBuilder = new GsonBuilder()
+                .registerTypeAdapter(Date.class, jsonSerializer)
+                .setDateFormat(DateFormat.LONG);
+
         return gsonBuilder.excludeFieldsWithoutExposeAnnotation().create().toJson(object);
     }
 
 
-    public static JsonElement getObject2JsonElement(Object object) {
-        Gson gson = new Gson();
-        return gson.toJsonTree(object);
+    public static Gson getGson() {
+        return new Gson();
     }
+
+    public static Gson getSerializeNullsGson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.serializeNulls();
+        return gsonBuilder.create();
+    }
+
 
 }

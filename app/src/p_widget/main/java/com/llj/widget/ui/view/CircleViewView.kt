@@ -1,6 +1,6 @@
 package com.llj.widget.ui.view
 
-import com.llj.lib.base.mvp.IView
+import com.llj.lib.base.mvp.IBaseActivityView
 
 /**
  * ArchitectureDemo
@@ -8,4 +8,4 @@ import com.llj.lib.base.mvp.IView
  * author liulj
  * date 2018/7/13
  */
-interface CircleViewView :IView
+interface CircleViewView :IBaseActivityView

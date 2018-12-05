@@ -1,2 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.llj.lib.webview"/>
+          package="com.llj.lib.webview">
+
+    <application>
+        <activity
+            android:name=".CWebViewActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+    </application>
+</manifest>

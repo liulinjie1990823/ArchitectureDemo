@@ -7,20 +7,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.llj.adapter.CommonConverter;
 import com.llj.adapter.UniversalAdapter;
+import com.llj.adapter.UniversalConverter;
 import com.llj.adapter.ViewHolder;
 import com.llj.adapter.listener.FooterClickListener;
+import com.llj.adapter.listener.FooterListenerAdapter;
 import com.llj.adapter.listener.FooterLongClickListener;
 import com.llj.adapter.listener.HeaderClickListener;
-import com.llj.adapter.listener.HeaderFooterListenerAdapter;
+import com.llj.adapter.listener.HeaderListenerAdapter;
 import com.llj.adapter.listener.HeaderLongClickListener;
 import com.llj.adapter.listener.ItemClickedListener;
 import com.llj.adapter.listener.ItemDoubleClickedListener;
+import com.llj.adapter.listener.ItemListenerAdapter;
 import com.llj.adapter.listener.ItemLongClickedListener;
 import com.llj.adapter.observable.ListObserver;
 import com.llj.adapter.observable.ListObserverListener;
 import com.llj.adapter.util.ThreadingUtils;
+
+import java.util.List;
 
 /**
  * PROJECT:UniversalAdapter
@@ -28,7 +32,11 @@ import com.llj.adapter.util.ThreadingUtils;
  * Created by llj on 2017/2/10.
  */
 
-public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> extends RecyclerView.Adapter implements HeaderFooterListenerAdapter<Item, Holder>, CommonConverter<Item, Holder> {
+public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> extends RecyclerView.Adapter
+        implements HeaderListenerAdapter,
+        FooterListenerAdapter,
+        ItemListenerAdapter<Item, Holder>, UniversalConverter<Item, Holder> {
+
     public interface RecyclerItemClickListener<Holder extends ViewHolder> {
 
         /**
@@ -55,7 +63,28 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
         setAdapter(universalAdapter);
         recyclerView.setAdapter(this);
 
-        recyclerView.addOnItemTouchListener(internalOnItemTouchListener);
+        recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener() {
+
+            @Override
+            public void onItemClick(ViewHolder viewHolder, RecyclerView parent, int position, float x, float y) {
+                if (getAdapter().internalIsEnabled(position)) {
+                    if (mRecyclerItemClickListener != null) {
+                        mRecyclerItemClickListener.onItemClick((Holder) viewHolder, parent, position, x, y);
+                    }
+                    getAdapter().onItemClicked(position, viewHolder);
+                }
+            }
+
+            @Override
+            public void onItemDoubleClick(ViewHolder viewHolder, RecyclerView parent, int position, float x, float y) {
+                getAdapter().onItemDoubleClicked(position, viewHolder);
+            }
+
+            @Override
+            public void onItemLongClick(ViewHolder viewHolder, RecyclerView parent, int position, float x, float y) {
+                getAdapter().onItemLongClicked(position, viewHolder);
+            }
+        });
         universalAdapter.notifyDataSetChanged();
     }
 
@@ -75,7 +104,7 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
 
         this.mUniversalAdapter = universalAdapter;
         //设置新的监听
-        universalAdapter.getListObserver().addListener(mObserverListener);
+        getAdapter().getListObserver().addListener(mObserverListener);
         setHasStableIds(universalAdapter.hasStableIds());
     }
 
@@ -93,14 +122,26 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
     ///////////////////////////////////////////////////////////////////////////
     //
     ///////////////////////////////////////////////////////////////////////////
+
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return getAdapter().createViewHolder(parent, viewType);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        return getAdapter().createViewHolder(viewGroup, viewType);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         getAdapter().bindViewHolder((ViewHolder) holder, position);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List payloads) {
+        if (payloads.isEmpty()) {
+            getAdapter().bindViewHolder((ViewHolder) holder, position);
+        } else {
+            getAdapter().bindViewHolder((ViewHolder) holder, position, payloads);
+        }
     }
 
     @Override
@@ -176,91 +217,48 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
 
         @Override
         public void onItemRangeChanged(ListObserver<Item> observer, final int startPosition, final int itemCount) {
-            ThreadingUtils.runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyItemRangeChanged(startPosition, itemCount);
-                }
-            });
+            ThreadingUtils.runOnUIThread(() -> adapter.notifyItemRangeChanged(startPosition, itemCount));
         }
 
         @Override
         public void onItemRangeInserted(ListObserver<Item> observer, final int startPosition, final int itemCount) {
-            ThreadingUtils.runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyItemRangeInserted(startPosition, itemCount);
-                }
-            });
+            ThreadingUtils.runOnUIThread(() -> adapter.notifyItemRangeInserted(startPosition, itemCount));
         }
 
         @Override
         public void onItemRangeRemoved(ListObserver<Item> observer, final int startPosition, final int itemCount) {
-            ThreadingUtils.runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyItemRangeRemoved(startPosition, itemCount);
-                }
-            });
+            ThreadingUtils.runOnUIThread(() -> adapter.notifyItemRangeRemoved(startPosition, itemCount));
         }
 
         @Override
         public void onGenericChange(ListObserver<Item> observer) {
-            ThreadingUtils.runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyDataSetChanged();
-                }
-            });
+            ThreadingUtils.runOnUIThread(() -> adapter.notifyDataSetChanged());
         }
 
     }
 
 
-    private final RecyclerViewItemClickListener internalOnItemTouchListener = new RecyclerViewItemClickListener() {
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-            //TODO
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public void onItemClick(ViewHolder viewHolder, RecyclerView parent, int position, float x, float y) {
-            if (getAdapter().internalIsEnabled(position)) {
-                if (mRecyclerItemClickListener != null) {
-                    mRecyclerItemClickListener.onItemClick((Holder) viewHolder, parent, position, x, y);
-                }
-
-                getAdapter().onItemClicked(position, viewHolder);
-            }
-        }
-
-        @Override
-        public void onItemDoubleClick(ViewHolder viewHolder, RecyclerView parent, int position, float x, float y) {
-            getAdapter().onItemDoubleClicked(position, viewHolder);
-        }
-
-        @Override
-        public void onItemLongClick(ViewHolder viewHolder, RecyclerView parent, int position, float x, float y) {
-            getAdapter().onItemLongClicked(position, viewHolder);
-        }
-    };
-
+    //点击事件实现
     public abstract class RecyclerViewItemClickListener implements RecyclerView.OnItemTouchListener {
 
         private GestureDetector gestureDetector;
 
         @Override
-        public boolean onInterceptTouchEvent(final RecyclerView view, MotionEvent e) {
+        public boolean onInterceptTouchEvent(@NonNull RecyclerView view, @NonNull MotionEvent e) {
             if (gestureDetector == null) {
                 gestureDetector = new GestureDetector(view.getContext(), new GestureDetector.SimpleOnGestureListener() {
                     @Override
                     public boolean onSingleTapUp(MotionEvent e) {
+                        //1.如果支持双击，返回false,则gestureDetector.onTouchEvent(e)返回false，不会触发后面的单击代码
+                        //单击事件在onSingleTapConfirmed中触发
+                        //2.如果不支持双击，返回true,则gestureDetector.onTouchEvent(e)返回true，直接触发后面的单击代码，
+                        //这样在onSingleTapUp后就返回true,就触发了单击，单击只需100ms左右，如果放在onSingleTapConfirmed里面执行单击则需要至少300ms的延时判断
                         return !getAdapter().isSupportDoubleClick();
                     }
 
                     @Override
                     public boolean onSingleTapConfirmed(MotionEvent e) {
+                        //300ms外没有迎来第二次点击
                         if (getAdapter().isSupportDoubleClick()) {
                             View childView = view.findChildViewUnder(e.getX(), e.getY());
                             if (childView != null) {
@@ -274,6 +272,7 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
 
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
+                        //必须300ms内触发
                         View childView = view.findChildViewUnder(e.getX(), e.getY());
                         if (childView != null) {
                             int position = view.getChildAdapterPosition(childView);
@@ -285,6 +284,7 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
 
                     @Override
                     public void onLongPress(MotionEvent e) {
+                        //长按，超过600ms
                         View childView = view.findChildViewUnder(e.getX(), e.getY());
                         if (childView != null) {
                             int position = view.getChildAdapterPosition(childView);
@@ -293,8 +293,7 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
                         }
                     }
                 });
-                if (getAdapter().isSupportLongClick())
-                    gestureDetector.setIsLongpressEnabled(true);
+                gestureDetector.setIsLongpressEnabled(getAdapter().isSupportLongClick());
             }
             if (gestureDetector.onTouchEvent(e)) {
                 View childView = view.findChildViewUnder(e.getX(), e.getY());
@@ -304,64 +303,23 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
                     onItemClick(viewHolder, view, position, e.getX(), e.getY());
                 }
             }
-//            if (gestureDetector == null) {
-//                gestureDetector = new GestureDetector(view.getContext(), new GestureDetector.SimpleOnGestureListener() {
-//                    @Override
-//                    public boolean onSingleTapUp(MotionEvent e) {
-//                        return true;
-//                    }
-//
-//                    @Override
-//                    public void onLongPress(MotionEvent e) {
-//                        View childView = view.findChildViewUnder(e.getX(), e.getY());
-//                        if (childView != null) {
-//                            int position = view.getChildAdapterPosition(childView);
-//                            ViewHolder viewHolder = (ViewHolder) view.getChildViewHolder(childView);
-//                            onItemLongClick(viewHolder, view, position, e.getX(), e.getY());
-//                        }
-//                    }
-//                });
-//                gestureDetector.setIsLongpressEnabled(true);
-//            }
-//
-//            if (gestureDetector.onTouchEvent(e)) {
-//                View childView = view.findChildViewUnder(e.getX(), e.getY());
-//                if (childView != null) {
-//                    int position = view.getChildAdapterPosition(childView);
-//                    ViewHolder viewHolder = (ViewHolder) view.getChildViewHolder(childView);
-//                    onItemClick(viewHolder, view, position, e.getX(), e.getY());
-//                }
-//            }
-
             return false;
         }
 
         @Override
-        public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) {
+        public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+
         }
 
-        /**
-         * Called when an item in the {@link RecyclerView} is clicked.
-         *
-         * @param viewHolder The view holder of the clicked item.
-         * @param parent     The recycler view which contained the clicked item.
-         * @param position   The position in the adapter of the clicked item.
-         * @param x          x position
-         * @param y          y position
-         */
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
+        }
+
         public abstract void onItemClick(ViewHolder viewHolder, RecyclerView parent, int position, float x, float y);
 
         public abstract void onItemDoubleClick(ViewHolder viewHolder, RecyclerView parent, int position, float x, float y);
 
-        /**
-         * Called when an item in the {@link RecyclerView} is long clicked.
-         *
-         * @param viewHolder The view holder of the clicked item.
-         * @param parent     The recycler view which contained the clicked item.
-         * @param position   The position in the adapter of the clicked item.
-         * @param x          x position
-         * @param y          y position
-         */
         public abstract void onItemLongClick(ViewHolder viewHolder, RecyclerView parent, int position, float x, float y);
     }
 }

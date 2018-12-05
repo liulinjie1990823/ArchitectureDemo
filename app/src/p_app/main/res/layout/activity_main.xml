@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <FrameLayout
+    <com.llj.component.service.weight.WindowInsetsFrameLayout
         android:id="@+id/fl_contain"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-
     <LinearLayout
         android:id="@+id/ll_footer_bar"
-        android:background="@color/wheat"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@color/wheat"
         android:orientation="horizontal"/>
 
 </LinearLayout>

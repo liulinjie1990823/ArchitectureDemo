@@ -1,6 +1,9 @@
 package com.llj.lib.net;
 
-import com.llj.lib.net.url.BaseHttpUrl;
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.llj.lib.net.utils.OkHttpClientUtils;
 
 import okhttp3.Interceptor;
@@ -15,37 +18,31 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * author liulj
  * date 2018/5/7
  */
-public abstract class BaseRetrofitManager {
+public abstract class BaseRetrofitManager<T> {
 
     private Retrofit mRetrofit;
 
+    protected T mService;
+
+
     public BaseRetrofitManager() {
-        init();
+    }
+
+    public BaseRetrofitManager(@NonNull Context context) {
+        init(context);
     }
 
     public Retrofit getRetrofit() {
         return mRetrofit;
     }
 
-    private Retrofit createRetrofit() {
-        return createRetrofit(null, new Interceptor[]{});
+    public Retrofit createRetrofit(@NonNull Context context, @NonNull String baseUrl) {
+        return createRetrofit(context, baseUrl, new Interceptor[]{});
     }
 
-    private Retrofit createRetrofit(Interceptor... interceptors) {
-        return createRetrofit(null, interceptors);
-    }
-
-    private Retrofit createRetrofit(String baseUrl) {
-        return createRetrofit(baseUrl, new Interceptor[]{});
-    }
-
-    private Retrofit createRetrofit(String baseUrl, Interceptor... interceptors) {
+    public Retrofit createRetrofit(Context context, @NonNull String baseUrl, @Nullable Interceptor... interceptors) {
         Retrofit.Builder builder = new Retrofit.Builder();
-        if (baseUrl == null) {
-            builder.baseUrl(BaseHttpUrl.BASE_URL);
-        } else {
-            builder.baseUrl(baseUrl);
-        }
+        builder.baseUrl(baseUrl);
         builder.addConverterFactory(GsonConverterFactory.create()); //解析方法
         builder.client(OkHttpClientUtils.okHttpClientBuilder(interceptors).build());
         builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
@@ -53,31 +50,22 @@ public abstract class BaseRetrofitManager {
     }
 
 
-    protected abstract void init();
+    protected abstract void init(@NonNull Context context);
 
 
-    protected void initRetrofit(String baseUrl) {
+    protected void initRetrofit(Context context, String baseUrl) {
+        initRetrofit(context, baseUrl, new Interceptor[]{});
+    }
+
+    protected void initRetrofit(Context context, String baseUrl, @Nullable Interceptor... interceptors) {
         if (mRetrofit == null) {
             //锁定代码块
             synchronized (BaseRetrofitManager.class) {
                 if (mRetrofit == null) {
-                    mRetrofit = createRetrofit(baseUrl);
+                    mRetrofit = createRetrofit(context, baseUrl, interceptors);
                 }
             }
         }
     }
-
-    protected void initRetrofit(String baseUrl, Interceptor... interceptors) {
-        if (mRetrofit == null) {
-            //锁定代码块
-            synchronized (BaseRetrofitManager.class) {
-                if (mRetrofit == null) {
-                    mRetrofit = createRetrofit(baseUrl, interceptors);
-                }
-            }
-        }
-    }
-
-
 
 }

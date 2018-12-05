@@ -6,17 +6,19 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.llj.adapter.CommonConverter;
+import com.llj.adapter.UniversalConverter;
 import com.llj.adapter.UniversalAdapter;
 import com.llj.adapter.ViewHolder;
 import com.llj.adapter.listener.FooterClickListener;
+import com.llj.adapter.listener.FooterListenerAdapter;
 import com.llj.adapter.listener.FooterLongClickListener;
 import com.llj.adapter.listener.HeaderClickListener;
-import com.llj.adapter.listener.HeaderFooterListenerAdapter;
+import com.llj.adapter.listener.HeaderListenerAdapter;
 import com.llj.adapter.listener.HeaderLongClickListener;
 import com.llj.adapter.listener.ItemClickWrapper;
 import com.llj.adapter.listener.ItemClickedListener;
 import com.llj.adapter.listener.ItemDoubleClickedListener;
+import com.llj.adapter.listener.ItemListenerAdapter;
 import com.llj.adapter.listener.ItemLongClickedListener;
 import com.llj.adapter.observable.ListObserver;
 import com.llj.adapter.observable.ListObserverListener;
@@ -31,7 +33,11 @@ import java.lang.reflect.Field;
  * Created by llj on 2017/2/11.
  */
 
-public class ViewGroupAdapterConverter<Item, Holder extends ViewHolder> implements HeaderFooterListenerAdapter<Item, Holder>, CommonConverter<Item, Holder> {
+public class ViewGroupAdapterConverter<Item, Holder extends ViewHolder>
+        implements HeaderListenerAdapter,
+        FooterListenerAdapter,
+        ItemListenerAdapter<Item, Holder>,
+        UniversalConverter<Item, Holder> {
 
     private ViewGroup                      viewGroup;
     private UniversalAdapter<Item, Holder> universalAdapter;
@@ -210,6 +216,16 @@ public class ViewGroupAdapterConverter<Item, Holder extends ViewHolder> implemen
         @Override
         public void onGenericChange(ListObserver<Item> observer) {
             populateAll();
+        }
+
+        @Override
+        public void onItemRangeChanged(ListObserver<Item> observer, int startPosition, int itemCount) {
+            for (int i = startPosition; i < startPosition + itemCount; i++) {
+                ViewGroup childAt = (ViewGroup) getViewGroup().getChildAt(i);
+                if (childAt != null) {
+                    getAdapter().bindViewHolder(UniversalAdapterUtils.getViewHolder(childAt), i);
+                }
+            }
         }
     };
 }

@@ -8,10 +8,7 @@ import com.llj.socialization.INFO;
 import com.llj.socialization.Logger;
 import com.llj.socialization.ResponseActivity;
 import com.llj.socialization.login.callback.LoginListener;
-import com.llj.socialization.login.imp.LoginQQ;
-import com.llj.socialization.login.imp.LoginSina;
-import com.llj.socialization.login.imp.LoginWeChat;
-import com.llj.socialization.login.interfaces.LoginInterface;
+import com.llj.socialization.login.interfaces.ILogin;
 import com.llj.socialization.login.model.BaseToken;
 import com.llj.socialization.login.model.LoginResult;
 
@@ -25,8 +22,8 @@ public class LoginUtil {
     public static final String TAG  = LoginUtil.class.getSimpleName();
     public static final int    TYPE = 799;
 
-    private static LoginInterface mLoginInstance;
-    private static LoginListener  mLoginListenerWrap;
+    private static ILogin        mLoginInstance;
+    private static LoginListener mLoginListenerWrap;
 
     private static int mPlatform;
 
@@ -68,16 +65,31 @@ public class LoginUtil {
         mLoginInstance.doLogin(activity, isFetchUserInfo);
     }
 
-    private static LoginInterface getPlatform(@LoginPlatformType.Platform int platform, Activity activity) {
-        switch (platform) {
-            case LoginPlatformType.QQ:
-                return new LoginQQ(activity, mLoginListenerWrap, isFetchUserInfo);
-            case LoginPlatformType.SINA:
-                return new LoginSina(activity, mLoginListenerWrap, isFetchUserInfo);
-            case LoginPlatformType.WECHAT:
-                return new LoginWeChat(activity, mLoginListenerWrap, isFetchUserInfo);
+    private static ILogin getPlatform(@LoginPlatformType.Platform int platform, Activity activity) {
+        Class clazz;
+        ILogin login = null;
+        try {
+            switch (platform) {
+                case LoginPlatformType.QQ:
+                    clazz = Class.forName("com.llj.lib.socialization.qq.login.LoginQQ");
+                    break;
+                case LoginPlatformType.SINA:
+                    clazz = Class.forName("com.llj.lib.socialization.sina.login.LoginSina");
+                    break;
+                case LoginPlatformType.WECHAT:
+                    clazz = Class.forName("com.llj.lib.socialization.wechat.login.LoginWeChat");
+                    break;
+                default:
+                    clazz = Class.forName("com.llj.lib.socialization.qq.login.LoginQQ");
+                    break;
+            }
+            login = (ILogin) clazz.newInstance();
+            login.init(activity, mLoginListenerWrap, isFetchUserInfo);
+
+        } catch (Exception e) {
+
         }
-        return null;
+        return login;
     }
 
     public static void handleResult(int requestCode, int resultCode, Intent data) {

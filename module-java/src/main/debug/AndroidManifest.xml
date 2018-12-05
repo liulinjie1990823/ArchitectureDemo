@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.llj.module.java">
+
+    <application
+        android:name="debug.MyApp"
+        android:allowBackup="false"
+        android:icon="@mipmap/demo_a_ic_launcher"
+        android:supportsRtl="true">
+        <activity android:name="com.llj.module.java.activity.TextActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

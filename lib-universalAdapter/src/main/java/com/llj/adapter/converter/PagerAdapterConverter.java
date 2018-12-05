@@ -6,17 +6,19 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.llj.adapter.CommonConverter;
+import com.llj.adapter.UniversalConverter;
 import com.llj.adapter.UniversalAdapter;
 import com.llj.adapter.ViewHolder;
 import com.llj.adapter.listener.FooterClickListener;
+import com.llj.adapter.listener.FooterListenerAdapter;
 import com.llj.adapter.listener.FooterLongClickListener;
 import com.llj.adapter.listener.HeaderClickListener;
-import com.llj.adapter.listener.HeaderFooterListenerAdapter;
+import com.llj.adapter.listener.HeaderListenerAdapter;
 import com.llj.adapter.listener.HeaderLongClickListener;
 import com.llj.adapter.listener.ItemClickWrapper;
 import com.llj.adapter.listener.ItemClickedListener;
 import com.llj.adapter.listener.ItemDoubleClickedListener;
+import com.llj.adapter.listener.ItemListenerAdapter;
 import com.llj.adapter.listener.ItemLongClickedListener;
 import com.llj.adapter.observable.ListObserver;
 import com.llj.adapter.observable.ListObserverListener;
@@ -30,7 +32,11 @@ import com.llj.adapter.util.UniversalAdapterUtils;
  * Created by llj on 2017/2/11.
  */
 
-public class PagerAdapterConverter<Item, Holder extends ViewHolder> extends PagerAdapter implements HeaderFooterListenerAdapter<Item, Holder>, CommonConverter<Item, Holder> {
+public class PagerAdapterConverter<Item, Holder extends ViewHolder> extends PagerAdapter
+        implements HeaderListenerAdapter,
+        FooterListenerAdapter,
+        ItemListenerAdapter<Item, Holder>,
+        UniversalConverter<Item, Holder> {
 
     private UniversalAdapter<Item, Holder> mUniversalAdapter;
     private ItemClickWrapper<Item, Holder> mItemClickedWrapper;

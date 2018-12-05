@@ -3,6 +3,7 @@ package com.llj.architecturedemo.ui.fragment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import com.llj.adapter.ListBasedAdapter
@@ -10,7 +11,8 @@ import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.BaseFragment
+import com.llj.component.service.scrollableLayout.ScrollableHelper
+import com.llj.lib.base.MvcBaseFragment
 
 /**
  * ArchitectureDemo.
@@ -18,7 +20,10 @@ import com.llj.lib.base.BaseFragment
  * author llj
  * date 2018/8/16
  */
-class ItemFragment : BaseFragment() {
+class ItemFragment : MvcBaseFragment(), ScrollableHelper.ScrollableContainer {
+    override fun getScrollableView(): View {
+        return mRecyclerView
+    }
 
     companion object {
         fun getInstance(): Fragment {

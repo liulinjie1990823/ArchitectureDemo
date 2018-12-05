@@ -1,7 +1,7 @@
 package com.llj.architecturedemo
 
 import com.llj.lib.base.MvpBaseActivity
-import com.llj.lib.base.mvp.IPresenter
+import com.llj.lib.base.mvp.IBasePresenter
 
 /**
  * ArchitectureDemo
@@ -9,6 +9,6 @@ import com.llj.lib.base.mvp.IPresenter
  * author liulj
  * date 2018/5/24
  */
-abstract class MyBaseActivity<P : IPresenter> : MvpBaseActivity<P>() {
+abstract class MyBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>() {
 
 }

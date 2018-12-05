@@ -8,7 +8,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import com.llj.socialization.INFO;
-import com.llj.socialization.share.model.ShareImageObject;
+import com.llj.socialization.share.ShareObject;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -39,16 +39,16 @@ public class ImageDecoder {
     private static final String DEFAULT_SUFFIX      = "png";//图片的默认后缀
 
 
-    public static String decode(Context context, ShareImageObject imageObject) throws Exception {
-        if (!TextUtils.isEmpty(imageObject.getPathOrUrl())) {
+    public static String decode(Context context, ShareObject shareObject) throws Exception {
+        if (!TextUtils.isEmpty(shareObject.getImageUrlOrPath())) {
             //路径，则需要解析(网络地址则下载，本地地址则复制一个副本)
-            return decode(context, imageObject.getPathOrUrl());
-        } else if (imageObject.getBitmap() != null) {
+            return decode(context, shareObject.getImageUrlOrPath());
+        } else if (shareObject.getImageBitmap() != null) {
             //bitmap,保存到本地
-            File resultFile = getCacheFile(context, imageObject.getPathOrUrl());
+            File resultFile = getCacheFile(context, shareObject.getImageUrlOrPath());
 
             Bitmap.CompressFormat format = isJpgPath(resultFile.getAbsolutePath()) ? Bitmap.CompressFormat.JPEG : Bitmap.CompressFormat.PNG;
-            return bitmapToFile(imageObject.getBitmap(), resultFile, format, 100).getAbsolutePath();
+            return bitmapToFile(shareObject.getImageBitmap(), resultFile, format, 100).getAbsolutePath();
         } else {
             throw new IllegalArgumentException();
         }

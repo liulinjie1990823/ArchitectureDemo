@@ -1,6 +1,7 @@
 package com.llj.lib.image.loader;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.facebook.drawee.view.GenericDraweeView;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher;
@@ -26,10 +27,23 @@ public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> 
         init(context);
     }
 
+    private FrescoImageLoader(Context context, OkHttpClient okHttpClient) {
+        init(context, okHttpClient);
+    }
+
     public static ICustomImageLoader<GenericDraweeView> getInstance(Context context) {
         synchronized (FrescoImageLoader.class) {
             if (sImageLoader == null) {
                 sImageLoader = new FrescoImageLoader(context);
+            }
+        }
+        return sImageLoader;
+    }
+
+    public static ICustomImageLoader<GenericDraweeView> getInstance(Context context, OkHttpClient okHttpClient) {
+        synchronized (FrescoImageLoader.class) {
+            if (sImageLoader == null) {
+                sImageLoader = new FrescoImageLoader(context, okHttpClient);
             }
         }
         return sImageLoader;
@@ -45,65 +59,98 @@ public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> 
         builder.readTimeout(15000, TimeUnit.MILLISECONDS);
         builder.cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context.getApplicationContext())));
 
-        FrescoUtils.initFresco(context, new OkHttpNetworkFetcher(builder.build()));
+        FrescoUtils.initFresco(context);
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // 加载本地图片
-    ///////////////////////////////////////////////////////////////////////////
+    @Override
+    public void init(Context context, OkHttpClient okHttpClient) {
+        if (okHttpClient != null) {
+            FrescoUtils.initFresco(context, new OkHttpNetworkFetcher(okHttpClient));
+        } else {
+            FrescoUtils.initFresco(context, null);
+        }
+
+    }
+
+    //<editor-fold desc="加载本地图片">
     @Override
     public void loadImage(int resId, int width, int height, GenericDraweeView view) {
         FrescoUtils.setController(resId, width, height, view);
     }
 
     @Override
-    public void loadImage(int resId, int width, int height, boolean isCircle, GenericDraweeView view) {
-        FrescoUtils.setController(resId, width, height, isCircle, view);
+    public void loadImage(int resId, int width, int height,
+                          boolean isCircle,
+                          boolean autoPlayAnimations,
+                          GenericDraweeView view) {
+        FrescoUtils.setController(resId, width, height, isCircle, autoPlayAnimations, view);
     }
 
     @Override
-    public void loadImage(int resId, int width, int height, boolean isCircle, int borderColor, float borderWidth, GenericDraweeView view) {
-        FrescoUtils.setController(resId, width, height, isCircle, borderColor, borderWidth, view);
+    public void loadImage(int resId, int width, int height,
+                          boolean isCircle, int borderColor, float borderWidth,
+                          boolean autoPlayAnimations,
+                          GenericDraweeView view) {
+        FrescoUtils.setController(resId, width, height, isCircle, borderColor, borderWidth, autoPlayAnimations, view);
     }
 
     @Override
-    public void loadImage(int resId, int width, int height, float[] radii, GenericDraweeView view) {
-        FrescoUtils.setController(resId, width, height, radii, view);
+    public void loadImage(int resId, int width, int height,
+                          float[] radii,
+                          boolean autoPlayAnimations,
+                          GenericDraweeView view) {
+        FrescoUtils.setController(resId, width, height, radii, autoPlayAnimations, view);
     }
 
     @Override
-    public void loadImage(int resId, int width, int height, float[] radii, int borderColor, float borderWidth, GenericDraweeView view) {
-        FrescoUtils.setController(resId, width, height, radii, borderColor, borderWidth, view);
+    public void loadImage(int resId, int width, int height,
+                          float[] radii, int borderColor, float borderWidth,
+                          boolean autoPlayAnimations,
+                          GenericDraweeView view) {
+        FrescoUtils.setController(resId, width, height, radii, borderColor, borderWidth, autoPlayAnimations, view);
     }
+    //</editor-fold >
 
-    ///////////////////////////////////////////////////////////////////////////
-    // 加载网络url
-    ///////////////////////////////////////////////////////////////////////////
+    //<editor-fold desc="加载网络url">
     @Override
-    public void loadImage(String urlOrPath, int width, int height, GenericDraweeView view) {
+    public void loadImage(@Nullable CharSequence   urlOrPath, int width, int height,
+                          GenericDraweeView view) {
         FrescoUtils.setController(urlOrPath, width, height, view);
     }
 
     @Override
-    public void loadImage(String urlOrPath, int width, int height, boolean isCircle, GenericDraweeView view) {
-        FrescoUtils.setController(urlOrPath, width, height, isCircle, view);
+    public void loadImage(@Nullable CharSequence urlOrPath, int width, int height,
+                          boolean isCircle,
+                          boolean autoPlayAnimations,
+                          GenericDraweeView view) {
+        FrescoUtils.setController(urlOrPath, width, height, isCircle, autoPlayAnimations, view);
     }
 
     @Override
-    public void loadImage(String urlOrPath, int width, int height, boolean isCircle, int borderColor, float borderWidth, GenericDraweeView view) {
-        FrescoUtils.setController(urlOrPath, width, height, isCircle, borderColor, borderWidth, view);
+    public void loadImage(@Nullable CharSequence urlOrPath, int width, int height,
+                          boolean isCircle, int borderColor, float borderWidth,
+                          boolean autoPlayAnimations,
+                          GenericDraweeView view) {
+        FrescoUtils.setController(urlOrPath, width, height, isCircle, borderColor, borderWidth, autoPlayAnimations, view);
     }
 
     @Override
-    public void loadImage(String urlOrPath, int width, int height, float[] radii, GenericDraweeView view) {
-        FrescoUtils.setController(urlOrPath, width, height, radii, view);
+    public void loadImage(@Nullable CharSequence urlOrPath, int width, int height,
+                          float[] radii,
+                          boolean autoPlayAnimations,
+                          GenericDraweeView view) {
+        FrescoUtils.setController(urlOrPath, width, height, radii, autoPlayAnimations, view);
     }
 
     @Override
-    public void loadImage(String urlOrPath, int width, int height, float[] radii, int borderColor, float borderWidth, GenericDraweeView view) {
-        FrescoUtils.setController(urlOrPath, width, height, radii, borderColor, borderWidth, view);
+    public void loadImage(@Nullable CharSequence urlOrPath, int width, int height,
+                          float[] radii, int borderColor, float borderWidth,
+                          boolean autoPlayAnimations,
+                          GenericDraweeView view) {
+        FrescoUtils.setController(urlOrPath, width, height, radii, borderColor, borderWidth, autoPlayAnimations, view);
     }
 
+    //</editor-fold >
     @Override
     public void clearMemoryCaches() {
         FrescoUtils.clearMemoryCaches();

@@ -1,0 +1,106 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.jakewharton.butterknife'
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
+android {
+    compileSdkVersion build_versions.compile
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+    }
+
+    buildTypes {
+        debug {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildTypes.all { type ->
+        type.matchingFallbacks = ['debug']
+        type.minifyEnabled = false
+        type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
+    }
+    compileOptions {
+        targetCompatibility build_versions.compile_jdk
+        sourceCompatibility build_versions.compile_jdk
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api deps.arouter.api
+    api deps.permission
+    implementation deps.walle
+
+
+    if (useMaven) {
+        api deps.base
+        api deps.base_mvvm
+        api deps.component_api
+        api deps.imageLoader
+        api deps.imageSelect
+        api deps.net
+        api deps.socialization
+        api deps.socialization_qq
+        api deps.socialization_sina
+        api deps.socialization_wechat
+        api deps.statelayout
+        api deps.universalAdapter
+        api deps.utils
+        api deps.webView
+    } else {
+        api project(':lib-base')
+        api project(':lib-base-mvvm')
+        api project(':lib-component-api')
+        api project(':lib-image-loader')
+        api project(':lib-image-select')
+        api project(':lib-image-select-ui')
+        api project(':lib-net')
+        api project(':lib-socialization')
+        api project(':lib-socialization-qq')
+        api project(':lib-socialization-sina')
+        api project(':lib-socialization-wechat')
+        api project(':lib-statelayout')
+        api project(':lib-universalAdapter')
+        api project(':lib-utils')
+        api project(':lib-webview')
+    }
+
+
+
+    api deps.fresco.fresco
+    api deps.fresco.animated_gif
+    api deps.fresco.animated_webp
+    api deps.fresco.webpsupport
+    api deps.fresco.imagepipeline_okhttp3
+
+    //ui
+    api deps.smartrefresh.SmartRefreshLayout
+    api deps.MagicIndicator
+    api deps.vlayout
+    api deps.AutoScrollViewPager
+    api deps.support.design
+    api deps.support.recyclerview
+    api deps.constraint_layout
+
+    //应用调试
+    implementation deps.stetho.stetho
+    //内存检测
+    debugImplementation deps.leakcanary.leakcanary_android
+    releaseImplementation deps.leakcanary.leakcanary_android_no_op
+
+    kapt deps.butterknife.compiler
+    kapt deps.dagger.compiler
+    kapt deps.dagger.android_support_compiler
+}

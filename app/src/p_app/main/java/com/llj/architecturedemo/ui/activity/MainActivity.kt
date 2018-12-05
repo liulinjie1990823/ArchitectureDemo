@@ -1,8 +1,9 @@
 package com.llj.architecturedemo.ui.activity
 
+import android.Manifest
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
@@ -10,27 +11,31 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
-import com.llj.architecturedemo.db.entity.MobileEntity
-import com.llj.architecturedemo.presenter.MainPresenter
-import com.llj.architecturedemo.ui.fragment.HomeFragment
-import com.llj.architecturedemo.ui.fragment.MineFragment
-import com.llj.architecturedemo.ui.fragment.SecondFragment
-import com.llj.architecturedemo.ui.fragment.ThirdFragment
-import com.llj.architecturedemo.view.MainContractView
+import com.llj.architecturedemo.ui.fragment.*
+import com.llj.architecturedemo.ui.model.TabListVo
+import com.llj.architecturedemo.ui.model.TabVo
+import com.llj.architecturedemo.ui.presenter.MainPresenter
+import com.llj.architecturedemo.ui.view.MainContractView
 import com.llj.component.service.arouter.CRouter
+import com.llj.component.service.preference.ConfigPreference
 import com.llj.lib.base.BaseTabActivity
 import com.llj.lib.base.IUiHandler
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import com.llj.lib.net.response.BaseResponse
+import com.llj.lib.utils.AToastUtils
+import com.llj.lib.utils.helper.Utils
+import com.yanzhenjie.permission.AndPermission
+import com.yanzhenjie.permission.Permission
 
 @Route(path = CRouter.APP_MAIN_ACTIVITY)
 class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
+
 
     @BindView(R.id.ll_footer_bar) lateinit var mLlFooterBar: LinearLayout
 
@@ -40,147 +45,102 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         return R.id.fl_contain
     }
 
-
-    private val mObserver = object : Observer<String> {
-        override fun onSubscribe(d: Disposable) {
-
-        }
-
-        override fun onNext(s: String) {
-            Log.e(mTagLog, "onNext:$s")
-        }
-
-        override fun onError(e: Throwable) {
-            Log.e(mTagLog, "onError:" + e.message)
-        }
-
-        override fun onComplete() {
-            Log.e(mTagLog, "onComplete:")
-        }
-    }
-
-    override fun toast(mobile: MobileEntity?) {
-        if (mobile != null) {
-            showLongToast(Gson().toJson(mobile))
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-
-        //        val channel = WalleChannelReader.getChannel(this.applicationContext) ?: ""
-        //        AToastUtils.show(channel)
-        //
-        //        val obs1 = Observable.create<String> { emitter ->
-        //            Log.e(mTag, "obs1thread:" + Thread.currentThread())
-        //
-        //            emitter.onNext("a1")
-        //            emitter.onNext("a2")
-        //            emitter.onNext("a3")
-        //
-        //            emitter.onComplete()
-        //        }
-        //
-        //        //        Observable.interval(2000000, TimeUnit.MILLISECONDS).map(new Function<Long, String>() {
-        //        //            @Override
-        //        //            public String apply(Long aLong) throws Exception {
-        //        //                return aLong + "";
-        //        //            }
-        //        //        }).compose(this.<String>bindToLifecycle()).subscribe(mObserver);
-        //
-        //        val observableList = ArrayList<ObservableSource<String>>()
-        //        val obs2 = Observable.create(ObservableOnSubscribe<String> { emitter ->
-        //            Log.e(mTag, "obs2thread:" + Thread.currentThread())
-        //
-        //            Thread.sleep(3000)
-        //            emitter.onNext("b1")
-        //            emitter.onNext("b2")
-        //            emitter.onNext("b3")
-        //
-        //
-        //            emitter.onComplete()
-        //        })
-        //        val obs3 = Observable.just("c1", "c2", "c3")
-        //
-        //        observableList.add(obs1)
-        //        observableList.add(obs2)
-        //        observableList.add(obs3)
-        //
-        //        //        Observable.concat(observableList).subscribe(new Observer<String>() {
-        //        //            @Override
-        //        //            public void onSubscribe(Disposable d) {
-        //        //
-        //        //            }
-        //        //
-        //        //            @Override
-        //        //            public void onNext(String s) {
-        //        //                Log.e(TAG, "onNext:" + s);
-        //        //            }
-        //        //
-        //        //            @Override
-        //        //            public void onError(Throwable e) {
-        //        //                Log.e(TAG, "onError:" + e.getMessage());
-        //        //            }
-        //        //
-        //        //            @Override
-        //        //            public void onComplete() {
-        //        //                Log.e(TAG, "onComplete:" );
-        //        //            }
-        //        //        });
-
-    }
-
     override fun layoutId(): Int {
         return R.layout.activity_main
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
 
+        //获取deviceId需要权限
+        AndPermission.with(Utils.getApp())
+                .runtime()
+                .permission(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .onGranted {
+                }
+                .onDenied { permissions ->
+                    AToastUtils.show(permissions?.toString())
+                }
+                .rationale { context, permissions, executor ->
+                    val permissionNames = Permission.transformText(context, permissions)
+                    val message = "读取电话状态"
 
-        val arrayListOf = arrayListOf<Tab>()
-        arrayListOf.add(Tab("首页", "http://pic7.photophoto.cn/20080407/0034034859692813_b.jpg",
-                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", true))
-        arrayListOf.add(Tab("首页", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
-                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", false))
-        arrayListOf.add(Tab("首页", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
-                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", false))
-        arrayListOf.add(Tab("我的", "https://img.tthunbohui.cn/dmp/h/cms/1526140800/jh-img-orig-ga_995601190265470976_70_70_626.png",
-                "https://img.tthunbohui.cn/dmp/h/cms/1525881600/jh-img-orig-ga_994489188457562112_75_75_1307.png", false))
+                    AlertDialog.Builder(context)
+                            .setCancelable(false)
+                            .setTitle("提示")
+                            .setMessage(message)
+                            .setPositiveButton("继续") { dialog, which -> executor.execute() }
+                            .setNegativeButton("取消") { dialog, which -> executor.cancel() }
+                            .show()
+                }
+                .start()
 
-        mTabAdapter = UniversalBind.Builder(mLlFooterBar, TabAdapter(arrayListOf))
+        mTabAdapter = UniversalBind.Builder(mLlFooterBar, TabAdapter(null))
                 .build()
                 .getAdapter()
 
-        super.initViews(savedInstanceState)
+        updateTabByLocal()
 
+        super.initViews(savedInstanceState)
+    }
+
+    private fun getDefaultTabList(): ArrayList<TabVo> {
+        val tabList = ArrayList<TabVo>()
+
+        tabList.add(TabVo(getString(R.string.tab_home), R.drawable.ic_tab_home_normal, R.drawable.ic_tab_home_selected, TAB_INDEX))
+        tabList.add(TabVo(getString(R.string.tab_community), R.drawable.ic_tab_baby_show_normal, R.drawable.ic_tab_baby_show_selected, TAB_TONGSHANG))
+        tabList.add(TabVo("测试", R.drawable.ic_tab_ybs, R.drawable.ic_tab_ybs, TAB_EXPO))
+        tabList.add(TabVo(getString(R.string.tab_coupon), R.drawable.ic_tab_coupon_normal, R.drawable.ic_tab_coupon_selected, TAB_CASH))
+        tabList.add(TabVo(getString(R.string.tab_mine), R.drawable.ic_tab_mine_normal, R.drawable.ic_tab_mine_selected, TAB_MY))
+
+        return tabList
+    }
+
+    private fun updateTabByLocal() {
+        val tabList = ConfigPreference.getInstance().getTabList()
+        val list: List<TabVo>
+        if (isEmpty(tabList)) {
+            //使用本地的
+            list = getDefaultTabList()
+        } else {
+            //使用缓存的
+            list = Gson().fromJson<List<TabVo>>(tabList, object : TypeToken<List<TabVo>>() {}.type)
+        }
+        mTabAdapter.addAll(list)
     }
 
     override fun initData() {
     }
 
-    private inner class TabAdapter(list: ArrayList<Tab>?) : ListBasedAdapter<Tab, ViewHolderHelper>(list), IUiHandler {
+
+    private inner class TabAdapter(list: ArrayList<TabVo>?) : ListBasedAdapter<TabVo, ViewHolderHelper>(list), IUiHandler {
 
         private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(mContext.applicationContext)
-
 
         init {
             addItemLayout(R.layout.item_main_activity_tab)
         }
 
-        override fun onBindViewHolder(viewHolder: ViewHolderHelper, data: Tab?, position: Int) {
-            if (data == null) {
+        override fun onBindViewHolder(viewHolder: ViewHolderHelper, item: TabVo?, position: Int) {
+            if (item == null) {
                 return
             }
             val image = viewHolder.getView<SimpleDraweeView>(R.id.iv_tab_image)
             val text = viewHolder.getView<TextView>(R.id.tv_tab_text)
 
-            val imageUrl: String? = if (data.select) data.selectImage else data.normalImage
-            mImageLoad.loadImage(imageUrl, 120, 120, image)
-            setText(text, data.text)
-            viewHolder.itemView.tag = position
+            //设置图片改变
+            if (item.default_img_id != 0) {
+                val imageId: Int = if (mShowItem == item.type) item.hover_img_id else item.default_img_id
+                mImageLoad.loadImage(imageId, 120, 120, image)
+            } else {
+                val imageUrl: String? = if (mShowItem == item.type) item.hover_img else item.default_img
+                mImageLoad.loadImage(imageUrl, 120, 120, image)
+            }
 
-            viewHolder.itemView.isSelected = data.select
+            setText(text, item.title)
+            //设置字体颜色的改变
+            viewHolder.itemView.isSelected = mShowItem == item.type
+
+            viewHolder.itemView.tag = item.type
 
             viewHolder.itemView.setOnClickListener {
                 selectItemFromTagByClick(it)
@@ -188,29 +148,47 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         }
     }
 
-    override fun makeFragment(showItem: Int): Fragment {
+    companion object {
+        private const val TAB_INDEX = "index"
+        private const val TAB_TONGSHANG = "tongshang"
+        private const val TAB_EXPO = "expo"
+        private const val TAB_CASH = "cash"
+        private const val TAB_MY = "my"
+    }
+
+    override fun makeFragment(showItem: String): Fragment {
         when (showItem) {
-            0 -> return HomeFragment()
-            1 -> return SecondFragment()
-            2 -> return ThirdFragment()
-            3 -> return MineFragment()
+            TAB_INDEX -> return HomeFragment()
+            TAB_TONGSHANG -> return VLayoutFragment()
+            TAB_EXPO -> return VLayoutFragment2()
+            TAB_CASH -> return ScrollableLayoutFragment()
+            TAB_MY -> return MineFragment()
         }
         return HomeFragment()
     }
 
-    override fun setSelectImage(showItem: Int) {
+    override fun changeSelectImage(showItem: String, hideItem: String) {
+        var showPosition = 0
+        var hidePosition = 0
         val childCount = mLlFooterBar.childCount
         for (i in 0 until childCount) {
-            mTabAdapter[i]?.select = (showItem == i)
+            if (mTabAdapter[i]?.type == showItem) {
+                showPosition = i
+            } else if (showItem != hideItem && mTabAdapter[i]?.type == hideItem) {
+                hidePosition = i
+            }
         }
-        mTabAdapter.notifyDataSetChanged()
+        mTabAdapter.onItemRangeChanged(showPosition, 1)
+        mTabAdapter.onItemRangeChanged(hidePosition, 1)
     }
 
-   private inner class Tab(var text: String,
-                    var normalImage: String,
-                    var selectImage: String,
-                    var select: Boolean
-    )
+    override fun getParams(): HashMap<String, Any> {
+        return HashMap()
+    }
 
+    override fun onDataSuccess(result: BaseResponse<TabListVo?>) {
+    }
 
+    override fun onDataError(e: Throwable) {
+    }
 }

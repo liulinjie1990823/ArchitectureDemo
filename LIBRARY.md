@@ -10,6 +10,7 @@ retrofit
 
 ##### json解析
 gson
+fastjson-android
 
 ##### 图片加载
 fresco

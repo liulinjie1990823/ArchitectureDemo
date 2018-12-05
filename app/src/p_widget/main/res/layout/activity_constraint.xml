@@ -190,6 +190,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/forestgreen"
                 android:gravity="center"
+                android:singleLine="true"
                 android:text="哈大大大大哈大大大大哈大大大大哈大大大大哈大大大大"
                 android:textSize="14dp"
                 app:layout_constraintLeft_toLeftOf="parent"

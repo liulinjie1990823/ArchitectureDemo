@@ -10,4 +10,8 @@ import android.arch.lifecycle.Lifecycle
  */
 interface IFragment {
     fun initLifecycleObserver(lifecycle: Lifecycle)
+
+    fun moduleName(): String {
+        return "app"
+    }
 }

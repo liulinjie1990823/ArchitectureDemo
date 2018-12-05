@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">module-login</string>
+    <string name="please_enter_phone_number">请输入手机号</string>
+    <string name="please_enter_sms_verification_code">请输入短信验证码</string>
+    <string name="please_enter_password">请输入密码</string>
+    <string name="login_login">登录</string>
+    <string name="login_get_verification_code">获取验证码</string>
 </resources>

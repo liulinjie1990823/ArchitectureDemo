@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lib-base</string>
+    <string name="app_name">lib-base</string>
 
 
     <string name="common_warn_exit_msg">再按一次退出程序</string>

@@ -16,8 +16,6 @@ import android.support.annotation.NonNull;
 import android.text.format.Formatter;
 import android.util.Log;
 
-import com.llj.lib.utils.helper.Utils;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -54,7 +52,7 @@ public class AAppUtil {
      *
      * @return 最大内存, 比如30M
      */
-    public static String getMaxMemory(Context context) {
+    public static String getMaxMemory(@NonNull Context context) {
         return Formatter.formatFileSize(context, getMaxMemory());
     }
 
@@ -72,7 +70,7 @@ public class AAppUtil {
      *
      * @return 当前内存, 单位是b
      */
-    public static String getTotalMemory(Context context) {
+    public static String getTotalMemory(@NonNull Context context) {
         return Formatter.formatFileSize(context, getTotalMemory());
     }
 
@@ -154,14 +152,15 @@ public class AAppUtil {
     /**
      * 检测当前应用是否是Debug版本
      *
-     * @param ctx 上下文
+     * @param context 上下文
+     *
      * @return 是否是Debug版本
      */
-    public static boolean isDebuggable(Context ctx) {
+    public static boolean isDebuggable(@NonNull Context context) {
         boolean debuggable = false;
         try {
-            PackageInfo pinfo = ctx.getPackageManager()
-                    .getPackageInfo(ctx.getPackageName(),
+            PackageInfo pinfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(),
                             PackageManager.GET_SIGNATURES);
             Signature signatures[] = pinfo.signatures;
             for (int i = 0; i < signatures.length; i++) {
@@ -183,9 +182,10 @@ public class AAppUtil {
      * 获取系统中所有的应用
      *
      * @param context 上下文
+     *
      * @return 应用信息List
      */
-    public static List<PackageInfo> getAllApps(Context context) {
+    public static List<PackageInfo> getAllApps(@NonNull Context context) {
 
         List<PackageInfo> apps = new ArrayList<>();
         PackageManager pManager = context.getPackageManager();
@@ -206,7 +206,7 @@ public class AAppUtil {
      * @return
      */
     public static boolean isSDCardAvailable() {
-        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())|| !Environment.isExternalStorageRemovable();
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable();
     }
 
     /**
@@ -216,8 +216,8 @@ public class AAppUtil {
      *
      * @param filePath The path of file.
      */
-    public static void installApp(final String filePath) {
-        installApp(getFileByPath(filePath));
+    public static void installApp(@NonNull Context context, final String filePath) {
+        installApp(context, getFileByPath(filePath));
     }
 
     /**
@@ -227,9 +227,9 @@ public class AAppUtil {
      *
      * @param file The file.
      */
-    public static void installApp(final File file) {
+    public static void installApp(@NonNull Context context, final File file) {
         if (!isFileExists(file)) return;
-        Utils.getApp().startActivity(AIntentUtils.getInstallAppIntent(file, true));
+        context.startActivity(AIntentUtils.getInstallAppIntent(context,file, true));
     }
 
     /**
@@ -242,8 +242,8 @@ public class AAppUtil {
      *                  defined in a {@code <provider>} element in your app's manifest.
      */
     @Deprecated
-    public static void installApp(final String filePath, final String authority) {
-        installApp(getFileByPath(filePath), authority);
+    public static void installApp(@NonNull Context context, final String filePath, final String authority) {
+        installApp(context, getFileByPath(filePath), authority);
     }
 
     /**
@@ -256,9 +256,9 @@ public class AAppUtil {
      *                  defined in a {@code <provider>} element in your app's manifest.
      */
     @Deprecated
-    public static void installApp(final File file, final String authority) {
+    public static void installApp(@NonNull Context context, final File file, final String authority) {
         if (!isFileExists(file)) return;
-        Utils.getApp().startActivity(AIntentUtils.getInstallAppIntent(file, authority, true));
+        context.startActivity(AIntentUtils.getInstallAppIntent(context, file, authority, true));
     }
 
     /**
@@ -271,7 +271,7 @@ public class AAppUtil {
      * @param requestCode If &gt;= 0, this code will be returned in
      *                    onActivityResult() when the activity exits.
      */
-    public static void installApp(final Activity activity,
+    public static void installApp(@NonNull final Activity activity,
                                   final String filePath,
                                   final int requestCode) {
         installApp(activity, getFileByPath(filePath), requestCode);
@@ -287,11 +287,11 @@ public class AAppUtil {
      * @param requestCode If &gt;= 0, this code will be returned in
      *                    onActivityResult() when the activity exits.
      */
-    public static void installApp(final Activity activity,
+    public static void installApp(@NonNull final Activity activity,
                                   final File file,
                                   final int requestCode) {
         if (!isFileExists(file)) return;
-        activity.startActivityForResult(AIntentUtils.getInstallAppIntent(file), requestCode);
+        activity.startActivityForResult(AIntentUtils.getInstallAppIntent(activity, file), requestCode);
     }
 
     /**
@@ -307,7 +307,7 @@ public class AAppUtil {
      *                    onActivityResult() when the activity exits.
      */
     @Deprecated
-    public static void installApp(final Activity activity,
+    public static void installApp(@NonNull final Activity activity,
                                   final String filePath,
                                   final String authority,
                                   final int requestCode) {
@@ -327,12 +327,12 @@ public class AAppUtil {
      *                    onActivityResult() when the activity exits.
      */
     @Deprecated
-    public static void installApp(final Activity activity,
+    public static void installApp(@NonNull final Activity activity,
                                   final File file,
                                   final String authority,
                                   final int requestCode) {
         if (!isFileExists(file)) return;
-        activity.startActivityForResult(AIntentUtils.getInstallAppIntent(file, authority),
+        activity.startActivityForResult(AIntentUtils.getInstallAppIntent(activity, file, authority),
                 requestCode);
     }
 
@@ -342,6 +342,7 @@ public class AAppUtil {
      * {@code <uses-permission android:name="android.permission.INSTALL_PACKAGES" />}</p>
      *
      * @param filePath The path of file.
+     *
      * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean installAppSilent(final String filePath) {
@@ -354,6 +355,7 @@ public class AAppUtil {
      * {@code <uses-permission android:name="android.permission.INSTALL_PACKAGES" />}</p>
      *
      * @param file The file.
+     *
      * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean installAppSilent(final File file) {
@@ -368,6 +370,7 @@ public class AAppUtil {
      *
      * @param filePath The path of file.
      * @param params   The params of installation(e.g.,<code>-r</code>, <code>-s</code>).
+     *
      * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean installAppSilent(final String filePath, final String params) {
@@ -381,6 +384,7 @@ public class AAppUtil {
      *
      * @param file   The file.
      * @param params The params of installation(e.g.,<code>-r</code>, <code>-s</code>).
+     *
      * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean installAppSilent(final File file, final String params) {
@@ -406,10 +410,10 @@ public class AAppUtil {
      *
      * @param packageName The name of the package.
      */
-    public static void uninstallApp(final String packageName) {
+    public static void uninstallApp(@NonNull Context context, final String packageName) {
         if (isSpace(packageName))
             return;
-        Utils.getApp().startActivity(AIntentUtils.getUninstallAppIntent(packageName, true));
+        context.startActivity(AIntentUtils.getUninstallAppIntent(packageName, true));
     }
 
     /**
@@ -437,6 +441,7 @@ public class AAppUtil {
      * {@code <uses-permission android:name="android.permission.DELETE_PACKAGES" />}</p>
      *
      * @param packageName The name of the package.
+     *
      * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean uninstallAppSilent(final String packageName) {
@@ -450,6 +455,7 @@ public class AAppUtil {
      *
      * @param packageName The name of the package.
      * @param isKeepData  Is keep the data.
+     *
      * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean uninstallAppSilent(final String packageName, final boolean isKeepData) {
@@ -474,12 +480,13 @@ public class AAppUtil {
      *
      * @param action   The Intent action, such as ACTION_VIEW.
      * @param category The desired category.
+     *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isAppInstalled(@NonNull final String action, @NonNull final String category) {
+    public static boolean isAppInstalled(@NonNull Context context, @NonNull final String action, @NonNull final String category) {
         Intent intent = new Intent(action);
         intent.addCategory(category);
-        PackageManager pm = Utils.getApp().getPackageManager();
+        PackageManager pm = context.getPackageManager();
         ResolveInfo info = pm.resolveActivity(intent, 0);
         return info != null;
     }
@@ -488,10 +495,11 @@ public class AAppUtil {
      * Return whether the app is installed.
      *
      * @param packageName The name of the package.
+     *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isAppInstalled(@NonNull final String packageName) {
-        return !isSpace(packageName) && AIntentUtils.getLaunchAppIntent(packageName) != null;
+    public static boolean isAppInstalled(@NonNull Context context, @NonNull final String packageName) {
+        return !isSpace(packageName) && AIntentUtils.getLaunchAppIntent(context, packageName) != null;
     }
 
     /**
@@ -513,20 +521,21 @@ public class AAppUtil {
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isAppDebug() {
-        return isAppDebug(Utils.getApp().getPackageName());
+    public static boolean isAppDebug(@NonNull Context context) {
+        return isAppDebug(context, context.getPackageName());
     }
 
     /**
      * Return whether it is a debug application.
      *
      * @param packageName The name of the package.
+     *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isAppDebug(final String packageName) {
+    public static boolean isAppDebug(@NonNull Context context, final String packageName) {
         if (isSpace(packageName)) return false;
         try {
-            PackageManager pm = Utils.getApp().getPackageManager();
+            PackageManager pm = context.getPackageManager();
             ApplicationInfo ai = pm.getApplicationInfo(packageName, 0);
             return ai != null && (ai.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         } catch (PackageManager.NameNotFoundException e) {
@@ -540,20 +549,21 @@ public class AAppUtil {
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isAppSystem() {
-        return isAppSystem(Utils.getApp().getPackageName());
+    public static boolean isAppSystem(@NonNull Context context) {
+        return isAppSystem(context, context.getPackageName());
     }
 
     /**
      * Return whether it is a system application.
      *
      * @param packageName The name of the package.
+     *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isAppSystem(final String packageName) {
+    public static boolean isAppSystem(@NonNull Context context, final String packageName) {
         if (isSpace(packageName)) return false;
         try {
-            PackageManager pm = Utils.getApp().getPackageManager();
+            PackageManager pm = context.getPackageManager();
             ApplicationInfo ai = pm.getApplicationInfo(packageName, 0);
             return ai != null && (ai.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
         } catch (PackageManager.NameNotFoundException e) {
@@ -567,9 +577,9 @@ public class AAppUtil {
      *
      * @param packageName The name of the package.
      */
-    public static void launchApp(final String packageName) {
+    public static void launchApp(@NonNull Context context, final String packageName) {
         if (isSpace(packageName)) return;
-        Utils.getApp().startActivity(AIntentUtils.getLaunchAppIntent(packageName, true));
+        context.startActivity(AIntentUtils.getLaunchAppIntent(context, packageName, true));
     }
 
     /**
@@ -584,27 +594,27 @@ public class AAppUtil {
                                  final String packageName,
                                  final int requestCode) {
         if (isSpace(packageName)) return;
-        activity.startActivityForResult(AIntentUtils.getLaunchAppIntent(packageName), requestCode);
+        activity.startActivityForResult(AIntentUtils.getLaunchAppIntent(activity,packageName), requestCode);
     }
 
     /**
      * Relaunch the application.
      */
-    public static void relaunchApp() {
-        PackageManager packageManager = Utils.getApp().getPackageManager();
-        Intent intent = packageManager.getLaunchIntentForPackage(Utils.getApp().getPackageName());
+    public static void relaunchApp(@NonNull Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
         if (intent == null) return;
         ComponentName componentName = intent.getComponent();
         Intent mainIntent = Intent.makeRestartActivityTask(componentName);
-        Utils.getApp().startActivity(mainIntent);
+        context.startActivity(mainIntent);
         System.exit(0);
     }
 
     /**
      * Launch the application's details settings.
      */
-    public static void launchAppDetailsSettings() {
-        launchAppDetailsSettings(Utils.getApp().getPackageName());
+    public static void launchAppDetailsSettings(@NonNull Context context) {
+        launchAppDetailsSettings(context, context.getPackageName());
     }
 
     /**
@@ -612,9 +622,9 @@ public class AAppUtil {
      *
      * @param packageName The name of the package.
      */
-    public static void launchAppDetailsSettings(final String packageName) {
+    public static void launchAppDetailsSettings(@NonNull Context context, final String packageName) {
         if (isSpace(packageName)) return;
-        Utils.getApp().startActivity(
+        context.startActivity(
                 AIntentUtils.getLaunchAppDetailsSettingsIntent(packageName, true)
         );
     }
@@ -624,20 +634,21 @@ public class AAppUtil {
      *
      * @return the application's icon
      */
-    public static Drawable getAppIcon() {
-        return getAppIcon(Utils.getApp().getPackageName());
+    public static Drawable getAppIcon(@NonNull Context context) {
+        return getAppIcon(context, context.getPackageName());
     }
 
     /**
      * Return the application's icon.
      *
      * @param packageName The name of the package.
+     *
      * @return the application's icon
      */
-    public static Drawable getAppIcon(final String packageName) {
+    public static Drawable getAppIcon(@NonNull Context context, final String packageName) {
         if (isSpace(packageName)) return null;
         try {
-            PackageManager pm = Utils.getApp().getPackageManager();
+            PackageManager pm = context.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(packageName, 0);
             return pi == null ? null : pi.applicationInfo.loadIcon(pm);
         } catch (PackageManager.NameNotFoundException e) {
@@ -651,8 +662,8 @@ public class AAppUtil {
      *
      * @return the application's package name
      */
-    public static String getAppPackageName() {
-        return Utils.getApp().getPackageName();
+    public static String getAppPackageName(@NonNull Context context) {
+        return context.getPackageName();
     }
 
     /**
@@ -660,20 +671,21 @@ public class AAppUtil {
      *
      * @return the application's name
      */
-    public static String getAppName() {
-        return getAppName(Utils.getApp().getPackageName());
+    public static String getAppName(@NonNull Context context) {
+        return getAppName(context, context.getPackageName());
     }
 
     /**
      * Return the application's name.
      *
      * @param packageName The name of the package.
+     *
      * @return the application's name
      */
-    public static String getAppName(final String packageName) {
+    public static String getAppName(@NonNull Context context, final String packageName) {
         if (isSpace(packageName)) return "";
         try {
-            PackageManager pm = Utils.getApp().getPackageManager();
+            PackageManager pm = context.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(packageName, 0);
             return pi == null ? null : pi.applicationInfo.loadLabel(pm).toString();
         } catch (PackageManager.NameNotFoundException e) {
@@ -687,20 +699,21 @@ public class AAppUtil {
      *
      * @return the application's path
      */
-    public static String getAppPath() {
-        return getAppPath(Utils.getApp().getPackageName());
+    public static String getAppPath(@NonNull Context context) {
+        return getAppPath(context, context.getPackageName());
     }
 
     /**
      * Return the application's path.
      *
      * @param packageName The name of the package.
+     *
      * @return the application's path
      */
-    public static String getAppPath(final String packageName) {
+    public static String getAppPath(@NonNull Context context, final String packageName) {
         if (isSpace(packageName)) return "";
         try {
-            PackageManager pm = Utils.getApp().getPackageManager();
+            PackageManager pm = context.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(packageName, 0);
             return pi == null ? null : pi.applicationInfo.sourceDir;
         } catch (PackageManager.NameNotFoundException e) {
@@ -714,20 +727,21 @@ public class AAppUtil {
      *
      * @return the application's version name
      */
-    public static String getAppVersionName() {
-        return getAppVersionName(Utils.getApp().getPackageName());
+    public static String getAppVersionName(@NonNull Context context) {
+        return getAppVersionName(context, context.getPackageName());
     }
 
     /**
      * Return the application's version name.
      *
      * @param packageName The name of the package.
+     *
      * @return the application's version name
      */
-    public static String getAppVersionName(final String packageName) {
+    public static String getAppVersionName(@NonNull Context context, final String packageName) {
         if (isSpace(packageName)) return "";
         try {
-            PackageManager pm = Utils.getApp().getPackageManager();
+            PackageManager pm = context.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(packageName, 0);
             return pi == null ? null : pi.versionName;
         } catch (PackageManager.NameNotFoundException e) {
@@ -741,20 +755,21 @@ public class AAppUtil {
      *
      * @return the application's version code
      */
-    public static int getAppVersionCode() {
-        return getAppVersionCode(Utils.getApp().getPackageName());
+    public static int getAppVersionCode(@NonNull Context context) {
+        return getAppVersionCode(context, context.getPackageName());
     }
 
     /**
      * Return the application's version code.
      *
      * @param packageName The name of the package.
+     *
      * @return the application's version code
      */
-    public static int getAppVersionCode(final String packageName) {
+    public static int getAppVersionCode(@NonNull Context context, final String packageName) {
         if (isSpace(packageName)) return -1;
         try {
-            PackageManager pm = Utils.getApp().getPackageManager();
+            PackageManager pm = context.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(packageName, 0);
             return pi == null ? -1 : pi.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
@@ -768,20 +783,21 @@ public class AAppUtil {
      *
      * @return the application's signature
      */
-    public static Signature[] getAppSignature() {
-        return getAppSignature(Utils.getApp().getPackageName());
+    public static Signature[] getAppSignature(@NonNull Context context) {
+        return getAppSignature(context, context.getPackageName());
     }
 
     /**
      * Return the application's signature.
      *
      * @param packageName The name of the package.
+     *
      * @return the application's signature
      */
-    public static Signature[] getAppSignature(final String packageName) {
+    public static Signature[] getAppSignature(@NonNull Context context, final String packageName) {
         if (isSpace(packageName)) return null;
         try {
-            PackageManager pm = Utils.getApp().getPackageManager();
+            PackageManager pm = context.getPackageManager();
             @SuppressLint("PackageManagerGetSignatures")
             PackageInfo pi = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
             return pi == null ? null : pi.signatures;
@@ -796,19 +812,20 @@ public class AAppUtil {
      *
      * @return the application's signature for SHA1 value
      */
-    public static String getAppSignatureSHA1() {
-        return getAppSignatureSHA1(Utils.getApp().getPackageName());
+    public static String getAppSignatureSHA1(@NonNull Context context) {
+        return getAppSignatureSHA1(context, context.getPackageName());
     }
 
     /**
      * Return the application's signature for SHA1 value.
      *
      * @param packageName The name of the package.
+     *
      * @return the application's signature for SHA1 value
      */
-    public static String getAppSignatureSHA1(final String packageName) {
+    public static String getAppSignatureSHA1(@NonNull Context context, final String packageName) {
         if (isSpace(packageName)) return "";
-        Signature[] signature = getAppSignature(packageName);
+        Signature[] signature = getAppSignature(context, packageName);
         if (signature == null || signature.length <= 0) return "";
         return encryptSHA1ToString(signature[0].toByteArray()).
                 replaceAll("(?<=[0-9A-F]{2})[0-9A-F]{2}", ":$0");
@@ -828,8 +845,8 @@ public class AAppUtil {
      *
      * @return the application's information
      */
-    public static AppInfo getAppInfo() {
-        return getAppInfo(Utils.getApp().getPackageName());
+    public static AppInfo getAppInfo(@NonNull Context context) {
+        return getAppInfo(context, context.getPackageName());
     }
 
     /**
@@ -845,11 +862,12 @@ public class AAppUtil {
      * </ul>
      *
      * @param packageName The name of the package.
+     *
      * @return 当前应用的 AppInfo
      */
-    public static AppInfo getAppInfo(final String packageName) {
+    public static AppInfo getAppInfo(@NonNull Context context, final String packageName) {
         try {
-            PackageManager pm = Utils.getApp().getPackageManager();
+            PackageManager pm = context.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(packageName, 0);
             return getBean(pm, pi);
         } catch (PackageManager.NameNotFoundException e) {
@@ -863,9 +881,9 @@ public class AAppUtil {
      *
      * @return the applications' information
      */
-    public static List<AppInfo> getAppsInfo() {
+    public static List<AppInfo> getAppsInfo(@NonNull Context context) {
         List<AppInfo> list = new ArrayList<>();
-        PackageManager pm = Utils.getApp().getPackageManager();
+        PackageManager pm = context.getPackageManager();
         List<PackageInfo> installedPackages = pm.getInstalledPackages(0);
         for (PackageInfo pi : installedPackages) {
             AppInfo ai = getBean(pm, pi);

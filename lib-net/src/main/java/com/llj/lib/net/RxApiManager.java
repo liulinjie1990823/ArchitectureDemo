@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -108,14 +109,16 @@ public class RxApiManager implements RxActionManager<Object> {
                                     AutoDisposeConverter<BaseResponse<Data>> autoDisposeConverter,
                                     BaseApiObserver<Data> observer) {
 
-        single
+        Single<BaseResponse<Data>> baseResponseSingle = single
                 .subscribeOn(Schedulers.io())//指定io
                 .unsubscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .map(httpResult)
-                .onErrorResumeNext(error)
-                .as(autoDisposeConverter)
-                .subscribe(observer);
+                .onErrorResumeNext(error);
+        if (autoDisposeConverter != null) {
+            baseResponseSingle.as(autoDisposeConverter).subscribe(observer);
+        } else {
+            baseResponseSingle.subscribe(observer);
+        }
     }
-
 }

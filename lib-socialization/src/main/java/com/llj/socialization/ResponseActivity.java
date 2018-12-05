@@ -48,7 +48,7 @@ public class ResponseActivity extends Activity {
     }
 
     public boolean isShare() {
-        return mType == ShareUtil.TYPE;
+        return mType == ShareUtil.REQUEST_CODE;
     }
 
     public boolean isPay() {
@@ -82,7 +82,7 @@ public class ResponseActivity extends Activity {
         } else {
             if (Platform.isWechat(mPlatform)) {
                 LoginUtil.handleResult(-1, -1, getIntent());
-                ShareUtil.handleResult(getIntent());
+                ShareUtil.handleResult(-1, -1, getIntent());
                 PayUtil.handleResult(-1, -1, getIntent());
             }
             finish();
@@ -97,7 +97,7 @@ public class ResponseActivity extends Activity {
         if (isLogin()) {
             LoginUtil.handleResult(0, 0, intent);
         } else if (isShare()) {
-            ShareUtil.handleResult(intent);
+            ShareUtil.handleResult(0, 0, intent);
         } else if (isPay()) {
             PayUtil.handleResult(0, 0, intent);
         }
@@ -111,7 +111,7 @@ public class ResponseActivity extends Activity {
         if (isLogin()) {
             LoginUtil.handleResult(requestCode, resultCode, data);
         } else if (isShare()) {
-            ShareUtil.handleResult(data);
+            ShareUtil.handleResult(requestCode, resultCode, data);
         } else if (isPay()) {
             PayUtil.handleResult(requestCode, resultCode, data);
         }

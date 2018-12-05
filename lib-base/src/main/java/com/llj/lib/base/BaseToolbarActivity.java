@@ -3,7 +3,7 @@ package com.llj.lib.base;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.llj.lib.base.mvp.IPresenter;
+import com.llj.lib.base.mvp.IBasePresenter;
 import com.llj.lib.base.widget.CommonToolbar;
 
 /**
@@ -12,7 +12,7 @@ import com.llj.lib.base.widget.CommonToolbar;
  * author liulj
  * date 2018/5/24
  */
-public abstract class BaseToolbarActivity<P extends IPresenter> extends MvpBaseActivity<P> {
+public abstract class BaseToolbarActivity<P extends IBasePresenter> extends MvpBaseActivity<P> {
     public CommonToolbar mCommonToolbar;
 
     @Override

@@ -15,8 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 import android.util.Log;
 
-import com.llj.lib.utils.helper.Utils;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -43,9 +41,9 @@ public class AProcessUtils {
      *
      * @return the foreground process name
      */
-    public static String getForegroundProcessName() {
+    public static String getForegroundProcessName(@NonNull Context context) {
         ActivityManager am =
-                (ActivityManager) Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE);
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (am == null) return null;
         List<ActivityManager.RunningAppProcessInfo> pInfo = am.getRunningAppProcesses();
         if (pInfo != null && pInfo.size() > 0) {
@@ -57,7 +55,7 @@ public class AProcessUtils {
             }
         }
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.LOLLIPOP) {
-            PackageManager pm = Utils.getApp().getPackageManager();
+            PackageManager pm = context.getPackageManager();
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             List<ResolveInfo> list =
                     pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -69,15 +67,15 @@ public class AProcessUtils {
             }
             try {// Access to usage information.
                 ApplicationInfo info =
-                        pm.getApplicationInfo(Utils.getApp().getPackageName(), 0);
+                        pm.getApplicationInfo(context.getPackageName(), 0);
                 AppOpsManager aom =
-                        (AppOpsManager) Utils.getApp().getSystemService(Context.APP_OPS_SERVICE);
+                        (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
                 if (aom != null) {
                     if (aom.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
                             info.uid,
                             info.packageName) != AppOpsManager.MODE_ALLOWED) {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Utils.getApp().startActivity(intent);
+                        context.startActivity(intent);
                     }
                     if (aom.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
                             info.uid,
@@ -87,7 +85,7 @@ public class AProcessUtils {
                         return "";
                     }
                 }
-                UsageStatsManager usageStatsManager = (UsageStatsManager) Utils.getApp()
+                UsageStatsManager usageStatsManager = (UsageStatsManager) context
                         .getSystemService(Context.USAGE_STATS_SERVICE);
                 List<UsageStats> usageStatsList = null;
                 if (usageStatsManager != null) {
@@ -121,9 +119,9 @@ public class AProcessUtils {
      * @return all background processes
      */
     @RequiresPermission(KILL_BACKGROUND_PROCESSES)
-    public static Set<String> getAllBackgroundProcesses() {
+    public static Set<String> getAllBackgroundProcesses(@NonNull Context context) {
         ActivityManager am =
-                (ActivityManager) Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE);
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (am == null) return Collections.emptySet();
         List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
         Set<String> set = new HashSet<>();
@@ -143,9 +141,9 @@ public class AProcessUtils {
      * @return background processes were killed
      */
     @RequiresPermission(KILL_BACKGROUND_PROCESSES)
-    public static Set<String> killAllBackgroundProcesses() {
+    public static Set<String> killAllBackgroundProcesses(@NonNull Context context) {
         ActivityManager am =
-                (ActivityManager) Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE);
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (am == null) return Collections.emptySet();
         List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
         Set<String> set = new HashSet<>();
@@ -170,12 +168,13 @@ public class AProcessUtils {
      * {@code <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />}</p>
      *
      * @param packageName The name of the package.
+     *
      * @return {@code true}: success<br>{@code false}: fail
      */
     @RequiresPermission(KILL_BACKGROUND_PROCESSES)
-    public static boolean killBackgroundProcesses(@NonNull final String packageName) {
+    public static boolean killBackgroundProcesses(@NonNull Context context, @NonNull final String packageName) {
         ActivityManager am =
-                (ActivityManager) Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE);
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (am == null) return false;
         List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
         if (info == null || info.size() == 0) return true;
@@ -199,8 +198,8 @@ public class AProcessUtils {
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isMainProcess() {
-        return Utils.getApp().getPackageName().equals(getCurrentProcessName());
+    public static boolean isMainProcess(@NonNull Context context) {
+        return context.getPackageName().equals(getCurrentProcessName(context));
     }
 
     /**
@@ -208,8 +207,8 @@ public class AProcessUtils {
      *
      * @return the name of current process
      */
-    public static String getCurrentProcessName() {
-        ActivityManager am = (ActivityManager) Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE);
+    public static String getCurrentProcessName(@NonNull Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (am == null) return null;
         List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
         if (info == null || info.size() == 0) return null;

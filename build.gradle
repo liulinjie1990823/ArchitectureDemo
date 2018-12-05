@@ -2,11 +2,13 @@
 apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
-    apply from: 'versions2.gradle'
+    apply from: 'configureVersions.gradle'
     apply from: 'utils.gradle'
     addRepos(repositories)
     dependencies {
-        //
+        //方法数检测
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.4'
+        //maven库更新检测
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
         //android插件
         classpath deps.android_gradle_plugin
@@ -19,14 +21,31 @@ buildscript {
         //上传bintray插件
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-        classpath 'com.billy.android:autoregister:1.4.1'
+        classpath 'com.billy.android:cc-register:1.0.6'
 
-//        classpath 'com.llj:time-gradle-plugin:0.0.2'
+        classpath 'com.llj:plugin-tracker-inject:0.0.1'
     }
 }
 
 allprojects {
     addRepos(repositories)
+
+    //强制使依赖版本
+    configurations.all {
+        resolutionStrategy {
+            force 'com.squareup.okhttp3:okhttp:3.11.0'
+            force 'com.google.code.gson:gson:2.8.5'
+            force 'com.android.support:support-v4:28.0.0'
+            force 'com.android.support:appcompat-v7:28.0.0'
+
+            force 'com.android.support:support-fragment:28.0.0'
+            force 'com.android.support:support-media-compat:28.0.0'
+            force 'com.android.support:support-core-utils:28.0.0'
+            force 'com.android.support:support-core-ui:28.0.0'
+            force 'com.android.support:support-compat:28.0.0'
+            force 'com.android.support:support-annotations:28.0.0'
+        }
+    }
 
     //过滤每个工程任务表中无用的任务
     gradle.taskGraph.whenReady { taskGraph ->
@@ -50,9 +69,9 @@ allprojects {
 }
 apply from: "init.gradle"
 //配置library相关属性
-apply from: "libraryConfigure.gradle"
+apply from: "configureLibrary.gradle"
 //配置module相关属性
-apply from: "moduleConfigure.gradle"
+apply from: "configureModule.gradle"
 
 afterEvaluate {
 

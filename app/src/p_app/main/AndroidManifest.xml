@@ -3,7 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.llj.architecturedemo">
 
-    <uses-sdk tools:overrideLibrary="com.llj.adapter" />
+    <uses-sdk tools:overrideLibrary="com.llj.adapter"/>
 
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -47,27 +47,19 @@
 
     <application
         android:name=".AppApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+        android:theme="@style/MyAppTheme.NoActionBar">
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.MemoryLeakActivity"/>
-        <activity
-            android:name=".ui.activity.SecondActivity"
-            />
+        <activity android:name=".ui.activity.SecondActivity"/>
         <activity android:name="com.llj.widget.ui.activity.ConstraintActivity"/>
         <activity android:name="com.llj.architecturedemo.ui.activity.ShareActivity"/>
         <activity android:name="com.llj.widget.ui.activity.CircleViewActivity"/>
-        <activity android:name="com.llj.widget.ui.activity.TestActivity"/>
         <activity android:name=".ui.activity.TouchEventActivity"/>
         <activity android:name=".ui.activity.NestedScrollViewActivity"/>
         <activity android:name=".ui.activity.RecycleViewActivity"/>
@@ -76,6 +68,25 @@
         <activity android:name=".ui.activity.ProxyActivity"/>
         <activity android:name=".ui.activity.HookActivity"/>
         <activity android:name=".ui.activity.StubActivity"/>
+        <activity android:name=".ui.activity.AptActivity"/>
+        <activity android:name=".ui.activity.RxJava2Activity"/>
+        <activity android:name=".ui.activity.RequestActivity"/>
+
+        <activity
+            android:name="com.llj.loading.ui.activity.LoadingActivity"
+            android:theme="@style/MyAppTheme.NoActionBar.Loading">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name="com.llj.loading.ui.activity.GuideActivity"/>
+        <activity android:name=".ui.activity.JavaTypeActivity"/>
+
+        <service android:name=".ui.service.LoadingService"/>
     </application>
 
 </manifest>
