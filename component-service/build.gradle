@@ -43,14 +43,13 @@ dependencies {
     api deps.permission
     implementation deps.walle
 
-
     if (useMaven) {
+        api deps.net
         api deps.base
         api deps.base_mvvm
         api deps.component_api
         api deps.imageLoader
         api deps.imageSelect
-        api deps.net
         api deps.socialization
         api deps.socialization_qq
         api deps.socialization_sina

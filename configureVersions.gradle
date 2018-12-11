@@ -152,9 +152,9 @@ ext {
                     auto_value_compile    : "com.google.auto.value:auto-value:$versions.auto_value",
             ],
             //工具
-            base                      : "com.llj:lib-base:0.0.7",
-            base_mvvm                 : "com.llj:lib-base-mvvm:0.0.7",
-            net                       : "com.llj:lib-net:0.0.7",
+            base                      : "com.llj:lib-base:0.0.9",
+            base_mvvm                 : "com.llj:lib-base-mvvm:0.0.9",
+            net                       : "com.llj:lib-net:0.0.9",
             component_annotation      : "com.llj:lib-component-annotation:0.0.1",
             component_api             : "com.llj:lib-component-api:0.0.1",
             component_compiler        : "com.llj:lib-component-compiler:0.0.1",
@@ -198,13 +198,12 @@ def addRepos(RepositoryHandler handler) {
     //工程中的lib文件夹，依赖aar和jar文件
 
     handler.google()
+    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
     handler.jcenter()
-    handler.mavenCentral()
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     handler.maven { url "https://jitpack.io" }
     //微博的maven地址
     handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
-    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
     handler.flatDir { dirs '../lib', '../libs' }
 }
 
