@@ -95,7 +95,7 @@ dependencies {
     api deps.constraint_layout
 
     //应用调试
-    implementation deps.stetho.stetho
+//    debugImplementation deps.flipper
     //内存检测
     debugImplementation deps.leakcanary.leakcanary_android
     releaseImplementation deps.leakcanary.leakcanary_android_no_op

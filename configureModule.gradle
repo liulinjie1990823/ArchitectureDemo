@@ -15,10 +15,9 @@ subprojects {
             if (it.name == 'app') {
                 ext.mainApp = true
             } else {
-//            ext.alwaysLib = true
+                //ext.alwaysLib = true
             }
             apply from: rootProject.file('cc-settings-2.gradle')
-            apply plugin: 'com.jakewharton.butterknife'
         } else {
             //不使用组件
             if (it.name == 'app') {
@@ -27,15 +26,18 @@ subprojects {
                 apply plugin: 'com.android.library'
             }
         }
+        def isApplication = it.pluginManager.hasPlugin("com.android.application")
         apply plugin: 'kotlin-android'
         apply plugin: 'kotlin-kapt'
-
+//        if (!isApplication) {
+        apply plugin: 'com.jakewharton.butterknife'
+//        }
         kapt {
             arguments {
                 arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
-        def isApplication = it.pluginManager.hasPlugin("com.android.application")
+
         //android
         if (it.name != 'app') {
             android {

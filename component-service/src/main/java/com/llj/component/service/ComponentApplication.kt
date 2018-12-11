@@ -2,12 +2,12 @@ package com.llj.component.service
 
 import android.support.annotation.CallSuper
 import com.alibaba.android.arouter.launcher.ARouter
-import com.facebook.stetho.Stetho
 import com.llj.component.service.preference.UserInfoPreference
 import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.BaseApplication
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.squareup.leakcanary.LeakCanary
+
 
 /**
  * ArchitectureDemo
@@ -72,11 +72,20 @@ abstract class ComponentApplication : BaseApplication() {
         if (!isDebug()) {
             return
         }
-        val build = Stetho.newInitializerBuilder(this)
-                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-                .build()
-        Stetho.initialize(build)
+        //        val build = Stetho.newInitializerBuilder(this)
+        //                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+        //                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+        //                .build()
+        //        Stetho.initialize(build)
+
+//        if (FlipperUtils.shouldEnableFlipper(this)) {
+//            val client = AndroidFlipperClient.getInstance(this)
+//            client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
+//            client.addPlugin(NetworkFlipperPlugin())
+//            client.addPlugin(LeakCanaryFlipperPlugin())
+//            client.addPlugin(SharedPreferencesFlipperPlugin(this, UserInfoPreference.FILE_NAME))
+//            client.start()
+//        }
     }
 
     override fun initLeakCanary() {
@@ -88,7 +97,10 @@ abstract class ComponentApplication : BaseApplication() {
             // You should not init your app in this process.
             return
         }
-        LeakCanary.install(this)
+//        LeakCanary.refWatcher(this)
+//                .listenerServiceClass(RecordLeakService::class.java)
+//                .buildAndInstall()
+        //                LeakCanary.install(this)
     }
 
     override fun initStrictMode() {

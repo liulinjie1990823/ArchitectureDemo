@@ -58,13 +58,15 @@ class LoadingActivity : MvcBaseActivity() {
             ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
                     .withTransition(R.anim.fade_in, R.anim.no_fade)
                     .navigation(mContext)
+
+            finish()
         }
     }
 
     override fun initData() {
 
         val count: Long = 3 //倒计时10秒
-        Observable.interval(1, TimeUnit.SECONDS)
+        Observable.interval(0, 1, TimeUnit.SECONDS)
                 .take(count + 1)
                 .map(object : Function<Long, Long> {
                     override fun apply(t: Long): Long {
@@ -91,6 +93,8 @@ class LoadingActivity : MvcBaseActivity() {
                         ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
                                 .withTransition(R.anim.fade_in, R.anim.no_fade)
                                 .navigation(mContext)
+
+                        finish()
                     }
                 })
     }

@@ -10,9 +10,8 @@ import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
-import com.llj.component.service.arouter.CRouter
+import com.llj.component.service.ADMvcBaseFragment
 import com.llj.component.service.scrollableLayout.ScrollableHelper
-import com.llj.lib.base.MvcBaseFragment
 
 /**
  * ArchitectureDemo.
@@ -20,7 +19,7 @@ import com.llj.lib.base.MvcBaseFragment
  * author llj
  * date 2018/8/16
  */
-class ItemFragment : MvcBaseFragment(), ScrollableHelper.ScrollableContainer {
+class ItemFragment : ADMvcBaseFragment(), ScrollableHelper.ScrollableContainer {
     override fun getScrollableView(): View {
         return mRecyclerView
     }
@@ -38,11 +37,11 @@ class ItemFragment : MvcBaseFragment(), ScrollableHelper.ScrollableContainer {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-
+        super.initViews(savedInstanceState)
         val arrayList = arrayListOf<Data>()
 
         for (i in 0 until 100) {
-            arrayList.add(Data("text$i", CRouter.WIDGET_CONSTRAINT_ACTIVITY))
+            arrayList.add(Data("text$i"))
         }
         UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
                 .setLinearLayoutManager()
@@ -68,5 +67,5 @@ class ItemFragment : MvcBaseFragment(), ScrollableHelper.ScrollableContainer {
         }
     }
 
-    private inner class Data(var text: String, var path: String)
+    private inner class Data(var text: String)
 }

@@ -8,12 +8,10 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.util.TypedValue
 import butterknife.BindView
-import butterknife.ButterKnife
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.MvcBaseActivity
 import com.llj.login.R
-import com.llj.login.R2
 import com.llj.login.ui.fragment.CodeLoginFragmentMvc
 import com.llj.login.ui.fragment.PasswordLoginFragment
 import net.lucode.hackware.magicindicator.MagicIndicator
@@ -33,11 +31,10 @@ import java.util.*
  */
 @Route(path = CRouter.LOGIN_LOGIN_ACTIVITY)
 class LoginActivity : MvcBaseActivity() {
-    @BindView(R2.id.tabs) lateinit var mTabs: MagicIndicator
-    @BindView(R2.id.viewpager) lateinit var mViewPager: ViewPager
+    @BindView(com.llj.login.R2.id.login_tabs) lateinit var mTabs: MagicIndicator
+    @BindView(com.llj.login.R2.id.login_viewpager) lateinit var mViewPager: ViewPager
 
     override fun layoutId(): Int {
-        ButterKnife.setDebug(true)
         return R.layout.login_activity_login
     }
 

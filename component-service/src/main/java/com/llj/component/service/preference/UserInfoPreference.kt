@@ -16,7 +16,7 @@ class UserInfoPreference {
     companion object {
         private var mUserInfoPreference: UserInfoPreference? = null
 
-        private const val FILE_NAME = "pf_userInfo"
+        public const val FILE_NAME = "pf_userInfo"
 
         private const val KEY = "userInfo"
 

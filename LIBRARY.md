@@ -29,10 +29,14 @@ https://github.com/Meituan-Dianping/walle
 https://github.com/Tencent/VasDolly/
 
 ##### ui
+vlayout：com.alibaba.android:vlayout:1.2.18@aar
 刷新：SmartRefreshLayout
+轮播：com.github.demoNo:AutoScrollViewPager:v1.0.2
 指示器：com.github.hackware1993:MagicIndicator:1.5.0
-标签：com.contrarywind:Android-PickerView:3.2.7
+日期城市选择器：com.contrarywind:Android-PickerView:3.2.7
+标签：q.rorbin:badgeview:1.1.3
 流式布局：cn.lankton:flowlayout:3.1.0
-密码输入框：com.xw.repo:fillblankview
+密码输入框：com.xw.repo:fillblankview:2.1@aar
+展开TextView：cn.carbs.android:ExpandableTextView:1.0.3
 
 

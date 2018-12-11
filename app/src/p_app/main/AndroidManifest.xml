@@ -3,7 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.llj.architecturedemo">
 
-    <uses-sdk tools:overrideLibrary="com.llj.adapter"/>
+    <uses-sdk tools:overrideLibrary="com.llj.adapter,com.facebook.flipper"/>
 
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>

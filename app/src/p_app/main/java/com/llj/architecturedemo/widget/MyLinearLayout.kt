@@ -42,7 +42,7 @@ class MyLinearLayout : LinearLayout {
         }
         var onInterceptTouchEvent = super.onInterceptTouchEvent(ev)
 
-        onInterceptTouchEvent = true
+        onInterceptTouchEvent = false
 
         LogUtil.e(mTag, "onInterceptTouchEvent:$onInterceptTouchEvent")
 
