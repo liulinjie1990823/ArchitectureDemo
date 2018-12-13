@@ -54,7 +54,9 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme.NoActionBar">
 
-        <activity android:name=".ui.activity.MainActivity"/>
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:theme="@style/MyAppTheme.NoActionBar.Tab"/>
         <activity android:name=".ui.activity.MemoryLeakActivity"/>
         <activity android:name=".ui.activity.SecondActivity"/>
         <activity android:name="com.llj.widget.ui.activity.ConstraintActivity"/>

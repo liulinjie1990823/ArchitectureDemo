@@ -56,7 +56,7 @@ class LoadingActivity : MvcBaseActivity() {
             mDisposable.dispose()
 
             ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
-                    .withTransition(R.anim.fade_in, R.anim.no_fade)
+//                    .withTransition(R.anim.fade_in, R.anim.no_fade)
                     .navigation(mContext)
 
             finish()
@@ -91,7 +91,7 @@ class LoadingActivity : MvcBaseActivity() {
 
                     override fun onComplete() {
                         ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
-                                .withTransition(R.anim.fade_in, R.anim.no_fade)
+//                                .withTransition(R.anim.fade_in, R.anim.no_fade)
                                 .navigation(mContext)
 
                         finish()

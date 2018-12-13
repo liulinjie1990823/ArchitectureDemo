@@ -25,7 +25,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowAnimationStyle">@style/activity_loading</item>
         <item name="android:textColorPrimary">@color/black</item>
     </style>
 
@@ -46,6 +46,15 @@
         <!--使用finish关闭界面需要设置下面两个,否则直接finish没有动画-->
         <item name="android:windowEnterAnimation">@anim/pull_in_right</item>
         <item name="android:windowExitAnimation">@anim/push_out_right</item>
+    </style>
+
+    <style name="activity_loading" parent="@android:style/Animation.Activity">
+        <!-- 打开,新界面从右边进入,老界面不变 -->
+        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/no_fade</item>
+        <!-- 关闭,要关闭的界面从右边出去,老界面不变 -->
+        <item name="android:activityCloseEnterAnimation">@anim/no_fade</item>
+        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
     </style>
 
 </resources>
