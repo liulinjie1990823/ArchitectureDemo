@@ -16,14 +16,17 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class ADMvcBaseActivity extends MvcBaseActivity {
 
-    protected int mActivityOpenEnterAnimation;
-    protected int mActivityOpenExitAnimation;
-    protected int mActivityCloseEnterAnimation;
-    protected int mActivityCloseExitAnimation;
+    protected int     mActivityOpenEnterAnimation;
+    protected int     mActivityOpenExitAnimation;
+    protected int     mActivityCloseEnterAnimation;
+    protected int     mActivityCloseExitAnimation;
+    protected boolean mIsWindowIsTranslucent;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (isWindowIsTranslucent()) {
+        mIsWindowIsTranslucent = isWindowIsTranslucent();
+        if (mIsWindowIsTranslucent) {
             initAnim();
             overridePendingTransition(mActivityOpenEnterAnimation, mActivityOpenExitAnimation);
         }
@@ -50,5 +53,13 @@ public abstract class ADMvcBaseActivity extends MvcBaseActivity {
         boolean windowIsTranslucent = activityStyle.getBoolean(0, false);
         activityStyle.recycle();
         return windowIsTranslucent;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        if (mIsWindowIsTranslucent) {
+            overridePendingTransition(mActivityCloseEnterAnimation, mActivityCloseExitAnimation);
+        }
     }
 }
