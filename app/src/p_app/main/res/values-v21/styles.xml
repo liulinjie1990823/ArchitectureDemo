@@ -73,8 +73,6 @@
         <!-- 关闭当前界面,新界面EnterAnimation,当前界面ExitAnimation -->
         <item name="android:activityCloseEnterAnimation">@anim/no_fade</item>
         <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
-        <!--<item name="android:windowEnterAnimation">@anim/fade_in</item>-->
-        <!--<item name="android:windowExitAnimation">@anim/fade_out</item>-->
     </style>
 
     <style name="activity_tab" parent="@android:style/Animation.Activity">
