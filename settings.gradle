@@ -12,7 +12,7 @@ try {
 def useComponent = properties.getProperty("useComponent") == "true"
 def useMaven = properties.getProperty("useMaven") == "true"
 
-//include ':time-gradle-plugin'
+include ':lib_swipe_back'
 //include ':module-java'
 //include ':libs'
 

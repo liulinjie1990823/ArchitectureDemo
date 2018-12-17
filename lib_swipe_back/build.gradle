@@ -1,0 +1,7 @@
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.support.recyclerview
+}
+
+apply from: "../uploadArchives.gradle"
+apply from: "../bintrayUpload.gradle"

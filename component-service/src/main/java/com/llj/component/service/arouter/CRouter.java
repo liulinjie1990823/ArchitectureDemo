@@ -21,7 +21,7 @@ public class CRouter {
     public static final String APP_RECYCLE_VIEW_ACTIVITY      = "/app/RecycleViewActivity";
     public static final String APP_RXJAVA2_ACTIVITY           = "/app/RxJava2Activity";
     public static final String APP_REQUEST_ACTIVITY           = "/app/RequestActivity";
-    public static final String APP_JAVA_TYPE_ACTIVITY           = "/app/JavaTypeActivity";
+    public static final String APP_JAVA_TYPE_ACTIVITY         = "/app/JavaTypeActivity";
     public static final String APP_PROXY_ACTIVITY             = "/app/ProxyActivity";
     public static final String APP_NESTED_SCROLLVIEW_ACTIVITY = "/app/NestedScrollViewActivity";
     public static final String APP_LINEAR_LAYOUT_ACTIVITY     = "/app/LinearLayoutActivity";
@@ -30,6 +30,7 @@ public class CRouter {
     public static final String APP_MEMORY_LEAK_ACTIVITY       = "/app/MemoryLeakActivity";
     public static final String APP_APT_ACTIVITY               = "/app/AptActivity";
     public static final String APP_HOOK_ACTIVITY              = "/app/HookActivity";
+    public static final String APP_SWIPE_BACK_LAYOUT_ACTIVITY = "/app/SwipeBackLayoutActivity";
     public static final String WIDGET_CONSTRAINT_ACTIVITY     = "/app/widget/ConstraintActivity";
     public static final String CIRCLE_VIEW_ACTIVITY           = "/app/widget/CircleViewActivity";
 
@@ -37,7 +38,6 @@ public class CRouter {
     public static final String LOGIN_LOGIN_ACTIVITY       = "/login/LoginActivity";
     public static final String LOGIN_PHONE_LOGIN_ACTIVITY = "/login/PhoneLoginActivity";
     public static final String LOGIN_REGISTER_ACTIVITY    = "/login/RegisterActivity";
-
 
 
     public static final String QRCODE_CAPTUREACTIVITY                  = "/qrcode/CaptureActivity";
@@ -145,15 +145,15 @@ public class CRouter {
     public static final String INDUSTRYCATE_ID                              = "industryCateId";//行业id
     public static final String INDUSTRYCATE_NAME                            = "industryCateName";//行业名称
     public static final String APP_STORE_DETAILS_SHOP_LIST_ACTIVITY         = "/app/storedetails/ShopListActivity";
-    public static final String APP_TRAVEL_STORE_DETAIL_ACTIVITY = "/app/travelstoredetail/TravelStoreDetailActivity";//旅拍店铺
-    public static final String APP_TRAVEL_STORE_LIST_ACTIVITY = "/app/channel/storelist/TravelStoreListActivity";//旅拍店铺列表页
+    public static final String APP_TRAVEL_STORE_DETAIL_ACTIVITY             = "/app/travelstoredetail/TravelStoreDetailActivity";//旅拍店铺
+    public static final String APP_TRAVEL_STORE_LIST_ACTIVITY               = "/app/channel/storelist/TravelStoreListActivity";//旅拍店铺列表页
 
 
     /*******************************旅拍***********************************/
-    public static final String IS_SELECT_DISTINATION_CITY                     = "is_select_distination_city";
+    public static final String IS_SELECT_DISTINATION_CITY           = "is_select_distination_city";
     public static final String APP_JIEHUN_DESTINATION_LIST_ACTIVITY = "/app/jiehun/destination/list/ui/activity/DestinationListActivity";
-    public static final String APP_JIEHUN_STORE_DES_LIST_ACTIVITY = "/app/jiehun/destination/list/ui/activity/StoreDesListActivity";
-    public static final String APP_JIEHUN_TRAVEL_ALBUM_ACTIVITY = "/app/jiehun/albumorcase/list/TravelAlbumActivity";
+    public static final String APP_JIEHUN_STORE_DES_LIST_ACTIVITY   = "/app/jiehun/destination/list/ui/activity/StoreDesListActivity";
+    public static final String APP_JIEHUN_TRAVEL_ALBUM_ACTIVITY     = "/app/jiehun/albumorcase/list/TravelAlbumActivity";
 
 
     public static final String SOCIALIZATION_SHARE    = "/socialization/ShareActivity";
@@ -255,36 +255,36 @@ public class CRouter {
     /**
      * 社区相关
      */
-    public static final String BBS_DYNAMIC_VIEW_DYNAMICLISTACITIVITY = "/bbs/dynamic/view/DynamicActivity";
+    public static final String BBS_DYNAMIC_VIEW_DYNAMICLISTACITIVITY  = "/bbs/dynamic/view/DynamicActivity";
     public static final String BBS_DYNAMIC_VIEW_TUWENDETAILSACITIVITY = "/bbs/dynamic/view/TuWenDetailsActivity";
-    public static final String BBS_SUBJECT_SUBJECTDETAIL        = "/subject/SubjectDetailActivity";
-    public static final String BBS_SUBJECT_SUBJECTLIST          = "/subject/SubjectListActivity";
-    public static final String BBS_EDIT_BBSQUESTIONEDITACTIVITY = "/edit/BbsQuestionEditActivity";
-    public static final String BBS_EDIT_BBSEDITACTIVITY         = "/edit/BbsEditActivity";
-    public static final String BBS_ZT_LIST                      = "/subject/ZTListActivity";
-    public static final String BBS_TOPIC_DETAILS                = "/topic/TopicDetailsActivity";
-    public static final String BBS_ASK_HOME                     = "/bbs/askHomeActivity";
-    public static final String BBS_ASK_TOP_20                   = "/bbs/askChoicenessActivity";
-    public static final String BBS_ASK_DETAILS                  = "/ask/AskDetailsActivity";
-    public static final String BBS_COMMENT_LIST                 = "/topic/comment/CommentListActivity";
-    public static final String BBS_COMMENT_DETAILS              = "/topic/comment/details/CommentDetailsActivity";
-    public static final String BBS_ANSWER_DETAILS               = "/ask/answer/AnswerDetailsActivity";
-    public static final String BBS_SECTION_LIST                 = "/bbs/fragment/section/WholeSectionActivity";
-    public static final String BBS_SECTION_DETAIL               = "/bbs/BBSSectionDetailActivity";
-    public static final String BBS_MINE                         = "/mine/BbsMineActivity";
-    public static final String BBS_STRATEGY_DETAILS             = "/bbs/strategy/details/StrategyDetailsAcitivity";
-    public static final String BBS_HUATI_DETAILS                = "/bbs/strategy/topiclist/ui/activity/TopicListActivity";
-    public static final String USER_ID                          = "user_id";    //用户id
-    public static final String VEST_LIST                        = "/vest/VestListActivity";
-    public static final String KEY_SCANNING_RESULT              = "KEY_SCANNING_RESULT";
-    public static final String COMMUNITY_ID                     = "community_id";
-    public static final String FORUM_ID                         = "forum_id";
-    public static final String ACTIVITY_ID                      = "activity_id";
+    public static final String BBS_SUBJECT_SUBJECTDETAIL              = "/subject/SubjectDetailActivity";
+    public static final String BBS_SUBJECT_SUBJECTLIST                = "/subject/SubjectListActivity";
+    public static final String BBS_EDIT_BBSQUESTIONEDITACTIVITY       = "/edit/BbsQuestionEditActivity";
+    public static final String BBS_EDIT_BBSEDITACTIVITY               = "/edit/BbsEditActivity";
+    public static final String BBS_ZT_LIST                            = "/subject/ZTListActivity";
+    public static final String BBS_TOPIC_DETAILS                      = "/topic/TopicDetailsActivity";
+    public static final String BBS_ASK_HOME                           = "/bbs/askHomeActivity";
+    public static final String BBS_ASK_TOP_20                         = "/bbs/askChoicenessActivity";
+    public static final String BBS_ASK_DETAILS                        = "/ask/AskDetailsActivity";
+    public static final String BBS_COMMENT_LIST                       = "/topic/comment/CommentListActivity";
+    public static final String BBS_COMMENT_DETAILS                    = "/topic/comment/details/CommentDetailsActivity";
+    public static final String BBS_ANSWER_DETAILS                     = "/ask/answer/AnswerDetailsActivity";
+    public static final String BBS_SECTION_LIST                       = "/bbs/fragment/section/WholeSectionActivity";
+    public static final String BBS_SECTION_DETAIL                     = "/bbs/BBSSectionDetailActivity";
+    public static final String BBS_MINE                               = "/mine/BbsMineActivity";
+    public static final String BBS_STRATEGY_DETAILS                   = "/bbs/strategy/details/StrategyDetailsAcitivity";
+    public static final String BBS_HUATI_DETAILS                      = "/bbs/strategy/topiclist/ui/activity/TopicListActivity";
+    public static final String USER_ID                                = "user_id";    //用户id
+    public static final String VEST_LIST                              = "/vest/VestListActivity";
+    public static final String KEY_SCANNING_RESULT                    = "KEY_SCANNING_RESULT";
+    public static final String COMMUNITY_ID                           = "community_id";
+    public static final String FORUM_ID                               = "forum_id";
+    public static final String ACTIVITY_ID                            = "activity_id";
     /*****************************攻略start******************************************/
     //攻略大全
-    public static final String STRATEGY_LIST                    = "/strategy/list/StrategyListActivity";
-    public static final String PROGRAMA_LIST                    = "/strategy/programa/ProgramaListActivity";
-    public static final int    SHARE_FOR_RESULT_REQUEST_CODE    = 123;
+    public static final String STRATEGY_LIST                          = "/strategy/list/StrategyListActivity";
+    public static final String PROGRAMA_LIST                          = "/strategy/programa/ProgramaListActivity";
+    public static final int    SHARE_FOR_RESULT_REQUEST_CODE          = 123;
 
 
     public static final String CONSUMER_VOUCHER = "/comment/ConsumerVoucherActivity";
@@ -320,26 +320,26 @@ public class CRouter {
      * 相册列表
      * */
 
-    public static final String ALBUM_CASE_LIST   = "/app/albumorcase/list/AlbumCaseActivity";
+    public static final String ALBUM_CASE_LIST              = "/app/albumorcase/list/AlbumCaseActivity";
     /*
      * 相册详情
      * */
-    public static final String ALBUM_CASE_DETAIL = "/app/albumorcase/AlbumCaseDetialActivity";
-    public static final String PARAM_ALBUM_ID = "album_id";//相册id
-    public static final String PARAM_IS_IMAGE = "is_image";//大图预览 是否是图片
-    public static final String PARAM_ALBUM_DETAIL_DATA = "param_album_detail_data";//相册详情数据
-    public static final String PARAM_ALBUM_DEMAND_DATA = "param_album_demand_data";//相册详情客资数据
+    public static final String ALBUM_CASE_DETAIL            = "/app/albumorcase/AlbumCaseDetialActivity";
+    public static final String PARAM_ALBUM_ID               = "album_id";//相册id
+    public static final String PARAM_IS_IMAGE               = "is_image";//大图预览 是否是图片
+    public static final String PARAM_ALBUM_DETAIL_DATA      = "param_album_detail_data";//相册详情数据
+    public static final String PARAM_ALBUM_DEMAND_DATA      = "param_album_demand_data";//相册详情客资数据
     public static final String PARAM_CURRENT_IMAGE_POSITION = "param_current_image_position";//跳大图当前position
 
     /**
      * 旅拍微电影
      */
-    public static final String PRIVIEW_ACTIVITY = "/preview/PreviewActivity";
-    public static final String FILM_DETAIL_ID = "film_detail_id";//微电影id
-    public static final String FILM_STORE_ID = "film_store_id";//店铺id
-    public static final String KEY_ATLAS_TYPE = "key_atlas_type";//旅拍图集tye
+    public static final String PRIVIEW_ACTIVITY            = "/preview/PreviewActivity";
+    public static final String FILM_DETAIL_ID              = "film_detail_id";//微电影id
+    public static final String FILM_STORE_ID               = "film_store_id";//店铺id
+    public static final String KEY_ATLAS_TYPE              = "key_atlas_type";//旅拍图集tye
     //社区内容视频秀
-    public static final String BBS_VIDEO_SHOW = "bbs_video_show";
+    public static final String BBS_VIDEO_SHOW              = "bbs_video_show";
     public static final String BBS_VIDEO_SHOW_COMMUNITY_ID = "community_id";
 
 
@@ -360,25 +360,25 @@ public class CRouter {
 
 
     /*******************************商品start****************************************/
-    public static final String APP_NEW_GOODS_LIST   = "/app/goods/newGoodsList";  //旅拍商品列表
-    public static final String APP_GOODS_LIST         = "/app/goods/goodsList";       // 商品列表,5个参数
-    public static final String PARAM_IS_FORM_STORE    = "is_from_store";              //是否从店铺跳转的，bolean
-    public static final String PARAM_PRODUCT_CATE_ID  = "product_cate_id";            //行业id,long
-    public static final String PARAM_CATE_NAME        = "product_cate_name";          //行业名称，String
-    public static final String PARAM_CATE_TYPE        = "cate_type";                  //类目类型，int
-    public static final String PARAM_STORE_ID         = "store_id";                   //店铺id，long
-    public static final String PARAM_IS_SHOW_FILTER   = "is_show_FILTER";             //是否显示筛选项
-    public static final String PARAM_IS_SHOW_BOTTOM_FILTER   = "is_show_bottom_FILTER";             //是否显示筛选项
-    public static final String PARAM_IS_NEED_REFRESH  = "is_need_refresh";             //是否显示筛选项
-    public static final String PARAM_IS_TRAVEL_STORE  = "is_travel_store";             //是否显示店铺详情页旅拍reshuffle筛选项
-    public static final String PARAM_IS_SHOW_TOP_LINE = "is_show_top_line";            //是否显示头部线
-    public static final String PARAM_DESTINATION      = "param_destination";          //目的地
-    public static final String APP_GOODS_DETAIL       = "/app/goods/detail";          //商品详情页，2个参数
-    public static final String PARAM_GOODS_ID         = "goods_id";                   //商品id，long
-    public static final String PARAM_SHOW_TYPE        = "show_type";                  //展示样式，int，0默认，1婚纱
-    public static final String APP_COUPON_FIT_GOODS   = "/app/goods/couponFitGoods";  //现金券适应商品列表，1个参数
-    public static final String PARAM_COUPON_ID        = "coupon_id";                  //现金券id，long
-    public static final String APP_COUPON_DETAIL      = "/app/coupon/couponDetail";   //现金券详情页
+    public static final String APP_NEW_GOODS_LIST          = "/app/goods/newGoodsList";  //旅拍商品列表
+    public static final String APP_GOODS_LIST              = "/app/goods/goodsList";       // 商品列表,5个参数
+    public static final String PARAM_IS_FORM_STORE         = "is_from_store";              //是否从店铺跳转的，bolean
+    public static final String PARAM_PRODUCT_CATE_ID       = "product_cate_id";            //行业id,long
+    public static final String PARAM_CATE_NAME             = "product_cate_name";          //行业名称，String
+    public static final String PARAM_CATE_TYPE             = "cate_type";                  //类目类型，int
+    public static final String PARAM_STORE_ID              = "store_id";                   //店铺id，long
+    public static final String PARAM_IS_SHOW_FILTER        = "is_show_FILTER";             //是否显示筛选项
+    public static final String PARAM_IS_SHOW_BOTTOM_FILTER = "is_show_bottom_FILTER";             //是否显示筛选项
+    public static final String PARAM_IS_NEED_REFRESH       = "is_need_refresh";             //是否显示筛选项
+    public static final String PARAM_IS_TRAVEL_STORE       = "is_travel_store";             //是否显示店铺详情页旅拍reshuffle筛选项
+    public static final String PARAM_IS_SHOW_TOP_LINE      = "is_show_top_line";            //是否显示头部线
+    public static final String PARAM_DESTINATION           = "param_destination";          //目的地
+    public static final String APP_GOODS_DETAIL            = "/app/goods/detail";          //商品详情页，2个参数
+    public static final String PARAM_GOODS_ID              = "goods_id";                   //商品id，long
+    public static final String PARAM_SHOW_TYPE             = "show_type";                  //展示样式，int，0默认，1婚纱
+    public static final String APP_COUPON_FIT_GOODS        = "/app/goods/couponFitGoods";  //现金券适应商品列表，1个参数
+    public static final String PARAM_COUPON_ID             = "coupon_id";                  //现金券id，long
+    public static final String APP_COUPON_DETAIL           = "/app/coupon/couponDetail";   //现金券详情页
 
     /*******************************商品start****************************************/
 
@@ -387,7 +387,6 @@ public class CRouter {
     public static final String LNG            = "longitude";//经度
     public static final String ADDRESS        = "address";//地址
     public static final String COUPLE_ID      = "couponId";//现金券id
-
 
 
     public static void start(String path) {

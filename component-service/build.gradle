@@ -43,6 +43,8 @@ dependencies {
     api deps.permission
     implementation deps.walle
 
+    api project(':lib_swipe_back')
+
     if (useMaven) {
         api deps.net
         api deps.base

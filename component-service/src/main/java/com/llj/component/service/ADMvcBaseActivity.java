@@ -26,10 +26,8 @@ public abstract class ADMvcBaseActivity extends MvcBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         mIsWindowIsTranslucent = isWindowIsTranslucent();
-        if (mIsWindowIsTranslucent) {
-            initAnim();
-            overridePendingTransition(mActivityOpenEnterAnimation, mActivityOpenExitAnimation);
-        }
+        initAnim();
+        overridePendingTransition(mActivityOpenEnterAnimation, mActivityOpenExitAnimation);
         super.onCreate(savedInstanceState);
     }
 
@@ -58,8 +56,6 @@ public abstract class ADMvcBaseActivity extends MvcBaseActivity {
     @Override
     public void finish() {
         super.finish();
-        if (mIsWindowIsTranslucent) {
-            overridePendingTransition(mActivityCloseEnterAnimation, mActivityCloseExitAnimation);
-        }
+        overridePendingTransition(mActivityCloseEnterAnimation, mActivityCloseExitAnimation);
     }
 }

@@ -90,6 +90,9 @@
 
         <activity android:name="com.llj.loading.ui.activity.GuideActivity"/>
         <activity android:name=".ui.activity.JavaTypeActivity"/>
+        <activity
+            android:name=".ui.activity.SwipeBackLayoutActivity"
+            android:theme="@style/MyAppTheme.NoActionBar.common"/>
 
         <service android:name=".ui.service.LoadingService"/>
     </application>
