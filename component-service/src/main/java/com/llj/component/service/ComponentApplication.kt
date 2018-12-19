@@ -7,6 +7,12 @@ import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.BaseApplication
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.squareup.leakcanary.LeakCanary
+import skin.support.SkinCompatManager
+import skin.support.app.SkinCardViewInflater
+import skin.support.constraint.app.SkinConstraintViewInflater
+import skin.support.design.app.SkinMaterialViewInflater
+
+
 
 
 /**
@@ -30,6 +36,14 @@ abstract class ComponentApplication : BaseApplication() {
 
     @CallSuper
     override fun onCreate() {
+        SkinCompatManager.withoutActivity(this)                         // 基础控件换肤初始化
+                .addInflater(SkinMaterialViewInflater())            // material design 控件换肤初始化[可选]
+                .addInflater(SkinConstraintViewInflater())          // ConstraintLayout 控件换肤初始化[可选]
+                .addInflater(SkinCardViewInflater())                // CardView v7 控件换肤初始化[可选]
+                .setSkinStatusBarColorEnable(false)                     // 关闭状态栏换肤，默认打开[可选]
+                .setSkinWindowBackgroundEnable(false)                   // 关闭windowBackground换肤，默认打开[可选]
+                .loadSkin()
+
         mComponent = DaggerComponent.builder()
                 .application(this)
                 .build()

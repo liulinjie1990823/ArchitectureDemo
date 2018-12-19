@@ -79,7 +79,7 @@ dependencies {
     }
 
 
-
+    //imageLoader
     api deps.fresco.fresco
     api deps.fresco.animated_gif
     api deps.fresco.animated_webp
@@ -95,6 +95,12 @@ dependencies {
     api deps.support.recyclerview
     api deps.constraint_layout
 
+    //skin
+    api deps.skin.skin_support                   // skin-support 基础控件支持
+    api deps.skin.skin_support_design            // skin-support-design material design 控件支持[可选]
+    api deps.skin.skin_support_cardview          // skin-support-cardview CardView 控件支持[可选]
+    api deps.skin.skin_support_constraint_layout // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
+
     //应用调试
 //    debugImplementation deps.flipper
     //内存检测
@@ -104,4 +110,6 @@ dependencies {
     kapt deps.butterknife.compiler
     kapt deps.dagger.compiler
     kapt deps.dagger.android_support_compiler
+
+
 }

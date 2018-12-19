@@ -25,6 +25,7 @@ def versions = [
         fresco               : "1.11.0",
 
         smartrefresh         : "1.1.0-alpha-16",
+        skin                 : "3.1.1",
 
         auto_value           : "1.6",
 
@@ -172,6 +173,12 @@ ext {
             smartrefresh              : [
                     SmartRefreshLayout: "com.scwang.smartrefresh:SmartRefreshLayout:$versions.smartrefresh",
                     SmartRefreshHeader: "com.scwang.smartrefresh:SmartRefreshHeader:$versions.smartrefresh",
+            ],
+            skin                      : [
+                    skin_support                  : "skin.support:skin-support:$versions.skin",
+                    skin_support_design           : "skin.support:skin-support-design:$versions.skin",
+                    skin_support_cardview         : "skin.support:skin-support-cardview:$versions.skin",
+                    skin_support_constraint_layout: "skin.support:skin-support-constraint-layout:$versions.skin",
             ],
             constraint_layout         : "com.android.support.constraint:constraint-layout:2.0.0-alpha2",//约束布局
             MagicIndicator            : "com.github.hackware1993:MagicIndicator:1.5.0",//tab
