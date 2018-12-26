@@ -3,7 +3,9 @@ package com.llj.architecturedemo.ui.activity
 import android.os.Bundle
 import android.view.MotionEvent
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.in2magic.atlas.ATL
 import com.llj.architecturedemo.R
+import com.llj.architecturedemo.utils.TemplateManager
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.MvcBaseActivity
 import com.llj.lib.utils.LogUtil
@@ -18,6 +20,8 @@ import com.llj.lib.utils.LogUtil
 class TouchEventActivity : MvcBaseActivity() {
 
     override fun layoutId(): Int {
+        val lic = TemplateManager.getInstance().getLicenseString(this)
+        ATL.init(applicationContext, lic, false)
         return R.layout.activity_touch_event
     }
 

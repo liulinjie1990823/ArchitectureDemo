@@ -30,6 +30,12 @@ android {
             keyPassword "itotem"
             v2SigningEnabled true
         }
+        atlas {
+            keyAlias 'atlas'
+            keyPassword 'com.in2magic.atlas'
+            storeFile file('../sign/atlas.jks')
+            storePassword 'com.in2magic.atlas'
+        }
     }
     flavorDimensions "free"
 
@@ -44,16 +50,17 @@ android {
             minifyEnabled false
             useProguard false
             shrinkResources false
+            signingConfig  signingConfigs.atlas
         }
         release {
             minifyEnabled true
             useProguard false
             shrinkResources true
+            signingConfig  signingConfigs.release
         }
     }
     buildTypes.all { type ->
         type.matchingFallbacks = ['debug']
-        type.signingConfig = signingConfigs.release
         type.minifyEnabled = false
         type.shrinkResources = false
         type.useProguard = false
@@ -82,6 +89,7 @@ android {
 //                res.srcDir("src/${dir}/mt/res")
 //            }
 //        }
+
     }
 
     compileOptions {
@@ -115,9 +123,13 @@ android {
         // heap size to enable dex-in-process. To learm more, read the next section.
         // javaMaxHeapSize "2048m"
     }
+    repositories {
+        flatDir { dirs 'libs' }
+    }
 }
 
 dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.multidex
     implementation deps.multidex_instrumentation
     implementation deps.badgeview
@@ -132,6 +144,8 @@ dependencies {
     } else {
         kapt project(':lib-component-compiler')
     }
+
+    implementation (name:'in2magic_atlas', ext:'aar')
 
 }
 
