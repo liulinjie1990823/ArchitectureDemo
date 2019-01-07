@@ -51,7 +51,7 @@ public class AlbumNotifyHelper {
      * 针对系统文夹只需要扫描,不用插入内容提供者,不然会重复
      *
      * @param context  上下文
-     * @param filePath 文件路径
+     * @param filePath 文件路径,文件夹则无效
      */
     private static void scanFile(Context context, String filePath) {
         if (!checkFile(filePath))

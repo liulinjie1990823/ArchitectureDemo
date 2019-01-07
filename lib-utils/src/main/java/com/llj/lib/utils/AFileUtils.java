@@ -1,8 +1,11 @@
 package com.llj.lib.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 
@@ -32,6 +35,7 @@ public class AFileUtils {
      *
      * @param keyword  文件中的关键字
      * @param filepath 指定文件夹
+     *
      * @return 文件的全路径，带有文件名
      */
     public static final String searchFile(String keyword, File filepath) {
@@ -63,24 +67,45 @@ public class AFileUtils {
     }
 
     /**
+     * 针对系统文夹只需要扫描,不用插入内容提供者,不然会重复
+     *
+     * @param context  上下文
+     * @param filePath 文件路径,文件夹则无效
+     */
+    private static void scanFileByBroadcast(Context context, String filePath) {
+        if (!fileIsExist(filePath))
+            return;
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(new File(filePath)));
+        context.sendBroadcast(intent);
+    }
+
+
+    private static void scanFile(Context context, String filePath, MediaScannerConnection.OnScanCompletedListener onScanCompletedListener) {
+        if ((!fileIsExist(filePath))
+                || onScanCompletedListener == null)
+            return;
+        MediaScannerConnection.scanFile(context,
+                new String[]{filePath}, null,
+                onScanCompletedListener);
+    }
+
+    /**
      * 文件是否存在
      *
      * @param filePath
+     *
      * @return
      */
     public static boolean fileIsExist(String filePath) {
-        if (TextUtils.isEmpty(filePath))
-            return false;
-        if (!new File(filePath).exists()) {
-            return false;
-        }
-        return true;
+        return !TextUtils.isEmpty(filePath) && (new File(filePath).exists());
     }
 
     /**
      * 2.取得某个文件夹或者文件的bytes大小
      *
      * @param file 文件或者文件夹
+     *
      * @return 文件或者文件夹大小
      */
     public static final long getFileSize(File file) {
@@ -102,6 +127,7 @@ public class AFileUtils {
      * 3.将个文件夹或者文件的bytes大小转换成对应格式
      *
      * @param fileLength 文件或者文件夹大小
+     *
      * @return 对应格式的字符串
      */
     public static final String formatFileSize(long fileLength) {
@@ -125,6 +151,7 @@ public class AFileUtils {
     /**
      * @param context
      * @param fileLength
+     *
      * @return
      */
     public static final String formatFileSize(Context context, long fileLength) {
@@ -147,9 +174,11 @@ public class AFileUtils {
         }
     }
 
+
     /**
      * @param inputStream
      * @param file        存放本地文件路径
+     *
      * @return
      */
     public static final boolean saveInputStreamToFile(InputStream inputStream, File file, ProgressListener progressListener) {
@@ -249,6 +278,7 @@ public class AFileUtils {
      *
      * @param bitmap
      * @param file
+     *
      * @return
      */
     public static final boolean saveBitmapToFile(Bitmap bitmap, File file) {
@@ -340,6 +370,7 @@ public class AFileUtils {
 
     /**
      * @param f
+     *
      * @return
      */
     public static byte[] getBytesFromFile(File f) {
@@ -366,6 +397,7 @@ public class AFileUtils {
 
     /**
      * @param file
+     *
      * @return
      */
     public static ByteArrayOutputStream getOutputStreamFromFile(File file) {
@@ -426,6 +458,7 @@ public class AFileUtils {
      *
      * @param path          路径
      * @param defaultSuffix 默认的后缀
+     *
      * @return 后缀
      */
     public static String getSuffix(String path, String defaultSuffix) {
@@ -545,6 +578,7 @@ public class AFileUtils {
      * 返回文件后缀
      *
      * @param fileName
+     *
      * @return
      */
     public static String getFileFormat(String fileName) {

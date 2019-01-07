@@ -28,13 +28,6 @@ android {
             storePassword "itotem"
             keyAlias "itotemapp"
             keyPassword "itotem"
-            v2SigningEnabled true
-        }
-        atlas {
-            keyAlias 'atlas'
-            keyPassword 'com.in2magic.atlas'
-            storeFile file('../sign/atlas.jks')
-            storePassword 'com.in2magic.atlas'
         }
     }
     flavorDimensions "free"
@@ -50,7 +43,7 @@ android {
             minifyEnabled false
             useProguard false
             shrinkResources false
-            signingConfig  signingConfigs.atlas
+            signingConfig  signingConfigs.release
         }
         release {
             minifyEnabled true
@@ -123,9 +116,9 @@ android {
         // heap size to enable dex-in-process. To learm more, read the next section.
         // javaMaxHeapSize "2048m"
     }
-    repositories {
-        flatDir { dirs 'libs' }
-    }
+//    repositories {
+//        flatDir { dirs 'libs' }
+//    }
 }
 
 dependencies {

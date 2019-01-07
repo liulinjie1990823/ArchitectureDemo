@@ -31,7 +31,6 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -41,6 +40,9 @@ import java.io.IOException;
  * @author llj
  */
 public class ABitmapUtils {
+    public static final int                   DEFAULT_QUALITY         = 80;
+    public static final Bitmap.CompressFormat DEFAULT_COMPRESS_FORMAT = Bitmap.CompressFormat.JPEG;
+
     /**
      * 1.回收bitmap
      *
@@ -59,6 +61,7 @@ public class ABitmapUtils {
      * @param bitmap 源位图
      * @param width  缩放后位图的宽px
      * @param height 缩放后位图的高px
+     *
      * @return
      */
     public static final Bitmap scaleBitmap(Bitmap bitmap, float width, float height) {
@@ -80,6 +83,7 @@ public class ABitmapUtils {
      * @param bitmap 源位图
      * @param wScale 宽缩放的比例f
      * @param hScale 高缩放的比例f
+     *
      * @return
      */
     public static final Bitmap scaleBitmapByScale(Bitmap bitmap, float wScale, float hScale) {
@@ -96,6 +100,7 @@ public class ABitmapUtils {
      *
      * @param bitmap
      * @param width
+     *
      * @return
      */
     public static final Bitmap scaleBitmapWidth(Bitmap bitmap, float width) {
@@ -118,6 +123,7 @@ public class ABitmapUtils {
      *
      * @param bitmap
      * @param height
+     *
      * @return
      */
     public static final Bitmap scaleBitmapByHeight(Bitmap bitmap, float height) {
@@ -135,6 +141,7 @@ public class ABitmapUtils {
      *
      * @param bitmap
      * @param degrees 旋转的角度
+     *
      * @return
      */
     public static final Bitmap rotateBitmap(Bitmap bitmap, float degrees) {
@@ -151,6 +158,7 @@ public class ABitmapUtils {
     /**
      * @param bm
      * @param orientationDegree
+     *
      * @return
      */
     public static final Bitmap adjustPhotoRotation(Bitmap bm, final int orientationDegree) {
@@ -187,6 +195,7 @@ public class ABitmapUtils {
      * 将drawable转化成bitmap
      *
      * @param drawable 源drawable
+     *
      * @return
      */
     public static Bitmap drawableToBitmap(Drawable drawable) {
@@ -207,11 +216,13 @@ public class ABitmapUtils {
         return bitmap;
     }
 
+    //<editor-fold desc="bitmapToByteArray">
 
     /**
      * 将bitmap转化为数组
      *
      * @param bmp
+     *
      * @return
      */
     public static final byte[] bitmapToByteArray(Bitmap bmp) {
@@ -230,6 +241,7 @@ public class ABitmapUtils {
      * 将bitmap转化为数组
      *
      * @param bmp
+     *
      * @return
      */
     public static final byte[] bitmapToByteArray(Bitmap bmp, Bitmap.CompressFormat format, int quality) {
@@ -243,21 +255,19 @@ public class ABitmapUtils {
         }
         return result;
     }
+    //</editor-fold desc="bitmapToByteArray">
 
-
+    //<editor-fold desc="bitmapToFile">
     public static File bitmapToFile(Bitmap bitmap, File file) {
-        return bitmapToFile(bitmap, file, Bitmap.CompressFormat.JPEG, 80);
+        return bitmapToFile(bitmap, file, Bitmap.CompressFormat.JPEG, DEFAULT_QUALITY);
     }
 
     public static File bitmapToFile(Bitmap bitmap, File file, int quality) {
         return bitmapToFile(bitmap, file, Bitmap.CompressFormat.JPEG, quality);
     }
 
-    public static File bitmapToFile(Bitmap bitmap, String path, int quality) {
-        if (TextUtils.isEmpty(path)) {
-            throw new RuntimeException("path can not be null");
-        }
-        return bitmapToFile(bitmap, new File(path), Bitmap.CompressFormat.JPEG, quality);
+    public static File bitmapToFile(Bitmap bitmap, File file, Bitmap.CompressFormat format) {
+        return bitmapToFile(bitmap, file, format, DEFAULT_QUALITY);
     }
 
     /**
@@ -265,13 +275,13 @@ public class ABitmapUtils {
      * @param file
      * @param format
      * @param quality
+     *
      * @return
      */
     public static File bitmapToFile(Bitmap bitmap, File file, Bitmap.CompressFormat format, int quality) {
         if (bitmap != null && !bitmap.isRecycled()) {
             try {
                 BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-                // 直接压缩80%
                 bitmap.compress(format, quality, bos);
                 bos.flush();
                 bos.close();
@@ -283,12 +293,37 @@ public class ABitmapUtils {
     }
 
 
+    public static File bitmapToFile(Bitmap bitmap, String path) {
+        return bitmapToFile(bitmap, path, DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY);
+    }
+
+    public static File bitmapToFile(Bitmap bitmap, String path, Bitmap.CompressFormat format) {
+        return bitmapToFile(bitmap, path, format, DEFAULT_QUALITY);
+    }
+
+    public static File bitmapToFile(Bitmap bitmap, String path, int quality) {
+        return bitmapToFile(bitmap, path, DEFAULT_COMPRESS_FORMAT, quality);
+    }
+
+    public static File bitmapToFile(Bitmap bitmap, String path, Bitmap.CompressFormat format, int quality) {
+        if (TextUtils.isEmpty(path)) {
+            throw new RuntimeException("path can not be null");
+        }
+        return bitmapToFile(bitmap, new File(path), format, quality);
+    }
+    //</editor-fold desc="bitmapToFile">
+
+    //<editor-fold desc="saveBitmapToSD">
     public static boolean saveBitmapToSD(String filePath, Bitmap bitmap) {
-        return saveBitmapToSD(null, filePath, bitmap, Bitmap.CompressFormat.JPEG, 100, false);
+        return saveBitmapToSD(null, filePath, bitmap, DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY, false);
     }
 
     public static boolean saveBitmapToSD(String filePath, Bitmap bitmap, int quality) {
-        return saveBitmapToSD(null, filePath, bitmap, Bitmap.CompressFormat.JPEG, quality, false);
+        return saveBitmapToSD(null, filePath, bitmap, DEFAULT_COMPRESS_FORMAT, quality, false);
+    }
+
+    public static boolean saveBitmapToSD(String filePath, Bitmap bitmap, Bitmap.CompressFormat format) {
+        return saveBitmapToSD(null, filePath, bitmap, format, DEFAULT_QUALITY, false);
     }
 
     public static boolean saveBitmapToSD(String filePath, Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
@@ -296,70 +331,23 @@ public class ABitmapUtils {
     }
 
     public static boolean saveBitmapToSD(Context context, String filePath, Bitmap bitmap, Bitmap.CompressFormat format, int quality, boolean insertMediaStore) {
-        if (bitmap != null) {
-            File file = new File(filePath.substring(0, filePath.lastIndexOf(File.separator)));
+        File file = bitmapToFile(bitmap, new File(filePath), format, quality);
 
-            if (!file.exists()) {
-                file.mkdirs();
+        try {
+            //刷新库
+            if (file.exists() && insertMediaStore && context != null) {
+                AMediaStoreUtils.insertImageToMediaStore(context, filePath, System.currentTimeMillis(), bitmap.getWidth(), bitmap.getHeight());
             }
-            BufferedOutputStream bos;
-            try {
-                bos = new BufferedOutputStream(new FileOutputStream(filePath));
-                bitmap.compress(format, quality, bos);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
 
-                try {
-                    bos.flush();
-                    bos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (insertMediaStore && context != null) {
-                    AlbumNotifyHelper.insertImageToMediaStore(context, filePath, System.currentTimeMillis(), bitmap.getWidth(), bitmap.getHeight());
-                }
-                return true;
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                return false;
-            }
         }
         return false;
     }
+    //</editor-fold desc="saveBitmapToSD">
 
-    public static Bitmap.CompressFormat getCompressFormat(String filePath) {
-        return AStringUtils.isJpgPath(filePath) ? Bitmap.CompressFormat.JPEG : Bitmap.CompressFormat.PNG;
-    }
-
-//    public static boolean saveBitmapToSD(String filePath, Bitmap bitmap, int quality) {
-//        Bitmap.CompressFormat format = getCompressFormat(filePath);
-//        return saveBitmapToSD(filePath, bitmap, format, quality);
-//    }
-//
-//    public static boolean saveBitmapToSD(String filePath, Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
-//        if (bitmap != null) {
-//            File file = new File(filePath.substring(0, filePath.lastIndexOf(File.separator)));
-//
-//            if (!file.exists()) {
-//                file.mkdirs();
-//            }
-//            BufferedOutputStream bos;
-//            try {
-//                bos = new BufferedOutputStream(new FileOutputStream(filePath));
-//                bitmap.compress(format, quality, bos);
-//
-//                try {
-//                    bos.flush();
-//                    bos.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                return true;
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//                return false;
-//            }
-//        }
-//        return false;
-//    }
+    //<editor-fold desc="fileToBitmap">
 
     /**
      * 经过角度转换
@@ -368,6 +356,7 @@ public class ABitmapUtils {
      * @param dst    bitmap文件
      * @param width  生成bitmap宽度
      * @param height 生成bitmap高度
+     *
      * @return 是bitmap文件
      */
     @SuppressWarnings("deprecation")
@@ -401,6 +390,7 @@ public class ABitmapUtils {
      * @param dst    bitmap文件
      * @param width  生成bitmap宽度
      * @param height 生成bitmap高度
+     *
      * @return 是bitmap文件
      */
     @SuppressWarnings("deprecation")
@@ -422,114 +412,15 @@ public class ABitmapUtils {
         }
         return null;
     }
+    //</editor-fold desc="fileToBitmap">
 
-
-    /**
-     * 获取图片文件的宽高
-     *
-     * @param bitmapFilePath 图片文件本地路径
-     * @return 宽、高组成的数组
-     */
-    public static int[] getBitmapFileSize(String bitmapFilePath) {
-        int[] hw = new int[]{0, 0};
-        if (AFileUtils.fileIsExist(bitmapFilePath)) {
-            BitmapFactory.Options opts = new BitmapFactory.Options();
-            opts.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(bitmapFilePath, opts);
-            hw[0] = opts.outWidth;
-            hw[1] = opts.outHeight;
-            return hw;
-        }
-        return hw;
-    }
-
-    /**
-     * 返回图片文件的角度
-     *
-     * @param file 图片文件
-     * @return 需要偏转的角度
-     */
-    public static int getBitmapDegree(File file) {
-        int rotate = 0;
-        if (file != null && file.exists()) {
-            int result = 0;
-            try {
-                // 文件信息
-                ExifInterface exifInterface = new ExifInterface(file.getPath());
-                // 获取图片的角度
-                result = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            switch (result) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    rotate = 90;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    rotate = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    rotate = 270;
-                    break;
-            }
-        }
-        return rotate;
-    }
-
-    /**
-     * @param options        原图片的 options
-     * @param minSideLength  将要缩放照片的最小边像素
-     * @param maxNumOfPixels 将要缩放照片的总像素
-     * @return
-     */
-    public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
-        int initialSize = computeInitialSampleSize(options, minSideLength, maxNumOfPixels);
-
-        int roundedSize;
-        if (initialSize <= 8) {
-            roundedSize = 1;
-            while (roundedSize < initialSize) {
-                roundedSize <<= 1;
-            }
-        } else {
-            roundedSize = (initialSize + 7) / 8 * 8;
-        }
-
-        return roundedSize;
-    }
-
-    /**
-     * @param options
-     * @param minSideLength
-     * @param maxNumOfPixels
-     * @return
-     */
-    private static int computeInitialSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
-        double w = options.outWidth;
-        double h = options.outHeight;
-
-        int lowerBound = (maxNumOfPixels == -1) ? 1 : (int) Math.ceil(Math.sqrt(w * h / maxNumOfPixels));
-        int upperBound = (minSideLength == -1) ? 128 : (int) Math.min(Math.floor(w / minSideLength), Math.floor(h / minSideLength));
-
-        if (upperBound < lowerBound) {
-            // return the larger one when there is no overlapping zone.
-            return lowerBound;
-        }
-
-        if ((maxNumOfPixels == -1) && (minSideLength == -1)) {
-            return 1;
-        } else if (minSideLength == -1) {
-            return lowerBound;
-        } else {
-            return upperBound;
-        }
-    }
 
     /**
      * 创建带圆角的bitmap图片
      *
      * @param bitmap 源位图
      * @param round  圆角的弧度
+     *
      * @return 带有圆角的图片(Bitmap 类型)
      */
     public static Bitmap getRoundCornerBitmap(Bitmap bitmap, int round) {
@@ -560,6 +451,7 @@ public class ABitmapUtils {
      * 创建圆形图片
      *
      * @param bitmap
+     *
      * @return
      */
     public static Bitmap getRoundBitmap(Bitmap bitmap) {
@@ -631,6 +523,7 @@ public class ABitmapUtils {
      * @param imagePath 图片的路径
      * @param width     图片的宽度
      * @param height    图片的高度
+     *
      * @return 缩略图图片
      */
     public static Bitmap getImageThumbnailBitmap(String imagePath, int width, int height) {
@@ -683,6 +576,7 @@ public class ABitmapUtils {
      * 14.获得带倒影的图片方法
      *
      * @param bitmap
+     *
      * @return
      */
     public static Bitmap getReflectionWithOriginBitmap(Bitmap bitmap) {
@@ -746,6 +640,7 @@ public class ABitmapUtils {
      * 18.按正方形裁切图片
      *
      * @param bitmap 源bitmap
+     *
      * @return 剪切后返回的图片
      */
     public static final Bitmap getSquareCropBitmap(Bitmap bitmap) {
@@ -768,10 +663,11 @@ public class ABitmapUtils {
      * @param context
      * @param sentBitmap
      * @param radius
+     *
      * @return
      */
     @SuppressLint("NewApi")
-    public static Bitmap getfastblurBitmap(Context context, Bitmap sentBitmap, float radius) {
+    public static Bitmap getFastBlurBitmap(Context context, Bitmap sentBitmap, float radius) {
         if (sentBitmap == null) {
             return null;
         }
@@ -789,15 +685,16 @@ public class ABitmapUtils {
             output.copyTo(bitmap);
             return bitmap;
         }
-        return getfastblurByComputerBitmap(sentBitmap, (int) radius);
+        return getFastBlurByComputerBitmap(sentBitmap, (int) radius);
     }
 
     /**
      * @param sentBitmap
      * @param radius
+     *
      * @return
      */
-    public static Bitmap getfastblurByComputerBitmap(Bitmap sentBitmap, int radius) {
+    public static Bitmap getFastBlurByComputerBitmap(Bitmap sentBitmap, int radius) {
 
         Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
 
@@ -1000,118 +897,6 @@ public class ABitmapUtils {
         return (bitmap);
     }
 
-
-    /**
-     * 图片按比例大小压缩方法（宽高1200）
-     *
-     * @param file
-     * @return
-     */
-    public static File compressImageFromFile(File file) {
-        BitmapFactory.Options newOpts = new BitmapFactory.Options();
-        newOpts.inJustDecodeBounds = true;// 只读边,不读内容
-        Bitmap bitmap = BitmapFactory.decodeFile(file.getPath(), newOpts);
-
-        newOpts.inJustDecodeBounds = false;
-        int w = newOpts.outWidth;
-        int h = newOpts.outHeight;
-        float hh = 1200f;// 这里设置高度为800f
-        float ww = 1200f;// 这里设置宽度为480f
-        // 缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
-        int be = 1; // be=1表示不缩放
-        if (w > h && w > ww) { // 如果宽度大的话根据宽度固定大小缩放
-            be = (int) (newOpts.outWidth / ww);
-        } else if (w < h && h > hh) { // 如果高度高的话根据宽度固定大小缩放
-            be = (int) (newOpts.outHeight / hh);
-        }
-        if (be <= 0)
-            be = 1;
-        newOpts.inSampleSize = be;// 设置缩放比例
-        // 重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
-        newOpts.inPreferredConfig = Config.ARGB_8888;// 该模式是默认的,可不设
-        newOpts.inPurgeable = true;// 同时设置才会有效
-        newOpts.inInputShareable = true;// 。当系统内存不够时候图片自动被回收
-
-        bitmap = BitmapFactory.decodeFile(file.getPath(), newOpts);
-        // return compressBmpFromBmp(bitmap);//原来的方法调用了这个方法企图进行二次压缩
-        // 其实是无效的,大家尽管尝试
-        // bitmap = compressImage(bitmap);//压缩好比例大小后再进行质量压缩
-
-        return bitmapToFile(bitmap, file);
-    }
-
-    /**
-     * 压缩到固定大小
-     *
-     * @param image
-     * @return
-     */
-    public static Bitmap compressBitmap(Bitmap image, float size) {
-        int options = 100;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-        while (baos.toByteArray().length / 1024.0 > size) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
-            baos.reset();// 重置baos即清空baos
-            image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
-            options -= 10;// 每次都减少10
-            if (options <= 30) {
-                break;
-            }
-        }
-        LogUtil.e("llj", "baos.toByteArray().length:" + baos.toByteArray().length);
-        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
-        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
-        return bitmap;
-    }
-
-    /**
-     * 根据质量和像素综合压缩图片,并保存到文件中
-     *
-     * @param context
-     * @param largeImagePath
-     * @param thumbFilePath
-     * @param quality
-     * @param allPx
-     * @throws Exception
-     */
-    public static void createImageThumbnail(Context context, String largeImagePath, String thumbFilePath, int quality, int allPx) throws Exception {
-        if (AFileUtils.fileIsExist(largeImagePath)) {
-            BitmapFactory.Options opts = new BitmapFactory.Options();
-            opts.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(largeImagePath, opts);
-            opts.inJustDecodeBounds = false;
-            LogUtil.LLJe("原图片的宽高比:" + opts.outWidth + "x" + opts.outHeight);
-
-            Bitmap bitmap;
-            if (opts.outWidth * opts.outHeight < allPx) {
-                bitmap = BitmapFactory.decodeFile(largeImagePath, opts);
-            } else {
-                //原始的高度
-                opts.inDensity = opts.outHeight;
-                //目标的高度
-                double temp = allPx * (opts.outHeight / (opts.outWidth * 1.0));
-                opts.inTargetDensity = (int) Math.sqrt(temp);
-                bitmap = BitmapFactory.decodeFile(largeImagePath, opts);
-            }
-            int degree = ABitmapUtils.getBitmapDegree(new File(largeImagePath));
-            if (degree != 0) {
-                bitmap = ABitmapUtils.rotateBitmap(bitmap, degree);
-            }
-            //保存到文件中
-            ABitmapUtils.saveBitmapToSD(thumbFilePath, bitmap, Bitmap.CompressFormat.JPEG, quality);
-            if (bitmap != null && !bitmap.isRecycled()) {
-                LogUtil.LLJe("已经完成一张图片的压缩,bitmap:" + bitmap.getWidth() + "x" + bitmap.getHeight());
-                LogUtil.LLJe("已经完成一张图片的压缩,bitmap的总像素:" + bitmap.getWidth() * bitmap.getHeight() / 10000.0 + "万");
-                LogUtil.LLJe("已经完成一张图片的压缩,文件大小:" + Formatter.formatFileSize(context, new File(thumbFilePath).length()));
-            } else {
-                LogUtil.LLJe("bitmap == null || bitmap is recycled");
-            }
-            if (bitmap != null && !bitmap.isRecycled())
-                bitmap.recycle();
-            System.gc();
-        }
-    }
-
     /**
      * 会解析出一个bitmap,该bitmap会限制在对应宽高里面,相当于设置了ImageView的FIT_CENTER
      * 获取到的bitmap至少和一条边对齐
@@ -1165,5 +950,234 @@ public class ABitmapUtils {
         return bitmap;
     }
 
+    //<editor-fold desc="compress">
+
+    /**
+     * 图片按比例大小压缩方法（宽高1200）
+     *
+     * @param file
+     *
+     * @return
+     */
+    public static File compressImageFromFile(File file) {
+        BitmapFactory.Options newOpts = new BitmapFactory.Options();
+        newOpts.inJustDecodeBounds = true;// 只读边,不读内容
+        Bitmap bitmap = BitmapFactory.decodeFile(file.getPath(), newOpts);
+
+        newOpts.inJustDecodeBounds = false;
+        int w = newOpts.outWidth;
+        int h = newOpts.outHeight;
+        float hh = 1200f;// 这里设置高度为800f
+        float ww = 1200f;// 这里设置宽度为480f
+        // 缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
+        int be = 1; // be=1表示不缩放
+        if (w > h && w > ww) { // 如果宽度大的话根据宽度固定大小缩放
+            be = (int) (newOpts.outWidth / ww);
+        } else if (w < h && h > hh) { // 如果高度高的话根据宽度固定大小缩放
+            be = (int) (newOpts.outHeight / hh);
+        }
+        if (be <= 0)
+            be = 1;
+        newOpts.inSampleSize = be;// 设置缩放比例
+        // 重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
+        newOpts.inPreferredConfig = Config.ARGB_8888;// 该模式是默认的,可不设
+        newOpts.inPurgeable = true;// 同时设置才会有效
+        newOpts.inInputShareable = true;// 。当系统内存不够时候图片自动被回收
+
+        bitmap = BitmapFactory.decodeFile(file.getPath(), newOpts);
+        // return compressBmpFromBmp(bitmap);//原来的方法调用了这个方法企图进行二次压缩
+        // 其实是无效的,大家尽管尝试
+        // bitmap = compressImage(bitmap);//压缩好比例大小后再进行质量压缩
+
+        return bitmapToFile(bitmap, file);
+    }
+
+    /**
+     * 压缩到固定大小
+     *
+     * @param image
+     *
+     * @return
+     */
+    public static Bitmap compressBitmap(Bitmap image, float size) {
+        int options = 100;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        while (baos.toByteArray().length / 1024.0 > size) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            baos.reset();// 重置baos即清空baos
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
+            options -= 10;// 每次都减少10
+            if (options <= 30) {
+                break;
+            }
+        }
+        LogUtil.e("llj", "baos.toByteArray().length:" + baos.toByteArray().length);
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
+        return bitmap;
+    }
+    //</editor-fold desc="compress">
+
+    /**
+     * 根据质量和像素综合压缩图片,并保存到文件中
+     *
+     * @param context
+     * @param largeImagePath
+     * @param thumbFilePath
+     * @param quality
+     * @param allPx
+     *
+     * @throws Exception
+     */
+    public static void createImageThumbnail(Context context, String largeImagePath, String thumbFilePath, int quality, int allPx) throws Exception {
+        if (AFileUtils.fileIsExist(largeImagePath)) {
+            BitmapFactory.Options opts = new BitmapFactory.Options();
+            opts.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(largeImagePath, opts);
+            opts.inJustDecodeBounds = false;
+            LogUtil.LLJe("原图片的宽高比:" + opts.outWidth + "x" + opts.outHeight);
+
+            Bitmap bitmap;
+            if (opts.outWidth * opts.outHeight < allPx) {
+                bitmap = BitmapFactory.decodeFile(largeImagePath, opts);
+            } else {
+                //原始的高度
+                opts.inDensity = opts.outHeight;
+                //目标的高度
+                double temp = allPx * (opts.outHeight / (opts.outWidth * 1.0));
+                opts.inTargetDensity = (int) Math.sqrt(temp);
+                bitmap = BitmapFactory.decodeFile(largeImagePath, opts);
+            }
+            int degree = ABitmapUtils.getBitmapDegree(new File(largeImagePath));
+            if (degree != 0) {
+                bitmap = ABitmapUtils.rotateBitmap(bitmap, degree);
+            }
+            //保存到文件中
+            ABitmapUtils.saveBitmapToSD(thumbFilePath, bitmap, Bitmap.CompressFormat.JPEG, quality);
+            if (bitmap != null && !bitmap.isRecycled()) {
+                LogUtil.LLJe("已经完成一张图片的压缩,bitmap:" + bitmap.getWidth() + "x" + bitmap.getHeight());
+                LogUtil.LLJe("已经完成一张图片的压缩,bitmap的总像素:" + bitmap.getWidth() * bitmap.getHeight() / 10000.0 + "万");
+                LogUtil.LLJe("已经完成一张图片的压缩,文件大小:" + Formatter.formatFileSize(context, new File(thumbFilePath).length()));
+            } else {
+                LogUtil.LLJe("bitmap == null || bitmap is recycled");
+            }
+            if (bitmap != null && !bitmap.isRecycled())
+                bitmap.recycle();
+            System.gc();
+        }
+    }
+
+
+    //<editor-fold desc="工具">
+
+    public static Bitmap.CompressFormat getCompressFormat(String filePath) {
+        return AStringUtils.isJpgPath(filePath) ? Bitmap.CompressFormat.JPEG : Bitmap.CompressFormat.PNG;
+    }
+
+    /**
+     * @param options        原图片的 options
+     * @param minSideLength  将要缩放照片的最小边像素
+     * @param maxNumOfPixels 将要缩放照片的总像素
+     *
+     * @return
+     */
+    public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
+        int initialSize = computeInitialSampleSize(options, minSideLength, maxNumOfPixels);
+
+        int roundedSize;
+        if (initialSize <= 8) {
+            roundedSize = 1;
+            while (roundedSize < initialSize) {
+                roundedSize <<= 1;
+            }
+        } else {
+            roundedSize = (initialSize + 7) / 8 * 8;
+        }
+
+        return roundedSize;
+    }
+
+    /**
+     * @param options
+     * @param minSideLength
+     * @param maxNumOfPixels
+     *
+     * @return
+     */
+    private static int computeInitialSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
+        double w = options.outWidth;
+        double h = options.outHeight;
+
+        int lowerBound = (maxNumOfPixels == -1) ? 1 : (int) Math.ceil(Math.sqrt(w * h / maxNumOfPixels));
+        int upperBound = (minSideLength == -1) ? 128 : (int) Math.min(Math.floor(w / minSideLength), Math.floor(h / minSideLength));
+
+        if (upperBound < lowerBound) {
+            // return the larger one when there is no overlapping zone.
+            return lowerBound;
+        }
+
+        if ((maxNumOfPixels == -1) && (minSideLength == -1)) {
+            return 1;
+        } else if (minSideLength == -1) {
+            return lowerBound;
+        } else {
+            return upperBound;
+        }
+    }
+
+    /**
+     * 获取图片文件的宽高
+     *
+     * @param bitmapFilePath 图片文件本地路径
+     *
+     * @return 宽、高组成的数组
+     */
+    public static int[] getBitmapFileSize(String bitmapFilePath) {
+        int[] hw = new int[]{0, 0};
+        if (AFileUtils.fileIsExist(bitmapFilePath)) {
+            BitmapFactory.Options opts = new BitmapFactory.Options();
+            opts.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(bitmapFilePath, opts);
+            hw[0] = opts.outWidth;
+            hw[1] = opts.outHeight;
+            return hw;
+        }
+        return hw;
+    }
+
+    /**
+     * 返回图片文件的角度
+     *
+     * @param file 图片文件
+     *
+     * @return 需要偏转的角度
+     */
+    public static int getBitmapDegree(File file) {
+        int rotate = 0;
+        if (file != null && file.exists()) {
+            int result = 0;
+            try {
+                // 文件信息
+                ExifInterface exifInterface = new ExifInterface(file.getPath());
+                // 获取图片的角度
+                result = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            switch (result) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+            }
+        }
+        return rotate;
+    }
+    //</editor-fold desc="工具">
 
 }
