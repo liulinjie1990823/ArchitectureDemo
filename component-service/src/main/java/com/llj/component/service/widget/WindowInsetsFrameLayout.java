@@ -1,4 +1,4 @@
-package com.llj.component.service.weight;
+package com.llj.component.service.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;

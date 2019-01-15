@@ -1,5 +1,11 @@
 # ArchitectureDemo
 
+1. 组件化使用cc框架来解耦：https://github.com/luckybilly/CC
+ 一些常用组件化方案对比：https://github.com/luckybilly/AndroidComponentizeLibs
+2. 页面跳转使用Arouter来跳转，同时也可以使用实现IProvider接口，并下沉到中间件中，然后在其他组件中使用注解获取相应对象，来实现通信
+3. 界面是否登录通过一个int类型的值判断，每个跳转都要经过LoginInterceptor，判断如果需要登录，将要跳转界面的path和Bundle一同
+发送到登录页，登录完成后关闭登录页继续跳转到指定页面
+
 
 
 ## License
