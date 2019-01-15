@@ -27,6 +27,7 @@ interface IEvent {
     }
 
     fun useEventBus(): Boolean {
-        return true
+        return false
     }
+
 }

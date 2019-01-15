@@ -13,14 +13,14 @@ def versions = [
         lifecycle            : "1.1.1",
         room                 : "1.1.1",
 
-        dagger               : "2.19",
+        dagger               : "2.20",
         autodispose          : "1.0.0-RC2",
         arouter_api          : "1.4.1",
         arouter_compiler     : "1.2.2",
         butterknife          : "9.0.0-rc2",
 
         retrofit2            : "2.5.0",
-        okhttp               : "3.12.0",
+        okhttp               : "3.12.1",
 
         fresco               : "1.11.0",
 
@@ -30,7 +30,7 @@ def versions = [
         auto_value           : "1.6",
 
         stetho               : "1.5.0",
-        leakcanary           : "1.6.2",
+        leakcanary           : "1.6.3",
         timber               : "4.7.1",
 
         mockwebserver        : "3.8.1",
@@ -44,7 +44,7 @@ ext {
             applicationId: "com.china.hunbohui",
             compile      : 28,
             build_tools  : "28.0.3",
-            min_sdk      : 18,
+            min_sdk      : 19,
             target_sdk   : 28,
             version_code : 100,
             version_name : "1.0.0",
@@ -96,7 +96,7 @@ ext {
                     android_support         : "com.google.dagger:dagger-android-support:$versions.dagger",
                     android_support_compiler: "com.google.dagger:dagger-android-processor:$versions.dagger",
             ],
-            rxjava2                   : "io.reactivex.rxjava2:rxjava:2.2.4",
+            rxjava2                   : "io.reactivex.rxjava2:rxjava:2.2.5",
             rxandroid                 : "io.reactivex.rxjava2:rxandroid:2.1.0",
             autodispose               : [
                     autodispose             : "com.uber.autodispose:autodispose:$versions.autodispose",

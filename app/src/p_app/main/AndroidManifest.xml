@@ -52,6 +52,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        tools:replace="android:appComponentFactory"
+        android:appComponentFactory="whateverString"
         android:theme="@style/MyAppTheme.NoActionBar"
         >
 
@@ -93,6 +95,8 @@
         <activity
             android:name=".ui.activity.SwipeBackLayoutActivity"
             android:theme="@style/MyAppTheme.NoActionBar.common"/>
+        <activity android:name=".ui.activity.RewardLayoutActivity"/>
+        <activity android:name=".ui.activity.EventActivity"/>
 
         <service android:name=".ui.service.LoadingService"/>
     </application>

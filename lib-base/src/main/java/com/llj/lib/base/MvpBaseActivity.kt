@@ -15,8 +15,6 @@ import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 /**
@@ -135,9 +133,9 @@ abstract class MvpBaseActivity<P : IBasePresenter> : AppCompatActivity(),
     //</editor-fold >
 
     //<editor-fold desc="事件总线">
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: BaseEvent) {
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    fun onEvent(event: BaseEvent) {
+//    }
     //</editor-fold >
 
     //<editor-fold desc="IBaseActivity">

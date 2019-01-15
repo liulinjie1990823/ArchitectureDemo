@@ -3,7 +3,16 @@ package com.llj.lib.base
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
+ * author llj
  * date 2018/5/21
  */
-class BaseEvent
+data class BaseEvent<T>(var code: Int = 0,
+                        var message: String = "",
+                        var data: T? = null) {
+
+    constructor(code: Int) : this()
+
+    constructor(code: Int, message: String) : this()
+
+    constructor(code: Int, data: T?) : this()
+}

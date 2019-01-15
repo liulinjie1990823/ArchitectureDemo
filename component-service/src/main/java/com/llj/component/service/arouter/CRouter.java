@@ -15,6 +15,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 public class CRouter {
 
     //app
+    public static final String APP_EVENT_ACTIVITY             = "/app/EventActivity";
     public static final String APP_MAIN_ACTIVITY              = "/app/MainActivity";
     public static final String APP_SECOND_ACTIVITY            = "/app/SecondActivity";
     public static final String APP_TOUCH_EVENT_ACTIVITY       = "/app/TouchEventActivity";
@@ -30,6 +31,7 @@ public class CRouter {
     public static final String APP_MEMORY_LEAK_ACTIVITY       = "/app/MemoryLeakActivity";
     public static final String APP_APT_ACTIVITY               = "/app/AptActivity";
     public static final String APP_HOOK_ACTIVITY              = "/app/HookActivity";
+    public static final String APP_REWARD_LAYOUT_ACTIVITY     = "/app/RewardLayoutActivity";
     public static final String APP_SWIPE_BACK_LAYOUT_ACTIVITY = "/app/SwipeBackLayoutActivity";
     public static final String WIDGET_CONSTRAINT_ACTIVITY     = "/app/widget/ConstraintActivity";
     public static final String CIRCLE_VIEW_ACTIVITY           = "/app/widget/CircleViewActivity";

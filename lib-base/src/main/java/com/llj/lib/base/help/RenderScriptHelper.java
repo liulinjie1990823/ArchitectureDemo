@@ -103,7 +103,7 @@ public class RenderScriptHelper {
         paint.setFlags(Paint.FILTER_BITMAP_FLAG);
         canvas.drawBitmap(mBitmapIn, srcRect, destRect, paint);
 
-        mBitmapOut = ABitmapUtils.getfastblurBitmap(mActivity, mBitmapOut, mBlurRadius);
+        mBitmapOut = ABitmapUtils.getFastBlurBitmap(mActivity, mBitmapOut, mBlurRadius);
 
         return mBitmapOut;
 //        createScript();
@@ -133,7 +133,7 @@ public class RenderScriptHelper {
         paint.setFlags(Paint.FILTER_BITMAP_FLAG);
         canvas.drawBitmap(bitmap, srcRect, destRect, paint);
 
-        return ABitmapUtils.getfastblurBitmap(mActivity, mBitmapOut, mBlurRadius);
+        return ABitmapUtils.getFastBlurBitmap(mActivity, mBitmapOut, mBlurRadius);
     }
 
     private class RenderScriptTask extends AsyncTask<Float, Boolean, Boolean> {

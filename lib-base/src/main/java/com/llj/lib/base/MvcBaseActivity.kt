@@ -14,8 +14,6 @@ import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 
 /**
@@ -131,9 +129,9 @@ abstract class MvcBaseActivity : AppCompatActivity(),
     //</editor-fold >
 
     //<editor-fold desc="事件总线">
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: BaseEvent) {
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    fun <T> onEvent(event: BaseEvent<T>) {
+//    }
     //</editor-fold >
 
     //<editor-fold desc="IBaseActivity">

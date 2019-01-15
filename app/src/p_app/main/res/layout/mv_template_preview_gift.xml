@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingLeft="4dp"
+        android:paddingTop="4dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+
+        <ImageView
+            android:id="@+id/sv_header"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:clipToPadding="false"
+            android:includeFontPadding="false"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_content"
+            app:layout_constraintLeft_toRightOf="@+id/sv_header"
+            app:layout_constraintTop_toTopOf="@+id/sv_header"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="中国婚博会 送上 份子钱"/>
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="2dp"
+            android:clipToPadding="false"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:lines="1"
+            android:maxLength="24"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/sv_header"
+            app:layout_constraintLeft_toRightOf="@+id/sv_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:text="愿你婚后花钱不用愿你婚后花钱不用愿你婚后花钱不用"/>
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -50,6 +50,7 @@ class HomeFragment : ADMvcBaseFragment(), ScrollableHelper.ScrollableContainer {
         super.initViews(savedInstanceState)
 
         val arrayList = arrayListOf<Data>()
+        arrayList.add(Data("RewardLayoutActivity", CRouter.APP_REWARD_LAYOUT_ACTIVITY))
         arrayList.add(Data("SwipeBackLayoutActivity", CRouter.APP_SWIPE_BACK_LAYOUT_ACTIVITY))
         arrayList.add(Data("JavaTypeActivity", CRouter.APP_JAVA_TYPE_ACTIVITY))
         arrayList.add(Data("RequestActivity", CRouter.APP_REQUEST_ACTIVITY))

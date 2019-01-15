@@ -158,7 +158,7 @@ class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
 
     }
 
-    data class Test(var title: String? = null) {
+    data class Test( var title: String? = null) {
         var name: String? = null
     }
 
