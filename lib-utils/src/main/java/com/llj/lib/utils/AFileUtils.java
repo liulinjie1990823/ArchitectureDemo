@@ -81,6 +81,13 @@ public class AFileUtils {
     }
 
 
+    /**
+     * 现在使用这个方法来通知扫描刷新
+     *
+     * @param context
+     * @param filePath
+     * @param onScanCompletedListener
+     */
     private static void scanFile(Context context, String filePath, MediaScannerConnection.OnScanCompletedListener onScanCompletedListener) {
         if ((!fileIsExist(filePath))
                 || onScanCompletedListener == null)
