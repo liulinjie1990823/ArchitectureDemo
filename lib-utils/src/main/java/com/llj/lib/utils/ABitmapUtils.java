@@ -1016,7 +1016,6 @@ public class ABitmapUtils {
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
         return bitmap;
     }
-    //</editor-fold desc="compress">
 
     /**
      * 根据质量和像素综合压缩图片,并保存到文件中
@@ -1066,6 +1065,8 @@ public class ABitmapUtils {
             System.gc();
         }
     }
+
+    //</editor-fold desc="compress">
 
 
     //<editor-fold desc="工具">

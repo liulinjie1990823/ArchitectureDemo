@@ -167,7 +167,7 @@ ext {
             socialization_sina        : "com.llj:lib-socialization-sina:2.0.2",
             socialization_wechat      : "com.llj:lib-socialization-wechat:2.0.2",
             statelayout               : "com.llj:lib-statelayout:0.0.1",
-            universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.12",
+            universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.13",
             utils                     : "com.llj:lib-utils:0.0.5",
             webView                   : "com.llj:lib-webview:0.0.2",
             //ui

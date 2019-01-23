@@ -66,6 +66,7 @@ class RefreshHelper<Item, Holder : ViewHolder> : IRefresh<Item, Holder> {
     private fun checkHasMoreData(hasNextPage: Boolean) {
         mPagerHelper.addPageNum(hasNextPage)
         mSmartRefreshLayout.setNoMoreData(!hasNextPage)
+        mSmartRefreshLayout.setEnableLoadMore(hasNextPage)
     }
 
     override fun getInitPageNum(): Int {
