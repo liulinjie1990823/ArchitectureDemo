@@ -56,7 +56,7 @@ subprojects {
 
                     resConfigs "en", "xxhdpi"
 
-                    ndk { abiFilters "armeabi-v7a" }
+                    ndk { abiFilters "armeabi-v7a", "x86"  }
 
                     manifestPlaceholders = [qq_id: "1103566659"]
                 }

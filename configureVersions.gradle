@@ -13,7 +13,7 @@ def versions = [
         lifecycle            : "1.1.1",
         room                 : "1.1.1",
 
-        dagger               : "2.20",
+        dagger               : "2.21",
         autodispose          : "1.0.0-RC2",
         arouter_api          : "1.4.1",
         arouter_compiler     : "1.2.2",
@@ -96,7 +96,7 @@ ext {
                     android_support         : "com.google.dagger:dagger-android-support:$versions.dagger",
                     android_support_compiler: "com.google.dagger:dagger-android-processor:$versions.dagger",
             ],
-            rxjava2                   : "io.reactivex.rxjava2:rxjava:2.2.5",
+            rxjava2                   : "io.reactivex.rxjava2:rxjava:2.2.6",
             rxandroid                 : "io.reactivex.rxjava2:rxandroid:2.1.0",
             autodispose               : [
                     autodispose             : "com.uber.autodispose:autodispose:$versions.autodispose",

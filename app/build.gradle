@@ -1,6 +1,6 @@
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'walle'
-apply plugin: 'plugin-tracker-inject'
+//apply plugin: 'plugin-tracker-inject'
 
 android {
     compileSdkVersion build_versions.compile
@@ -16,7 +16,7 @@ android {
 
         resConfigs "en", "xxhdpi"
 
-        ndk { abiFilters "armeabi-v7a" }
+        ndk { abiFilters "armeabi-v7a", "x86"  }
 
         dataBinding { enabled = true }
 
