@@ -68,7 +68,7 @@ class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-        StatusBarCompat.setStatusBarColor(this,getCompatColor(mContext,R.color.black))
+        StatusBarCompat.setStatusBarColor(window,getCompatColor(mContext,R.color.black))
         LightStatusBarCompat.setLightStatusBar(window,false)
 
         mTvClick.addTextChangedListener(object : MyTextWatcher() {

@@ -77,11 +77,11 @@ class AppApplication : ComponentApplication() {
                 }
                 if (activity is MainActivity) {
                     //status和界面中的布局覆盖布局，界面中加了fitWindow,有padding效果，覆盖白字
-                    StatusBarCompat.translucentStatusBar(activity, true)
+                    StatusBarCompat.translucentStatusBar(activity.window, true)
                     LightStatusBarCompat.setLightStatusBar(activity.window, false)
                 } else {
                     //status和界面中的布局线性布局，白低黑字
-                    StatusBarCompat.setStatusBarColor(activity, ContextCompat.getColor(activity, R.color.white))
+                    StatusBarCompat.setStatusBarColor(activity.window, ContextCompat.getColor(activity, R.color.white))
                     LightStatusBarCompat.setLightStatusBar(activity.window, true)
                 }
             }

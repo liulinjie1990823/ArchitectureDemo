@@ -1,6 +1,5 @@
 package com.llj.loading.ui.activity
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
@@ -44,7 +43,7 @@ class LoadingActivity : MvcBaseActivity() {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-        StatusBarCompat.translucentStatusBar(mContext as Activity, true)
+        StatusBarCompat.translucentStatusBar(window, true)
 
         mImageLoader = FrescoImageLoader.getInstance(this.applicationContext)
 

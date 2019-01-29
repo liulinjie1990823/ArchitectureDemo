@@ -22,7 +22,7 @@ class ConstraintActivity : ADMvcBaseActivity() {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-        StatusBarCompat.translucentStatusBar(this, true)
+        StatusBarCompat.translucentStatusBar(window, true)
         LightStatusBarCompat.setLightStatusBar(window, false)
     }
 

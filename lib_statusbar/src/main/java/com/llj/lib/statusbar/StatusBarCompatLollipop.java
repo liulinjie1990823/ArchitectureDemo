@@ -1,4 +1,4 @@
-package com.llj.component.service.statusbar;
+package com.llj.lib.statusbar;
 
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;

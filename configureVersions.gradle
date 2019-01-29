@@ -206,13 +206,13 @@ def addRepos(RepositoryHandler handler) {
     //工程中的lib文件夹，依赖aar和jar文件
 
     handler.google()
-    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
     handler.jcenter()
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     handler.maven { url "https://jitpack.io" }
     //微博的maven地址
     handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
     handler.flatDir { dirs '../lib', '../libs' }
+    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
 }
 
 ext.addRepos = this.&addRepos

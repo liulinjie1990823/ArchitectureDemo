@@ -1,4 +1,4 @@
-package com.llj.component.service.statusbar;
+package com.llj.lib.statusbar;
 
 import android.annotation.TargetApi;
 import android.os.Build;

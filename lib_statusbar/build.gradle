@@ -1,0 +1,11 @@
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    debugImplementation deps.support.design
+    debugImplementation deps.support.app_compat
+
+    releaseCompileOnly deps.support.design
+    releaseCompileOnly deps.support.app_compat
+}
+
+apply from: "../uploadArchives.gradle"
+apply from: "../bintrayUpload.gradle"

@@ -1,6 +1,5 @@
 package com.llj.architecturedemo.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -31,7 +30,7 @@ public class SwipeBackLayoutActivity extends ADMvcBaseActivity {
 
     @Override
     public void initViews(@Nullable Bundle bundle) {
-        StatusBarCompat.translucentStatusBar((Activity) mContext, true);
+        StatusBarCompat.translucentStatusBar(getWindow(), true);
         LightStatusBarCompat.setLightStatusBar(getWindow(), false);
     }
 
