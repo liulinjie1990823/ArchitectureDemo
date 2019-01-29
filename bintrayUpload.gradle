@@ -42,9 +42,6 @@ def developerEmail = properties.getProperty("developer.email")
 def bintrayUser = localProperties.getProperty("bintray.user")
 def bintrayApikey = localProperties.getProperty("bintray.apikey")
 
-println("bintrayUser:" + bintrayUser.toString())
-println("bintrayApikey:" + bintrayApikey.toString())
-
 def javadocName = properties.getProperty("javadoc.name")
 
 group = projectGroupId
