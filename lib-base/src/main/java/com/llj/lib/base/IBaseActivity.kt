@@ -3,6 +3,9 @@ package com.llj.lib.base
 import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.view.MotionEvent
+import android.view.Window
+import com.llj.lib.statusbar.LightStatusBarCompat
+import com.llj.lib.statusbar.StatusBarCompat
 
 import com.llj.lib.utils.AInputMethodManagerUtils
 
@@ -13,6 +16,11 @@ import com.llj.lib.utils.AInputMethodManagerUtils
  * date 2018/5/24
  */
 interface IBaseActivity : IActivityStack {
+
+    fun setTranslucentStatusBar(window: Window, textBlackColor: Boolean) {
+        StatusBarCompat.translucentStatusBar(window, true)
+        LightStatusBarCompat.setLightStatusBar(window, textBlackColor)
+    }
 
     fun initLifecycleObserver(lifecycle: Lifecycle)
 
@@ -29,4 +37,6 @@ interface IBaseActivity : IActivityStack {
     fun moduleName(): String {
         return "app"
     }
+
+
 }

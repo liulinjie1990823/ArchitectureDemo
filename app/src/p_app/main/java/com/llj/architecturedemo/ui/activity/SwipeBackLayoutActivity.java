@@ -7,8 +7,8 @@ import com.gw.swipeback.SwipeBackLayout;
 import com.llj.architecturedemo.R;
 import com.llj.component.service.ADMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
-import com.llj.component.service.statusbar.LightStatusBarCompat;
-import com.llj.component.service.statusbar.StatusBarCompat;
+import com.llj.lib.statusbar.LightStatusBarCompat;
+import com.llj.lib.statusbar.StatusBarCompat;
 
 import org.jetbrains.annotations.Nullable;
 

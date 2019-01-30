@@ -59,6 +59,7 @@ dependencies {
         api deps.statelayout
         api deps.universalAdapter
         api deps.utils
+        api deps.statusbar
         api deps.webView
     } else {
         api project(':lib-base')
@@ -75,6 +76,7 @@ dependencies {
         api project(':lib-statelayout')
         api project(':lib-universalAdapter')
         api project(':lib-utils')
+        api project(':lib_statusbar')
         api project(':lib-webview')
     }
 

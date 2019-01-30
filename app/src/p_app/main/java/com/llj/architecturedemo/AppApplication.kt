@@ -12,11 +12,11 @@ import android.support.v4.content.ContextCompat
 import com.billy.cc.core.component.CC
 import com.llj.architecturedemo.ui.activity.MainActivity
 import com.llj.component.service.ComponentApplication
-import com.llj.component.service.statusbar.LightStatusBarCompat
-import com.llj.component.service.statusbar.StatusBarCompat
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
+import com.llj.lib.statusbar.LightStatusBarCompat
+import com.llj.lib.statusbar.StatusBarCompat
 import com.llj.socialization.SocialConstants
 import com.llj.socialization.share.SocialConfig
 import com.llj.socialization.share.SocialManager

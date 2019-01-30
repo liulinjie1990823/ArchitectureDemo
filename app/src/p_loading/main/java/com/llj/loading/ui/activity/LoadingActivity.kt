@@ -9,11 +9,11 @@ import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.llj.architecturedemo.R
 import com.llj.component.service.arouter.CRouter
-import com.llj.component.service.statusbar.StatusBarCompat
 import com.llj.lib.base.MvcBaseActivity
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
+import com.llj.lib.statusbar.StatusBarCompat
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers

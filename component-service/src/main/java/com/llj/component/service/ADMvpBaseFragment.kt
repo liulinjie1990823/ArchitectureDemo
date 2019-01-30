@@ -4,10 +4,9 @@ import android.app.Activity
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.text.TextUtils
-import com.llj.component.service.statusbar.LightStatusBarCompat
-
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.mvp.IBasePresenter
+import com.llj.lib.statusbar.LightStatusBarCompat
 
 /**
  * ArchitectureDemo.

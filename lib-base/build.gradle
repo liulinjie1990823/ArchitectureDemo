@@ -10,9 +10,11 @@ dependencies {
 
     if (useMaven) {
         implementation deps.utils
+        implementation deps.statusbar
         implementation deps.net
     } else {
         implementation project(':lib-utils')
+        implementation project(':lib_statusbar')
         implementation project(':lib-net')
     }
 

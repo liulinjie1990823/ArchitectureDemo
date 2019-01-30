@@ -35,12 +35,12 @@ import com.llj.architecturedemo.ui.view.IVLayoutView
 import com.llj.component.service.ADMvpBaseFragment
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
-import com.llj.component.service.statusbar.LightStatusBarCompat
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.OnMyClickListener
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.net.response.BaseResponse
+import com.llj.lib.statusbar.LightStatusBarCompat
 import com.llj.lib.utils.ATimeUtils
 import com.llj.lib.utils.ATimeUtils.countDownString
 import com.llj.lib.utils.ATimeUtils.stringToDate
