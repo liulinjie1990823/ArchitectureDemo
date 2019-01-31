@@ -54,9 +54,6 @@ android {
     }
     buildTypes.all { type ->
         type.matchingFallbacks = ['debug']
-        type.minifyEnabled = false
-        type.shrinkResources = false
-        type.useProguard = false
         type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
     }
 
@@ -92,6 +89,7 @@ android {
 
     lintOptions {
         abortOnError false
+        ignoreWarnings true
     }
 
     applicationVariants.all { variant ->
