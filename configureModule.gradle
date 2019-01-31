@@ -56,20 +56,18 @@ subprojects {
 
                     resConfigs "en", "xxhdpi"
 
-                    ndk { abiFilters "armeabi-v7a", "x86"  }
+                    ndk { abiFilters "armeabi-v7a"  }
 
                     manifestPlaceholders = [qq_id: "1103566659"]
                 }
 
                 buildTypes {
                     debug {
-                        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
                     }
                 }
                 buildTypes.all { type ->
                     type.matchingFallbacks = ['debug']
-                    type.minifyEnabled = false
-                    type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
+                    type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
                 }
                 compileOptions {
                     targetCompatibility build_versions.compile_jdk

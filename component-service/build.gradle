@@ -20,13 +20,11 @@ android {
 
     buildTypes {
         debug {
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     buildTypes.all { type ->
         type.matchingFallbacks = ['debug']
-        type.minifyEnabled = false
-        type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
+        type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
     }
     compileOptions {
         targetCompatibility build_versions.compile_jdk

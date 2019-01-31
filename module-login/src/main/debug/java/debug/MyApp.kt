@@ -36,7 +36,7 @@ class MyApp : ComponentApplication() {
                 if (activity == null) {
                     return
                 }
-                StatusBarCompat.setStatusBarColor(activity, ContextCompat.getColor(activity, R.color.white))
+                StatusBarCompat.setStatusBarColor(activity.window, ContextCompat.getColor(activity, R.color.white))
                 LightStatusBarCompat.setLightStatusBar(activity.window, true)
             }
 

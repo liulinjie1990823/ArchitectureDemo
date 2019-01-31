@@ -16,7 +16,7 @@ android {
 
         resConfigs "en", "xxhdpi"
 
-        ndk { abiFilters "armeabi-v7a", "x86"  }
+        ndk { abiFilters "armeabi-v7a" }
 
         dataBinding { enabled = true }
 
@@ -40,14 +40,14 @@ android {
     buildTypes {
         debug {
             debuggable true
-            minifyEnabled false
+            minifyEnabled true
             useProguard false
             shrinkResources false
             signingConfig  signingConfigs.release
         }
         release {
             minifyEnabled true
-            useProguard false
+            useProguard true
             shrinkResources true
             signingConfig  signingConfigs.release
         }
@@ -57,7 +57,7 @@ android {
         type.minifyEnabled = false
         type.shrinkResources = false
         type.useProguard = false
-        type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
+        type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
     }
 
     sourceSets {
@@ -140,7 +140,7 @@ dependencies {
         kapt project(':lib-component-compiler')
     }
 
-    implementation (name:'in2magic_atlas', ext:'aar')
+//    implementation (name:'in2magic_atlas', ext:'aar')
     implementation 'com.github.Yuphee:RewardLayout:1.0.5.7'
 
 }
