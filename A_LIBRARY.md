@@ -36,14 +36,14 @@
 - permission：https://github.com/yanzhenjie/AndPermission com.yanzhenjie:permission:2.0.0-rc12
 
 ##### app更新
--
+- CheckVersionLib：https://github.com/AlexLiuSheng/CheckVersionLib  com.allenliu.versionchecklib:library:2.1.9
 
 ##### 文件下载
 - okdownload：https://github.com/lingochamp/okdownload
 
 ##### rxjava2
 - rxjava2：https://github.com/ReactiveX/RxJava io.reactivex.rxjava2:rxjava:2.2.5
-- https://github.com/uber/AutoDispose
+- AutoDispose：https://github.com/uber/AutoDispose
 
 ##### 渠道包
 - walle：https://github.com/Meituan-Dianping/walle
@@ -72,8 +72,9 @@
 - 图片压缩：https://github.com/Curzibn/Luban top.zibin:Luban:1.1.8
 - 图片压缩：https://github.com/zetbaitsu/Compressor id.zelory:compressor:2.1.0
 - 图片进度框：https://github.com/mrwonderman/android-square-progressbar ch.halcyon:squareprogressbar:1.6.4
+- 圆形进度框：https://github.com/dinuscxj/CircleProgressBar com.dinuscxj:circleprogressbar:1.3.0
+- 圆角布局：https://github.com/GcsSloop/rclayout
 - 礼物弹幕：https://github.com/Yuphee/RewardLayout com.github.Yuphee:RewardLayout:1.0.5.7
 - 刮奖效果：https://github.com/myinnos/AndroidScratchCard com.github.myinnos:AndroidScratchCard:v1.0
 - 图文混排效果：https://github.com/sendtion/XRichText com.github.sendtion:XRichText:1.8
 - 布局回收优化：https://github.com/facebook/litho
-- 圆角布局：https://github.com/GcsSloop/rclayout
