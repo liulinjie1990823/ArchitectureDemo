@@ -39,26 +39,25 @@ android {
 
     buildTypes {
         debug {
-            debuggable true
-            minifyEnabled true
+            minifyEnabled false
             useProguard false
             shrinkResources false
-            signingConfig  signingConfigs.release
+            signingConfig signingConfigs.release
         }
         release {
-            minifyEnabled true
+            minifyEnabled false
             useProguard false
-            shrinkResources true
-            signingConfig  signingConfigs.release
+            shrinkResources false
+            signingConfig signingConfigs.release
         }
     }
     buildTypes.all { type ->
         type.matchingFallbacks = ['debug']
-        type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
+        type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
     }
 
     sourceSets {
-        def dirs = ['p_app', 'p_widget','p_loading','p_mine','p_login']
+        def dirs = ['p_app', 'p_widget', 'p_loading', 'p_mine', 'p_login']
         main {
             manifest.srcFile 'src/p_app/main/AndroidManifest.xml'
             dirs.each { dir ->
