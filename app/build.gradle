@@ -42,18 +42,18 @@ android {
             minifyEnabled false
             useProguard false
             shrinkResources false
-            signingConfig signingConfigs.release
+            signingConfig  signingConfigs.release
         }
         release {
-            minifyEnabled false
-            useProguard false
-            shrinkResources false
-            signingConfig signingConfigs.release
+            minifyEnabled true
+            useProguard true
+            shrinkResources true
+            signingConfig  signingConfigs.release
         }
     }
     buildTypes.all { type ->
         type.matchingFallbacks = ['debug']
-        type.proguardFiles = [getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro']
+        type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
     }
 
     sourceSets {
