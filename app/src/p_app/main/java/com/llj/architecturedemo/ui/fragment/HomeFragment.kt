@@ -50,6 +50,7 @@ class HomeFragment : ADMvcBaseFragment(), ScrollableHelper.ScrollableContainer {
         super.initViews(savedInstanceState)
 
         val arrayList = arrayListOf<Data>()
+        arrayList.add(Data("LoginActivity", CRouter.LOGIN_LOGIN_ACTIVITY))
         arrayList.add(Data("RewardLayoutActivity", CRouter.APP_REWARD_LAYOUT_ACTIVITY))
         arrayList.add(Data("SwipeBackLayoutActivity", CRouter.APP_SWIPE_BACK_LAYOUT_ACTIVITY))
         arrayList.add(Data("JavaTypeActivity", CRouter.APP_JAVA_TYPE_ACTIVITY))
@@ -65,7 +66,6 @@ class HomeFragment : ADMvcBaseFragment(), ScrollableHelper.ScrollableContainer {
         arrayList.add(Data("NestedScrollViewActivity", CRouter.APP_RECYCLE_VIEW_ACTIVITY))
         arrayList.add(Data("LinearLayoutActivity", CRouter.APP_LINEAR_LAYOUT_ACTIVITY))
         arrayList.add(Data("ComponentActivity", CRouter.APP_COMPONENT_ACTIVITY))
-        arrayList.add(Data("LoginActivity", CRouter.LOGIN_LOGIN_ACTIVITY))
         arrayList.add(Data("RegisterActivity", CRouter.LOGIN_REGISTER_ACTIVITY))
         arrayList.add(Data("HookActivity", CRouter.APP_HOOK_ACTIVITY))
         arrayList.add(Data("ProxyActivity", CRouter.APP_PROXY_ACTIVITY))

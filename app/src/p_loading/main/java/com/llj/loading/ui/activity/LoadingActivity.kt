@@ -1,5 +1,7 @@
 package com.llj.loading.ui.activity
 
+import android.Manifest
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
@@ -14,6 +16,9 @@ import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.statusbar.StatusBarCompat
+import com.llj.lib.utils.AToastUtils
+import com.yanzhenjie.permission.AndPermission
+import com.yanzhenjie.permission.Permission
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -55,7 +60,7 @@ class LoadingActivity : MvcBaseActivity() {
             mDisposable.dispose()
 
             ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
-//                    .withTransition(R.anim.fade_in, R.anim.no_fade)
+                    //                    .withTransition(R.anim.fade_in, R.anim.no_fade)
                     .navigation(mContext)
 
             finish()
@@ -90,7 +95,7 @@ class LoadingActivity : MvcBaseActivity() {
 
                     override fun onComplete() {
                         ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
-//                                .withTransition(R.anim.fade_in, R.anim.no_fade)
+                                //                                .withTransition(R.anim.fade_in, R.anim.no_fade)
                                 .navigation(mContext)
 
                         finish()
@@ -102,7 +107,29 @@ class LoadingActivity : MvcBaseActivity() {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
             val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
-            mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH_PIXELS, mSdvAdd.height, mSdvAdd)
+            AndPermission.with(this)
+                    .runtime()
+                    .permission(Manifest.permission.READ_PHONE_STATE)
+                    .onGranted {
+                        mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH_PIXELS, mSdvAdd.height, mSdvAdd)
+                    }
+                    .onDenied { permissions ->
+                        AToastUtils.show(permissions?.toString())
+                    }
+                    .rationale { context, permissions, executor ->
+                        val permissionNames = Permission.transformText(context, permissions)
+                        val message = "读取电话状态"
+
+                        AlertDialog.Builder(context)
+                                .setCancelable(false)
+                                .setTitle("提示")
+                                .setMessage(message)
+                                .setPositiveButton("继续") { dialog, which -> executor.execute() }
+                                .setNegativeButton("取消") { dialog, which -> executor.cancel() }
+                                .show()
+                    }
+                    .start()
+
         }
     }
 }
