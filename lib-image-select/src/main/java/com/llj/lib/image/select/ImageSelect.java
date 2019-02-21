@@ -2,6 +2,7 @@ package com.llj.lib.image.select;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.RequiresPermission;
 import android.support.v4.app.Fragment;
@@ -11,9 +12,9 @@ import android.support.v4.app.Fragment;
  * Created by liulj on 15/12/3.
  */
 public class ImageSelect {
-    static final int IMAGE_TYPE_CAPTURE = 0;
-    static final int IMAGE_TYPE_PICK    = 1;
-    private int mImageType;
+    private static final int IMAGE_TYPE_CAPTURE = 0;
+    private static final int IMAGE_TYPE_PICK    = 1;
+    private              int mImageType;
 
     private ImageCaptureHelper mImageCaptureHelper;
     private ImagePickHelper    mImagePickHelper;
@@ -21,6 +22,13 @@ public class ImageSelect {
     private Activity mActivity;
     private Fragment mFragment;
 
+    public Activity getActivity() {
+        return mActivity;
+    }
+
+    public Fragment getFragment() {
+        return mFragment;
+    }
 
     public ImageSelect(String imageDir) {
         init(imageDir);
@@ -44,9 +52,9 @@ public class ImageSelect {
     }
 
     @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    public void pickImage(Activity activity) {
+    public void pickImage(Context activity) {
         mImageType = IMAGE_TYPE_PICK;
-        mActivity = activity;
+        mActivity = (Activity) activity;
         mImagePickHelper.pickImage(activity);
     }
 
@@ -58,9 +66,9 @@ public class ImageSelect {
     }
 
     @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    public void captureImage(Activity activity) {
+    public void captureImage(Context activity) {
         mImageType = IMAGE_TYPE_CAPTURE;
-        mActivity = activity;
+        mActivity = (Activity) activity;
         mImageCaptureHelper.captureImage(activity);
     }
 
@@ -73,7 +81,7 @@ public class ImageSelect {
     }
 
     //在对应的onActivityResult中调用
-    public void onActivityResult(int requestCode, int resultCode, Intent intent, AbsImageSelectHelper.OnGetFileListener onGetFileListener) {
+    public void onActivityResult(int requestCode, int resultCode, Intent intent, ImageSelectHelper.OnGetFileListener onGetFileListener) {
         if (mImageType == IMAGE_TYPE_CAPTURE) {
             mImageCaptureHelper.onActivityResult(requestCode, resultCode, intent, onGetFileListener);
         } else if (mImageType == IMAGE_TYPE_PICK) {

@@ -161,7 +161,7 @@ ext {
             component_api             : "com.llj:lib-component-api:0.0.1",
             component_compiler        : "com.llj:lib-component-compiler:0.0.1",
             imageLoader               : "com.llj:lib-image-loader:0.0.4",
-            imageSelect               : "com.llj:lib-image-select:0.0.1",
+            imageSelect               : "com.llj:lib-image-select:0.0.3",
             socialization             : "com.llj.socialization:lib-socialization:2.0.2",
             socialization_qq          : "com.llj:lib-socialization-qq:2.0.2",
             socialization_sina        : "com.llj:lib-socialization-sina:2.0.2",

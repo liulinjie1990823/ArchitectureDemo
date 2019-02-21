@@ -1,9 +1,9 @@
 package com.llj.lib.image.select;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 
@@ -19,13 +19,13 @@ import java.util.UUID;
  * 从相册选择图片
  * Created by llj on 15/12/3.
  */
-public class ImagePickHelper extends AbsImageSelectHelper {
+public class ImagePickHelper extends ImageSelectHelper {
     private Activity mActivity;
     private Fragment mFragment;
 
-    void pickImage(Activity activity) {
-        mActivity = activity;
-        realPickImage(activity);
+    void pickImage(Context activity) {
+        mActivity = (Activity) activity;
+        realPickImage(mActivity);
     }
 
     void pickImage(Fragment fragment) {
@@ -85,7 +85,7 @@ public class ImagePickHelper extends AbsImageSelectHelper {
                 File tempFile = new File(getImageDir(), cameraOrAlbumPath);
                 if (copyFile(new File(path), tempFile)) {
                     if (tempFile.exists()) {
-                        toSystemCrop(Uri.fromFile(tempFile), getOutputSize());
+                        toSystemCrop(tempFile, getOutputSize());
                     }
                 }
             }

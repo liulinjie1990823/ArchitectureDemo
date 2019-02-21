@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
 import java.io.BufferedOutputStream;
@@ -19,18 +22,18 @@ import java.util.UUID;
 /**
  * Created by llj on 15/12/3.
  */
-public abstract class AbsImageSelectHelper {
-    //系统拍照
-    static final int CHOOSE_PHOTO_FROM_CAMERA      = 10001;
-    //系统相册
-    static final int CHOOSE_PHOTO_FROM_ALBUM       = 10002;
-    //系统剪裁
-    static final int CHOOSE_PHOTO_FROM_SYSTEM_CROP = 10003;
+public abstract class ImageSelectHelper {
+    static final int CHOOSE_PHOTO_FROM_CAMERA      = 10001; //系统拍照
+    static final int CHOOSE_PHOTO_FROM_ALBUM       = 10002; //系统相册
+    static final int CHOOSE_PHOTO_FROM_SYSTEM_CROP = 10003; //系统剪裁
+
+    private static final String CROP_IMAGE_NAME          = "_cropImage.jpg";
+    private static final String COMPRESS_CROP_IMAGE_NAME = "_compressCropImage.jpg";
 
 
     private String mCropImagePath;//剪切后存放的位置
-    private int mQuality = 100;
-    private int mOutputSize = 300;
+    private int    mQuality    = 100;
+    private int    mOutputSize = 300;
     private String mImageDir;
 
     protected Activity getActivity() {
@@ -39,6 +42,15 @@ public abstract class AbsImageSelectHelper {
 
     protected Fragment getFragment() {
         return null;
+    }
+
+
+    public String getImageDir() {
+        return mImageDir;
+    }
+
+    public void setImageDir(String imageDir) {
+        mImageDir = imageDir;
     }
 
     /**
@@ -54,13 +66,6 @@ public abstract class AbsImageSelectHelper {
         return mQuality;
     }
 
-    public String getImageDir() {
-        return mImageDir;
-    }
-    public void setImageDir(String imageDir) {
-        mImageDir = imageDir;
-    }
-
     public int getOutputSize() {
         return mOutputSize;
     }
@@ -68,7 +73,6 @@ public abstract class AbsImageSelectHelper {
     public void setOutputSize(int outputSize) {
         mOutputSize = outputSize;
     }
-
 
 
     private String getCropImagePath() {
@@ -114,15 +118,27 @@ public abstract class AbsImageSelectHelper {
      *
      * @return
      */
-   private File getFileFromCompressBitmap(Bitmap bmp, File file, int quality) {
+    File getFileFromCompressBitmap(Bitmap bmp, File file, int quality) {
+        FileOutputStream fileOutputStream = null;
         try {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            fileOutputStream = new FileOutputStream(file);
+            BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
             // 直接压缩80%
             bmp.compress(Bitmap.CompressFormat.JPEG, quality, bos);
+            fileOutputStream.close();
             bos.flush();
             bos.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return file;
     }
@@ -130,9 +146,12 @@ public abstract class AbsImageSelectHelper {
     /**
      * 裁剪图片
      */
-    void toSystemCrop(Uri uri, int size) {
+    void toSystemCrop(File input, int size) {
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+        intent.setDataAndType(getUriForFile(input), "image/*");
         // crop为true是设置在开启的intent中设置显示的view可以剪裁
         intent.putExtra("crop", "true");
         // aspectX aspectY 是宽高的比例
@@ -147,13 +166,26 @@ public abstract class AbsImageSelectHelper {
         intent.putExtra("outputY", size);
         intent.putExtra("return-data", true);
         // 剪切返回，头像存放的路径
-        mCropImagePath = getImageDir() + File.separator + UUID.randomUUID().toString() + "cropImage.png";
-        intent.putExtra("output", Uri.fromFile(new File(getCropImagePath()))); // 专入目标文件
+        mCropImagePath = getImageDir() + File.separator + UUID.randomUUID().toString() + CROP_IMAGE_NAME;
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(getCropImagePath()))); // 专入目标文件
+
         if (getFragment() != null) {
             getFragment().startActivityForResult(intent, CHOOSE_PHOTO_FROM_SYSTEM_CROP);
         } else {
             getActivity().startActivityForResult(intent, CHOOSE_PHOTO_FROM_SYSTEM_CROP);
         }
+    }
+
+    Uri getUriForFile(File file) {
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            String authority = getActivity().getApplicationInfo().packageName + ".selectphotofileprovider";
+            uri = FileProvider.getUriForFile(getActivity().getApplicationContext(), authority, file);
+        } else {
+            uri = Uri.fromFile(file);
+        }
+        return uri;
     }
 
     void handleCropImage(OnGetFileListener onGetFileListener) {
@@ -167,7 +199,7 @@ public abstract class AbsImageSelectHelper {
         if (getQuality() != 100) {
             //进行质量压缩过
             Bitmap bitmap = BitmapFactory.decodeFile(outFile.getAbsolutePath());
-            String compressCropImagePath = getImageDir() + File.separator + UUID.randomUUID().toString() + "_compressCropImage.png";
+            String compressCropImagePath = getImageDir() + File.separator + UUID.randomUUID().toString() + COMPRESS_CROP_IMAGE_NAME;
             File compressFile = getFileFromCompressBitmap(bitmap, new File(compressCropImagePath), getQuality());
             if (compressFile != null && compressFile.exists()) {
                 onGetFileListener.AfterGetFile(compressFile);

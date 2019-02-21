@@ -1,8 +1,8 @@
 package com.llj.lib.image.select;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 
@@ -13,14 +13,14 @@ import java.util.UUID;
  * 从系统拍照返回
  * Created by liulj on 15/12/3.
  */
-public class ImageCaptureHelper extends AbsImageSelectHelper {
+public class ImageCaptureHelper extends ImageSelectHelper {
     private File     mCameraOutFile;
     private Activity mActivity;
     private Fragment mFragment;
 
-    void captureImage(Activity activity) {
-        mActivity = activity;
-        realCaptureImage(activity);
+    void captureImage(Context activity) {
+        mActivity = (Activity) activity;
+        realCaptureImage(mActivity);
     }
 
     void captureImage(Fragment fragment) {
@@ -58,10 +58,12 @@ public class ImageCaptureHelper extends AbsImageSelectHelper {
 
     @Override
     protected Intent createIntent() {
-        mCameraOutFile = makeOutFile();
+        if (mCameraOutFile == null) {
+            mCameraOutFile = makeOutFile();
+        }
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mCameraOutFile));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriForFile(getCameraOutFile()));
         return intent;
     }
 
@@ -73,7 +75,7 @@ public class ImageCaptureHelper extends AbsImageSelectHelper {
             if (getCameraOutFile() == null || !getCameraOutFile().exists()) {
                 return;
             }
-            toSystemCrop(Uri.fromFile(getCameraOutFile()), getOutputSize());
+            toSystemCrop(getCameraOutFile(), getOutputSize());
 
         } else if (requestCode == CHOOSE_PHOTO_FROM_SYSTEM_CROP && resultCode == Activity.RESULT_OK) {
             // 头像裁剪返回
