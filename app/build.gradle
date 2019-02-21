@@ -14,7 +14,7 @@ android {
         versionCode build_versions.version_code
         versionName build_versions.version_name
 
-        resConfigs "en", "xxhdpi"
+        resConfigs "zh", "xxhdpi"
 
         ndk { abiFilters "armeabi-v7a" }
 

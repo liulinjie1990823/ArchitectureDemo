@@ -5,58 +5,78 @@
 
     <uses-sdk tools:overrideLibrary="com.llj.adapter,com.facebook.flipper"/>
 
-    <!-- 用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <!-- 用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <!-- 用于访问网络，网络定位需要上网 -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- 允许程序改变网络连接状态 -->
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <!--日历-->
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
 
-    <!-- 用于读取手机当前的状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!-- 读取扩展存储 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!-- 相机权限 -->
+    <!--相机-->
     <uses-permission android:name="android.permission.CAMERA"/>
-    <!-- 允许一个程序获取信息有关当前或最近运行的任务，一个缩略的任务状态，是否活动等等 -->
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <!-- 拨打电话权限 -->
+
+    <!--通讯录-->
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+
+    <!--定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/><!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/><!-- 用于访问GPS定位 -->
+
+    <!--麦克风-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+    <!--电话-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/> <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <!-- 允许程序读取或写入系统设置 -->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+    <uses-permission android:name="com.android.voicemail.permission.ADD_VOICEMAIL"/>
+    <uses-permission android:name="android.permission.USE_SIP"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+
+    <!--传感器-->
+    <uses-permission android:name="android.permission.BODY_SENSORS"/>
+
+    <!--短信-->
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH"/>
+    <uses-permission android:name="android.permission.RECEIVE_MMS"/>
+
+    <!--存储-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+
+
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <!-- SD卡读取权限，用户写入离线定位数据 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
 
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <!--网络-->
+    <uses-permission android:name="android.permission.INTERNET"/> <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/> <!-- 允许程序改变网络连接状态 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
 
-    <!-- iBeancon功能所需权限 -->
-    <!-- 允许程序连接到已配对的蓝牙设备 -->
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <!-- 允许程序发现和配对蓝牙设备 -->
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
+
+    <!--蓝牙-->
+    <uses-permission android:name="android.permission.BLUETOOTH"/> <!-- 允许程序连接到已配对的蓝牙设备 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/> <!-- 允许程序发现和配对蓝牙设备 -->
 
     <application
         android:name=".AppApplication"
         android:allowBackup="false"
+        android:appComponentFactory="whateverString"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:replace="android:appComponentFactory"
-        android:appComponentFactory="whateverString"
         android:theme="@style/MyAppTheme.NoActionBar"
+        tools:replace="android:appComponentFactory"
         >
 
         <activity
@@ -99,6 +119,7 @@
             android:theme="@style/MyAppTheme.NoActionBar.common"/>
         <activity android:name=".ui.activity.RewardLayoutActivity"/>
         <activity android:name=".ui.activity.EventActivity"/>
+        <activity android:name=".ui.activity.PermissionActivity"/>
 
         <service android:name=".ui.service.LoadingService"/>
     </application>

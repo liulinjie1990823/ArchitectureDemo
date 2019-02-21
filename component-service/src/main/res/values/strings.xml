@@ -2,4 +2,11 @@
     <string name="app_name">Component-service</string>
 
     <string name="service_user_agent">HBHdmp</string>
+
+    <!--权限管理提示-->
+    <string name="permission_dialog_show_title">权限请求</string>
+    <string name="permission_dialog_show_content">请到设置中打开权限</string>
+    <string name="permission_dialog_show_confirm">设置</string>
+    <string name="permission_dialog_show_exit">退出</string>
+    <string name="permission_rationale">需要获得以下权限:\n\n%1$s</string>
 </resources>

@@ -1,7 +1,5 @@
 package com.llj.architecturedemo.ui.activity
 
-import android.Manifest
-import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.widget.LinearLayout
@@ -28,10 +26,6 @@ import com.llj.lib.base.IUiHandler
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.net.response.BaseResponse
-import com.llj.lib.utils.AToastUtils
-import com.llj.lib.utils.helper.Utils
-import com.yanzhenjie.permission.AndPermission
-import com.yanzhenjie.permission.Permission
 
 @Route(path = CRouter.APP_MAIN_ACTIVITY)
 class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
@@ -50,29 +44,6 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-
-        //获取deviceId需要权限
-        AndPermission.with(Utils.getApp())
-                .runtime()
-                .permission(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .onGranted {
-                }
-                .onDenied { permissions ->
-                    AToastUtils.show(permissions?.toString())
-                }
-                .rationale { context, permissions, executor ->
-                    val permissionNames = Permission.transformText(context, permissions)
-                    val message = "读取电话状态"
-
-                    AlertDialog.Builder(context)
-                            .setCancelable(false)
-                            .setTitle("提示")
-                            .setMessage(message)
-                            .setPositiveButton("继续") { dialog, which -> executor.execute() }
-                            .setNegativeButton("取消") { dialog, which -> executor.cancel() }
-                            .show()
-                }
-                .start()
 
         mTabAdapter = UniversalBind.Builder(mLlFooterBar, TabAdapter(null))
                 .build()

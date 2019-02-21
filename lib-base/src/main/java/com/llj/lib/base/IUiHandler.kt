@@ -40,7 +40,7 @@ interface IUiHandler {
         }
     }
 
-    fun getTextStr(textView: TextView): CharSequence {
+    fun getTextStr(textView: TextView): String {
         return ATextUtils.getText(textView)
     }
 

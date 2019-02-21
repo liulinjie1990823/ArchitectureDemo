@@ -50,7 +50,7 @@ public class PermissionUtils {
      *
      * @return
      */
-    public static boolean isCameraCanUse() {
+    private static boolean isCameraCanUse() {
         boolean canUse = true;
         try {
             mCamera = getCamera();
@@ -71,7 +71,7 @@ public class PermissionUtils {
      * @return
      */
 
-    public static boolean isHasCameraPermission() {
+    private static boolean isHasCameraPermission() {
         Field fieldPassword;
         try {
             mCamera = getCamera();

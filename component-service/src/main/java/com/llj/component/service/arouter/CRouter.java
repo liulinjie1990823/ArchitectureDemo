@@ -14,10 +14,11 @@ import com.alibaba.android.arouter.launcher.ARouter;
  */
 public class CRouter {
 
-    public static final String AROUTER_NEED_LOGIN             = "needLogin";
-    public static final String AROUTER_FORWARD_PATH             = "AROUTER_FORWARD_PATH";
+    public static final String AROUTER_NEED_LOGIN   = "needLogin";
+    public static final String AROUTER_FORWARD_PATH = "AROUTER_FORWARD_PATH";
 
     //app
+    public static final String APP_PERMISSION_ACTIVITY        = "/app/PermissionActivity";
     public static final String APP_EVENT_ACTIVITY             = "/app/EventActivity";
     public static final String APP_MAIN_ACTIVITY              = "/app/MainActivity";
     public static final String APP_SECOND_ACTIVITY            = "/app/SecondActivity";

@@ -39,9 +39,9 @@ def versions = [
 ]
 ext {
     build_versions = [
-//            applicationId: "com.llj.architecturedemo",
+            applicationId: "com.llj.architecturedemo",
 //            applicationId: "com.in2magic.atlas.demo",
-            applicationId: "com.china.hunbohui",
+            //applicationId: "com.china.hunbohui",
             compile      : 28,
             build_tools  : "28.0.3",
             min_sdk      : 19,
@@ -169,7 +169,7 @@ ext {
             statelayout               : "com.llj:lib-statelayout:0.0.1",
             universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.13",
             utils                     : "com.llj:lib-utils:0.0.6",
-            statusbar                     : "com.llj:lib-statusbar:0.0.1",
+            statusbar                 : "com.llj:lib-statusbar:0.0.1",
             webView                   : "com.llj:lib-webview:0.0.2",
             //ui
             smartrefresh              : [
