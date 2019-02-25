@@ -102,7 +102,7 @@ dependencies {
     api deps.skin.skin_support_constraint_layout // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
 
     //应用调试
-//    debugImplementation deps.flipper
+    debugImplementation deps.flipper
     //内存检测
     debugImplementation deps.leakcanary.leakcanary_android
     releaseImplementation deps.leakcanary.leakcanary_android_no_op

@@ -2,6 +2,15 @@ package com.llj.component.service
 
 import android.support.annotation.CallSuper
 import com.alibaba.android.arouter.launcher.ARouter
+import com.facebook.flipper.android.AndroidFlipperClient
+import com.facebook.flipper.android.utils.FlipperUtils
+import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin
+import com.facebook.flipper.plugins.inspector.DescriptorMapping
+import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
+import com.facebook.flipper.plugins.leakcanary.LeakCanaryFlipperPlugin
+import com.facebook.flipper.plugins.leakcanary.RecordLeakService
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
+import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
 import com.llj.component.service.preference.UserInfoPreference
 import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.BaseApplication
@@ -11,8 +20,6 @@ import skin.support.SkinCompatManager
 import skin.support.app.SkinCardViewInflater
 import skin.support.constraint.app.SkinConstraintViewInflater
 import skin.support.design.app.SkinMaterialViewInflater
-
-
 
 
 /**
@@ -92,14 +99,20 @@ abstract class ComponentApplication : BaseApplication() {
         //                .build()
         //        Stetho.initialize(build)
 
-//        if (FlipperUtils.shouldEnableFlipper(this)) {
-//            val client = AndroidFlipperClient.getInstance(this)
-//            client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
-//            client.addPlugin(NetworkFlipperPlugin())
-//            client.addPlugin(LeakCanaryFlipperPlugin())
-//            client.addPlugin(SharedPreferencesFlipperPlugin(this, UserInfoPreference.FILE_NAME))
-//            client.start()
-//        }
+        if (FlipperUtils.shouldEnableFlipper(this)) {
+            val client = AndroidFlipperClient.getInstance(this)
+            //布局查看
+            client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
+            //网络
+            client.addPlugin(NetworkFlipperPlugin())
+            //内存管理
+            client.addPlugin(LeakCanaryFlipperPlugin())
+            //文件操作
+            client.addPlugin(SharedPreferencesFlipperPlugin(this, UserInfoPreference.FILE_NAME))
+            //崩溃统计
+            client.addPlugin(CrashReporterPlugin.getInstance())
+            client.start()
+        }
     }
 
     override fun initLeakCanary() {
@@ -111,10 +124,10 @@ abstract class ComponentApplication : BaseApplication() {
             // You should not init your app in this process.
             return
         }
-//        LeakCanary.refWatcher(this)
-//                .listenerServiceClass(RecordLeakService::class.java)
-//                .buildAndInstall()
-        //                LeakCanary.install(this)
+        LeakCanary.refWatcher(this)
+                .listenerServiceClass(RecordLeakService::class.java)
+                .buildAndInstall()
+//        LeakCanary.install(this)
     }
 
     override fun initStrictMode() {

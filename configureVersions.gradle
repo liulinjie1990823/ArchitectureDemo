@@ -87,7 +87,7 @@ ext {
                     rxjava2 : "android.arch.persistence.room:rxjava2:$versions.room",
                     testing : "android.arch.persistence.room:testing:$versions.room",
             ],
-            permission                : "com.yanzhenjie:permission:2.0.0-rc12",
+            permission                : "com.yanzhenjie.permission:support:2.0.0",
             //框架
             dagger                    : [
                     runtime                 : "com.google.dagger:dagger:$versions.dagger",
@@ -96,8 +96,8 @@ ext {
                     android_support         : "com.google.dagger:dagger-android-support:$versions.dagger",
                     android_support_compiler: "com.google.dagger:dagger-android-processor:$versions.dagger",
             ],
-            rxjava2                   : "io.reactivex.rxjava2:rxjava:2.2.6",
-            rxandroid                 : "io.reactivex.rxjava2:rxandroid:2.1.0",
+            rxjava2                   : "io.reactivex.rxjava2:rxjava:2.2.7",
+            rxandroid                 : "io.reactivex.rxjava2:rxandroid:2.1.1",
             autodispose               : [
                     autodispose             : "com.uber.autodispose:autodispose:$versions.autodispose",
                     autodispose_android     : "com.uber.autodispose:autodispose-android:$versions.autodispose",
@@ -143,7 +143,7 @@ ext {
                     stetho_okhttp3      : "com.facebook.stetho:stetho-okhttp3:$versions.stetho",
                     stetho_urlconnection: "com.facebook.stetho:stetho-urlconnection:$versions.stetho",
             ],
-            flipper                   : "com.facebook.flipper:flipper:0.12.0",
+            flipper                   : "com.facebook.flipper:flipper:0.16.2",
             timber                    : "com.jakewharton.timber:timber:4.7.1",
             leakcanary                : [
                     leakcanary_android      : "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary",
@@ -162,10 +162,10 @@ ext {
             component_compiler        : "com.llj:lib-component-compiler:0.0.1",
             imageLoader               : "com.llj:lib-image-loader:0.0.4",
             imageSelect               : "com.llj:lib-image-select:0.0.3",
-            socialization             : "com.llj.socialization:lib-socialization:2.0.2",
-            socialization_qq          : "com.llj:lib-socialization-qq:2.0.2",
-            socialization_sina        : "com.llj:lib-socialization-sina:2.0.2",
-            socialization_wechat      : "com.llj:lib-socialization-wechat:2.0.2",
+            socialization             : "com.llj:lib-socialization:2.0.3",
+            socialization_qq          : "com.llj:lib-socialization-qq:2.0.3",
+            socialization_sina        : "com.llj:lib-socialization-sina:2.0.3",
+            socialization_wechat      : "com.llj:lib-socialization-wechat:2.0.3",
             statelayout               : "com.llj:lib-statelayout:0.0.1",
             universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.13",
             utils                     : "com.llj:lib-utils:0.0.6",
@@ -182,10 +182,10 @@ ext {
                     skin_support_cardview         : "skin.support:skin-support-cardview:$versions.skin",
                     skin_support_constraint_layout: "skin.support:skin-support-constraint-layout:$versions.skin",
             ],
-            constraint_layout         : "com.android.support.constraint:constraint-layout:2.0.0-alpha2",//约束布局
+            constraint_layout         : "com.android.support.constraint:constraint-layout:2.0.0-alpha3",//约束布局
             MagicIndicator            : "com.github.hackware1993:MagicIndicator:1.5.0",//tab
             badgeview                 : "q.rorbin:badgeview:1.1.3",//标签
-            vlayout                   : "com.alibaba.android:vlayout:1.2.18@aar",
+            vlayout                   : "com.alibaba.android:vlayout:1.2.20",
             ExpandableTextView        : "cn.carbs.android:ExpandableTextView:1.0.3",//折叠TextView
             pickerView                : "com.contrarywind:Android-PickerView:3.2.7",//选择城市
             hyman_flowlayout          : "com.hyman:flowlayout-lib:1.1.2",//流式布局

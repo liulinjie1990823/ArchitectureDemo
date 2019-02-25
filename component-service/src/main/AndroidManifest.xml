@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.llj.component.service">
 
+    <application>
+        <service android:name="com.facebook.flipper.plugins.leakcanary.RecordLeakService"/>
+    </application>
+
 </manifest>
