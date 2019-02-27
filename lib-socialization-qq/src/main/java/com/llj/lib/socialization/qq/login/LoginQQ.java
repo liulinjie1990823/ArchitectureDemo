@@ -40,7 +40,7 @@ public class LoginQQ implements ILogin {
 
     @Override
     public void init(Context context, LoginListener listener, boolean fetchUserInfo) {
-        mTencent = Tencent.createInstance(SocialManager.CONFIG.getQqId(), context.getApplicationContext());
+        mTencent = Tencent.createInstance(SocialManager.getConfig(context).getQqId(), context.getApplicationContext());
         mLoginListener = listener;
         mIUiListener = new IUiListener() {
             @Override

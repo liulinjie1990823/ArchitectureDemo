@@ -43,18 +43,53 @@ public class LoginWeChat implements ILogin {
 
     private static final String BASE_URL = "https://api.weixin.qq.com/sns/";
 
-    private IWXAPI        mIWXAPI;
-    private LoginListener mLoginListener;
+    private IWXAPI             mIWXAPI;
+    private Context            mContext;
+    private LoginListener      mLoginListener;
+    private IWXAPIEventHandler mIWXAPIEventHandler;
 
     private OkHttpClient mClient;
     private boolean      mFetchUserInfo;
 
     @Override
     public void init(Context context, LoginListener listener, boolean fetchUserInfo) {
-        mLoginListener = listener;
-        mIWXAPI = WXAPIFactory.createWXAPI(context, SocialManager.CONFIG.getWxId());
-        mClient = new OkHttpClient();
+        this.mContext = context;
+        this.mLoginListener = listener;
+        this.mIWXAPI = WXAPIFactory.createWXAPI(context, SocialManager.getConfig(context).getWxId());
+        this.mClient = new OkHttpClient();
         this.mFetchUserInfo = fetchUserInfo;
+
+        mIWXAPIEventHandler = new IWXAPIEventHandler() {
+            @Override
+            public void onReq(BaseReq baseReq) {
+            }
+
+            @Override
+            public void onResp(BaseResp baseResp) {
+                if (baseResp instanceof SendAuth.Resp && baseResp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
+                    SendAuth.Resp resp = (SendAuth.Resp) baseResp;
+                    switch (resp.errCode) {
+                        case BaseResp.ErrCode.ERR_OK:
+                            getToken(resp.code);
+                            break;
+                        case BaseResp.ErrCode.ERR_USER_CANCEL:
+                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_HAS_CANCEL));
+                            break;
+                        case BaseResp.ErrCode.ERR_SENT_FAILED:
+                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_SENT_FAILED));
+                            break;
+                        case BaseResp.ErrCode.ERR_UNSUPPORT:
+                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_UNSUPPORT));
+                            break;
+                        case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_AUTH_DENIED));
+                            break;
+                        default:
+                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_AUTH_ERROR));
+                    }
+                }
+            }
+        };
     }
 
     @Override
@@ -95,37 +130,7 @@ public class LoginWeChat implements ILogin {
             mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_HAS_CANCEL));
             return;
         }
-        mIWXAPI.handleIntent(data, new IWXAPIEventHandler() {
-            @Override
-            public void onReq(BaseReq baseReq) {
-            }
-
-            @Override
-            public void onResp(BaseResp baseResp) {
-                if (baseResp instanceof SendAuth.Resp && baseResp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
-                    SendAuth.Resp resp = (SendAuth.Resp) baseResp;
-                    switch (resp.errCode) {
-                        case BaseResp.ErrCode.ERR_OK:
-                            getToken(resp.code);
-                            break;
-                        case BaseResp.ErrCode.ERR_USER_CANCEL:
-                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_HAS_CANCEL));
-                            break;
-                        case BaseResp.ErrCode.ERR_SENT_FAILED:
-                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_SENT_FAILED));
-                            break;
-                        case BaseResp.ErrCode.ERR_UNSUPPORT:
-                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_UNSUPPORT));
-                            break;
-                        case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_AUTH_DENIED));
-                            break;
-                        default:
-                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_AUTH_ERROR));
-                    }
-                }
-            }
-        });
+        mIWXAPI.handleIntent(data, mIWXAPIEventHandler);
     }
 
     @Override
@@ -175,9 +180,9 @@ public class LoginWeChat implements ILogin {
     private String buildTokenUrl(String code) {
         return BASE_URL
                 + "oauth2/access_token?appid="
-                + SocialManager.CONFIG.getWxId()
+                + SocialManager.getConfig(mContext).getWxId()
                 + "&secret="
-                + SocialManager.CONFIG.getWxSecret()
+                + SocialManager.getConfig(mContext).getWxSecret()
                 + "&code="
                 + code
                 + "&grant_type=authorization_code";

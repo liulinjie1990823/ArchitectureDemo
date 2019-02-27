@@ -2,7 +2,7 @@
 # 技术选型
 
 
-### 类库选择
+## 类库选择
 
 ##### 注解view
 - butterknife：https://github.com/JakeWharton/butterknife com.jakewharton:butterknife:9.0.0-rc2
@@ -78,3 +78,14 @@
 - 刮奖效果：https://github.com/myinnos/AndroidScratchCard com.github.myinnos:AndroidScratchCard:v1.0
 - 图文混排效果：https://github.com/sendtion/XRichText com.github.sendtion:XRichText:1.8
 - 布局回收优化：https://github.com/facebook/litho
+
+## 插件选择
+- Lombok plugin
+- PGY upload plugin
+- fir.im upload plugin
+- GsonFormat
+- .ignore
+- Markdown
+- kotlin
+- flutter
+- dart

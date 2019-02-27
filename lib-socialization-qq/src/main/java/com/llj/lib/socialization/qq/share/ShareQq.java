@@ -50,12 +50,11 @@ public class ShareQq implements IShare {
     private String  mAppName;
 
     private ShareListener mShareListener;
-
     private IUiListener mIUiListener ;
 
     @Override
     public void init(Context context, ShareListener listener) {
-        mTencent = Tencent.createInstance(SocialManager.CONFIG.getQqId(), context.getApplicationContext());
+        mTencent = Tencent.createInstance(SocialManager.getConfig(context).getQqId(), context.getApplicationContext());
         mShareListener = listener;
 
         mIUiListener = new IUiListener() {
@@ -66,11 +65,13 @@ public class ShareQq implements IShare {
 
             @Override
             public void onError(UiError uiError) {
+                finishActivity(context);
                 mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, uiError.errorMessage));
             }
 
             @Override
             public void onCancel() {
+                finishActivity(context);
                 mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
             }
         };
@@ -161,16 +162,16 @@ public class ShareQq implements IShare {
                     public Void then(Task<String> task) throws Exception {
                         if (task.getError() != null) {
                             Log.e(TAG, Log.getStackTraceString(task.getError()));
-                            ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.share_image_failure));
+                            sendFailure(activity, mShareListener, activity.getString(R.string.share_image_failure));
                             return null;
                         }
                         if (TextUtils.isEmpty(task.getResult())) {
-                            ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
+                            sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
                             return null;
                         }
                         if (!new File(task.getResult()).exists()) {
                             Log.e(TAG, activity.getString(R.string.local_file_does_not_exist));
-                            ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.local_file_does_not_exist));
+                            sendFailure(activity, mShareListener, activity.getString(R.string.local_file_does_not_exist));
                             return null;
                         }
                         params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, task.getResult());
@@ -202,11 +203,11 @@ public class ShareQq implements IShare {
                 .continueWith((Continuation<String, Void>) task -> {
                     if (task.getError() != null) {
                         Logger.e(TAG, task.getError());
-                        ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
+                        sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
                         return null;
                     }
                     if (TextUtils.isEmpty(task.getResult())) {
-                        ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
+                        sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
                         return null;
                     }
                     if (new File(task.getResult()).exists()) {

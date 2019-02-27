@@ -45,13 +45,49 @@ public class ShareWechat implements IShare {
     private static final int TARGET_SIZE = 200;
     private static final int THUMB_SIZE  = 32 * 1024;//32kb的字节（微信的限制）
 
-    private ShareListener mShareListener;
+    private ShareListener      mShareListener;
+    private IWXAPIEventHandler mIWXAPIEventHandler;
 
     @Override
     public void init(Context context, ShareListener listener) {
-        mIWXAPI = WXAPIFactory.createWXAPI(context, SocialManager.CONFIG.getWxId(), true);
-        mIWXAPI.registerApp(SocialManager.CONFIG.getWxId());
+        mIWXAPI = WXAPIFactory.createWXAPI(context, SocialManager.getConfig(context).getWxId(), true);
+        mIWXAPI.registerApp(SocialManager.getConfig(context).getWxId());
         mShareListener = listener;
+
+        mIWXAPIEventHandler = new IWXAPIEventHandler() {
+            @Override
+            public void onReq(BaseReq baseReq) {
+
+            }
+
+            @Override
+            public void onResp(BaseResp baseResp) {
+                Log.e("llj", "onResp:" + "resp.getType():" + baseResp.getType() + "resp.errCode:" + baseResp.errCode + "resp.errStr:" + baseResp.errStr);
+
+                if (ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX == baseResp.getType()) {
+                    //分享
+                    switch (baseResp.errCode) {
+                        case BaseResp.ErrCode.ERR_OK:
+                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
+                            break;
+                        case BaseResp.ErrCode.ERR_USER_CANCEL:
+                            finishActivity(context);
+                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
+                            break;
+                        case BaseResp.ErrCode.ERR_SENT_FAILED:
+                            finishActivity(context);
+                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, baseResp.errStr));
+                            break;
+                        case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_AUTH_DENIED));
+                            break;
+                        default:
+                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, baseResp.errStr));
+                            break;
+                    }
+                }
+            }
+        };
     }
 
     @Override
@@ -119,7 +155,7 @@ public class ShareWechat implements IShare {
                 .continueWith(task -> {
                     if (task.getError() != null) {
                         Logger.e(TAG, task.getError());
-                        ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
+                        sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
                         return null;
                     }
                     if (ShareUtil.isGifPath(task.getResult()) || shareObject.isShareEmoji()) {
@@ -137,11 +173,11 @@ public class ShareWechat implements IShare {
                 .continueWith((Continuation<byte[], Void>) task -> {
                     if (task.getError() != null) {
                         Logger.e(TAG, task.getError());
-                        ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.compress_image_failure));
+                        sendFailure(activity, mShareListener, activity.getString(R.string.compress_image_failure));
                         return null;
                     }
                     if (task.getResult() == null) {
-                        ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.compress_image_failure));
+                        sendFailure(activity, mShareListener, activity.getString(R.string.compress_image_failure));
                         return null;
                     }
                     message.thumbData = task.getResult();
@@ -170,11 +206,11 @@ public class ShareWechat implements IShare {
                 .continueWith((Continuation<byte[], Void>) task -> {
                     if (task.getError() != null) {
                         Logger.e(TAG, task.getError());
-                        ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.compress_image_failure));
+                        sendFailure(activity, mShareListener, activity.getString(R.string.compress_image_failure));
                         return null;
                     }
                     if (task.getResult() == null) {
-                        ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.compress_image_failure));
+                        sendFailure(activity, mShareListener, activity.getString(R.string.compress_image_failure));
                         return null;
                     }
                     message.thumbData = task.getResult();
@@ -185,37 +221,7 @@ public class ShareWechat implements IShare {
 
     @Override
     public void handleResult(int requestCode, int resultCode, Intent data) {
-        mIWXAPI.handleIntent(data, new IWXAPIEventHandler() {
-            @Override
-            public void onReq(BaseReq baseReq) {
-
-            }
-            @Override
-            public void onResp(BaseResp baseResp) {
-                Log.e("llj", "onResp:" + "resp.getType():" + baseResp.getType() + "resp.errCode:" + baseResp.errCode + "resp.errStr:" + baseResp.errStr);
-
-                if (ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX == baseResp.getType()) {
-                    //分享
-                    switch (baseResp.errCode) {
-                        case BaseResp.ErrCode.ERR_OK:
-                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
-                            break;
-                        case BaseResp.ErrCode.ERR_USER_CANCEL:
-                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
-                            break;
-                        case BaseResp.ErrCode.ERR_SENT_FAILED:
-                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, baseResp.errStr));
-                            break;
-                        case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_AUTH_DENIED));
-                            break;
-                        default:
-                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, baseResp.errStr));
-                            break;
-                    }
-                }
-            }
-        });
+        mIWXAPI.handleIntent(data, mIWXAPIEventHandler);
     }
 
     @Override

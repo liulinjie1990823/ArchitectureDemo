@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.llj.socialization.IControl;
 import com.llj.socialization.share.ShareObject;
 import com.llj.socialization.share.callback.ShareListener;
+import com.llj.socialization.share.model.ShareResult;
 
 /**
  * PROJECT:babyphoto_app
@@ -32,5 +33,12 @@ public interface IShare extends IControl {
 
     //web+链接
     void shareWeb(Activity activity, int platform, @NonNull ShareObject shareObject);
+
+
+    default void sendFailure(Context context, ShareListener shareListener, String message) {
+        finishActivity(context);
+        shareListener.onShareResponse(new ShareResult(shareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, message));
+    }
+
 
 }

@@ -31,12 +31,12 @@ import bolts.Task;
  */
 
 public class ShareSina implements ShareSinaCustomInterface {
-    public static final String TAG = ShareSina.class.getSimpleName();
+    public static final String         TAG = ShareSina.class.getSimpleName();
     /**
      * 微博分享限制thumb image必须小于2097152，否则点击分享会没有反应
      */
 
-    private WbShareHandler mWbShareHandler;
+    private             WbShareHandler mWbShareHandler;
 
     private static final int TARGET_SIZE   = 1024;
     private static final int TARGET_LENGTH = 256 * 1024;
@@ -47,9 +47,9 @@ public class ShareSina implements ShareSinaCustomInterface {
 
     @Override
     public void init(Context context, ShareListener listener) {
-        AuthInfo authInfo = new AuthInfo(context, SocialManager.CONFIG.getSignId(),
-                SocialManager.CONFIG.getSignRedirectUrl(),
-                SocialManager.CONFIG.getSignScope());
+        AuthInfo authInfo = new AuthInfo(context, SocialManager.getConfig(context).getSignId(),
+                SocialManager.getConfig(context).getSignRedirectUrl(),
+                SocialManager.getConfig(context).getSignScope());
         WbSdk.install(context, authInfo);
 
         mWbShareHandler = new WbShareHandler((Activity) context);
@@ -64,14 +64,17 @@ public class ShareSina implements ShareSinaCustomInterface {
             }
 
             @Override
-            public void onWbShareCancel() {
-                mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
+            public void onWbShareFail() {
+                finishActivity(context);
+                mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE));
             }
 
             @Override
-            public void onWbShareFail() {
-                mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE));
+            public void onWbShareCancel() {
+                finishActivity(context);
+                mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
             }
+
         };
     }
 
@@ -161,14 +164,12 @@ public class ShareSina implements ShareSinaCustomInterface {
 
     @Override
     public void handleResult(int requestCode, int resultCode, Intent data) {
-        if (ShareUtil.mShareListenerWrap != null) {
-            mWbShareHandler.doResultIntent(data, mWbShareCallback);
-        }
+        mWbShareHandler.doResultIntent(data, mWbShareCallback);
     }
 
     @Override
     public boolean isInstalled(Context context) {
-        return  WbSdk.isWbInstall(context);
+        return WbSdk.isWbInstall(context);
     }
 
     @Override

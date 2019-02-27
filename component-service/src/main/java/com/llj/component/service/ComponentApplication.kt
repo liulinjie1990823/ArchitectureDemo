@@ -1,5 +1,6 @@
 package com.llj.component.service
 
+import android.content.Context
 import android.support.annotation.CallSuper
 import com.alibaba.android.arouter.launcher.ARouter
 import com.facebook.flipper.android.AndroidFlipperClient
@@ -20,6 +21,7 @@ import skin.support.SkinCompatManager
 import skin.support.app.SkinCardViewInflater
 import skin.support.constraint.app.SkinConstraintViewInflater
 import skin.support.design.app.SkinMaterialViewInflater
+import java.util.*
 
 
 /**
@@ -108,7 +110,10 @@ abstract class ComponentApplication : BaseApplication() {
             //内存管理
             client.addPlugin(LeakCanaryFlipperPlugin())
             //文件操作
-            client.addPlugin(SharedPreferencesFlipperPlugin(this, UserInfoPreference.FILE_NAME))
+            val descriptors = ArrayList<SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor>()
+            descriptors.add(SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor(UserInfoPreference.FILE_NAME, Context.MODE_PRIVATE))
+            descriptors.add(SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor("SocialConfig", Context.MODE_PRIVATE))
+            client.addPlugin(SharedPreferencesFlipperPlugin(this, descriptors))
             //崩溃统计
             client.addPlugin(CrashReporterPlugin.getInstance())
             client.start()
@@ -127,7 +132,7 @@ abstract class ComponentApplication : BaseApplication() {
         LeakCanary.refWatcher(this)
                 .listenerServiceClass(RecordLeakService::class.java)
                 .buildAndInstall()
-//        LeakCanary.install(this)
+        //        LeakCanary.install(this)
     }
 
     override fun initStrictMode() {

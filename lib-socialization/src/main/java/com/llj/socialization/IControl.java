@@ -1,5 +1,6 @@
 package com.llj.socialization;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -18,4 +19,11 @@ public interface IControl {
 
     //垃圾回收
     void recycle();
+
+    default void finishActivity(Context context) {
+        Activity activity = (Activity) context;
+        if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity.isDestroyed()) {
+            activity.finish();
+        }
+    }
 }

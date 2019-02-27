@@ -34,9 +34,9 @@ public class LoginSina implements ILogin {
 
     @Override
     public void init(Context context, LoginListener listener, boolean fetchUserInfo) {
-        AuthInfo authInfo = new AuthInfo(context, SocialManager.CONFIG.getSignId(),
-                SocialManager.CONFIG.getSignRedirectUrl(),
-                SocialManager.CONFIG.getSignScope());
+        AuthInfo authInfo = new AuthInfo(context, SocialManager.getConfig(context).getSignId(),
+                SocialManager.getConfig(context).getSignRedirectUrl(),
+                SocialManager.getConfig(context).getSignScope());
         WbSdk.install(context, authInfo);
 
         mSsoHandler = new SsoHandler((Activity) context);
@@ -76,7 +76,7 @@ public class LoginSina implements ILogin {
     }
 
     public void fetchUserInfo(Context context, final BaseToken token, Oauth2AccessToken accessToken) {
-        UsersAPI mUsersAPI = new UsersAPI(context, SocialManager.CONFIG.getSignId(), accessToken);
+        UsersAPI mUsersAPI = new UsersAPI(context, SocialManager.getConfig(context).getSignId(), accessToken);
 //        mUsersAPI.show(Long.parseLong(accessToken.getUid()), new RequestListener() {
 //            @Override
 //            public void onComplete(String response) {

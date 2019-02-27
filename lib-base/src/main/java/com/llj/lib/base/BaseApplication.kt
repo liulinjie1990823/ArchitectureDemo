@@ -43,8 +43,9 @@ abstract class BaseApplication : Application(),
     @CallSuper
     override fun onCreate() {
         super.onCreate()
+        Utils.init(this)
+
         if (AActivityManagerUtils.isRunningProcess(this)) {
-            Utils.init(this)
             initDisplay() // 初始化屏幕宽高信息
             initSavePath() // 初始化文件存储路径
 

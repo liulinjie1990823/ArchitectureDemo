@@ -45,9 +45,10 @@ class AppApplication : ComponentApplication() {
                 .call()
 
         //分享
-        val config = SocialConfig.instance().qqId("1103566659")
+        val config = SocialConfig.Builder(this, true).qqId("1103566659")
                 .wx("wx78b27fadc81b6df4", "022fa45d435d7845179b6ae8d1912690")
                 .sign("1476913513", "http://www.jiehun.com.cn/api/weibo/_grant", SocialConstants.SCOPE)
+                .build()
         SocialManager.init(config)
 
         CrashReport.initCrashReport(applicationContext, "a0ed9c00ad", false)

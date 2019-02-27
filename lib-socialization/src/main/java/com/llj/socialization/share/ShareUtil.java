@@ -24,7 +24,7 @@ import bolts.Continuation;
 import bolts.Task;
 
 /**
- * PROJECT:babyphoto_app
+ * PROJECT:
  * DESCRIBE:
  * Created by llj on 2017/1/18.
  */
@@ -36,7 +36,7 @@ public class ShareUtil {
     private static IShare        sIShare;
     public static  ShareListener mShareListenerWrap;
 
-    private static int mType;
+    private static       int mType;
     private final static int TYPE_TITLE       = 1;
     private final static int TYPE_DESCRIPTION = 2;
     private final static int TYPE_TEXT        = 3;
@@ -48,9 +48,11 @@ public class ShareUtil {
     private static ShareObject mShareObject;
 
 
-    public static void sendFailure(Context context, ShareListener shareListener, String message) {
-        if (context instanceof Activity) {
-            ((Activity) context).finish();
+    //在未打开回调页之前就判断参数是否合法
+    private static void sendFailure(Context context, ShareListener shareListener, String message) {
+        Activity activity = (Activity) context;
+        if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity.isDestroyed()) {
+            activity.finish();
         }
         shareListener.onShareResponse(new ShareResult(shareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, message));
     }
@@ -174,6 +176,7 @@ public class ShareUtil {
         }
     }
 
+    //通过反射获取类
     private static IShare getPlatform(@SharePlatformType.Platform int platform, Context context) {
 
         Class clazz;
@@ -198,7 +201,7 @@ public class ShareUtil {
                     break;
             }
             share = (IShare) clazz.newInstance();
-            share.init(context,mShareListenerWrap);
+            share.init(context, mShareListenerWrap);
         } catch (Exception e) {
         }
         return share;

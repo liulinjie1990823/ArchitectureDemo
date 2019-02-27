@@ -29,14 +29,47 @@ import java.util.Locale;
 
 public class PayWechat implements IPay {
 
-    private        IWXAPI      mIWXAPI;
-    private static PayListener mPayListener;
+    private IWXAPI mIWXAPI;
+
+    private PayListener        mPayListener;
+    private IWXAPIEventHandler mIWXAPIEventHandler;
 
 
     @Override
     public void init(Context context, PayListener listener) {
-        mIWXAPI = WXAPIFactory.createWXAPI(context, SocialManager.CONFIG.getWxId());
+        mIWXAPI = WXAPIFactory.createWXAPI(context, SocialManager.getConfig(context).getWxId());
         mPayListener = listener;
+
+        mIWXAPIEventHandler = new IWXAPIEventHandler() {
+            @Override
+            public void onReq(BaseReq baseReq) {
+            }
+
+            @Override
+            public void onResp(BaseResp baseResp) {
+                if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+                    switch (baseResp.errCode) {
+                        case BaseResp.ErrCode.ERR_OK:
+                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_SUCCESS));
+                            break;
+                        case BaseResp.ErrCode.ERR_USER_CANCEL:
+                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_HAS_CANCEL));
+                            break;
+                        case BaseResp.ErrCode.ERR_SENT_FAILED:
+                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_SENT_FAILED));
+                            break;
+                        case BaseResp.ErrCode.ERR_UNSUPPORT:
+                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_UNSUPPORT));
+                            break;
+                        case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_AUTH_DENIED));
+                            break;
+                        default:
+                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_AUTH_ERROR));
+                    }
+                }
+            }
+        };
     }
 
     @Override
@@ -103,36 +136,7 @@ public class PayWechat implements IPay {
 
     @Override
     public void handleResult(int requestCode, int resultCode, Intent data) {
-        mIWXAPI.handleIntent(data, new IWXAPIEventHandler() {
-            @Override
-            public void onReq(BaseReq baseReq) {
-            }
-
-            @Override
-            public void onResp(BaseResp baseResp) {
-                if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-                    switch (baseResp.errCode) {
-                        case BaseResp.ErrCode.ERR_OK:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_SUCCESS));
-                            break;
-                        case BaseResp.ErrCode.ERR_USER_CANCEL:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_HAS_CANCEL));
-                            break;
-                        case BaseResp.ErrCode.ERR_SENT_FAILED:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_SENT_FAILED));
-                            break;
-                        case BaseResp.ErrCode.ERR_UNSUPPORT:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_UNSUPPORT));
-                            break;
-                        case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_AUTH_DENIED));
-                            break;
-                        default:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_AUTH_ERROR));
-                    }
-                }
-            }
-        });
+        mIWXAPI.handleIntent(data, mIWXAPIEventHandler);
     }
 
     @Override

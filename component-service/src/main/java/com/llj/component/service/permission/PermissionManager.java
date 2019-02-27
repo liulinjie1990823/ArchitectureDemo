@@ -5,7 +5,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.runtime.Permission;
 
 import java.util.ArrayList;
 import java.util.List;

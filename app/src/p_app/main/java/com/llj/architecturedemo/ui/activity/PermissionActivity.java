@@ -42,6 +42,7 @@ public class PermissionActivity extends MvcBaseActivity {
                 .setLinearLayoutManager()
                 .build().getAdapter();
 
+
         List<String> items = new ArrayList<>();
         items.add("日历");
         items.add("相机");

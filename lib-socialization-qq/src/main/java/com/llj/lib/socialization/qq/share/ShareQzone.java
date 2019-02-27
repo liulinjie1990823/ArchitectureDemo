@@ -55,7 +55,7 @@ public class ShareQzone implements ShareQzoneInterface {
 
     @Override
     public void init(Context context, ShareListener listener) {
-        mTencent = Tencent.createInstance(SocialManager.CONFIG.getQqId(), context.getApplicationContext());
+        mTencent = Tencent.createInstance(SocialManager.getConfig(context).getQqId(), context.getApplicationContext());
         mShareListener = listener;
 
         mIUiListener = new IUiListener() {
@@ -66,11 +66,13 @@ public class ShareQzone implements ShareQzoneInterface {
 
             @Override
             public void onError(UiError uiError) {
+                finishActivity(context);
                 mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, uiError.errorMessage));
             }
 
             @Override
             public void onCancel() {
+                finishActivity(context);
                 mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
             }
         };
@@ -182,6 +184,11 @@ public class ShareQzone implements ShareQzoneInterface {
      */
     @Override
     public void shareImage(Activity activity, int platform, @NonNull ShareObject shareObject) {
+        shareImageCustomer(activity, platform, shareObject);
+    }
+
+    //本身sdk并不支持分享纯图到qq空间
+    public void shareImageOffical(Activity activity, int platform, @NonNull ShareObject shareObject) {
         final Bundle params = new Bundle();
         params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE);
 
@@ -198,20 +205,53 @@ public class ShareQzone implements ShareQzoneInterface {
                     public Void then(Task<String> task) throws Exception {
                         if (task.getError() != null) {
                             Log.e(TAG, Log.getStackTraceString(task.getError()));
-                            ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.share_image_failure));
+                            sendFailure(activity, mShareListener, activity.getString(R.string.share_image_failure));
                             return null;
                         }
                         if (TextUtils.isEmpty(task.getResult())) {
-                            ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
+                            sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
                             return null;
                         }
                         if (!new File(task.getResult()).exists()) {
                             Log.e(TAG, activity.getString(R.string.local_file_does_not_exist));
-                            ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.local_file_does_not_exist));
+                            sendFailure(activity, mShareListener, activity.getString(R.string.local_file_does_not_exist));
                             return null;
                         }
                         params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, task.getResult());
                         shareToQzone(activity, params);
+                        return null;
+                    }
+                }, Task.UI_THREAD_EXECUTOR);
+    }
+
+    //特殊的方法分享纯图到qq空间
+    private void shareImageCustomer(Activity activity, int platform, @NonNull ShareObject shareObject) {
+        Bundle params = new Bundle();
+
+        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);  //注意，要向qq空间分享纯图片，只能传这三个参数，不能传其他的
+        params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
+
+        Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+                .continueWith(new Continuation<String, Void>() {
+                    @Override
+                    public Void then(Task<String> task) throws Exception {
+                        if (task.getError() != null) {
+                            Log.e(TAG, Log.getStackTraceString(task.getError()));
+                            sendFailure(activity, mShareListener, activity.getString(R.string.share_image_failure));
+                            return null;
+                        }
+                        if (TextUtils.isEmpty(task.getResult())) {
+                            sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
+                            return null;
+                        }
+                        if (!new File(task.getResult()).exists()) {
+                            Log.e(TAG, activity.getString(R.string.local_file_does_not_exist));
+                            sendFailure(activity, mShareListener, activity.getString(R.string.local_file_does_not_exist));
+                            return null;
+                        }
+                        params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, task.getResult()); //localImgUrl必须是本地手机图片地址
+
+                        mTencent.shareToQQ(activity, params, mIUiListener);
                         return null;
                     }
                 }, Task.UI_THREAD_EXECUTOR);
@@ -247,11 +287,11 @@ public class ShareQzone implements ShareQzoneInterface {
                 .continueWith((Continuation<String, Void>) task -> {
                     if (task.getError() != null) {
                         Logger.e(task.getError());
-                        ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
+                        sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
                         return null;
                     }
                     if (TextUtils.isEmpty(task.getResult())) {
-                        ShareUtil.sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
+                        sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
                         return null;
                     }
                     imageUrls.add(task.getResult());

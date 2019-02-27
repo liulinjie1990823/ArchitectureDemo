@@ -32,14 +32,15 @@ class ShareActivity : MvcBaseActivity() {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+//        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
     override fun initData() {
     }
 
     private class MyShareListener : ShareListener {
+
 
         private var mActivity: WeakReference<MvcBaseActivity>
 
