@@ -85,7 +85,7 @@
 - fir.im upload plugin
 - GsonFormat
 - .ignore
-- Markdown
-- kotlin
-- flutter
-- dart
+- Markdown Navigator
+- Kotlin
+- Flutter
+- Dart
