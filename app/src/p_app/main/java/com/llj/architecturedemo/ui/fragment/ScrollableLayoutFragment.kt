@@ -109,7 +109,7 @@ class ScrollableLayoutFragment : ADMvpBaseFragment<ScrollableLayoutPresenter>(),
 
     }
 
-    override fun getParams(): HashMap<String, Any> {
+    override fun getParams1(): HashMap<String, Any> {
         return HashMap()
     }
 
@@ -175,7 +175,7 @@ class ScrollableLayoutFragment : ADMvpBaseFragment<ScrollableLayoutPresenter>(),
     }
 
     private var mAdapters = MergedUniversalAdapter()
-    override fun onDataSuccess(result: BaseResponse<List<BabyHomeModuleVo?>?>) {
+    override fun onDataSuccess1(result: BaseResponse<List<BabyHomeModuleVo?>?>) {
         mRefreshLayout.finishRefresh()
 
         mAdapters = MergedUniversalAdapter()
@@ -285,8 +285,7 @@ class ScrollableLayoutFragment : ADMvpBaseFragment<ScrollableLayoutPresenter>(),
         }
     }
 
-    override fun onDataError(e: Throwable) {
-
+    override fun onDataError(tag: Int, e: Throwable) {
     }
 
     private fun initBottomView(babyHomeModuleVo: BabyHomeModuleVo) {

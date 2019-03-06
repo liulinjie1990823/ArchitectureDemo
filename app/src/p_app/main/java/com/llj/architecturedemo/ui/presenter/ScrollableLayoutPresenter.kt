@@ -38,13 +38,13 @@ class ScrollableLayoutPresenter @Inject constructor(repository: HomeRepository, 
 
             override fun onSuccess(response: BaseResponse<List<BabyHomeModuleVo?>?>) {
                 super.onSuccess(response)
-                mView.onDataSuccess(response)
+                mView.onDataSuccess1(response)
 
             }
 
             override fun onError(t: Throwable) {
                 super.onError(t)
-                mView.onDataError(t)
+                mView.onDataError(-1,t)
             }
         }
 

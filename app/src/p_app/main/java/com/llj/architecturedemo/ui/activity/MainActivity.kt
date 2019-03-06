@@ -153,13 +153,13 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         mTabAdapter.onItemRangeChanged(hidePosition, 1)
     }
 
-    override fun getParams(): HashMap<String, Any> {
+    override fun getParams1(): HashMap<String, Any> {
         return HashMap()
     }
 
-    override fun onDataSuccess(result: BaseResponse<TabListVo?>) {
+    override fun onDataSuccess1(result: BaseResponse<TabListVo?>) {
     }
 
-    override fun onDataError(e: Throwable) {
+    override fun onDataError(tag: Int, e: Throwable) {
     }
 }

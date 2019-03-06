@@ -8,12 +8,15 @@ import java.util.*
  * author liulj
  * date 2018/6/28
  */
-interface IBaseActivityView1<T> : IBaseActivityView {
+interface IBaseActivityComposeView2<T1, T2> : IBaseActivityView {
 
     fun getParams1(): HashMap<String, Any>
+    fun onDataSuccess1(result: T1)
 
-    fun onDataSuccess1(result: T)
+    fun getParams2(): HashMap<String, Any>
+    fun onDataSuccess2(result: T2)
 
     fun onDataError(tag: Int, e: Throwable)
+
 
 }

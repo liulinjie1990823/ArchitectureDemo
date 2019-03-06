@@ -21,7 +21,7 @@ class MainPresenter @Inject constructor(repository: HomeRepository, view: MainCo
 
     //获取二维码信息
     fun getTabBar(isShowDialog: Boolean) {
-        var single = mRepository!!.getTabBar(mView.getParams())
+        var single = mRepository!!.getTabBar(mView.getParams1())
 
         if (isShowDialog) {
             single = single.doOnSubscribe(mView).doFinally(mView)
@@ -38,13 +38,13 @@ class MainPresenter @Inject constructor(repository: HomeRepository, view: MainCo
 
             override fun onSuccess(response: BaseResponse<TabListVo?>) {
                 super.onSuccess(response)
-                mView.onDataSuccess(response)
+                mView.onDataSuccess1(response)
 
             }
 
             override fun onError(t: Throwable) {
                 super.onError(t)
-                mView.onDataError(t)
+                mView.onDataError(-1,t)
             }
         }
 
