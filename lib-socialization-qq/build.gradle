@@ -1,8 +1,6 @@
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.support.annotations
-    implementation deps.support.app_compat
     implementation deps.bolts
     api project(':lib-socialization')
 

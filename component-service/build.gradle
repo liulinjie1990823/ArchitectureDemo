@@ -10,12 +10,12 @@ kapt {
 }
 
 android {
-    compileSdkVersion build_versions.compile
-    buildToolsVersion build_versions.build_tools
+    compileSdkVersion build_versions.compileSdkVersion
+    buildToolsVersion build_versions.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion build_versions.min_sdk
-        targetSdkVersion build_versions.target_sdk
+        minSdkVersion build_versions.minSdkVersion
+        targetSdkVersion build_versions.targetSdkVersion
     }
 
     buildTypes {
@@ -27,8 +27,8 @@ android {
         type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
     }
     compileOptions {
-        targetCompatibility build_versions.compile_jdk
-        sourceCompatibility build_versions.compile_jdk
+        targetCompatibility build_versions.compileJdkVersion
+        sourceCompatibility build_versions.compileJdkVersion
     }
     lintOptions {
         abortOnError false
@@ -37,7 +37,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api deps.arouter.api
+    api deps.arouter_api
     api deps.permission
     implementation deps.walle
 
@@ -80,36 +80,36 @@ dependencies {
 
 
     //imageLoader
-    api deps.fresco.fresco
-    api deps.fresco.animated_gif
-    api deps.fresco.animated_webp
-    api deps.fresco.webpsupport
-    api deps.fresco.imagepipeline_okhttp3
+    api deps.fresco
+    api deps.fresco_animated_gif
+    api deps.fresco_animated_webp
+    api deps.fresco_webpsupport
+    api deps.fresco_imagepipeline_okhttp3
 
     //ui
-    api deps.smartrefresh.SmartRefreshLayout
+    api deps.SmartRefreshLayout
     api deps.MagicIndicator
     api deps.vlayout
     api deps.AutoScrollViewPager
-    api deps.support.design
-    api deps.support.recyclerview
+    api deps.support_design
+    api deps.support_recyclerview_v7
     api deps.constraint_layout
 
     //skin
-    api deps.skin.skin_support                   // skin-support 基础控件支持
-    api deps.skin.skin_support_design            // skin-support-design material design 控件支持[可选]
-    api deps.skin.skin_support_cardview          // skin-support-cardview CardView 控件支持[可选]
-    api deps.skin.skin_support_constraint_layout // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
+    api deps.skin_support                   // skin-support 基础控件支持
+    api deps.skin_support_design            // skin-support-design material design 控件支持[可选]
+    api deps.skin_support_cardview          // skin-support-cardview CardView 控件支持[可选]
+    api deps.skin_support_constraint_layout // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
 
     //应用调试
     debugImplementation deps.flipper
     //内存检测
-    debugImplementation deps.leakcanary.leakcanary_android
-    releaseImplementation deps.leakcanary.leakcanary_android_no_op
+    debugImplementation deps.leakcanary_android
+    releaseImplementation deps.leakcanary_android_no_op
 
-    kapt deps.butterknife.compiler
-    kapt deps.dagger.compiler
-    kapt deps.dagger.android_support_compiler
+    kapt deps.butterknife_compiler
+    kapt deps.dagger_compiler
+    kapt deps.dagger_android_support_compiler
 
 
 }

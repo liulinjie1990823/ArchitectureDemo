@@ -1,6 +1,6 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.support.app_compat
+
     if (useMaven) {
         api deps.component_annotation
     } else {

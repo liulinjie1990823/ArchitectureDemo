@@ -41,18 +41,18 @@ subprojects {
         //android
         if (it.name != 'app') {
             android {
-                compileSdkVersion build_versions.compile
-                buildToolsVersion build_versions.build_tools
+                compileSdkVersion build_versions.compileSdkVersion
+                buildToolsVersion build_versions.buildToolsVersion
 
                 defaultConfig {
                     if (isApplication) {
                         applicationId build_versions.applicationId
                     }
-                    minSdkVersion build_versions.min_sdk
-                    targetSdkVersion build_versions.target_sdk
+                    minSdkVersion build_versions.minSdkVersion
+                    targetSdkVersion build_versions.targetSdkVersion
 
-                    versionCode build_versions.version_code
-                    versionName build_versions.version_name
+                    versionCode build_versions.versionCode
+                    versionName build_versions.versionName
 
                     resConfigs "en", "xxhdpi"
 
@@ -70,8 +70,8 @@ subprojects {
                     type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
                 }
                 compileOptions {
-                    targetCompatibility build_versions.compile_jdk
-                    sourceCompatibility build_versions.compile_jdk
+                    targetCompatibility build_versions.compileJdkVersion
+                    sourceCompatibility build_versions.compileJdkVersion
                 }
                 lintOptions {
                     abortOnError false
@@ -88,17 +88,17 @@ subprojects {
             implementation fileTree(include: ['*.jar'], dir: 'libs')
             api project(':component-service')
 
-            kapt deps.dagger.compiler
-            kapt deps.dagger.android_support_compiler
+            kapt deps.dagger_compiler
+            kapt deps.dagger_android_support_compiler
 
             //lifecycle
-            kapt deps.lifecycle.compiler
+            kapt deps.lifecycle_compiler
             //db
-            kapt deps.room.compiler
+            kapt deps.room_compiler
             //butterknife
-            kapt deps.butterknife.compiler
+            kapt deps.butterknife_compiler
             //跳转路由
-            kapt deps.arouter.compiler
+            kapt deps.arouter_compiler
         }
     }
 }

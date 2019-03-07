@@ -12,12 +12,12 @@ subprojects {
         apply plugin: 'com.android.library'
 
         android {
-            compileSdkVersion build_versions.compile
-            buildToolsVersion build_versions.build_tools
+            compileSdkVersion build_versions.compileSdkVersion
+            buildToolsVersion build_versions.buildToolsVersion
 
             defaultConfig {
-                minSdkVersion build_versions.min_sdk
-                targetSdkVersion build_versions.target_sdk
+                minSdkVersion build_versions.minSdkVersion
+                targetSdkVersion build_versions.targetSdkVersion
             }
 
             buildTypes {
@@ -30,8 +30,8 @@ subprojects {
                 type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
             }
             compileOptions {
-                targetCompatibility build_versions.compile_jdk
-                sourceCompatibility build_versions.compile_jdk
+                targetCompatibility build_versions.compileJdkVersion
+                sourceCompatibility build_versions.compileJdkVersion
             }
             lintOptions {
                 abortOnError false
@@ -41,6 +41,12 @@ subprojects {
                 exclude 'META-INF/androidx.core_core.version'
                 exclude 'META-INF/androidx.versionedparcelable_versionedparcelable.version'
             }
+        }
+        dependencies {
+            implementation fileTree(dir: 'libs', include: ['*.jar'])
+            implementation deps.support_support_annotations
+            implementation deps.support_recyclerview_v7
+            implementation deps.support_appcompat_v7
         }
     }
 }

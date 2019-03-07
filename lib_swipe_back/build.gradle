@@ -1,6 +1,6 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.support.recyclerview
+    implementation deps.support_recyclerview_v7
 }
 
 apply from: "../uploadArchives.gradle"

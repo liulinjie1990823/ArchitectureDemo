@@ -39,163 +39,157 @@ def versions = [
 ]
 ext {
     build_versions = [
-//            applicationId: "com.llj.architecturedemo",
-//            applicationId: "com.in2magic.atlas.demo",
-            applicationId: "com.china.hunbohui",
-            compile      : 28,
-            build_tools  : "28.0.3",
-            min_sdk      : 19,
-            target_sdk   : 28,
-            version_code : 100,
-            version_name : "1.0.0",
-            compile_jdk  : 1.8,
+            applicationId    : "com.china.hunbohui",
+            compileJdkVersion: 1.8,
+            compileSdkVersion: 28,
+            buildToolsVersion: "28.0.3",
+            minSdkVersion    : 19,
+            targetSdkVersion : 28,
+            versionCode      : 100,
+            versionName      : "1.0.0",
     ]
     deps = [
             //插件
-            android_gradle_plugin     : "com.android.tools.build:gradle:$versions.android_gradle_plugin",
-            butterknife_gradle_plugin : "com.jakewharton:butterknife-gradle-plugin:$versions.butterknife",
-            kotlin_gradle_plugin      : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
-            bintray_release_plugin    : "com.novoda:bintray-release:$versions.bintray_release",
-            walle_plugin              : "com.meituan.android.walle:plugin:$versions.walle",
+            android_gradle_plugin             : "com.android.tools.build:gradle:$versions.android_gradle_plugin",
+            butterknife_gradle_plugin         : "com.jakewharton:butterknife-gradle-plugin:$versions.butterknife",
+            kotlin_gradle_plugin              : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+            bintray_release_plugin            : "com.novoda:bintray-release:$versions.bintray_release",
+            walle_plugin                      : "com.meituan.android.walle:plugin:$versions.walle",
             //语言
-            kotlin                    : [
-                    stdlib_jdk7: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
-                    stdlib_jdk8: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin",
-            ],
-            //分包
-            multidex                  : "com.android.support:multidex:1.0.3",
-            multidex_instrumentation  : "com.android.support:multidex-instrumentation:1.0.3",
-            //支持库
-            support                   : [
-                    annotations : "com.android.support:support-annotations:$versions.support",
-                    app_compat  : "com.android.support:appcompat-v7:$versions.support",
-                    recyclerview: "com.android.support:recyclerview-v7:$versions.support",
-                    cardview    : "com.android.support:cardview-v7:$versions.support",
-                    design      : "com.android.support:design:$versions.support",
-                    v4          : "com.android.support:support-v4:$versions.support",
-                    core_utils  : "com.android.support:support-core-utils:$versions.support",
-            ],
-            lifecycle                 : [
-                    runtime   : "android.arch.lifecycle:runtime:$versions.lifecycle",
-                    extensions: "android.arch.lifecycle:extensions:$versions.lifecycle",
-                    java8     : "android.arch.lifecycle:common-java8:$versions.lifecycle",
-                    compiler  : "android.arch.lifecycle:compiler:$versions.lifecycle",
-            ],
-            room                      : [
-                    runtime : "android.arch.persistence.room:runtime:$versions.room",
-                    compiler: "android.arch.persistence.room:compiler:$versions.room",
-                    rxjava2 : "android.arch.persistence.room:rxjava2:$versions.room",
-                    testing : "android.arch.persistence.room:testing:$versions.room",
-            ],
-            permission                : "com.yanzhenjie.permission:support:2.0.1",
-            //框架
-            dagger                    : [
-                    runtime                 : "com.google.dagger:dagger:$versions.dagger",
-                    compiler                : "com.google.dagger:dagger-compiler:$versions.dagger",
-                    android                 : "com.google.dagger:dagger-android:$versions.dagger",
-                    android_support         : "com.google.dagger:dagger-android-support:$versions.dagger",
-                    android_support_compiler: "com.google.dagger:dagger-android-processor:$versions.dagger",
-            ],
-            rxjava2                   : "io.reactivex.rxjava2:rxjava:2.2.7",
-            rxandroid                 : "io.reactivex.rxjava2:rxandroid:2.1.1",
-            autodispose               : [
-                    autodispose             : "com.uber.autodispose:autodispose:$versions.autodispose",
-                    autodispose_android     : "com.uber.autodispose:autodispose-android:$versions.autodispose",
-                    autodispose_android_arch: "com.uber.autodispose:autodispose-android-archcomponents:$versions.autodispose",
-            ],
+            kotlin_stdlib_jdk7                : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
+            kotlin_stdlib_jdk8                : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin",
 
-            walle                     : "com.meituan.android.walle:library:$versions.walle",
-            arouter                   : [
-                    api     : "com.alibaba:arouter-api:$versions.arouter_api",
-                    compiler: "com.alibaba:arouter-compiler:$versions.arouter_compiler",
-            ],
-            butterknife               : [
-                    runtime : "com.jakewharton:butterknife:$versions.butterknife",
-                    compiler: "com.jakewharton:butterknife-compiler:$versions.butterknife",
-            ],
+            //分包
+            multidex                          : "com.android.support:multidex:1.0.3",
+            multidex_instrumentation          : "com.android.support:multidex-instrumentation:1.0.3",
+
+            //支持库
+            support_support_annotations       : "com.android.support:support-annotations:$versions.support",
+            support_appcompat_v7              : "com.android.support:appcompat-v7:$versions.support",
+            support_recyclerview_v7           : "com.android.support:recyclerview-v7:$versions.support",
+            support_cardview_v7               : "com.android.support:cardview-v7:$versions.support",
+            support_design                    : "com.android.support:design:$versions.support",
+            support_support_v4                : "com.android.support:support-v4:$versions.support",
+            support_support_core_utils        : "com.android.support:support-core-utils:$versions.support",
+
+            //lifecycle
+            lifecycle_runtime                 : "android.arch.lifecycle:runtime:$versions.lifecycle",
+            lifecycle_extensions              : "android.arch.lifecycle:extensions:$versions.lifecycle",
+            lifecycle_java8                   : "android.arch.lifecycle:common-java8:$versions.lifecycle",
+            lifecycle_compiler                : "android.arch.lifecycle:compiler:$versions.lifecycle",
+
+            //room
+            room_runtime                      : "android.arch.persistence.room:runtime:$versions.room",
+            room_compiler                     : "android.arch.persistence.room:compiler:$versions.room",
+            room_rxjava2                      : "android.arch.persistence.room:rxjava2:$versions.room",
+            room_testing                      : "android.arch.persistence.room:testing:$versions.room",
+
+            permission                        : "com.yanzhenjie.permission:support:2.0.1",
+
+            //框架
+            dagger                            : "com.google.dagger:dagger:$versions.dagger",
+            dagger_compiler                   : "com.google.dagger:dagger-compiler:$versions.dagger",
+            dagger_android                    : "com.google.dagger:dagger-android:$versions.dagger",
+            dagger_android_support            : "com.google.dagger:dagger-android-support:$versions.dagger",
+            dagger_android_support_compiler  : "com.google.dagger:dagger-android-processor:$versions.dagger",
+
+            rxjava2                           : "io.reactivex.rxjava2:rxjava:2.2.7",
+            rxandroid                         : "io.reactivex.rxjava2:rxandroid:2.1.1",
+
+            autodispose                       : "com.uber.autodispose:autodispose:$versions.autodispose",
+            autodispose_android               : "com.uber.autodispose:autodispose-android:$versions.autodispose",
+            autodispose_android_archcomponents: "com.uber.autodispose:autodispose-android-archcomponents:$versions.autodispose",
+
+            walle                             : "com.meituan.android.walle:library:$versions.walle",
+
+            arouter_api                       : "com.alibaba:arouter-api:$versions.arouter_api",
+            arouter_compiler                  : "com.alibaba:arouter-compiler:$versions.arouter_compiler",
+
+            butterknife                       : "com.jakewharton:butterknife:$versions.butterknife",
+            butterknife_compiler              : "com.jakewharton:butterknife-compiler:$versions.butterknife",
             //事件
-            eventbus                  : "org.greenrobot:eventbus:3.1.1",
+            eventbus                          : "org.greenrobot:eventbus:3.1.1",
             //网络
-            retrofit2                 : [
-                    retrofit       : "com.squareup.retrofit2:retrofit:$versions.retrofit2",
-                    gson           : "com.squareup.retrofit2:converter-gson:$versions.retrofit2",
-                    mock           : "com.squareup.retrofit2:retrofit-mock:$versions.retrofit2",
-                    adapter_rxjava2: "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit2",
-            ],
-            okhttp_logging_interceptor: "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
-            okhttp                    : "com.squareup.okhttp3:okhttp:$versions.okhttp",
-            gson                      : "com.google.code.gson:gson:2.8.5",
-            fastjson                  : "com.alibaba:fastjson:1.1.70.android",
-            bolts                     : "com.parse.bolts:bolts-tasks:1.4.0",
-            PersistentCookieJar       : "com.github.franmontiel:PersistentCookieJar:v1.0.1",
+            retrofit2                         : "com.squareup.retrofit2:retrofit:$versions.retrofit2",
+            retrofit2_gson                    : "com.squareup.retrofit2:converter-gson:$versions.retrofit2",
+            retrofit2_adapter_rxjava2         : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit2",
+            retrofit2_adapter_rxjava          : "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit2",
+
+            okhttp_logging_interceptor        : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
+            okhttp                            : "com.squareup.okhttp3:okhttp:$versions.okhttp",
+            gson                              : "com.google.code.gson:gson:2.8.5",
+            fastjson                          : "com.alibaba:fastjson:1.1.70.android",
+            bolts                             : "com.parse.bolts:bolts-tasks:1.4.0",
+            PersistentCookieJar               : "com.github.franmontiel:PersistentCookieJar:v1.0.1",
+
             //图片加载
-            fresco                    : [
-                    fresco               : "com.facebook.fresco:fresco:$versions.fresco",
-                    animated_gif         : "com.facebook.fresco:animated-gif:$versions.fresco",
-                    animated_webp        : "com.facebook.fresco:animated-webp:$versions.fresco",
-                    webpsupport          : "com.facebook.fresco:webpsupport:$versions.fresco",
-                    imagepipeline_okhttp3: "com.facebook.fresco:imagepipeline-okhttp3:$versions.fresco",
-            ],
+            fresco                            : "com.facebook.fresco:fresco:$versions.fresco",
+            fresco_animated_gif               : "com.facebook.fresco:animated-gif:$versions.fresco",
+            fresco_animated_webp              : "com.facebook.fresco:animated-webp:$versions.fresco",
+            fresco_webpsupport                : "com.facebook.fresco:webpsupport:$versions.fresco",
+            fresco_imagepipeline_okhttp3      : "com.facebook.fresco:imagepipeline-okhttp3:$versions.fresco",
 
             //测试
-            stetho                    : [
-                    stetho              : "com.facebook.stetho:stetho:$versions.stetho",
-                    stetho_okhttp3      : "com.facebook.stetho:stetho-okhttp3:$versions.stetho",
-                    stetho_urlconnection: "com.facebook.stetho:stetho-urlconnection:$versions.stetho",
-            ],
-            flipper                   : "com.facebook.flipper:flipper:0.16.2",
-            timber                    : "com.jakewharton.timber:timber:4.7.1",
-            leakcanary                : [
-                    leakcanary_android      : "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary",
-                    leakcanary_android_no_op: "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leakcanary",
-            ],
-            autoValue                 : [
-                    auto_value_annotations: "com.google.auto.value:auto-value-annotations:$versions.auto_value",
-                    auto_value_compile    : "com.google.auto.value:auto-value:$versions.auto_value",
-            ],
+            stetho                            : "com.facebook.stetho:stetho:$versions.stetho",
+            stetho_okhttp3                    : "com.facebook.stetho:stetho-okhttp3:$versions.stetho",
+            stetho_urlconnection              : "com.facebook.stetho:stetho-urlconnection:$versions.stetho",
+
+            flipper                           : "com.facebook.flipper:flipper:0.16.2",
+            timber                            : "com.jakewharton.timber:timber:4.7.1",
+
+            leakcanary_android                : "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary",
+            leakcanary_android_no_op          : "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leakcanary",
+
+            auto_value_annotations            : "com.google.auto.value:auto-value-annotations:$versions.auto_value",
+            auto_value_compile                : "com.google.auto.value:auto-value:$versions.auto_value",
+            //dbflow
+            dbflow                            : "com.github.Raizlabs.DBFlow:dbflow::$versions.dbflow",
+            dbflow_processor                  : "com.github.Raizlabs.DBFlow:dbflow-processor::$versions.dbflow",
+            dbflow_core                       : "com.github.Raizlabs.DBFlow:dbflow-core::$versions.dbflow",
+
+            lombok                            : 'org.projectlombok:lombok:1.16.18',
+
             //工具
-            base                      : "com.llj:lib-base:0.0.9",
-            base_mvvm                 : "com.llj:lib-base-mvvm:0.0.9",
-            net                       : "com.llj:lib-net:0.0.9",
-            component_annotation      : "com.llj:lib-component-annotation:0.0.1",
-            component_api             : "com.llj:lib-component-api:0.0.1",
-            component_compiler        : "com.llj:lib-component-compiler:0.0.1",
-            imageLoader               : "com.llj:lib-image-loader:0.0.4",
-            imageSelect               : "com.llj:lib-image-select:0.0.3",
-            socialization             : "com.llj:lib-socialization:2.0.4",
-            socialization_qq          : "com.llj:lib-socialization-qq:2.0.4",
-            socialization_sina        : "com.llj:lib-socialization-sina:2.0.4",
-            socialization_wechat      : "com.llj:lib-socialization-wechat:2.0.4",
-            statelayout               : "com.llj:lib-statelayout:0.0.1",
-            universalAdapter          : "com.llj.adapter:lib-universalAdapter:1.0.14",
-            utils                     : "com.llj:lib-utils:0.0.6",
-            statusbar                 : "com.llj:lib-statusbar:0.0.1",
-            webView                   : "com.llj:lib-webview:0.0.2",
+            base                              : "com.llj:lib-base:0.0.9",
+            base_mvvm                         : "com.llj:lib-base-mvvm:0.0.9",
+            net                               : "com.llj:lib-net:0.0.9",
+            component_annotation              : "com.llj:lib-component-annotation:0.0.1",
+            component_api                     : "com.llj:lib-component-api:0.0.1",
+            component_compiler                : "com.llj:lib-component-compiler:0.0.1",
+            imageLoader                       : "com.llj:lib-image-loader:0.0.4",
+            imageSelect                       : "com.llj:lib-image-select:0.0.3",
+            socialization                     : "com.llj:lib-socialization:2.0.4",
+            socialization_qq                  : "com.llj:lib-socialization-qq:2.0.4",
+            socialization_sina                : "com.llj:lib-socialization-sina:2.0.4",
+            socialization_wechat              : "com.llj:lib-socialization-wechat:2.0.4",
+            statelayout                       : "com.llj:lib-statelayout:0.0.1",
+            universalAdapter                  : "com.llj.adapter:lib-universalAdapter:1.0.14",
+            utils                             : "com.llj:lib-utils:0.0.6",
+            statusbar                         : "com.llj:lib-statusbar:0.0.1",
+            webView                           : "com.llj:lib-webview:0.0.2",
             //ui
-            smartrefresh              : [
-                    SmartRefreshLayout: "com.scwang.smartrefresh:SmartRefreshLayout:$versions.smartrefresh",
-                    SmartRefreshHeader: "com.scwang.smartrefresh:SmartRefreshHeader:$versions.smartrefresh",
-            ],
-            skin                      : [
-                    skin_support                  : "skin.support:skin-support:$versions.skin",
-                    skin_support_design           : "skin.support:skin-support-design:$versions.skin",
-                    skin_support_cardview         : "skin.support:skin-support-cardview:$versions.skin",
-                    skin_support_constraint_layout: "skin.support:skin-support-constraint-layout:$versions.skin",
-            ],
-            constraint_layout         : "com.android.support.constraint:constraint-layout:2.0.0-alpha3",//约束布局
-            MagicIndicator            : "com.github.hackware1993:MagicIndicator:1.5.0",//tab
-            badgeview                 : "q.rorbin:badgeview:1.1.3",//标签
-            vlayout                   : "com.alibaba.android:vlayout:1.2.20",
-            ExpandableTextView        : "cn.carbs.android:ExpandableTextView:1.0.3",//折叠TextView
-            pickerView                : "com.contrarywind:Android-PickerView:3.2.7",//选择城市
-            hyman_flowlayout          : "com.hyman:flowlayout-lib:1.1.2",//流式布局
-            lankton_flowlayout        : "cn.lankton:flowlayout:3.1.0",//支持单行流布局
-            fillblankview             : "com.xw.repo:fillblankview:2.1@aar",//密码输入
-            AutoScrollViewPager       : "com.github.demoNo:AutoScrollViewPager:v1.0.2",//轮播
-            gpuimage                  : "jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1",//滤镜
-            paging                    : "android.arch.paging:runtime:$versions.paging",
-            glide                     : "com.github.bumptech.glide:glide:$versions.glide",
-            mock_web_server           : "com.squareup.okhttp3:mockwebserver:$versions.mockwebserver",
+            SmartRefreshLayout                : "com.scwang.smartrefresh:SmartRefreshLayout:$versions.smartrefresh",
+            SmartRefreshHeader                : "com.scwang.smartrefresh:SmartRefreshHeader:$versions.smartrefresh",
+            //换肤
+            skin_support                      : "skin.support:skin-support:$versions.skin",
+            skin_support_design               : "skin.support:skin-support-design:$versions.skin",
+            skin_support_cardview             : "skin.support:skin-support-cardview:$versions.skin",
+            skin_support_constraint_layout    : "skin.support:skin-support-constraint-layout:$versions.skin",
+
+            constraint_layout                 : "com.android.support.constraint:constraint-layout:2.0.0-alpha3",//约束布局
+            MagicIndicator                    : "com.github.hackware1993:MagicIndicator:1.5.0",//tab
+            badgeview                         : "q.rorbin:badgeview:1.1.3",//标签
+            vlayout                           : "com.alibaba.android:vlayout:1.2.20",
+            ExpandableTextView                : "cn.carbs.android:ExpandableTextView:1.0.3",//折叠TextView
+            pickerView                        : "com.contrarywind:Android-PickerView:3.2.7",//选择城市
+            hyman_flowlayout                  : "com.hyman:flowlayout-lib:1.1.2",//流式布局
+            lankton_flowlayout                : "cn.lankton:flowlayout:3.1.0",//支持单行流布局
+            fillblankview                     : "com.xw.repo:fillblankview:2.1@aar",//密码输入
+            AutoScrollViewPager               : "com.github.demoNo:AutoScrollViewPager:v1.0.2",//轮播
+            gpuimage                          : "jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1",//滤镜
+            paging                            : "android.arch.paging:runtime:$versions.paging",
+            glide                             : "com.github.bumptech.glide:glide:$versions.glide",
+            mock_web_server                   : "com.squareup.okhttp3:mockwebserver:$versions.mockwebserver",
     ]
 }
 

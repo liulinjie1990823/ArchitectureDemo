@@ -1,11 +1,9 @@
 
 dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.bolts
     //调试的时候依赖
-    api fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.okhttp
-    implementation deps.support.app_compat
-    implementation deps.support.annotations
 }
 
 apply from: "../uploadArchives.gradle"

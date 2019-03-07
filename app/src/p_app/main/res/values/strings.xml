@@ -290,4 +290,14 @@
     <string name="hot_city">热门城市</string>
     <string name="all_city">所有城市</string>
     <string name="to_location">正在定位...</string>
+    <string name="layout_constrainedWidth_demo">右边的控件可以自适应或者固定宽度,并且紧跟左边控件，左边的宽度自适应大小，但是不能超过最大宽度，
+        超过可以设置是否换行；其他布局都无法实现，左边控件一般都会超出最大宽度以至于右边控件超出右边边界，这时候只能通过代码计算左边可以设置的最大宽度；
+        ConstraintLayout可以通过layout_constrainedWidth和一些属性实现效果
+    </string>
+    <string name="chain_style_spread">app:layout_constraintHorizontal_chainStyle="spread"</string>
+    <string name="chain_style_spread_inside">app:layout_constraintHorizontal_chainStyle="spread_inside"</string>
+    <string name="chain_style_packed">app:layout_constraintHorizontal_chainStyle="spread_inside"\napp:layout_constraintHorizontal_bias="0.2" </string>
+    <string name="weight">android:layout_width="0dp" \n 设置了该属性后chain_style的属性就失效了，设置了该属性后，该控件占用了除去右控件后的最大宽度
+    </string>
+    <string name="barrier">Barrier使用</string>
 </resources>

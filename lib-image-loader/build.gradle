@@ -2,12 +2,12 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation deps.support.annotations
-    implementation deps.fresco.fresco
-    implementation deps.fresco.animated_gif
-    implementation deps.fresco.animated_webp
-    implementation deps.fresco.webpsupport
-    implementation deps.fresco.imagepipeline_okhttp3
+    implementation deps.fresco
+    implementation deps.fresco_animated_gif
+    implementation deps.fresco_animated_webp
+    implementation deps.fresco_webpsupport
+    implementation deps.fresco_imagepipeline_okhttp3
+
     implementation deps.PersistentCookieJar
 }
 

@@ -19,42 +19,42 @@ dependencies {
     }
 
     //kotlin
-    api deps.kotlin.stdlib_jdk8
+    api deps.kotlin_stdlib_jdk8
 
     //support
-    api deps.support.app_compat
+    api deps.support_appcompat_v7
 
     //Architecture components
-    api deps.lifecycle.runtime
-    api deps.lifecycle.java8
-    api deps.lifecycle.extensions
+    api deps.lifecycle_runtime
+    api deps.lifecycle_java8
+    api deps.lifecycle_extensions
     //db
-    api deps.room.runtime
+    api deps.room_runtime
 
     //dagger解耦
-    api deps.dagger.runtime
-    api deps.dagger.android
-    api deps.dagger.android_support
-    kapt deps.dagger.compiler
-    kapt deps.dagger.android_support_compiler
+    api deps.dagger
+    api deps.dagger_android
+    api deps.dagger_android_support
+    kapt deps.dagger_compiler
+    kapt deps.dagger_android_support_compiler
 
     //rx
     api deps.rxjava2
     api deps.rxandroid
 
     //autodispose
-    api deps.autodispose.autodispose
-    api deps.autodispose.autodispose_android
-    api deps.autodispose.autodispose_android_arch
+    api deps.autodispose
+    api deps.autodispose_android
+    api deps.autodispose_android_archcomponents
 
     //butterknife
-    api deps.butterknife.runtime
+    api deps.butterknife
 
     //事件
     api deps.eventbus
 
     //网络
-    api deps.retrofit2.retrofit
+    api deps.retrofit2
     api deps.okhttp_logging_interceptor
     api deps.gson
 

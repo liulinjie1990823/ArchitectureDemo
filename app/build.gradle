@@ -3,16 +3,16 @@ apply plugin: 'walle'
 //apply plugin: 'plugin-tracker-inject'
 
 android {
-    compileSdkVersion build_versions.compile
-    buildToolsVersion build_versions.build_tools
+    compileSdkVersion build_versions.compileSdkVersion
+    buildToolsVersion build_versions.buildToolsVersion
     defaultConfig {
         applicationId build_versions.applicationId
-        minSdkVersion build_versions.min_sdk
-        targetSdkVersion build_versions.target_sdk
+        minSdkVersion build_versions.minSdkVersion
+        targetSdkVersion build_versions.targetSdkVersion
         multiDexEnabled true
 
-        versionCode build_versions.version_code
-        versionName build_versions.version_name
+        versionCode build_versions.versionCode
+        versionName build_versions.versionName
 
         resConfigs "zh", "xxhdpi"
 
@@ -82,8 +82,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility build_versions.compile_jdk
-        sourceCompatibility build_versions.compile_jdk
+        targetCompatibility build_versions.compileJdkVersion
+        sourceCompatibility build_versions.compileJdkVersion
     }
 
     lintOptions {

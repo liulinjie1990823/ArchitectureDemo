@@ -68,6 +68,7 @@ allprojects {
         }
     }
 }
+
 apply from: "init.gradle"
 //配置library相关属性
 apply from: "configureLibrary.gradle"
