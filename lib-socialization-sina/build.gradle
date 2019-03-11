@@ -3,7 +3,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.bolts
     api project(':lib-socialization')
-    api 'com.sina.weibo.sdk:core:4.3.6:openDefaultRelease@aar'
+    api 'com.sina.weibo.sdk:core:4.3.7:openDefaultRelease@aar'
 }
 apply from: "../uploadArchives.gradle"
 apply from: "../bintrayUpload.gradle"

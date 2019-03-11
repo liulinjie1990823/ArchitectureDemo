@@ -20,7 +20,7 @@ import java.lang.ref.WeakReference
 /**
  * ArchitectureDemo.
  * describe:
- * author liulj
+ * author llj
  * date 2018/8/10
  */
 @Route(path = CRouter.APP_SHARE_ACTIVITY)
