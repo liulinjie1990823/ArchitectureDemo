@@ -44,6 +44,7 @@ dependencies {
     api project(':lib_swipe_back')
 
     if (useMaven) {
+        api deps.statusbar
         api deps.net
         api deps.base
         api deps.base_mvvm
@@ -57,9 +58,9 @@ dependencies {
         api deps.statelayout
         api deps.universalAdapter
         api deps.utils
-        api deps.statusbar
         api deps.webView
     } else {
+        api project(':lib-statusbar')
         api project(':lib-base')
         api project(':lib-base-mvvm')
         api project(':lib-component-api')
@@ -74,7 +75,6 @@ dependencies {
         api project(':lib-statelayout')
         api project(':lib-universalAdapter')
         api project(':lib-utils')
-        api project(':lib_statusbar')
         api project(':lib-webview')
     }
 

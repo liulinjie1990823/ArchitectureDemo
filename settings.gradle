@@ -15,6 +15,7 @@ def useMaven = properties.getProperty("useMaven") == "true"
 include ':lib_swipe_back', ':lib_tracker'
 //include ':module-java'
 //include ':libs'
+//include ':lib-statusbar'
 
 include 'app',
         ':component-service',
@@ -41,8 +42,9 @@ if (!useMaven) {
             ':lib-universalAdapter',
             ':lib-statelayout',
             ':lib-utils',
-            ':lib-webview',
-            ':lib_statusbar'
+            ':lib-statusbar',
+            ':lib-webview'
+
 }
 
 

@@ -14,7 +14,7 @@ dependencies {
         implementation deps.net
     } else {
         implementation project(':lib-utils')
-        implementation project(':lib_statusbar')
+        implementation project(':lib-statusbar')
         implementation project(':lib-net')
     }
 
