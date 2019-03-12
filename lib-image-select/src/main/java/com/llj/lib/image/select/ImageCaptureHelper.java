@@ -7,13 +7,12 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 
 import java.io.File;
-import java.util.UUID;
 
 /**
  * 从系统拍照返回
  * Created by liulj on 15/12/3.
  */
-public class ImageCaptureHelper extends ImageSelectHelper {
+public class ImageCaptureHelper extends AbstractImageSelectHelper {
     private File     mCameraOutFile;
     private Activity mActivity;
     private Fragment mFragment;
@@ -52,8 +51,7 @@ public class ImageCaptureHelper extends ImageSelectHelper {
     }
 
     private File makeOutFile() {
-        String photoPath = UUID.randomUUID().toString() + "image.jpg";// 通过uuid生成照片唯一名字
-        return new File(getImageDir(), photoPath);// 在该路径下构件文件对象
+        return new File(createFilePath(CAPTURE_IMAGE_NAME));// 在该路径下构件文件对象
     }
 
     @Override
@@ -63,7 +61,7 @@ public class ImageCaptureHelper extends ImageSelectHelper {
         }
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriForFile(getCameraOutFile()));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriCompat(getCameraOutFile()));
         return intent;
     }
 

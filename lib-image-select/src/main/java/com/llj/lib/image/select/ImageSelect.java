@@ -47,8 +47,8 @@ public class ImageSelect {
         mImageCaptureHelper = new ImageCaptureHelper();
         mImagePickHelper = new ImagePickHelper();
 
-        mImageCaptureHelper.setImageDir(imageDir);
-        mImagePickHelper.setImageDir(imageDir);
+        mImageCaptureHelper.setImageTempDir(imageDir);
+        mImagePickHelper.setImageTempDir(imageDir);
     }
 
     @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -81,7 +81,7 @@ public class ImageSelect {
     }
 
     //在对应的onActivityResult中调用
-    public void onActivityResult(int requestCode, int resultCode, Intent intent, ImageSelectHelper.OnGetFileListener onGetFileListener) {
+    public void onActivityResult(int requestCode, int resultCode, Intent intent, AbstractImageSelectHelper.OnGetFileListener onGetFileListener) {
         if (mImageType == IMAGE_TYPE_CAPTURE) {
             mImageCaptureHelper.onActivityResult(requestCode, resultCode, intent, onGetFileListener);
         } else if (mImageType == IMAGE_TYPE_PICK) {

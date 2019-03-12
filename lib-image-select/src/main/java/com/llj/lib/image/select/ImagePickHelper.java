@@ -19,7 +19,7 @@ import java.util.UUID;
  * 从相册选择图片
  * Created by llj on 15/12/3.
  */
-public class ImagePickHelper extends ImageSelectHelper {
+public class ImagePickHelper extends AbstractImageSelectHelper {
     private Activity mActivity;
     private Fragment mFragment;
 
@@ -82,7 +82,7 @@ public class ImagePickHelper extends ImageSelectHelper {
             if (path != null && path.length() > 0) {
                 // 通过uuid生成照片唯一名字，这里只是生成了个file的对象，文件并没有生成
                 String cameraOrAlbumPath = UUID.randomUUID().toString() + "image2.png";
-                File tempFile = new File(getImageDir(), cameraOrAlbumPath);
+                File tempFile = new File(getImageTempDir(), cameraOrAlbumPath);
                 if (copyFile(new File(path), tempFile)) {
                     if (tempFile.exists()) {
                         toSystemCrop(tempFile, getOutputSize());

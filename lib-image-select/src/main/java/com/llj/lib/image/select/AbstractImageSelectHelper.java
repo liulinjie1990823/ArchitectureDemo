@@ -22,16 +22,16 @@ import java.util.UUID;
 /**
  * Created by llj on 15/12/3.
  */
-public abstract class ImageSelectHelper {
+public abstract class AbstractImageSelectHelper {
     static final int CHOOSE_PHOTO_FROM_CAMERA      = 10001; //系统拍照
     static final int CHOOSE_PHOTO_FROM_ALBUM       = 10002; //系统相册
     static final int CHOOSE_PHOTO_FROM_SYSTEM_CROP = 10003; //系统剪裁
 
-    private static final String CROP_IMAGE_NAME          = "_cropImage.jpg";
-    private static final String COMPRESS_CROP_IMAGE_NAME = "_compressCropImage.jpg";
+    protected static final String CAPTURE_IMAGE_NAME       = "_captureImage.jpg";
+    protected static final String CROP_IMAGE_NAME          = "_cropImage.jpg";
+    protected static final String COMPRESS_CROP_IMAGE_NAME = "_compressCropImage.jpg";
 
-
-    private String mCropImagePath;//剪切后存放的位置
+    private String mCropImageFilePath;
     private int    mQuality    = 100;
     private int    mOutputSize = 300;
     private String mImageDir;
@@ -45,12 +45,16 @@ public abstract class ImageSelectHelper {
     }
 
 
-    public String getImageDir() {
+    public String getImageTempDir() {
         return mImageDir;
     }
 
-    public void setImageDir(String imageDir) {
+    public void setImageTempDir(String imageDir) {
         mImageDir = imageDir;
+    }
+
+    public String getCropImageFilePath() {
+        return mCropImageFilePath;
     }
 
     /**
@@ -74,10 +78,6 @@ public abstract class ImageSelectHelper {
         mOutputSize = outputSize;
     }
 
-
-    private String getCropImagePath() {
-        return mCropImagePath;
-    }
 
     protected abstract Intent createIntent();
 
@@ -143,6 +143,10 @@ public abstract class ImageSelectHelper {
         return file;
     }
 
+     String createFilePath(String name) {
+        return getImageTempDir() + File.separator + UUID.randomUUID().toString() + name;
+    }
+
     /**
      * 裁剪图片
      */
@@ -151,7 +155,7 @@ public abstract class ImageSelectHelper {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
-        intent.setDataAndType(getUriForFile(input), "image/*");
+        intent.setDataAndType(getUriCompat(input), "image/*");
         // crop为true是设置在开启的intent中设置显示的view可以剪裁
         intent.putExtra("crop", "true");
         // aspectX aspectY 是宽高的比例
@@ -166,9 +170,9 @@ public abstract class ImageSelectHelper {
         intent.putExtra("outputY", size);
         intent.putExtra("return-data", true);
         // 剪切返回，头像存放的路径
-        mCropImagePath = getImageDir() + File.separator + UUID.randomUUID().toString() + CROP_IMAGE_NAME;
+        mCropImageFilePath = createFilePath(CROP_IMAGE_NAME);
 
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(getCropImagePath()))); // 专入目标文件
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(mCropImageFilePath))); // 专入目标文件
 
         if (getFragment() != null) {
             getFragment().startActivityForResult(intent, CHOOSE_PHOTO_FROM_SYSTEM_CROP);
@@ -177,7 +181,7 @@ public abstract class ImageSelectHelper {
         }
     }
 
-    Uri getUriForFile(File file) {
+    Uri getUriCompat(File file) {
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             String authority = getActivity().getApplicationInfo().packageName + ".selectphotofileprovider";
@@ -189,18 +193,20 @@ public abstract class ImageSelectHelper {
     }
 
     void handleCropImage(OnGetFileListener onGetFileListener) {
-        if (TextUtils.isEmpty(getCropImagePath())) {
+        if (TextUtils.isEmpty(getCropImageFilePath())) {
             return;
         }
-        File outFile = new File(getCropImagePath());
+        File outFile = new File(getCropImageFilePath());
         if (!outFile.exists()) {
             return;
         }
         if (getQuality() != 100) {
             //进行质量压缩过
             Bitmap bitmap = BitmapFactory.decodeFile(outFile.getAbsolutePath());
-            String compressCropImagePath = getImageDir() + File.separator + UUID.randomUUID().toString() + COMPRESS_CROP_IMAGE_NAME;
-            File compressFile = getFileFromCompressBitmap(bitmap, new File(compressCropImagePath), getQuality());
+
+            File compressCropImageFile = new File(createFilePath(COMPRESS_CROP_IMAGE_NAME));
+
+            File compressFile = getFileFromCompressBitmap(bitmap, compressCropImageFile, getQuality());
             if (compressFile != null && compressFile.exists()) {
                 onGetFileListener.AfterGetFile(compressFile);
             }
