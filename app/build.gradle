@@ -134,7 +134,7 @@ dependencies {
     if (useMaven) {
         kapt deps.component_compiler
     } else {
-        kapt project(':lib-component-compiler')
+        annotationProcessor project(':lib-component-compiler')
     }
 
 //    implementation (name:'in2magic_atlas', ext:'aar')

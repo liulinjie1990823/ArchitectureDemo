@@ -98,6 +98,7 @@
         <activity android:name=".ui.activity.HookActivity"/>
         <activity android:name=".ui.activity.StubActivity"/>
         <activity android:name=".ui.activity.AptActivity"/>
+        <activity android:name=".ui.activity.AptActivity2"/>
         <activity android:name=".ui.activity.RxJava2Activity"/>
         <activity android:name=".ui.activity.RequestActivity"/>
 

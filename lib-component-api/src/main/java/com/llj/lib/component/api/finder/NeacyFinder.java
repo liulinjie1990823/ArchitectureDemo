@@ -17,7 +17,8 @@ import com.llj.lib.component.api.provider.ViewProvider;
  * date 2018/9/6
  */
 public class NeacyFinder {
-    private static final String                   FINDER_SUFFIX     = "$$Finder";
+    private static final String                   FINDER_SUFFIX     = "_Finder";
+
     private static final ActivityProvider         ACTIVITY_PROVIDER = new ActivityProvider();
     private static final ViewProvider             VIEW_PROVIDER     = new ViewProvider();
     private static       ArrayMap<String, Finder> mFinderArrayMap   = new ArrayMap<>();

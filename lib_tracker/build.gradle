@@ -1,0 +1,11 @@
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    if (useMaven) {
+        implementation deps.utils
+    } else {
+        implementation project(':lib-utils')
+    }
+}
+apply from: "../uploadArchives.gradle"
+apply from: "../bintrayUpload.gradle"
+
