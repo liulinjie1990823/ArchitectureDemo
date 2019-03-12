@@ -159,8 +159,8 @@ ext {
             lombok                            : 'org.projectlombok:lombok:1.16.18',
 
             //工具
-            base                              : "com.llj:lib-base:0.0.9",
-            base_mvvm                         : "com.llj:lib-base-mvvm:0.0.9",
+            base                              : "com.llj:lib-base:0.0.10",
+            base_mvvm                         : "com.llj:lib-base-mvvm:0.0.10",
             net                               : "com.llj:lib-net:0.0.9",
             component_annotation              : "com.llj:lib-component-annotation:0.0.1",
             component_api                     : "com.llj:lib-component-api:0.0.1",
