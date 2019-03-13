@@ -42,13 +42,13 @@ android {
             minifyEnabled false
             useProguard false
             shrinkResources false
-            signingConfig  signingConfigs.release
+            signingConfig signingConfigs.release
         }
         release {
             minifyEnabled true
             useProguard true
             shrinkResources true
-            signingConfig  signingConfigs.release
+            signingConfig signingConfigs.release
         }
     }
     buildTypes.all { type ->
@@ -134,7 +134,8 @@ dependencies {
     if (useMaven) {
         kapt deps.component_compiler
     } else {
-        annotationProcessor project(':lib-component-compiler')
+//        annotationProcessor project(':lib-component-compiler')
+        kapt project(':lib-component-compiler')
     }
 
 //    implementation (name:'in2magic_atlas', ext:'aar')

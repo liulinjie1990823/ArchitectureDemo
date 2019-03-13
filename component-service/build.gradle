@@ -41,7 +41,7 @@ dependencies {
     api deps.permission
     implementation deps.walle
 
-    api project(':lib_swipe_back')
+    api project(':lib-swipeback')
 
     if (useMaven) {
         api deps.statusbar

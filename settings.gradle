@@ -12,7 +12,7 @@ try {
 def useComponent = properties.getProperty("useComponent") == "true"
 def useMaven = properties.getProperty("useMaven") == "true"
 
-include ':lib_swipe_back', ':lib_tracker'
+include ':lib-swipeback', ':lib-tracker'
 //include ':module-java'
 //include ':libs'
 //include ':lib-statusbar'
