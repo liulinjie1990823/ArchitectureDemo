@@ -21,17 +21,28 @@ import javax.lang.model.util.Elements;
  * date 2018/9/6
  */
 public class AnnotateClass {
-    public TypeElement         mClassElement;
-    public List<BindViewField> mFields;
+    private static final String FINDER_SUFFIX = "_Finder";
+
+    private static final ClassName ANDROID_VIEW              = ClassName.get("android.view", "View");
+    private static final ClassName ANDROID_ON_CLICK_LISTENER = ClassName.get("android.view", "View", "OnClickListener");
+    private static final ClassName FINDER                    = ClassName.get("com.llj.lib.component.api.finder", "Finder");
+    private static final ClassName PROVIDER                  = ClassName.get("com.llj.lib.component.api.provider", "Provider");
+    private static final ClassName UTILS                     = ClassName.get("com.llj.lib.component.api.finder", "Utils");
+
+    public List<IntentField>   mIntentFields;
+    public List<BindViewField> mBindViewFields;
     public List<OnClickMethod> mMethods;
-    public List<IntentField>   mIntents;
-    public Elements            mElementUtils;
+
+
+    public TypeElement mClassElement;
+    public Elements    mElementUtils;
 
     public AnnotateClass(TypeElement classElement, Elements elementUtils) {
         this.mClassElement = classElement;
-        this.mFields = new ArrayList<>();
+
+        this.mIntentFields = new ArrayList<>();
+        this.mBindViewFields = new ArrayList<>();
         this.mMethods = new ArrayList<>();
-        this.mIntents = new ArrayList<>();
         this.mElementUtils = elementUtils;
     }
 
@@ -40,7 +51,7 @@ public class AnnotateClass {
     }
 
     public void addField(BindViewField field) {
-        mFields.add(field);
+        mBindViewFields.add(field);
     }
 
     public void addMethod(OnClickMethod method) {
@@ -48,55 +59,59 @@ public class AnnotateClass {
     }
 
     public void addIntent(IntentField intent) {
-        mIntents.add(intent);
+        mIntentFields.add(intent);
     }
 
     public JavaFile generateFinder() {
         System.out.println("----- start ---- generateFinder----------");
-        // method inject(final T host, Object source, Provider provider)
+        // method inject(final T activity, Object source, Provider provider)
         MethodSpec.Builder injectMethodBuilder = MethodSpec.methodBuilder("inject")
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class)
-                .addParameter(TypeName.get(mClassElement.asType()), "host", Modifier.FINAL)
-                .addParameter(TypeName.OBJECT, "source")
-                .addParameter(TypeUtil.PROVIDER, "provider");
+                .addParameter(TypeName.get(mClassElement.asType()), "activity", Modifier.FINAL)
+                .addParameter(ANDROID_VIEW, "source")
+                ;
 
-        for (BindViewField field : mFields) {
+        //赋值mIntentFields
+        for (IntentField field : mIntentFields) {
+            injectMethodBuilder.addStatement("activity.$N = activity.getIntent().getStringExtra($S)", field.getFieldName(), field.getKey());
+        }
+
+        //赋值mBindViewFields
+        for (BindViewField field : mBindViewFields) {
             // find views
-            injectMethodBuilder.addStatement("host.$N = ($T)(provider.findView(source, $L))", field.getFieldName(),
-                    ClassName.get(field.getFieldType()), field.getResId());
+//            injectMethodBuilder.addStatement("activity.$N = ($T)(provider.findView(source, $L))", field.getFieldName(), ClassName.get(field.getFieldType()), field.getResId());
+            injectMethodBuilder.addStatement("activity.$N = $T.findRequiredViewAsType(source, $L, $S, $T.class)", field.getFieldName(), UTILS, field.getResId(),"activity",field.getRawType());
+//            injectMethodBuilder.addStatement("activity.$N = $T.findViewById(source, $L)", field.getFieldName(), UTILS, field.getResId());
         }
 
         if (mMethods.size() > 0) {
-            injectMethodBuilder.addStatement("$T listener", TypeUtil.ANDROID_ON_CLICK_LISTENER);
+            injectMethodBuilder.addStatement("$T listener", ANDROID_ON_CLICK_LISTENER);
         }
 
-        for (IntentField field : mIntents) {
-            injectMethodBuilder.addStatement("host.$N = host.getIntent().getStringExtra($S)", field.getFieldName(), field.getKey());
-        }
-
+        //设置listener
         for (OnClickMethod method : mMethods) {
-            // declare OnClickListener anonymous class
             TypeSpec listener = TypeSpec.anonymousClassBuilder("")
-                    .addSuperinterface(TypeUtil.ANDROID_ON_CLICK_LISTENER)
+                    .addSuperinterface(ANDROID_ON_CLICK_LISTENER)
                     .addMethod(MethodSpec.methodBuilder("onClick")
-                            .addAnnotation(Override.class)
                             .addModifiers(Modifier.PUBLIC)
+                            .addAnnotation(Override.class)
                             .returns(TypeName.VOID)
-                            .addParameter(TypeUtil.ANDROID_VIEW, "view")
-                            .addStatement("host.$N()", method.getMethodName())
+                            .addParameter(ANDROID_VIEW, "view")
+                            .addStatement("activity.$N()", method.getMethodName())
                             .build())
                     .build();
             injectMethodBuilder.addStatement("listener = $L ", listener);
             for (int id : method.ids) {
                 // set listeners
-                injectMethodBuilder.addStatement("provider.findView(source, $L).setOnClickListener(listener)", id);
+                injectMethodBuilder.addStatement("$T.findViewById(source, $L).setOnClickListener(listener)", UTILS, id);
             }
         }
+
         // generate whole class
-        TypeSpec finderClass = TypeSpec.classBuilder(mClassElement.getSimpleName() + "$$Finder")
+        TypeSpec finderClass = TypeSpec.classBuilder(mClassElement.getSimpleName() + FINDER_SUFFIX)
                 .addModifiers(Modifier.PUBLIC)
-                .addSuperinterface(ParameterizedTypeName.get(TypeUtil.FINDER, TypeName.get(mClassElement.asType())))
+                .addSuperinterface(ParameterizedTypeName.get(FINDER, TypeName.get(mClassElement.asType())))
                 .addMethod(injectMethodBuilder.build())
                 .build();
 

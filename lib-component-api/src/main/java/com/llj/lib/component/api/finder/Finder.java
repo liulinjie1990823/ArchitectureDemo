@@ -1,7 +1,7 @@
 package com.llj.lib.component.api.finder;
 
 
-import com.llj.lib.component.api.provider.Provider;
+import android.view.View;
 
 /**
  * ArchitectureDemo.
@@ -10,5 +10,5 @@ import com.llj.lib.component.api.provider.Provider;
  * date 2018/9/6
  */
 public interface Finder<T> {
-    void inject(T host, Object source, Provider provider);
+    void inject(T host, View source);
 }

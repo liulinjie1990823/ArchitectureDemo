@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.util.ArrayMap
 import android.view.LayoutInflater
 import android.view.View
@@ -26,8 +25,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/5/24
  */
-abstract class MvpBaseFragment<P : IBasePresenter> : Fragment(),
-        IFragment, IFragmentLazy, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
+abstract class MvpBaseFragment<P : IBasePresenter> : BaseFragment() {
 
     val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context

@@ -12,10 +12,12 @@ dependencies {
         implementation deps.utils
         implementation deps.statusbar
         implementation deps.net
+        implementation deps.tracker
     } else {
         implementation project(':lib-utils')
         implementation project(':lib-statusbar')
         implementation project(':lib-net')
+        implementation project(':lib-tracker')
     }
 
     //kotlin

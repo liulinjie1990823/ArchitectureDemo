@@ -59,7 +59,7 @@ class HomeFragment : ADMvcBaseFragment(), ScrollableHelper.ScrollableContainer {
         arrayList.add(Data("RxJava2Activity", CRouter.APP_RXJAVA2_ACTIVITY))
         arrayList.add(Data("ShareActivity", CRouter.APP_SHARE_ACTIVITY))
         arrayList.add(Data("MemoryLeakActivity", CRouter.APP_MEMORY_LEAK_ACTIVITY))
-        arrayList.add(Data("AptActivity", CRouter.APP_MEMORY_LEAK_ACTIVITY))
+        arrayList.add(Data("AptActivity", CRouter.APP_APT_ACTIVITY))
         arrayList.add(Data("ConstraintActivity", CRouter.WIDGET_CONSTRAINT_ACTIVITY))
         arrayList.add(Data("SecondActivity", CRouter.APP_SECOND_ACTIVITY))
         arrayList.add(Data("TouchEventActivity", CRouter.APP_TOUCH_EVENT_ACTIVITY))

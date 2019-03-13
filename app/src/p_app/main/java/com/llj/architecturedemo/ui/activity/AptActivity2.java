@@ -1,12 +1,18 @@
 package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.R;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.MvcBaseActivity;
+import com.llj.lib.component.annotation.BindView;
+import com.llj.lib.component.annotation.IntentKey;
+import com.llj.lib.component.annotation.OnClick;
 import com.llj.lib.component.api.finder.NeacyFinder;
+import com.llj.lib.tracker.PageName;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -16,8 +22,18 @@ import org.jetbrains.annotations.Nullable;
  * author llj
  * date 2019/3/12
  */
+@PageName(name = "activity_apt")
 @Route(path = CRouter.APP_APT_ACTIVITY)
 public class AptActivity2 extends MvcBaseActivity {
+    @BindView(R.id.root)      ConstraintLayout mConstraintLayout;
+
+    @IntentKey(name = "key") String           key;
+
+    @OnClick({R.id.root})
+    public void fabClick() {
+        Toast.makeText(this, "Neacy", Toast.LENGTH_LONG).show();
+    }
+
     @Override
     public int layoutId() {
         return R.layout.activity_apt;

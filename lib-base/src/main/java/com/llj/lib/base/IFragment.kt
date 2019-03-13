@@ -8,7 +8,7 @@ import android.arch.lifecycle.Lifecycle
  * author liulj
  * date 2018/5/24
  */
-interface IFragment {
+interface IFragment :IFragmentLazy{
     fun initLifecycleObserver(lifecycle: Lifecycle)
 
     fun moduleName(): String {

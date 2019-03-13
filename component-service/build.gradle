@@ -59,6 +59,7 @@ dependencies {
         api deps.universalAdapter
         api deps.utils
         api deps.webView
+        api deps.tracker
     } else {
         api project(':lib-statusbar')
         api project(':lib-base')
@@ -76,6 +77,7 @@ dependencies {
         api project(':lib-universalAdapter')
         api project(':lib-utils')
         api project(':lib-webview')
+        api project(':lib-tracker')
     }
 
 

@@ -21,8 +21,7 @@ import io.reactivex.disposables.Disposable
  * author llj
  * date 2018/8/15
  */
-abstract class MvcBaseFragment : android.support.v4.app.Fragment(),
-        IFragment, IFragmentLazy, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
+abstract class MvcBaseFragment : BaseFragment(){
     val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context
 

@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v4.util.ArrayMap
-import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -23,8 +22,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/5/15
  */
-abstract class MvpBaseActivity<P : IBasePresenter> : AppCompatActivity(),
-        IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
+abstract class MvpBaseActivity<P : IBasePresenter> : BaseActivity(){
     val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context
 
@@ -186,7 +184,7 @@ abstract class MvpBaseActivity<P : IBasePresenter> : AppCompatActivity(),
     //<editor-fold desc="处理点击外部影藏输入法">
     override fun onTouchEvent(event: MotionEvent): Boolean {
         onTouchEvent(this, event)
-        return super<AppCompatActivity>.onTouchEvent(event)
+        return super<BaseActivity>.onTouchEvent(event)
     }
     //</editor-fold >
 

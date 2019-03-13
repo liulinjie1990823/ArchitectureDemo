@@ -5,10 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.util.ArrayMap;
 import android.view.View;
 
-import com.llj.lib.component.api.provider.ActivityProvider;
-import com.llj.lib.component.api.provider.Provider;
-import com.llj.lib.component.api.provider.ViewProvider;
-
 
 /**
  * ArchitectureDemo.
@@ -17,21 +13,19 @@ import com.llj.lib.component.api.provider.ViewProvider;
  * date 2018/9/6
  */
 public class NeacyFinder {
-    private static final String                   FINDER_SUFFIX     = "_Finder";
+    private static final String FINDER_SUFFIX = "_Finder";
 
-    private static final ActivityProvider         ACTIVITY_PROVIDER = new ActivityProvider();
-    private static final ViewProvider             VIEW_PROVIDER     = new ViewProvider();
     private static       ArrayMap<String, Finder> mFinderArrayMap   = new ArrayMap<>();
 
     public static void inject(Activity activity) {
-        inject(activity, activity, ACTIVITY_PROVIDER);
+        inject(activity, activity.getWindow().getDecorView());
     }
 
     public static void inject(Fragment fragment, View view) {
-        inject(fragment, view, VIEW_PROVIDER);
+        inject(fragment, view);
     }
 
-    public static void inject(Object host, Object source, Provider provider) {
+    public static void inject(Object host, View source) {
         String className = host.getClass().getName();
         try {
             Class<?> finderClass = Class.forName(className + FINDER_SUFFIX);
@@ -40,7 +34,7 @@ public class NeacyFinder {
                 finder = (Finder) finderClass.newInstance();
                 mFinderArrayMap.put(className, finder);
             }
-            finder.inject(host, source, provider);
+            finder.inject(host, source);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {

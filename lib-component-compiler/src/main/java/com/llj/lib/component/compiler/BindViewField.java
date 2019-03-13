@@ -1,6 +1,9 @@
 package com.llj.lib.component.compiler;
 
 import com.llj.lib.component.annotation.BindView;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -17,6 +20,8 @@ import javax.lang.model.type.TypeMirror;
 public class BindViewField {
     private VariableElement mFieldElement;
     private int             mResId;
+    private TypeMirror      mTypeMirror;
+    private TypeName        mTypeName;
 
     public BindViewField(Element element) throws IllegalArgumentException {
         if (element.getKind() != ElementKind.FIELD) {
@@ -25,6 +30,8 @@ public class BindViewField {
         }
 
         mFieldElement = (VariableElement) element;
+        mTypeMirror = mFieldElement.asType();
+        mTypeName = TypeName.get(mTypeMirror);
         BindView bindView = mFieldElement.getAnnotation(BindView.class);
         mResId = bindView.value();
 
@@ -43,7 +50,18 @@ public class BindViewField {
         return mResId;
     }
 
-    public TypeMirror getFieldType() {
-        return mFieldElement.asType();
+    public TypeMirror getTypeMirror() {
+        return mTypeMirror;
+    }
+
+    public TypeName getTypeName() {
+        return mTypeName;
+    }
+
+    public ClassName getRawType() {
+        if (mTypeName instanceof ParameterizedTypeName) {
+            return ((ParameterizedTypeName) mTypeName).rawType;
+        }
+        return (ClassName) mTypeName;
     }
 }

@@ -27,15 +27,12 @@ public class OnClickMethod {
                     String.format("Only methods can be annotated with @%s", OnClick.class.getSimpleName()));
         }
         this.methodElement = (ExecutableElement) element;
-        this.ids = methodElement.getAnnotation(OnClick.class).value();
+        OnClick onClick = methodElement.getAnnotation(OnClick.class);
+        this.ids = onClick.value();
 
-        if (ids == null) {
-            throw new IllegalArgumentException(String.format("Must set valid ids for @%s", OnClick.class.getSimpleName()));
-        } else {
-            for (int id : ids) {
-                if (id < 0) {
-                    throw new IllegalArgumentException(String.format("Must set valid id for @%s", OnClick.class.getSimpleName()));
-                }
+        for (int id : ids) {
+            if (id < 0) {
+                throw new IllegalArgumentException(String.format("Must set valid id for @%s", OnClick.class.getSimpleName()));
             }
         }
 

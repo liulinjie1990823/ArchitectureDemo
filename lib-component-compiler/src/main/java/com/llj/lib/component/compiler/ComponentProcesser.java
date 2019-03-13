@@ -76,8 +76,8 @@ public class ComponentProcesser extends AbstractProcessor {
         }
     }
 
-    private void processIntent(RoundEnvironment roundEnvironment) {
-        for (Element element : roundEnvironment.getElementsAnnotatedWith(IntentKey.class)) {
+    private void processIntent(RoundEnvironment roundEnv) {
+        for (Element element : roundEnv.getElementsAnnotatedWith(IntentKey.class)) {
             AnnotateClass annotateClass = getAnnotatedClass(element);
             IntentField field = new IntentField(element);
             annotateClass.addIntent(field);

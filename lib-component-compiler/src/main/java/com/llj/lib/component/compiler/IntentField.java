@@ -24,7 +24,7 @@ public class IntentField {
         }
         variableElement = (VariableElement) element;
         IntentKey intent = variableElement.getAnnotation(IntentKey.class);
-        key = intent.value();
+        key = intent.name();
     }
 
     public Name getFieldName() {
