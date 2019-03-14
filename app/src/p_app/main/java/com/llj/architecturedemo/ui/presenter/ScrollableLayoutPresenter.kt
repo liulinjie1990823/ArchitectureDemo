@@ -3,7 +3,7 @@ package com.llj.architecturedemo.ui.presenter
 import com.llj.architecturedemo.repository.HomeRepository
 import com.llj.architecturedemo.ui.model.BabyHomeModuleVo
 import com.llj.architecturedemo.ui.view.IScrollableLayoutView
-import com.llj.component.service.ADBaseActivityPresenter
+import com.llj.component.service.ComponentBaseActivityPresenter
 import com.llj.lib.net.observer.BaseApiObserver
 import com.llj.lib.net.response.BaseResponse
 import io.reactivex.disposables.Disposable
@@ -17,7 +17,7 @@ import javax.inject.Inject
  * date 2018/10/24
  */
 class ScrollableLayoutPresenter @Inject constructor(repository: HomeRepository, view: IScrollableLayoutView)
-    : ADBaseActivityPresenter<HomeRepository, IScrollableLayoutView>(repository, view) {
+    : ComponentBaseActivityPresenter<HomeRepository, IScrollableLayoutView>(repository, view) {
 
 
     fun getWeddingHome(isShowDialog: Boolean) {

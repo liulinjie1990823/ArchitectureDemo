@@ -13,9 +13,9 @@ import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
+import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.IUiHandler
-import com.llj.lib.base.MvcBaseActivity
 import com.llj.lib.utils.LogUtil
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit
  */
 @Keep
 @Route(path = CRouter.APP_RXJAVA2_ACTIVITY)
-class RxJava2Activity : MvcBaseActivity() {
+class RxJava2Activity : ComponentMvcBaseActivity() {
     @BindView(R.id.recyclerView) lateinit var mRecyclerView: RecyclerView
     override fun initData() {
     }

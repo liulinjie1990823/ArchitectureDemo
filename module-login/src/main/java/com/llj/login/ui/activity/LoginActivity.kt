@@ -9,8 +9,8 @@ import android.support.v4.view.ViewPager
 import android.util.TypedValue
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.MvcBaseActivity
 import com.llj.login.R
 import com.llj.login.ui.fragment.CodeLoginFragmentMvc
 import com.llj.login.ui.fragment.PasswordLoginFragment
@@ -30,7 +30,7 @@ import java.util.*
  * date 2018/8/22
  */
 @Route(path = CRouter.LOGIN_LOGIN_ACTIVITY)
-class LoginActivity : MvcBaseActivity() {
+class LoginActivity : ComponentMvcBaseActivity() {
     @BindView(com.llj.login.R2.id.login_tabs) lateinit var mTabs: MagicIndicator
     @BindView(com.llj.login.R2.id.login_viewpager) lateinit var mViewPager: ViewPager
 

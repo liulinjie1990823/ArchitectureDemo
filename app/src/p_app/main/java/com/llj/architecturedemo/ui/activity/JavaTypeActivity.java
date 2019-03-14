@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.R;
+import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
-import com.llj.lib.base.MvcBaseActivity;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * date 2018/11/9
  */
 @Route(path = CRouter.APP_JAVA_TYPE_ACTIVITY)
-public class JavaTypeActivity extends MvcBaseActivity {
+public class JavaTypeActivity extends ComponentMvcBaseActivity {
     @Override
     public int layoutId() {
         return R.layout.activity_java_type;

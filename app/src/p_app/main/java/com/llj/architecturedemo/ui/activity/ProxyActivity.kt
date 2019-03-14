@@ -5,8 +5,8 @@ import android.widget.TextView
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.R
+import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.MvcBaseActivity
 import com.llj.lib.utils.LogUtil
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
@@ -20,7 +20,7 @@ import java.lang.reflect.Proxy
  * date 2018/8/28
  */
 @Route(path = CRouter.APP_PROXY_ACTIVITY)
-class ProxyActivity : MvcBaseActivity() {
+class ProxyActivity : ComponentMvcBaseActivity() {
     @BindView(R.id.tv_click) lateinit var mTvClick: TextView
     override fun layoutId(): Int {
 

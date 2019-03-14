@@ -3,9 +3,12 @@ package com.llj.component.service;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 
 import com.llj.lib.base.MvcBaseActivity;
+import com.llj.lib.tracker.PageName;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -14,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  * author llj
  * date 2018/12/13
  */
-public abstract class ADMvcBaseActivity extends MvcBaseActivity {
+public abstract class ComponentMvcBaseActivity extends MvcBaseActivity {
 
     protected int     mActivityOpenEnterAnimation;
     protected int     mActivityOpenExitAnimation;
@@ -22,6 +25,14 @@ public abstract class ADMvcBaseActivity extends MvcBaseActivity {
     protected int     mActivityCloseExitAnimation;
     protected boolean mIsWindowIsTranslucent;
 
+    public static final String PAGE_NAME = "PageName";
+
+
+    @NonNull
+    @Override
+    public String getPageKey() {
+        return PAGE_NAME;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

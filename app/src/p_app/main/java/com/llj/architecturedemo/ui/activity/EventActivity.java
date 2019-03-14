@@ -7,12 +7,10 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.vo.Cat;
-import com.llj.component.service.ADMvcBaseActivity;
+import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.BaseEvent;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.Nullable;
 
 import butterknife.BindView;
@@ -25,7 +23,7 @@ import butterknife.internal.DebouncingOnClickListener;
  * date 2019/1/8
  */
 @Route(path = CRouter.APP_EVENT_ACTIVITY)
-public class EventActivity extends ADMvcBaseActivity {
+public class EventActivity extends ComponentMvcBaseActivity {
     @BindView(R.id.tv_click) TextView mTextView;
 
     @Override
@@ -51,11 +49,6 @@ public class EventActivity extends ADMvcBaseActivity {
 
     @Override
     public void initData() {
-
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(BaseEvent<String> baseEvent) {
 
     }
 }

@@ -9,8 +9,8 @@ import android.widget.EditText;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.vo.Animal;
+import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
-import com.llj.lib.base.MvcBaseActivity;
 import com.llj.lib.utils.LogUtil;
 
 import java.lang.reflect.InvocationHandler;
@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
  * date 2018/7/2
  */
 @Route(path = CRouter.APP_MEMORY_LEAK_ACTIVITY)
-public class MemoryLeakActivity extends MvcBaseActivity {
+public class MemoryLeakActivity extends ComponentMvcBaseActivity {
 
     public static final String TAG = MemoryLeakActivity.class.getSimpleName();
 

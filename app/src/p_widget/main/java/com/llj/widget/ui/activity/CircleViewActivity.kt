@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.llj.architecturedemo.MyBaseActivity
+import com.llj.architecturedemo.AppMvpBaseActivity
 import com.llj.architecturedemo.R
 import com.llj.component.service.arouter.CRouter
 import com.llj.widget.ui.presenter.CircleViewPresenter
@@ -21,7 +21,7 @@ import com.llj.widget.ui.widget.CircleView
  * date 2018/7/11
  */
 @Route(path = CRouter.CIRCLE_VIEW_ACTIVITY)
-class CircleViewActivity : MyBaseActivity<CircleViewPresenter>(), CircleViewView {
+class CircleViewActivity : AppMvpBaseActivity<CircleViewPresenter>(), CircleViewView {
     @BindView(R.id.mIvTopBag) lateinit var mIvTopBag: CircleView
     @BindView(R.id.mIvTopBagSticky) lateinit var mIvTopBagSticky: ImageView
     override fun layoutId(): Int {

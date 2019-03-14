@@ -9,12 +9,13 @@ import java.lang.annotation.Target;
  * ArchitectureDemo.
  * describe:
  * author llj
- * date 2019/3/12
+ * date 2019/3/14
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PageName {
+public @interface TrackerPair {
 
-    String value();
+    String key() ;
 
+    String value() ;
 }

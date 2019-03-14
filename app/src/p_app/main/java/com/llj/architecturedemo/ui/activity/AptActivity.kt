@@ -3,12 +3,9 @@ package com.llj.architecturedemo.ui.activity
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import com.llj.architecturedemo.R
-import com.llj.lib.base.BaseEvent
-import com.llj.lib.base.MvcBaseActivity
+import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.lib.component.annotation.BindView
 import com.llj.lib.component.api.finder.NeacyFinder
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 /**
  * ArchitectureDemo.
@@ -17,7 +14,7 @@ import org.greenrobot.eventbus.ThreadMode
  * date 2018/9/6
  */
 //@Route(path = CRouter.APP_APT_ACTIVITY)
-class AptActivity : MvcBaseActivity() {
+class AptActivity : ComponentMvcBaseActivity() {
     @BindView(R.id.root) lateinit var mRecyclerView: ConstraintLayout
 
     override fun layoutId(): Int {
@@ -31,8 +28,5 @@ class AptActivity : MvcBaseActivity() {
     override fun initData() {
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(baseEvent: BaseEvent<String>) {
-    }
 
 }

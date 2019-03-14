@@ -4,8 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.text.TextUtils
-import com.llj.lib.base.MvpBaseFragment
-import com.llj.lib.base.mvp.IBasePresenter
+import com.llj.lib.base.MvcBaseFragment
 import com.llj.lib.statusbar.LightStatusBarCompat
 
 /**
@@ -14,7 +13,8 @@ import com.llj.lib.statusbar.LightStatusBarCompat
  * author llj
  * date 2018/11/5
  */
-abstract class ADMvpBaseFragment<P : IBasePresenter> : MvpBaseFragment<P>() {
+abstract class ComponentMvcBaseFragment : MvcBaseFragment() {
+
 
     // true 黑色字体  false 白色
     protected open fun statusBarTextColorBlack(): Boolean {
@@ -25,6 +25,7 @@ abstract class ADMvpBaseFragment<P : IBasePresenter> : MvpBaseFragment<P>() {
         return !TextUtils.isEmpty(ComponentApplication.mUserInfoVo.access_token)
     }
 
+    @CallSuper
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {

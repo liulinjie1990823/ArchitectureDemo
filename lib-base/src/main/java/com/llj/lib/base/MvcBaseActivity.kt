@@ -6,22 +6,25 @@ import android.content.Context
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v4.util.ArrayMap
+import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
+import com.llj.lib.tracker.ITracker
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 
-
 /**
- * ArchitectureDemo
+ * ArchitectureDemo.
  * describe:
  * author llj
- * date 2018/5/15
+ * date 2019/3/13
  */
-abstract class MvcBaseActivity : BaseActivity(){
+abstract class MvcBaseActivity : AppCompatActivity()
+        , IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask, ITracker {
+
     val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context
 
@@ -42,6 +45,8 @@ abstract class MvcBaseActivity : BaseActivity(){
         super.onCreate(savedInstanceState)
 
         addCurrentActivity(this)
+
+        setPageName(this)
 
         getIntentData(intent)
 
@@ -82,7 +87,6 @@ abstract class MvcBaseActivity : BaseActivity(){
         super.onDestroy()
 
         //防止窗口泄漏，关闭dialog同时结束相关请求
-
         val requestDialog = getLoadingDialog() as Dialog?
         if (requestDialog != null && requestDialog.isShowing) {
             requestDialog.cancel()
@@ -127,9 +131,9 @@ abstract class MvcBaseActivity : BaseActivity(){
     //</editor-fold >
 
     //<editor-fold desc="事件总线">
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    fun <T> onEvent(event: BaseEvent<T>) {
-//    }
+    //    @Subscribe(threadMode = ThreadMode.MAIN)
+    //    fun <T> onEvent(event: BaseEvent<T>) {
+    //    }
     //</editor-fold >
 
     //<editor-fold desc="IBaseActivity">
@@ -151,6 +155,7 @@ abstract class MvcBaseActivity : BaseActivity(){
         return mRequestDialog
     }
 
+    //自定义实现
     override fun initLoadingDialog(): ITag? {
         return null
     }
@@ -179,7 +184,7 @@ abstract class MvcBaseActivity : BaseActivity(){
     //<editor-fold desc="处理点击外部影藏输入法">
     override fun onTouchEvent(event: MotionEvent): Boolean {
         onTouchEvent(this, event)
-        return super<BaseActivity>.onTouchEvent(event)
+        return super<AppCompatActivity>.onTouchEvent(event)
     }
     //</editor-fold >
 

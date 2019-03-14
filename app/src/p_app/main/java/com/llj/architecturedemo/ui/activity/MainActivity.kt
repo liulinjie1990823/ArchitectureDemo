@@ -19,6 +19,7 @@ import com.llj.architecturedemo.ui.model.TabListVo
 import com.llj.architecturedemo.ui.model.TabVo
 import com.llj.architecturedemo.ui.presenter.MainPresenter
 import com.llj.architecturedemo.ui.view.MainContractView
+import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
 import com.llj.component.service.preference.ConfigPreference
 import com.llj.lib.base.BaseTabActivity
@@ -30,6 +31,9 @@ import com.llj.lib.net.response.BaseResponse
 @Route(path = CRouter.APP_MAIN_ACTIVITY)
 class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
 
+    override fun getPageKey(): String {
+       return ComponentMvcBaseActivity.PAGE_NAME
+    }
 
     @BindView(R.id.ll_footer_bar) lateinit var mLlFooterBar: LinearLayout
 

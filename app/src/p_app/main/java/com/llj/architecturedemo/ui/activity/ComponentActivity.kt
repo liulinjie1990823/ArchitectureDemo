@@ -9,9 +9,9 @@ import com.billy.cc.core.component.CC
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
+import com.llj.architecturedemo.AppMvcBaseActivity
 import com.llj.architecturedemo.R
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.MvcBaseActivity
 
 /**
  * ArchitectureDemo.
@@ -20,7 +20,7 @@ import com.llj.lib.base.MvcBaseActivity
  * date 2018/8/24
  */
 @Route(path = CRouter.APP_COMPONENT_ACTIVITY)
-class ComponentActivity : MvcBaseActivity() {
+class ComponentActivity : AppMvcBaseActivity() {
     @BindView(R.id.recyclerView) lateinit var mRecyclerView: RecyclerView
 
     override fun layoutId(): Int {

@@ -32,7 +32,7 @@ import com.llj.architecturedemo.ui.model.BabyHomeModuleVo
 import com.llj.architecturedemo.ui.model.HomeModelType
 import com.llj.architecturedemo.ui.presenter.VLayoutPresenter
 import com.llj.architecturedemo.ui.view.IVLayoutView
-import com.llj.component.service.ADMvpBaseFragment
+import com.llj.component.service.ComponentMvpBaseFragment
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
 import com.llj.lib.base.help.DisplayHelper
@@ -58,7 +58,7 @@ import kotlin.collections.ArrayList
  * author llj
  * date 2018/10/24
  */
-class VLayoutFragment2 : ADMvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
+class VLayoutFragment2 : ComponentMvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
 
     override fun getParams1(): HashMap<String, Any> {
         return HashMap()

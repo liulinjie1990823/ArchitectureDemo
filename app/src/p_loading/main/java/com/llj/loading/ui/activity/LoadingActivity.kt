@@ -8,8 +8,8 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.llj.architecturedemo.R
+import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.MvcBaseActivity
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.statusbar.StatusBarCompat
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit
  * author llj
  * date 2018/9/20
  */
-class LoadingActivity : MvcBaseActivity() {
+class LoadingActivity : ComponentMvcBaseActivity() {
     @BindView(R.id.sdv_add) lateinit var mSdvAdd: SimpleDraweeView
     @BindView(R.id.sdv_icon) lateinit var mSdvIcon: SimpleDraweeView
     @BindView(R.id.tv_leapfrog) lateinit var mTvLeapfrog: TextView

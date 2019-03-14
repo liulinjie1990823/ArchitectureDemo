@@ -8,8 +8,8 @@ import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.hook.HookHelper
+import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.MvcBaseActivity
 
 
 /**
@@ -19,7 +19,7 @@ import com.llj.lib.base.MvcBaseActivity
  * date 2018/8/29
  */
 @Route(path = CRouter.APP_HOOK_ACTIVITY)
-class HookActivity : MvcBaseActivity() {
+class HookActivity : ComponentMvcBaseActivity() {
     @BindView(R.id.tv_click) lateinit var mTvClick: TextView
 
 

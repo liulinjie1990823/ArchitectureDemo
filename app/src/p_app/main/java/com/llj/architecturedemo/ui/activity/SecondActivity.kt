@@ -16,7 +16,7 @@ import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.refresh.RefreshHelper
 import com.llj.adapter.util.ViewHolderHelper
-import com.llj.architecturedemo.MyBaseActivity
+import com.llj.architecturedemo.AppMvpBaseActivity
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.architecturedemo.ui.presenter.SecondPresenter
@@ -35,7 +35,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
  * date 2018/7/3
  */
 @Route(path = CRouter.APP_SECOND_ACTIVITY)
-class SecondActivity : MyBaseActivity<SecondPresenter>(), SecondView {
+class SecondActivity : AppMvpBaseActivity<SecondPresenter>(), SecondView {
     @BindView(R.id.mTvClick) lateinit var mTvClick: TextView
     @BindView(R.id.mRefreshLayout) lateinit var mRefreshLayout: SmartRefreshLayout
     @BindView(R.id.mRecyclerView) lateinit var mRecyclerView: RecyclerView

@@ -10,7 +10,7 @@ import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
-import com.llj.component.service.ADMvcBaseFragment
+import com.llj.component.service.ComponentMvcBaseFragment
 import com.llj.component.service.scrollableLayout.ScrollableHelper
 
 /**
@@ -19,7 +19,7 @@ import com.llj.component.service.scrollableLayout.ScrollableHelper
  * author llj
  * date 2018/8/16
  */
-class ItemFragment : ADMvcBaseFragment(), ScrollableHelper.ScrollableContainer {
+class ItemFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableContainer {
     override fun getScrollableView(): View {
         return mRecyclerView
     }

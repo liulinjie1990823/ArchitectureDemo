@@ -11,7 +11,7 @@ import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.ui.model.BabyHomeModuleItemVo
-import com.llj.component.service.ADMvcBaseFragment
+import com.llj.component.service.ComponentMvcBaseFragment
 import com.llj.component.service.arouter.CRouter
 import com.llj.component.service.scrollableLayout.ScrollableHelper
 import com.llj.lib.webview.CWebViewActivity
@@ -22,7 +22,7 @@ import com.llj.lib.webview.CWebViewActivity
  * author llj
  * date 2018/8/15
  */
-class HomeFragment : ADMvcBaseFragment(), ScrollableHelper.ScrollableContainer {
+class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableContainer {
     override fun getScrollableView(): View {
         return mRecyclerView
     }

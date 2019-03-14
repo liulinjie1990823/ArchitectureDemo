@@ -13,6 +13,7 @@ import butterknife.Unbinder
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
 import com.llj.lib.utils.LogUtil
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.Disposable
 
 /**
@@ -21,7 +22,7 @@ import io.reactivex.disposables.Disposable
  * author llj
  * date 2018/8/15
  */
-abstract class MvcBaseFragment : BaseFragment(){
+abstract class MvcBaseFragment : BaseFragment() {
     val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context
 
@@ -29,30 +30,35 @@ abstract class MvcBaseFragment : BaseFragment(){
     private val mIsVisible: Boolean = false
 
     private lateinit var mUnBinder: Unbinder
-    protected var mRequestDialog: ITag? = null
+    private var mRequestDialog: ITag? = null
 
     //<editor-fold desc="生命周期">
-    override fun onAttach(context: Context) {
+    override fun onAttach(context: Context?) {
         super.onAttach(context)
-        mContext = context
     }
 
     override fun onAttach(activity: Activity?) {
         super.onAttach(activity)
-        mContext = activity!!
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mContext = context!!
+
         if (arguments !== null) {
             getArgumentsData(arguments!!)
+        }
+
+        try {
+            AndroidSupportInjection.inject(this)
+        } catch (e: Exception) {
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View
         val layoutView = layoutView()
-        view = layoutView ?: inflater.inflate(layoutId(), null)
+        val view = layoutView ?: inflater.inflate(layoutId(), null)
 
         mUnBinder = ButterKnife.bind(this, view)
 
@@ -147,31 +153,29 @@ abstract class MvcBaseFragment : BaseFragment(){
         return mRequestDialog
     }
 
+    //自定义实现
     override fun initLoadingDialog(): ITag? {
         return null
     }
 
-    fun checkRequestDialog() {
+    private fun checkRequestDialog() {
         if (mRequestDialog == null) {
             mRequestDialog = initLoadingDialog()
-        }
-        if (mRequestDialog == null) {
-            mRequestDialog = LoadingDialog(mContext)
+
+            if (mRequestDialog == null) {
+                mRequestDialog = LoadingDialog(mContext)
+            }
         }
         setRequestTag(hashCode())
     }
 
 
     override fun setRequestTag(tag: Any) {
-        if (getLoadingDialog() != null) {
-            getLoadingDialog()!!.setRequestTag(tag)
-        }
+        getLoadingDialog()?.setRequestTag(tag)
     }
 
     override fun getRequestTag(): Any {
-        return if (getLoadingDialog() != null) {
-            getLoadingDialog()!!.getRequestTag()
-        } else -1
+        return getLoadingDialog()?.getRequestTag() ?: -1
     }
     //</editor-fold >
 }

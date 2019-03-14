@@ -16,8 +16,8 @@ import com.llj.architecturedemo.R
 import com.llj.architecturedemo.ui.fragment.ItemFragment
 import com.llj.architecturedemo.widget.tab.ITab
 import com.llj.architecturedemo.widget.tab.ITabs
+import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.MvcBaseActivity
 import net.lucode.hackware.magicindicator.MagicIndicator
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -35,7 +35,7 @@ import java.util.*
  * date 2018/8/16
  */
 @Route(path = CRouter.APP_RECYCLE_VIEW_ACTIVITY)
-class RecycleViewActivity : MvcBaseActivity() {
+class RecycleViewActivity : ComponentMvcBaseActivity() {
     @BindView(R.id.vp_container) lateinit var mVpContent: ViewPager
     @BindView(R.id.tabs) lateinit var mTabs: MagicIndicator
 

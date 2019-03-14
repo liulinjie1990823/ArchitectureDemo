@@ -10,9 +10,9 @@ import com.llj.adapter.ListBasedAdapter;
 import com.llj.adapter.UniversalBind;
 import com.llj.adapter.util.ViewHolderHelper;
 import com.llj.architecturedemo.R;
+import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.component.service.permission.PermissionManager;
-import com.llj.lib.base.MvcBaseActivity;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -28,7 +28,7 @@ import butterknife.BindView;
  * date 2019/2/21
  */
 @Route(path = CRouter.APP_PERMISSION_ACTIVITY)
-public class PermissionActivity extends MvcBaseActivity {
+public class PermissionActivity extends ComponentMvcBaseActivity {
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 
     @Override
