@@ -1,0 +1,63 @@
+def debugFile = "${projectDir.absolutePath}/build/outputs/apk/debug/${getApkName(rootProject.ext.build_versions["versionName"],"debug")}"
+def betaFile = "${projectDir.absolutePath}/build/outputs/apk/beta/${getApkName(rootProject.ext.build_versions["versionName"],"beta")}"
+def releaseFile = "${projectDir.absolutePath}/build/outputs/apk/release/${getApkName(rootProject.ext.build_versions["versionName"],"release")}"
+
+def getApkName(String versionName,String variantName) {
+    return "v${versionName}_${variantName}_${releaseTime()}.apk"
+}
+project.ext.set("myProp", "myValue")
+assert project.myProp == "myValue"
+
+ext {
+    getApkName = this.&getApkName
+}
+
+private def uploadPGY(String filePath, String apiKey) {
+    println filePath
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        executable = 'curl'
+        args = ['-F', "file=@${filePath}", '-F', "_api_key=${apiKey}", rootProject.ext.pgyUploadUrl]
+        standardOutput = stdout
+    }
+    String output = stdout.toString()
+    def parsedJson = new groovy.json.JsonSlurper().parseText(output)
+    println parsedJson.data.buildQRCodeURL
+    println "版本号：" + parsedJson.data.buildVersion
+}
+
+/**
+ * 执行 “uploadDebugApk” 命令自动打测试服包，并上传到蒲公英
+ */
+task uploadDebugApk() {
+    group = "publishPgy"
+    doLast {
+        uploadPGY(debugFile, rootProject.ext.pgyDebugApiKey)
+    }
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name == 'assembleDebug') {
+        uploadDebugApk.dependsOn(task)
+    }
+}
+
+/**
+ * 执行 “uploadBetaApk” 命令自动打正式服包，并上传到蒲公英
+ */
+task uploadBetaApk(dependsOn: 'assembleBeta') {
+    group = "publishPgy"
+    doLast {
+        uploadPGY(betaFile, rootProject.ext.pgyBetaApiKey)
+    }
+}
+
+/**
+ * 执行 “uploadReleaseApk” 命令自动打超管服包，并上传到蒲公英
+ */
+task uploadReleaseApk(dependsOn: 'assembleRelease') {
+    group = "publishPgy"
+    doLast {
+        uploadPGY(releaseFile, rootProject.ext.pgyReleaseApiKey)
+    }
+}

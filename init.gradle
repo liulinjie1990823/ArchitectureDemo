@@ -12,3 +12,9 @@ try {
 ext.useComponent = properties.getProperty("useComponent")=="true"
 ext.useMaven = properties.getProperty("useMaven")=="true"
 
+ext.pgyDebugApiKey = properties.getProperty("pgyDebugApiKey")
+ext.pgyBetaApiKey = properties.getProperty("pgyBetaApiKey")
+ext.pgyReleaseApiKey = properties.getProperty("pgyReleaseApiKey")
+ext.pgyUploadUrl = properties.getProperty("pgyUploadUrl")
+
+

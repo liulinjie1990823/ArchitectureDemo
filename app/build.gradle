@@ -93,10 +93,9 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def fileName = "v${defaultConfig.versionName}_${variant.name}_${releaseTime()}.apk"
-                outputFileName = fileName
+            if (output.outputFile != null && outputFile.name.endsWith('.apk')) {
+//                outputFileName = "v${variant.versionName}_${variant.name}_${releaseTime()}.apk"
+                outputFileName = getApkName(variant.versionName,variant.name)
             }
         }
     }
@@ -119,6 +118,7 @@ android {
         exclude 'META-INF/androidx.versionedparcelable_versionedparcelable.version'
     }
 }
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

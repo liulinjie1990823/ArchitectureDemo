@@ -9,21 +9,17 @@ try {
     println("local.properties not found")
 }
 
-def useComponent = properties.getProperty("useComponent") == "true"
+//这里的useMaven只是该文件下使用，没有设置到ext中；如需要在init.gradle中设置
 def useMaven = properties.getProperty("useMaven") == "true"
 
 include ':lib-swipeback', ':lib-tracker'
 //include ':module-java'
-//include ':libs'
-//include ':lib-statusbar'
 
 include 'app',
         ':component-service',
         ':module-login'
 
 include 'plugin-tracker-inject'
-
-
 
 if (!useMaven) {
     include ':lib-base',

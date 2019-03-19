@@ -75,6 +75,8 @@ apply from: "configureLibrary.gradle"
 //配置module相关属性
 apply from: "configureModule.gradle"
 
+
+
 afterEvaluate {
 
     tasks.matching {
