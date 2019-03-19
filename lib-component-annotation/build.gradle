@@ -7,5 +7,5 @@ dependencies {
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 
-apply from: "../uploadArchives.gradle"
-apply from: "../bintrayUpload.gradle"
+apply from: rootProject.file('gradle/uploadArchives.gradle')
+apply from: rootProject.file('gradle/bintrayUpload.gradle')

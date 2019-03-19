@@ -13,5 +13,5 @@ dependencies {
     compile deps.android_gradle_plugin
 }
 
-apply from: "../uploadArchives.gradle"
-apply from: "../bintrayUpload.gradle"
+apply from: rootProject.file('gradle/uploadArchives.gradle')
+apply from: rootProject.file('gradle/bintrayUpload.gradle')

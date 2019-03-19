@@ -2,8 +2,8 @@
 apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
-    apply from: 'configureVersions.gradle'
-    apply from: 'utils.gradle'
+    apply from: rootProject.file('gradle/configVersions.gradle')
+    apply from: rootProject.file('gradle/utils.gradle')
     addRepos(repositories)
     dependencies {
         //方法数检测
@@ -69,11 +69,11 @@ allprojects {
     }
 }
 
-apply from: "init.gradle"
+apply from: rootProject.file('gradle/init.gradle')
 //配置library相关属性
-apply from: "configureLibrary.gradle"
+apply from: rootProject.file('gradle/configLibrary.gradle')
 //配置module相关属性
-apply from: "configureModule.gradle"
+apply from: rootProject.file('gradle/configApp.gradle')
 
 
 

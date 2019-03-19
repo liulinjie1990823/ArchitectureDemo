@@ -156,7 +156,7 @@ walle {
 }
 
 //打包任务
-apply from: "../zipChannel.gradle"
+apply from: rootProject.file('gradle/zipChannel.gradle')
 
 
 

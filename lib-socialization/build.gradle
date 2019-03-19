@@ -6,5 +6,5 @@ dependencies {
     implementation deps.okhttp
 }
 
-apply from: "../uploadArchives.gradle"
-apply from: "../bintrayUpload.gradle"
+apply from: rootProject.file('gradle/uploadArchives.gradle')
+apply from: rootProject.file('gradle/bintrayUpload.gradle')
