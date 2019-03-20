@@ -2,16 +2,6 @@ def debugFile = "${projectDir.absolutePath}/build/outputs/apk/debug/${getApkName
 def betaFile = "${projectDir.absolutePath}/build/outputs/apk/beta/${getApkName(rootProject.ext.build_versions["versionName"],"beta")}"
 def releaseFile = "${projectDir.absolutePath}/build/outputs/apk/release/${getApkName(rootProject.ext.build_versions["versionName"],"release")}"
 
-def getApkName(String versionName,String variantName) {
-    return "v${versionName}_${variantName}_${releaseTime()}.apk"
-}
-project.ext.set("myProp", "myValue")
-assert project.myProp == "myValue"
-
-ext {
-    getApkName = this.&getApkName
-}
-
 private def uploadPGY(String filePath, String apiKey) {
     println filePath
     def stdout = new ByteArrayOutputStream()
@@ -45,19 +35,31 @@ tasks.whenTaskAdded { task ->
 /**
  * 执行 “uploadBetaApk” 命令自动打正式服包，并上传到蒲公英
  */
-task uploadBetaApk(dependsOn: 'assembleBeta') {
+task uploadBetaApk() {
     group = "publishPgy"
     doLast {
         uploadPGY(betaFile, rootProject.ext.pgyBetaApiKey)
     }
 }
 
+tasks.whenTaskAdded { task ->
+    if (task.name == 'assembleBeta') {
+        uploadBetaApk.dependsOn(task)
+    }
+}
+
 /**
  * 执行 “uploadReleaseApk” 命令自动打超管服包，并上传到蒲公英
  */
-task uploadReleaseApk(dependsOn: 'assembleRelease') {
+task uploadReleaseApk() {
     group = "publishPgy"
     doLast {
         uploadPGY(releaseFile, rootProject.ext.pgyReleaseApiKey)
+    }
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name == 'assembleRelease') {
+        uploadReleaseApk.dependsOn(task)
     }
 }

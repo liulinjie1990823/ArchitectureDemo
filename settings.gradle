@@ -12,7 +12,7 @@ try {
 //这里的useMaven只是该文件下使用，没有设置到ext中；如需要在init.gradle中设置
 def useMaven = properties.getProperty("useMaven") == "true"
 
-include ':lib-swipeback', ':lib-tracker'
+include ':lib-swipeback', ':lib-tracker', ':lib_zbar'
 //include ':module-java'
 
 include 'app',

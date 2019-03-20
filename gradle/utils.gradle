@@ -13,8 +13,13 @@ def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("GMT+:08:00"))
 }
 
+def getApkName(String versionName,String variantName) {
+    return "v${versionName}_${variantName}_${releaseTime()}.apk"
+}
+
 
 ext {
     releaseTime = this.&releaseTime
     getVersionNameAdvanced = this.&getVersionNameAdvanced
+    getApkName = this.&getApkName
 }

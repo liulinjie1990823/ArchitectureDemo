@@ -69,12 +69,12 @@ allprojects {
     }
 }
 
+//设置ext属性
 apply from: rootProject.file('gradle/init.gradle')
 //配置library相关属性
 apply from: rootProject.file('gradle/configLibrary.gradle')
 //配置module相关属性
 apply from: rootProject.file('gradle/configApp.gradle')
-
 
 
 afterEvaluate {
