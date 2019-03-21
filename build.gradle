@@ -3,6 +3,8 @@ apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
     apply from: rootProject.file('gradle/configVersions.gradle')
+    //设置ext属性
+    apply from: rootProject.file('gradle/init.gradle')
     apply from: rootProject.file('gradle/utils.gradle')
     addRepos(repositories)
     dependencies {
@@ -23,7 +25,9 @@ buildscript {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         //组件化插件
         classpath 'com.billy.android:cc-register:1.0.8'
-
+        if (useApkUploadPlugin) {
+            classpath 'com.llj:plugin-upload:0.0.1'
+        }
 //        classpath 'com.llj:plugin-tracker-inject:0.0.1'
     }
 }
@@ -69,8 +73,6 @@ allprojects {
     }
 }
 
-//设置ext属性
-apply from: rootProject.file('gradle/init.gradle')
 //配置library相关属性
 apply from: rootProject.file('gradle/configLibrary.gradle')
 //配置module相关属性

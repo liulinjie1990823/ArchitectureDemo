@@ -2,6 +2,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'walle'
 //apply plugin: 'plugin-tracker-inject'
 
+
 android {
     compileSdkVersion build_versions.compileSdkVersion
     buildToolsVersion build_versions.buildToolsVersion
@@ -39,6 +40,12 @@ android {
 
     buildTypes {
         debug {
+            minifyEnabled false
+            useProguard false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+        beta {
             minifyEnabled false
             useProguard false
             shrinkResources false
@@ -95,7 +102,7 @@ android {
         variant.outputs.all { output ->
             if (output.outputFile != null && outputFile.name.endsWith('.apk')) {
 //                outputFileName = "v${variant.versionName}_${variant.name}_${releaseTime()}.apk"
-                outputFileName = getApkName(variant.versionName,variant.name)
+                outputFileName = getApkName(variant.versionName, variant.name)
             }
         }
     }
@@ -157,6 +164,30 @@ walle {
 
 //打包任务
 apply from: rootProject.file('gradle/zipChannel.gradle')
+
+
+if (useApkUploadPlugin) {
+    apply plugin: 'com.llj.plugin.upload.apkUploadPlugin'
+
+    upload {
+        dingTalkAccessToken = rootProject.ext.dingTalkAccessToken
+
+        buildTypes {
+            debug{
+                pgyApiKey = rootProject.ext.pgyDebugApiKey
+                pgyUserKey = rootProject.ext.pgyDebugUserKey
+            }
+            beta{
+                pgyApiKey = rootProject.ext.pgyBetaApiKey
+                pgyUserKey = rootProject.ext.pgyBetaUserKey
+            }
+            release{
+                pgyApiKey = rootProject.ext.pgyReleaseApiKey
+                pgyUserKey = rootProject.ext.pgyReleaseUserKey
+            }
+        }
+    }
+}
 
 
 
