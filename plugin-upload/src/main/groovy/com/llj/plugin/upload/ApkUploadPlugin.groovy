@@ -48,13 +48,13 @@ class ApkUploadPlugin implements Plugin<Project> {
 
                     //上传本地apk
                     def uploadLocalApkToPgy = project.task("uploadLocal${variantName}") doLast {
-                        uploadPgyApk(project, apkFile, upload, buildType)
+                        uploadPgyApk(project, apkFile, upload, buildType,variantName)
                     }
                     uploadLocalApkToPgy.setGroup("uploadPgy")
 
                     //上传apk,apk会重新生成
                     def uploadApkToPgy = project.task("uploadPgy${variantName}") doLast {
-                        uploadPgyApk(project, apkFile, upload, buildType)
+                        uploadPgyApk(project, apkFile, upload, buildType,variantName)
                     }
                     uploadApkToPgy.setGroup("uploadPgy")
                     uploadApkToPgy.dependsOn(project.tasks.getByName("assemble${variantName}"))
@@ -63,7 +63,7 @@ class ApkUploadPlugin implements Plugin<Project> {
         }
     }
 
-    private void uploadPgyApk(Project project, String apkFile, ApkUploadExtensions upload, BuildTypeExtensions buildType) {
+    private void uploadPgyApk(Project project, String apkFile, ApkUploadExtensions upload, BuildTypeExtensions buildType,String variantName) {
         println "----------------------------------"
         println("apiKey:" + buildType.pgyApiKey)
         println("userKey:" + buildType.pgyUserKey)
@@ -91,7 +91,7 @@ class ApkUploadPlugin implements Plugin<Project> {
                     println "pgy upload success"
                     println("json.data:" + json.data.toString())
 
-                    noticeDingTalk(project, upload, json.data)
+                    noticeDingTalk(project, upload,variantName, json.data)
                 } else {
                     println json.message
                 }
@@ -102,7 +102,7 @@ class ApkUploadPlugin implements Plugin<Project> {
         }
     }
 
-    private void noticeDingTalk(Project project, ApkUploadExtensions upload, LazyMap data) {
+    private void noticeDingTalk(Project project, ApkUploadExtensions upload, String variantName,LazyMap data) {
         println "----------------------------------"
         try {
             def http = new HTTPBuilder(DING_TALK_URL)
@@ -112,7 +112,7 @@ class ApkUploadPlugin implements Plugin<Project> {
                 body = "{\n" +
                         "    \"actionCard\": {\n" +
                         "        \"title\": \"Android：${data.appName}\", \n" +
-                        "        \"text\": \"![screenshot](${data.appQRCodeURL}) \\n #### **Android**：${data.appName} \\n\\n - 版本信息：${data.appVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(Long.valueOf(data.appFileSize))} \\n - 更新时间：${data.appUpdated} \\n - 更新内容：${data.appUpdateDescription}\", \n" +
+                        "        \"text\": \"![screenshot](${data.appQRCodeURL}) \\n #### **Android**：${data.appName} \\n\\n - build版本：${variantName} \\n - 版本信息：${data.appVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(Long.valueOf(data.appFileSize))} \\n - 更新时间：${data.appUpdated} \\n - 更新内容：${data.appUpdateDescription}\", \n" +
                         "        \"hideAvatar\": \"0\", \n" +
                         "        \"btnOrientation\": \"0\", \n" +
                         "        \"singleTitle\" : \"点击下载最新应用包\",\n" +
