@@ -1,7 +1,7 @@
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api project(':lib-qrcodecore')
-    compile 'com.google.zxing:core:3.3.3'
+    api 'com.google.zxing:core:3.3.3'
 }
 
 apply from: rootProject.file('gradle/uploadArchives.gradle')

@@ -16,7 +16,7 @@ public abstract class SettingMvpBaseActivity<P extends IBasePresenter> extends C
     @NotNull
     @Override
     public String moduleName() {
-        return "setting";
+        return "app-setting";
     }
 
 }

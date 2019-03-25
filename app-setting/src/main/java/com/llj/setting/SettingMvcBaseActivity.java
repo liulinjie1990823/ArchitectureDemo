@@ -14,6 +14,6 @@ public abstract class SettingMvcBaseActivity extends ComponentMvcBaseActivity {
     @NotNull
     @Override
     public String moduleName() {
-        return "setting";
+        return "app-setting";
     }
 }

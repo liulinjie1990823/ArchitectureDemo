@@ -18,7 +18,7 @@ class LoginModule : IComponent {
     private lateinit var mLoginComponent: LoginComponent
 
     override fun getName(): String {
-        return "LoginModule"
+        return "app-login"
     }
 
     override fun onCall(cc: CC?): Boolean {

@@ -1,7 +1,9 @@
 package debug;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
@@ -71,6 +73,12 @@ public class MyApp extends ComponentApplication {
                 }
             }
         };
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     @Nullable

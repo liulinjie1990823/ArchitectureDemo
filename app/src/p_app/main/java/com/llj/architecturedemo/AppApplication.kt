@@ -39,10 +39,8 @@ class AppApplication : ComponentApplication() {
                 .build()
 
         //调用LoginComponent中的dagger组件
-        CC.obtainBuilder("LoginModule")
-                .setActionName("init")
-                .build()
-                .call()
+        CC.obtainBuilder("app-login").setActionName("init").build().call()
+        CC.obtainBuilder("app-setting").setActionName("init").build().call()
 
         //分享
         val config = SocialConfig.Builder(this, true).qqId("1103566659")
@@ -106,8 +104,8 @@ class AppApplication : ComponentApplication() {
             if ("app" == mvpBaseActivity.moduleName()) {
                 //主工程
                 mAppComponent.activityInjector().inject(activity)
-            } else if ("login" == mvpBaseActivity.moduleName()) {
-                CC.obtainBuilder("LoginModule")
+            } else {
+                CC.obtainBuilder(mvpBaseActivity.moduleName())
                         .setContext(activity)
                         .setActionName("injectActivity")
                         .build()
@@ -123,8 +121,8 @@ class AppApplication : ComponentApplication() {
             if ("app" == mvpBaseFragment.moduleName()) {
                 //主工程
                 mAppComponent.supportFragmentInjector().inject(fragment)
-            } else if ("login" == mvpBaseFragment.moduleName()) {
-                CC.obtainBuilder("LoginModule")
+            } else {
+                CC.obtainBuilder(mvpBaseFragment.moduleName())
                         .setContext(fragment.context)
                         .addParam("fragment", fragment.tag)
                         .setActionName("injectFragment")

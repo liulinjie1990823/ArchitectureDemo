@@ -51,6 +51,7 @@ class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableCont
 
         val arrayList = arrayListOf<Data>()
         arrayList.add(Data("LoginActivity", CRouter.LOGIN_LOGIN_ACTIVITY))
+        arrayList.add(Data("QrCodeActivity", CRouter.QRCODE_ACTIVITY))
         arrayList.add(Data("PermissionActivity", CRouter.APP_PERMISSION_ACTIVITY))
         arrayList.add(Data("RewardLayoutActivity", CRouter.APP_REWARD_LAYOUT_ACTIVITY))
         arrayList.add(Data("SwipeBackLayoutActivity", CRouter.APP_SWIPE_BACK_LAYOUT_ACTIVITY))
