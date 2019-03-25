@@ -27,7 +27,6 @@ open class BaseActivityPresenter<R : BaseRepository, V : IBaseActivityView> : IB
     override fun destroy() {
     }
 
-
     override fun onCreate(owner: LifecycleOwner) {
         LogUtil.e(mTagLog, mTagLog + " onCreate()" + "state:" + owner.lifecycle.currentState)
     }

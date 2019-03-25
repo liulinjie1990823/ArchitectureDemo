@@ -26,7 +26,7 @@ import javax.inject.Singleton
             LoginComponentBuilder::class, //将所有的Activity,Fragment注册进来
             LoginComponentModule::class
         ])
-interface LoginComponent {
+internal interface LoginComponent {
 
     //    @Component.Builder
     //    interface Builder {

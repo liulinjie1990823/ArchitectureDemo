@@ -134,14 +134,17 @@ dependencies {
     implementation deps.badgeview
 
     if (useComponent) {
-        addComponent 'module-login'
+        addComponent 'app-login'
+        addComponent 'app-mine'
+        addComponent 'app-setting'
     } else {
-        api project(':module-login')
+        api project(':app-login')
+        api project(':app-mine')
+        api project(':app-setting')
     }
     if (useMaven) {
         kapt deps.component_compiler
     } else {
-//        annotationProcessor project(':lib-component-compiler')
         kapt project(':lib-component-compiler')
     }
 

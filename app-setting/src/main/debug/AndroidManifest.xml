@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.llj.login">
+          package="com.llj.setting">
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!-- 用于访问GPS定位 -->
@@ -44,19 +44,17 @@
     <application
         android:name="debug.MyApp"
         android:allowBackup="false"
+        android:appComponentFactory="whateverString"
         android:icon="@mipmap/demo_a_ic_launcher"
         android:supportsRtl="true"
-        tools:replace="android:appComponentFactory"
         android:theme="@style/MyAppTheme.NoActionBar"
-        android:appComponentFactory="whateverString"
-       >
-        <activity android:name="com.llj.login.ui.activity.LoginActivity">
+        tools:replace="android:appComponentFactory"
+        >
+        <activity android:name=".ui.activity.QrCodeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.RegisterActivity"/>
     </application>
 </manifest>

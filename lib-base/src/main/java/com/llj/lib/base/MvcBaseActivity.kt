@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import butterknife.ButterKnife
 import butterknife.Unbinder
+import com.llj.lib.base.mvp.IBaseActivityView
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITag
 import com.llj.lib.tracker.ITracker
@@ -23,7 +24,7 @@ import io.reactivex.disposables.Disposable
  * date 2019/3/13
  */
 abstract class MvcBaseActivity : AppCompatActivity()
-        , IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask, ITracker {
+        , IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask, ITracker, IBaseActivityView {
 
     val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context

@@ -10,6 +10,7 @@ subprojects {
         if (it.name.startsWith('module-java')) {
             return
         }
+
         apply from: rootProject.file('gradle/pgy.gradle')
         if (useComponent) {
             //使用组件

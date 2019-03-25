@@ -13,6 +13,9 @@ import dagger.Provides
  */
 @Module
 class PhoneLoginActivityModule {
+    /**
+     * 提供给Presenter的参数用的view
+     */
     @Provides
     internal fun providePhoneLoginActivity(activity: PhoneLoginActivity): PhoneLoginView {
         return activity

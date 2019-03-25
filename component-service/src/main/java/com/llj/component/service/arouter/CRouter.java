@@ -45,6 +45,9 @@ public class CRouter {
     public static final String LOGIN_PHONE_LOGIN_ACTIVITY = "/login/PhoneLoginActivity";
     public static final String LOGIN_REGISTER_ACTIVITY    = "/login/RegisterActivity";
 
+    //setting
+    public static final String QRCODE_ACTIVITY = "/setting/QrCodeActivity";
+
 
     public static final String QRCODE_CAPTUREACTIVITY                  = "/qrcode/CaptureActivity";
     public static final String APP_GUIDE_ACTIVITY                      = "/app/GuideActivity";                 //跳转到首页
@@ -446,8 +449,6 @@ public class CRouter {
                 .with(bundle)
                 .navigation(context);
     }
-
-
 
 
 }
