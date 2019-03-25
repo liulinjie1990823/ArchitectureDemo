@@ -1,6 +1,5 @@
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':lib-qrcodecore')
 }
 
 apply from: rootProject.file('gradle/uploadArchives.gradle')

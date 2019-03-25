@@ -1,0 +1,10 @@
+
+android {
+    resourcePrefix "setting_"
+}
+
+dependencies {
+
+}
+
+

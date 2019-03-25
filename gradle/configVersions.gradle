@@ -177,6 +177,10 @@ ext {
             utils                             : "com.llj:lib-utils:0.0.6",
             statusbar                         : "com.llj:lib-statusbar:0.0.1",
             webView                           : "com.llj:lib-webview:0.0.2",
+            map                               : "",
+            oss                               : "",
+            zbar                              : "",
+            zxing                             : "",
 
             //换肤
             skin_support                      : "skin.support:skin-support:$versions.skin",

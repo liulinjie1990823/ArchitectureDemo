@@ -4,7 +4,8 @@
 
 subprojects {
     if (it.name == 'app'
-            || it.name.startsWith('module-')) {
+            || it.name.startsWith('module-')
+            || it.name.startsWith('app-')) {
 
         if (it.name.startsWith('module-java')) {
             return
@@ -62,8 +63,9 @@ subprojects {
                 }
 
                 buildTypes {
-                    debug {
-                    }
+                    debug {}
+                    beta {}
+                    release{}
                 }
                 buildTypes.all { type ->
                     type.matchingFallbacks = ['debug']

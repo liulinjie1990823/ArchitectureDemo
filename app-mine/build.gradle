@@ -1,0 +1,10 @@
+
+android {
+    resourcePrefix "mine_"
+}
+
+dependencies {
+
+}
+
+

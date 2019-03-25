@@ -19,8 +19,9 @@ android {
     }
 
     buildTypes {
-        debug {
-        }
+        debug {}
+        beta {}
+        release{}
     }
     buildTypes.all { type ->
         type.matchingFallbacks = ['debug']
@@ -60,6 +61,10 @@ dependencies {
         api deps.utils
         api deps.webView
         api deps.tracker
+        api deps.map
+        api deps.oss
+        api project(':lib-zbar')
+        api project(':lib-zxing')
     } else {
         api project(':lib-statusbar')
         api project(':lib-base')
@@ -78,6 +83,10 @@ dependencies {
         api project(':lib-utils')
         api project(':lib-webview')
         api project(':lib-tracker')
+        api project(':lib-map')
+        api project(':lib-oss')
+        api project(':lib-zbar')
+        api project(':lib-zxing')
     }
 
 

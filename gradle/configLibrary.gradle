@@ -21,8 +21,9 @@ subprojects {
             }
 
             buildTypes {
-                debug {
-                }
+                debug {}
+                beta {}
+                release{}
             }
             buildTypes.all { type ->
                 type.matchingFallbacks = ['debug']
