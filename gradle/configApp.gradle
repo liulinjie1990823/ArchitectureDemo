@@ -5,13 +5,12 @@
 subprojects {
     if (it.name == 'app'
             || it.name.startsWith('module-')
-            || it.name.startsWith('app-')) {
+            || it.name.startsWith('app-')
+    ) {
 
         if (it.name.startsWith('module-java')) {
             return
         }
-
-        apply from: rootProject.file('gradle/pgy.gradle')
         if (useComponent) {
             //使用组件
             if (it.name == 'app') {
@@ -29,6 +28,7 @@ subprojects {
                 apply plugin: 'com.android.library'
             }
         }
+        apply from: rootProject.file('gradle/pgy.gradle')
         //app和module都生成R2文件，因为module要使用R2，切换为application的时候不用替换R2为R
         apply plugin: 'com.jakewharton.butterknife'
         apply plugin: 'kotlin-android'
@@ -39,7 +39,9 @@ subprojects {
                 arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
-        def isApplication = it.pluginManager.hasPlugin("com.android.application")
+        boolean isApplication = it.pluginManager.hasPlugin("com.android.application")
+        print("isApplication:" + project.name + isApplication)
+
         //android
         if (it.name != 'app') {
             android {
@@ -58,7 +60,7 @@ subprojects {
 
                     resConfigs "en", "xxhdpi"
 
-                    ndk { abiFilters "armeabi-v7a"  }
+                    ndk { abiFilters "armeabi-v7a" }
 
                     manifestPlaceholders = [qq_id: "1103566659"]
                 }
@@ -66,7 +68,7 @@ subprojects {
                 buildTypes {
                     debug {}
                     beta {}
-                    release{}
+                    release {}
                 }
                 buildTypes.all { type ->
                     type.matchingFallbacks = ['debug']
