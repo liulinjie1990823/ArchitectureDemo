@@ -1,13 +1,11 @@
 package com.llj.setting;
 
-import android.app.Activity;
-import android.support.v4.app.Fragment;
+import com.llj.component.service.IInject;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
-import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 
 /**
@@ -24,9 +22,6 @@ import dagger.android.support.AndroidSupportInjectionModule;
                 SettingComponentBuilder.class,
                 SettingComponentModule.class
         })
-public interface SettingComponent {
+public interface SettingComponent extends IInject {
 
-    DispatchingAndroidInjector<Activity> activityInjector();
-
-    DispatchingAndroidInjector<Fragment> supportFragmentInjector();
 }

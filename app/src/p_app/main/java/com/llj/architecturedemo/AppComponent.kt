@@ -1,10 +1,8 @@
 package com.llj.architecturedemo
 
-import android.app.Activity
-import android.support.v4.app.Fragment
+import com.llj.component.service.IInject
 import dagger.Component
 import dagger.android.AndroidInjectionModule
-import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
@@ -25,7 +23,7 @@ import javax.inject.Singleton
             AppComponentBuilder::class, //将所有的Activity和Fragment注册进来
             AppComponentModule::class
            ])
-interface AppComponent {
+interface AppComponent: IInject {
 
 //    @Component.Builder
 //    interface Builder {
@@ -69,6 +67,4 @@ interface AppComponent {
 //        }
 //    }
 
-    fun activityInjector(): DispatchingAndroidInjector<Activity>
-    fun supportFragmentInjector(): DispatchingAndroidInjector<Fragment>
 }

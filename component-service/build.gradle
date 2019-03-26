@@ -38,6 +38,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.billy.android:cc:2.1.4'
     api deps.arouter_api
     api deps.permission
     implementation deps.walle

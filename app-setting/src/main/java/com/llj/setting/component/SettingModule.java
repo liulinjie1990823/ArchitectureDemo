@@ -1,14 +1,14 @@
 package com.llj.setting.component;
 
-import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-
 import com.billy.cc.core.component.CC;
 import com.billy.cc.core.component.IComponent;
 import com.llj.component.service.ComponentApplication;
+import com.llj.component.service.IInject;
+import com.llj.component.service.IModule;
 import com.llj.setting.DaggerSettingComponent;
-import com.llj.setting.SettingComponent;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * ArchitectureDemo.
@@ -16,8 +16,8 @@ import com.llj.setting.SettingComponent;
  * author llj
  * date 2019/3/25
  */
-public class SettingModule implements IComponent {
-    private SettingComponent mSettingComponent;
+public class SettingModule implements IComponent, IModule {
+    private IInject mComponent;
 
     @Override
     public String getName() {
@@ -29,25 +29,30 @@ public class SettingModule implements IComponent {
         if (cc == null) {
             return false;
         }
-        if ("init".equals(cc.getActionName())) {
-            ComponentApplication componentApplication = (ComponentApplication) cc.getContext();
-            mSettingComponent = DaggerSettingComponent.builder()
-                    .component(componentApplication.mComponent)
-                    .build();
-        } else if ("injectActivity".equals(cc.getActionName())) {
-            Activity activity = (Activity) cc.getContext();
-            mSettingComponent.activityInjector().inject(activity);
-        } else if ("injectFragment".equals(cc.getActionName())) {
-            FragmentActivity activity = (FragmentActivity) cc.getContext();
-            String tag = cc.getParamItem("fragment");
+        return innerCall(cc);
+    }
 
-            if (tag != null) {
-                Fragment findFragmentByTag = activity.getSupportFragmentManager().findFragmentByTag(tag);
-                if (findFragmentByTag != null) {
-                    mSettingComponent.supportFragmentInjector().inject(findFragmentByTag);
-                }
-            }
-        }
-        return false;
+    @Override
+    public void initComponent(@NotNull ComponentApplication application) {
+        mComponent = DaggerSettingComponent.builder()
+                .component(application.mComponent)
+                .build();
+    }
+
+    @NotNull
+    @Override
+    public IInject getComponent() {
+        return checkComponent(mComponent);
+    }
+
+    @Override
+    public boolean innerCall(@NotNull CC cc) {
+        return IModule.DefaultImpls.innerCall(this, cc);
+    }
+
+    @NotNull
+    @Override
+    public IInject checkComponent(@Nullable IInject component) {
+        return IModule.DefaultImpls.checkComponent(this, component);
     }
 }

@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat
 import com.billy.cc.core.component.CC
 import com.llj.architecturedemo.ui.activity.MainActivity
 import com.llj.component.service.ComponentApplication
+import com.llj.component.service.IModule
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
@@ -39,8 +40,9 @@ class AppApplication : ComponentApplication() {
                 .build()
 
         //调用LoginComponent中的dagger组件
-        CC.obtainBuilder("app-login").setActionName("init").build().call()
-        CC.obtainBuilder("app").setActionName("init").build().call()
+        CC.obtainBuilder("app").setActionName(IModule.INIT).build().call()
+        CC.obtainBuilder("app-login").setActionName(IModule.INIT).build().call()
+        CC.obtainBuilder("app-setting").setActionName(IModule.INIT).build().call()
 
         //分享
         val config = SocialConfig.Builder(this, true).qqId("1103566659")
@@ -97,13 +99,15 @@ class AppApplication : ComponentApplication() {
         MultiDex.install(this)
     }
 
+
     override fun activityInjector(): AndroidInjector<Activity>? {
         return AndroidInjector { activity ->
             val mvpBaseActivity = activity as MvpBaseActivity<*>
 
+            //调用IModule中的对应action
             CC.obtainBuilder(mvpBaseActivity.moduleName())
                     .setContext(activity)
-                    .setActionName("injectActivity")
+                    .setActionName(IModule.INJECT_ACTIVITY)
                     .build()
                     .call()
         }
@@ -113,10 +117,11 @@ class AppApplication : ComponentApplication() {
         return AndroidInjector { fragment ->
             val mvpBaseFragment = fragment as MvpBaseFragment<*>
 
+            //调用IModule中的对应action
             CC.obtainBuilder(mvpBaseFragment.moduleName())
                     .setContext(fragment.context)
                     .addParam("fragment", fragment.tag)
-                    .setActionName("injectFragment")
+                    .setActionName(IModule.INJECT_FRAGMENT)
                     .build()
                     .call()
         }
