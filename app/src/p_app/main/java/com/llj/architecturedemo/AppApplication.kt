@@ -40,7 +40,7 @@ class AppApplication : ComponentApplication() {
 
         //调用LoginComponent中的dagger组件
         CC.obtainBuilder("app-login").setActionName("init").build().call()
-        CC.obtainBuilder("app-setting").setActionName("init").build().call()
+        CC.obtainBuilder("app").setActionName("init").build().call()
 
         //分享
         val config = SocialConfig.Builder(this, true).qqId("1103566659")
@@ -101,16 +101,11 @@ class AppApplication : ComponentApplication() {
         return AndroidInjector { activity ->
             val mvpBaseActivity = activity as MvpBaseActivity<*>
 
-            if ("app" == mvpBaseActivity.moduleName()) {
-                //主工程
-                mAppComponent.activityInjector().inject(activity)
-            } else {
-                CC.obtainBuilder(mvpBaseActivity.moduleName())
-                        .setContext(activity)
-                        .setActionName("injectActivity")
-                        .build()
-                        .call()
-            }
+            CC.obtainBuilder(mvpBaseActivity.moduleName())
+                    .setContext(activity)
+                    .setActionName("injectActivity")
+                    .build()
+                    .call()
         }
     }
 
@@ -118,17 +113,12 @@ class AppApplication : ComponentApplication() {
         return AndroidInjector { fragment ->
             val mvpBaseFragment = fragment as MvpBaseFragment<*>
 
-            if ("app" == mvpBaseFragment.moduleName()) {
-                //主工程
-                mAppComponent.supportFragmentInjector().inject(fragment)
-            } else {
-                CC.obtainBuilder(mvpBaseFragment.moduleName())
-                        .setContext(fragment.context)
-                        .addParam("fragment", fragment.tag)
-                        .setActionName("injectFragment")
-                        .build()
-                        .call()
-            }
+            CC.obtainBuilder(mvpBaseFragment.moduleName())
+                    .setContext(fragment.context)
+                    .addParam("fragment", fragment.tag)
+                    .setActionName("injectFragment")
+                    .build()
+                    .call()
         }
     }
 
