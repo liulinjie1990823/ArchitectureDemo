@@ -142,6 +142,7 @@ dependencies {
         api project(':app-mine')
         api project(':app-setting')
     }
+
     if (useMaven) {
         kapt deps.component_compiler
     } else {

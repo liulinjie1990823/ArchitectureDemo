@@ -26,4 +26,8 @@ abstract class MvpBaseActivity<P : IBasePresenter> : MvcBaseActivity(){
         lifecycle.addObserver(mPresenter)
     }
 
+    override fun getPageKey(): String {
+        return "test"
+    }
+
 }

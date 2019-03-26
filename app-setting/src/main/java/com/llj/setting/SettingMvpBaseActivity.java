@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
  * date 2019/3/25
  */
 public abstract class SettingMvpBaseActivity<P extends IBasePresenter> extends ComponentMvpBaseActivity<P> {
-
     @NotNull
     @Override
     public String moduleName() {

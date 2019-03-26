@@ -1,6 +1,5 @@
 package com.llj.login
 
-import com.llj.architecturedemo.LoginComponentModule
 import com.llj.component.service.IInject
 import dagger.Component
 import dagger.android.AndroidInjectionModule
