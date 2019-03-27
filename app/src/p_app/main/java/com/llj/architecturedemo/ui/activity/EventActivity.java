@@ -10,6 +10,7 @@ import com.llj.architecturedemo.vo.Cat;
 import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.BaseEvent;
+import com.llj.lib.jni.test.JniTest;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -37,18 +38,23 @@ public class EventActivity extends ComponentMvcBaseActivity {
             @Override
             public void doClick(View v) {
                 BaseEvent<String> baseEvent = new BaseEvent<>(100);
-                BaseEvent<String> baseEvent2 = new BaseEvent<>(100,"",null);
+                BaseEvent<String> baseEvent2 = new BaseEvent<>(100, "", null);
                 post(new BaseEvent<String>(100));
 
-                Cat cat=new Cat(1);
-                Cat cat2=new Cat(1,"");
-                Cat cat3=new Cat(1,"","");
+                Cat cat = new Cat(1);
+                Cat cat2 = new Cat(1, "");
+                Cat cat3 = new Cat(1, "", "");
             }
         });
+
+        JniTest jniTest = new JniTest();
+
+        mTextView.setText(jniTest.stringFromJNI());
     }
 
     @Override
     public void initData() {
 
     }
+
 }

@@ -129,6 +129,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    api project(':lib-jni-test')
     implementation deps.multidex
     implementation deps.multidex_instrumentation
     implementation deps.badgeview
