@@ -63,3 +63,4 @@ node_modules/
 repo/
 /lib-zbar/src/main/obj/
 
+/lib-jni-test/.externalNativeBuild/
