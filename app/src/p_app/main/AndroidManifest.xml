@@ -121,6 +121,7 @@
         <activity android:name=".ui.activity.RewardLayoutActivity"/>
         <activity android:name=".ui.activity.EventActivity"/>
         <activity android:name=".ui.activity.PermissionActivity"/>
+        <activity android:name=".ui.activity.GLSurfaceViewActivity"/>
 
         <service android:name=".ui.service.LoadingService"/>
     </application>

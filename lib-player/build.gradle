@@ -4,3 +4,29 @@ dependencies {
 
 apply from: rootProject.file('gradle/uploadArchives.gradle')
 apply from: rootProject.file('gradle/bintrayUpload.gradle')
+
+android {
+
+
+    defaultConfig {
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-frtti -fexceptions"
+                abiFilters 'armeabi-v7a'
+            }
+        }
+
+        sourceSets {
+            main {
+                jniLibs.srcDirs = ['src/main/jniLibs']
+            }
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
+}
