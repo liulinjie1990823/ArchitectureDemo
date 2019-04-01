@@ -27,13 +27,14 @@ public class GLBitmap {
     private FloatBuffer mVertexBuffer;
     private FloatBuffer mFragmentBuffer;
 
-    private int mVPosition;
-    private int mFPosition;
-    private int mProgram;//
+    private int mVPosition;//顶点位置
+    private int mFPosition;//片元位置
+    private int mProgram;//gl程序
     private int mTextureId;//纹理id
+    private int mSampler;
 
-    final   int   COORDS_PER_VERTEX = 2;
-    private   float[] mVertexData = {
+
+    private float[] mVertexData = {
             -1f, -1f,
             1f, -1f,
             -1f, 1f,
@@ -50,6 +51,11 @@ public class GLBitmap {
 //                0f, 0f,
 //                0.5f, 0f
     };
+
+    private static final int COORDINATE_PER_VERTEX = 2;//每个点的组成数量
+
+    private final int vertexCount  = mVertexData.length / COORDINATE_PER_VERTEX;//需要绘制几个顶点
+    private final int vertexStride = COORDINATE_PER_VERTEX * 4; // 4 bytes per vertex
 
 
     public GLBitmap(Context context, @DrawableRes int resId) {
@@ -77,32 +83,28 @@ public class GLBitmap {
         String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vertex_shader_screen);
         String fragmentSource = ShaderUtil.getRawResource(mContext, R.raw.fragment_shader_screen);
 
-
         mProgram = ShaderUtil.createProgram(vertexSource, fragmentSource);
 
         mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");
         mFPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");
-        int sampler = GLES20.glGetUniformLocation(mProgram, "sTexture");
-
+        mSampler = GLES20.glGetUniformLocation(mProgram, "sTexture");
 
         //创建一个纹理
         mTextureId = createTexture(mResId);
-
-        GLES20.glUniform1i(sampler, 0);
-
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
     }
 
     private int createTexture(@DrawableRes int resId) {
         Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), resId);
         if (bitmap != null && !bitmap.isRecycled()) {
-            int[] textureIds = new int[1];
 
             //创建一个纹理
+            int[] textureIds = new int[1];
             GLES20.glGenTextures(1, textureIds, 0);
 
             //绑定纹理
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureId);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[0]);
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+            GLES20.glUniform1i(mSampler, 0);
 
             //纹理环绕方式 GLES20.GL_REPEAT
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT);
@@ -132,7 +134,7 @@ public class GLBitmap {
             //GL_LINEAR
 
             //过滤方式
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_LINEAR);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 
             //根据以上指定的参数，生成一个2D纹理
@@ -157,10 +159,10 @@ public class GLBitmap {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
         GLES20.glEnableVertexAttribArray(mVPosition);
-        GLES20.glVertexAttribPointer(mVPosition, 2, GLES20.GL_FLOAT, false, 8, mVertexBuffer);
+        GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, mVertexBuffer);
 
         GLES20.glEnableVertexAttribArray(mFPosition);
-        GLES20.glVertexAttribPointer(mFPosition, 2, GLES20.GL_FLOAT, false, 8, mFragmentBuffer);
+        GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, mFragmentBuffer);
 
         //绘制4个点0-4
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);

@@ -7,8 +7,6 @@ import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.widget.MyGLSurfaceView;
 import com.llj.component.service.arouter.CRouter;
-import com.llj.lib.opengl.render.ColorRender;
-import com.llj.lib.opengl.render.ShapeRender;
 import com.llj.lib.opengl.render.TextureRender;
 import com.llj.lib.opengl.shape.Triangle;
 
@@ -35,11 +33,10 @@ public class GLSurfaceViewActivity extends AppMvcBaseActivity {
 
     @Override
     public void initViews(@Nullable Bundle savedInstanceState) {
-        TextureRender textureRender = new TextureRender(mContext,R.drawable.androids);
 
-        ColorRender colorRender = new ColorRender(mContext);
-
-        mGLSurfaceView.setRenderer(new ShapeRender(mContext));
+//        mGLSurfaceView.setRenderer(new ColorRender(mContext));
+        mGLSurfaceView.setRenderer(new TextureRender(mContext, R.drawable.androids));
+//        mGLSurfaceView.setRenderer(new ShapeRender(mContext));
 //        mGLSurfaceView.setRenderer(colorRender);
 //        mGLSurfaceView.setRenderer(new GLSurfaceView.Renderer() {
 //            @Override
