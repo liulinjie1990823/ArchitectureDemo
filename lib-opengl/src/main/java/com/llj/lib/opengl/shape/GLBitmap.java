@@ -6,8 +6,10 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.support.annotation.DrawableRes;
+import android.util.Log;
 
 import com.llj.lib.opengl.R;
+import com.llj.lib.opengl.render.FboRender;
 import com.llj.lib.opengl.utils.ShaderUtil;
 
 import java.nio.ByteBuffer;
@@ -21,6 +23,8 @@ import java.nio.FloatBuffer;
  * date 2019/4/1
  */
 public class GLBitmap {
+    public static final String TAG = GLBitmap.class.getSimpleName();
+
     private              Context mContext;
     private @DrawableRes int     mResId;
 
@@ -30,15 +34,16 @@ public class GLBitmap {
     private int mVPosition;//顶点位置
     private int mFPosition;//片元位置
     private int mProgram;//gl程序
-    private int mTextureId;//纹理id
+    private int mFboTextureId;//纹理id
+    private int mImgTextureId;//纹理id
     private int mSampler;
 
 
     private float[] mVertexData = {
-            -1f, -1f,
-            1f, -1f,
-            -1f, 1f,
-            1f, 1f
+            -1f, -1f,//bottom left
+            1f, -1f,//bottom right
+            -1f, 1f,//top left
+            1f, 1f//top right
     };
 
     private float[] mFragmentData = {
@@ -46,11 +51,19 @@ public class GLBitmap {
             1f, 1f,
             0f, 0f,
             1f, 0f
-//                0f, 0.5f,
-//                0.5f, 0.5f,
-//                0f, 0f,
-//                0.5f, 0f
     };
+
+//    private float[] mFragmentData = {
+//            0f, 0.5f,
+//            0.5f, 0.5f,
+//            0f, 0f,
+//            0.5f, 0f
+//    };
+
+
+    private int       mVboId;
+    private int       mFboId;
+    private FboRender mFboRender;
 
     private static final int COORDINATE_PER_VERTEX = 2;//每个点的组成数量
 
@@ -61,6 +74,7 @@ public class GLBitmap {
     public GLBitmap(Context context, @DrawableRes int resId) {
         mContext = context;
         mResId = resId;
+        mFboRender = new FboRender(context);
         init();
     }
 
@@ -79,7 +93,65 @@ public class GLBitmap {
                 .position(0);
     }
 
+    private int createVbo() {
+        //创建vbo
+        int[] vbos = new int[1];
+        GLES20.glGenBuffers(1, vbos, 0);
+
+        //绑定vbo
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbos[0]);
+        //分配vbo缓存
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, mVertexData.length * 4 + mFragmentData.length * 4, null, GLES20.GL_STATIC_DRAW);
+        //为vbo设置顶点数据,先设置mVertexData后设置mFragmentData
+        GLES20.glBufferSubData(GLES20.GL_ARRAY_BUFFER, 0, mVertexData.length * 4, mVertexBuffer);
+        GLES20.glBufferSubData(GLES20.GL_ARRAY_BUFFER, mVertexData.length * 4, mFragmentData.length * 4, mFragmentBuffer);
+
+        //解绑vbo
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        return vbos[0];
+    }
+
+    private int createFbo() {
+        int[] fbos = new int[1];
+        GLES20.glGenBuffers(1, fbos, 0);
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, fbos[0]);
+
+
+        //创建一个纹理
+        int[] textureIds = new int[1];
+        GLES20.glGenTextures(1, textureIds, 0);
+        mFboTextureId = textureIds[0];
+        //绑定纹理
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mFboTextureId);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glUniform1i(mSampler, 0);
+
+
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_REPEAT);
+
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+
+        //分配fbo内存
+        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, 720, 1280, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
+        //把纹理绑定到fbo
+        GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0, GLES20.GL_TEXTURE_2D, mFboTextureId, 0);
+        //检查fbo是否绑定成功
+        if (GLES20.glCheckFramebufferStatus(GLES20.GL_FRAMEBUFFER) != GLES20.GL_FRAMEBUFFER_COMPLETE) {
+            Log.e(TAG, "fbo ERROR");
+        } else {
+            Log.e(TAG, "fbo success");
+        }
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
+        return fbos[0];
+    }
+
+
     public void onSurfaceCreated() {
+        mFboRender.onSurfaceCreated();
+
         String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vertex_shader_screen);
         String fragmentSource = ShaderUtil.getRawResource(mContext, R.raw.fragment_shader_screen);
 
@@ -89,8 +161,20 @@ public class GLBitmap {
         mFPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");
         mSampler = GLES20.glGetUniformLocation(mProgram, "sTexture");
 
+        //创建vbo
+        mVboId = createVbo();
+
+        //创建fbo
+        mFboId = createFbo();
+
         //创建一个纹理
-        mTextureId = createTexture(mResId);
+        mImgTextureId = createTexture(mResId);
+
+    }
+
+    public void onSurfaceChanged(int width, int height) {
+        GLES20.glViewport(0, 0, width, height);
+        mFboRender.onSurfaceChanged(width, height);
     }
 
     private int createTexture(@DrawableRes int resId) {
@@ -148,6 +232,9 @@ public class GLBitmap {
     }
 
     public void onDrawFrame() {
+
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFboId);
+
         //清屏
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         //设置颜色
@@ -155,19 +242,29 @@ public class GLBitmap {
 
         GLES20.glUseProgram(mProgram);
 
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureId);
+        //绑定纹理
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mImgTextureId);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
+        //绑定vbo
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVboId);
+
         GLES20.glEnableVertexAttribArray(mVPosition);
-        GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, mVertexBuffer);
+        //可以从mVertexBuffer中拿数据，如果设置为offset则是偏移量，表示从vbo中获取数据
+        GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, 0);
 
         GLES20.glEnableVertexAttribArray(mFPosition);
-        GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, mFragmentBuffer);
+        GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, mVertexData.length * 4);
 
         //绘制4个点0-4
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
 
         //绘制多个纹理需要解绑解绑纹理
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+        //解绑vbo
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        //
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
+        mFboRender.onDrawFrame(mFboTextureId);
     }
 }
