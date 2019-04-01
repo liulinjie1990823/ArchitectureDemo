@@ -1,0 +1,6 @@
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+}
+
+apply from: rootProject.file('gradle/uploadArchives.gradle')
+apply from: rootProject.file('gradle/bintrayUpload.gradle')

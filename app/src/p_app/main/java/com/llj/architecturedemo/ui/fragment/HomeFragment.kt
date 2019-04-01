@@ -50,6 +50,7 @@ class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableCont
         super.initViews(savedInstanceState)
 
         val arrayList = arrayListOf<Data>()
+        arrayList.add(Data("GLSurfaceViewActivity", CRouter.APP_GLSURFACE_VIEW_ACTIVITY))
         arrayList.add(Data("LoginActivity", CRouter.LOGIN_LOGIN_ACTIVITY))
         arrayList.add(Data("QrCodeActivity", CRouter.QRCODE_ACTIVITY))
         arrayList.add(Data("PermissionActivity", CRouter.APP_PERMISSION_ACTIVITY))

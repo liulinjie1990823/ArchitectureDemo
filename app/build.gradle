@@ -131,6 +131,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     api project(':lib-jni-test')
+    api project(':lib-opengl')
 //    api project(':lib-player')
     implementation deps.multidex
     implementation deps.multidex_instrumentation
