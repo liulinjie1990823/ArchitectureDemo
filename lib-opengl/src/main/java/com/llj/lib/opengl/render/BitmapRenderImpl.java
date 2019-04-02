@@ -1,4 +1,4 @@
-package com.llj.lib.opengl.shape;
+package com.llj.lib.opengl.render;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,7 +10,6 @@ import android.support.annotation.DrawableRes;
 import android.util.Log;
 
 import com.llj.lib.opengl.R;
-import com.llj.lib.opengl.render.FboRender;
 import com.llj.lib.opengl.utils.ShaderUtil;
 
 import java.nio.ByteBuffer;
@@ -23,8 +22,8 @@ import java.nio.FloatBuffer;
  * author llj
  * date 2019/4/1
  */
-public class GLBitmap {
-    private static final String TAG = GLBitmap.class.getSimpleName();
+public class BitmapRenderImpl {
+    private static final String TAG = BitmapRenderImpl.class.getSimpleName();
 
     private              Context mContext;
     private @DrawableRes int     mResId;
@@ -83,8 +82,13 @@ public class GLBitmap {
     private int     mMatrix;
     private float[] mMatrixF = new float[16];
 
+    private OnRenderCreateListener mOnRenderCreateListener;
 
-    public GLBitmap(Context context, @DrawableRes int resId) {
+    public void setOnRenderCreateListener(OnRenderCreateListener onRenderCreateListener) {
+        mOnRenderCreateListener = onRenderCreateListener;
+    }
+
+    public BitmapRenderImpl(Context context, @DrawableRes int resId) {
         mContext = context;
         mResId = resId;
         mFboRender = new FboRender(context);
@@ -310,4 +314,9 @@ public class GLBitmap {
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
         mFboRender.onDrawFrame(mFboTextureId);
     }
+
+    public interface OnRenderCreateListener {
+        void onCreate(int textid);
+    }
+
 }

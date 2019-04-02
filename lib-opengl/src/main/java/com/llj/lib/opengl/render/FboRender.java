@@ -2,7 +2,6 @@ package com.llj.lib.opengl.render;
 
 import android.content.Context;
 import android.opengl.GLES20;
-import android.support.annotation.DrawableRes;
 
 import com.llj.lib.opengl.R;
 import com.llj.lib.opengl.utils.ShaderUtil;
@@ -20,8 +19,7 @@ import java.nio.FloatBuffer;
 public class FboRender {
     public static final String TAG = FboRender.class.getSimpleName();
 
-    private              Context mContext;
-    private @DrawableRes int     mResId;
+    private Context mContext;
 
     private FloatBuffer mVertexBuffer;
     private FloatBuffer mFragmentBuffer;
@@ -29,7 +27,6 @@ public class FboRender {
     private int mVPosition;//顶点位置
     private int mFPosition;//片元位置
     private int mProgram;//gl程序
-    private int mSampler;
 
 
     private float[] mVertexData = {
@@ -107,7 +104,6 @@ public class FboRender {
 
         mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");
         mFPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");
-        mSampler = GLES20.glGetUniformLocation(mProgram, "sTexture");
 
         mVboId = createVbo();
     }

@@ -1,6 +1,7 @@
 package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.AppMvcBaseActivity;
@@ -23,6 +24,7 @@ import butterknife.BindView;
 @Route(path = CRouter.APP_GLSURFACE_VIEW_ACTIVITY)
 public class GLSurfaceViewActivity extends AppMvcBaseActivity {
     @BindView(R.id.surfaceView) MyGLSurfaceView mGLSurfaceView;
+    @BindView(R.id.ly_content)  LinearLayout    mLinearLayout;
 
     @Override
     public int layoutId() {
