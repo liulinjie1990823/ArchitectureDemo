@@ -48,19 +48,19 @@ public class GLBitmap {
     };
 
     //片元坐标系
-    private float[] mFragmentData = {
-            0f, 1f,//bottom left
-            1f, 1f,//bottom right
-            0f, 0f,//top left
-            1f, 0f//top right
-    };
-    //fbo标准坐标系
 //    private float[] mFragmentData = {
-//            0f, 0f,//bottom left
-//            1f, 0f,//bottom right
-//            0f, 1f,//top left
-//            1f, 1f//top right
+//            0f, 1f,//bottom left
+//            1f, 1f,//bottom right
+//            0f, 0f,//top left
+//            1f, 0f//top right
 //    };
+    //fbo标准坐标系
+    private float[] mFragmentData = {
+            0f, 0f,//bottom left
+            1f, 0f,//bottom right
+            0f, 1f,//top left
+            1f, 1f//top right
+    };
 
 //    private float[] mFragmentData = {
 //            0f, 0.5f,
@@ -146,7 +146,7 @@ public class GLBitmap {
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 
-        //分配fbo内存
+        //分配fbo内存,这里的宽高是竖屏的情况下，如果横屏需要重新设置，最好设置成surfaceView的宽高
         GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, 1080, 1920, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
         //把纹理绑定到fbo
         GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0, GLES20.GL_TEXTURE_2D, mFboTextureId, 0);
@@ -165,7 +165,7 @@ public class GLBitmap {
     public void onSurfaceCreated() {
         mFboRender.onSurfaceCreated();
 
-        String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vertex_shader_screen);
+        String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vertex_shader_screen_m);
         String fragmentSource = ShaderUtil.getRawResource(mContext, R.raw.fragment_shader_screen);
 
         mProgram = ShaderUtil.createProgram(vertexSource, fragmentSource);
@@ -189,6 +189,7 @@ public class GLBitmap {
     public void onSurfaceChanged(int width, int height) {
         GLES20.glViewport(0, 0, width, height);
         mFboRender.onSurfaceChanged(width, height);
+
         float bitmapWidth = mBitmap.getWidth();
         float bitmapHeight = mBitmap.getHeight();
 
@@ -197,23 +198,18 @@ public class GLBitmap {
         if (width > height) {
             //横屏
             if (bitmapRatio > surfaceRatio) {
-//                Matrix.orthoM(mMatrixF, 0, -surfaceRatio * bitmapRatio, surfaceRatio * bitmapRatio, -1, 1, -1f, 1f);
                 Matrix.orthoM(mMatrixF, 0, -1, 1, -height / ((width / bitmapWidth) * bitmapHeight), height / ((width / bitmapWidth) * bitmapHeight), -1f, 1f);
 
             } else {
-//                Matrix.orthoM(mMatrixF, 0, -surfaceRatio / bitmapRatio, surfaceRatio / bitmapRatio, -1, 1, -1f, 1f);
                 Matrix.orthoM(mMatrixF, 0, -width / ((height / bitmapHeight) * bitmapWidth), width / ((height / bitmapHeight) * bitmapWidth), -1f, 1f, -1f, 1f);
             }
         } else {
             //竖屏
             if (bitmapRatio > surfaceRatio) {
-//                Matrix.orthoM(mMatrixF, 0, -1, 1, -1 / surfaceRatio * bitmapRatio, 1 / surfaceRatio * bitmapRatio, -1f, 1f);
                 Matrix.orthoM(mMatrixF, 0, -1, 1, -height / ((width / bitmapWidth) * bitmapHeight), height / ((width / bitmapWidth) * bitmapHeight), -1f, 1f);
             } else {
-//                Matrix.orthoM(mMatrixF, 0, -1, 1, -bitmapRatio / surfaceRatio, bitmapRatio / surfaceRatio, -1f, 1f);
                 Matrix.orthoM(mMatrixF, 0, -width / ((height / bitmapHeight) * bitmapWidth), width / ((height / bitmapHeight) * bitmapWidth), -1f, 1f, -1f, 1f);
             }
-//
         }
     }
 
@@ -276,7 +272,7 @@ public class GLBitmap {
 
     public void onDrawFrame() {
 
-//        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFboId);
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFboId);
 
         //清屏
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
@@ -308,7 +304,7 @@ public class GLBitmap {
         //解绑vbo
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
         //
-//        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
-//        mFboRender.onDrawFrame(mFboTextureId);
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
+        mFboRender.onDrawFrame(mFboTextureId);
     }
 }
