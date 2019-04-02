@@ -24,7 +24,7 @@ import java.nio.FloatBuffer;
  * date 2019/4/1
  */
 public class GLBitmap {
-    public static final String TAG = GLBitmap.class.getSimpleName();
+    private static final String TAG = GLBitmap.class.getSimpleName();
 
     private              Context mContext;
     private @DrawableRes int     mResId;
@@ -47,20 +47,20 @@ public class GLBitmap {
             1f, 1f//top right
     };
 
-    //片元坐标系
-//    private float[] mFragmentData = {
-//            0f, 1f,//bottom left
-//            1f, 1f,//bottom right
-//            0f, 0f,//top left
-//            1f, 0f//top right
-//    };
-    //fbo标准坐标系
+    //android中的片元坐标系,图片显示沿着x轴旋转了180度
     private float[] mFragmentData = {
-            0f, 0f,//bottom left
-            1f, 0f,//bottom right
-            0f, 1f,//top left
-            1f, 1f//top right
+            0f, 1f,//bottom left
+            1f, 1f,//bottom right
+            0f, 0f,//top left
+            1f, 0f//top right
     };
+    //fbo标准坐标系，显示正常
+//    private float[] mFragmentData = {
+//            0f, 0f,//bottom left
+//            1f, 0f,//bottom right
+//            0f, 1f,//top left
+//            1f, 1f//top right
+//    };
 
 //    private float[] mFragmentData = {
 //            0f, 0.5f,
@@ -195,6 +195,7 @@ public class GLBitmap {
 
         float bitmapRatio = bitmapWidth / bitmapHeight;
         float surfaceRatio = width / (float) height;
+        //Matrix.orthoM设置正交投影，使图片不会被拉伸
         if (width > height) {
             //横屏
             if (bitmapRatio > surfaceRatio) {
@@ -211,6 +212,8 @@ public class GLBitmap {
                 Matrix.orthoM(mMatrixF, 0, -width / ((height / bitmapHeight) * bitmapWidth), width / ((height / bitmapHeight) * bitmapWidth), -1f, 1f, -1f, 1f);
             }
         }
+        Matrix.rotateM(mMatrixF, 0, 180, 1, 0, 0);
+
     }
 
     private Bitmap mBitmap;
@@ -297,7 +300,7 @@ public class GLBitmap {
         GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, mVertexData.length * 4);
 
         //绘制4个点0-4
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
 
         //绘制多个纹理需要解绑解绑纹理
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
