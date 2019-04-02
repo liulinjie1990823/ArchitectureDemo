@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
+import android.opengl.Matrix;
 import android.support.annotation.DrawableRes;
 import android.util.Log;
 
@@ -46,12 +47,20 @@ public class GLBitmap {
             1f, 1f//top right
     };
 
+    //片元坐标系
     private float[] mFragmentData = {
-            0f, 1f,
-            1f, 1f,
-            0f, 0f,
-            1f, 0f
+            0f, 1f,//bottom left
+            1f, 1f,//bottom right
+            0f, 0f,//top left
+            1f, 0f//top right
     };
+    //fbo标准坐标系
+//    private float[] mFragmentData = {
+//            0f, 0f,//bottom left
+//            1f, 0f,//bottom right
+//            0f, 1f,//top left
+//            1f, 1f//top right
+//    };
 
 //    private float[] mFragmentData = {
 //            0f, 0.5f,
@@ -69,6 +78,10 @@ public class GLBitmap {
 
     private final int vertexCount  = mVertexData.length / COORDINATE_PER_VERTEX;//需要绘制几个顶点
     private final int vertexStride = COORDINATE_PER_VERTEX * 4; // 4 bytes per vertex
+
+
+    private int     mMatrix;
+    private float[] mMatrixF = new float[16];
 
 
     public GLBitmap(Context context, @DrawableRes int resId) {
@@ -134,7 +147,7 @@ public class GLBitmap {
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 
         //分配fbo内存
-        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, 720, 1280, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
+        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, 1080, 1920, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
         //把纹理绑定到fbo
         GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0, GLES20.GL_TEXTURE_2D, mFboTextureId, 0);
         //检查fbo是否绑定成功
@@ -160,6 +173,7 @@ public class GLBitmap {
         mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");
         mFPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");
         mSampler = GLES20.glGetUniformLocation(mProgram, "sTexture");
+        mMatrix = GLES20.glGetUniformLocation(mProgram, "u_Matrix");
 
         //创建vbo
         mVboId = createVbo();
@@ -175,11 +189,40 @@ public class GLBitmap {
     public void onSurfaceChanged(int width, int height) {
         GLES20.glViewport(0, 0, width, height);
         mFboRender.onSurfaceChanged(width, height);
+        float bitmapWidth = mBitmap.getWidth();
+        float bitmapHeight = mBitmap.getHeight();
+
+        float bitmapRatio = bitmapWidth / bitmapHeight;
+        float surfaceRatio = width / (float) height;
+        if (width > height) {
+            //横屏
+            if (bitmapRatio > surfaceRatio) {
+//                Matrix.orthoM(mMatrixF, 0, -surfaceRatio * bitmapRatio, surfaceRatio * bitmapRatio, -1, 1, -1f, 1f);
+                Matrix.orthoM(mMatrixF, 0, -1, 1, -height / ((width / bitmapWidth) * bitmapHeight), height / ((width / bitmapWidth) * bitmapHeight), -1f, 1f);
+
+            } else {
+//                Matrix.orthoM(mMatrixF, 0, -surfaceRatio / bitmapRatio, surfaceRatio / bitmapRatio, -1, 1, -1f, 1f);
+                Matrix.orthoM(mMatrixF, 0, -width / ((height / bitmapHeight) * bitmapWidth), width / ((height / bitmapHeight) * bitmapWidth), -1f, 1f, -1f, 1f);
+            }
+        } else {
+            //竖屏
+            if (bitmapRatio > surfaceRatio) {
+//                Matrix.orthoM(mMatrixF, 0, -1, 1, -1 / surfaceRatio * bitmapRatio, 1 / surfaceRatio * bitmapRatio, -1f, 1f);
+                Matrix.orthoM(mMatrixF, 0, -1, 1, -height / ((width / bitmapWidth) * bitmapHeight), height / ((width / bitmapWidth) * bitmapHeight), -1f, 1f);
+            } else {
+//                Matrix.orthoM(mMatrixF, 0, -1, 1, -bitmapRatio / surfaceRatio, bitmapRatio / surfaceRatio, -1f, 1f);
+                Matrix.orthoM(mMatrixF, 0, -width / ((height / bitmapHeight) * bitmapWidth), width / ((height / bitmapHeight) * bitmapWidth), -1f, 1f, -1f, 1f);
+            }
+//
+        }
     }
 
+    private Bitmap mBitmap;
+
     private int createTexture(@DrawableRes int resId) {
-        Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), resId);
-        if (bitmap != null && !bitmap.isRecycled()) {
+        //526*702
+        mBitmap = BitmapFactory.decodeResource(mContext.getResources(), resId);
+        if (mBitmap != null && !mBitmap.isRecycled()) {
 
             //创建一个纹理
             int[] textureIds = new int[1];
@@ -222,7 +265,7 @@ public class GLBitmap {
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 
             //根据以上指定的参数，生成一个2D纹理
-            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, mBitmap, 0);
 
             //解绑
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
@@ -233,7 +276,7 @@ public class GLBitmap {
 
     public void onDrawFrame() {
 
-        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFboId);
+//        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFboId);
 
         //清屏
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
@@ -241,6 +284,7 @@ public class GLBitmap {
         GLES20.glClearColor(1f, 0f, 0f, 1f);
 
         GLES20.glUseProgram(mProgram);
+        GLES20.glUniformMatrix4fv(mMatrix, 1, false, mMatrixF, 0);
 
         //绑定纹理
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mImgTextureId);
@@ -264,7 +308,7 @@ public class GLBitmap {
         //解绑vbo
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
         //
-        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
-        mFboRender.onDrawFrame(mFboTextureId);
+//        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
+//        mFboRender.onDrawFrame(mFboTextureId);
     }
 }
