@@ -10,14 +10,18 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
 /**
  * ArchitectureDemo.
  * describe:
  * author llj
- * date 2019/4/1
+ * date 2019/4/2
  */
-public class FboRender {
-    public static final String TAG = FboRender.class.getSimpleName();
+public class MultiRenderImpl extends LGLRenderer {
+
+    public static final String TAG = MultiRenderImpl.class.getSimpleName();
 
     private Context mContext;
 
@@ -52,7 +56,18 @@ public class FboRender {
     private final int vertexStride = COORDINATE_PER_VERTEX * 4; // 4 bytes per vertex
 
 
-    public FboRender(Context context) {
+    private int    mTextureId;
+    private String mFragmentSource;
+
+    public void setTextureId(int textureId) {
+        mTextureId = textureId;
+    }
+
+    public void setFragmentSource(String fragmentSource) {
+        mFragmentSource = fragmentSource;
+    }
+
+    public MultiRenderImpl(Context context) {
         mContext = context;
         init();
     }
@@ -91,16 +106,17 @@ public class FboRender {
     }
 
 
-    public void onSurfaceChanged(int width, int height) {
+    @Override
+    public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
     }
 
 
-    public void onSurfaceCreated() {
+    @Override
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vertex_shader_screen);
-        String fragmentSource = ShaderUtil.getRawResource(mContext, R.raw.fragment_shader_screen);
 
-        mProgram = ShaderUtil.createProgram(vertexSource, fragmentSource);
+        mProgram = ShaderUtil.createProgram(vertexSource, mFragmentSource);
 
         mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");
         mFPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");
@@ -109,7 +125,8 @@ public class FboRender {
     }
 
 
-    public void onDrawFrame(int textureId) {
+    @Override
+    public void onDrawFrame(GL10 gl) {
 
         //清屏
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
@@ -119,7 +136,7 @@ public class FboRender {
         GLES20.glUseProgram(mProgram);
 
         //绑定纹理
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureId);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
         //绑定vbo
@@ -133,11 +150,12 @@ public class FboRender {
         GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, mVertexData.length * 4);
 
         //绘制4个点0-4
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
 
         //绘制多个纹理需要解绑解绑纹理
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
         //解绑vbo
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
+
 }

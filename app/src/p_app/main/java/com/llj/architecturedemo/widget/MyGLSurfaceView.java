@@ -20,4 +20,7 @@ public class MyGLSurfaceView extends LGLSurfaceView {
     public MyGLSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
+
+
 }

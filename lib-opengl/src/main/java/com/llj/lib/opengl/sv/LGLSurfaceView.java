@@ -11,6 +11,7 @@ import android.util.AttributeSet;
  * date 2019/4/1
  */
 public class LGLSurfaceView extends GLSurfaceView {
+
     public LGLSurfaceView(Context context) {
         super(context);
         init();

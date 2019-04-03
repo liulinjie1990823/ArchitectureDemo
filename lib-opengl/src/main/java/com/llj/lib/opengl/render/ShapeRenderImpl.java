@@ -15,11 +15,11 @@ import javax.microedition.khronos.opengles.GL10;
  * author llj
  * date 2019/4/1
  */
-public class ShapeRender implements GLSurfaceView.Renderer {
+public class ShapeRenderImpl implements GLSurfaceView.Renderer {
     private Context  mContext;
     private Triangle mTriangle;
 
-    public ShapeRender(Context context) {
+    public ShapeRenderImpl(Context context) {
         mContext = context;
     }
 

@@ -8,5 +8,5 @@ import android.opengl.GLSurfaceView;
  * author llj
  * date 2019/3/29
  */
-public interface LGLRenderer extends GLSurfaceView.Renderer {
+public abstract class LGLRenderer implements GLSurfaceView.Renderer {
 }

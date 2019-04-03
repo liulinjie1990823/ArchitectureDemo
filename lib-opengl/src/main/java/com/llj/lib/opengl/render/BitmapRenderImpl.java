@@ -16,13 +16,16 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
 /**
  * ArchitectureDemo.
  * describe:
  * author llj
  * date 2019/4/1
  */
-public class BitmapRenderImpl {
+public class BitmapRenderImpl extends LGLRenderer {
     private static final String TAG = BitmapRenderImpl.class.getSimpleName();
 
     private              Context mContext;
@@ -69,9 +72,9 @@ public class BitmapRenderImpl {
 //    };
 
 
-    private int       mVboId;
-    private int       mFboId;
-    private FboRender mFboRender;
+    private int           mVboId;
+    private int           mFboId;
+    private FboRenderImpl mFboRenderImpl;
 
     private static final int COORDINATE_PER_VERTEX = 2;//每个点的组成数量
 
@@ -88,10 +91,15 @@ public class BitmapRenderImpl {
         mOnRenderCreateListener = onRenderCreateListener;
     }
 
+    public interface OnRenderCreateListener {
+        void onCreate(int textureId);
+    }
+
+
     public BitmapRenderImpl(Context context, @DrawableRes int resId) {
         mContext = context;
         mResId = resId;
-        mFboRender = new FboRender(context);
+        mFboRenderImpl = new FboRenderImpl(context);
         init();
     }
 
@@ -166,8 +174,9 @@ public class BitmapRenderImpl {
     }
 
 
-    public void onSurfaceCreated() {
-        mFboRender.onSurfaceCreated();
+    @Override
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        mFboRenderImpl.onSurfaceCreated(gl, config);
 
         String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vertex_shader_screen_m);
         String fragmentSource = ShaderUtil.getRawResource(mContext, R.raw.fragment_shader_screen);
@@ -188,11 +197,19 @@ public class BitmapRenderImpl {
         //创建一个纹理
         mImgTextureId = createTexture(mResId);
 
+        //
+//        if (mOnRenderCreateListener != null) {
+//            mOnRenderCreateListener.onCreate(mFboTextureId);
+//        }
+
     }
 
-    public void onSurfaceChanged(int width, int height) {
+    @Override
+    public void onSurfaceChanged(GL10 gl, int width, int height) {
+
         GLES20.glViewport(0, 0, width, height);
-        mFboRender.onSurfaceChanged(width, height);
+
+        mFboRenderImpl.onSurfaceChanged(gl, width, height);
 
         float bitmapWidth = mBitmap.getWidth();
         float bitmapHeight = mBitmap.getHeight();
@@ -204,7 +221,6 @@ public class BitmapRenderImpl {
             //横屏
             if (bitmapRatio > surfaceRatio) {
                 Matrix.orthoM(mMatrixF, 0, -1, 1, -height / ((width / bitmapWidth) * bitmapHeight), height / ((width / bitmapWidth) * bitmapHeight), -1f, 1f);
-
             } else {
                 Matrix.orthoM(mMatrixF, 0, -width / ((height / bitmapHeight) * bitmapWidth), width / ((height / bitmapHeight) * bitmapWidth), -1f, 1f, -1f, 1f);
             }
@@ -277,7 +293,9 @@ public class BitmapRenderImpl {
         return 0;
     }
 
-    public void onDrawFrame() {
+
+    @Override
+    public void onDrawFrame(GL10 gl) {
 
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFboId);
 
@@ -312,11 +330,8 @@ public class BitmapRenderImpl {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
         //
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
-        mFboRender.onDrawFrame(mFboTextureId);
-    }
 
-    public interface OnRenderCreateListener {
-        void onCreate(int textid);
+        mFboRenderImpl.onDrawFrame(gl, mFboTextureId);
     }
 
 }
