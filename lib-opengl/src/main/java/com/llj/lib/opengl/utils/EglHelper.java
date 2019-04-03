@@ -83,6 +83,10 @@ public class EglHelper {
         }
     }
 
+    public EGL10 getEgl() {
+        return mEgl;
+    }
+
     public boolean swapBuffers() {
         if (mEgl != null) {
             return mEgl.eglSwapBuffers(mEglDisplay, mEglSurface);
@@ -95,7 +99,7 @@ public class EglHelper {
         return mEglContext;
     }
 
-    public void destoryEgl() {
+    public void destroyEgl() {
         if (mEgl != null) {
             mEgl.eglMakeCurrent(mEglDisplay, EGL10.EGL_NO_SURFACE,
                     EGL10.EGL_NO_SURFACE,

@@ -99,6 +99,7 @@ public class GLSurfaceViewActivity extends AppMvcBaseActivity {
 
     }
 
+
     private ShareGLContextFactory mShareGLContextFactory;
 
     private class ShareGLContextFactory implements GLSurfaceView.EGLContextFactory {
