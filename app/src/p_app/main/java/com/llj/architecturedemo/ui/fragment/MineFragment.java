@@ -217,7 +217,7 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
         mPresenter.getPersonalCenterCount(false);
 
 
-        int height = (int) ((DisplayHelper.SCREEN_WIDTH_PIXELS - dip2px(mContext, 54)) * 12 / 64f);
+        int height = (int) ((DisplayHelper.SCREEN_WIDTH - dip2px(mContext, 54)) * 12 / 64f);
         mCvImage1.getLayoutParams().height = height;
 
         final float flexibleRange = dip2px(mContext, 44);
@@ -498,7 +498,7 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
             if (PersonalCenterVo.AdVo.POSITION_TOP.equals(ad.getPosition()) && !isEmpty(ad.getImage())) {
                 mCvImage1.setVisibility(View.VISIBLE);
 
-                mImageLoad.loadImage(ad.getImage(), DisplayHelper.SCREEN_WIDTH_PIXELS, DisplayHelper.SCREEN_WIDTH_PIXELS, mIvAdd1);
+                mImageLoad.loadImage(ad.getImage(), DisplayHelper.SCREEN_WIDTH, DisplayHelper.SCREEN_WIDTH, mIvAdd1);
                 mCvImage1.setOnClickListener(new DebouncingOnClickListener() {
                     @Override
                     public void doClick(View v) {

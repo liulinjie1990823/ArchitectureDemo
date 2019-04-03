@@ -41,6 +41,12 @@ public class BitmapRenderImpl extends LGLRenderer {
     private int mImgTextureId;//纹理id
     private int mSampler;
 
+    private int mTextureWidth ;
+    private int mTextureHeight;
+
+    private int mSurfaceWidth;
+    private int mSurfaceHeight;
+
 
     private float[] mVertexData = {
             -1f, -1f,//bottom left
@@ -95,12 +101,17 @@ public class BitmapRenderImpl extends LGLRenderer {
         void onCreate(int textureId);
     }
 
-
-    public BitmapRenderImpl(Context context, @DrawableRes int resId) {
+    public BitmapRenderImpl(Context context, int textureWidth, int textureHeight) {
         mContext = context;
-        mResId = resId;
+        mTextureWidth = textureWidth;
+        mTextureHeight = textureHeight;
+
         mFboRenderImpl = new FboRenderImpl(context);
         init();
+    }
+
+    public void setResId(@DrawableRes int resId) {
+        mResId = resId;
     }
 
     private void init() {
@@ -159,7 +170,7 @@ public class BitmapRenderImpl extends LGLRenderer {
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 
         //分配fbo内存,这里的宽高是竖屏的情况下，如果横屏需要重新设置，最好设置成surfaceView的宽高
-        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, 1080, 1920, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
+        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, mTextureWidth, mTextureHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
         //把纹理绑定到fbo
         GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0, GLES20.GL_TEXTURE_2D, mFboTextureId, 0);
         //检查fbo是否绑定成功
@@ -198,18 +209,24 @@ public class BitmapRenderImpl extends LGLRenderer {
         mImgTextureId = createTexture(mResId);
 
         //
-//        if (mOnRenderCreateListener != null) {
-//            mOnRenderCreateListener.onCreate(mFboTextureId);
-//        }
+        if (mOnRenderCreateListener != null) {
+            mOnRenderCreateListener.onCreate(mFboTextureId);
+        }
 
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+        //记录Surface显示区域宽高
+        mSurfaceWidth = width;
+        mSurfaceHeight = height;
 
-        GLES20.glViewport(0, 0, width, height);
+        //设置离屏渲染的宽高
+        width = mTextureWidth;
+        height = mTextureHeight;
 
-        mFboRenderImpl.onSurfaceChanged(gl, width, height);
+        GLES20.glViewport(0, 0, mTextureWidth, mTextureHeight);
+
 
         float bitmapWidth = mBitmap.getWidth();
         float bitmapHeight = mBitmap.getHeight();
@@ -233,6 +250,10 @@ public class BitmapRenderImpl extends LGLRenderer {
             }
         }
         Matrix.rotateM(mMatrixF, 0, 180, 1, 0, 0);
+
+
+        //
+        mFboRenderImpl.onSurfaceChanged(gl, mSurfaceWidth, mSurfaceHeight);
 
     }
 
@@ -297,6 +318,8 @@ public class BitmapRenderImpl extends LGLRenderer {
     @Override
     public void onDrawFrame(GL10 gl) {
 
+//        GLES20.glViewport(0, 0, mTextureWidth, mTextureHeight);
+
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFboId);
 
         //清屏
@@ -328,9 +351,10 @@ public class BitmapRenderImpl extends LGLRenderer {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
         //解绑vbo
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-        //
+        //解绑fbo
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
 
+//        GLES20.glViewport(0, 0, mSurfaceWidth, mSurfaceHeight);
         mFboRenderImpl.onDrawFrame(gl, mFboTextureId);
     }
 

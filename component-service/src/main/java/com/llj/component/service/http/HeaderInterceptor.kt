@@ -80,7 +80,7 @@ class HeaderInterceptor : Interceptor {
         map["os-version"] = Build.VERSION.RELEASE
         map["device-name"] = Build.MODEL
         map["manufacturer"] = Build.BRAND
-        map["resolution"] = DisplayHelper.SCREEN_WIDTH_PIXELS.toString() + "X" + DisplayHelper.SCREEN_HEIGHT_PIXELS.toString()
+        map["resolution"] = DisplayHelper.SCREEN_WIDTH.toString() + "X" + DisplayHelper.SCREEN_HEIGHT.toString()
         return map
     }
 

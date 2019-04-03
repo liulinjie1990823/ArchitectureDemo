@@ -8,7 +8,7 @@ import com.llj.lib.utils.AStringUtils;
  */
 
 public class BOssImageUtils {
-    private static int WIDTH = (int) (DisplayHelper.SCREEN_WIDTH_PIXELS / 3.0);
+    private static int WIDTH = (int) (DisplayHelper.SCREEN_WIDTH / 3.0);
 
     /**
      * 获得方形的照片,默认是屏幕的三分之一,质量是60

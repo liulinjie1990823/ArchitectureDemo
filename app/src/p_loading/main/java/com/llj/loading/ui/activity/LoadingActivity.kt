@@ -101,7 +101,7 @@ class LoadingActivity : ComponentMvcBaseActivity() {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
             val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
-//            mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH_PIXELS, mSdvAdd.height, mSdvAdd)
+//            mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
 
         }
     }

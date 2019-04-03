@@ -13,8 +13,8 @@ import com.llj.lib.utils.ADisplayUtils;
 public class DisplayHelper {
     public static int CONTENT_HEIGHT;
 
-    public static int   SCREEN_WIDTH_PIXELS;
-    public static int   SCREEN_HEIGHT_PIXELS;
+    public static int   SCREEN_WIDTH;
+    public static int   SCREEN_HEIGHT;
 
     public static int   STATUS_BAR_HEIGHT;
     public static int   NAVIGATION_BAR_HEIGHT;
@@ -31,8 +31,8 @@ public class DisplayHelper {
         }
         sInitialed = true;
 
-        SCREEN_WIDTH_PIXELS = context.getResources().getDisplayMetrics().widthPixels;
-        SCREEN_HEIGHT_PIXELS = context.getResources().getDisplayMetrics().heightPixels;
+        SCREEN_WIDTH = context.getResources().getDisplayMetrics().widthPixels;
+        SCREEN_HEIGHT = context.getResources().getDisplayMetrics().heightPixels;
 
         STATUS_BAR_HEIGHT= ADisplayUtils.getStatusBarHeight(context.getApplicationContext());
         NAVIGATION_BAR_HEIGHT= ADisplayUtils.getNavigationBarOffset(context.getApplicationContext());

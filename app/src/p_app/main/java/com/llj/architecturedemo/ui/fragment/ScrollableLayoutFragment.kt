@@ -311,7 +311,7 @@ class ScrollableLayoutFragment : ComponentMvpBaseFragment<ScrollableLayoutPresen
 
                 //设置banner
                 val layoutParams = viewPager.layoutParams as FrameLayout.LayoutParams
-                layoutParams.height = ((DisplayHelper.SCREEN_WIDTH_PIXELS - dip2px(mContext, 40f)) * 335 / 670f + dip2px(mContext, 25f)).toInt()
+                layoutParams.height = ((DisplayHelper.SCREEN_WIDTH - dip2px(mContext, 40f)) * 335 / 670f + dip2px(mContext, 25f)).toInt()
                 layoutParams.width = -1
                 viewPager.layoutParams = layoutParams
                 val imageAdapter = BannerImageAdapter(mContext, babyHomeModuleVo.data!!)
@@ -505,7 +505,7 @@ class ScrollableLayoutFragment : ComponentMvpBaseFragment<ScrollableLayoutPresen
 
             val banner = inflate.findViewById<SimpleDraweeView>(R.id.sv_banner)
             banner.layoutParams.width = -1
-            banner.layoutParams.height = ((DisplayHelper.SCREEN_WIDTH_PIXELS - dip2px(mContext, 40f)) * 335 / 670f).toInt()
+            banner.layoutParams.height = ((DisplayHelper.SCREEN_WIDTH - dip2px(mContext, 40f)) * 335 / 670f).toInt()
 
             val data = mList[i]
             if (data != null) {
