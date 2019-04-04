@@ -20,6 +20,11 @@ public class ColorRender extends LGLRenderer {
     }
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         GLES20.glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
     }
@@ -32,6 +37,7 @@ public class ColorRender extends LGLRenderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        GLES20.glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 
     }
 }

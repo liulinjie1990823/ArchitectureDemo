@@ -91,12 +91,29 @@ public class GLSurfaceViewActivity extends AppMvcBaseActivity {
             }
         });
         mGLSurfaceView.setEGLContextFactory(mShareGLContextFactory);
-        mGLSurfaceView.setRenderer(renderer);
+        mGLSurfaceView.setMyRender(renderer);
     }
 
     @Override
     public void initData() {
+//        startImgs();
+    }
 
+    private void startImgs() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 1; i <= 10; i++) {
+                    int imgSrc = getResources().getIdentifier("img_" + i, "drawable", "com.llj.architecturedemo");
+                    mGLSurfaceView.setCurrentImg(imgSrc);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 
 

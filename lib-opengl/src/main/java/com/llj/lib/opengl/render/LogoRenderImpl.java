@@ -86,6 +86,11 @@ public class LogoRenderImpl extends LGLRenderer {
     }
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 
         GLES20.glEnable(GLES20.GL_BLEND);

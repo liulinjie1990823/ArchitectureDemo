@@ -25,6 +25,12 @@ import java.nio.ByteBuffer;
 public class ShaderUtil {
     private static final String TAG = ShaderUtil.class.getSimpleName();
 
+    /**
+     *
+     * @param context
+     * @param rawId
+     * @return
+     */
     public static String getRawResource(Context context, int rawId) {
         InputStream inputStream = context.getResources().openRawResource(rawId);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -42,14 +48,14 @@ public class ShaderUtil {
     }
 
     /**
-     * createProgram
+     * linkProgram
      *
      * @param vertexSource   顶点着色器代码
      * @param fragmentSource 片元着色器代码
      *
      * @return 着色器程序
      */
-    public static int createProgram(String vertexSource, String fragmentSource) {
+    public static int linkProgram(String vertexSource, String fragmentSource) {
         int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexSource);
         int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentSource);
 

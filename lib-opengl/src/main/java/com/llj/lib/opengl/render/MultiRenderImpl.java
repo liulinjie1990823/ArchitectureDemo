@@ -6,8 +6,6 @@ import android.opengl.GLES20;
 import com.llj.lib.opengl.R;
 import com.llj.lib.opengl.utils.ShaderUtil;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -53,7 +51,7 @@ public class MultiRenderImpl extends LGLRenderer {
     private static final int COORDINATE_PER_VERTEX = 2;//每个点的组成数量
 
     private final int vertexCount  = mVertexData.length / COORDINATE_PER_VERTEX;//需要绘制几个顶点
-    private final int vertexStride = COORDINATE_PER_VERTEX * 4; // 4 bytes per vertex
+    private final int vertexStride = COORDINATE_PER_VERTEX * BYTES_PER_FLOAT; // 4 bytes per vertex
 
 
     private int    mTextureId;
@@ -72,38 +70,12 @@ public class MultiRenderImpl extends LGLRenderer {
         init();
     }
 
-    private void init() {
-        mVertexBuffer = (FloatBuffer) ByteBuffer.allocateDirect(mVertexData.length * 4)
-                .order(ByteOrder.nativeOrder())
-                .asFloatBuffer()
-                .put(mVertexData)
-                .position(0);
-
-
-        mFragmentBuffer = (FloatBuffer) ByteBuffer.allocateDirect(mFragmentData.length * 4)
-                .order(ByteOrder.nativeOrder())
-                .asFloatBuffer()
-                .put(mFragmentData)
-                .position(0);
+    @Override
+    public void init() {
+        mVertexBuffer = createBuffer(mVertexData);
+        mFragmentBuffer = createBuffer(mFragmentData);
     }
 
-    private int createVbo() {
-        //创建vbo
-        int[] vbos = new int[1];
-        GLES20.glGenBuffers(1, vbos, 0);
-
-        //绑定vbo
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbos[0]);
-        //分配vbo缓存
-        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, mVertexData.length * 4 + mFragmentData.length * 4, null, GLES20.GL_STATIC_DRAW);
-        //为vbo设置顶点数据,先设置mVertexData后设置mFragmentData
-        GLES20.glBufferSubData(GLES20.GL_ARRAY_BUFFER, 0, mVertexData.length * 4, mVertexBuffer);
-        GLES20.glBufferSubData(GLES20.GL_ARRAY_BUFFER, mVertexData.length * 4, mFragmentData.length * 4, mFragmentBuffer);
-
-        //解绑vbo
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-        return vbos[0];
-    }
 
 
     @Override
@@ -115,13 +87,12 @@ public class MultiRenderImpl extends LGLRenderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vertex_shader_screen);
-
-        mProgram = ShaderUtil.createProgram(vertexSource, mFragmentSource);
+        mProgram = ShaderUtil.linkProgram(vertexSource, mFragmentSource);
 
         mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");
         mFPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");
 
-        mVboId = createVbo();
+        mVboId = createVbo(mVertexData, mFragmentData, mVertexBuffer, mFragmentBuffer);
     }
 
 

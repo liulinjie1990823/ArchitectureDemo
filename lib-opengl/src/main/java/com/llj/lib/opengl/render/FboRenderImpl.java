@@ -6,8 +6,6 @@ import android.opengl.GLES20;
 import com.llj.lib.opengl.R;
 import com.llj.lib.opengl.utils.ShaderUtil;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -60,19 +58,10 @@ public class FboRenderImpl extends LGLRenderer{
         init();
     }
 
-    private void init() {
-        mVertexBuffer = (FloatBuffer) ByteBuffer.allocateDirect(mVertexData.length * 4)
-                .order(ByteOrder.nativeOrder())
-                .asFloatBuffer()
-                .put(mVertexData)
-                .position(0);
-
-
-        mFragmentBuffer = (FloatBuffer) ByteBuffer.allocateDirect(mFragmentData.length * 4)
-                .order(ByteOrder.nativeOrder())
-                .asFloatBuffer()
-                .put(mFragmentData)
-                .position(0);
+    @Override
+    public void init() {
+        mVertexBuffer = createBuffer(mVertexData);
+        mFragmentBuffer = createBuffer(mFragmentData);
     }
 
     private int createVbo() {
@@ -103,7 +92,7 @@ public class FboRenderImpl extends LGLRenderer{
         String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vertex_shader_screen);
         String fragmentSource = ShaderUtil.getRawResource(mContext, R.raw.fragment_shader_screen);
 
-        mProgram = ShaderUtil.createProgram(vertexSource, fragmentSource);
+        mProgram = ShaderUtil.linkProgram(vertexSource, fragmentSource);
 
         mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");
         mFPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");
