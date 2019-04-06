@@ -21,6 +21,12 @@ public interface LGLRenderer extends GLSurfaceView.Renderer {
 
     int BYTES_PER_FLOAT = 4;//float占用的字节
 
+    static final String V_POSITION = "v_Position";
+    static final String F_POSITION = "f_Position";
+    static final String U_MATRIX   = "u_Matrix";
+    static final String S_TEXTURE  = "s_Texture";
+    static final String V_COLOR    = "v_Color";
+
     /**
      * @param vertexData
      *
@@ -78,7 +84,7 @@ public interface LGLRenderer extends GLSurfaceView.Renderer {
 
 
     default void onClear() {
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT| GLES20.GL_DEPTH_BUFFER_BIT);
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         GLES20.glClearColor(1f, 0f, 0f, 1f); //设置颜色
     }
 
