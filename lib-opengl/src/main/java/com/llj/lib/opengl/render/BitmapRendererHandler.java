@@ -38,18 +38,20 @@ public class BitmapRendererHandler implements LGLRenderer {
 
     private int mVPosition;//顶点位置
     private int mFPosition;//片元位置
-    private int mTexture;
     private int mUMatrix;//矩阵转换
+
+    private int mTexture;
+    private int mColorHandle;
 
 
     private ShaderUtil.BitmapObject mBitmapObject;
 
 
     private float[] mVertexData = {
-            -1f, -1f,//bottom left
-            1f, -1f,//bottom right
-            -1f, 1f,//top left
-            1f, 1f//top right
+            -1f, -1f, 0f,//bottom left
+            1f, -1f, 0f,//bottom right
+            -1f, 1f, 0f,//top left
+//            1f, 1f//top right
     };
 
 //    private float[] mVertexData = {
@@ -68,10 +70,10 @@ public class BitmapRendererHandler implements LGLRenderer {
 //    };
     //fbo标准坐标系，显示正常
     private float[] mFragmentData = {
-            0f, 0f,//bottom left
-            1f, 0f,//bottom right
-            0f, 1f,//top left
-            1f, 1f//top right
+            0f, 0f, 0f,//bottom left
+            1f, 0f, 0f,//bottom right
+            0f, 1f, 0f,//top left
+//            1f, 1f//top right
     };
 
 //    private float[] mFragmentData = {
@@ -81,13 +83,15 @@ public class BitmapRendererHandler implements LGLRenderer {
 //            0.5f, 0f
 //    };
 
+    float color[] = {0.63671875f, 0.76953125f, 0.22265625f, 1.0f};
+
     private int mVboId;
 
     private int mTextureWidth;
     private int mTextureHeight;
 
 
-    private static final int COORDINATE_PER_VERTEX = 2;//每个点的组成数量
+    private static final int COORDINATE_PER_VERTEX = 3;//每个点的组成数量
 
     private final int vertexCount  = mVertexData.length / COORDINATE_PER_VERTEX;//需要绘制几个顶点
     private final int vertexStride = COORDINATE_PER_VERTEX * BYTES_PER_FLOAT; // 每个顶点的字节数
@@ -102,7 +106,6 @@ public class BitmapRendererHandler implements LGLRenderer {
 
         mVaryTools = new VaryTools();
 
-        init();
     }
 
 
@@ -110,25 +113,29 @@ public class BitmapRendererHandler implements LGLRenderer {
         mResId = resId;
     }
 
-    public void init() {
-        mVertexBuffer = createBuffer(mVertexData);
-        mFragmentBuffer = createBuffer(mFragmentData);
-    }
-
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+
+        mVertexBuffer = createBuffer(mVertexData);
+        mFragmentBuffer = createBuffer(mFragmentData);
+
         //创建程序
-        mProgram = createProgram(mContext, R.raw.vertex_shader_screen_m, R.raw.fragment_shader_screen);
+//        mProgram = createProgram(mContext, R.raw.vertex_shader_screen_m, R.raw.fragment_shader_screen);
+        mProgram = createProgram(mContext, R.raw.vertex_shader_screen_m, R.raw.fragment_shader_color);
 
         //或者对应变量
         mVPosition = GLES20.glGetAttribLocation(mProgram, V_POSITION);
         mFPosition = GLES20.glGetAttribLocation(mProgram, F_POSITION);
+        mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
         mTexture = GLES20.glGetUniformLocation(mProgram, S_TEXTURE);
         mUMatrix = GLES20.glGetUniformLocation(mProgram, U_MATRIX);
 
         //创建vbo
-        mVboId = createVbo(mVertexData, mFragmentData, mVertexBuffer, mFragmentBuffer);
+        if (mUseVbo) {
+            mVboId = createVbo(mVertexData, mFragmentData, mVertexBuffer, mFragmentBuffer);
+        }
 
         //创建一个纹理
         mBitmapObject = ShaderUtil.loadBitmapTexture(mContext, mResId);
@@ -167,11 +174,7 @@ public class BitmapRendererHandler implements LGLRenderer {
                 mVaryTools.orthoM((-width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, (width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, -1f * mRatio, 1f * mRatio, mNear, mFar);
             }
         }
-
-
         mVaryTools.setLookAtM(0, 0, 10f, 0, 0, 0f, 0f, 1.0f, 0.0f);
-
-
     }
 
     @Override
@@ -187,41 +190,57 @@ public class BitmapRendererHandler implements LGLRenderer {
         onDraw();
         unbind();
 
-//        mVaryTools.pushMatrix();
-//        mVaryTools.translate(0f, 2f, 0f);
-//        onUseProgram();
-//        onBindTexture();
-//        onDraw();
-//        unbind();
-//        mVaryTools.popMatrix();
+        mVaryTools.pushMatrix();
+        mVaryTools.translate(0f, 2f, 0f);
+        onUseProgram();
+        onBindTexture();
+        onDraw();
+        unbind();
+        mVaryTools.popMatrix();
     }
 
 
     protected void onUseProgram() {
         GLES20.glUseProgram(mProgram);
-        GLES20.glUniformMatrix4fv(mUMatrix, 1, false, mVaryTools.getFinalMatrix(), 0);
+        if (mUMatrix >= 0) {
+            GLES20.glUniformMatrix4fv(mUMatrix, 1, false, mVaryTools.getFinalMatrix(), 0);
+        }
     }
 
     protected void onBindTexture() {
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mBitmapObject.imgTextureId);
-        GLES20.glUniform1i(mTexture, 0);
+        if (mTexture >= 0) {
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mBitmapObject.imgTextureId);
+            GLES20.glUniform1i(mTexture, 0);
+        }
     }
+
+    private boolean mUseVbo = false;
 
     protected void onDraw() {
         //绑定vbo
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVboId);
+        if (mUseVbo) {
+            GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVboId);
+        }
         //可以从mVertexBuffer中拿数据，如果设置为offset则是偏移量，表示从vbo中获取数据
         GLES20.glEnableVertexAttribArray(mVPosition);
         GLES20.glEnableVertexAttribArray(mFPosition);
 
-        GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, 0);
-        GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, mVertexData.length * 4);
-//        GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
-//        GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mFragmentBuffer);
+        if (mUseVbo) {
+            GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, 0);
+            GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, mVertexData.length * 4);
+        } else {
+            GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
+            GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mFragmentBuffer);
+        }
+
+        if (mColorHandle >= 0) {
+            GLES20.glUniform4fv(mColorHandle, 1, color, 0);
+        }
 
         //绘制4个点0-4
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
+//        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
     }
 
     protected void unbind() {
