@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 
+import com.llj.lib.opengl.render.ShapeRenderImpl;
 import com.llj.lib.opengl.render.TextureRenderImpl;
 import com.llj.lib.opengl.sv.LGLSurfaceView;
 
@@ -19,26 +20,33 @@ public class MyGLSurfaceView extends LGLSurfaceView {
 
     private int mFboTextureId;
 
+    private Context mContext;
+
     public MyGLSurfaceView(Context context) {
         super(context);
+        mContext=context;
     }
 
     public MyGLSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext=context;
     }
 
 
     public void setMyRender(TextureRenderImpl bitmapRender) {
-        mBitmapRender = bitmapRender;
-        setRenderer(bitmapRender);
+//        mBitmapRender = bitmapRender;
+//        setRenderer(bitmapRender);
 //        setRenderMode(LGLSurfaceView.RENDERMODE_WHEN_DIRTY);
-//
-        mBitmapRender.setOnRenderCreateListener(new TextureRenderImpl.OnRenderCreateListener() {
-            @Override
-            public void onCreate(int textureId) {
-                mFboTextureId = textureId;
-            }
-        });
+//        mBitmapRender.setOnRenderCreateListener(new TextureRenderImpl.OnRenderCreateListener() {
+//            @Override
+//            public void onCreate(int textureId) {
+//                mFboTextureId = textureId;
+//            }
+//        });
+
+
+        setRenderer(new ShapeRenderImpl(mContext));
+//        setRenderMode(LGLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
     public void setCurrentImg(@DrawableRes int resId) {

@@ -134,6 +134,7 @@ public class BitmapRendererHandler implements LGLRenderer {
 
         //创建一个纹理
         mBitmapObject = ShaderUtil.loadBitmapTexture(mContext, mResId);
+
         transform(mTextureWidth, mTextureHeight, mBitmapObject);
 
     }
@@ -164,6 +165,13 @@ public class BitmapRendererHandler implements LGLRenderer {
 //                mVaryTools.orthoM(-width / ((height / bitmapHeight) * bitmapWidth), width / ((height / bitmapHeight) * bitmapWidth), -1f, 1f, -1f, 1f);
 //            }
 //        }
+//
+//
+//        mVaryTools.setLookAtM(0, 0, 3f, 0, 0, 0f, 0f, 1.0f, 0.0f);
+
+        mVaryTools.translate(0f,1f,0f);
+
+
     }
 
     @Override
