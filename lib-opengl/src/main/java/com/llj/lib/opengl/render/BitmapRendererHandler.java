@@ -2,11 +2,11 @@ package com.llj.lib.opengl.render;
 
 import android.content.Context;
 import android.opengl.GLES20;
-import android.opengl.Matrix;
 import android.support.annotation.DrawableRes;
 
 import com.llj.lib.opengl.R;
 import com.llj.lib.opengl.utils.ShaderUtil;
+import com.llj.lib.opengl.utils.VaryTools;
 
 import java.nio.FloatBuffer;
 
@@ -39,24 +39,25 @@ public class BitmapRendererHandler implements LGLRenderer {
     private int mVPosition;//顶点位置
     private int mFPosition;//片元位置
     private int mTexture;
+    private int mUMatrix;//矩阵转换
 
 
     private ShaderUtil.BitmapObject mBitmapObject;
 
 
-    private float[] mVertexData = {
-            -1f, -1f,//bottom left
-            1f, -1f,//bottom right
-            -1f, 1f,//top left
-            1f, 1f//top right
-    };
-
 //    private float[] mVertexData = {
-//            -0.5f, -0.5f,//bottom left
-//            0.5f, -0.5f,//bottom right
-//            -0.5f, 0.5f,//top left
-//            0.5f, 0.5f//top right
+//            -1f, -1f,//bottom left
+//            1f, -1f,//bottom right
+//            -1f, 1f,//top left
+//            1f, 1f//top right
 //    };
+
+    private float[] mVertexData = {
+            -0.5f, -0.5f,//bottom left
+            0.5f, -0.5f,//bottom right
+            -0.5f, 0.5f,//top left
+            0.5f, 0.5f//top right
+    };
 
     //android中的片元坐标系,图片显示沿着x轴旋转了180度
 //    private float[] mFragmentData = {
@@ -92,15 +93,16 @@ public class BitmapRendererHandler implements LGLRenderer {
     private final int vertexStride = COORDINATE_PER_VERTEX * BYTES_PER_FLOAT; // 每个顶点的字节数
 
 
-    private int     mMatrix;
-    private float[] mMatrixF = new float[16];
 
 
+    private VaryTools mVaryTools;
 
     public BitmapRendererHandler(Context context, int textureWidth, int textureHeight) {
         mContext = context;
         mTextureWidth = textureWidth;
         mTextureHeight = textureHeight;
+
+        mVaryTools = new VaryTools();
 
         init();
     }
@@ -125,7 +127,7 @@ public class BitmapRendererHandler implements LGLRenderer {
         mVPosition = GLES20.glGetAttribLocation(mProgram, V_POSITION);
         mFPosition = GLES20.glGetAttribLocation(mProgram, F_POSITION);
         mTexture = GLES20.glGetUniformLocation(mProgram, S_TEXTURE);
-        mMatrix = GLES20.glGetUniformLocation(mProgram, U_MATRIX);
+        mUMatrix = GLES20.glGetUniformLocation(mProgram, U_MATRIX);
 
         //创建vbo
         mVboId = createVbo(mVertexData, mFragmentData, mVertexBuffer, mFragmentBuffer);
@@ -147,21 +149,21 @@ public class BitmapRendererHandler implements LGLRenderer {
         float bitmapRatio = bitmapWidth / bitmapHeight;
         float surfaceRatio = width / (float) height;
         //Matrix.orthoM设置正交投影，使图片不会被拉伸
-        if (width > height) {
-            //横屏
-            if (bitmapRatio > surfaceRatio) {
-                Matrix.orthoM(mMatrixF, 0, -1, 1, -height / ((width / bitmapWidth) * bitmapHeight), height / ((width / bitmapWidth) * bitmapHeight), -1f, 1f);
-            } else {
-                Matrix.orthoM(mMatrixF, 0, -width / ((height / bitmapHeight) * bitmapWidth), width / ((height / bitmapHeight) * bitmapWidth), -1f, 1f, -1f, 1f);
-            }
-        } else {
-            //竖屏
-            if (bitmapRatio > surfaceRatio) {
-                Matrix.orthoM(mMatrixF, 0, -1, 1, -height / ((width / bitmapWidth) * bitmapHeight), height / ((width / bitmapWidth) * bitmapHeight), -1f, 1f);
-            } else {
-                Matrix.orthoM(mMatrixF, 0, -width / ((height / bitmapHeight) * bitmapWidth), width / ((height / bitmapHeight) * bitmapWidth), -1f, 1f, -1f, 1f);
-            }
-        }
+//        if (width > height) {
+//            //横屏
+//            if (bitmapRatio > surfaceRatio) {
+//                mVaryTools.orthoM(-1, 1, -height / ((width / bitmapWidth) * bitmapHeight), height / ((width / bitmapWidth) * bitmapHeight), -1f, 1f);
+//            } else {
+//                mVaryTools.orthoM(-width / ((height / bitmapHeight) * bitmapWidth), width / ((height / bitmapHeight) * bitmapWidth), -1f, 1f, -1f, 1f);
+//            }
+//        } else {
+//            //竖屏
+//            if (bitmapRatio > surfaceRatio) {
+//                mVaryTools.orthoM(-1, 1, -height / ((width / bitmapWidth) * bitmapHeight), height / ((width / bitmapWidth) * bitmapHeight), -1f, 1f);
+//            } else {
+//                mVaryTools.orthoM(-width / ((height / bitmapHeight) * bitmapWidth), width / ((height / bitmapHeight) * bitmapWidth), -1f, 1f, -1f, 1f);
+//            }
+//        }
     }
 
     @Override
@@ -178,14 +180,10 @@ public class BitmapRendererHandler implements LGLRenderer {
         unbind();
     }
 
-    protected void onClear() {
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT); //清屏
-        GLES20.glClearColor(1f, 0f, 0f, 1f); //设置颜色
-    }
 
     protected void onUseProgram() {
         GLES20.glUseProgram(mProgram);
-        GLES20.glUniformMatrix4fv(mMatrix, 1, false, mMatrixF, 0);
+        GLES20.glUniformMatrix4fv(mUMatrix, 1, false, mVaryTools.getFinalMatrix(), 0);
     }
 
     protected void onBindTexture() {
