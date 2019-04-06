@@ -64,20 +64,22 @@ public class Triangle implements LGLRenderer {
 
         mVertexBuffer = createBuffer(triangleCoords);
         mProgram = createProgram(mContext, R.raw.vertex_shader_shape, R.raw.fragment_shader_color);
-        mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
 
-        mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
-        mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
+        mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, U_MATRIX);
+        mPositionHandle = GLES20.glGetAttribLocation(mProgram, V_POSITION);
+        mColorHandle = GLES20.glGetUniformLocation(mProgram, V_COLOR);
 
     }
+
     private int mRatio = 6;
+
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
 
         float ratio = (float) width / height;
 
-        mVaryTools.frustumM(-ratio*mRatio, ratio*mRatio, -1f*mRatio, 1f*mRatio, 3, 7);
+        mVaryTools.frustumM(-ratio * mRatio, ratio * mRatio, -1f * mRatio, 1f * mRatio, 3, 7);
         mVaryTools.setLookAtM(0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
     }
@@ -89,7 +91,7 @@ public class Triangle implements LGLRenderer {
         draw();
 //
         mVaryTools.pushMatrix();
-        mVaryTools.translate(2f, 0, 0);
+        mVaryTools.translate(0f, 2f, 0f);
         draw();
         mVaryTools.popMatrix();
     }

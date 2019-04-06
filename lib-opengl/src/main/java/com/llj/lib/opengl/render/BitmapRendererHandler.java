@@ -2,7 +2,9 @@ package com.llj.lib.opengl.render;
 
 import android.content.Context;
 import android.opengl.GLES20;
+import android.os.SystemClock;
 import android.support.annotation.DrawableRes;
+import android.util.Log;
 
 import com.llj.lib.opengl.R;
 import com.llj.lib.opengl.utils.ShaderUtil;
@@ -22,11 +24,6 @@ import javax.microedition.khronos.opengles.GL10;
 public class BitmapRendererHandler implements LGLRenderer {
 
     public static final String TAG = BitmapRendererHandler.class.getSimpleName();
-
-    static final String V_POSITION = "v_Position";
-    static final String F_POSITION = "f_Position";
-    static final String U_MATRIX   = "u_Matrix";
-    static final String S_TEXTURE  = "sTexture";
 
     private              Context mContext;
     private @DrawableRes int     mResId;
@@ -48,10 +45,10 @@ public class BitmapRendererHandler implements LGLRenderer {
 
 
     private float[] mVertexData = {
-            -1f, -1f, 0f,//bottom left
-            1f, -1f, 0f,//bottom right
-            -1f, 1f, 0f,//top left
-//            1f, 1f//top right
+            -1f, -1f,//bottom left
+            1f, -1f,//bottom right
+            -1f, 1f,//top left
+            1f, 1f//top right
     };
 
 //    private float[] mVertexData = {
@@ -70,10 +67,10 @@ public class BitmapRendererHandler implements LGLRenderer {
 //    };
     //fbo标准坐标系，显示正常
     private float[] mFragmentData = {
-            0f, 0f, 0f,//bottom left
-            1f, 0f, 0f,//bottom right
-            0f, 1f, 0f,//top left
-//            1f, 1f//top right
+            0f, 0f,//bottom left
+            1f, 0f,//bottom right
+            0f, 1f,//top left
+            1f, 1f//top right
     };
 
 //    private float[] mFragmentData = {
@@ -83,6 +80,7 @@ public class BitmapRendererHandler implements LGLRenderer {
 //            0.5f, 0f
 //    };
 
+
     float color[] = {0.63671875f, 0.76953125f, 0.22265625f, 1.0f};
 
     private int mVboId;
@@ -91,7 +89,7 @@ public class BitmapRendererHandler implements LGLRenderer {
     private int mTextureHeight;
 
 
-    private static final int COORDINATE_PER_VERTEX = 3;//每个点的组成数量
+    private static final int COORDINATE_PER_VERTEX = 2;//每个点的组成数量
 
     private final int vertexCount  = mVertexData.length / COORDINATE_PER_VERTEX;//需要绘制几个顶点
     private final int vertexStride = COORDINATE_PER_VERTEX * BYTES_PER_FLOAT; // 每个顶点的字节数
@@ -116,19 +114,17 @@ public class BitmapRendererHandler implements LGLRenderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
         mVertexBuffer = createBuffer(mVertexData);
         mFragmentBuffer = createBuffer(mFragmentData);
 
         //创建程序
-//        mProgram = createProgram(mContext, R.raw.vertex_shader_screen_m, R.raw.fragment_shader_screen);
-        mProgram = createProgram(mContext, R.raw.vertex_shader_screen_m, R.raw.fragment_shader_color);
+        mProgram = createProgram(mContext, R.raw.vertex_shader_screen_m, R.raw.fragment_shader_screen);
 
         //或者对应变量
         mVPosition = GLES20.glGetAttribLocation(mProgram, V_POSITION);
         mFPosition = GLES20.glGetAttribLocation(mProgram, F_POSITION);
-        mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
+        mColorHandle = GLES20.glGetUniformLocation(mProgram, V_COLOR);
         mTexture = GLES20.glGetUniformLocation(mProgram, S_TEXTURE);
         mUMatrix = GLES20.glGetUniformLocation(mProgram, U_MATRIX);
 
@@ -148,7 +144,7 @@ public class BitmapRendererHandler implements LGLRenderer {
         return mTexture;
     }
 
-    private int mRatio = 6;
+    private int mRatio = 1;
     private int mNear  = 3;
     private int mFar   = 20;
 
@@ -171,6 +167,10 @@ public class BitmapRendererHandler implements LGLRenderer {
             if (bitmapRatio > surfaceRatio) {
                 mVaryTools.orthoM(-1f * mRatio, 1f * mRatio, (-height / ((width / bitmapWidth) * bitmapHeight)) * mRatio, (height / ((width / bitmapWidth) * bitmapHeight)) * mRatio, mNear, mFar);
             } else {
+                mLeft = (-width / ((height / bitmapHeight) * bitmapWidth)) * mRatio * 2;
+                mRight = (-1) * mLeft;
+                mTop = (-1) * 1f * mRatio * 2;
+                mBottom = (-1) * mTop;
                 mVaryTools.orthoM((-width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, (width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, -1f * mRatio, 1f * mRatio, mNear, mFar);
             }
         }
@@ -182,16 +182,60 @@ public class BitmapRendererHandler implements LGLRenderer {
         GLES20.glViewport(0, 0, mTextureWidth, mTextureHeight);
     }
 
+    private float mTop;
+    private float mBottom;
+    private float mLeft;
+    private float mRight;
+
+    private long  mCurrent;
+    private float mTranslateFactor;
+
+    public static final int   TOP    = 0;//动画方向
+    public static final int   BOTTOM = 1;
+    public static final int   LEFT   = 2;
+    public static final int   RIGHT  = 3;
+    private static      float DURING = 5 * 1000f;//动画时间
+
+    private int mPosition = RIGHT;//动画方向
+
     @Override
     public void onDrawFrame(GL10 gl) {
+//        onClear();
+//        onUseProgram();
+//        onBindTexture();
+//        onDraw();
+//        unbind();
+
+        float mFactor = 1f;
+        if (mPosition == TOP) {
+            mFactor = mTop / DURING;
+        } else if (mPosition == BOTTOM) {
+            mFactor = mBottom / DURING;
+        } else if (mPosition == LEFT) {
+            mFactor = mLeft / DURING;
+        } else if (mPosition == RIGHT) {
+            mFactor = mRight / DURING;
+        }
+
+
+        if (mCurrent == 0) {
+            mCurrent = SystemClock.uptimeMillis();
+            mTranslateFactor = DURING * mFactor;
+        } else {
+            mTranslateFactor = Math.max(0f, DURING - (SystemClock.uptimeMillis() - mCurrent)) * mFactor;
+        }
+
+        Log.e(TAG, "mTranslateFactor:" + mTranslateFactor);
+
         onClear();
-        onUseProgram();
-        onBindTexture();
-        onDraw();
-        unbind();
 
         mVaryTools.pushMatrix();
-        mVaryTools.translate(0f, 2f, 0f);
+        if (mPosition == TOP || mPosition == BOTTOM) {
+            mVaryTools.translate(0f, mTranslateFactor, 0f);
+        } else if (mPosition == LEFT || mPosition == RIGHT) {
+            mVaryTools.translate(mTranslateFactor, 0f, 0f);
+        }
+
         onUseProgram();
         onBindTexture();
         onDraw();
@@ -202,9 +246,6 @@ public class BitmapRendererHandler implements LGLRenderer {
 
     protected void onUseProgram() {
         GLES20.glUseProgram(mProgram);
-        if (mUMatrix >= 0) {
-            GLES20.glUniformMatrix4fv(mUMatrix, 1, false, mVaryTools.getFinalMatrix(), 0);
-        }
     }
 
     protected void onBindTexture() {
@@ -234,13 +275,16 @@ public class BitmapRendererHandler implements LGLRenderer {
             GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mFragmentBuffer);
         }
 
+        if (mUMatrix >= 0) {
+            GLES20.glUniformMatrix4fv(mUMatrix, 1, false, mVaryTools.getFinalMatrix(), 0);
+        }
+
         if (mColorHandle >= 0) {
             GLES20.glUniform4fv(mColorHandle, 1, color, 0);
         }
 
         //绘制4个点0-4
-//        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
     }
 
     protected void unbind() {
