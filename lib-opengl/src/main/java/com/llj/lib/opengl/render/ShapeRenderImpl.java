@@ -1,7 +1,6 @@
 package com.llj.lib.opengl.render;
 
 import android.content.Context;
-import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
 import com.llj.lib.opengl.shape.Triangle;
@@ -21,17 +20,18 @@ public class ShapeRenderImpl implements GLSurfaceView.Renderer {
 
     public ShapeRenderImpl(Context context) {
         mContext = context;
-    }
-
-    public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         mTriangle = new Triangle(mContext);
     }
 
+    public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+        mTriangle.onSurfaceCreated(unused, config);
+    }
+
     public void onDrawFrame(GL10 unused) {
-        mTriangle.draw();
+        mTriangle.onDrawFrame(unused);
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
-        GLES20.glViewport(0, 0, width, height);
+        mTriangle.onSurfaceChanged(unused, width, height);
     }
 }

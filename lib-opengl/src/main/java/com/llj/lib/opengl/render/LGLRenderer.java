@@ -21,7 +21,6 @@ public interface LGLRenderer extends GLSurfaceView.Renderer {
 
     int BYTES_PER_FLOAT = 4;//float占用的字节
 
-    void init();
     /**
      * @param vertexData
      *

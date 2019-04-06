@@ -54,14 +54,8 @@ public class CommonRenderImpl implements LGLRenderer {
 
     public CommonRenderImpl(Context context) {
         mContext = context;
-        init();
     }
 
-    @Override
-    public void init() {
-        mVertexBuffer = createBuffer(mVertexData);
-        mFragmentBuffer = createBuffer(mFragmentData);
-    }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -70,6 +64,9 @@ public class CommonRenderImpl implements LGLRenderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        mVertexBuffer = createBuffer(mVertexData);
+        mFragmentBuffer = createBuffer(mFragmentData);
+
         mProgram = createProgram(mContext, R.raw.vertex_shader_screen, R.raw.fragment_shader_screen);
 
         mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");

@@ -34,11 +34,6 @@ public class TextureRenderImpl implements LGLRenderer {
         mOnRenderCreateListener = onRenderCreateListener;
     }
 
-    @Override
-    public void init() {
-
-    }
-
     public interface OnRenderCreateListener {
         void onCreate(int textureId);
     }

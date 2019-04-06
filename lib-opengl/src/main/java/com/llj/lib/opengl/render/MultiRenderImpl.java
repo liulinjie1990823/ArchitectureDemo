@@ -67,16 +67,7 @@ public class MultiRenderImpl implements LGLRenderer {
 
     public MultiRenderImpl(Context context) {
         mContext = context;
-        init();
     }
-
-    @Override
-    public void init() {
-        mVertexBuffer = createBuffer(mVertexData);
-        mFragmentBuffer = createBuffer(mFragmentData);
-    }
-
-
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -86,6 +77,9 @@ public class MultiRenderImpl implements LGLRenderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        mVertexBuffer = createBuffer(mVertexData);
+        mFragmentBuffer = createBuffer(mFragmentData);
+
         String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vertex_shader_screen);
         mProgram = ShaderUtil.linkProgram(vertexSource, mFragmentSource);
 

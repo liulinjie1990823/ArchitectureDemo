@@ -85,10 +85,6 @@ public class LogoRenderImpl implements LGLRenderer {
 
     }
 
-    @Override
-    public void init() {
-
-    }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {

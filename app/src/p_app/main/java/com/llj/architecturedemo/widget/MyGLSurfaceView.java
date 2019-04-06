@@ -36,7 +36,6 @@ public class MyGLSurfaceView extends LGLSurfaceView {
     public void setMyRender(TextureRenderImpl bitmapRender) {
 //        mBitmapRender = bitmapRender;
 //        setRenderer(bitmapRender);
-//        setRenderMode(LGLSurfaceView.RENDERMODE_WHEN_DIRTY);
 //        mBitmapRender.setOnRenderCreateListener(new TextureRenderImpl.OnRenderCreateListener() {
 //            @Override
 //            public void onCreate(int textureId) {
@@ -46,6 +45,12 @@ public class MyGLSurfaceView extends LGLSurfaceView {
 
 
         setRenderer(new ShapeRenderImpl(mContext));
+
+
+
+
+
+
 //        setRenderMode(LGLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 

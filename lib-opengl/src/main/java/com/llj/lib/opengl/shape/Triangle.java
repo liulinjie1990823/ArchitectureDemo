@@ -35,16 +35,9 @@ public class Triangle implements LGLRenderer {
 
     public Triangle(Context context) {
         mContext = context;
-        init();
     }
 
 
-
-    @Override
-    public void init() {
-        mVertexBuffer=createBuffer(triangleCoords);
-        mProgram= createProgram(mContext,R.raw.vertex_shader_shape,R.raw.fragment_shader_color);
-    }
 
     private int mPositionHandle;
     private int mColorHandle;
@@ -54,12 +47,23 @@ public class Triangle implements LGLRenderer {
     private final int vertexCount  = triangleCoords.length / COORDINATE_PER_VERTEX;
     private final int vertexStride = COORDINATE_PER_VERTEX * BYTES_PER_FLOAT; // 4 bytes per vertex
 
-    public void onSurfaceCreated() {
+    @Override
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        mVertexBuffer=createBuffer(triangleCoords);
+        mProgram= createProgram(mContext,R.raw.vertex_shader_shape,R.raw.fragment_shader_color);
+
         mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
+
     }
 
-    public void draw() {
+    @Override
+    public void onSurfaceChanged(GL10 gl, int width, int height) {
+        GLES20.glViewport(0, 0, width, height);
+    }
+
+    @Override
+    public void onDrawFrame(GL10 gl) {
         GLES20.glUseProgram(mProgram);
 
         GLES20.glEnableVertexAttribArray(mPositionHandle);
@@ -68,20 +72,6 @@ public class Triangle implements LGLRenderer {
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
-    }
-
-    @Override
-    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-
-    }
-
-    @Override
-    public void onSurfaceChanged(GL10 gl, int width, int height) {
-
-    }
-
-    @Override
-    public void onDrawFrame(GL10 gl) {
 
     }
 }

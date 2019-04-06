@@ -19,10 +19,6 @@ public class ColorRender implements LGLRenderer {
         this.context = context;
     }
 
-    @Override
-    public void init() {
-
-    }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
