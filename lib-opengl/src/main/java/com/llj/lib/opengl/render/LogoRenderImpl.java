@@ -14,7 +14,7 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class LogoRenderImpl extends LGLRenderer {
+public class LogoRenderImpl implements LGLRenderer {
 
     private Context mContext;
 

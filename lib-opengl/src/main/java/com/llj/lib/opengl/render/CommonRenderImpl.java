@@ -4,7 +4,6 @@ import android.content.Context;
 import android.opengl.GLES20;
 
 import com.llj.lib.opengl.R;
-import com.llj.lib.opengl.utils.ShaderUtil;
 
 import java.nio.FloatBuffer;
 
@@ -17,8 +16,8 @@ import javax.microedition.khronos.opengles.GL10;
  * author llj
  * date 2019/4/1
  */
-public class FboRenderImpl extends LGLRenderer{
-    public static final String TAG = FboRenderImpl.class.getSimpleName();
+public class CommonRenderImpl implements LGLRenderer {
+    public static final String TAG = CommonRenderImpl.class.getSimpleName();
 
     private Context mContext;
 
@@ -53,7 +52,7 @@ public class FboRenderImpl extends LGLRenderer{
     private final int vertexStride = COORDINATE_PER_VERTEX * 4; // 4 bytes per vertex
 
 
-    public FboRenderImpl(Context context) {
+    public CommonRenderImpl(Context context) {
         mContext = context;
         init();
     }
@@ -64,24 +63,6 @@ public class FboRenderImpl extends LGLRenderer{
         mFragmentBuffer = createBuffer(mFragmentData);
     }
 
-    private int createVbo() {
-        //创建vbo
-        int[] vbos = new int[1];
-        GLES20.glGenBuffers(1, vbos, 0);
-
-        //绑定vbo
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbos[0]);
-        //分配vbo缓存
-        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, mVertexData.length * 4 + mFragmentData.length * 4, null, GLES20.GL_STATIC_DRAW);
-        //为vbo设置顶点数据,先设置mVertexData后设置mFragmentData
-        GLES20.glBufferSubData(GLES20.GL_ARRAY_BUFFER, 0, mVertexData.length * 4, mVertexBuffer);
-        GLES20.glBufferSubData(GLES20.GL_ARRAY_BUFFER, mVertexData.length * 4, mFragmentData.length * 4, mFragmentBuffer);
-
-        //解绑vbo
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-        return vbos[0];
-    }
-
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
@@ -89,15 +70,12 @@ public class FboRenderImpl extends LGLRenderer{
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vertex_shader_screen);
-        String fragmentSource = ShaderUtil.getRawResource(mContext, R.raw.fragment_shader_screen);
-
-        mProgram = ShaderUtil.linkProgram(vertexSource, fragmentSource);
+        mProgram = createProgram(mContext, R.raw.vertex_shader_screen, R.raw.fragment_shader_screen);
 
         mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");
         mFPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");
 
-        mVboId = createVbo();
+        mVboId = createVbo(mVertexData, mFragmentData, mVertexBuffer, mFragmentBuffer);
     }
 
     @Override
@@ -105,7 +83,7 @@ public class FboRenderImpl extends LGLRenderer{
 
     }
 
-    public void onDrawFrame(GL10 gl,int textureId) {
+    public void onDrawFrame(GL10 gl, int textureId) {
 
         //清屏
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
@@ -129,7 +107,7 @@ public class FboRenderImpl extends LGLRenderer{
         GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, mVertexData.length * 4);
 
         //绘制4个点0-4
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
 
         //绘制多个纹理需要解绑解绑纹理
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);

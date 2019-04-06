@@ -12,7 +12,7 @@ import javax.microedition.khronos.opengles.GL10;
  * author llj
  * date 2019/4/1
  */
-public class ColorRender extends LGLRenderer {
+public class ColorRender implements LGLRenderer {
     private Context context;
 
     public ColorRender(Context context) {

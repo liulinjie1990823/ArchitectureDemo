@@ -12,7 +12,7 @@ import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.widget.MyGLSurfaceView;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.help.DisplayHelper;
-import com.llj.lib.opengl.render.BitmapRenderImpl;
+import com.llj.lib.opengl.render.TextureRenderImpl;
 import com.llj.lib.opengl.render.MultiRenderImpl;
 import com.llj.lib.opengl.utils.ShaderUtil;
 
@@ -56,9 +56,9 @@ public class GLSurfaceViewActivity extends AppMvcBaseActivity {
         mFilters.add(ShaderUtil.getRawResource(mContext, com.llj.lib.opengl.R.raw.fragment_shader2));
         mFilters.add(ShaderUtil.getRawResource(mContext, com.llj.lib.opengl.R.raw.fragment_shader3));
 
-        BitmapRenderImpl renderer = new BitmapRenderImpl(mContext, DisplayHelper.SCREEN_WIDTH, DisplayHelper.SCREEN_HEIGHT - mLinearLayout.getLayoutParams().height);
+        TextureRenderImpl renderer = new TextureRenderImpl(mContext, DisplayHelper.SCREEN_WIDTH, DisplayHelper.SCREEN_HEIGHT - mLinearLayout.getLayoutParams().height);
         renderer.setResId(R.drawable.androids);
-        renderer.setOnRenderCreateListener(new BitmapRenderImpl.OnRenderCreateListener() {
+        renderer.setOnRenderCreateListener(new TextureRenderImpl.OnRenderCreateListener() {
             @Override
             public void onCreate(int textureId) {
                 runOnUiThread(new Runnable() {

@@ -17,7 +17,7 @@ import javax.microedition.khronos.opengles.GL10;
  * author llj
  * date 2019/4/2
  */
-public class MultiRenderImpl extends LGLRenderer {
+public class MultiRenderImpl implements LGLRenderer {
 
     public static final String TAG = MultiRenderImpl.class.getSimpleName();
 

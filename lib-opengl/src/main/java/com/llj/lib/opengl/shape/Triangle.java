@@ -4,9 +4,12 @@ import android.content.Context;
 import android.opengl.GLES20;
 
 import com.llj.lib.opengl.R;
-import com.llj.lib.opengl.render.RendererHandler;
+import com.llj.lib.opengl.render.LGLRenderer;
 
 import java.nio.FloatBuffer;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 /**
  * ArchitectureDemo.
@@ -14,7 +17,7 @@ import java.nio.FloatBuffer;
  * author llj
  * date 2019/4/1
  */
-public class Triangle implements RendererHandler {
+public class Triangle implements LGLRenderer {
 
     private Context mContext;
 
@@ -65,5 +68,20 @@ public class Triangle implements RendererHandler {
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
+    }
+
+    @Override
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+
+    }
+
+    @Override
+    public void onSurfaceChanged(GL10 gl, int width, int height) {
+
+    }
+
+    @Override
+    public void onDrawFrame(GL10 gl) {
+
     }
 }
