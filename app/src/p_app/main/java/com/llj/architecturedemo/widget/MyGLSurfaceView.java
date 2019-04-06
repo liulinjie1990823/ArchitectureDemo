@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 
-import com.llj.lib.opengl.render.ShapeRenderImpl;
 import com.llj.lib.opengl.render.TextureRenderImpl;
 import com.llj.lib.opengl.sv.LGLSurfaceView;
 
@@ -34,23 +33,17 @@ public class MyGLSurfaceView extends LGLSurfaceView {
 
 
     public void setMyRender(TextureRenderImpl bitmapRender) {
-//        mBitmapRender = bitmapRender;
-//        setRenderer(bitmapRender);
-//        mBitmapRender.setOnRenderCreateListener(new TextureRenderImpl.OnRenderCreateListener() {
-//            @Override
-//            public void onCreate(int textureId) {
-//                mFboTextureId = textureId;
-//            }
-//        });
+        mBitmapRender = bitmapRender;
+        setRenderer(bitmapRender);
+        mBitmapRender.setOnRenderCreateListener(new TextureRenderImpl.OnRenderCreateListener() {
+            @Override
+            public void onCreate(int textureId) {
+                mFboTextureId = textureId;
+            }
+        });
 
 
-        setRenderer(new ShapeRenderImpl(mContext));
-
-
-
-
-
-
+//        setRenderer(new ShapeRenderImpl(mContext));
 //        setRenderMode(LGLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 

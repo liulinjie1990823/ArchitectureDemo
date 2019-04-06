@@ -15,6 +15,9 @@ public class Square {
     private FloatBuffer vertexBuffer;
     private ShortBuffer drawListBuffer;
 
+    private FloatBuffer mVertexBuffer;
+    private int         mProgram;
+
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
     static float squareCoords[] = {

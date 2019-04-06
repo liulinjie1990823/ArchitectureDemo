@@ -58,6 +58,11 @@ public class VaryTools {
         mUseMatrixCurrent = true;
     }
 
+    public void setRotateM(float angle, float x, float y, float z) {
+        Matrix.setRotateM(mMatrixCurrent, 0, angle, x, y, z);
+        mUseMatrixCurrent = true;
+    }
+
     //缩放变换
     public void scale(float x, float y, float z) {
         Matrix.scaleM(mMatrixCurrent, 0, x, y, z);
