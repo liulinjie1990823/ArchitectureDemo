@@ -169,9 +169,7 @@ public class BitmapRendererHandler implements LGLRenderer {
         }
 
 
-//        mVaryTools.setLookAtM(0, 0, 10f, 0, 0, 0f, 0f, 1.0f, 0.0f);
-
-//        mVaryTools.translate(0f,1f,0f);
+        mVaryTools.setLookAtM(0, 0, 10f, 0, 0, 0f, 0f, 1.0f, 0.0f);
 
 
     }
@@ -189,7 +187,6 @@ public class BitmapRendererHandler implements LGLRenderer {
         onDraw();
         unbind();
 
-//        onClear();
 //        mVaryTools.pushMatrix();
 //        mVaryTools.translate(0f, 2f, 0f);
 //        onUseProgram();

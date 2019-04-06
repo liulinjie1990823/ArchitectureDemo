@@ -70,14 +70,14 @@ public class Triangle implements LGLRenderer {
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
     }
-
+    private int mRatio = 6;
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
 
         float ratio = (float) width / height;
 
-        mVaryTools.frustumM(-ratio, ratio, -1, 1, 3, 7);
+        mVaryTools.frustumM(-ratio*mRatio, ratio*mRatio, -1f*mRatio, 1f*mRatio, 3, 7);
         mVaryTools.setLookAtM(0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
     }
@@ -112,6 +112,6 @@ public class Triangle implements LGLRenderer {
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
 
-        GLES20.glDisableVertexAttribArray(mPositionHandle);
+//        GLES20.glDisableVertexAttribArray(mPositionHandle);
     }
 }
