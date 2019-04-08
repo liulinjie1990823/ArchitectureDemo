@@ -1,9 +1,9 @@
 package com.llj.architecturedemo.widget;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 
+import com.llj.lib.opengl.model.AnimParam;
 import com.llj.lib.opengl.render.TextureRenderImpl;
 import com.llj.lib.opengl.sv.LGLSurfaceView;
 
@@ -47,9 +47,9 @@ public class MyGLSurfaceView extends LGLSurfaceView {
 //        setRenderMode(LGLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
-    public void setCurrentImg(@DrawableRes int resId) {
+    public void addAnimParam(AnimParam animParam) {
         if (mBitmapRender != null) {
-            mBitmapRender.setResId(resId);
+            mBitmapRender.addAnimParam(animParam);
             requestRender();
         }
     }

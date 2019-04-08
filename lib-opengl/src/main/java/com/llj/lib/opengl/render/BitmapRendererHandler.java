@@ -2,11 +2,11 @@ package com.llj.lib.opengl.render;
 
 import android.content.Context;
 import android.opengl.GLES20;
-import android.support.annotation.DrawableRes;
-import android.util.Pair;
 
 import com.llj.lib.opengl.R;
-import com.llj.lib.opengl.model.AnimObject;
+import com.llj.lib.opengl.anim.IAnim;
+import com.llj.lib.opengl.model.AnimParam;
+import com.llj.lib.opengl.model.AnimResult;
 import com.llj.lib.opengl.utils.ShaderUtil;
 import com.llj.lib.opengl.utils.VaryTools;
 
@@ -26,8 +26,7 @@ public class BitmapRendererHandler implements LGLRenderer {
 
     public static final String TAG = BitmapRendererHandler.class.getSimpleName();
 
-    private              Context mContext;
-    private @DrawableRes int     mResId;
+    private Context mContext;
 
     private FloatBuffer mVertexBuffer;
     private FloatBuffer mFragmentBuffer;
@@ -40,9 +39,6 @@ public class BitmapRendererHandler implements LGLRenderer {
 
     private int mTexture;
     private int mColorHandle;
-
-
-    private ShaderUtil.BitmapObject mBitmapObject;
 
 
     private float[] mVertexData = {
@@ -107,13 +103,13 @@ public class BitmapRendererHandler implements LGLRenderer {
         mVaryTools = new VaryTools();
         mAnimHelper = new AnimHelper();
 
-        mDurations = new ArrayList<>();
+        mAnimParams = new ArrayList<>();
 
     }
 
 
-    public void setResId(int resId) {
-        mResId = resId;
+    public void addAnimParam(AnimParam animParam) {
+        mAnimParams.add(animParam);
     }
 
 
@@ -138,16 +134,6 @@ public class BitmapRendererHandler implements LGLRenderer {
             mVboId = createVbo(mVertexData, mFragmentData, mVertexBuffer, mFragmentBuffer);
         }
 
-        //创建一个纹理
-        mBitmapObject = ShaderUtil.loadBitmapTexture(mContext, mResId);
-
-        transform(mTextureWidth, mTextureHeight, mBitmapObject);
-
-
-        mDurations.add(new AnimObject(LEFT, mLeft, 1000L));
-        mDurations.add(new AnimObject(TOP, mTop, 1000L));
-        mDurations.add(new AnimObject(RIGHT, mRight, 1000L));
-        mDurations.add(new AnimObject(BOTTOM, mBottom, 1000L));
 
     }
 
@@ -159,7 +145,7 @@ public class BitmapRendererHandler implements LGLRenderer {
     private int mNear  = 3;
     private int mFar   = 20;
 
-    private void transform(int width, int height, ShaderUtil.BitmapObject bitmapObject) {
+    private void transform(int width, int height, ShaderUtil.BitmapObject bitmapObject, AnimParam animParam) {
         float bitmapWidth = bitmapObject.width;
         float bitmapHeight = bitmapObject.height;
 
@@ -187,6 +173,16 @@ public class BitmapRendererHandler implements LGLRenderer {
         }
         mVaryTools.setLookAtM(0, 0, 10f, 0, 0, 0f, 0f, 1.0f, 0.0f);
 
+        //设置最大偏移量
+        if (animParam.direction == IAnim.LEFT) {
+            animParam.maxDistance = mLeft;
+        } else if (animParam.direction == IAnim.TOP) {
+            animParam.maxDistance = mTop;
+        } else if (animParam.direction == IAnim.RIGHT) {
+            animParam.maxDistance = mRight;
+        } else if (animParam.direction == IAnim.BOTTOM) {
+            animParam.maxDistance = mBottom;
+        }
 
     }
 
@@ -201,10 +197,14 @@ public class BitmapRendererHandler implements LGLRenderer {
     private float mRight;
 
 
-    private ArrayList<AnimObject> mDurations;
+    private ArrayList<AnimParam> mAnimParams;
 
 
     private int mIndex;
+    private int mCurrentIndex = -1;
+
+    private AnimParam               mAnimParam    = null;
+    private ShaderUtil.BitmapObject mBitmapObject = null;
 
     @Override
     public void onDrawFrame(GL10 gl) {
@@ -214,22 +214,34 @@ public class BitmapRendererHandler implements LGLRenderer {
 //        onDraw();
 //        unbind();
 
-        int size = mDurations.size();
 
-        Pair<Float, Float> calculate = mAnimHelper.calculate(mDurations.get(mIndex % size));
+        int size = mAnimParams.size();
 
-        if (calculate.first == 0 && calculate.second == 0) {
+        if (mCurrentIndex == mIndex) {
+            onClear();
+        } else {
+            mAnimParam = mAnimParams.get(mIndex % size);
+            mBitmapObject = ShaderUtil.loadBitmapTexture(mContext, mAnimParam.resId);
+            transform(mTextureWidth, mTextureHeight, mBitmapObject, mAnimParam);
+            mCurrentIndex = mIndex;
+        }
+
+
+        AnimResult calculate = mAnimHelper.calculate(mAnimParam);
+
+        if (calculate.getScaleX() == mAnimParam.finalScale && calculate.getScaleY() == mAnimParam.finalScale) {
             mIndex++;
             mAnimHelper.reset();
         }
 
-        onClear();
+
 
         mVaryTools.pushMatrix();
-        mVaryTools.translate(calculate.first, calculate.second, 0f);
+        mVaryTools.translate(calculate.getTranslateX(), calculate.getTranslateY(), calculate.getTranslateZ());
+        mVaryTools.scale(calculate.getScaleX(), calculate.getScaleY(), calculate.getScaleZ());
 
         onUseProgram();
-        onBindTexture();
+        onBindTexture(mBitmapObject.imgTextureId);
         onDraw();
         unbind();
         mVaryTools.popMatrix();
@@ -240,10 +252,10 @@ public class BitmapRendererHandler implements LGLRenderer {
         GLES20.glUseProgram(mProgram);
     }
 
-    protected void onBindTexture() {
+    protected void onBindTexture(int imgTextureId) {
         if (mTexture >= 0) {
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mBitmapObject.imgTextureId);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, imgTextureId);
             GLES20.glUniform1i(mTexture, 0);
         }
     }

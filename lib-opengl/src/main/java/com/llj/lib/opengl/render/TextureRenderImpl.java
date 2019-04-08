@@ -1,8 +1,9 @@
 package com.llj.lib.opengl.render;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
 import android.util.Log;
+
+import com.llj.lib.opengl.model.AnimParam;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -26,7 +27,6 @@ public class TextureRenderImpl implements LGLRenderer {
     private int mSurfaceWidth;
     private int mSurfaceHeight;
 
-    @DrawableRes int mResId;
 
     private OnRenderCreateListener mOnRenderCreateListener;
 
@@ -47,9 +47,8 @@ public class TextureRenderImpl implements LGLRenderer {
         mCommonRenderImpl = new CommonRenderImpl(context);
     }
 
-    public void setResId(int resId) {
-        mResId = resId;
-        mBitmapRendererHandler.setResId(resId);
+    public void addAnimParam(AnimParam animParam) {
+        mBitmapRendererHandler.addAnimParam(animParam);
     }
 
     @Override

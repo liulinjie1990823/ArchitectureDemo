@@ -1,12 +1,12 @@
 package com.llj.lib.opengl.render;
 
 import android.os.SystemClock;
-import android.util.Pair;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import com.llj.lib.opengl.anim.IAnim;
-import com.llj.lib.opengl.model.AnimObject;
+import com.llj.lib.opengl.model.AnimParam;
+import com.llj.lib.opengl.model.AnimResult;
 
 /**
  * ArchitectureDemo.
@@ -21,28 +21,47 @@ public class AnimHelper {
 
     private Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
-    public Pair<Float, Float> calculate(AnimObject animObject) {
+    public AnimResult calculate(AnimParam animParam) {
 
-        int direction = animObject.direction;
-        float maxDistance = animObject.maxDistance;
-        long duration = animObject.duration;
+        AnimResult animResult = new AnimResult();
+
+        int direction = animParam.direction;
+        float maxDistance = animParam.maxDistance;
+        float maxScale = animParam.maxScale;
+        long transDuration = animParam.transDuration;
+        long showDuration = animParam.showDuration;
 
 
         if (mStartTime == 0) {
             mStartTime = SystemClock.uptimeMillis();
         }
 
-        final float input = Math.min((SystemClock.uptimeMillis() - mStartTime) / (duration * 1f), 1.f);
-        float mTranslateFactor = (1 - mInterpolator.getInterpolation(input)) * maxDistance;
+        float mTranslateFactor = 0F;
+        float mScaleFactor = 0F;
+        if (SystemClock.uptimeMillis() - mStartTime < transDuration) {
+            //转场
+            final float input = Math.min((SystemClock.uptimeMillis() - mStartTime) / (transDuration * 1f), 1.f);
+            mTranslateFactor = (1 - mInterpolator.getInterpolation(input)) * maxDistance;
+            mScaleFactor = (1 - mInterpolator.getInterpolation(input)) * (maxScale - animParam.secondScale) + animParam.secondScale;
+        } else {
+            //显示
+
+            final float input = Math.min((SystemClock.uptimeMillis() - mStartTime - transDuration) / (showDuration * 1f), 1.f);
+            mScaleFactor = (1 - mInterpolator.getInterpolation(input)) * (animParam.secondScale - animParam.finalScale) + animParam.finalScale;
+        }
 
 
         if (direction == IAnim.TOP || direction == IAnim.BOTTOM) {
-            return new Pair<>(0F, mTranslateFactor);
+            animResult.setTranslateY(mTranslateFactor);
+            animResult.setScaleX(mScaleFactor);
+            animResult.setScaleY(mScaleFactor);
         } else if (direction == IAnim.LEFT || direction == IAnim.RIGHT) {
-            return new Pair<>(mTranslateFactor, 0F);
+            animResult.setTranslateX(mTranslateFactor);
+            animResult.setScaleX(mScaleFactor);
+            animResult.setScaleY(mScaleFactor);
         }
 
-        return new Pair<>(0F, 0F);
+        return animResult;
     }
 
     public void reset() {

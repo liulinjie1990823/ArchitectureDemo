@@ -12,8 +12,10 @@ import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.widget.MyGLSurfaceView;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.help.DisplayHelper;
-import com.llj.lib.opengl.render.TextureRenderImpl;
+import com.llj.lib.opengl.anim.IAnim;
+import com.llj.lib.opengl.model.AnimParam;
 import com.llj.lib.opengl.render.MultiRenderImpl;
+import com.llj.lib.opengl.render.TextureRenderImpl;
 import com.llj.lib.opengl.utils.ShaderUtil;
 
 import org.jetbrains.annotations.Nullable;
@@ -57,7 +59,12 @@ public class GLSurfaceViewActivity extends AppMvcBaseActivity {
         mFilters.add(ShaderUtil.getRawResource(mContext, com.llj.lib.opengl.R.raw.fragment_shader3));
 
         TextureRenderImpl renderer = new TextureRenderImpl(mContext, DisplayHelper.SCREEN_WIDTH, DisplayHelper.SCREEN_HEIGHT - mLinearLayout.getLayoutParams().height);
-        renderer.setResId(R.drawable.androids);
+
+        renderer.addAnimParam(new AnimParam(IAnim.LEFT, 2F, 1F, 1.05F, 500L, 1000L, R.drawable.androids));
+        renderer.addAnimParam(new AnimParam(IAnim.TOP, 2F, 1F, 1.05F, 500L, 1000L, R.drawable.img_1));
+        renderer.addAnimParam(new AnimParam(IAnim.RIGHT, 3F, 1F, 1.05F, 500L, 1000L, R.drawable.img_2));
+        renderer.addAnimParam(new AnimParam(IAnim.BOTTOM, 4F, 1F, 1.05F, 500L, 1000L, R.drawable.img_3));
+
         renderer.setOnRenderCreateListener(new TextureRenderImpl.OnRenderCreateListener() {
             @Override
             public void onCreate(int textureId) {
@@ -105,7 +112,6 @@ public class GLSurfaceViewActivity extends AppMvcBaseActivity {
             public void run() {
                 for (int i = 1; i <= 10; i++) {
                     int imgSrc = getResources().getIdentifier("img_" + i, "drawable", "com.llj.architecturedemo");
-                    mGLSurfaceView.setCurrentImg(imgSrc);
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
