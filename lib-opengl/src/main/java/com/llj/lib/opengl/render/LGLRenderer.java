@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.support.annotation.NonNull;
 
+import com.llj.lib.opengl.anim.IAnim;
 import com.llj.lib.opengl.utils.ShaderUtil;
 
 import java.nio.ByteBuffer;
@@ -17,7 +18,7 @@ import java.nio.FloatBuffer;
  * author llj
  * date 2019/3/29
  */
-public interface LGLRenderer extends GLSurfaceView.Renderer {
+public interface LGLRenderer extends GLSurfaceView.Renderer, IAnim {
 
     int BYTES_PER_FLOAT = 4;//float占用的字节
 

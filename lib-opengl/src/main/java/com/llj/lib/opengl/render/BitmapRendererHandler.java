@@ -2,15 +2,16 @@ package com.llj.lib.opengl.render;
 
 import android.content.Context;
 import android.opengl.GLES20;
-import android.os.SystemClock;
 import android.support.annotation.DrawableRes;
-import android.util.Log;
+import android.util.Pair;
 
 import com.llj.lib.opengl.R;
+import com.llj.lib.opengl.model.AnimObject;
 import com.llj.lib.opengl.utils.ShaderUtil;
 import com.llj.lib.opengl.utils.VaryTools;
 
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -95,7 +96,8 @@ public class BitmapRendererHandler implements LGLRenderer {
     private final int vertexStride = COORDINATE_PER_VERTEX * BYTES_PER_FLOAT; // 每个顶点的字节数
 
 
-    private VaryTools mVaryTools;
+    private VaryTools  mVaryTools;
+    private AnimHelper mAnimHelper;
 
     public BitmapRendererHandler(Context context, int textureWidth, int textureHeight) {
         mContext = context;
@@ -103,6 +105,9 @@ public class BitmapRendererHandler implements LGLRenderer {
         mTextureHeight = textureHeight;
 
         mVaryTools = new VaryTools();
+        mAnimHelper = new AnimHelper();
+
+        mDurations = new ArrayList<>();
 
     }
 
@@ -137,6 +142,12 @@ public class BitmapRendererHandler implements LGLRenderer {
         mBitmapObject = ShaderUtil.loadBitmapTexture(mContext, mResId);
 
         transform(mTextureWidth, mTextureHeight, mBitmapObject);
+
+
+        mDurations.add(new AnimObject(LEFT, mLeft, 1000L));
+        mDurations.add(new AnimObject(TOP, mTop, 1000L));
+        mDurations.add(new AnimObject(RIGHT, mRight, 1000L));
+        mDurations.add(new AnimObject(BOTTOM, mBottom, 1000L));
 
     }
 
@@ -175,6 +186,8 @@ public class BitmapRendererHandler implements LGLRenderer {
             }
         }
         mVaryTools.setLookAtM(0, 0, 10f, 0, 0, 0f, 0f, 1.0f, 0.0f);
+
+
     }
 
     @Override
@@ -187,16 +200,11 @@ public class BitmapRendererHandler implements LGLRenderer {
     private float mLeft;
     private float mRight;
 
-    private long  mCurrent;
-    private float mTranslateFactor;
 
-    public static final int   TOP    = 0;//动画方向
-    public static final int   BOTTOM = 1;
-    public static final int   LEFT   = 2;
-    public static final int   RIGHT  = 3;
-    private static      float DURING = 5 * 1000f;//动画时间
+    private ArrayList<AnimObject> mDurations;
 
-    private int mPosition = RIGHT;//动画方向
+
+    private int mIndex;
 
     @Override
     public void onDrawFrame(GL10 gl) {
@@ -206,35 +214,19 @@ public class BitmapRendererHandler implements LGLRenderer {
 //        onDraw();
 //        unbind();
 
-        float mFactor = 1f;
-        if (mPosition == TOP) {
-            mFactor = mTop / DURING;
-        } else if (mPosition == BOTTOM) {
-            mFactor = mBottom / DURING;
-        } else if (mPosition == LEFT) {
-            mFactor = mLeft / DURING;
-        } else if (mPosition == RIGHT) {
-            mFactor = mRight / DURING;
+        int size = mDurations.size();
+
+        Pair<Float, Float> calculate = mAnimHelper.calculate(mDurations.get(mIndex % size));
+
+        if (calculate.first == 0 && calculate.second == 0) {
+            mIndex++;
+            mAnimHelper.reset();
         }
-
-
-        if (mCurrent == 0) {
-            mCurrent = SystemClock.uptimeMillis();
-            mTranslateFactor = DURING * mFactor;
-        } else {
-            mTranslateFactor = Math.max(0f, DURING - (SystemClock.uptimeMillis() - mCurrent)) * mFactor;
-        }
-
-        Log.e(TAG, "mTranslateFactor:" + mTranslateFactor);
 
         onClear();
 
         mVaryTools.pushMatrix();
-        if (mPosition == TOP || mPosition == BOTTOM) {
-            mVaryTools.translate(0f, mTranslateFactor, 0f);
-        } else if (mPosition == LEFT || mPosition == RIGHT) {
-            mVaryTools.translate(mTranslateFactor, 0f, 0f);
-        }
+        mVaryTools.translate(calculate.first, calculate.second, 0f);
 
         onUseProgram();
         onBindTexture();
