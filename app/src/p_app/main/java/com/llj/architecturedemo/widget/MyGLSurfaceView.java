@@ -54,4 +54,7 @@ public class MyGLSurfaceView extends LGLSurfaceView {
         }
     }
 
+    public int getFboTextureId() {
+        return mFboTextureId;
+    }
 }

@@ -1,5 +1,6 @@
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
+    api 'ywl.ywl5320:libmusic:1.2.0'
 }
 
 apply from: rootProject.file('gradle/uploadArchives.gradle')
