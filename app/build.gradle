@@ -132,6 +132,7 @@ dependencies {
 
     api project(':lib-jni-test')
     api project(':lib-opengl')
+    api project(':lib-record')
 //    api project(':lib-player')
     implementation deps.multidex
     implementation deps.multidex_instrumentation
