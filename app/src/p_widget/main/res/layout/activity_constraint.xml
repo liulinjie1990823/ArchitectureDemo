@@ -96,54 +96,13 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_title1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@color/cl_000000"
-                android:text="@string/layout_constrainedWidth_demo"
-                android:textColor="@color/cl_ffffff"
-                android:textSize="12dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <Button
-                android:id="@+id/button11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="aaaaaaaaaaaaaaaaaaaaaa"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/button12"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title1"/>
-
-            <Button
-                android:id="@+id/button12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="bbbbbbbbbb"
-                app:layout_constraintLeft_toRightOf="@+id/button11"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title1"/>
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
                 android:id="@+id/tv_title4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@color/cl_000000"
                 android:text="@string/chain_style_packed"
                 android:textColor="@color/cl_ffffff"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -210,21 +169,187 @@
 
         </android.support.constraint.ConstraintLayout>
 
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_title1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/cl_000000"
+                android:text="@string/layout_constrainedWidth_demo"
+                android:textColor="@color/cl_ffffff"
+                android:textSize="12dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <Button
+                android:id="@+id/button11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="aaaaaaaaaaaaaaaaaaaaaa"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/button12"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title1"/>
+
+            <Button
+                android:id="@+id/button12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="bbbbbbbbbb"
+                app:layout_constraintLeft_toRightOf="@+id/button11"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title1"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/button61"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="@color/gray"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="哈大大大大"
+                android:textSize="14dp"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/button62"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/button62"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="@color/mediumpurple"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="哈大大大大哈大大大大哈哈大哈大大大大大叔大婶烦恼都十分难受的方式"
+                android:textSize="14dp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintLeft_toRightOf="@+id/button61"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_title6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/cl_000000"
+                android:text="@string/barrier"
+                android:textColor="@color/cl_ffffff"
+                android:textSize="14dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@color/saddlebrown"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/cl_000000"
+                android:textSize="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title6"
+                tools:text="姓名:"/>
+
+            <TextView
+                android:id="@+id/tv_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@color/saddlebrown"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/cl_000000"
+                android:textSize="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                tools:text="电话号码:"/>
+
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="right"
+                app:constraint_referenced_ids="tv_name,tv_mobile"/>
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:background="@color/darksalmon"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/cl_000000"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+                app:layout_constraintLeft_toLeftOf="@+id/barrier2"
+                app:layout_constraintTop_toTopOf="@+id/tv_name"
+                tools:text="姓名"/>
+
+            <EditText
+                android:id="@+id/et_mobile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/darksalmon"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/cl_000000"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_mobile"
+                app:layout_constraintLeft_toLeftOf="@+id/et_name"
+                app:layout_constraintTop_toTopOf="@+id/tv_mobile"
+                tools:text="电话号码"/>
+
+        </android.support.constraint.ConstraintLayout>
+
         <!--Guideline-->
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
             android:background="@color/brown"
-            android:visibility="gone">
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/cl_000000"
+                android:text="Guideline"
+                android:textColor="@color/cl_ffffff"
+                android:textSize="12dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <android.support.constraint.Guideline
                 android:id="@+id/gu1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.2"/>
+                app:layout_constraintGuide_percent="0.5"/>
 
             <android.support.constraint.Guideline
                 android:id="@+id/gu2"
@@ -233,32 +358,49 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.25"/>
 
+            <android.support.constraint.Guideline
+                android:id="@+id/gu3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="50dp"/>
+
             <TextView
                 android:id="@+id/tv_23"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/mediumpurple"
                 android:gravity="center"
                 android:text="哈大大大大哈大大大大哈"
                 android:textSize="14dp"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/gu1"
+                app:layout_constraintLeft_toRightOf="@+id/gu1"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
                 />
 
             <TextView
                 android:id="@+id/tv_24"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/mediumpurple"
                 android:gravity="center"
                 android:text="哈大大大大哈大大大大哈"
                 android:textSize="14dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/gu2"
+                app:layout_constraintLeft_toRightOf="@+id/gu2"
                 app:layout_constraintTop_toBottomOf="@+id/tv_23"
                 />
 
+            <TextView
+                android:id="@+id/tv_25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/mediumpurple"
+                android:gravity="center"
+                android:text="哈大大大大哈大大大大哈"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/gu3"
+                app:layout_constraintTop_toBottomOf="@+id/tv_24"
+                />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -549,21 +691,21 @@
 
             <TextView
                 android:id="@+id/tv_18"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/mediumpurple"
                 android:gravity="center"
                 android:text="哈大大大大哈大大大大哈大大大大哈大大大大哈大大大大"
                 android:textSize="14dp"
-
-                app:layout_constraintHorizontal_weight="1"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/tv_19"
+                app:layout_constraintVertical_chainStyle="spread"
                 />
 
             <TextView
                 android:id="@+id/tv_19"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -571,7 +713,6 @@
                 android:gravity="center"
                 android:text="哈大大大大"
                 android:textSize="14dp"
-                app:layout_constraintHorizontal_weight="2"
                 app:layout_constraintLeft_toRightOf="@+id/tv_18"
                 app:layout_constraintRight_toLeftOf="@+id/tv_20"
                 />
@@ -648,38 +789,7 @@
 
         </android.support.constraint.ConstraintLayout>
         <!--layout_constraintDimensionRatio-->
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/button61"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:background="@color/gray"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="哈大大大大"
-                android:textSize="14dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <TextView
-                android:id="@+id/button62"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:background="@color/mediumpurple"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="哈大大大大哈大大大大哈哈大大大大哈大大大大哈哈大大大大哈大大大大哈哈大大大大哈大大大大哈"
-                android:textSize="14dp"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintLeft_toRightOf="@+id/button61"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-
-        </android.support.constraint.ConstraintLayout>
         <!--layout_constraintDimensionRatio-->
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -730,88 +840,6 @@
 
 
         </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_title6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@color/cl_000000"
-                android:text="@string/barrier"
-                android:textColor="@color/cl_ffffff"
-                android:textSize="14dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/saddlebrown"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/cl_000000"
-                android:textSize="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title6"
-                tools:text="姓名:"/>
-
-            <TextView
-                android:id="@+id/tv_mobile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@color/saddlebrown"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/cl_000000"
-                android:textSize="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_name"
-                tools:text="电话号码:"/>
-
-            <android.support.constraint.Barrier
-                android:id="@+id/barrier2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="right"
-                app:constraint_referenced_ids="tv_name,tv_mobile"/>
-
-            <EditText
-                android:id="@+id/et_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:background="@color/darksalmon"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/cl_000000"
-                android:textSize="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-                app:layout_constraintLeft_toLeftOf="@+id/barrier2"
-                app:layout_constraintTop_toTopOf="@+id/tv_name"
-                tools:text="姓名"/>
-
-            <EditText
-                android:id="@+id/et_mobile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@color/darksalmon"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/cl_000000"
-                android:textSize="16dp"
-                app:layout_constraintLeft_toLeftOf="@+id/et_name"
-                app:layout_constraintTop_toTopOf="@+id/tv_mobile"
-                tools:text="电话号码"/>
-
-        </android.support.constraint.ConstraintLayout>
-
-
 
 
     </LinearLayout>

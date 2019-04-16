@@ -1,4 +1,4 @@
-# lib-record
+# lib-record（视频录制库）
 
 ### video
 

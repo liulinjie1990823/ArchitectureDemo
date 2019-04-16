@@ -296,7 +296,7 @@
     </string>
     <string name="chain_style_spread">app:layout_constraintHorizontal_chainStyle="spread"</string>
     <string name="chain_style_spread_inside">app:layout_constraintHorizontal_chainStyle="spread_inside"</string>
-    <string name="chain_style_packed">app:layout_constraintHorizontal_chainStyle="spread_inside"\napp:layout_constraintHorizontal_bias="0.2" </string>
+    <string name="chain_style_packed">app:layout_constraintHorizontal_chainStyle="packed"\napp:layout_constraintHorizontal_bias="0.2" </string>
     <string name="weight">android:layout_width="0dp" \n 设置了该属性后chain_style的属性就失效了，设置了该属性后，该控件占用了除去右控件后的最大宽度
     </string>
     <string name="barrier">Barrier使用</string>
