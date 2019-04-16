@@ -18,6 +18,7 @@ public class CRouter {
     public static final String AROUTER_FORWARD_PATH = "AROUTER_FORWARD_PATH";
 
     //app
+    public static final String APP_KODO_ACTIVITY     = "/app/KodoActivity";
     public static final String APP_RECORD_VIDEO_ACTIVITY     = "/app/RecordVideoActivity";
     public static final String APP_GLSURFACE_VIEW_ACTIVITY     = "/app/GLSurfaceViewActivity";
     public static final String APP_PERMISSION_ACTIVITY        = "/app/PermissionActivity";

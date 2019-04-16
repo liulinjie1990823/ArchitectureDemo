@@ -1,0 +1,18 @@
+
+android {
+    defaultConfig {
+        resValue("string", "kodo_access_key",rootProject.ext.kodoAccessKey)
+        resValue("string", "kodo_secret_key", rootProject.ext.kodoSecretKey)
+        resValue("string", "bucket_name","test_images")
+    }
+}
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.qiniu:qiniu-java-sdk:7.2.18'
+    api 'com.qiniu:qiniu-android-sdk:7.3.15'
+
+
+}
+
+apply from: rootProject.file('gradle/uploadArchives.gradle')
+apply from: rootProject.file('gradle/bintrayUpload.gradle')

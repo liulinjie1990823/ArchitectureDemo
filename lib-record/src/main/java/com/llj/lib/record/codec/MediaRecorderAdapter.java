@@ -83,6 +83,11 @@ public class MediaRecorderAdapter implements IRecordAdapter {
     }
 
     @Override
+    public void stopRecorder() {
+
+    }
+
+    @Override
     public String getRecordFilePath() {
         return mRecordFilePath;
     }

@@ -15,8 +15,8 @@ import com.llj.lib.record.CameraHelper;
 import com.llj.lib.record.CameraOptCallback;
 import com.llj.lib.record.CameraUtil;
 import com.llj.lib.record.ICameraHandler;
-import com.llj.lib.record.RecordAdapter;
 import com.llj.lib.record.RecordSetting;
+import com.llj.lib.record.codec.IRecordAdapter;
 
 import java.io.IOException;
 
@@ -48,7 +48,7 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
     private Camera.PreviewCallback mPreviewCallback;
     private CameraOptCallback      mCameraOptCallback;
 
-    private RecordAdapter mMediaRecorder;
+    private IRecordAdapter mMediaRecorder;
 
     private boolean mLogEnable;
 

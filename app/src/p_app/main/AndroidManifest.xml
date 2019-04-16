@@ -125,6 +125,7 @@
         <activity android:name=".ui.activity.PermissionActivity"/>
         <activity android:name=".ui.activity.GLSurfaceViewActivity"/>
         <activity android:name=".ui.activity.RecordVideoActivity"/>
+        <activity android:name=".ui.activity.KodoActivity"/>
 
         <service android:name=".ui.service.LoadingService"/>
     </application>

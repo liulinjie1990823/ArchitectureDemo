@@ -34,6 +34,7 @@ public class FilePathHelper {
             //  /storage/sdcard0/包名
             parentPath = Environment.getExternalStorageDirectory().getPath() + File.separator + context.getPackageName();
 
+            //context.getExternalCacheDir()
             // /storage/sdcard0/Android/data/com.example.qymh/cache
         } else {
             // data/data/包名/files（这个文件夹在apk安装的时候就会创建）

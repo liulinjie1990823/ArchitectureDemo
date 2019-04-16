@@ -20,7 +20,11 @@ ext.pgyBetaUserKey = properties.getProperty("pgyBetaUserKey")
 ext.pgyReleaseApiKey = properties.getProperty("pgyReleaseApiKey")
 ext.pgyReleaseUserKey = properties.getProperty("pgyReleaseUserKey")
 ext.pgyUploadUrl = properties.getProperty("pgyUploadUrl")
+
 ext.dingTalkAccessToken = properties.getProperty("dingTalkAccessToken")
+
+ext.kodoAccessKey = properties.getProperty("kodoAccessKey")
+ext.kodoSecretKey = properties.getProperty("kodoSecretKey")
 
 println("ext----------")
 println(ext)
