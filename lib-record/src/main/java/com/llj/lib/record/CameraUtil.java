@@ -166,7 +166,7 @@ public final class CameraUtil {
         }
     }
 
-    static String getDateFormatStr() {
+   public static String getDateFormatStr() {
         Date date = new Date();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return simpleDateFormat.format(date);

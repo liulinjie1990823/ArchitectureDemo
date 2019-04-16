@@ -3,6 +3,8 @@ package com.llj.lib.record;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 
+import com.llj.lib.record.codec.IRecordAdapter;
+
 /**
  * ArchitectureDemo.
  * describe:
@@ -13,8 +15,10 @@ public class RecordSetting {
 
     private boolean logEnable;
 
-    private int saveWidth;
-    private int saveHeight;
+    private int saveWidth;//保存宽度
+    private int saveHeight;//保存高度
+    private int audioSamplingRate;//设置录制的音频采样率
+    private int videoFrameRate;//设置要捕获的视频的帧速率
 
     private int previewWidth;
     private int previewHeight;
@@ -33,7 +37,7 @@ public class RecordSetting {
     private Camera.PreviewCallback mPreviewCallback;
     private CameraOptCallback      mCameraOptCallback;
 
-    private RecordAdapter mRecordAdapter;
+    private IRecordAdapter mRecordAdapter;
 
     public boolean isLogEnable() {
         return logEnable;
@@ -87,7 +91,7 @@ public class RecordSetting {
         return mCameraOptCallback;
     }
 
-    public RecordAdapter getRecordAdapter() {
+    public IRecordAdapter getRecordAdapter() {
         return mRecordAdapter;
     }
 
@@ -95,6 +99,13 @@ public class RecordSetting {
         return isScaleEnable;
     }
 
+    public int getAudioSamplingRate() {
+        return audioSamplingRate;
+    }
+
+    public int getVideoFrameRate() {
+        return videoFrameRate;
+    }
 
     public static final class Builder {
         private boolean logEnable;
@@ -115,10 +126,12 @@ public class RecordSetting {
 
         private int                   saveWidth       = 1920;
         private int                   saveHeight      = 1080;
+        private int                   audioSamplingRate;//设置录制的音频采样率
+        private int                   videoFrameRate  = 30;//设置要捕获的视频的帧速率
         private String                directoryPath;
         private Bitmap.CompressFormat mCompressFormat = Bitmap.CompressFormat.JPEG;
 
-        private RecordAdapter mRecordAdapter;
+        private IRecordAdapter mRecordAdapter;
 
         public Builder() {
         }
@@ -131,6 +144,16 @@ public class RecordSetting {
         public Builder saveWidthAndHeight(int saveWidth, int saveHeight) {
             this.saveWidth = saveWidth;
             this.saveHeight = saveHeight;
+            return this;
+        }
+
+        public Builder audioSamplingRate(int audioSamplingRate) {
+            this.audioSamplingRate = audioSamplingRate;
+            return this;
+        }
+
+        public Builder videoFrameRate(int videoFrameRate) {
+            this.videoFrameRate = videoFrameRate;
             return this;
         }
 
@@ -185,7 +208,7 @@ public class RecordSetting {
             return this;
         }
 
-        public Builder RecordAdapter(RecordAdapter RecordAdapter) {
+        public Builder RecordAdapter(IRecordAdapter RecordAdapter) {
             this.mRecordAdapter = RecordAdapter;
             return this;
         }

@@ -3,11 +3,13 @@ package com.llj.lib.record;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Camera;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Surface;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -18,7 +20,10 @@ import java.util.List;
  */
 public class CameraHelper {
 
-    private static final String TAG = "CameraHelper";
+    public static final String TAG = CameraHelper.class.getSimpleName();
+
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
 
 
     //获取指定位置的摄像头id
@@ -249,5 +254,39 @@ public class CameraHelper {
 
     private static void log(String msg) {
         Log.i(TAG, msg);
+    }
+
+
+    public static File getOutputMediaFile(String fileName, int type) {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+        if (!Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
+            return null;
+        }
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), BuildConfig.APPLICATION_ID);
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d(TAG, "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + fileName + ".jpg");
+        } else if (type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + fileName + ".mp4");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
     }
 }

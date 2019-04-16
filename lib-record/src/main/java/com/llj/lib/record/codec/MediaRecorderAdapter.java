@@ -1,9 +1,13 @@
-package com.llj.lib.record;
+package com.llj.lib.record.codec;
 
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.view.SurfaceHolder;
+
+import com.llj.lib.record.CameraHelper;
+import com.llj.lib.record.CameraUtil;
+import com.llj.lib.record.RecordSetting;
 
 /**
  * ArchitectureDemo.
@@ -11,11 +15,17 @@ import android.view.SurfaceHolder;
  * author llj
  * date 2019/4/10
  */
-public class MediaRecorderAdapter implements RecordAdapter {
+public class MediaRecorderAdapter implements IRecordAdapter {
 
     private MediaRecorder mMediaRecorder;
     private boolean       mIsRecording;
     private String        mRecordFilePath;
+
+
+    @Override
+    public void initRecorder(RecordSetting recordSetting) {
+
+    }
 
     @Override
     public boolean startRecorder(Camera camera, SurfaceHolder surfaceHolder, RecordSetting recordSetting) {
@@ -39,6 +49,7 @@ public class MediaRecorderAdapter implements RecordAdapter {
         Camera.Size bestSize = CameraHelper.getBestSize(targetWidth, targetHeight, camera.getParameters().getSupportedPreviewSizes());
         profile.videoFrameWidth = bestSize.width;
         profile.videoFrameHeight = bestSize.height;
+
         mMediaRecorder.setProfile(profile);//此质量直接影响录制文件的总大小
         mMediaRecorder.setOrientationHint(recordSetting.getFaceType() == Camera.CameraInfo.CAMERA_FACING_FRONT ? 180 : 0);//反录制镜像！！！
 
