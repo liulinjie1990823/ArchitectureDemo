@@ -25,6 +25,15 @@ public class KodoUploadManager {
     }
 
 
+    /**
+     * 测试时使用该方法生成，实际由后端生成给我们
+     *
+     * @param accessKey
+     * @param secretKey
+     * @param bucketName
+     *
+     * @return
+     */
     public static String getUploadToken(String accessKey, String secretKey, String bucketName) {
         Auth auth = Auth.create(accessKey, secretKey);
         return auth.uploadToken(bucketName);

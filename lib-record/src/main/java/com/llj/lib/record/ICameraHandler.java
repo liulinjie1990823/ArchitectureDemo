@@ -28,6 +28,12 @@ public interface ICameraHandler {
 
     boolean startRecorder();
 
+    boolean resumeRecording();
+
+    boolean pauseRecording();
+
+    boolean stopRecorder();
+
     boolean finishRecorder();
 
 

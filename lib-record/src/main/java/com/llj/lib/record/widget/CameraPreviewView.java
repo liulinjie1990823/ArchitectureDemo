@@ -314,6 +314,21 @@ public class CameraPreviewView extends FrameLayout implements ICameraHandler {
     }
 
     @Override
+    public boolean resumeRecording() {
+        return mCameraView.startRecorder();
+    }
+
+    @Override
+    public boolean pauseRecording() {
+        return mCameraView.pauseRecording();
+    }
+
+    @Override
+    public boolean stopRecorder() {
+        return mCameraView.stopRecorder();
+    }
+
+    @Override
     public boolean finishRecorder() {
         return mCameraView.finishRecorder();
     }

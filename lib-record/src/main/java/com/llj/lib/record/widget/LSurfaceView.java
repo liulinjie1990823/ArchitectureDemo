@@ -164,12 +164,12 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
         mPreviewCallback = null;
         mSurfaceHolder = null;
         mCameraOptCallback = null;
-        mMediaRecorder=null;
-        mCamera=null;
-        mOrientationEventListener=null;
+        mMediaRecorder = null;
+        mCamera = null;
+        mOrientationEventListener = null;
     }
 
-    private void releaseOrientationEventListener(){
+    private void releaseOrientationEventListener() {
         if (mOrientationEventListener != null) {
             mOrientationEventListener.disable();
         }
@@ -253,6 +253,11 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
             try {
                 mOrientationEventListener.enable();
 
+                //初始化录制
+                if (mMediaRecorder != null) {
+                    mMediaRecorder.initRecorder(mCamera, mSurfaceHolder, mDisplayRotation, mRecordSetting);
+                }
+
                 mCamera.setPreviewDisplay(mSurfaceHolder);
                 mCamera.startPreview();
                 //对焦一次
@@ -300,9 +305,9 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
         }
     }
 
-    private void releaseRecorder(){
+    private void releaseRecorder() {
         if (mMediaRecorder != null) {
-            mMediaRecorder.releaseRecorder(mCamera);
+            mMediaRecorder.releaseRecorder(mCamera, false);
         }
     }
 
@@ -376,15 +381,39 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
     @Override
     public boolean startRecorder() {
         if (mMediaRecorder != null) {
-            mMediaRecorder.startRecorder(mCamera, mSurfaceHolder, mRecordSetting);
+            return   mMediaRecorder.startRecorder();
         }
-        return true;
+        return false;
+    }
+
+    @Override
+    public boolean resumeRecording() {
+        if (mMediaRecorder != null) {
+            return mMediaRecorder.resumeRecording();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean pauseRecording() {
+        if (mMediaRecorder != null) {
+            return mMediaRecorder.pauseRecording();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean stopRecorder() {
+        if (mMediaRecorder != null) {
+            return mMediaRecorder.stopRecorder();
+        }
+        return false;
     }
 
     @Override
     public boolean finishRecorder() {
         if (mMediaRecorder != null) {
-            mMediaRecorder.releaseRecorder(mCamera);
+            mMediaRecorder.releaseRecorder(mCamera, false);
         }
         String path = null;
         if (mMediaRecorder != null) {

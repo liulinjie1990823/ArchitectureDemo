@@ -21,14 +21,11 @@ public class MediaRecorderAdapter implements IRecordAdapter {
     private boolean       mIsRecording;
     private String        mRecordFilePath;
 
+    private Camera mCamera;
 
     @Override
-    public void initRecorder(RecordSetting recordSetting) {
-
-    }
-
-    @Override
-    public boolean startRecorder(Camera camera, SurfaceHolder surfaceHolder, RecordSetting recordSetting) {
+    public void initRecorder(Camera camera, SurfaceHolder surfaceHolder, int displayRotation, RecordSetting recordSetting) {
+        mCamera = camera;
         //Step 1 :Unlock and set camera to MediaRecorder
         mMediaRecorder = new MediaRecorder();
         camera.unlock();//必须解锁
@@ -70,21 +67,37 @@ public class MediaRecorderAdapter implements IRecordAdapter {
         mMediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
 
         //Step 6 :Prepare configured MediaRecorder
+    }
+
+    @Override
+    public boolean startRecorder() {
+        //Step 6 :Prepare configured MediaRecorder
         try {
             mMediaRecorder.prepare();
             mMediaRecorder.start();
             mIsRecording = true;
         } catch (Exception e) {
             e.printStackTrace();
-            releaseRecorder(camera);
+            releaseRecorder(mCamera, false);
             return false;
         }
         return true;
     }
 
     @Override
-    public void stopRecorder() {
+    public boolean resumeRecording() {
+        return false;
+    }
 
+    @Override
+    public boolean pauseRecording() {
+        return false;
+    }
+
+    @Override
+    public boolean stopRecorder() {
+        mMediaRecorder.stop();
+        return true;
     }
 
     @Override
@@ -92,15 +105,10 @@ public class MediaRecorderAdapter implements IRecordAdapter {
         return mRecordFilePath;
     }
 
-    /**
-     * 释放录制器
-     */
-    public void releaseRecorder(Camera camera) {
+    @Override
+    public boolean releaseRecorder(Camera camera, boolean deleteFile) {
         if (mMediaRecorder == null) {
-            return;
-        }
-        if (camera == null) {
-            return;
+            return false;
         }
         try {
             mMediaRecorder.stop();
@@ -111,8 +119,10 @@ public class MediaRecorderAdapter implements IRecordAdapter {
         } finally {
             mMediaRecorder = null;
             mIsRecording = false;
-            camera.lock();
+            if (camera != null)
+                camera.lock();
         }
+        return true;
     }
 
     @Override

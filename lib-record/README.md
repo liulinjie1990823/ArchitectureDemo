@@ -20,10 +20,9 @@ public static final int HEVC = 5;
 
 ### audio
 
-
-- setAudioEncodingBitRate 音频码率
-- setAudioChannels 音频通道数。1.单声道 2.多声道
 - setAudioSamplingRate 音频采样率
+- setAudioChannels 音频通道数。1.单声道 2.多声道
+- setAudioEncodingBitRate 音频码率
 - setAudioEncoder  音频编码标准
 ```
 public static final int DEFAULT = 0;
