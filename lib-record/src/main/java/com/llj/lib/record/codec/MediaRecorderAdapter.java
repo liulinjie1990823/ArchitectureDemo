@@ -96,7 +96,15 @@ public class MediaRecorderAdapter implements IRecordAdapter {
 
     @Override
     public boolean stopRecorder() {
-        mMediaRecorder.stop();
+        if (mMediaRecorder == null) {
+            return false;
+        }
+        try {
+            mMediaRecorder.stop();
+            mMediaRecorder.reset();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -111,8 +119,6 @@ public class MediaRecorderAdapter implements IRecordAdapter {
             return false;
         }
         try {
-            mMediaRecorder.stop();
-            mMediaRecorder.reset();
             mMediaRecorder.release();
         } catch (Exception ex) {
             ex.printStackTrace();

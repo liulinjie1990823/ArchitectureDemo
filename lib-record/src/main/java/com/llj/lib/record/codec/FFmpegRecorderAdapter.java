@@ -11,11 +11,11 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 
 import com.llj.lib.record.CameraHelper;
+import com.llj.lib.record.CameraUtil;
 import com.llj.lib.record.RecordSetting;
 import com.llj.lib.record.data.FrameToRecord;
 import com.llj.lib.record.data.RecordFragment;
 
-import org.bytedeco.javacpp.avcodec;
 import org.bytedeco.javacpp.avutil;
 import org.bytedeco.javacv.FFmpegFrameFilter;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
@@ -41,7 +41,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class FFmpegRecorderAdapter implements IRecordAdapter {
     public static final String TAG = FFmpegRecorderAdapter.class.getSimpleName();
 
-    private static final long MIN_VIDEO_LENGTH = 1 * 1000;
     private static final long MAX_VIDEO_LENGTH = 90 * 1000;
 
     private volatile boolean mRecording = false;
@@ -63,7 +62,6 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
     private int mVideoWidth;
     private int mVideoHeight;
 
-
     private int mFrameDepth    = Frame.DEPTH_UBYTE;
     private int mFrameChannels = 2;
 
@@ -78,8 +76,9 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
 
     @Override
     public void initRecorder(Camera camera, SurfaceHolder surfaceHolder, int displayRotation, RecordSetting recordSetting) {
-        mAudioSamplingRate=recordSetting.getAudioSamplingRate();
-        mVideoFrameRate=recordSetting.getVideoFrameRate();
+
+        mAudioSamplingRate = recordSetting.getAudioSamplingRate();
+        mVideoFrameRate = recordSetting.getVideoFrameRate();
         mDisplayRotation = displayRotation;
         mCameraId = recordSetting.getFaceType();
         mPreviewWidth = recordSetting.getPreviewWidth();
@@ -95,18 +94,22 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
 
 
         String recordedTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String recordFilePath = recordSetting.getDirectoryPath() + "/" + CameraUtil.getDateFormatStr() + ".mp4";
         mVideo = CameraHelper.getOutputMediaFile(recordedTime, CameraHelper.MEDIA_TYPE_VIDEO);
+        mVideo = new File(recordFilePath);
 
         mFrameRecorder = new FFmpegFrameRecorder(mVideo, recordSetting.getSaveWidth(), recordSetting.getSaveHeight());
-        mFrameRecorder.setFormat("mp4");
+        mFrameRecorder.setFormat(recordSetting.getFormat());
 
         //AUDIO
-        mFrameRecorder.setAudioChannels(1);
+        mFrameRecorder.setAudioChannels(recordSetting.getAudioChannels());
         mFrameRecorder.setSampleRate(recordSetting.getAudioSamplingRate());
+//        mFrameRecorder.setAudioBitrate(recordSetting.getAudioBitrate());
 
         //VIDEO
         mFrameRecorder.setFrameRate(recordSetting.getVideoFrameRate());
-        mFrameRecorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
+//        mFrameRecorder.setVideoBitrate(recordSetting.getVideoBitrate());
+        mFrameRecorder.setVideoCodec(recordSetting.getVideoCodec());
         mFrameRecorder.setVideoOption("crf", "28");
         mFrameRecorder.setVideoOption("preset", "superfast");
         mFrameRecorder.setVideoOption("tune", "zerolatency");
@@ -290,10 +293,6 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
                 mVideo.delete();
             }
         }
-
-        if (camera != null) {
-            camera.release();        // release the camera for other applications
-        }
         return true;
     }
 
@@ -362,6 +361,7 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
 
         @Override
         public void run() {
+            Log.d(TAG, "mVideoRecord startRecording");
             int previewWidth = mPreviewWidth;
             int previewHeight = mPreviewHeight;
 
@@ -510,6 +510,8 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
                     long endTime = System.currentTimeMillis();
                     long processTime = endTime - startTime;
                     mTotalProcessFrameTime += processTime;
+
+                    Log.d(TAG, "----------------------------------------------");
 
                     Log.d(TAG, "This frame process time: " + processTime + "ms");
                     long totalAvg = mTotalProcessFrameTime / ++mFrameRecordedCount;

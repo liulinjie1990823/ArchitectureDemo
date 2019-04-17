@@ -1,5 +1,6 @@
 package com.llj.lib.record.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
@@ -40,8 +41,6 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
     private boolean mIsAutoFocus;
     private long    mAutoFocusDuration;
 
-    private int                   mSaveWidth;
-    private int                   mSaveHeight;
     private String                directoryPath;
     private Bitmap.CompressFormat mCompressFormat;
 
@@ -100,8 +99,6 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
     public void init(RecordSetting recordSetting) {
         this.mRecordSetting = recordSetting;
         this.mLogEnable = recordSetting.isLogEnable();
-        this.mSaveWidth = recordSetting.getSaveWidth();
-        this.mSaveHeight = recordSetting.getSaveHeight();
         this.mFaceType = recordSetting.getFaceType();
         this.mFlashMode = recordSetting.getFlashMode();
         this.mIsAutoFocus = recordSetting.isAutoFocus();
@@ -150,14 +147,14 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
 
     @Override
     public void onStop() {
-        releaseRecorder();
-        releaseOrientationEventListener();
-        releaseCamera();
+        stopRecorder();
     }
 
     @Override
     public void onDestroy() {
-        releaseRecorder();
+
+        stopRecorder();
+        finishRecorder();
         releaseOrientationEventListener();
         releaseCamera();
 
@@ -216,15 +213,15 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
 
             //获取与指定狂傲相等或最接近的尺寸
             //设置预览尺寸
-            int targetWidth = getHeight();
-            int targetHeight = getWidth();
+            int targetWidth = mRecordSetting.getPreviewHeight();
+            int targetHeight = mRecordSetting.getPreviewWidth();
             Camera.Size bestSize = CameraHelper.getBestSize(targetWidth, targetHeight, parameters.getSupportedPreviewSizes());
             if (bestSize != null) {
                 parameters.setPreviewSize(bestSize.width, bestSize.height);
             }
 
             //设置保存图片
-            Camera.Size bestPictureSize = CameraHelper.getBestSize(mSaveWidth, mSaveHeight, parameters.getSupportedPictureSizes());
+            Camera.Size bestPictureSize = CameraHelper.getBestSize(mRecordSetting.getSaveHeight(), mRecordSetting.getSaveWidth(), parameters.getSupportedPictureSizes());
             if (bestPictureSize != null) {
                 parameters.setPictureSize(bestPictureSize.width, bestPictureSize.height);
             }
@@ -255,7 +252,7 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
 
                 //初始化录制
                 if (mMediaRecorder != null) {
-                    mMediaRecorder.initRecorder(mCamera, mSurfaceHolder, mDisplayRotation, mRecordSetting);
+                    mMediaRecorder.initRecorder(mCamera, mSurfaceHolder, ((Activity) getContext()).getWindowManager().getDefaultDisplay().getRotation(), mRecordSetting);
                 }
 
                 mCamera.setPreviewDisplay(mSurfaceHolder);
@@ -305,11 +302,6 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
         }
     }
 
-    private void releaseRecorder() {
-        if (mMediaRecorder != null) {
-            mMediaRecorder.releaseRecorder(mCamera, false);
-        }
-    }
 
     /**
      * 释放相机资源
@@ -380,10 +372,10 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
 
     @Override
     public boolean startRecorder() {
-        if (mMediaRecorder != null) {
-            return   mMediaRecorder.startRecorder();
+        if (mMediaRecorder == null) {
+            throw new RuntimeException("you should set IRecordAdapter first");
         }
-        return false;
+        return mMediaRecorder.startRecorder();
     }
 
     @Override

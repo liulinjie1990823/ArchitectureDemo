@@ -15,6 +15,7 @@ import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.record.CameraOptCallback;
 import com.llj.lib.record.CameraOptCallbackAdapter;
 import com.llj.lib.record.RecordSetting;
+import com.llj.lib.record.codec.FFmpegRecorderAdapter;
 import com.llj.lib.record.widget.CameraPreviewView;
 
 import org.jetbrains.annotations.Nullable;
@@ -32,12 +33,15 @@ import butterknife.internal.DebouncingOnClickListener;
 public class RecordVideoActivity extends AppMvcBaseActivity {
     private static final String mSavePath = Environment.getExternalStorageDirectory() + "/" + "camera_test";//相机拍照/录像缓存路径
 
-    @BindView(R.id.avatar_img)   ImageView         mAvatarImg;
-    @BindView(R.id.surface_view) CameraPreviewView mSurfaceView;
-    @BindView(R.id.flash_btn)    Button            mFlashBtn;
-    @BindView(R.id.switch_btn)   Button            mSwitchBtn;
-    @BindView(R.id.shot_btn)     Button            mShotBtn;
-    @BindView(R.id.record_btn)   Button            mRecordBtn;
+    @BindView(R.id.avatar_img)        ImageView         mAvatarImg;
+    @BindView(R.id.surface_view)      CameraPreviewView mSurfaceView;
+    @BindView(R.id.flash_btn)         Button            mFlashBtn;
+    @BindView(R.id.switch_btn)        Button            mSwitchBtn;
+    @BindView(R.id.shot_btn)          Button            mShotBtn;
+    @BindView(R.id.record_btn)        Button            mRecordBtn;
+    @BindView(R.id.record_resume_btn) Button            mRecordResumeBtn;
+    @BindView(R.id.record_pause_btn)  Button            mRecordPauseBtn;
+    @BindView(R.id.record_stop_btn)   Button            mRecordStopBtn;
 
     @Override
     public int layoutId() {
@@ -52,6 +56,9 @@ public class RecordVideoActivity extends AppMvcBaseActivity {
         mSwitchBtn.setOnClickListener(mOnClickListener);
         mShotBtn.setOnClickListener(mOnClickListener);
         mRecordBtn.setOnClickListener(mOnClickListener);
+        mRecordResumeBtn.setOnClickListener(mOnClickListener);
+        mRecordPauseBtn.setOnClickListener(mOnClickListener);
+        mRecordStopBtn.setOnClickListener(mOnClickListener);
 
     }
 
@@ -70,14 +77,17 @@ public class RecordVideoActivity extends AppMvcBaseActivity {
                     mSurfaceView.takePicture();
                     break;
                 case R.id.record_btn:
-                    if (mSurfaceView.isRecording()) {
-                        mSurfaceView.finishRecorder();
-                        mRecordBtn.setText("开始录像");
-                    } else {
-                        if (mSurfaceView.startRecorder()) {
-                            mRecordBtn.setText("结束录像");
-                        }
-                    }
+                    mSurfaceView.startRecorder();
+                    break;
+                case R.id.record_resume_btn:
+                    mSurfaceView.resumeRecording();
+                    break;
+                case R.id.record_pause_btn:
+                    mSurfaceView.pauseRecording();
+                    break;
+                case R.id.record_stop_btn:
+                    mSurfaceView.stopRecorder();
+                    mSurfaceView.finishRecorder();
                     break;
             }
         }
@@ -105,26 +115,17 @@ public class RecordVideoActivity extends AppMvcBaseActivity {
     private void initCamera() {
         RecordSetting recordSetting = new RecordSetting.Builder()
                 .setLogEnable(true)
-                .previewWidthAndHeight(1080, 1920)
+                .previewWidthAndHeight(320, 240)
+                .saveWidthAndHeight(320,240)
                 .isAutoFocus(false)
                 .directoryPath(mSavePath)
-                .CameraOptCallback(mCameraOptCallback)
+                .cameraOptCallback(mCameraOptCallback)
                 .faceType(Camera.CameraInfo.CAMERA_FACING_BACK)
                 .flashMode(Camera.Parameters.FLASH_MODE_AUTO)
                 .isScaleEnable(true)
+                .recordAdapter(new FFmpegRecorderAdapter())
                 .build();
         mSurfaceView.init(recordSetting);
-//        if (mCameraHelper == null) {
-//            mCameraHelper = new CameraHelper.Builder()
-//                    .setActivity(this)
-//                    .setSurfaceView(mSurfaceView)
-//                    .setAutoFocus(true)//默认开启，3秒一次对焦
-//                    .setCameraOptCallback(mCameraOptCallback)//相机操作回调
-//                    .setDirectoryPath(mSavePath)//缓存路径
-//                    .setFlashEnable(false)//是否开启闪光灯拍照
-//                    .setScaleEnable(true)//是否支持手势缩放
-//                    .build();
-//        }
     }
 
     @Override

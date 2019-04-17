@@ -5,6 +5,8 @@ import android.hardware.Camera;
 
 import com.llj.lib.record.codec.IRecordAdapter;
 
+import org.bytedeco.javacpp.avcodec;
+
 /**
  * ArchitectureDemo.
  * describe:
@@ -15,10 +17,18 @@ public class RecordSetting {
 
     private boolean logEnable;
 
-    private int saveWidth;//保存宽度
-    private int saveHeight;//保存高度
+    private String format;
+    private int    saveWidth;//保存宽度
+    private int    saveHeight;//保存高度
+
     private int audioSamplingRate;//设置录制的音频采样率
+    private int audioChannels;//音频通道
+    private int audioBitrate;//音频码率
+    private int audioCodec;
+
     private int videoFrameRate;//设置要捕获的视频的帧速率
+    private int videoBitrate;//视频码率
+    private int videoCodec;
 
     private int previewWidth;
     private int previewHeight;
@@ -107,12 +117,39 @@ public class RecordSetting {
         return videoFrameRate;
     }
 
+    public int getAudioChannels() {
+        return audioChannels;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public int getAudioBitrate() {
+        return audioBitrate;
+    }
+
+    public int getVideoBitrate() {
+        return videoBitrate;
+    }
+
+    public int getAudioCodec() {
+        return audioCodec;
+    }
+
+    public int getVideoCodec() {
+        return videoCodec;
+    }
+
     public static final class Builder {
         private boolean logEnable;
+
+        private String directoryPath;
 
         private int previewWidth;
         private int previewHeight;
 
+        //camera相关配置
         private int     faceType          = Camera.CameraInfo.CAMERA_FACING_BACK;
         private String  flashMode         = Camera.Parameters.FLASH_MODE_OFF;//闪光灯模式
         private boolean isAutoFocus       = false;//是否自动聚焦
@@ -121,23 +158,38 @@ public class RecordSetting {
         private Camera.PreviewCallback mPreviewCallback;
         private CameraOptCallback      mCameraOptCallback;
 
-
         private boolean isScaleEnable;//是否支持缩放
 
-        private int                   saveWidth       = 1920;
-        private int                   saveHeight      = 1080;
-        private int                   audioSamplingRate;//设置录制的音频采样率
-        private int                   videoFrameRate  = 30;//设置要捕获的视频的帧速率
-        private String                directoryPath;
-        private Bitmap.CompressFormat mCompressFormat = Bitmap.CompressFormat.JPEG;
 
         private IRecordAdapter mRecordAdapter;
+        private String         format            = "mp4";
+        //视频保存宽高
+        private int            saveWidth         = 1080;
+        private int            saveHeight        = 1920;
+        //音频相关配置
+        private int            audioSamplingRate = 44100;//设置录制的音频采样率
+        private int            audioChannels     = 1;//音频通道
+        private int            audioBitrate      = 64000;//音频码率
+        private int            audioCodec;
+        //视频相关配置
+        private int            videoFrameRate    = 30;//设置要捕获的视频的帧速率
+        private int            videoBitrate      = 400000;//视频码率
+        private int            videoCodec        = avcodec.AV_CODEC_ID_H264;
+
+
+        private Bitmap.CompressFormat mCompressFormat = Bitmap.CompressFormat.JPEG;
+
 
         public Builder() {
         }
 
         public Builder setLogEnable(boolean logEnable) {
             this.logEnable = logEnable;
+            return this;
+        }
+
+        public Builder setFormat(String format) {
+            this.format = format;
             return this;
         }
 
@@ -152,10 +204,36 @@ public class RecordSetting {
             return this;
         }
 
+        public Builder audioChannels(int audioChannels) {
+            this.audioChannels = audioChannels;
+            return this;
+        }
+
+        public Builder audioBitrate(int audioBitrate) {
+            this.audioBitrate = audioBitrate;
+            return this;
+        }
+
+        public Builder audioCodec(int audioCodec) {
+            this.audioCodec = audioCodec;
+            return this;
+        }
+
         public Builder videoFrameRate(int videoFrameRate) {
             this.videoFrameRate = videoFrameRate;
             return this;
         }
+
+        public Builder videoBitrate(int videoBitrate) {
+            this.videoBitrate = videoBitrate;
+            return this;
+        }
+
+        public Builder videoCodec(int videoCodec) {
+            this.videoCodec = videoCodec;
+            return this;
+        }
+
 
         public Builder previewWidthAndHeight(int previewWidth, int previewHeight) {
             this.previewWidth = previewWidth;
@@ -193,22 +271,22 @@ public class RecordSetting {
             return this;
         }
 
-        public Builder CompressFormat(Bitmap.CompressFormat CompressFormat) {
+        public Builder compressFormat(Bitmap.CompressFormat CompressFormat) {
             this.mCompressFormat = CompressFormat;
             return this;
         }
 
-        public Builder PreviewCallback(Camera.PreviewCallback PreviewCallback) {
+        public Builder previewCallback(Camera.PreviewCallback PreviewCallback) {
             this.mPreviewCallback = PreviewCallback;
             return this;
         }
 
-        public Builder CameraOptCallback(CameraOptCallback CameraOptCallback) {
+        public Builder cameraOptCallback(CameraOptCallback CameraOptCallback) {
             this.mCameraOptCallback = CameraOptCallback;
             return this;
         }
 
-        public Builder RecordAdapter(IRecordAdapter RecordAdapter) {
+        public Builder recordAdapter(IRecordAdapter RecordAdapter) {
             this.mRecordAdapter = RecordAdapter;
             return this;
         }
@@ -216,19 +294,33 @@ public class RecordSetting {
         public RecordSetting build() {
             RecordSetting recordSetting = new RecordSetting();
             recordSetting.logEnable = this.logEnable;
-            recordSetting.autoFocusDuration = this.autoFocusDuration;
+
+            recordSetting.directoryPath = this.directoryPath;
+
+            recordSetting.mRecordAdapter = this.mRecordAdapter;
+            recordSetting.format = this.format;
             recordSetting.saveWidth = this.saveWidth;
             recordSetting.saveHeight = this.saveHeight;
+            recordSetting.audioSamplingRate = this.audioSamplingRate;
+            recordSetting.audioChannels = this.audioChannels;
+            recordSetting.audioBitrate = this.audioBitrate;
+            recordSetting.audioCodec = this.audioCodec;
+            recordSetting.videoFrameRate = this.videoFrameRate;
+            recordSetting.videoBitrate = this.videoBitrate;
+            recordSetting.videoCodec = this.videoCodec;
+
+
+            recordSetting.isAutoFocus = this.isAutoFocus;
+            recordSetting.autoFocusDuration = this.autoFocusDuration;
+
             recordSetting.mPreviewCallback = this.mPreviewCallback;
             recordSetting.faceType = this.faceType;
             recordSetting.flashMode = this.flashMode;
-            recordSetting.mRecordAdapter = this.mRecordAdapter;
+
             recordSetting.mCompressFormat = this.mCompressFormat;
-            recordSetting.directoryPath = this.directoryPath;
             recordSetting.mCameraOptCallback = this.mCameraOptCallback;
             recordSetting.previewWidth = this.previewWidth;
             recordSetting.previewHeight = this.previewHeight;
-            recordSetting.isAutoFocus = this.isAutoFocus;
             recordSetting.isScaleEnable = this.isScaleEnable;
 
             return recordSetting;

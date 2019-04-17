@@ -1,5 +1,14 @@
 # lib-record（视频录制库）
 
+### 权限
+```
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-feature android:name="android.hardware.camera"/>
+```
+
 ### video
 
 - setOutputFormat 视频输出格式
