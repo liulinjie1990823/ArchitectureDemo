@@ -2,6 +2,7 @@ package com.llj.lib.record;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -288,5 +289,19 @@ public class CameraHelper {
         }
 
         return mediaFile;
+    }
+
+    public static boolean isOrientationLandscape(Context context) {
+        boolean isOrientationLandscape;
+        int orientation = context.getResources().getConfiguration().orientation;
+        switch (orientation) {
+            case Configuration.ORIENTATION_LANDSCAPE:
+                isOrientationLandscape = true;
+                break;
+            case Configuration.ORIENTATION_PORTRAIT:
+            default:
+                isOrientationLandscape = false;
+        }
+        return isOrientationLandscape;
     }
 }

@@ -3,7 +3,9 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.llj.architecturedemo">
 
-    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
 
     <uses-sdk tools:overrideLibrary="com.llj.adapter,com.facebook.flipper"/>
 
@@ -50,7 +52,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 
-
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
@@ -60,7 +61,6 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/> <!-- 允许程序改变网络连接状态 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-
 
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
@@ -124,7 +124,9 @@
         <activity android:name=".ui.activity.EventActivity"/>
         <activity android:name=".ui.activity.PermissionActivity"/>
         <activity android:name=".ui.activity.GLSurfaceViewActivity"/>
-        <activity android:name=".ui.activity.RecordVideoActivity"/>
+        <activity
+            android:name=".ui.activity.RecordVideoActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.KodoActivity"/>
 
         <service android:name=".ui.service.LoadingService"/>

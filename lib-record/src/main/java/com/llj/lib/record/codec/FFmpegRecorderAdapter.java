@@ -75,46 +75,7 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
     private int mDisplayRotation;
 
     @Override
-    public void initRecorder(Camera camera, SurfaceHolder surfaceHolder, int displayRotation, RecordSetting recordSetting) {
-
-        mAudioSamplingRate = recordSetting.getAudioSamplingRate();
-        mVideoFrameRate = recordSetting.getVideoFrameRate();
-        mDisplayRotation = displayRotation;
-        mCameraId = recordSetting.getFaceType();
-        mPreviewWidth = recordSetting.getPreviewWidth();
-        mPreviewHeight = recordSetting.getPreviewHeight();
-        mVideoWidth = recordSetting.getSaveWidth();
-        mVideoHeight = recordSetting.getSaveHeight();
-
-        // At most buffer 10 Frame
-        mFrameToRecordQueue = new LinkedBlockingQueue<>(10);
-        // At most recycle 2 Frame
-        mRecycledFrameQueue = new LinkedBlockingQueue<>(2);
-        mRecordFragments = new Stack<>();
-
-
-        String recordedTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String recordFilePath = recordSetting.getDirectoryPath() + "/" + CameraUtil.getDateFormatStr() + ".mp4";
-        mVideo = CameraHelper.getOutputMediaFile(recordedTime, CameraHelper.MEDIA_TYPE_VIDEO);
-        mVideo = new File(recordFilePath);
-
-        mFrameRecorder = new FFmpegFrameRecorder(mVideo, recordSetting.getSaveWidth(), recordSetting.getSaveHeight());
-        mFrameRecorder.setFormat(recordSetting.getFormat());
-
-        //AUDIO
-        mFrameRecorder.setAudioChannels(recordSetting.getAudioChannels());
-        mFrameRecorder.setSampleRate(recordSetting.getAudioSamplingRate());
-//        mFrameRecorder.setAudioBitrate(recordSetting.getAudioBitrate());
-
-        //VIDEO
-        mFrameRecorder.setFrameRate(recordSetting.getVideoFrameRate());
-//        mFrameRecorder.setVideoBitrate(recordSetting.getVideoBitrate());
-        mFrameRecorder.setVideoCodec(recordSetting.getVideoCodec());
-        mFrameRecorder.setVideoOption("crf", "28");
-        mFrameRecorder.setVideoOption("preset", "superfast");
-        mFrameRecorder.setVideoOption("tune", "zerolatency");
-
-
+    public void initCamera(Camera camera, RecordSetting recordSetting) {
         // YCbCr_420_SP (NV21) format
         byte[] bufferByte = new byte[recordSetting.getPreviewWidth() * recordSetting.getPreviewHeight() * 3 / 2];
         camera.addCallbackBuffer(bufferByte);
@@ -170,6 +131,50 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
                 camera.addCallbackBuffer(data);
             }
         });
+
+    }
+
+    @Override
+    public void initRecorder(Camera camera, SurfaceHolder surfaceHolder, int displayRotation, RecordSetting recordSetting) {
+        if (mFrameRecorder != null) {
+            return;
+        }
+        mAudioSamplingRate = recordSetting.getAudioSamplingRate();
+        mVideoFrameRate = recordSetting.getVideoFrameRate();
+        mDisplayRotation = displayRotation;
+        mCameraId = recordSetting.getFaceType();
+        mPreviewWidth = recordSetting.getPreviewWidth();
+        mPreviewHeight = recordSetting.getPreviewHeight();
+        mVideoWidth = recordSetting.getSaveWidth();
+        mVideoHeight = recordSetting.getSaveHeight();
+
+        // At most buffer 10 Frame
+        mFrameToRecordQueue = new LinkedBlockingQueue<>(10);
+        // At most recycle 2 Frame
+        mRecycledFrameQueue = new LinkedBlockingQueue<>(2);
+        mRecordFragments = new Stack<>();
+
+
+        String recordedTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String recordFilePath = recordSetting.getDirectoryPath() + "/" + CameraUtil.getDateFormatStr() + ".mp4";
+        mVideo = CameraHelper.getOutputMediaFile(recordedTime, CameraHelper.MEDIA_TYPE_VIDEO);
+        mVideo = new File(recordFilePath);
+
+        mFrameRecorder = new FFmpegFrameRecorder(mVideo, recordSetting.getSaveWidth(), recordSetting.getSaveHeight());
+        mFrameRecorder.setFormat(recordSetting.getFormat());
+
+        //AUDIO
+        mFrameRecorder.setAudioChannels(recordSetting.getAudioChannels());
+        mFrameRecorder.setSampleRate(recordSetting.getAudioSamplingRate());
+//        mFrameRecorder.setAudioBitrate(recordSetting.getAudioBitrate());
+
+        //VIDEO
+        mFrameRecorder.setFrameRate(recordSetting.getVideoFrameRate());
+//        mFrameRecorder.setVideoBitrate(recordSetting.getVideoBitrate());
+        mFrameRecorder.setVideoCodec(recordSetting.getVideoCodec());
+        mFrameRecorder.setVideoOption("crf", "28");
+        mFrameRecorder.setVideoOption("preset", "superfast");
+        mFrameRecorder.setVideoOption("tune", "zerolatency");
 
     }
 

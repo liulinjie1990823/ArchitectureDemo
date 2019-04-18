@@ -20,6 +20,9 @@ import com.llj.lib.record.widget.CameraPreviewView;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.concurrent.Callable;
+
+import bolts.Task;
 import butterknife.BindView;
 import butterknife.internal.DebouncingOnClickListener;
 
@@ -70,14 +73,18 @@ public class RecordVideoActivity extends AppMvcBaseActivity {
                     break;
                 case R.id.switch_btn:
                     mSurfaceView.switchCamera();
-                    resetRecordStatus();
-                    resetFlashStatus();
                     break;
                 case R.id.shot_btn:
                     mSurfaceView.takePicture();
                     break;
                 case R.id.record_btn:
-                    mSurfaceView.startRecorder();
+                    Task.callInBackground(new Callable<Boolean>() {
+                        @Override
+                        public Boolean call() throws Exception {
+                            mSurfaceView.startRecorder();
+                            return true;
+                        }
+                    });
                     break;
                 case R.id.record_resume_btn:
                     mSurfaceView.resumeRecording();
@@ -115,12 +122,12 @@ public class RecordVideoActivity extends AppMvcBaseActivity {
     private void initCamera() {
         RecordSetting recordSetting = new RecordSetting.Builder()
                 .setLogEnable(true)
-                .previewWidthAndHeight(320, 240)
-                .saveWidthAndHeight(320,240)
+                .previewWidthAndHeight(480, 640)
+                .saveWidthAndHeight(480, 640)
                 .isAutoFocus(false)
                 .directoryPath(mSavePath)
                 .cameraOptCallback(mCameraOptCallback)
-                .faceType(Camera.CameraInfo.CAMERA_FACING_BACK)
+                .faceType(Camera.CameraInfo.CAMERA_FACING_FRONT)
                 .flashMode(Camera.Parameters.FLASH_MODE_AUTO)
                 .isScaleEnable(true)
                 .recordAdapter(new FFmpegRecorderAdapter())

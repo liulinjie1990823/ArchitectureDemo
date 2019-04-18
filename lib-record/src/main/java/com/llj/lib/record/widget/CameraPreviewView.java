@@ -111,7 +111,9 @@ public class CameraPreviewView extends FrameLayout implements ICameraHandler {
         mCameraView.init(recordSetting);
 
         mCameraView.setOnTouchListener(mOnTouchListener);
-        addView(mCameraView, 0);
+        addView(mCameraView, 0, new LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
 
         requestLayout();
     }

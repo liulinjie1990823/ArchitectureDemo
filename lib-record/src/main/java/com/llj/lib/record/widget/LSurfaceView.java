@@ -78,22 +78,28 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
     }
 
     private void init(Context context) {
-        mOrientationEventListener = new OrientationEventListener(context) {
-            @Override
-            public void onOrientationChanged(int orientation) {
-                if (orientation > 315 || orientation <= 45) {
-                    mSensorRotation = 0;
-                } else if (orientation <= 135) {
-                    mSensorRotation = 90;
-                } else if (orientation <= 225) {
-                    mSensorRotation = 180;
-                } else {
-                    mSensorRotation = 270;
-                }
+    }
 
-                log("mSensorRotation:" + mSensorRotation);
-            }
-        };
+    private void initOrientationEventListener(Context context) {
+        if (mOrientationEventListener == null) {
+            mOrientationEventListener = new OrientationEventListener(context) {
+                @Override
+                public void onOrientationChanged(int orientation) {
+                    if (orientation > 315 || orientation <= 45) {
+                        mSensorRotation = 0;
+                    } else if (orientation <= 135) {
+                        mSensorRotation = 90;
+                    } else if (orientation <= 225) {
+                        mSensorRotation = 180;
+                    } else {
+                        mSensorRotation = 270;
+                    }
+
+                    log("mSensorRotation:" + mSensorRotation);
+                }
+            };
+        }
+
     }
 
     public void init(RecordSetting recordSetting) {
@@ -159,7 +165,6 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
         releaseCamera();
 
         mPreviewCallback = null;
-        mSurfaceHolder = null;
         mCameraOptCallback = null;
         mMediaRecorder = null;
         mCamera = null;
@@ -183,9 +188,20 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
         int cameraId = CameraHelper.getCameraId(faceType);
         if (cameraId >= 0) {
             try {
+                //
+                initOrientationEventListener(getContext());
+                //获取Camera
                 mCamera = Camera.open(cameraId);
+                //设置Camera角度
                 mDisplayRotation = CameraHelper.setCameraDisplayOrientation(getContext(), mCamera, faceType);
+                //设置Camera.Parameters
                 initParameters(mCamera);
+                //重新绘制，使宽高的比例和设置的setPreviewSize比例一样
+                requestLayout();
+                //初始化录制
+                if (mMediaRecorder != null) {
+                    mMediaRecorder.initCamera(mCamera, mRecordSetting);
+                }
                 mCamera.setPreviewCallback(new Camera.PreviewCallback() {
                     @Override
                     public void onPreviewFrame(byte[] data, Camera camera) {
@@ -221,7 +237,9 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
             }
 
             //设置保存图片
-            Camera.Size bestPictureSize = CameraHelper.getBestSize(mRecordSetting.getSaveHeight(), mRecordSetting.getSaveWidth(), parameters.getSupportedPictureSizes());
+            targetWidth = mRecordSetting.getSaveHeight();
+            targetHeight = mRecordSetting.getSaveWidth();
+            Camera.Size bestPictureSize = CameraHelper.getBestSize(targetWidth, targetHeight, parameters.getSupportedPictureSizes());
             if (bestPictureSize != null) {
                 parameters.setPictureSize(bestPictureSize.width, bestPictureSize.height);
             }
@@ -249,11 +267,6 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
         if (mCamera != null) {
             try {
                 mOrientationEventListener.enable();
-
-                //初始化录制
-                if (mMediaRecorder != null) {
-                    mMediaRecorder.initRecorder(mCamera, mSurfaceHolder, ((Activity) getContext()).getWindowManager().getDefaultDisplay().getRotation(), mRecordSetting);
-                }
 
                 mCamera.setPreviewDisplay(mSurfaceHolder);
                 mCamera.startPreview();
@@ -337,7 +350,7 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
     @Override
     public void switchCamera() {
         mFaceType = mFaceType == Camera.CameraInfo.CAMERA_FACING_BACK ? Camera.CameraInfo.CAMERA_FACING_FRONT : Camera.CameraInfo.CAMERA_FACING_BACK;
-        onStop();
+        onDestroy();
         onStart();
     }
 
@@ -375,6 +388,7 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
         if (mMediaRecorder == null) {
             throw new RuntimeException("you should set IRecordAdapter first");
         }
+        mMediaRecorder.initRecorder(mCamera, mSurfaceHolder, ((Activity) getContext()).getWindowManager().getDefaultDisplay().getRotation(), mRecordSetting);
         return mMediaRecorder.startRecorder();
     }
 
@@ -417,5 +431,20 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
         return true;
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (mCamera == null) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            return;
+        }
+        //基于父view 和预览View比例绘制大小
+        Camera.Size size = mCamera.getParameters().getPreviewSize();
+        float ratio = 1f * size.height / size.width;
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = (int) (width / ratio);
+        int wms = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+        int hms = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+        super.onMeasure(wms, hms);
+    }
 
 }
