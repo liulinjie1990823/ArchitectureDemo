@@ -1,5 +1,6 @@
 package com.llj.lib.record.codec;
 
+import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -92,7 +93,9 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
         mVideoHeight = recordSetting.getSaveHeight();
 
         // YCbCr_420_SP (NV21) format
-        byte[] bufferByte = new byte[recordSetting.getPreviewWidth() * recordSetting.getPreviewHeight() * 3 / 2];
+//        byte[] bufferByte = new byte[recordSetting.getPreviewWidth() * recordSetting.getPreviewHeight() * 3 / 2];
+        byte[] bufferByte = new byte[recordSetting.getPreviewWidth() * recordSetting.getPreviewHeight() * ImageFormat.getBitsPerPixel(camera.getParameters().getPreviewFormat()) / 8];
+
         camera.addCallbackBuffer(bufferByte);
         camera.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
 
@@ -133,7 +136,7 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
                             frame = frameToRecord.getFrame();
                             frameToRecord.setTimestamp(timestamp);
                         } else {
-                            frame = new Frame(recordSetting.getPreviewWidth(), recordSetting.getPreviewHeight(), mFrameDepth, mFrameChannels);
+                            frame = new Frame(recordSetting.getPreviewHeight(), recordSetting.getPreviewWidth(), mFrameDepth, mFrameChannels);
                             frameToRecord = new FrameToRecord(timestamp, frame);
                         }
                         ((ByteBuffer) frame.image[0].position(0)).put(data);
@@ -158,17 +161,17 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
         String recordFilePath = recordSetting.getDirectoryPath() + "/" + System.currentTimeMillis() + ".mp4";
         mVideo = new File(recordFilePath);
 
-        mFrameRecorder = new FFmpegFrameRecorder(mVideo, recordSetting.getSaveHeight(), recordSetting.getSaveWidth());
+        mFrameRecorder = new FFmpegFrameRecorder(mVideo, recordSetting.getSaveWidth(), recordSetting.getSaveHeight());
         mFrameRecorder.setFormat(recordSetting.getFormat());
 
         //AUDIO
         mFrameRecorder.setAudioChannels(recordSetting.getAudioChannels());
         mFrameRecorder.setSampleRate(recordSetting.getAudioSamplingRate());
-//        mFrameRecorder.setAudioBitrate(recordSetting.getAudioBitrate());
+        mFrameRecorder.setAudioBitrate(recordSetting.getAudioBitrate());
 
         //VIDEO
         mFrameRecorder.setFrameRate(recordSetting.getVideoFrameRate());
-//        mFrameRecorder.setVideoBitrate(recordSetting.getVideoBitrate());
+        mFrameRecorder.setVideoBitrate(recordSetting.getVideoBitrate());
         mFrameRecorder.setVideoCodec(recordSetting.getVideoCodec());
         mFrameRecorder.setVideoOption("crf", "28");
         mFrameRecorder.setVideoOption("preset", "superfast");
@@ -399,9 +402,9 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
                     }
                     cropWidth = previewHeight;
                     cropHeight = cropWidth * mVideoHeight / mVideoWidth;
-//                    crop = String.format("crop=%d:%d:%d:%d", cropWidth, cropHeight, (previewHeight - cropWidth) / 2, (previewWidth - cropHeight) / 2);
+                    crop = String.format("crop=%d:%d:%d:%d", cropWidth, cropHeight, (previewHeight - cropWidth) / 2, (previewWidth - cropHeight) / 2);
                     // swap width and height
-//                    scale = String.format("scale=%d:%d", mVideoHeight, mVideoWidth);
+                    scale = String.format("scale=%d:%d", mVideoHeight, mVideoWidth);
                     break;
                 case Surface.ROTATION_90:
                 case Surface.ROTATION_270:
@@ -444,6 +447,7 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
             // transpose
             if (transpose != null) {
                 filters.add(transpose);
+//                filters.add("transpose=1");
             }
             // horizontal flip
             if (hflip != null) {
@@ -462,7 +466,7 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
                 filters.add(scale);
             }
 
-            FFmpegFrameFilter frameFilter = new FFmpegFrameFilter(TextUtils.join(",", filters), previewWidth, previewHeight);
+            FFmpegFrameFilter frameFilter = new FFmpegFrameFilter(TextUtils.join(",", filters), previewHeight, previewWidth);
             frameFilter.setPixelFormat(avutil.AV_PIX_FMT_NV21);
             frameFilter.setFrameRate(mFrameRate);
             try {

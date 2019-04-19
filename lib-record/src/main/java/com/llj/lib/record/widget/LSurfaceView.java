@@ -52,6 +52,8 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
     private boolean mLogEnable;
 
 
+    private OrientationEventListener mOrientationEventListener;
+
     private int mSensorRotation;//手机旋转的角度，会变化
     private int mDisplayRotation;//preview的角度，一般设置为90度
 
@@ -135,7 +137,6 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
         });
     }
 
-    private OrientationEventListener mOrientationEventListener;
 
     @Override
     public void onStart() {
@@ -199,7 +200,7 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
                 if (mMediaRecorder != null) {
                     int rotation = ((Activity) getContext()).getWindowManager().getDefaultDisplay().getRotation();
                     mRecordSetting.setFaceType(cameraId);
-                    mMediaRecorder.initCamera(mCamera,rotation, mRecordSetting);
+                    mMediaRecorder.initCamera(mCamera, rotation, mRecordSetting);
                 }
                 return true;
             } catch (Exception ex) {

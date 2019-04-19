@@ -127,9 +127,9 @@ public class RecordVideoActivity extends AppMvcBaseActivity {
                 .isAutoFocus(false)
                 .directoryPath(mSavePath)
                 .cameraOptCallback(mCameraOptCallback)
-                .faceType(Camera.CameraInfo.CAMERA_FACING_FRONT)
-                .flashMode(Camera.Parameters.FLASH_MODE_AUTO)
-                .isScaleEnable(true)
+                .faceType(Camera.CameraInfo.CAMERA_FACING_BACK)
+                .flashMode(Camera.Parameters.FLASH_MODE_OFF)
+                .isScaleEnable(false)
                 .recordAdapter(new FFmpegRecorderAdapter())
                 .build();
         mSurfaceView.init(recordSetting);
