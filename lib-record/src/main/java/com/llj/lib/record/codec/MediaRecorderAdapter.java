@@ -24,12 +24,12 @@ public class MediaRecorderAdapter implements IRecordAdapter {
     private Camera mCamera;
 
     @Override
-    public void initCamera(Camera camera, RecordSetting recordSetting) {
+    public void initCamera(Camera camera, int displayRotation, RecordSetting recordSetting) {
         mCamera = camera;
     }
 
     @Override
-    public void initRecorder(Camera camera, SurfaceHolder surfaceHolder, int displayRotation, RecordSetting recordSetting) {
+    public void initRecorder(Camera camera, SurfaceHolder surfaceHolder, RecordSetting recordSetting) {
         //Step 1 :Unlock and set camera to MediaRecorder
         mMediaRecorder = new MediaRecorder();
         camera.unlock();//必须解锁

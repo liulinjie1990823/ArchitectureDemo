@@ -69,6 +69,10 @@ public class RecordSetting {
         return previewHeight;
     }
 
+    public void setFaceType(int faceType) {
+        this.faceType = faceType;
+    }
+
     public int getFaceType() {
         return faceType;
     }

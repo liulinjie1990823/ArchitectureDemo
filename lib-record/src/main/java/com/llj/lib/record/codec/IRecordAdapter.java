@@ -14,10 +14,9 @@ import com.llj.lib.record.RecordSetting;
 public interface IRecordAdapter {
 
 
+    void initCamera(Camera camera, int displayRotation, RecordSetting recordSetting);
 
-    void initCamera(Camera camera, RecordSetting recordSetting);
-
-    void initRecorder(Camera camera, SurfaceHolder surfaceHolder,int displayRotation, RecordSetting recordSetting);
+    void initRecorder(Camera camera, SurfaceHolder surfaceHolder, RecordSetting recordSetting);
 
     boolean startRecorder();
 

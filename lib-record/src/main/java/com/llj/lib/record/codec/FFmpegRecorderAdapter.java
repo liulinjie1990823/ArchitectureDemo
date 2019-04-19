@@ -80,7 +80,17 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
     }
 
     @Override
-    public void initCamera(Camera camera, RecordSetting recordSetting) {
+    public void initCamera(Camera camera, int displayRotation, RecordSetting recordSetting) {
+
+        mAudioSamplingRate = recordSetting.getAudioSamplingRate();
+        mVideoFrameRate = recordSetting.getVideoFrameRate();
+        mDisplayRotation = displayRotation;
+        mCameraId = recordSetting.getFaceType();
+        mPreviewWidth = recordSetting.getPreviewWidth();
+        mPreviewHeight = recordSetting.getPreviewHeight();
+        mVideoWidth = recordSetting.getSaveWidth();
+        mVideoHeight = recordSetting.getSaveHeight();
+
         // YCbCr_420_SP (NV21) format
         byte[] bufferByte = new byte[recordSetting.getPreviewWidth() * recordSetting.getPreviewHeight() * 3 / 2];
         camera.addCallbackBuffer(bufferByte);
@@ -140,19 +150,10 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
     }
 
     @Override
-    public void initRecorder(Camera camera, SurfaceHolder surfaceHolder, int displayRotation, RecordSetting recordSetting) {
+    public void initRecorder(Camera camera, SurfaceHolder surfaceHolder, RecordSetting recordSetting) {
         if (mFrameRecorder != null) {
             return;
         }
-        mAudioSamplingRate = recordSetting.getAudioSamplingRate();
-        mVideoFrameRate = recordSetting.getVideoFrameRate();
-        mDisplayRotation = displayRotation;
-        mCameraId = recordSetting.getFaceType();
-        mPreviewWidth = recordSetting.getPreviewWidth();
-        mPreviewHeight = recordSetting.getPreviewHeight();
-        mVideoWidth = recordSetting.getSaveWidth();
-        mVideoHeight = recordSetting.getSaveHeight();
-
 
         String recordFilePath = recordSetting.getDirectoryPath() + "/" + System.currentTimeMillis() + ".mp4";
         mVideo = new File(recordFilePath);
@@ -398,9 +399,9 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
                     }
                     cropWidth = previewHeight;
                     cropHeight = cropWidth * mVideoHeight / mVideoWidth;
-                    crop = String.format("crop=%d:%d:%d:%d", cropWidth, cropHeight, (previewHeight - cropWidth) / 2, (previewWidth - cropHeight) / 2);
+//                    crop = String.format("crop=%d:%d:%d:%d", cropWidth, cropHeight, (previewHeight - cropWidth) / 2, (previewWidth - cropHeight) / 2);
                     // swap width and height
-                    scale = String.format("scale=%d:%d", mVideoHeight, mVideoWidth);
+//                    scale = String.format("scale=%d:%d", mVideoHeight, mVideoWidth);
                     break;
                 case Surface.ROTATION_90:
                 case Surface.ROTATION_270:

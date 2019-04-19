@@ -197,7 +197,9 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
                 requestLayout();
                 //初始化录制
                 if (mMediaRecorder != null) {
-                    mMediaRecorder.initCamera(mCamera, mRecordSetting);
+                    int rotation = ((Activity) getContext()).getWindowManager().getDefaultDisplay().getRotation();
+                    mRecordSetting.setFaceType(cameraId);
+                    mMediaRecorder.initCamera(mCamera,rotation, mRecordSetting);
                 }
                 return true;
             } catch (Exception ex) {
@@ -376,7 +378,7 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
         if (mMediaRecorder == null) {
             throw new RuntimeException("you should set IRecordAdapter first");
         }
-        mMediaRecorder.initRecorder(mCamera, mSurfaceHolder, ((Activity) getContext()).getWindowManager().getDefaultDisplay().getRotation(), mRecordSetting);
+        mMediaRecorder.initRecorder(mCamera, mSurfaceHolder, mRecordSetting);
         return mMediaRecorder.startRecorder();
     }
 
