@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
-import com.llj.lib.record.CameraHelper;
-import com.llj.lib.record.CameraUtil;
 import com.llj.lib.record.RecordSetting;
 import com.llj.lib.record.data.FrameToRecord;
 import com.llj.lib.record.data.RecordFragment;
@@ -25,9 +23,7 @@ import org.bytedeco.javacv.FrameFilter;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -73,6 +69,15 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
     private int mAudioSamplingRate;
     private int mVideoFrameRate;
     private int mDisplayRotation;
+
+
+    public FFmpegRecorderAdapter() {
+        // At most buffer 10 Frame
+        mFrameToRecordQueue = new LinkedBlockingQueue<>(10);
+        // At most recycle 2 Frame
+        mRecycledFrameQueue = new LinkedBlockingQueue<>(2);
+        mRecordFragments = new Stack<>();
+    }
 
     @Override
     public void initCamera(Camera camera, RecordSetting recordSetting) {
@@ -148,19 +153,11 @@ public class FFmpegRecorderAdapter implements IRecordAdapter {
         mVideoWidth = recordSetting.getSaveWidth();
         mVideoHeight = recordSetting.getSaveHeight();
 
-        // At most buffer 10 Frame
-        mFrameToRecordQueue = new LinkedBlockingQueue<>(10);
-        // At most recycle 2 Frame
-        mRecycledFrameQueue = new LinkedBlockingQueue<>(2);
-        mRecordFragments = new Stack<>();
 
-
-        String recordedTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String recordFilePath = recordSetting.getDirectoryPath() + "/" + CameraUtil.getDateFormatStr() + ".mp4";
-        mVideo = CameraHelper.getOutputMediaFile(recordedTime, CameraHelper.MEDIA_TYPE_VIDEO);
+        String recordFilePath = recordSetting.getDirectoryPath() + "/" + System.currentTimeMillis() + ".mp4";
         mVideo = new File(recordFilePath);
 
-        mFrameRecorder = new FFmpegFrameRecorder(mVideo, recordSetting.getSaveWidth(), recordSetting.getSaveHeight());
+        mFrameRecorder = new FFmpegFrameRecorder(mVideo, recordSetting.getSaveHeight(), recordSetting.getSaveWidth());
         mFrameRecorder.setFormat(recordSetting.getFormat());
 
         //AUDIO

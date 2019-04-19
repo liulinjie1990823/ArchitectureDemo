@@ -52,6 +52,7 @@ class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableCont
         val arrayList = arrayListOf<Data>()
         arrayList.add(Data("KodoActivity", CRouter.APP_KODO_ACTIVITY))
         arrayList.add(Data("RecordVideoActivity", CRouter.APP_RECORD_VIDEO_ACTIVITY))
+        arrayList.add(Data("RecordVideo2Activity", CRouter.APP_RECORD_VIDEO2_ACTIVITY))
         arrayList.add(Data("GLSurfaceViewActivity", CRouter.APP_GLSURFACE_VIEW_ACTIVITY))
         arrayList.add(Data("LoginActivity", CRouter.LOGIN_LOGIN_ACTIVITY))
         arrayList.add(Data("QrCodeActivity", CRouter.QRCODE_ACTIVITY))

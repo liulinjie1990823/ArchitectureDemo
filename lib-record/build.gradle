@@ -9,11 +9,11 @@ ext {
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation(group: 'org.bytedeco', name: 'javacv-platform', version: versions.javacv) {
+    api(group: 'org.bytedeco', name: 'javacv-platform', version: versions.javacv) {
         exclude group: 'org.bytedeco.javacpp-presets'
     }
-    implementation group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}"
-    implementation group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}", classifier: 'android-arm'
+    api group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}"
+    api group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}", classifier: 'android-arm'
 }
 
 apply from: rootProject.file('gradle/uploadArchives.gradle')

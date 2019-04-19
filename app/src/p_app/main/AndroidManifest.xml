@@ -128,6 +128,7 @@
             android:name=".ui.activity.RecordVideoActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.KodoActivity"/>
+        <activity android:name=".ui.activity.RecordVideo2Activity"/>
 
         <service android:name=".ui.service.LoadingService"/>
     </application>

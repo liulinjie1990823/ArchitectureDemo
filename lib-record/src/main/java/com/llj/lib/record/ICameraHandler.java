@@ -36,7 +36,6 @@ public interface ICameraHandler {
 
     boolean finishRecorder();
 
-
     void onStart();
 
     void onStop();

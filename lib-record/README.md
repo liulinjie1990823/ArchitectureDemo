@@ -48,3 +48,6 @@ public static final int AAC_ELD = 5;
 /** Ogg Vorbis audio codec */
 public static final int VORBIS = 6;
 ```
+
+### 问题
+1. preview变形问题：https://blog.csdn.net/mengzhengjie/article/details/70859396

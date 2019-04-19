@@ -159,18 +159,4 @@ public class RecordVideoActivity extends AppMvcBaseActivity {
         initCamera();
     }
 
-
-    /**
-     * 重置录像按钮的状态
-     */
-    private void resetRecordStatus() {
-        mRecordBtn.setText("开始录像");
-    }
-
-    /**
-     * 重置闪光灯按钮的状态
-     */
-    private void resetFlashStatus() {
-        mFlashBtn.setText(mSurfaceView.isFlashOn() ? "关闭闪关灯" : "打开闪关灯");
-    }
 }

@@ -164,9 +164,6 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
         releaseOrientationEventListener();
         releaseCamera();
 
-        mPreviewCallback = null;
-        mCameraOptCallback = null;
-        mMediaRecorder = null;
         mCamera = null;
         mOrientationEventListener = null;
     }
@@ -202,15 +199,6 @@ public class LSurfaceView extends SurfaceView implements ICameraHandler {
                 if (mMediaRecorder != null) {
                     mMediaRecorder.initCamera(mCamera, mRecordSetting);
                 }
-                mCamera.setPreviewCallback(new Camera.PreviewCallback() {
-                    @Override
-                    public void onPreviewFrame(byte[] data, Camera camera) {
-                        if (!mStartContinuousShooting || data == null) {
-                            return;
-                        }
-
-                    }
-                });
                 return true;
             } catch (Exception ex) {
                 ex.printStackTrace();
