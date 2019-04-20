@@ -11,6 +11,7 @@ import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.BaseEvent;
 import com.llj.lib.jni.test.JniTest;
+import com.llj.lib.utils.LogUtil;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -25,6 +26,7 @@ import butterknife.internal.DebouncingOnClickListener;
  */
 @Route(path = CRouter.APP_EVENT_ACTIVITY)
 public class EventActivity extends ComponentMvcBaseActivity {
+
     @BindView(R.id.tv_click) TextView mTextView;
 
     @Override
@@ -50,6 +52,14 @@ public class EventActivity extends ComponentMvcBaseActivity {
         JniTest jniTest = new JniTest();
 
         mTextView.setText(jniTest.stringFromJNI());
+
+        mContext.databaseList();
+
+        LogUtil.DEBUGLLJ = true;
+        jniTest.test2();
+        LogUtil.i(getMTagLog(), jniTest.test3() + "");
+        LogUtil.i(getMTagLog(), jniTest.test4() + "");
+        LogUtil.i(getMTagLog(), jniTest.stringFromJNI2());
     }
 
     @Override

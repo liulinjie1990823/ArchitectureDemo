@@ -27,6 +27,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
         , IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask, ITracker, IBaseActivityView {
 
     val mTagLog: String = this.javaClass.simpleName
+
     lateinit var mContext: Context
 
     private lateinit var mUnBinder: Unbinder

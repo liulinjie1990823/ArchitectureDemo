@@ -1,0 +1,14 @@
+## 插件选择
+- Lombok plugin
+- PGY upload plugin
+- fir.im upload plugin
+- GsonFormat
+- .ignore
+- Markdown Navigator
+- Kotlin
+- Flutter
+- Dart
+- ADB WiFi Connect
+- Android ButterKnife Zelezny
+- Builder Generator
+- GLSL Support

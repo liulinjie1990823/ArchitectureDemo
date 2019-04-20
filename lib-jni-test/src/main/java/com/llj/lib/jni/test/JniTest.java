@@ -16,5 +16,12 @@ public class JniTest {
 
     public native String stringFromJNI();
 
+    public native String stringFromJNI2();
 
+    //声明为本地方法
+    public native void test2();
+
+    public native int test3();
+
+    public native boolean test4();
 }

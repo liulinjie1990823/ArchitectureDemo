@@ -7,7 +7,7 @@ import android.util.Log;
  * @author liulj
  */
 public class LogUtil {
-    private static       boolean DEBUGLLJ     = BuildConfig.DEBUG;
+    public static       boolean DEBUGLLJ     = BuildConfig.DEBUG;
     private static final String  LLJ          = "LLJ";
 
     /**
