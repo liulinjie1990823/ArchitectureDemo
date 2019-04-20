@@ -177,21 +177,24 @@ apply from: rootProject.file('gradle/zipChannel.gradle')
 
 
 if (useApkUploadPlugin) {
+    //使用插件
     apply plugin: 'com.llj.plugin.upload.apkUploadPlugin'
+    //使用脚本
+//    apply from: rootProject.file('gradle/pgyUpload.gradle')
 
     upload {
         dingTalkAccessToken = rootProject.ext.dingTalkAccessToken
 
         buildTypes {
-            debug{
+            debug {
                 pgyApiKey = rootProject.ext.pgyDebugApiKey
                 pgyUserKey = rootProject.ext.pgyDebugUserKey
             }
-            beta{
+            beta {
                 pgyApiKey = rootProject.ext.pgyBetaApiKey
                 pgyUserKey = rootProject.ext.pgyBetaUserKey
             }
-            release{
+            release {
                 pgyApiKey = rootProject.ext.pgyReleaseApiKey
                 pgyUserKey = rootProject.ext.pgyReleaseUserKey
             }

@@ -13,17 +13,18 @@ def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("GMT+:08:00"))
 }
 
-def getApkName(String versionName,String variantName) {
+def getApkName(String versionName, String variantName) {
     return "v${versionName}_${variantName}_${releaseTime()}.apk"
 }
 
-ext.debugFile = "${projectDir.absolutePath}/build/outputs/apk/debug/${getApkName(rootProject.ext.build_versions["versionName"],"debug")}"
-ext.betaFile = "${projectDir.absolutePath}/build/outputs/apk/beta/${getApkName(rootProject.ext.build_versions["versionName"],"beta")}"
-ext.releaseFile = "${projectDir.absolutePath}/build/outputs/apk/release/${getApkName(rootProject.ext.build_versions["versionName"],"release")}"
 
-println("debugFile:" + rootProject.ext.debugFile )
-println("betaFile:" + rootProject.ext.betaFile )
-println("releaseFile:" + rootProject.ext.releaseFile )
+ext.debugFile = "${projectDir.absolutePath}/build/outputs/apk/debug/${getApkName(rootProject.ext.build_versions["versionName"], "debug")}"
+ext.betaFile = "${projectDir.absolutePath}/build/outputs/apk/beta/${getApkName(rootProject.ext.build_versions["versionName"], "beta")}"
+ext.releaseFile = "${projectDir.absolutePath}/build/outputs/apk/release/${getApkName(rootProject.ext.build_versions["versionName"], "release")}"
+
+println("debugFile:" + rootProject.ext.debugFile)
+println("betaFile:" + rootProject.ext.betaFile)
+println("releaseFile:" + rootProject.ext.releaseFile)
 
 ext {
     releaseTime = this.&releaseTime

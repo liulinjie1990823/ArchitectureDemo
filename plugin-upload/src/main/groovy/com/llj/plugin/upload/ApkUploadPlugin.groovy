@@ -47,13 +47,13 @@ class ApkUploadPlugin implements Plugin<Project> {
                     println("buildType:${buildType.toString()}")
 
                     //上传本地apk
-                    def uploadLocalApkToPgy = project.task("uploadLocal${variantName}") doLast {
+                    def uploadLocalApkToPgy = project.task("uploadLocal${variantName}ToPgy").doFirst {
                         uploadPgyApk(project, apkFile, upload, buildType,variantName)
                     }
                     uploadLocalApkToPgy.setGroup("uploadPgy")
 
                     //上传apk,apk会重新生成
-                    def uploadApkToPgy = project.task("uploadPgy${variantName}") doLast {
+                    def uploadApkToPgy = project.task("assemble${variantName}ToPgy").doFirst {
                         uploadPgyApk(project, apkFile, upload, buildType,variantName)
                     }
                     uploadApkToPgy.setGroup("uploadPgy")
