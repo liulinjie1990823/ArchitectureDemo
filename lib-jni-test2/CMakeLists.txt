@@ -15,9 +15,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/src/main/jniLibs/${ANDR
 # and CMake builds them for you. When you build your app, Gradle
 # automatically packages shared libraries with your APK.
 
-add_library( helloworld
+add_library( helloworld2
              SHARED
-             src/main/jni/helloworld.cpp
+        src/main/jni/helloworld2.cpp
              )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -31,4 +31,5 @@ add_library( helloworld
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
 
-target_link_libraries(helloworld log)
+target_link_libraries(helloworld2 log)
+

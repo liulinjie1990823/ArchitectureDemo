@@ -1,0 +1,28 @@
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+}
+
+apply from: rootProject.file('gradle/uploadArchives.gradle')
+apply from: rootProject.file('gradle/bintrayUpload.gradle')
+
+android {
+    defaultConfig {
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+                abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
+            }
+        }
+
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path file('CMakeLists.txt')
+        }
+    }
+}
