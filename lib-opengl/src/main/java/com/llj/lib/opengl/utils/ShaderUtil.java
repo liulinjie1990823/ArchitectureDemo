@@ -26,9 +26,9 @@ public class ShaderUtil {
     private static final String TAG = ShaderUtil.class.getSimpleName();
 
     /**
-     *
      * @param context
      * @param rawId
+     *
      * @return
      */
     public static String getRawResource(Context context, int rawId) {
@@ -148,12 +148,29 @@ public class ShaderUtil {
         bitmap.copyPixelsToBuffer(bitmapBuffer);
         bitmapBuffer.flip();
 
-        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, bitmap.getWidth(),
-                bitmap.getHeight(), 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, bitmapBuffer);
+        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, bitmap.getWidth(), bitmap.getHeight(), 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, bitmapBuffer);
         return textureIds[0];
     }
 
-    public static  BitmapObject loadBitmapTexture(Context context, @DrawableRes int resId) {
+
+    public static int getTexture(int index){
+        int texture;
+        switch (index) {
+            case 0:
+                texture = GLES20.GL_TEXTURE0;
+                break;
+            case 1:
+                texture = GLES20.GL_TEXTURE1;
+                break;
+            default:
+                texture = GLES20.GL_TEXTURE0;
+                break;
+        }
+        return texture;
+    }
+
+
+    public static BitmapObject loadBitmapTexture(Context context, @DrawableRes int resId, int index) {
         //526*702
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resId);
         if (bitmap != null && !bitmap.isRecycled()) {
@@ -164,7 +181,7 @@ public class ShaderUtil {
 
             //绑定纹理
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[0]);
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+            GLES20.glActiveTexture(getTexture(index));
 
             //纹理环绕方式 GLES20.GL_REPEAT
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT);
@@ -199,9 +216,9 @@ public class ShaderUtil {
 
             //根据以上指定的参数，生成一个2D纹理
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-
+            GLES20.glUniform1i(textureIds[0], index);
             //解绑
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+//            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
             return new BitmapObject(textureIds[0], bitmap.getWidth(), bitmap.getHeight());
         }
         return new BitmapObject(-1, 0, 0);

@@ -18,7 +18,7 @@ public class TextureRenderImpl implements LGLRenderer {
     private static final String TAG = TextureRenderImpl.class.getSimpleName();
 
     private FrameBuffer           mFrameBuffer;
-    private BitmapRendererHandler mBitmapRendererHandler;
+    private BitmapRendererHandler2 mBitmapRendererHandler;
     private CommonRenderImpl      mCommonRenderImpl;
 
     private int mTextureWidth;
@@ -42,7 +42,7 @@ public class TextureRenderImpl implements LGLRenderer {
         mTextureWidth = textureWidth;
         mTextureHeight = textureHeight;
 
-        mBitmapRendererHandler = new BitmapRendererHandler(context, textureWidth, textureHeight);
+        mBitmapRendererHandler = new BitmapRendererHandler2(context, textureWidth, textureHeight);
         mFrameBuffer = new FrameBuffer();
         mCommonRenderImpl = new CommonRenderImpl(context);
     }
@@ -58,7 +58,7 @@ public class TextureRenderImpl implements LGLRenderer {
 
         mBitmapRendererHandler.onSurfaceCreated(gl, config);
 
-        mFrameBuffer.createFbo(mBitmapRendererHandler.getTexture(), mTextureWidth, mTextureHeight);
+//        mFrameBuffer.createFbo(mBitmapRendererHandler.getTexture(), mTextureWidth, mTextureHeight);
 
         //fbo纹理id回调
         if (mOnRenderCreateListener != null) {
@@ -83,13 +83,13 @@ public class TextureRenderImpl implements LGLRenderer {
     public void onDrawFrame(GL10 gl) {
         Log.e(TAG, "onDrawFrame");
 
-        mFrameBuffer.beginDrawToFrameBuffer();
+//        mFrameBuffer.beginDrawToFrameBuffer();
 
         mBitmapRendererHandler.onDrawFrame(gl);
 
-        mFrameBuffer.endDrawToFrameBuffer();
+//        mFrameBuffer.endDrawToFrameBuffer();
 
-        mCommonRenderImpl.onDrawFrame(gl, mFrameBuffer.getFboTextureId());
+//        mCommonRenderImpl.onDrawFrame(gl, mFrameBuffer.getFboTextureId());
     }
 
 }

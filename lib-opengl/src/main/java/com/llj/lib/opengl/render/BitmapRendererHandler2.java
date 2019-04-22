@@ -6,12 +6,12 @@ import android.opengl.GLES20;
 import com.llj.lib.opengl.R;
 import com.llj.lib.opengl.anim.IAnim;
 import com.llj.lib.opengl.model.AnimParam;
-import com.llj.lib.opengl.model.AnimResult;
 import com.llj.lib.opengl.utils.ShaderUtil;
 import com.llj.lib.opengl.utils.VaryTools;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -22,60 +22,30 @@ import javax.microedition.khronos.opengles.GL10;
  * author llj
  * date 2019/4/4
  */
-public class BitmapRendererHandler implements LGLRenderer {
+public class BitmapRendererHandler2 implements LGLRenderer {
 
-    public static final String TAG = BitmapRendererHandler.class.getSimpleName();
+    public static final String TAG = BitmapRendererHandler2.class.getSimpleName();
 
     private Context mContext;
 
     private FloatBuffer mVertexBuffer;
-    private FloatBuffer mFragmentBuffer;
 
     private int mProgram;//gl程序
 
     private int mVPosition;//顶点位置
-    private int mFPosition;//片元位置
     private int mUMatrix;//矩阵转换
+    private int mTime;//矩阵转换
 
-    private int mTexture;
     private int mColorHandle;
 
-
-    private float[] mVertexData = {
-            -1f, -1f,//bottom left
-            1f, -1f,//bottom right
-            -1f, 1f,//top left
-            1f, 1f//top right
+    private List<Integer> mTextureList = new ArrayList<>();
+    private float[]       mVertexData  = {
+            1.0f, -1.0f,
+            1.0f, 1.0f,
+            -1.0f, 1.0f,
+            -1.0f, -1.0f
     };
 
-//    private float[] mVertexData = {
-//            -0.5f, -0.5f,//bottom left
-//            0.5f, -0.5f,//bottom right
-//            -0.5f, 0.5f,//top left
-//            0.5f, 0.5f//top right
-//    };
-
-    //android中的片元坐标系,图片显示沿着x轴旋转了180度
-//    private float[] mFragmentData = {
-//            0f, 1f,//bottom left
-//            1f, 1f,//bottom right
-//            0f, 0f,//top left
-//            1f, 0f//top right
-//    };
-    //fbo标准坐标系，显示正常
-    private float[] mFragmentData = {
-            0f, 0f,//bottom left
-            1f, 0f,//bottom right
-            0f, 1f,//top left
-            1f, 1f//top right
-    };
-
-//    private float[] mFragmentData = {
-//            0f, 0.5f,
-//            0.5f, 0.5f,
-//            0f, 0f,
-//            0.5f, 0f
-//    };
 
 
     float color[] = {0.63671875f, 0.76953125f, 0.22265625f, 1.0f};
@@ -93,15 +63,13 @@ public class BitmapRendererHandler implements LGLRenderer {
 
 
     private VaryTools  mVaryTools;
-    private AnimHelper mAnimHelper;
 
-    public BitmapRendererHandler(Context context, int textureWidth, int textureHeight) {
+    public BitmapRendererHandler2(Context context, int textureWidth, int textureHeight) {
         mContext = context;
         mTextureWidth = textureWidth;
         mTextureHeight = textureHeight;
 
         mVaryTools = new VaryTools();
-        mAnimHelper = new AnimHelper();
 
         mAnimParams = new ArrayList<>();
 
@@ -117,29 +85,34 @@ public class BitmapRendererHandler implements LGLRenderer {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 
         mVertexBuffer = createBuffer(mVertexData);
-        mFragmentBuffer = createBuffer(mFragmentData);
 
         //创建程序
-        mProgram = createProgram(mContext, R.raw.vertex_shader_screen_m, R.raw.fragment_shader_screen);
+        mProgram = createProgram(mContext, R.raw.vertex_shader_screen_m_two_texture, R.raw.fragment_shader_two_texture_step);
 
         //或者对应变量
         mVPosition = GLES20.glGetAttribLocation(mProgram, V_POSITION);
-        mFPosition = GLES20.glGetAttribLocation(mProgram, F_POSITION);
         mColorHandle = GLES20.glGetUniformLocation(mProgram, V_COLOR);
-        mTexture = GLES20.glGetUniformLocation(mProgram, S_TEXTURE);
+        mTextureList.clear();
+        mTextureList.add(GLES20.glGetUniformLocation(mProgram, S_TEXTURE));
+        mTextureList.add(GLES20.glGetUniformLocation(mProgram, S_TEXTURE_1));
         mUMatrix = GLES20.glGetUniformLocation(mProgram, U_MATRIX);
+        mTime = GLES20.glGetUniformLocation(mProgram, TIME);
 
         //创建vbo
         if (mUseVbo) {
-            mVboId = createVbo(mVertexData, mFragmentData, mVertexBuffer, mFragmentBuffer);
+            mVboId = createVbo(mVertexData);
         }
 
-
+        //创建Texture
+        int size = mAnimParams.size();
+        for (int i = 0; i < size; i++) {
+            AnimParam animParam = mAnimParams.get(i);
+            mBitmapObjects.add(ShaderUtil.loadBitmapTexture(mContext, animParam.resId, i));
+        }
     }
 
-    protected int getTexture() {
-        return mTexture;
-    }
+    private List<ShaderUtil.BitmapObject> mBitmapObjects = new ArrayList<>();
+
 
     private int mRatio = 1;
     private int mNear  = 3;
@@ -174,14 +147,16 @@ public class BitmapRendererHandler implements LGLRenderer {
         mVaryTools.setLookAtM(0, 0, 10f, 0, 0, 0f, 0f, 1.0f, 0.0f);
 
         //设置最大偏移量
-        if (animParam.direction == IAnim.LEFT) {
-            animParam.maxDistance = mLeft;
-        } else if (animParam.direction == IAnim.TOP) {
-            animParam.maxDistance = mTop;
-        } else if (animParam.direction == IAnim.RIGHT) {
-            animParam.maxDistance = mRight;
-        } else if (animParam.direction == IAnim.BOTTOM) {
-            animParam.maxDistance = mBottom;
+        if (animParam != null) {
+            if (animParam.direction == IAnim.LEFT) {
+                animParam.maxDistance = mLeft;
+            } else if (animParam.direction == IAnim.TOP) {
+                animParam.maxDistance = mTop;
+            } else if (animParam.direction == IAnim.RIGHT) {
+                animParam.maxDistance = mRight;
+            } else if (animParam.direction == IAnim.BOTTOM) {
+                animParam.maxDistance = mBottom;
+            }
         }
 
     }
@@ -200,51 +175,29 @@ public class BitmapRendererHandler implements LGLRenderer {
     private ArrayList<AnimParam> mAnimParams;
 
 
-    private int mIndex;
-    private int mCurrentIndex = -1;
-
-    private AnimParam               mAnimParam    = null;
-    private ShaderUtil.BitmapObject mBitmapObject = null;
-
     @Override
     public void onDrawFrame(GL10 gl) {
-//        onClear();
+        onClear();
 //        onUseProgram();
 //        onBindTexture();
 //        onDraw();
 //        unbind();
 
 
-        int size = mAnimParams.size();
-
-        if (mCurrentIndex == mIndex) {
-            onClear();
-        } else {
-            mAnimParam = mAnimParams.get(mIndex % size);
-            mBitmapObject = ShaderUtil.loadBitmapTexture(mContext, mAnimParam.resId,0);
-            transform(mTextureWidth, mTextureHeight, mBitmapObject, mAnimParam);
-            mCurrentIndex = mIndex;
-        }
-
-
-        AnimResult calculate = mAnimHelper.calculate(mAnimParam);
-
-        if (calculate.getScaleX() == mAnimParam.finalScale && calculate.getScaleY() == mAnimParam.finalScale) {
-            mIndex++;
-            mAnimHelper.reset();
-        }
-
-
-
-        mVaryTools.pushMatrix();
-        mVaryTools.translate(calculate.getTranslateX(), calculate.getTranslateY(), calculate.getTranslateZ());
-        mVaryTools.scale(calculate.getScaleX(), calculate.getScaleY(), calculate.getScaleZ());
-
         onUseProgram();
-        onBindTexture(mBitmapObject.imgTextureId);
+
+        int size = mBitmapObjects.size();
+        for (int i = 0; i < size; i++) {
+            ShaderUtil.BitmapObject bitmapObject = mBitmapObjects.get(i);
+//            transform(mTextureWidth, mTextureHeight, bitmapObject, null);
+            onBindTexture(bitmapObject.imgTextureId, i);
+        }
+//        mVaryTools.pushMatrix();
+
         onDraw();
-        unbind();
-        mVaryTools.popMatrix();
+//        unbind();
+
+//        mVaryTools.popMatrix();
     }
 
 
@@ -252,31 +205,36 @@ public class BitmapRendererHandler implements LGLRenderer {
         GLES20.glUseProgram(mProgram);
     }
 
-    protected void onBindTexture(int imgTextureId) {
-        if (mTexture >= 0) {
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+    protected void onBindTexture(int imgTextureId, int index) {
+        Integer texture = mTextureList.get(index);
+        if (texture >= 0) {
+            GLES20.glActiveTexture(ShaderUtil.getTexture(index));
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, imgTextureId);
-            GLES20.glUniform1i(mTexture, 0);
+            GLES20.glUniform1i(texture, index);
         }
     }
 
     private boolean mUseVbo = false;
 
+    private float mTimePlus;
+
     protected void onDraw() {
+        if (mTime >= 0) {
+            mTimePlus += 0.01F;
+            GLES20.glUniform1f(mTime, mTimePlus);
+        }
+
         //绑定vbo
         if (mUseVbo) {
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVboId);
         }
         //可以从mVertexBuffer中拿数据，如果设置为offset则是偏移量，表示从vbo中获取数据
         GLES20.glEnableVertexAttribArray(mVPosition);
-        GLES20.glEnableVertexAttribArray(mFPosition);
 
         if (mUseVbo) {
             GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, 0);
-            GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, mVertexData.length * 4);
         } else {
             GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
-            GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mFragmentBuffer);
         }
 
         if (mUMatrix >= 0) {
@@ -288,7 +246,9 @@ public class BitmapRendererHandler implements LGLRenderer {
         }
 
         //绘制4个点0-4
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);
+
+        GLES20.glDisableVertexAttribArray(mVPosition);
     }
 
     protected void unbind() {

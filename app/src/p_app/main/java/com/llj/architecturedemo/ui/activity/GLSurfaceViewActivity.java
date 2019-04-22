@@ -105,8 +105,8 @@ public class GLSurfaceViewActivity extends AppMvcBaseActivity {
 
         renderer.addAnimParam(new AnimParam(IAnim.LEFT, 2F, 1F, 1.05F, 500L, 1000L, R.drawable.androids));
         renderer.addAnimParam(new AnimParam(IAnim.TOP, 2F, 1F, 1.05F, 500L, 1000L, R.drawable.img_1));
-        renderer.addAnimParam(new AnimParam(IAnim.RIGHT, 3F, 1F, 1.05F, 500L, 1000L, R.drawable.img_2));
-        renderer.addAnimParam(new AnimParam(IAnim.BOTTOM, 4F, 1F, 1.05F, 500L, 1000L, R.drawable.img_3));
+//        renderer.addAnimParam(new AnimParam(IAnim.RIGHT, 3F, 1F, 1.05F, 500L, 1000L, R.drawable.img_2));
+//        renderer.addAnimParam(new AnimParam(IAnim.BOTTOM, 4F, 1F, 1.05F, 500L, 1000L, R.drawable.img_3));
 
 //        renderer.setOnRenderCreateListener(new TextureRenderImpl.OnRenderCreateListener() {
 //            @Override

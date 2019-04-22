@@ -22,11 +22,13 @@ public interface LGLRenderer extends GLSurfaceView.Renderer, IAnim {
 
     int BYTES_PER_FLOAT = 4;//float占用的字节
 
-    static final String V_POSITION = "v_Position";
-    static final String F_POSITION = "f_Position";
-    static final String U_MATRIX   = "u_Matrix";
-    static final String S_TEXTURE  = "s_Texture";
-    static final String V_COLOR    = "v_Color";
+    String V_POSITION  = "v_Position";
+    String F_POSITION  = "f_Position";
+    String U_MATRIX    = "u_Matrix";
+    String S_TEXTURE   = "s_Texture";
+    String S_TEXTURE_1 = "s_Texture1";
+    String V_COLOR     = "v_Color";
+    String TIME        = "time";
 
     /**
      * @param vertexData
@@ -78,6 +80,20 @@ public interface LGLRenderer extends GLSurfaceView.Renderer, IAnim {
         GLES20.glBufferSubData(GLES20.GL_ARRAY_BUFFER, 0, vertexData.length * BYTES_PER_FLOAT, vertexBuffer);
         GLES20.glBufferSubData(GLES20.GL_ARRAY_BUFFER, vertexData.length * BYTES_PER_FLOAT, fragmentData.length * BYTES_PER_FLOAT, fragmentBuffer);
 
+        //解绑vbo
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        return vbo[0];
+    }
+
+    default int createVbo(float[] vertexData) {
+        //创建vbo
+        int[] vbo = new int[1];
+        GLES20.glGenBuffers(1, vbo, 0);
+
+        //绑定vbo
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo[0]);
+        //分配vbo缓存
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertexData.length * BYTES_PER_FLOAT, null, GLES20.GL_STATIC_DRAW);
         //解绑vbo
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
         return vbo[0];
