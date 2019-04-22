@@ -85,7 +85,7 @@ public interface LGLRenderer extends GLSurfaceView.Renderer, IAnim {
         return vbo[0];
     }
 
-    default int createVbo(float[] vertexData) {
+    default int createVbo(float[] vertexData, FloatBuffer vertexBuffer) {
         //创建vbo
         int[] vbo = new int[1];
         GLES20.glGenBuffers(1, vbo, 0);
@@ -93,7 +93,7 @@ public interface LGLRenderer extends GLSurfaceView.Renderer, IAnim {
         //绑定vbo
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo[0]);
         //分配vbo缓存
-        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertexData.length * BYTES_PER_FLOAT, null, GLES20.GL_STATIC_DRAW);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertexData.length * BYTES_PER_FLOAT, vertexBuffer, GLES20.GL_STATIC_DRAW);
         //解绑vbo
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
         return vbo[0];

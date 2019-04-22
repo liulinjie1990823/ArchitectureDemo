@@ -180,8 +180,8 @@ public class ShaderUtil {
             GLES20.glGenTextures(1, textureIds, 0);
 
             //绑定纹理
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[0]);
             GLES20.glActiveTexture(getTexture(index));
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[0]);
 
             //纹理环绕方式 GLES20.GL_REPEAT
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT);
@@ -216,9 +216,8 @@ public class ShaderUtil {
 
             //根据以上指定的参数，生成一个2D纹理
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-            GLES20.glUniform1i(textureIds[0], index);
-            //解绑
-//            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+            //解绑纹理，解绑后绘制的时候要重新绑定
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
             return new BitmapObject(textureIds[0], bitmap.getWidth(), bitmap.getHeight());
         }
         return new BitmapObject(-1, 0, 0);
