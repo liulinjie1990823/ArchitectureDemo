@@ -1,5 +1,6 @@
 package com.llj.lib.opengl.utils;
 
+import android.opengl.GLES20;
 import android.opengl.Matrix;
 
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Stack;
  * author llj
  * date 2019/4/3
  */
-public class VaryTools {
+public class MatrixHelper {
     private boolean mUseMatrixCamera     = false;
     private boolean mUseMatrixProjection = false;
     private boolean mUseMatrixCurrent    = false;
@@ -28,7 +29,10 @@ public class VaryTools {
 
     private Stack<float[]> mStack;      //变换矩阵堆栈
 
-    public VaryTools() {
+    private int mUMatrix;//矩阵转换
+
+    public MatrixHelper(int program, String name) {
+        mUMatrix = GLES20.glGetUniformLocation(program, name);
         mStack = new Stack<>();
     }
 
@@ -111,5 +115,15 @@ public class VaryTools {
             return mMatrixCurrent;
         }
         return mMatrixCurrent;
+    }
+
+
+    public void glUniformMatrix4fv(
+            int count,
+            boolean transpose,
+            int offset) {
+        if (mUMatrix >= 0) {
+            GLES20.glUniformMatrix4fv(mUMatrix, count, transpose, getFinalMatrix(), offset);
+        }
     }
 }

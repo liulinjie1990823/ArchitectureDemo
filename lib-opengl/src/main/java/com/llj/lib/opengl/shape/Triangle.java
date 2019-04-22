@@ -6,7 +6,7 @@ import android.os.SystemClock;
 
 import com.llj.lib.opengl.R;
 import com.llj.lib.opengl.render.LGLRenderer;
-import com.llj.lib.opengl.utils.VaryTools;
+import com.llj.lib.opengl.utils.MatrixHelper;
 
 import java.nio.FloatBuffer;
 
@@ -43,15 +43,13 @@ public class Triangle implements LGLRenderer {
 
     public Triangle(Context context) {
         mContext = context;
-        mVaryTools = new VaryTools();
     }
 
 
     private int mPositionHandle;
     private int mColorHandle;
-    private int mMVPMatrixHandle;
 
-    private VaryTools mVaryTools;
+    private MatrixHelper mMatrixHelper;
 
     private static final int COORDINATE_PER_VERTEX = 3;//每个点的组成数量
 
@@ -65,7 +63,7 @@ public class Triangle implements LGLRenderer {
         mVertexBuffer = createBuffer(triangleCoords);
         mProgram = createProgram(mContext, R.raw.vertex_shader_shape, R.raw.fragment_shader_color);
 
-        mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, U_MATRIX);
+        mMatrixHelper = new MatrixHelper(mProgram, U_MATRIX);
         mPositionHandle = GLES20.glGetAttribLocation(mProgram, V_POSITION);
         mColorHandle = GLES20.glGetUniformLocation(mProgram, V_COLOR);
 
@@ -79,8 +77,8 @@ public class Triangle implements LGLRenderer {
 
         float ratio = (float) width / height;
 
-        mVaryTools.frustumM(-ratio * mRatio, ratio * mRatio, -1f * mRatio, 1f * mRatio, 3, 7);
-        mVaryTools.setLookAtM(0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        mMatrixHelper.frustumM(-ratio * mRatio, ratio * mRatio, -1f * mRatio, 1f * mRatio, 3, 7);
+        mMatrixHelper.setLookAtM(0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
     }
 
@@ -90,10 +88,10 @@ public class Triangle implements LGLRenderer {
 
         draw();
 //
-        mVaryTools.pushMatrix();
-        mVaryTools.translate(0f, 2f, 0f);
+        mMatrixHelper.pushMatrix();
+        mMatrixHelper.translate(0f, 2f, 0f);
         draw();
-        mVaryTools.popMatrix();
+        mMatrixHelper.popMatrix();
     }
 
     private void draw() {
@@ -104,13 +102,13 @@ public class Triangle implements LGLRenderer {
 
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);
 
-//        mVaryTools.pushMatrix();
+//        mMatrixHelper.pushMatrix();
         long time = SystemClock.uptimeMillis() % 4000L;
         float angle = 0.090f * ((int) time);
-//        mVaryTools.setRotateM( angle, 0, 0, -1.0f);
-//        mVaryTools.translate(0,1,0);
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mVaryTools.getFinalMatrix(), 0);
-//        mVaryTools.popMatrix();
+//        mMatrixHelper.setRotateM( angle, 0, 0, -1.0f);
+//        mMatrixHelper.translate(0,1,0);
+        mMatrixHelper.glUniformMatrix4fv(1, false, 0);
+//        mMatrixHelper.popMatrix();
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
 

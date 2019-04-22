@@ -7,8 +7,8 @@ import com.llj.lib.opengl.R;
 import com.llj.lib.opengl.anim.IAnim;
 import com.llj.lib.opengl.model.AnimParam;
 import com.llj.lib.opengl.model.AnimResult;
+import com.llj.lib.opengl.utils.MatrixHelper;
 import com.llj.lib.opengl.utils.ShaderUtil;
-import com.llj.lib.opengl.utils.VaryTools;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -35,7 +35,6 @@ public class BitmapRendererHandler implements LGLRenderer {
 
     private int mVPosition;//顶点位置
     private int mFPosition;//片元位置
-    private int mUMatrix;//矩阵转换
 
     private int mTexture;
     private int mColorHandle;
@@ -92,15 +91,14 @@ public class BitmapRendererHandler implements LGLRenderer {
     private final int vertexStride = COORDINATE_PER_VERTEX * BYTES_PER_FLOAT; // 每个顶点的字节数
 
 
-    private VaryTools  mVaryTools;
-    private AnimHelper mAnimHelper;
+    private MatrixHelper mMatrixHelper;
+    private AnimHelper   mAnimHelper;
 
     public BitmapRendererHandler(Context context, int textureWidth, int textureHeight) {
         mContext = context;
         mTextureWidth = textureWidth;
         mTextureHeight = textureHeight;
 
-        mVaryTools = new VaryTools();
         mAnimHelper = new AnimHelper();
 
         mAnimParams = new ArrayList<>();
@@ -125,9 +123,9 @@ public class BitmapRendererHandler implements LGLRenderer {
         //或者对应变量
         mVPosition = GLES20.glGetAttribLocation(mProgram, V_POSITION);
         mFPosition = GLES20.glGetAttribLocation(mProgram, F_POSITION);
+        mMatrixHelper = new MatrixHelper(mProgram, U_MATRIX);
         mColorHandle = GLES20.glGetUniformLocation(mProgram, V_COLOR);
         mTexture = GLES20.glGetUniformLocation(mProgram, S_TEXTURE);
-        mUMatrix = GLES20.glGetUniformLocation(mProgram, U_MATRIX);
 
         //创建vbo
         if (mUseVbo) {
@@ -155,23 +153,23 @@ public class BitmapRendererHandler implements LGLRenderer {
         if (width > height) {
             //横屏
             if (bitmapRatio > surfaceRatio) {
-                mVaryTools.orthoM(-1f * mRatio, 1f * mRatio, (-height / ((width / bitmapWidth) * bitmapHeight)) * mRatio, (height / ((width / bitmapWidth) * bitmapHeight)) * mRatio, mNear, mFar);
+                mMatrixHelper.orthoM(-1f * mRatio, 1f * mRatio, (-height / ((width / bitmapWidth) * bitmapHeight)) * mRatio, (height / ((width / bitmapWidth) * bitmapHeight)) * mRatio, mNear, mFar);
             } else {
-                mVaryTools.orthoM((-width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, (width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, -1f * mRatio, 1f * mRatio, mNear, mFar);
+                mMatrixHelper.orthoM((-width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, (width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, -1f * mRatio, 1f * mRatio, mNear, mFar);
             }
         } else {
             //竖屏
             if (bitmapRatio > surfaceRatio) {
-                mVaryTools.orthoM(-1f * mRatio, 1f * mRatio, (-height / ((width / bitmapWidth) * bitmapHeight)) * mRatio, (height / ((width / bitmapWidth) * bitmapHeight)) * mRatio, mNear, mFar);
+                mMatrixHelper.orthoM(-1f * mRatio, 1f * mRatio, (-height / ((width / bitmapWidth) * bitmapHeight)) * mRatio, (height / ((width / bitmapWidth) * bitmapHeight)) * mRatio, mNear, mFar);
             } else {
                 mLeft = (-width / ((height / bitmapHeight) * bitmapWidth)) * mRatio * 2;
                 mRight = (-1) * mLeft;
                 mTop = (-1) * 1f * mRatio * 2;
                 mBottom = (-1) * mTop;
-                mVaryTools.orthoM((-width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, (width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, -1f * mRatio, 1f * mRatio, mNear, mFar);
+                mMatrixHelper.orthoM((-width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, (width / ((height / bitmapHeight) * bitmapWidth)) * mRatio, -1f * mRatio, 1f * mRatio, mNear, mFar);
             }
         }
-        mVaryTools.setLookAtM(0, 0, 10f, 0, 0, 0f, 0f, 1.0f, 0.0f);
+        mMatrixHelper.setLookAtM(0, 0, 10f, 0, 0, 0f, 0f, 1.0f, 0.0f);
 
         //设置最大偏移量
         if (animParam.direction == IAnim.LEFT) {
@@ -221,7 +219,7 @@ public class BitmapRendererHandler implements LGLRenderer {
             onClear();
         } else {
             mAnimParam = mAnimParams.get(mIndex % size);
-            mBitmapObject = ShaderUtil.loadBitmapTexture(mContext, mAnimParam.resId,0);
+            mBitmapObject = ShaderUtil.loadBitmapTexture(mContext, mAnimParam.resId, 0);
             transform(mTextureWidth, mTextureHeight, mBitmapObject, mAnimParam);
             mCurrentIndex = mIndex;
         }
@@ -235,16 +233,15 @@ public class BitmapRendererHandler implements LGLRenderer {
         }
 
 
-
-        mVaryTools.pushMatrix();
-        mVaryTools.translate(calculate.getTranslateX(), calculate.getTranslateY(), calculate.getTranslateZ());
-        mVaryTools.scale(calculate.getScaleX(), calculate.getScaleY(), calculate.getScaleZ());
+        mMatrixHelper.pushMatrix();
+        mMatrixHelper.translate(calculate.getTranslateX(), calculate.getTranslateY(), calculate.getTranslateZ());
+        mMatrixHelper.scale(calculate.getScaleX(), calculate.getScaleY(), calculate.getScaleZ());
 
         onUseProgram();
         onBindTexture(mBitmapObject.imgTextureId);
         onDraw();
         unbind();
-        mVaryTools.popMatrix();
+        mMatrixHelper.popMatrix();
     }
 
 
@@ -279,9 +276,7 @@ public class BitmapRendererHandler implements LGLRenderer {
             GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mFragmentBuffer);
         }
 
-        if (mUMatrix >= 0) {
-            GLES20.glUniformMatrix4fv(mUMatrix, 1, false, mVaryTools.getFinalMatrix(), 0);
-        }
+        mMatrixHelper.glUniformMatrix4fv(1, false, 0);
 
         if (mColorHandle >= 0) {
             GLES20.glUniform4fv(mColorHandle, 1, color, 0);
