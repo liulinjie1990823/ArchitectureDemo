@@ -153,22 +153,6 @@ public class ShaderUtil {
     }
 
 
-    public static int getTexture(int index){
-        int texture;
-        switch (index) {
-            case 0:
-                texture = GLES20.GL_TEXTURE0;
-                break;
-            case 1:
-                texture = GLES20.GL_TEXTURE1;
-                break;
-            default:
-                texture = GLES20.GL_TEXTURE0;
-                break;
-        }
-        return texture;
-    }
-
 
     public static BitmapObject loadBitmapTexture(Context context, @DrawableRes int resId, int index) {
         //526*702
@@ -180,7 +164,7 @@ public class ShaderUtil {
             GLES20.glGenTextures(1, textureIds, 0);
 
             //绑定纹理
-            GLES20.glActiveTexture(getTexture(index));
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0+index);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[0]);
 
             //纹理环绕方式 GLES20.GL_REPEAT

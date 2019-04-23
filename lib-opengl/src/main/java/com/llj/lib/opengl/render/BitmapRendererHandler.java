@@ -12,6 +12,7 @@ import com.llj.lib.opengl.utils.ShaderUtil;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -137,6 +138,12 @@ public class BitmapRendererHandler implements LGLRenderer {
 
     protected int getTexture() {
         return mTexture;
+    }
+
+    private List<Integer> mTextureList = new ArrayList<>();
+
+    protected List<Integer> getTextureList() {
+        return mTextureList;
     }
 
     private int mRatio = 1;

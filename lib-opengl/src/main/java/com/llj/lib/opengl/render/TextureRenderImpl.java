@@ -5,6 +5,9 @@ import android.util.Log;
 
 import com.llj.lib.opengl.model.AnimParam;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -17,9 +20,8 @@ import javax.microedition.khronos.opengles.GL10;
 public class TextureRenderImpl implements LGLRenderer {
     private static final String TAG = TextureRenderImpl.class.getSimpleName();
 
-    private FrameBuffer           mFrameBuffer;
     private BitmapRendererHandler2 mBitmapRendererHandler;
-    private CommonRenderImpl      mCommonRenderImpl;
+    private CommonRenderImpl       mCommonRenderImpl;
 
     private int mTextureWidth;
     private int mTextureHeight;
@@ -43,13 +45,14 @@ public class TextureRenderImpl implements LGLRenderer {
         mTextureHeight = textureHeight;
 
         mBitmapRendererHandler = new BitmapRendererHandler2(context, textureWidth, textureHeight);
-        mFrameBuffer = new FrameBuffer();
         mCommonRenderImpl = new CommonRenderImpl(context);
     }
 
     public void addAnimParam(AnimParam animParam) {
         mBitmapRendererHandler.addAnimParam(animParam);
     }
+
+    private List<FrameBuffer> mFrameBuffers = new ArrayList<>();
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -58,12 +61,18 @@ public class TextureRenderImpl implements LGLRenderer {
 
         mBitmapRendererHandler.onSurfaceCreated(gl, config);
 
-//        mFrameBuffer.createFbo(mBitmapRendererHandler.getTexture(), mTextureWidth, mTextureHeight);
+        int size = mBitmapRendererHandler.getTextureList().size();
+        for (int i = 0; i < size; i++) {
+            FrameBuffer frameBuffer = new FrameBuffer();
+            Integer texture = mBitmapRendererHandler.getTextureList().get(i);
+            frameBuffer.createFbo(texture, mTextureWidth, mTextureHeight);
+            mFrameBuffers.add(frameBuffer);
+        }
 
         //fbo纹理id回调
-        if (mOnRenderCreateListener != null) {
-            mOnRenderCreateListener.onCreate(mFrameBuffer.getFboTextureId());
-        }
+//        if (mOnRenderCreateListener != null) {
+//            mOnRenderCreateListener.onCreate(mFrameBuffer.getFboTextureId());
+//        }
 
     }
 
@@ -82,14 +91,17 @@ public class TextureRenderImpl implements LGLRenderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         Log.e(TAG, "onDrawFrame");
-
-//        mFrameBuffer.beginDrawToFrameBuffer();
-
         mBitmapRendererHandler.onDrawFrame(gl);
 
-//        mFrameBuffer.endDrawToFrameBuffer();
-
-//        mCommonRenderImpl.onDrawFrame(gl, mFrameBuffer.getFboTextureId());
+//        for (int i = 0; i < mFrameBuffers.size(); i++) {
+//            FrameBuffer frameBuffer = mFrameBuffers.get(i);
+//
+//            frameBuffer.beginDrawToFrameBuffer();
+//            mBitmapRendererHandler.onDrawFrame(gl);
+//            frameBuffer.endDrawToFrameBuffer();
+//
+//            mCommonRenderImpl.onDrawFrame(gl, frameBuffer.getFboTextureId());
+//        }
     }
 
 }

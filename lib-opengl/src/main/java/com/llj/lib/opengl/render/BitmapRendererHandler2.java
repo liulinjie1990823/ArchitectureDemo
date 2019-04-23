@@ -32,8 +32,8 @@ public class BitmapRendererHandler2 implements LGLRenderer {
     private int mTime;//矩阵转换
 
 
-    private List<Integer> mTextureList = new ArrayList<>();
-    private float[]       mVertexData  = {
+    private List<Integer> mTextureDataList = new ArrayList<>();
+    private float[]       mVertexData      = {
             1.0f, -1.0f,
             1.0f, 1.0f,
             -1.0f, 1.0f,
@@ -67,6 +67,13 @@ public class BitmapRendererHandler2 implements LGLRenderer {
         mAnimParams.add(animParam);
     }
 
+    protected int getTexture() {
+        return mTextureDataList.get(1);
+    }
+
+    protected List<Integer> getTextureList() {
+        return mTextureDataList;
+    }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -79,9 +86,9 @@ public class BitmapRendererHandler2 implements LGLRenderer {
         //创建矩阵
         mMatrixHelper = new MatrixHelper(mProgram, U_MATRIX);
 
-        mTextureList.clear();
-        mTextureList.add(GLES20.glGetUniformLocation(mProgram, S_TEXTURE));
-        mTextureList.add(GLES20.glGetUniformLocation(mProgram, S_TEXTURE_1));
+        mTextureDataList.clear();
+        mTextureDataList.add(GLES20.glGetUniformLocation(mProgram, S_TEXTURE));
+        mTextureDataList.add(GLES20.glGetUniformLocation(mProgram, S_TEXTURE_1));
         mTime = GLES20.glGetUniformLocation(mProgram, TIME);
 
 
@@ -123,11 +130,11 @@ public class BitmapRendererHandler2 implements LGLRenderer {
     }
 
     protected void onBindTexture(int imgTextureId, int index) {
-        Integer texture = mTextureList.get(index);
-        if (texture >= 0) {
-            GLES20.glActiveTexture(ShaderUtil.getTexture(index));//设置纹理可用
+        Integer textureData = mTextureDataList.get(index);
+        if (textureData >= 0) {
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + index);//设置纹理可用
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, imgTextureId);//将已经处理好的纹理绑定到gl上
-            GLES20.glUniform1i(texture, index);//将第x个纹理设置到fragment_shader中进一步处理
+            GLES20.glUniform1i(textureData, index);//将第x个纹理设置到fragment_shader中进一步处理
         }
     }
 

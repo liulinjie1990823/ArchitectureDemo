@@ -90,8 +90,8 @@ public class CommonRenderImpl implements LGLRenderer {
         GLES20.glUseProgram(mProgram);
 
         //绑定纹理
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
 
         //绑定vbo
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVboId);
