@@ -22,7 +22,7 @@ import javax.microedition.khronos.opengles.GL10;
  * author llj
  * date 2019/4/4
  */
-public class TwoBitmapRendererHandler implements LGLRenderer {
+public class TwoBitmapRendererHandler implements IFboRender {
     public static final String TAG = TwoBitmapRendererHandler.class.getSimpleName();
 
     private Context mContext;
@@ -76,7 +76,7 @@ public class TwoBitmapRendererHandler implements LGLRenderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //创建程序
-        mTextureHelper = new TextureHelper(mContext, R.raw.vs_screen_m_two_texture, R.raw.fs_two_texture_fade, mAnimParams, 2);
+        mTextureHelper = new TextureHelper(mContext, R.raw.vs_screen_m_two_texture, R.raw.fs_two_texture_step, mAnimParams, 2);
         mProgram = mTextureHelper.getProgram();
 
         //创建顶点缓存
@@ -112,8 +112,9 @@ public class TwoBitmapRendererHandler implements LGLRenderer {
         mMatrixHelper.pushMatrix();
         onUseProgram();
         onDraw();
-        unbind();
         mMatrixHelper.popMatrix();
+
+        unbind();
     }
 
 
@@ -134,6 +135,11 @@ public class TwoBitmapRendererHandler implements LGLRenderer {
 
         //绘制4个点0-4
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);
+    }
+
+    @Override
+    public void onBindTexture(int textureData, int imgTextureId, int index) {
+
     }
 
     public void onBindTextures() {

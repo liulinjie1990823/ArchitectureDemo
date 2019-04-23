@@ -69,6 +69,7 @@ public class TextureHelper {
         if (mTime >= 0) {
             mTimePlus += 0.01F;
             GLES20.glUniform1f(mTime, mTimePlus);
+//            GLES20.glUniform1f(mTime, 0.5F);
         }
     }
 

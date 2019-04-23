@@ -20,7 +20,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class TextureRenderImpl implements LGLRenderer {
     private static final String TAG = TextureRenderImpl.class.getSimpleName();
 
-    private OneBitmapRendererHandler mBitmapRendererHandler;
+    private TwoBitmapRendererHandler mBitmapRendererHandler;
     private CommonRenderImpl         mCommonRenderImpl;
 
     private int mTextureWidth;
@@ -44,7 +44,7 @@ public class TextureRenderImpl implements LGLRenderer {
         mTextureWidth = textureWidth;
         mTextureHeight = textureHeight;
 
-        mBitmapRendererHandler = new OneBitmapRendererHandler(context, textureWidth, textureHeight);
+        mBitmapRendererHandler = new TwoBitmapRendererHandler(context, textureWidth, textureHeight);
         mCommonRenderImpl = new CommonRenderImpl(context);
     }
 
@@ -60,11 +60,9 @@ public class TextureRenderImpl implements LGLRenderer {
 
         mBitmapRendererHandler.onSurfaceCreated(gl, config);
 
-        int size = mBitmapRendererHandler.getTextureList().size();
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < 1; i++) {
             FrameBuffer frameBuffer = new FrameBuffer();
-            Integer texture = mBitmapRendererHandler.getTextureList().get(i);
-            frameBuffer.createFbo(texture, mTextureWidth, mTextureHeight);
+            frameBuffer.createFbo(mTextureWidth, mTextureHeight);
             mFrameBuffers.add(frameBuffer);
         }
 
@@ -91,7 +89,6 @@ public class TextureRenderImpl implements LGLRenderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         Log.e(TAG, "onDrawFrame");
-//        mBitmapRendererHandler.onDrawFrame(gl);
 
         for (int i = 0; i < mFrameBuffers.size(); i++) {
             FrameBuffer frameBuffer = mFrameBuffers.get(i);

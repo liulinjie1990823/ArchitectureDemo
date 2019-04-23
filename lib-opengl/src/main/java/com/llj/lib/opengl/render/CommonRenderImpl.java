@@ -36,6 +36,13 @@ public class CommonRenderImpl implements LGLRenderer {
             1f, 1f//top right
     };
 
+//    private float[] mVertexData = {
+//            1.0f, -1.0f,
+//            1.0f, 1.0f,
+//            -1.0f, 1.0f,
+//            -1.0f, -1.0f
+//    };
+
     private float[] mFragmentData = {
             0f, 1f,
             1f, 1f,
@@ -85,7 +92,7 @@ public class CommonRenderImpl implements LGLRenderer {
         //清屏
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         //设置颜色
-        GLES20.glClearColor(1f, 0f, 0f, 1f);
+        GLES20.glClearColor(0f, 1f, 0f, 1f);
     }
 
     protected void onUseProgram() {

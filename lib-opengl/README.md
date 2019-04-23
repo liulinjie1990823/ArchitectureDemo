@@ -33,3 +33,5 @@ uniform 全局变量集。因此如果在这两个着色器中都声明了同名
 - glBindTexture 把已经处理好的Texture传到GL上面
 - glUniform1i 将已经绑定到GL上面的纹理传递到fragment_shader中的纹理中，对纹理做进一步的处理，
 如果纹理绑定后又解绑了则不能使用，必须是已经绑定到GL上面的纹理
+- glDrawArrays
+   - 绘制三角形：https://blog.csdn.net/kunluo/article/details/70238931

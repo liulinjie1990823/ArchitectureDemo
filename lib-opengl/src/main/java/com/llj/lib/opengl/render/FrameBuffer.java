@@ -27,13 +27,12 @@ public class FrameBuffer {
     /**
      * 创建fbo
      *
-     * @param sampler
      * @param textureWidth
      * @param textureHeight
      *
      * @return
      */
-    public void createFbo(int sampler, int textureWidth, int textureHeight) {
+    public void createFbo(int textureWidth, int textureHeight) {
         //创建fbo
         int[] fbo = new int[1];
         GLES20.glGenBuffers(1, fbo, 0);
@@ -47,10 +46,6 @@ public class FrameBuffer {
         //绑定纹理
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[0]);
-
-        if (sampler >= 0) {
-            GLES20.glUniform1i(sampler, 0);
-        }
 
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_REPEAT);
