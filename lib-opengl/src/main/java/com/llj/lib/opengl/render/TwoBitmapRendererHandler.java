@@ -7,6 +7,7 @@ import com.llj.lib.opengl.R;
 import com.llj.lib.opengl.model.AnimParam;
 import com.llj.lib.opengl.utils.MatrixHelper;
 import com.llj.lib.opengl.utils.ShaderUtil;
+import com.llj.lib.opengl.utils.TextureHelper;
 import com.llj.lib.opengl.utils.VertexBufferHelper;
 
 import java.util.ArrayList;
@@ -21,19 +22,14 @@ import javax.microedition.khronos.opengles.GL10;
  * author llj
  * date 2019/4/4
  */
-public class BitmapRendererHandler2 implements LGLRenderer {
-
-    public static final String TAG = BitmapRendererHandler2.class.getSimpleName();
+public class TwoBitmapRendererHandler implements LGLRenderer {
+    public static final String TAG = TwoBitmapRendererHandler.class.getSimpleName();
 
     private Context mContext;
 
     private int mProgram;//gl程序
 
-    private int mTime;//矩阵转换
-
-
-    private List<Integer> mTextureDataList = new ArrayList<>();
-    private float[]       mVertexData      = {
+    private float[] mVertexData = {
             1.0f, -1.0f,
             1.0f, 1.0f,
             -1.0f, 1.0f,
@@ -46,14 +42,15 @@ public class BitmapRendererHandler2 implements LGLRenderer {
 
 
     private static final int COORDINATE_PER_VERTEX = 2;//每个点的组成数量
+    private final        int vertexCount           = mVertexData.length / COORDINATE_PER_VERTEX;//需要绘制几个顶点
 
-    private final int vertexCount = mVertexData.length / COORDINATE_PER_VERTEX;//需要绘制几个顶点
-
+    private ArrayList<AnimParam> mAnimParams;
 
     private MatrixHelper       mMatrixHelper;
     private VertexBufferHelper mVertexBufferHelper;
+    private TextureHelper      mTextureHelper;
 
-    public BitmapRendererHandler2(Context context, int textureWidth, int textureHeight) {
+    public TwoBitmapRendererHandler(Context context, int textureWidth, int textureHeight) {
         mContext = context;
         mTextureWidth = textureWidth;
         mTextureHeight = textureHeight;
@@ -67,49 +64,45 @@ public class BitmapRendererHandler2 implements LGLRenderer {
         mAnimParams.add(animParam);
     }
 
-    protected int getTexture() {
-        return mTextureDataList.get(1);
+    protected List<Integer> getTextureList() {
+        if (mTextureHelper != null) {
+            return mTextureHelper.getTextureList();
+        }
+        return new ArrayList<>();
     }
 
-    protected List<Integer> getTextureList() {
-        return mTextureDataList;
-    }
+    private List<ShaderUtil.BitmapObject> mBitmapObjects = new ArrayList<>();
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-
         //创建程序
-        mProgram = createProgram(mContext, R.raw.vs_screen_m_two_texture, R.raw.fs_two_texture_fade);
+        mTextureHelper = new TextureHelper(mContext, R.raw.vs_screen_m_two_texture, R.raw.fs_two_texture_fade, mAnimParams, 2);
+        mProgram = mTextureHelper.getProgram();
 
         //创建顶点缓存
         mVertexBufferHelper = new VertexBufferHelper(mVertexData, mProgram, V_POSITION);
+
         //创建矩阵
         mMatrixHelper = new MatrixHelper(mProgram, U_MATRIX);
 
-        mTextureDataList.clear();
-        mTextureDataList.add(GLES20.glGetUniformLocation(mProgram, S_TEXTURE));
-        mTextureDataList.add(GLES20.glGetUniformLocation(mProgram, S_TEXTURE_1));
-        mTime = GLES20.glGetUniformLocation(mProgram, TIME);
-
-
-        //创建Texture
+        //创建TextureId
         int size = mAnimParams.size();
         for (int i = 0; i < size; i++) {
             AnimParam animParam = mAnimParams.get(i);
             mBitmapObjects.add(ShaderUtil.loadBitmapTexture(mContext, animParam.resId, i));
         }
-    }
 
-    private List<ShaderUtil.BitmapObject> mBitmapObjects = new ArrayList<>();
+    }
 
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES20.glViewport(0, 0, mTextureWidth, mTextureHeight);
+
+        if (mTextureHelper != null && mBitmapObjects.size() != 0) {
+            transform(mTextureWidth, mTextureHeight, mBitmapObjects.get(0));
+        }
     }
-
-
-    private ArrayList<AnimParam> mAnimParams;
 
 
     @Override
@@ -121,7 +114,6 @@ public class BitmapRendererHandler2 implements LGLRenderer {
         onDraw();
         unbind();
         mMatrixHelper.popMatrix();
-
     }
 
 
@@ -129,32 +121,14 @@ public class BitmapRendererHandler2 implements LGLRenderer {
         GLES20.glUseProgram(mProgram);
     }
 
-    protected void onBindTexture(int imgTextureId, int index) {
-        Integer textureData = mTextureDataList.get(index);
-        if (textureData >= 0) {
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + index);//设置纹理可用
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, imgTextureId);//将已经处理好的纹理绑定到gl上
-            GLES20.glUniform1i(textureData, index);//将第x个纹理设置到fragment_shader中进一步处理
-        }
-    }
-
-    private float mTimePlus;
 
     protected void onDraw() {
-        if (mTime >= 0) {
-            mTimePlus += 0.01F;
-            GLES20.glUniform1f(mTime, mTimePlus);
-        }
+        mTextureHelper.onSetTime();
 
         mVertexBufferHelper.useVbo();
         mVertexBufferHelper.bindPosition();
 
-        int size = mBitmapObjects.size();
-        for (int i = 0; i < size; i++) {
-            ShaderUtil.BitmapObject bitmapObject = mBitmapObjects.get(i);
-            transform(mTextureWidth, mTextureHeight, bitmapObject);
-            onBindTexture(bitmapObject.imgTextureId, i);
-        }
+        onBindTextures();
 
         mMatrixHelper.glUniformMatrix4fv(1, false, 0);
 
@@ -162,10 +136,16 @@ public class BitmapRendererHandler2 implements LGLRenderer {
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);
     }
 
+    public void onBindTextures() {
+        int size = mBitmapObjects.size();
+        for (int i = 0; i < size; i++) {
+            ShaderUtil.BitmapObject bitmapObject = mBitmapObjects.get(i);
+            mTextureHelper.onBindTexture(bitmapObject.imgTextureId, i);
+        }
+    }
+
     protected void unbind() {
-        //绘制多个纹理需要解绑解绑纹理
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
-        //
+        mTextureHelper.unbind();
         mVertexBufferHelper.unbind();
     }
 

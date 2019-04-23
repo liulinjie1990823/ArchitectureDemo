@@ -126,7 +126,7 @@ public class BitmapRendererHandler implements LGLRenderer {
         mFPosition = GLES20.glGetAttribLocation(mProgram, F_POSITION);
         mMatrixHelper = new MatrixHelper(mProgram, U_MATRIX);
         mColorHandle = GLES20.glGetUniformLocation(mProgram, V_COLOR);
-        mTexture = GLES20.glGetUniformLocation(mProgram, S_TEXTURE);
+        mTexture = GLES20.glGetUniformLocation(mProgram, S_TEXTURE0);
 
         //创建vbo
         if (mUseVbo) {

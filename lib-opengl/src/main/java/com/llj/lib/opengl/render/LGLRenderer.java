@@ -22,13 +22,16 @@ public interface LGLRenderer extends GLSurfaceView.Renderer, IAnim {
 
     int BYTES_PER_FLOAT = 4;//float占用的字节
 
-    String V_POSITION  = "v_Position";
-    String F_POSITION  = "f_Position";
-    String U_MATRIX    = "u_Matrix";
-    String S_TEXTURE   = "s_Texture";
-    String S_TEXTURE_1 = "s_Texture1";
-    String V_COLOR     = "v_Color";
-    String TIME        = "time";
+    String V_POSITION = "v_Position";
+    String F_POSITION = "f_Position";
+    String U_MATRIX   = "u_Matrix";
+    String S_TEXTURE  = "s_Texture";
+    String S_TEXTURE0 = "s_Texture0";
+    String S_TEXTURE1 = "s_Texture1";
+    String S_TEXTURE2 = "s_Texture2";
+    String S_TEXTURE3 = "s_Texture3";
+    String V_COLOR    = "v_Color";
+    String TIME       = "time";
 
     /**
      * @param vertexData

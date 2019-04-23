@@ -45,8 +45,9 @@ public class FrameBuffer {
         GLES20.glGenTextures(1, textureIds, 0);
         mFboTextureId = textureIds[0];
         //绑定纹理
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[0]);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[0]);
+
         if (sampler >= 0) {
             GLES20.glUniform1i(sampler, 0);
         }

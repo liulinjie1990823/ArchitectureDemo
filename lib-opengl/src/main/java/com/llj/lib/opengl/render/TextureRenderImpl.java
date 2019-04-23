@@ -20,8 +20,8 @@ import javax.microedition.khronos.opengles.GL10;
 public class TextureRenderImpl implements LGLRenderer {
     private static final String TAG = TextureRenderImpl.class.getSimpleName();
 
-    private BitmapRendererHandler2 mBitmapRendererHandler;
-    private CommonRenderImpl       mCommonRenderImpl;
+    private TwoBitmapRendererHandler mBitmapRendererHandler;
+    private CommonRenderImpl         mCommonRenderImpl;
 
     private int mTextureWidth;
     private int mTextureHeight;
@@ -44,7 +44,7 @@ public class TextureRenderImpl implements LGLRenderer {
         mTextureWidth = textureWidth;
         mTextureHeight = textureHeight;
 
-        mBitmapRendererHandler = new BitmapRendererHandler2(context, textureWidth, textureHeight);
+        mBitmapRendererHandler = new TwoBitmapRendererHandler(context, textureWidth, textureHeight);
         mCommonRenderImpl = new CommonRenderImpl(context);
     }
 
@@ -57,7 +57,6 @@ public class TextureRenderImpl implements LGLRenderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         mCommonRenderImpl.onSurfaceCreated(gl, config);
-
 
         mBitmapRendererHandler.onSurfaceCreated(gl, config);
 
@@ -83,6 +82,7 @@ public class TextureRenderImpl implements LGLRenderer {
         mSurfaceHeight = height;
 
         //
+        mBitmapRendererHandler.onSurfaceChanged(gl, mSurfaceWidth, mSurfaceHeight);
         mCommonRenderImpl.onSurfaceChanged(gl, mSurfaceWidth, mSurfaceHeight);
 
     }
