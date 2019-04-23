@@ -67,7 +67,7 @@ public class CommonRenderImpl implements LGLRenderer {
         mVertexBuffer = createBuffer(mVertexData);
         mFragmentBuffer = createBuffer(mFragmentData);
 
-        mProgram = createProgram(mContext, R.raw.vertex_shader_screen, R.raw.fragment_shader_screen);
+        mProgram = createProgram(mContext, R.raw.vertex_shader_screen, R.raw.fs_one_texture);
 
         mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");
         mFPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");
@@ -80,14 +80,22 @@ public class CommonRenderImpl implements LGLRenderer {
 
     }
 
-    public void onDrawFrame(GL10 gl, int textureId) {
-
+    @Override
+    public void onClear() {
         //清屏
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         //设置颜色
         GLES20.glClearColor(1f, 0f, 0f, 1f);
+    }
 
+    protected void onUseProgram() {
         GLES20.glUseProgram(mProgram);
+    }
+
+    public void onDrawFrame(GL10 gl, int textureId) {
+
+        onClear();
+        onUseProgram();
 
         //绑定纹理
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -106,6 +114,10 @@ public class CommonRenderImpl implements LGLRenderer {
         //绘制4个点0-4
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
 
+        unbind();
+    }
+
+    protected void unbind() {
         //绘制多个纹理需要解绑解绑纹理
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
         //解绑vbo

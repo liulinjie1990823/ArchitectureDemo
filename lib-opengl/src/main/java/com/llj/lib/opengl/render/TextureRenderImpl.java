@@ -20,7 +20,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class TextureRenderImpl implements LGLRenderer {
     private static final String TAG = TextureRenderImpl.class.getSimpleName();
 
-    private TwoBitmapRendererHandler mBitmapRendererHandler;
+    private OneBitmapRendererHandler mBitmapRendererHandler;
     private CommonRenderImpl         mCommonRenderImpl;
 
     private int mTextureWidth;
@@ -44,7 +44,7 @@ public class TextureRenderImpl implements LGLRenderer {
         mTextureWidth = textureWidth;
         mTextureHeight = textureHeight;
 
-        mBitmapRendererHandler = new TwoBitmapRendererHandler(context, textureWidth, textureHeight);
+        mBitmapRendererHandler = new OneBitmapRendererHandler(context, textureWidth, textureHeight);
         mCommonRenderImpl = new CommonRenderImpl(context);
     }
 
@@ -91,17 +91,17 @@ public class TextureRenderImpl implements LGLRenderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         Log.e(TAG, "onDrawFrame");
-        mBitmapRendererHandler.onDrawFrame(gl);
+//        mBitmapRendererHandler.onDrawFrame(gl);
 
-//        for (int i = 0; i < mFrameBuffers.size(); i++) {
-//            FrameBuffer frameBuffer = mFrameBuffers.get(i);
-//
-//            frameBuffer.beginDrawToFrameBuffer();
-//            mBitmapRendererHandler.onDrawFrame(gl);
-//            frameBuffer.endDrawToFrameBuffer();
-//
-//            mCommonRenderImpl.onDrawFrame(gl, frameBuffer.getFboTextureId());
-//        }
+        for (int i = 0; i < mFrameBuffers.size(); i++) {
+            FrameBuffer frameBuffer = mFrameBuffers.get(i);
+
+            frameBuffer.beginDrawToFrameBuffer();
+            mBitmapRendererHandler.onDrawFrame(gl);
+            frameBuffer.endDrawToFrameBuffer();
+
+            mCommonRenderImpl.onDrawFrame(gl, frameBuffer.getFboTextureId());
+        }
     }
 
 }

@@ -20,7 +20,7 @@ public class TextureHelper {
     private int mProgram;//gl程序
     private int mTime;//时间参数
 
-    private List<Integer>                 mTextureDataList = new ArrayList<>();
+    private List<Integer> mTextureDataList = new ArrayList<>();
 
     private float mTimePlus;
 
@@ -54,11 +54,13 @@ public class TextureHelper {
     }
 
     public void onBindTexture(int imgTextureId, int index) {
-        Integer textureData = mTextureDataList.get(index);
-        if (textureData >= 0) {
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + index);//设置纹理可用
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, imgTextureId);//将已经处理好的纹理绑定到gl上
-            GLES20.glUniform1i(textureData, index);//将第x个纹理设置到fragment_shader中进一步处理
+        if (mTextureDataList.size() > index) {
+            Integer textureData = mTextureDataList.get(index);
+            if (textureData >= 0) {
+                GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + index);//设置纹理可用
+                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, imgTextureId);//将已经处理好的纹理绑定到gl上
+                GLES20.glUniform1i(textureData, index);//将第x个纹理设置到fragment_shader中进一步处理
+            }
         }
     }
 
