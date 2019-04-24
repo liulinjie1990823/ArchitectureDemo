@@ -119,7 +119,7 @@ public class BitmapRendererHandler implements LGLRenderer {
         mFragmentBuffer = createBuffer(mFragmentData);
 
         //创建程序
-        mProgram = createProgram(mContext, R.raw.vertex_shader_screen_m, R.raw.fs_one_texture);
+        mProgram = createProgram(mContext, R.raw.vs_screen_matrix, R.raw.fs_one_texture);
 
         //或者对应变量
         mVPosition = GLES20.glGetAttribLocation(mProgram, V_POSITION);

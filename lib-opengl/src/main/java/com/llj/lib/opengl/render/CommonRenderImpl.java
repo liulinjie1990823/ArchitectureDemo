@@ -43,11 +43,12 @@ public class CommonRenderImpl implements LGLRenderer {
 //            -1.0f, -1.0f
 //    };
 
+    //点的顺序需要和顶点坐标对应
     private float[] mFragmentData = {
-            0f, 1f,
-            1f, 1f,
-            0f, 0f,
-            1f, 0f
+            0f, 1f,//bottom left
+            1f, 1f,//bottom right
+            0f, 0f,//top left
+            1f, 0f//top right
     };
 
 
@@ -73,13 +74,14 @@ public class CommonRenderImpl implements LGLRenderer {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         mVertexBuffer = createBuffer(mVertexData);
         mFragmentBuffer = createBuffer(mFragmentData);
+        mVboId = createVbo(mVertexData, mFragmentData, mVertexBuffer, mFragmentBuffer);
 
-        mProgram = createProgram(mContext, R.raw.vertex_shader_screen, R.raw.fs_one_texture);
+        mProgram = createProgram(mContext, R.raw.vs_screen, R.raw.fs_one_texture);
 
         mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");
         mFPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");
 
-        mVboId = createVbo(mVertexData, mFragmentData, mVertexBuffer, mFragmentBuffer);
+
     }
 
     @Override

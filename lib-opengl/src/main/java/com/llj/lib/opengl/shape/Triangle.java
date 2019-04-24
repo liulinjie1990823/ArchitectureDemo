@@ -60,7 +60,7 @@ public class Triangle implements LGLRenderer {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
         mVertexBuffer = createBuffer(triangleCoords);
-        mProgram = createProgram(mContext, R.raw.vertex_shader_shape, R.raw.fragment_shader_color);
+        mProgram = createProgram(mContext, R.raw.vs_shape, R.raw.fragment_shader_color);
 
         mMatrixHelper = new MatrixHelper(mProgram, U_MATRIX);
         mPositionHandle = GLES20.glGetAttribLocation(mProgram, V_POSITION);

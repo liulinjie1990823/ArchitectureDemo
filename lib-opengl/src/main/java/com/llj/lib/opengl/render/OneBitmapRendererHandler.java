@@ -29,11 +29,18 @@ public class OneBitmapRendererHandler implements LGLRenderer {
 
     private int mProgram;//gl程序
 
-    private float[] mVertexData = {
-            1.0f, -1.0f,
-            1.0f, 1.0f,
-            -1.0f, 1.0f,
-            -1.0f, -1.0f
+    private float[] mVertexData   = {
+            -1f, -1f,//bottom left
+            1f, -1f,//bottom right
+            -1f, 1f,//top left
+            1f, 1f//top right
+    };
+    //点的顺序需要和顶点坐标对应
+    private float[] mFragmentData = {
+            0f, 1f,//bottom left
+            1f, 1f,//bottom right
+            0f, 0f,//top left
+            1f, 0f//top right
     };
 
 
@@ -76,11 +83,11 @@ public class OneBitmapRendererHandler implements LGLRenderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //创建程序
-        mTextureHelper = new TextureHelper(mContext, R.raw.vs_screen_m_two_texture, R.raw.fs_one_texture, mAnimParams, 1);
+        mTextureHelper = new TextureHelper(mContext, R.raw.vs_screen, R.raw.fs_one_texture, mAnimParams, 1);
         mProgram = mTextureHelper.getProgram();
 
         //创建顶点缓存
-        mVertexBufferHelper = new VertexBufferHelper(mVertexData, mProgram, V_POSITION);
+        mVertexBufferHelper = new VertexBufferHelper(mVertexData, mFragmentData, mProgram, V_POSITION, F_POSITION);
 
         //创建矩阵
         mMatrixHelper = new MatrixHelper(mProgram, U_MATRIX);
@@ -133,7 +140,7 @@ public class OneBitmapRendererHandler implements LGLRenderer {
         mMatrixHelper.glUniformMatrix4fv(1, false, 0);
 
         //绘制4个点0-4
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
     }
 
     public void onBindTextures() {

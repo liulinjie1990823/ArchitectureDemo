@@ -30,10 +30,18 @@ public class TwoBitmapRendererHandler implements IFboRender {
     private int mProgram;//gl程序
 
     private float[] mVertexData = {
-            1.0f, -1.0f,
-            1.0f, 1.0f,
-            -1.0f, 1.0f,
-            -1.0f, -1.0f
+            1.0f, -1.0f,//bottom right
+            1.0f, 1.0f,//top right
+            -1.0f, 1.0f,//top left
+            -1.0f, -1.0f,//bottom left
+    };
+
+    //点的顺序需要和顶点坐标对应
+    private float[] mFragmentData = {
+            1f, 1f,//bottom right
+            1f, 0f,//top right
+            0f, 0f,//top left
+            0f, 1f,//bottom left
     };
 
 
@@ -76,11 +84,11 @@ public class TwoBitmapRendererHandler implements IFboRender {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //创建程序
-        mTextureHelper = new TextureHelper(mContext, R.raw.vs_screen_m_two_texture, R.raw.fs_two_texture_step, mAnimParams, 2);
+        mTextureHelper = new TextureHelper(mContext, R.raw.vs_screen_matrix, R.raw.fs_two_texture_fade, mAnimParams, 2);
         mProgram = mTextureHelper.getProgram();
 
         //创建顶点缓存
-        mVertexBufferHelper = new VertexBufferHelper(mVertexData, mProgram, V_POSITION);
+        mVertexBufferHelper = new VertexBufferHelper(mVertexData, mFragmentData, mProgram, V_POSITION, F_POSITION);
 
         //创建矩阵
         mMatrixHelper = new MatrixHelper(mProgram, U_MATRIX);

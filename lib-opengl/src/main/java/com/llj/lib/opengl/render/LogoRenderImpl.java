@@ -93,7 +93,7 @@ public class LogoRenderImpl implements LGLRenderer {
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 
-        mProgram = createProgram(mContext, R.raw.vertex_shader_screen, R.raw.fs_one_texture);
+        mProgram = createProgram(mContext, R.raw.vs_screen, R.raw.fs_one_texture);
 
         vPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");
         fPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");

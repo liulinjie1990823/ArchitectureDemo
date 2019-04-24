@@ -22,7 +22,8 @@ public class VertexBufferHelper {
     private FloatBuffer mFragmentBuffer;
     private int         mVboId;
 
-    private int mVPosition;
+    private int mVPosition = -1;
+    private int mFPosition = -1;//片元位置
 
 
     private static final int COORDINATE_PER_VERTEX = 2;//每个点的组成数量
@@ -43,6 +44,26 @@ public class VertexBufferHelper {
         mVPosition = GLES20.glGetAttribLocation(program, name);
     }
 
+    private int mVertexDataSize;
+
+    public VertexBufferHelper(float[] mVertexData, float[] mFragmentData, int program, String name, String name2) {
+        mVsAndFs = true;
+        mVertexDataSize = mVertexData.length * LGLRenderer.BYTES_PER_FLOAT;
+
+        mVertexBuffer = createBuffer(mVertexData);
+        mFragmentBuffer = createBuffer(mFragmentData);
+
+
+        //创建vbo
+        if (mUseVbo) {
+            mVboId = createVbo(mVertexData, mVertexBuffer, mFragmentData, mFragmentBuffer);
+        }
+
+        //或者对应变量
+        mVPosition = GLES20.glGetAttribLocation(program, name);
+        mFPosition = GLES20.glGetAttribLocation(program, name2);
+    }
+
 
     public void useVbo() {
         //绑定vbo
@@ -54,13 +75,23 @@ public class VertexBufferHelper {
 
     public void bindPosition() {
         //可以从mVertexBuffer中拿数据，如果设置为offset则是偏移量，表示从vbo中获取数据
-        GLES20.glEnableVertexAttribArray(mVPosition);
+        if (mVPosition >= 0) {
+            GLES20.glEnableVertexAttribArray(mVPosition);
+        }
+        if (mFPosition >= 0) {
+            GLES20.glEnableVertexAttribArray(mFPosition);
+        }
         if (mUseVbo) {
             GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, 0);
+            if (mFPosition >= 0) {
+                GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, mVertexDataSize);
+            }
         } else {
             GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
+            if (mFPosition >= 0) {
+                GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mFragmentBuffer);
+            }
         }
-
     }
 
 
@@ -73,7 +104,7 @@ public class VertexBufferHelper {
     }
 
 
-    public int createVbo(float[] vertexData, FloatBuffer vertexBuffer) {
+    private int createVbo(float[] vertexData, FloatBuffer vertexBuffer) {
         //创建vbo
         int[] vbo = new int[1];
         GLES20.glGenBuffers(1, vbo, 0);
@@ -86,7 +117,7 @@ public class VertexBufferHelper {
         return vbo[0];
     }
 
-    public int createVbo(float[] vertexData, float[] fragmentData, FloatBuffer vertexBuffer, FloatBuffer fragmentBuffer) {
+    private int createVbo(float[] vertexData, FloatBuffer vertexBuffer, float[] fragmentData, FloatBuffer fragmentBuffer) {
         //创建vbo
         int[] vbo = new int[1];
         GLES20.glGenBuffers(1, vbo, 0);
@@ -104,9 +135,15 @@ public class VertexBufferHelper {
         return vbo[0];
     }
 
-    public void unbind(){
+    public void unbind() {
         //
-        GLES20.glDisableVertexAttribArray(mVPosition);
+        if (mVPosition >= 0) {
+            GLES20.glDisableVertexAttribArray(mVPosition);
+        }
+        //
+        if (mFPosition >= 0) {
+            GLES20.glDisableVertexAttribArray(mFPosition);
+        }
         //解绑vbo
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }

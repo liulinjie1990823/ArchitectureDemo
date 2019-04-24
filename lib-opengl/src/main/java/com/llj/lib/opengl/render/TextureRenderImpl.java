@@ -93,11 +93,11 @@ public class TextureRenderImpl implements LGLRenderer {
         for (int i = 0; i < mFrameBuffers.size(); i++) {
             FrameBuffer frameBuffer = mFrameBuffers.get(i);
 
-            frameBuffer.beginDrawToFrameBuffer();
+//            frameBuffer.beginDrawToFrameBuffer();
             mBitmapRendererHandler.onDrawFrame(gl);
-            frameBuffer.endDrawToFrameBuffer();
+//            frameBuffer.endDrawToFrameBuffer();
 
-            mCommonRenderImpl.onDrawFrame(gl, frameBuffer.getFboTextureId());
+//            mCommonRenderImpl.onDrawFrame(gl, frameBuffer.getFboTextureId());
         }
     }
 

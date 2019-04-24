@@ -80,7 +80,7 @@ public class MultiRenderImpl implements LGLRenderer {
         mVertexBuffer = createBuffer(mVertexData);
         mFragmentBuffer = createBuffer(mFragmentData);
 
-        String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vertex_shader_screen);
+        String vertexSource = ShaderUtil.getRawResource(mContext, R.raw.vs_screen);
         mProgram = ShaderUtil.linkProgram(vertexSource, mFragmentSource);
 
         mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");

@@ -22,6 +22,120 @@ GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT,
 Vertex Shader只知道处理顶点，它不知道这些顶点是做什么用的，也就是不知道这些顶点将来会被装配成什么图元。（因为Vertex shader后面才会有图
 元装配的过程）当然，VS还可以接收颜色，纹理坐标，雾坐标等属性，并在内部对他们做一点点变化，然后再输出。
 
+```
+attribute vec4 v_Position;//顶点坐标系
+attribute vec2 f_Position;//纹理坐标系
+varying vec2 ft_Position;//定义将要传递到片元着色器中的纹理坐标系
+void main() {
+    ft_Position = f_Position;
+    gl_Position = v_Position;
+}
+```
+1. 上面这种写法，需要在外部传入顶点坐标系和纹理坐标系，需要注意的是两个坐标系的点的位置需要对应，如：
+```
+    private float[] mVertexData = {
+            -1f, -1f,//bottom left
+            1f, -1f,//bottom right
+            -1f, 1f,//top left
+            1f, 1f//top right
+    };
+    //点的顺序需要和顶点坐标对应
+    private float[] mFragmentData = {
+            0f, 1f,//bottom left
+            1f, 1f,//bottom right
+            0f, 0f,//top left
+            1f, 0f//top right
+    };
+```
+需要分别为两个坐标系建立缓存对象，并将顶点数据设置到vbo中：
+```
+        mVertexBuffer = createBuffer(mVertexData);
+        mFragmentBuffer = createBuffer(mFragmentData);
+        mVboId = createVbo(mVertexData, mFragmentData, mVertexBuffer, mFragmentBuffer);
+```
+下面是vs中两坐标系变量的索引：
+```
+        mVPosition = GLES20.glGetAttribLocation(mProgram, "v_Position");
+        mFPosition = GLES20.glGetAttribLocation(mProgram, "f_Position");
+```
+在onDrawFrame中将vbo中缓存的顶点数据设置到vs的索引mVPosition和mFPosition中：
+```
+    public void useVbo() {
+        //绑定vbo
+        if (mUseVbo) {
+            GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVboId);
+        }
+    }
+
+
+    public void bindPosition() {
+        //可以从mVertexBuffer中拿数据，如果设置为offset则是偏移量，表示从vbo中获取数据
+        if (mVPosition >= 0) {
+            GLES20.glEnableVertexAttribArray(mVPosition);
+        }
+        if (mFPosition >= 0) {
+            GLES20.glEnableVertexAttribArray(mFPosition);
+        }
+        if (mUseVbo) {
+            GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, 0);
+            if (mFPosition >= 0) {
+                GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, mVertexDataSize);
+            }
+        } else {
+            GLES20.glVertexAttribPointer(mVPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
+            if (mFPosition >= 0) {
+                GLES20.glVertexAttribPointer(mFPosition, COORDINATE_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mFragmentBuffer);
+            }
+        }
+    }
+```
+接着绑定纹理索引：
+```
+    public void onBindTexture(int imgTextureId, int index) {
+        if (mTextureDataList.size() > index) {
+            Integer textureData = mTextureDataList.get(index);
+            if (textureData >= 0) {
+                GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + index);//设置纹理可用
+                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, imgTextureId);//将已经处理好的纹理绑定到gl上
+                GLES20.glUniform1i(textureData, index);//将第x个纹理设置到fragment_shader中进一步处理
+            }
+        }
+    }
+```
+最后使用GL_TRIANGLE_STRIP绘制
+```
+        //绘制4个点0-4
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
+```
+这样在fs中可以通过纹理数据和纹理坐标系进行其他操作：
+```
+precision mediump float;
+varying vec2 ft_Position;
+uniform sampler2D s_Texture0;
+void main() {
+    gl_FragColor=texture2D(s_Texture0, ft_Position);
+}
+```
+ ![image](http://img.freelooper.com/QQ20190424-180823@2x.png-resize.w200) 
+
+显示结果如上，如果不进行矩阵变换，那么红框区域就是顶点坐标系所表示的区域，也就是gl_Position，顶点坐标系主要是规定了显示的区域；而上面设置的纹理坐标系
+则是刚好获取的是整张的纹理，然后将纹理中的像素一个个的绘制到显示区域中。
+
+2. 上面那种方式是需要将纹理的坐标定义在外面，其实也可以定义在vs着色器中；如果纹理取得是整张的纹理，在vs着色器中也可以通过将顶点坐标系进行向量换算以
+转成纹理坐标系：
+```
+attribute vec4 v_Position;//顶点坐标系
+attribute vec2 f_Position;//纹理坐标系
+void main() {
+    ft_Position = vec2(0.5f, 0.5f) * (vec2(v_Position) + vec2(1.0f, 1.0f));
+    gl_Position = v_Position;
+}
+```
+vec2(0.5f, 0.5f) * (vec2(v_Position) + vec2(1.0f, 1.0f))的运算最终将得到
+
+
+
+
 ## fragment shader
 ###### Varying
 varying 变量用于存储顶点着色器的输出数据，当然也存储片元着色器的输入数据，varying 变量最终会在光栅化处理阶段被线性插值。
