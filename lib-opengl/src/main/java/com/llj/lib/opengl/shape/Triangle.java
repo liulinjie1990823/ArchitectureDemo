@@ -2,7 +2,6 @@ package com.llj.lib.opengl.shape;
 
 import android.content.Context;
 import android.opengl.GLES20;
-import android.os.SystemClock;
 
 import com.llj.lib.opengl.R;
 import com.llj.lib.opengl.render.LGLRenderer;
@@ -84,12 +83,7 @@ public class Triangle implements LGLRenderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        onClear();
-
-        draw();
-//
         mMatrixHelper.pushMatrix();
-        mMatrixHelper.translate(0f, 2f, 0f);
         draw();
         mMatrixHelper.popMatrix();
     }
@@ -102,16 +96,15 @@ public class Triangle implements LGLRenderer {
 
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);
 
-//        mMatrixHelper.pushMatrix();
-        long time = SystemClock.uptimeMillis() % 4000L;
-        float angle = 0.090f * ((int) time);
-//        mMatrixHelper.setRotateM( angle, 0, 0, -1.0f);
-//        mMatrixHelper.translate(0,1,0);
         mMatrixHelper.glUniformMatrix4fv(1, false, 0);
-//        mMatrixHelper.popMatrix();
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
 
-//        GLES20.glDisableVertexAttribArray(mPositionHandle);
     }
+
+    @Override
+    public void unbind() {
+        GLES20.glDisableVertexAttribArray(mPositionHandle);
+    }
+
 }

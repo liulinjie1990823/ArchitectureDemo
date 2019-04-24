@@ -108,4 +108,7 @@ public interface LGLRenderer extends GLSurfaceView.Renderer, IAnim {
         GLES20.glClearColor(1f, 0f, 0f, 1f); //设置颜色
     }
 
+    default void unbind() {
+    }
+
 }

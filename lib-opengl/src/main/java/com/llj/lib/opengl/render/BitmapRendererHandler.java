@@ -293,7 +293,8 @@ public class BitmapRendererHandler implements LGLRenderer {
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
     }
 
-    protected void unbind() {
+    @Override
+    public void unbind() {
         //绘制多个纹理需要解绑解绑纹理
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
         //解绑vbo

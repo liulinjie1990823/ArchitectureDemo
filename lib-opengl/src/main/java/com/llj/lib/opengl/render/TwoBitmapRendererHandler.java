@@ -137,10 +137,6 @@ public class TwoBitmapRendererHandler implements IFboRender {
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);
     }
 
-    @Override
-    public void onBindTexture(int textureData, int imgTextureId, int index) {
-
-    }
 
     public void onBindTextures() {
         int size = mBitmapObjects.size();
@@ -150,7 +146,8 @@ public class TwoBitmapRendererHandler implements IFboRender {
         }
     }
 
-    protected void unbind() {
+    @Override
+    public void unbind() {
         mTextureHelper.unbind();
         mVertexBufferHelper.unbind();
     }

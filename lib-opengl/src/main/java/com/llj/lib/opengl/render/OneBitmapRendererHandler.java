@@ -144,7 +144,8 @@ public class OneBitmapRendererHandler implements LGLRenderer {
         }
     }
 
-    protected void unbind() {
+    @Override
+    public void unbind() {
         mTextureHelper.unbind();
         mVertexBufferHelper.unbind();
     }
