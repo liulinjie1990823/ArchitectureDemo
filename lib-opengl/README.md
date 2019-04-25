@@ -155,6 +155,16 @@ void main() {
 ```
 如果第三个值是0.0，它会返回第一个输入；如果是1.0，会返回第二个输入值。0.2会返回80%的第一个输入颜色和20%的第二个输入颜色，即返回两个纹理的混合色。
 
+###### smoothstep函数
+```
+float smoothstep(float a, float b, float x)
+{
+    float t = saturate((x - a)/(b - a));
+    return t*t*(3.0 - (2.0*t));
+}
+```
+
+
 
 ## 方法使用
 ![image](http://img.freelooper.com/QQ20190424-151959.png-resize.w300)  

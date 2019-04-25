@@ -18,7 +18,7 @@ import java.util.List;
 public class TextureHelper {
 
     private int mProgram;//gl程序
-    private int mTime;//时间参数
+    private int mProgressRef;//时间参数
 
     private List<Integer> mTextureDataList = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class TextureHelper {
             mTextureDataList.add(GLES20.glGetUniformLocation(mProgram, LGLRenderer.S_TEXTURE + i));
         }
         //创建时间data
-        mTime = GLES20.glGetUniformLocation(mProgram, LGLRenderer.TIME);
+        mProgressRef = GLES20.glGetUniformLocation(mProgram, LGLRenderer.PROGRESS);
 
     }
 
@@ -65,11 +65,11 @@ public class TextureHelper {
     }
 
 
-    public void onSetTime() {
-        if (mTime >= 0) {
+    public void onSetProgress() {
+        if (mProgressRef >= 0) {
             mTimePlus += 0.01F;
-            GLES20.glUniform1f(mTime, mTimePlus);
-//            GLES20.glUniform1f(mTime, 0.5F);
+            float progress = (float) Math.abs(Math.sin(mTimePlus));
+            GLES20.glUniform1f(mProgressRef, progress);
         }
     }
 

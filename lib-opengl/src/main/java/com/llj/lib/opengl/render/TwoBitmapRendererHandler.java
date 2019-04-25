@@ -132,10 +132,10 @@ public class TwoBitmapRendererHandler implements IFboRender {
 
 
     protected void onDraw() {
-        mTextureHelper.onSetTime();
+        mTextureHelper.onSetProgress();
 
         mVertexBufferHelper.useVbo();
-        mVertexBufferHelper.bindPosition();
+        mVertexBufferHelper.onBindPosition();
 
         onBindTextures();
 

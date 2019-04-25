@@ -130,10 +130,10 @@ public class OneBitmapRendererHandler implements LGLRenderer {
 
 
     protected void onDraw() {
-        mTextureHelper.onSetTime();
+        mTextureHelper.onSetProgress();
 
         mVertexBufferHelper.useVbo();
-        mVertexBufferHelper.bindPosition();
+        mVertexBufferHelper.onBindPosition();
 
         onBindTextures();
 

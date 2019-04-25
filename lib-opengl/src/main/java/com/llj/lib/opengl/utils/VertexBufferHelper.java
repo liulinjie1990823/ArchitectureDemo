@@ -73,7 +73,7 @@ public class VertexBufferHelper {
     }
 
 
-    public void bindPosition() {
+    public void onBindPosition() {
         //可以从mVertexBuffer中拿数据，如果设置为offset则是偏移量，表示从vbo中获取数据
         if (mVPosition >= 0) {
             GLES20.glEnableVertexAttribArray(mVPosition);

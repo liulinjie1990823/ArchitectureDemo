@@ -31,7 +31,7 @@ public interface LGLRenderer extends GLSurfaceView.Renderer, IAnim {
     String S_TEXTURE2 = "s_Texture2";
     String S_TEXTURE3 = "s_Texture3";
     String V_COLOR    = "v_Color";
-    String TIME       = "time";
+    String PROGRESS   = "progress";
 
     /**
      * @param vertexData
