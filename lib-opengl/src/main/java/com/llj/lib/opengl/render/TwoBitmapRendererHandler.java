@@ -3,7 +3,8 @@ package com.llj.lib.opengl.render;
 import android.content.Context;
 import android.opengl.GLES20;
 
-import com.llj.lib.opengl.anim.Directional;
+import com.llj.lib.opengl.anim.ITransition;
+import com.llj.lib.opengl.anim.Wipe;
 import com.llj.lib.opengl.model.AnimParam;
 import com.llj.lib.opengl.utils.MatrixHelper;
 import com.llj.lib.opengl.utils.ShaderUtil;
@@ -56,7 +57,7 @@ public class TwoBitmapRendererHandler implements IFboRender {
 
     private MatrixHelper               mMatrixHelper;
     private VertexBufferHelper         mVertexBufferHelper;
-    private TextureHelper<Directional> mTextureHelper;
+    private TextureHelper<ITransition> mTextureHelper;
 
     public TwoBitmapRendererHandler(Context context, int textureWidth, int textureHeight) {
         mContext = context;
@@ -84,7 +85,7 @@ public class TwoBitmapRendererHandler implements IFboRender {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //创建程序
-        mTextureHelper = new TextureHelper<>(mContext, Directional.LEFT());
+        mTextureHelper = new TextureHelper<>(mContext, Wipe.LEFT());
         mProgram = mTextureHelper.getProgram();
 
         //创建顶点缓存

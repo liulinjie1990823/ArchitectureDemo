@@ -48,7 +48,7 @@ public class Wipe implements ITransition {
     @Override
     public void bindProperties() {
         if (mDirectionRef >= 0) {
-            GLES20.glUniform1f(mDirectionRef, mDirection);
+            GLES20.glUniform1i(mDirectionRef, mDirection);
         }
     }
 }

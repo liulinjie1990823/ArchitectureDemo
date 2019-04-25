@@ -1,5 +1,4 @@
 //ok
-
 precision mediump float;
 varying vec2 uv;
 uniform float progress;//0-1变化
