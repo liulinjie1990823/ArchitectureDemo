@@ -4,7 +4,7 @@ import android.content.Context;
 import android.opengl.GLES20;
 
 import com.llj.lib.opengl.anim.ITransition;
-import com.llj.lib.opengl.anim.SimpleZoom;
+import com.llj.lib.opengl.anim.RandomSquares;
 import com.llj.lib.opengl.model.AnimParam;
 import com.llj.lib.opengl.utils.MatrixHelper;
 import com.llj.lib.opengl.utils.ShaderUtil;
@@ -85,7 +85,7 @@ public class TwoBitmapRendererHandler implements IFboRender {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //创建程序
-        mTextureHelper = new TextureHelper<>(mContext, SimpleZoom.INSTANCE());
+        mTextureHelper = new TextureHelper<>(mContext, RandomSquares.INSTANCE());
         mProgram = mTextureHelper.getProgram();
 
         //创建顶点缓存
