@@ -3,7 +3,7 @@ package com.llj.lib.opengl.render;
 import android.content.Context;
 import android.opengl.GLES20;
 
-import com.llj.lib.opengl.R;
+import com.llj.lib.opengl.anim.Directional;
 import com.llj.lib.opengl.model.AnimParam;
 import com.llj.lib.opengl.utils.MatrixHelper;
 import com.llj.lib.opengl.utils.ShaderUtil;
@@ -54,9 +54,9 @@ public class TwoBitmapRendererHandler implements IFboRender {
 
     private ArrayList<AnimParam> mAnimParams;
 
-    private MatrixHelper       mMatrixHelper;
-    private VertexBufferHelper mVertexBufferHelper;
-    private TextureHelper      mTextureHelper;
+    private MatrixHelper               mMatrixHelper;
+    private VertexBufferHelper         mVertexBufferHelper;
+    private TextureHelper<Directional> mTextureHelper;
 
     public TwoBitmapRendererHandler(Context context, int textureWidth, int textureHeight) {
         mContext = context;
@@ -84,7 +84,7 @@ public class TwoBitmapRendererHandler implements IFboRender {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //创建程序
-        mTextureHelper = new TextureHelper(mContext, R.raw.vs_screen_matrix, R.raw.fs_two_texture_fade, mAnimParams, 2);
+        mTextureHelper = new TextureHelper<>(mContext, Directional.LEFT());
         mProgram = mTextureHelper.getProgram();
 
         //创建顶点缓存
@@ -132,12 +132,13 @@ public class TwoBitmapRendererHandler implements IFboRender {
 
 
     protected void onDraw() {
-        mTextureHelper.onSetProgress();
+        mTextureHelper.bindProgress();
+        mTextureHelper.bindProperties();
 
         mVertexBufferHelper.useVbo();
-        mVertexBufferHelper.onBindPosition();
+        mVertexBufferHelper.bindPosition();
 
-        onBindTextures();
+        bindTextures();
 
         mMatrixHelper.glUniformMatrix4fv(1, false, 0);
 
@@ -146,11 +147,11 @@ public class TwoBitmapRendererHandler implements IFboRender {
     }
 
 
-    public void onBindTextures() {
+    public void bindTextures() {
         int size = mBitmapObjects.size();
         for (int i = 0; i < size; i++) {
             ShaderUtil.BitmapObject bitmapObject = mBitmapObjects.get(i);
-            mTextureHelper.onBindTexture(bitmapObject.imgTextureId, i);
+            mTextureHelper.bindTexture(bitmapObject.imgTextureId, i);
         }
     }
 

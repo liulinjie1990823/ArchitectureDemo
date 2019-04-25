@@ -3,7 +3,7 @@ package com.llj.lib.opengl.render;
 import android.content.Context;
 import android.opengl.GLES20;
 
-import com.llj.lib.opengl.R;
+import com.llj.lib.opengl.anim.Directional;
 import com.llj.lib.opengl.model.AnimParam;
 import com.llj.lib.opengl.utils.MatrixHelper;
 import com.llj.lib.opengl.utils.ShaderUtil;
@@ -53,9 +53,9 @@ public class OneBitmapRendererHandler implements LGLRenderer {
 
     private ArrayList<AnimParam> mAnimParams;
 
-    private MatrixHelper       mMatrixHelper;
-    private VertexBufferHelper mVertexBufferHelper;
-    private TextureHelper      mTextureHelper;
+    private MatrixHelper               mMatrixHelper;
+    private VertexBufferHelper         mVertexBufferHelper;
+    private TextureHelper<Directional> mTextureHelper;
 
     public OneBitmapRendererHandler(Context context, int textureWidth, int textureHeight) {
         mContext = context;
@@ -83,7 +83,7 @@ public class OneBitmapRendererHandler implements LGLRenderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //创建程序
-        mTextureHelper = new TextureHelper(mContext, R.raw.vs_screen, R.raw.fs_one_texture, mAnimParams, 1);
+        mTextureHelper = new TextureHelper<>(mContext, Directional.LEFT());
         mProgram = mTextureHelper.getProgram();
 
         //创建顶点缓存
@@ -130,10 +130,10 @@ public class OneBitmapRendererHandler implements LGLRenderer {
 
 
     protected void onDraw() {
-        mTextureHelper.onSetProgress();
+        mTextureHelper.bindProgress();
 
         mVertexBufferHelper.useVbo();
-        mVertexBufferHelper.onBindPosition();
+        mVertexBufferHelper.bindPosition();
 
         onBindTextures();
 
@@ -147,7 +147,7 @@ public class OneBitmapRendererHandler implements LGLRenderer {
         int size = mBitmapObjects.size();
         for (int i = 0; i < size; i++) {
             ShaderUtil.BitmapObject bitmapObject = mBitmapObjects.get(i);
-            mTextureHelper.onBindTexture(bitmapObject.imgTextureId, i);
+            mTextureHelper.bindTexture(bitmapObject.imgTextureId, i);
         }
     }
 

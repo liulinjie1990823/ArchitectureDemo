@@ -3,7 +3,7 @@ package com.llj.lib.opengl.utils;
 import android.content.Context;
 import android.opengl.GLES20;
 
-import com.llj.lib.opengl.model.AnimParam;
+import com.llj.lib.opengl.anim.ITransition;
 import com.llj.lib.opengl.render.LGLRenderer;
 
 import java.util.ArrayList;
@@ -15,25 +15,31 @@ import java.util.List;
  * author llj
  * date 2019-04-23
  */
-public class TextureHelper {
+public class TextureHelper<T extends ITransition> {
 
     private int mProgram;//gl程序
     private int mProgressRef;//时间参数
 
-    private List<Integer> mTextureDataList = new ArrayList<>();
+    private List<Integer> mTextureRefList = new ArrayList<>();
 
     private float mTimePlus;
 
-    public TextureHelper(Context context, int vertexId, int fragmentId, ArrayList<AnimParam> mAnimParams, int textureSize) {
-        mProgram = createProgram(context, vertexId, fragmentId);
+    private T mTransition;
 
-        mTextureDataList.clear();
+    public TextureHelper(Context context, T transition) {
+        mTransition=transition;
+
+        mProgram = createProgram(context, transition.getVsRes(), transition.getFsRes());
+
+        mTextureRefList.clear();
         //创建textureData
-        for (int i = 0; i < textureSize; i++) {
-            mTextureDataList.add(GLES20.glGetUniformLocation(mProgram, LGLRenderer.S_TEXTURE + i));
+        for (int i = 0; i < transition.getTextureSize(); i++) {
+            mTextureRefList.add(GLES20.glGetUniformLocation(mProgram, LGLRenderer.S_TEXTURE + i));
         }
-        //创建时间data
+        //创建时间ref
         mProgressRef = GLES20.glGetUniformLocation(mProgram, LGLRenderer.PROGRESS);
+
+        transition.onSurfaceCreated(mProgram);
 
     }
 
@@ -42,7 +48,7 @@ public class TextureHelper {
     }
 
     public List<Integer> getTextureList() {
-        return mTextureDataList;
+        return mTextureRefList;
     }
 
 
@@ -53,9 +59,9 @@ public class TextureHelper {
         return ShaderUtil.linkProgram(vertexSource, fragmentSource);
     }
 
-    public void onBindTexture(int imgTextureId, int index) {
-        if (mTextureDataList.size() > index) {
-            Integer textureData = mTextureDataList.get(index);
+    public void bindTexture(int imgTextureId, int index) {
+        if (mTextureRefList.size() > index) {
+            Integer textureData = mTextureRefList.get(index);
             if (textureData >= 0) {
                 GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + index);//设置纹理可用
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, imgTextureId);//将已经处理好的纹理绑定到gl上
@@ -65,12 +71,16 @@ public class TextureHelper {
     }
 
 
-    public void onSetProgress() {
+    public void bindProgress() {
         if (mProgressRef >= 0) {
             mTimePlus += 0.01F;
             float progress = (float) Math.abs(Math.sin(mTimePlus));
             GLES20.glUniform1f(mProgressRef, progress);
         }
+    }
+
+    public void bindProperties(){
+        mTransition.bindProperties();
     }
 
     public void unbind() {

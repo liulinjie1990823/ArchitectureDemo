@@ -706,7 +706,7 @@ public class RecordVideo2Activity extends AppMvcBaseActivity {
         @Override
         protected void onProgressUpdate(Progress... values) {
             super.onProgressUpdate(values);
-//            mProgressDialog.setProgress(values[0]);
+//            mProgressDialog.bindProgress(values[0]);
         }
 
         @Override

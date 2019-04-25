@@ -215,7 +215,7 @@ public class BitmapRendererHandler implements LGLRenderer {
     public void onDrawFrame(GL10 gl) {
 //        onClear();
 //        onUseProgram();
-//        onBindTexture();
+//        bindTexture();
 //        onDraw();
 //        unbind();
 

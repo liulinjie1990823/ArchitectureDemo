@@ -6,6 +6,8 @@ uniform float progress;//0-1变化
 uniform sampler2D s_Texture0;
 uniform sampler2D s_Texture1;
 
+uniform int direction;
+
 
 vec4 getFromColor(vec2 uv){
     return texture2D(s_Texture0, uv);

@@ -9,7 +9,7 @@ package com.llj.lib.opengl.render;
 public interface IFboRender extends LGLRenderer {
 
 
-//    default void onBindTexture(int textureData, int imgTextureId, int index) {
+//    default void bindTexture(int textureData, int imgTextureId, int index) {
 //        if (textureData >= 0) {
 //            GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + index);//设置纹理可用
 //            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, imgTextureId);//将已经处理好的纹理绑定到gl上
