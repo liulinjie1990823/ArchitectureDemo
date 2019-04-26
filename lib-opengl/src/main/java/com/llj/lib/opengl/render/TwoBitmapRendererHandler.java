@@ -3,7 +3,7 @@ package com.llj.lib.opengl.render;
 import android.content.Context;
 import android.opengl.GLES20;
 
-import com.llj.lib.opengl.anim.Doorway;
+import com.llj.lib.opengl.anim.Directional;
 import com.llj.lib.opengl.anim.ITransition;
 import com.llj.lib.opengl.model.AnimParam;
 import com.llj.lib.opengl.utils.MatrixHelper;
@@ -85,7 +85,7 @@ public class TwoBitmapRendererHandler implements IFboRender {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //创建程序
-        mTextureHelper = new TextureHelper<>(mContext, Doorway.INSTANCE());
+        mTextureHelper = new TextureHelper<>(mContext, Directional.LEFT());
         mProgram = mTextureHelper.getProgram();
 
         //创建顶点缓存
@@ -133,13 +133,13 @@ public class TwoBitmapRendererHandler implements IFboRender {
 
 
     protected void onDraw() {
-        mTextureHelper.bindProgress();
         mTextureHelper.bindProperties();
 
         mVertexBufferHelper.useVbo();
         mVertexBufferHelper.bindPosition();
 
-        bindTextures();
+        int index = mTextureHelper.bindProgress();
+        bindTextures(index);
 
         mMatrixHelper.glUniformMatrix4fv(1, false, 0);
 
@@ -148,12 +148,14 @@ public class TwoBitmapRendererHandler implements IFboRender {
     }
 
 
-    public void bindTextures() {
-        int size = mBitmapObjects.size();
-        for (int i = 0; i < size; i++) {
-            ShaderUtil.BitmapObject bitmapObject = mBitmapObjects.get(i);
-            mTextureHelper.bindTexture(bitmapObject.imgTextureId, i);
-        }
+    public void bindTextures(int index) {
+        int size=mBitmapObjects.size();
+
+        ShaderUtil.BitmapObject bitmapObject1 = mBitmapObjects.get(index % size);
+        ShaderUtil.BitmapObject bitmapObject2 = mBitmapObjects.get((index + 1) % size);
+
+        mTextureHelper.bindTexture(bitmapObject1.imgTextureId, 0);
+        mTextureHelper.bindTexture(bitmapObject2.imgTextureId, 1);
     }
 
     @Override

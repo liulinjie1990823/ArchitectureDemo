@@ -1,6 +1,8 @@
 package com.llj.lib.opengl.anim;
 
 import android.support.annotation.RawRes;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 
 import com.llj.lib.opengl.R;
 
@@ -18,6 +20,19 @@ public interface ITransition {
     int BOTTOM = 3;
 
     String DIRECTION = "direction";
+
+
+    default long getTransDuration() {
+        return 3000;
+    }
+
+    default long getShowDuration() {
+        return 1000;
+    }
+
+    default Interpolator getInterpolator() {
+        return new AccelerateDecelerateInterpolator();
+    }
 
     @RawRes
     default int getVsRes() {

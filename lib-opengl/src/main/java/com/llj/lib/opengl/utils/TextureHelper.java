@@ -2,6 +2,8 @@ package com.llj.lib.opengl.utils;
 
 import android.content.Context;
 import android.opengl.GLES20;
+import android.os.SystemClock;
+import android.view.animation.Interpolator;
 
 import com.llj.lib.opengl.anim.ITransition;
 import com.llj.lib.opengl.render.LGLRenderer;
@@ -26,8 +28,16 @@ public class TextureHelper<T extends ITransition> {
 
     private T mTransition;
 
+    private long         mTransDuration;
+    private long         mShowDuration;
+    private Interpolator mInterpolator;
+
     public TextureHelper(Context context, T transition) {
-        mTransition=transition;
+        mTransition = transition;
+        mTransDuration = transition.getTransDuration();
+        mShowDuration = transition.getShowDuration();
+        mInterpolator = transition.getInterpolator();
+
 
         mProgram = createProgram(context, transition.getVsRes(), transition.getFsRes());
 
@@ -70,16 +80,40 @@ public class TextureHelper<T extends ITransition> {
         }
     }
 
+    private long  mStartTime;
+    private float mProgress;
+    private int   mIndex;
 
-    public void bindProgress() {
-        if (mProgressRef >= 0) {
-            mTimePlus += 0.01F;
-            float progress = (float) Math.abs(Math.sin(mTimePlus));
-            GLES20.glUniform1f(mProgressRef, progress);
-        }
+    public int getIndex() {
+        return mIndex;
     }
 
-    public void bindProperties(){
+    public int bindProgress() {
+        if (mStartTime == 0) {
+            mStartTime = SystemClock.uptimeMillis();
+        }
+
+        if (SystemClock.uptimeMillis() - mStartTime < mTransDuration) {
+            //转场持续mTransDuration
+            //input=0->1
+            final float input = Math.min((SystemClock.uptimeMillis() - mStartTime) / (mTransDuration * 1f), 1.f);
+            mProgress = mInterpolator.getInterpolation(input);
+        } else if (SystemClock.uptimeMillis() - mStartTime - mTransDuration < mShowDuration) {
+            //显示持续mShowDuration
+            final float input = Math.min((SystemClock.uptimeMillis() - mStartTime - mTransDuration) / (mShowDuration * 1f), 1.f);
+        } else {
+            //切换到第二个场景
+            mStartTime = 0;
+            mProgress = 0F;
+            mIndex++;
+        }
+        if (mProgressRef >= 0) {
+            GLES20.glUniform1f(mProgressRef, mProgress);
+        }
+        return mIndex;
+    }
+
+    public void bindProperties() {
         mTransition.bindProperties();
     }
 
