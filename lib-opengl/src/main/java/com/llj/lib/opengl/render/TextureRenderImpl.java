@@ -90,15 +90,15 @@ public class TextureRenderImpl implements LGLRenderer {
     public void onDrawFrame(GL10 gl) {
         Log.e(TAG, "onDrawFrame");
 
-        for (int i = 0; i < mFrameBuffers.size(); i++) {
-            FrameBuffer frameBuffer = mFrameBuffers.get(i);
-
+//        for (int i = 0; i < mFrameBuffers.size(); i++) {
+//            FrameBuffer frameBuffer = mFrameBuffers.get(i);
+//
 //            frameBuffer.beginDrawToFrameBuffer();
             mBitmapRendererHandler.onDrawFrame(gl);
 //            frameBuffer.endDrawToFrameBuffer();
-
+//
 //            mCommonRenderImpl.onDrawFrame(gl, frameBuffer.getFboTextureId());
-        }
+//        }
     }
 
 }

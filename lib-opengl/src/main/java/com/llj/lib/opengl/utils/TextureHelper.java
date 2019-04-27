@@ -18,6 +18,7 @@ import java.util.List;
  * date 2019-04-23
  */
 public class TextureHelper<T extends ITransition> {
+    public static final String TAG=TextureHelper.class.getSimpleName();
 
     private int mProgram;//gl程序
     private int mProgressRef;//时间参数
@@ -100,6 +101,7 @@ public class TextureHelper<T extends ITransition> {
             mProgress = mInterpolator.getInterpolation(input);
         } else if (SystemClock.uptimeMillis() - mStartTime - mTransDuration < mShowDuration) {
             //显示持续mShowDuration
+            mProgress=1;
             final float input = Math.min((SystemClock.uptimeMillis() - mStartTime - mTransDuration) / (mShowDuration * 1f), 1.f);
         } else {
             //切换到第二个场景

@@ -1,4 +1,5 @@
 ## 插件选择
+- Key Promoter X
 - Lombok plugin
 - PGY upload plugin
 - fir.im upload plugin
@@ -12,3 +13,10 @@
 - Android ButterKnife Zelezny
 - Builder Generator
 - GLSL Support
+- adb idea
+- AndroidProguardPlugin
+- Android Parcelable code generator
+- Json Parser
+- JSONOnlineViewer
+- Genymotion
+- CodeGlance

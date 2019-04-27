@@ -1,7 +1,7 @@
 package com.llj.lib.opengl.anim;
 
 import android.support.annotation.RawRes;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import com.llj.lib.opengl.R;
@@ -23,7 +23,7 @@ public interface ITransition {
 
 
     default long getTransDuration() {
-        return 3000;
+        return 1000;
     }
 
     default long getShowDuration() {
@@ -31,7 +31,7 @@ public interface ITransition {
     }
 
     default Interpolator getInterpolator() {
-        return new AccelerateDecelerateInterpolator();
+        return new AccelerateInterpolator();
     }
 
     @RawRes
