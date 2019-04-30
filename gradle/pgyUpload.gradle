@@ -59,6 +59,7 @@ def uploadPgyApk(Project project, String apkFile, ApkUploadExtensions upload, Bu
     println "----------------------------------"
     println("apiKey:" + buildType.pgyApiKey)
     println("userKey:" + buildType.pgyUserKey)
+    println("appKey:" + buildType.pgyAppKey)
     println("dingTalkAccessToken:" + upload.dingTalkAccessToken)
     println "----------------------------------"
     def desc
