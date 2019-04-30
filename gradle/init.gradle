@@ -11,17 +11,24 @@ try {
 
 ext.useComponent = properties.getProperty("useComponent")=="true"
 ext.useMaven = properties.getProperty("useMaven")=="true"
+ext.useDexcount = properties.getProperty("useDexcount")=="true"
 ext.useApkUploadPlugin = properties.getProperty("useApkUploadPlugin")=="true"
 
 ext.pgyDebugApiKey = properties.getProperty("pgyDebugApiKey")
 ext.pgyDebugUserKey = properties.getProperty("pgyDebugUserKey")
+ext.pgyDebugAppKey = properties.getProperty("pgyDebugAppKey")
+
 ext.pgyBetaApiKey = properties.getProperty("pgyBetaApiKey")
 ext.pgyBetaUserKey = properties.getProperty("pgyBetaUserKey")
+ext.pgyBetaAppKey = properties.getProperty("pgyBetaAppKey")
+
 ext.pgyReleaseApiKey = properties.getProperty("pgyReleaseApiKey")
 ext.pgyReleaseUserKey = properties.getProperty("pgyReleaseUserKey")
+ext.pgyReleaseAppKey = properties.getProperty("pgyReleaseAppKey")
+
 ext.pgyUploadUrl = properties.getProperty("pgyUploadUrl")
 
-ext.dingTalkAccessToken = properties.getProperty("dingTalkAccessToken")
+ext.dingTalkDebugAccessToken = properties.getProperty("dingTalkDebugAccessToken")
 
 ext.kodoAccessKey = properties.getProperty("kodoAccessKey")
 ext.kodoSecretKey = properties.getProperty("kodoSecretKey")

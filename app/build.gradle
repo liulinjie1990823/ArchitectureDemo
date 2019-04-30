@@ -1,4 +1,6 @@
-apply plugin: 'com.getkeepsafe.dexcount'
+if (useDexcount) {
+    apply plugin: 'com.getkeepsafe.dexcount'
+}
 apply plugin: 'walle'
 //apply plugin: 'plugin-tracker-inject'
 
@@ -178,25 +180,28 @@ apply from: rootProject.file('gradle/zipChannel.gradle')
 
 if (useApkUploadPlugin) {
     //使用插件
-    apply plugin: 'com.llj.plugin.upload.apkUploadPlugin'
+//    apply plugin: 'com.llj.plugin.upload.apkUploadPlugin'
     //使用脚本
-//    apply from: rootProject.file('gradle/pgyUpload.gradle')
+    apply from: rootProject.file('gradle/pgyUpload.gradle')
 
     upload {
-        dingTalkAccessToken = rootProject.ext.dingTalkAccessToken
+        dingTalkAccessToken = dingTalkDebugAccessToken
 
         buildTypes {
             debug {
-                pgyApiKey = rootProject.ext.pgyDebugApiKey
-                pgyUserKey = rootProject.ext.pgyDebugUserKey
+                pgyApiKey = pgyDebugApiKey
+                pgyUserKey = pgyDebugUserKey
+                pgyAppKey = pgyDebugAppKey
             }
             beta {
-                pgyApiKey = rootProject.ext.pgyBetaApiKey
-                pgyUserKey = rootProject.ext.pgyBetaUserKey
+                pgyApiKey = pgyBetaApiKey
+                pgyUserKey = pgyBetaUserKey
+                pgyAppKey = pgyBetaAppKey
             }
             release {
-                pgyApiKey = rootProject.ext.pgyReleaseApiKey
-                pgyUserKey = rootProject.ext.pgyReleaseUserKey
+                pgyApiKey = pgyReleaseApiKey
+                pgyUserKey = pgyReleaseUserKey
+                pgyAppKey = pgyReleaseAppKey
             }
         }
     }
