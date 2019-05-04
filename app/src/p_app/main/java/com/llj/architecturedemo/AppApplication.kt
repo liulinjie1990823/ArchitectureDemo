@@ -19,8 +19,8 @@ import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
 import com.llj.lib.statusbar.LightStatusBarCompat
 import com.llj.lib.statusbar.StatusBarCompat
 import com.llj.socialization.SocialConstants
-import com.llj.socialization.share.SocialConfig
-import com.llj.socialization.share.SocialManager
+import com.llj.socialization.init.SocialConfig
+import com.llj.socialization.init.SocialManager
 import com.tencent.bugly.crashreport.CrashReport
 import dagger.android.AndroidInjector
 

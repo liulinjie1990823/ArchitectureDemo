@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.llj.socialization.INFO;
-import com.llj.socialization.Logger;
 import com.llj.socialization.ResponseActivity;
+import com.llj.socialization.log.INFO;
+import com.llj.socialization.log.Logger;
 import com.llj.socialization.login.callback.LoginListener;
 import com.llj.socialization.login.interfaces.ILogin;
 import com.llj.socialization.login.model.BaseToken;

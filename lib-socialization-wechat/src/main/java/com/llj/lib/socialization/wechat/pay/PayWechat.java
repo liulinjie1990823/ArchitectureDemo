@@ -3,13 +3,13 @@ package com.llj.lib.socialization.wechat.pay;
 import android.content.Context;
 import android.content.Intent;
 
-import com.llj.socialization.INFO;
+import com.llj.socialization.init.SocialManager;
+import com.llj.socialization.log.INFO;
 import com.llj.socialization.pay.PayPlatformType;
 import com.llj.socialization.pay.callback.PayListener;
 import com.llj.socialization.pay.interfaces.IPay;
 import com.llj.socialization.pay.model.PayParam;
 import com.llj.socialization.pay.model.PayResult;
-import com.llj.socialization.share.SocialManager;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;

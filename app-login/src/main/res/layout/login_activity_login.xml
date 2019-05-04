@@ -33,8 +33,20 @@
         android:id="@+id/login_viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rv_login"
         app:layout_constraintTop_toBottomOf="@+id/login_tabs"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_login"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+
+    </android.support.v7.widget.RecyclerView>
 
 
 </android.support.constraint.ConstraintLayout>

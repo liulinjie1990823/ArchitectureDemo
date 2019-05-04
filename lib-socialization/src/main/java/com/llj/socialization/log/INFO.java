@@ -1,4 +1,4 @@
-package com.llj.socialization;
+package com.llj.socialization.log;
 
 /**
  * PROJECT:babyphoto_app

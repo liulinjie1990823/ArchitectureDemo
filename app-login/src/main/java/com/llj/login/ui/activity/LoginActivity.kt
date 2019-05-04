@@ -6,14 +6,25 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
+import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
+import android.widget.ImageView
+import android.widget.TextView
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.llj.adapter.ListBasedAdapter
+import com.llj.adapter.UniversalBind
+import com.llj.adapter.util.ViewHolderHelper
 import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
+import com.llj.lib.utils.LogUtil
 import com.llj.login.R
 import com.llj.login.ui.fragment.CodeLoginFragmentMvc
 import com.llj.login.ui.fragment.PasswordLoginFragment
+import com.llj.socialization.login.LoginPlatformType
+import com.llj.socialization.login.LoginUtil
+import com.llj.socialization.login.callback.LoginListener
+import com.llj.socialization.login.model.LoginResult
 import net.lucode.hackware.magicindicator.MagicIndicator
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -33,19 +44,59 @@ import java.util.*
 class LoginActivity : ComponentMvcBaseActivity() {
     @BindView(com.llj.login.R2.id.login_tabs) lateinit var mTabs: MagicIndicator
     @BindView(com.llj.login.R2.id.login_viewpager) lateinit var mViewPager: ViewPager
+    @BindView(com.llj.login.R2.id.rv_login) lateinit var mRecyclerView: RecyclerView
 
     override fun layoutId(): Int {
         return R.layout.login_activity_login
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-
     }
 
     override fun initData() {
+        initList()
         initTab()
     }
 
+    private fun initList() {
+        val arrayList = arrayListOf<Data>()
+        arrayList.add(Data(R.drawable.def_user_header, "qq", LoginPlatformType.QQ))
+        arrayList.add(Data(R.drawable.def_user_header, "weixin", LoginPlatformType.WECHAT))
+        arrayList.add(Data(R.drawable.def_user_header, "sina", LoginPlatformType.SINA))
+
+        UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
+                .setLinearLayoutManager(RecyclerView.HORIZONTAL)
+                .build()
+                .getAdapter()
+    }
+
+
+    private inner class MyAdapter(list: MutableList<Data>?) : ListBasedAdapter<Data, ViewHolderHelper>(list) {
+        init {
+            addItemLayout(R.layout.login_item_third_login)
+        }
+
+        override fun onBindViewHolder(viewHolder: ViewHolderHelper, item: Data?, position: Int) {
+            if (item == null) {
+                return
+            }
+
+            val imageView = viewHolder.getView<ImageView>(R.id.iv_login)
+            val textView = viewHolder.getView<TextView>(R.id.tv_login)
+            imageView.setImageResource(item.resId)
+            setText(textView, position.toString() + "  " + item.text)
+
+            viewHolder.itemView.setOnClickListener {
+                LoginUtil.login(mContext, item.platform, object : LoginListener() {
+                    override fun onLoginResponse(result: LoginResult?) {
+                        LogUtil.LLJi(result.toString())
+                    }
+                }, true)
+            }
+        }
+    }
+
+    private inner class Data(var resId: Int, var text: String, var platform: Int)
 
     private fun initTab() {
         val titles = ArrayList<String>()

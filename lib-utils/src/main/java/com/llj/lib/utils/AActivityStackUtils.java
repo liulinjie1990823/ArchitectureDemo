@@ -7,14 +7,15 @@ import java.util.LinkedList;
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/4/26
+ *
+ * @author liulj
+ * @date 2018/4/26
  */
 public class AActivityStackUtils {
-    private static final LinkedList<Activity> sActivityList = new LinkedList<>();
+    private static final LinkedList<Activity> S_ACTIVITY_LIST = new LinkedList<>();
 
     public static int size() {
-        return sActivityList.size();
+        return S_ACTIVITY_LIST.size();
     }
 
     /**
@@ -23,8 +24,8 @@ public class AActivityStackUtils {
      * @return 当前最顶层的activity
      */
     public static Activity getCurrentActivity() {
-        if (sActivityList.size() >= 1) {
-            return sActivityList.get(sActivityList.size() - 1);
+        if (S_ACTIVITY_LIST.size() >= 1) {
+            return S_ACTIVITY_LIST.get(S_ACTIVITY_LIST.size() - 1);
         }
         return null;
     }
@@ -35,8 +36,9 @@ public class AActivityStackUtils {
      * @param activity
      */
     public static void addCurrentActivity(Activity activity) {
-        if (activity != null)
-            sActivityList.add(activity);
+        if (activity != null) {
+            S_ACTIVITY_LIST.add(activity);
+        }
     }
 
     /**
@@ -45,8 +47,9 @@ public class AActivityStackUtils {
      * @param activity
      */
     public static void removeCurrentActivity(Activity activity) {
-        if (activity != null)
-            sActivityList.remove(activity);
+        if (activity != null) {
+            S_ACTIVITY_LIST.remove(activity);
+        }
     }
 
     /**
@@ -55,8 +58,8 @@ public class AActivityStackUtils {
      * @return
      */
     public static Activity getPreviousActivity() {
-        if (sActivityList.size() >= 2) {
-            return sActivityList.get(sActivityList.size() - 2);
+        if (S_ACTIVITY_LIST.size() >= 2) {
+            return S_ACTIVITY_LIST.get(S_ACTIVITY_LIST.size() - 2);
         }
         return null;
     }
@@ -65,15 +68,16 @@ public class AActivityStackUtils {
      * 清除最上层以下所有的activity
      */
     public static void clearBottomActivities() {
-        if (sActivityList.size() >= 1) {
-            Activity lastActivity = sActivityList.get(sActivityList.size() - 1);
-            for (int i = 0; i < sActivityList.size() - 1; i++) {
-                Activity activity = sActivityList.get(i);
-                if (activity != null)
+        if (S_ACTIVITY_LIST.size() >= 1) {
+            Activity lastActivity = S_ACTIVITY_LIST.get(S_ACTIVITY_LIST.size() - 1);
+            for (int i = 0; i < S_ACTIVITY_LIST.size() - 1; i++) {
+                Activity activity = S_ACTIVITY_LIST.get(i);
+                if (activity != null) {
                     activity.finish();
+                }
             }
-            sActivityList.clear();
-            sActivityList.add(lastActivity);
+            S_ACTIVITY_LIST.clear();
+            S_ACTIVITY_LIST.add(lastActivity);
         }
     }
 
@@ -81,12 +85,13 @@ public class AActivityStackUtils {
      * 清除所有的activity
      */
     public static void removeAllActivity() {
-        for (int i = 0; i < sActivityList.size(); i++) {
-            Activity activity = sActivityList.get(i);
-            if (activity != null)
+        for (int i = 0; i < S_ACTIVITY_LIST.size(); i++) {
+            Activity activity = S_ACTIVITY_LIST.get(i);
+            if (activity != null) {
                 activity.finish();
+            }
         }
-        sActivityList.clear();
+        S_ACTIVITY_LIST.clear();
     }
 
     public static void exitApp() {

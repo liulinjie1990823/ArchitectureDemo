@@ -8,15 +8,15 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.llj.socialization.InstallUtil;
-import com.llj.socialization.Logger;
 import com.llj.socialization.R;
+import com.llj.socialization.init.SocialManager;
+import com.llj.socialization.log.Logger;
 import com.llj.socialization.share.ShareObject;
 import com.llj.socialization.share.ShareUtil;
-import com.llj.socialization.share.SocialManager;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShare;
 import com.llj.socialization.share.model.ShareResult;
+import com.llj.socialization.utils.InstallUtil;
 import com.tencent.connect.share.QQShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;

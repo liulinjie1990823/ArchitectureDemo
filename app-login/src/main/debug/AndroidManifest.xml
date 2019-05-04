@@ -44,7 +44,7 @@
     <application
         android:name="debug.MyApp"
         android:allowBackup="false"
-        android:icon="@mipmap/demo_a_ic_launcher"
+        android:icon="@mipmap/login_ic_launcher"
         android:supportsRtl="true"
         tools:replace="android:appComponentFactory"
         android:theme="@style/MyAppTheme.NoActionBar"

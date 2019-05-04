@@ -1,4 +1,4 @@
-package com.llj.architecturedemo.hook;
+package com.llj.socialization.login.hook;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -16,13 +16,13 @@ import java.lang.reflect.Method;
  * author llj
  * date 2018/8/29
  */
-public class EvilInstrumentation  extends Instrumentation {
+public class InstrumentationProxy extends Instrumentation {
     private static final String TAG = "InstrumentationProxy";
 
     // ActivityThread中原始的对象, 保存起来
     Instrumentation mBase;
 
-    public EvilInstrumentation(Instrumentation base) {
+    public InstrumentationProxy(Instrumentation base) {
         mBase = base;
     }
 
@@ -35,7 +35,8 @@ public class EvilInstrumentation  extends Instrumentation {
                 "\ncontextThread = [" + contextThread + "], \ntoken = [" + token + "], " +
                 "\ntarget = [" + target + "], \nintent = [" + intent +
                 "], \nrequestCode = [" + requestCode + "], \noptions = [" + options + "]");
-
+        if (intent != null)
+            Log.d(TAG, intent.getDataString()==null?"":intent.getDataString());
         // 开始调用原始的方法, 调不调用随你,但是不调用的话, 所有的startActivity都失效了.
         // 由于这个方法是隐藏的,因此需要使用反射调用;首先找到这个方法
         try {

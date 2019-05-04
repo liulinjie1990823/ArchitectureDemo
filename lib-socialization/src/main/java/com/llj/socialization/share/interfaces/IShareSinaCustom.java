@@ -11,6 +11,6 @@ import com.llj.socialization.share.callback.ShareListener;
  * Created by llj on 2017/1/19.
  */
 
-public interface ShareSinaCustomInterface extends IShare {
+public interface IShareSinaCustom extends IShare {
     void shareCustom(Activity activity, int platform, ShareObject shareObject, ShareListener listener);
 }

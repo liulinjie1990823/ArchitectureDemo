@@ -20,3 +20,10 @@
 - JSONOnlineViewer
 - Genymotion
 - CodeGlance
+- Image Icon Viewer
+- Android Code Generator
+- MvpAutoCodePlus
+- eventbus3-intellij-plugin
+- Alibaba Java Coding Guidelines plugin support
+- CheckStyle
+

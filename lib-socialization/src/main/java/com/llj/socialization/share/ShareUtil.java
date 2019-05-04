@@ -10,9 +10,9 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.llj.socialization.INFO;
 import com.llj.socialization.R;
 import com.llj.socialization.ResponseActivity;
+import com.llj.socialization.log.INFO;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShare;
 import com.llj.socialization.share.model.ShareResult;

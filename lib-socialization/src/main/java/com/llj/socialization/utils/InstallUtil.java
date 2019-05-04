@@ -1,4 +1,4 @@
-package com.llj.socialization;
+package com.llj.socialization.utils;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

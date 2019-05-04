@@ -8,16 +8,16 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.llj.socialization.InstallUtil;
-import com.llj.socialization.Logger;
 import com.llj.socialization.R;
+import com.llj.socialization.init.SocialManager;
+import com.llj.socialization.log.Logger;
 import com.llj.socialization.share.ShareObject;
 import com.llj.socialization.share.ShareUtil;
-import com.llj.socialization.share.SocialManager;
 import com.llj.socialization.share.callback.ShareListener;
-import com.llj.socialization.share.interfaces.ShareQzoneInterface;
+import com.llj.socialization.share.interfaces.IShareQzone;
 import com.llj.socialization.share.model.ShareResult;
 import com.llj.socialization.share.process.ImageDecoder;
+import com.llj.socialization.utils.InstallUtil;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzonePublish;
 import com.tencent.connect.share.QzoneShare;
@@ -37,7 +37,7 @@ import bolts.Task;
  * Created by llj on 2017/1/18.
  */
 
-public class ShareQzone implements ShareQzoneInterface {
+public class ShareQzone implements IShareQzone {
     /**
      * public static final int SHARE_TO_QZONE_TYPE_NO_TYPE = 0;
      * public static final int SHARE_TO_QZONE_TYPE_IMAGE_TEXT = 1;

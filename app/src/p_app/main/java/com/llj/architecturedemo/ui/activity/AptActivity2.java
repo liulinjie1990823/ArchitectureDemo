@@ -41,6 +41,7 @@ public class AptActivity2 extends ComponentMvcBaseActivity {
     @Override
     public void initViews(@Nullable Bundle savedInstanceState) {
 //        NeacyFinder.inject(this);
+
     }
 
     @Override

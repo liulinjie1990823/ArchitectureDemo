@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.llj.socialization.INFO;
 import com.llj.socialization.ResponseActivity;
+import com.llj.socialization.init.SocialManager;
+import com.llj.socialization.log.INFO;
 import com.llj.socialization.login.LoginPlatformType;
 import com.llj.socialization.login.callback.LoginListener;
 import com.llj.socialization.login.interfaces.ILogin;
@@ -13,7 +14,6 @@ import com.llj.socialization.login.model.BaseToken;
 import com.llj.socialization.login.model.LoginResult;
 import com.llj.socialization.login.model.WxToken;
 import com.llj.socialization.login.model.WxUser;
-import com.llj.socialization.share.SocialManager;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;

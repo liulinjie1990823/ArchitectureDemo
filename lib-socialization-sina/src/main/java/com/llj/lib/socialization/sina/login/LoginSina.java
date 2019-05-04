@@ -6,12 +6,12 @@ import android.content.Intent;
 
 import com.llj.lib.socialization.sina.api.UsersAPI;
 import com.llj.lib.socialization.sina.login.model.WeiboToken;
+import com.llj.socialization.init.SocialManager;
 import com.llj.socialization.login.LoginPlatformType;
 import com.llj.socialization.login.callback.LoginListener;
 import com.llj.socialization.login.interfaces.ILogin;
 import com.llj.socialization.login.model.BaseToken;
 import com.llj.socialization.login.model.LoginResult;
-import com.llj.socialization.share.SocialManager;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AccessTokenKeeper;
 import com.sina.weibo.sdk.auth.AuthInfo;

@@ -7,11 +7,11 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.llj.socialization.init.SocialManager;
 import com.llj.socialization.share.ShareObject;
 import com.llj.socialization.share.ShareUtil;
-import com.llj.socialization.share.SocialManager;
 import com.llj.socialization.share.callback.ShareListener;
-import com.llj.socialization.share.interfaces.ShareSinaCustomInterface;
+import com.llj.socialization.share.interfaces.IShareSinaCustom;
 import com.llj.socialization.share.model.ShareResult;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.api.ImageObject;
@@ -30,7 +30,7 @@ import bolts.Task;
  * Created by llj on 2017/1/18.
  */
 
-public class ShareSina implements ShareSinaCustomInterface {
+public class ShareSina implements IShareSinaCustom {
     public static final String         TAG = ShareSina.class.getSimpleName();
     /**
      * 微博分享限制thumb image必须小于2097152，否则点击分享会没有反应

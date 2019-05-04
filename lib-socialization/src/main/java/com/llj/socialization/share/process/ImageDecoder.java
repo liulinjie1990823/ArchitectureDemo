@@ -7,7 +7,7 @@ import android.graphics.Matrix;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.llj.socialization.INFO;
+import com.llj.socialization.log.INFO;
 import com.llj.socialization.share.ShareObject;
 
 import java.io.BufferedOutputStream;

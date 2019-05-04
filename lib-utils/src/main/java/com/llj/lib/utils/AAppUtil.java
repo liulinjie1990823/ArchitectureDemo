@@ -170,7 +170,9 @@ public class AAppUtil {
                 X509Certificate cert = (X509Certificate) cf.generateCertificate(
                         stream);
                 debuggable = cert.getSubjectX500Principal().equals(DEBUG_DN);
-                if (debuggable) break;
+                if (debuggable) {
+                    break;
+                }
             }
         } catch (PackageManager.NameNotFoundException e) {
         } catch (CertificateException e) {
@@ -228,7 +230,9 @@ public class AAppUtil {
      * @param file The file.
      */
     public static void installApp(@NonNull Context context, final File file) {
-        if (!isFileExists(file)) return;
+        if (!isFileExists(file)) {
+            return;
+        }
         context.startActivity(AIntentUtils.getInstallAppIntent(context,file, true));
     }
 

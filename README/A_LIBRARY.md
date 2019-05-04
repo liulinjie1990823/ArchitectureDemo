@@ -99,3 +99,7 @@
 - 布局回收优化：<https://github.com/facebook/litho>
 - 直尺效果：<https://github.com/kevalpatel2106/android-ruler-picker>
 
+## plugin选择
+
+- gradle-task-tree：<https://github.com/dorongold/gradle-task-tree>
+

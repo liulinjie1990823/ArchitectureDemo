@@ -1,4 +1,4 @@
-package com.llj.socialization.share;
+package com.llj.socialization.init;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -34,6 +34,7 @@ public class SocialConfig {
 
     }
 
+    //防止配置的常量在内存中被回收，保存到本地
     private void saveToPreferences() {
         SharedPreferences socialConfig = context.getSharedPreferences("SocialConfig", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = socialConfig.edit();
@@ -47,9 +48,9 @@ public class SocialConfig {
         edit.apply();
     }
 
+    //内存回收后恢复
     private void initByPreferences() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("SocialConfig", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = sharedPreferences.edit();
         this.wxId = sharedPreferences.getString("wxId", "");
         this.wxSecret = sharedPreferences.getString("wxSecret", "");
         this.qqId = sharedPreferences.getString("qqId", "");
@@ -132,5 +133,9 @@ public class SocialConfig {
 
     public boolean isDebug() {
         return debug;
+    }
+
+    public Context getContext() {
+        return context;
     }
 }
