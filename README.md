@@ -1,9 +1,40 @@
 # ArchitectureDemo
 
+### 快速开发框架基础类库
+- 基础框架库 [lib-base](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-base)
+- 图片加载封装 [lib-image-loader](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-image-loader)
+- 系统图片选择封装 [lib-image-select](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-image-select)
+- 地图 [lib-map](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-map)
+- 网络 [lib-net](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-net)
+- opengl封装 [lib-opengl](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-opengl)
+- 系统图片选择封装 [lib-oss](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-oss)
+- 二维码扫描 [lib-qrcodecore](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-qrcodecore)
+- 拍照和录制视频 [lib-record](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-record)
+- 社会化组件 [lib-socialization](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-socialization)
+- 页面状态切换 [lib-statelayout](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-statelayout)
+- 状态栏 [lib-statusbar](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-statusbar)
+- 滑动返回关闭 [lib-swipeback](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-swipeback)
+- 页面埋点 [lib-tracker](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-tracker)
+- 通用适配器 [lib-universalAdapter](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-universalAdapter)
+- 公共工具类 [lib-utils](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-utils)
+- webview [lib-webview](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-webview)
+- 自动上传pgy并发钉钉通知 [plugin-upload](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/plugin-upload)
+
+### 其他三方类库选择
+[library](https://github.com/liulinjie1990823/ArchitectureDemo/blob/master/README/A_LIBRARY.md)
+
+### ide插件选择
+[plugin](https://github.com/liulinjie1990823/ArchitectureDemo/blob/master/README/A_PLUGIN.md)
+
+### 加快编译
+
+### apk瘦身
+
 ### 整体框架
-1. 组件化使用cc框架来解耦：https://github.com/luckybilly/CC
- 一些常用组件化方案对比：https://github.com/luckybilly/AndroidComponentizeLibs
-2. 页面跳转使用Arouter来跳转，同时也可以使用实现IProvider接口，并下沉到中间件中，然后在其他组件中使用注解获取相应对象，来实现通信
+1. 组件化使用cc框架：<https://github.com/luckybilly/CC>，组件件的交互使用cc的IComponent接口，在onCall中进行调用
+ 一些常用组件化方案对比：<https://github.com/luckybilly/AndroidComponentizeLibs>
+2. 代码解耦使用dagger2：<https://github.com/google/dagger>
+3. 页面跳转使用ARouter：<https://github.com/alibaba/ARouter>
 
 ### 页面跳转
 1. 界面是否登录通过一个int类型的值判断，每个跳转都要经过LoginInterceptor，判断如果需要登录，将要跳转界面的path和Bundle一同

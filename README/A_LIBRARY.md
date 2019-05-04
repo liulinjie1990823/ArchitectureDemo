@@ -8,7 +8,7 @@
 - butterknife：<https://github.com/JakeWharton/butterknife> com.jakewharton:butterknife:9.0.0-rc2
 
 ##### 解耦
-- dagger：<https://github.com/google/dagger>
+- dagger2：<https://github.com/google/dagger>
 
 ##### 事件
 - eventbus：<https://github.com/greenrobot/EventBus> org.greenrobot:eventbus:3.1.1
@@ -28,13 +28,17 @@
 ##### 数据库
 - DBFlow：<https://github.com/agrosner/DBFlow>
 
+##### KV存储
+- MMKV：<https://github.com/Tencent/MMKV>
+- Treasure：<https://github.com/baoyongzhang/Treasure>
+
 ##### json解析
 - gson：<https://github.com/google/gson> com.google.code.gson:gson:2.8.5
 - fastjson-android
 
 ##### 图片加载
 - fresco：<https://github.com/facebook/fresco>
-- Glide：<https://github.com/bumptech/glide>
+- glide：<https://github.com/bumptech/glide>
 
 ##### 权限校验
 - permission：<https://github.com/yanzhenjie/AndPermission> com.yanzhenjie:permission:2.0.0-rc12

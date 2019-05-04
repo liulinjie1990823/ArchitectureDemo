@@ -1,6 +1,5 @@
-# lib-zbar
+# lib-image-select
 
-https://blog.csdn.net/yanzhenjie1003/article/details/71641368
 
 ## License
 ```text

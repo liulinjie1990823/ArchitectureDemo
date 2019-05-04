@@ -1,6 +1,5 @@
-# lib-zbar
+# lib-statelayout
 
-https://blog.csdn.net/yanzhenjie1003/article/details/71641368
 
 ## License
 ```text

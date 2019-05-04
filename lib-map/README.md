@@ -1,6 +1,5 @@
-# lib-zbar
+# lib-map
 
-https://blog.csdn.net/yanzhenjie1003/article/details/71641368
 
 ## License
 ```text
