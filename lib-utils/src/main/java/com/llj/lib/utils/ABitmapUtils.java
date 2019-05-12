@@ -281,6 +281,9 @@ public class ABitmapUtils {
     public static File bitmapToFile(Bitmap bitmap, File file, Bitmap.CompressFormat format, int quality) {
         if (bitmap != null && !bitmap.isRecycled()) {
             try {
+                if (!file.getParentFile().exists()) {
+                    file.getParentFile().mkdirs();
+                }
                 BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
                 bitmap.compress(format, quality, bos);
                 bos.flush();
