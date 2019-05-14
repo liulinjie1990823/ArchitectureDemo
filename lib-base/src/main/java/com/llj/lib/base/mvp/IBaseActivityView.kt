@@ -21,4 +21,6 @@ interface IBaseActivityView :
     fun <Data> bindRequestLifecycle(): AutoDisposeConverter<BaseResponse<Data>> {
         return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))
     }
+
+    fun onDataError(tag: Int, e: Throwable)
 }

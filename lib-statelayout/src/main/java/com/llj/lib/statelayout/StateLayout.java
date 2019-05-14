@@ -10,18 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 /**
  * ArchitectureDemo.
- * describe:
- * author llj
- * date 2018/8/14
+ * describe:状态布局
+ *
+ * @author llj
+ * @date 2018/8/14
  */
 public class StateLayout extends FrameLayout {
     private static final int STATE_CONTENT  = -1;
@@ -44,7 +47,7 @@ public class StateLayout extends FrameLayout {
     /**
      * 四种状态布局
      **/
-    private View mNoNetworkView, mLoadingView, mLoadingErrorView, mEmptyView, mTextTipView;
+    private View mNoNetworkView, mLoadingView, mErrorView, mEmptyView, mTextTipView;
     /***
      * 存放所有的布局文件
      **/
@@ -52,7 +55,7 @@ public class StateLayout extends FrameLayout {
     /***
      * 当前显示的布局
      */
-    private int mShowState = STATE_CONTENT;
+    private int  mShowState = STATE_CONTENT;
 
     public StateLayout(Context context) {
         this(context, null);
@@ -86,9 +89,9 @@ public class StateLayout extends FrameLayout {
             //加载异常
             if (array.hasValue(R.styleable.StateLayout_errorLayout)) {
                 int errorId = array.getResourceId(R.styleable.StateLayout_errorLayout, R.layout.viewstatus_loading_faile);
-                mLoadingErrorView = inflater.inflate(errorId, null);
-                addView(mLoadingErrorView, params);
-                setViewVisibility(mLoadingErrorView, false);
+                mErrorView = inflater.inflate(errorId, null);
+                addView(mErrorView, params);
+                setViewVisibility(mErrorView, false);
             }
             //加载ing
             if (array.hasValue(R.styleable.StateLayout_loadingLayout)) {
@@ -126,9 +129,9 @@ public class StateLayout extends FrameLayout {
                 }
                 break;
             case STATE_ERROR:
-                if (mLoadingErrorView == null) {
-                    mLoadingErrorView = inflater.inflate(R.layout.viewstatus_loading_faile, null);
-                    pView = mLoadingErrorView;
+                if (mErrorView == null) {
+                    mErrorView = inflater.inflate(R.layout.viewstatus_loading_faile, null);
+                    pView = mErrorView;
                 }
                 break;
             case STATE_LOADING:
@@ -149,6 +152,8 @@ public class StateLayout extends FrameLayout {
                     pView = mTextTipView;
                 }
                 break;
+            default:
+                break;
         }
         if (pView != null) {
             addView(pView, params);
@@ -156,6 +161,11 @@ public class StateLayout extends FrameLayout {
         }
     }
 
+
+    public void setEmptyView(ArrayList<Change> changeTexts, OnClickListener listener) {
+        checkNullAndInflate(STATE_EMPTY);
+        changeTextOrImage(changeTexts, listener);
+    }
 
     /**
      * 显示空视图
@@ -169,16 +179,74 @@ public class StateLayout extends FrameLayout {
     }
 
     /**
+     * 替换原有的文字或者图片,并增加监听
+     *
+     * @param changes  changes
+     * @param listener listener
+     */
+    private void changeTextOrImage(ArrayList<Change> changes, OnClickListener listener) {
+        if (changes != null && changes.size() != 0) {
+            for (Change change : changes) {
+                if (change == null) {
+                    continue;
+                }
+                int id = getResources().getIdentifier(change.id, "id", getContext().getPackageName());
+
+                if (change.imgRes > 0) {
+                    ImageView imageView = findViewById(id);
+                    if (imageView != null) {
+                        imageView.setTag(id);
+                        imageView.setImageResource(change.imgRes);
+                        imageView.setOnClickListener(listener);
+                    }
+                } else {
+                    TextView textView = findViewById(id);
+                    if (textView != null) {
+                        textView.setTag(id);
+                        textView.setText(change.text);
+                        textView.setOnClickListener(listener);
+                    }
+                }
+
+            }
+        }
+    }
+
+    public static class Change {
+        //图片或者文字的id
+        public String id;
+        public String text;
+        public int    imgRes;
+
+        public Change(String id, String text) {
+            this.id = id;
+            this.text = text;
+        }
+
+        public Change(String id, int imgRes) {
+            this.id = id;
+            this.imgRes = imgRes;
+        }
+    }
+
+    public void setTextTipView(ArrayList<Change> changeTexts, OnClickListener listener) {
+        checkNullAndInflate(STATE_TEXT_TIP);
+        changeTextOrImage(changeTexts, listener);
+    }
+
+    /**
      * 显示纯文本提示
      */
-    public void showTextTipView(String text) {
+    public void showTextTipView() {
         checkNullAndInflate(STATE_TEXT_TIP);
-
-        TextView tv_tip = mTextTipView.findViewById(R.id.tv_tip);
-        tv_tip.setText(text);
         switchView(nowShowView(mShowState), mTextTipView);
 
         mShowState = STATE_TEXT_TIP;
+    }
+
+    public void setNoNetView(ArrayList<Change> changeTexts, OnClickListener listener) {
+        checkNullAndInflate(STATE_NO_NET);
+        changeTextOrImage(changeTexts, listener);
     }
 
     /**
@@ -186,10 +254,14 @@ public class StateLayout extends FrameLayout {
      */
     public void showNoNetView() {
         checkNullAndInflate(STATE_NO_NET);
-
         switchView(nowShowView(mShowState), mNoNetworkView);
 
         mShowState = STATE_NO_NET;
+    }
+
+    public void setLoadingView(ArrayList<Change> changeTexts, OnClickListener listener) {
+        checkNullAndInflate(STATE_LOADING);
+        changeTextOrImage(changeTexts, listener);
     }
 
     /**
@@ -197,10 +269,14 @@ public class StateLayout extends FrameLayout {
      */
     public void showLoadingView() {
         checkNullAndInflate(STATE_LOADING);
-
         switchView(nowShowView(mShowState), mLoadingView);
 
         mShowState = STATE_LOADING;
+    }
+
+    public void setErrorView(ArrayList<Change> changeTexts, OnClickListener listener) {
+        checkNullAndInflate(STATE_ERROR);
+        changeTextOrImage(changeTexts, listener);
     }
 
     /**
@@ -208,8 +284,7 @@ public class StateLayout extends FrameLayout {
      */
     public void showErrorView() {
         checkNullAndInflate(STATE_ERROR);
-
-        switchView(nowShowView(mShowState), mLoadingErrorView);
+        switchView(nowShowView(mShowState), mErrorView);
 
         mShowState = STATE_ERROR;
     }
@@ -223,62 +298,6 @@ public class StateLayout extends FrameLayout {
         mShowState = STATE_CONTENT;
     }
 
-    /**
-     * 设置没有网络时点击事件
-     * <p>
-     * 有默认点击事件
-     *
-     * @param pClick 点击回调
-     */
-    public void setNoNetClick(OnClickListener pClick) {
-        if (mNoNetworkView == null) {
-            throw new NullPointerException("view not inflate");
-        }
-        View view = mNoNetworkView.findViewById(R.id.state_no_net_click);
-        if (pClick != null) {
-            view.setOnClickListener(pClick);
-        } else {
-            view.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openWifiSetting(getContext());
-                }
-            });
-        }
-    }
-
-    /**
-     * 设置加载失败点击事件
-     *
-     * @param pClick 点击回调
-     */
-    public void setErrorClick(OnClickListener pClick) {
-        if (mLoadingErrorView == null) {
-            throw new NullPointerException("view not inflate");
-        }
-        mLoadingErrorView.findViewById(R.id.state_error_click).setOnClickListener(pClick);
-    }
-
-    /**
-     * 设置没有数据时，点击事件
-     *
-     * @param pClick 点击回调
-     */
-    public void setEmptyClick(OnClickListener pClick) {
-        if (mEmptyView == null) {
-            throw new NullPointerException("view not inflate");
-        }
-        View click = mEmptyView.findViewById(R.id.state_empty_click);
-        if (click == null) {
-            return;
-        }
-        if (pClick != null) {
-            click.setVisibility(VISIBLE);
-            click.setOnClickListener(pClick);
-        } else {
-            click.setVisibility(GONE);
-        }
-    }
 
     /**
      * 打开网络设置界面
@@ -310,13 +329,15 @@ public class StateLayout extends FrameLayout {
                 returnView = mEmptyView;
                 break;
             case STATE_ERROR:
-                returnView = mLoadingErrorView;
+                returnView = mErrorView;
                 break;
             case STATE_LOADING:
                 returnView = mLoadingView;
                 break;
             case STATE_NO_NET:
                 returnView = mNoNetworkView;
+                break;
+            default:
                 break;
         }
         return returnView;
@@ -397,7 +418,7 @@ public class StateLayout extends FrameLayout {
      * @param view
      */
     private void checkIsContentView(View view) {
-        if (view != null && view != mNoNetworkView && view != mLoadingView && view != mLoadingErrorView && view != mEmptyView && view != mTextTipView) {
+        if (view != null && view != mNoNetworkView && view != mLoadingView && view != mErrorView && view != mEmptyView && view != mTextTipView) {
             mContentView = view;
             int mixCount = 0;
             if (mNoNetworkView != null) {
@@ -406,7 +427,7 @@ public class StateLayout extends FrameLayout {
             if (mLoadingView != null) {
                 mixCount++;
             }
-            if (mLoadingErrorView != null) {
+            if (mErrorView != null) {
                 mixCount++;
             }
             if (mEmptyView != null) {

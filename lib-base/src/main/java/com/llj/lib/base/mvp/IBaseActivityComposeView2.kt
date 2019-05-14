@@ -16,7 +16,4 @@ interface IBaseActivityComposeView2<T1, T2> : IBaseActivityView {
     fun getParams2(): HashMap<String, Any>
     fun onDataSuccess2(result: T2)
 
-    fun onDataError(tag: Int, e: Throwable)
-
-
 }

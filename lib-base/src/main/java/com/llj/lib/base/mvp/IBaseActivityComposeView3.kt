@@ -19,5 +19,4 @@ interface IBaseActivityComposeView3<T1, T2, T3> : IBaseActivityView {
     fun getParams3(): HashMap<String, Any>
     fun onDataSuccess3(result: T3)
 
-    fun onDataError(tag: Int, e: Throwable)
 }

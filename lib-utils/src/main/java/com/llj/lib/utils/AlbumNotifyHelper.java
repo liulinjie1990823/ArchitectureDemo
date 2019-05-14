@@ -180,7 +180,7 @@ public class AlbumNotifyHelper {
 
     // 检测文件存在
     private static boolean checkFile(String filePath) {
-        boolean result = AFileUtils.fileIsExist(filePath);
+        boolean result = AFileUtils.exists(filePath);
         Log.e(TAG, "文件不存在 path = " + filePath);
         return result;
     }

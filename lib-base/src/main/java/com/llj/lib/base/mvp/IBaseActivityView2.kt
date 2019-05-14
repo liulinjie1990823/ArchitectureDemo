@@ -14,6 +14,5 @@ interface IBaseActivityView2<T> : IBaseActivityView {
 
     fun onDataSuccess2(result: T)
 
-    fun onDataError(tag: Int, e: Throwable)
 
 }

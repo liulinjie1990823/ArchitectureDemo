@@ -137,7 +137,7 @@ public class AVideoUtils {
                 //文件时长
                 long during = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION));
 
-                if (AFileUtils.fileIsExist(filePathTemp) && filePathTemp.endsWith(videoType) && during > minVideoDuring && during <= maxVideoDuring) {
+                if (AFileUtils.exists(filePathTemp) && filePathTemp.endsWith(videoType) && during > minVideoDuring && during <= maxVideoDuring) {
                     //文件路径
                     info.originalVideoFilePath = filePathTemp;
                     //文件大小

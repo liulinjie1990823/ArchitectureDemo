@@ -26,4 +26,5 @@
 - eventbus3-intellij-plugin
 - Alibaba Java Coding Guidelines plugin support
 - CheckStyle
+- Translation
 

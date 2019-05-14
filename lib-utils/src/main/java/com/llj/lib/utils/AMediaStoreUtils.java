@@ -49,7 +49,7 @@ public class AMediaStoreUtils {
      * @param height     高度
      */
     public static void insertImageToMediaStore(Context context, String filePath, long createTime, int width, int height) {
-        if (!AFileUtils.fileIsExist(filePath))
+        if (!AFileUtils.exists(filePath))
             return;
         createTime = getTimeWrap(createTime);
         ContentValues values = initCommonContentValues(filePath, createTime);
@@ -77,7 +77,7 @@ public class AMediaStoreUtils {
      * @param height     高度
      */
     public static void insertVideoToMediaStore(Context context, String filePath, long createTime, int width, int height, long duration) {
-        if (!AFileUtils.fileIsExist(filePath))
+        if (!AFileUtils.exists(filePath))
             return;
         createTime = getTimeWrap(createTime);
         ContentValues values = initCommonContentValues(filePath, createTime);

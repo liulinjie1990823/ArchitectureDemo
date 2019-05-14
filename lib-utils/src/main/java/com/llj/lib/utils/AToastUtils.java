@@ -31,8 +31,9 @@ public class AToastUtils {
 
     public static void init(Toast toast) {
         mToast = toast;
-        if (sHandler == null)
+        if (sHandler == null) {
             sHandler = new Handler(Looper.getMainLooper());
+        }
     }
 
     public static void show(@StringRes int resId) {
@@ -65,9 +66,9 @@ public class AToastUtils {
         try {
             if (!TextUtils.isEmpty(text)) {
                 if (Looper.myLooper() == Looper.getMainLooper()) {
-                    if (mToast == null)
+                    if (mToast == null) {
                         mToast = Toast.makeText(Utils.getApp(), text, duration);
-                    else {
+                    } else {
                         mToast.setText(text);
                         mToast.setDuration(duration);
                     }
@@ -76,9 +77,9 @@ public class AToastUtils {
                     sHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if (mToast == null)
+                            if (mToast == null) {
                                 mToast = Toast.makeText(Utils.getApp(), text, duration);
-                            else {
+                            } else {
                                 mToast.setText(text);
                                 mToast.setDuration(duration);
                             }

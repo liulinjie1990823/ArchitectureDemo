@@ -73,8 +73,9 @@ public class AFileUtils {
      * @param filePath 文件路径,文件夹则无效
      */
     private static void scanFileByBroadcast(Context context, String filePath) {
-        if (!fileIsExist(filePath))
+        if (!exists(filePath)) {
             return;
+        }
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         intent.setData(Uri.fromFile(new File(filePath)));
         context.sendBroadcast(intent);
@@ -89,9 +90,9 @@ public class AFileUtils {
      * @param onScanCompletedListener
      */
     private static void scanFile(Context context, String filePath, MediaScannerConnection.OnScanCompletedListener onScanCompletedListener) {
-        if ((!fileIsExist(filePath))
-                || onScanCompletedListener == null)
+        if ((!exists(filePath)) || onScanCompletedListener == null) {
             return;
+        }
         MediaScannerConnection.scanFile(context,
                 new String[]{filePath}, null,
                 onScanCompletedListener);
@@ -104,7 +105,7 @@ public class AFileUtils {
      *
      * @return
      */
-    public static boolean fileIsExist(String filePath) {
+    public static boolean exists(String filePath) {
         return !TextUtils.isEmpty(filePath) && (new File(filePath).exists());
     }
 

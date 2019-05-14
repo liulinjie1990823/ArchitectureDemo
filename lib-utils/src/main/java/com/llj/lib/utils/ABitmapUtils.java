@@ -259,25 +259,17 @@ public class ABitmapUtils {
 
     //<editor-fold desc="bitmapToFile">
     public static File bitmapToFile(Bitmap bitmap, File file) {
-        return bitmapToFile(bitmap, file, Bitmap.CompressFormat.JPEG, DEFAULT_QUALITY);
+        return bitmapToFile(bitmap, file, DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY);
     }
 
     public static File bitmapToFile(Bitmap bitmap, File file, int quality) {
-        return bitmapToFile(bitmap, file, Bitmap.CompressFormat.JPEG, quality);
+        return bitmapToFile(bitmap, file, DEFAULT_COMPRESS_FORMAT, quality);
     }
 
     public static File bitmapToFile(Bitmap bitmap, File file, Bitmap.CompressFormat format) {
         return bitmapToFile(bitmap, file, format, DEFAULT_QUALITY);
     }
 
-    /**
-     * @param bitmap
-     * @param file
-     * @param format
-     * @param quality
-     *
-     * @return
-     */
     public static File bitmapToFile(Bitmap bitmap, File file, Bitmap.CompressFormat format, int quality) {
         if (bitmap != null && !bitmap.isRecycled()) {
             try {
@@ -295,18 +287,18 @@ public class ABitmapUtils {
         return file;
     }
 
-
     public static File bitmapToFile(Bitmap bitmap, String path) {
         return bitmapToFile(bitmap, path, DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY);
+    }
+
+    public static File bitmapToFile(Bitmap bitmap, String path, int quality) {
+        return bitmapToFile(bitmap, path, DEFAULT_COMPRESS_FORMAT, quality);
     }
 
     public static File bitmapToFile(Bitmap bitmap, String path, Bitmap.CompressFormat format) {
         return bitmapToFile(bitmap, path, format, DEFAULT_QUALITY);
     }
 
-    public static File bitmapToFile(Bitmap bitmap, String path, int quality) {
-        return bitmapToFile(bitmap, path, DEFAULT_COMPRESS_FORMAT, quality);
-    }
 
     public static File bitmapToFile(Bitmap bitmap, String path, Bitmap.CompressFormat format, int quality) {
         if (TextUtils.isEmpty(path)) {
@@ -317,21 +309,6 @@ public class ABitmapUtils {
     //</editor-fold desc="bitmapToFile">
 
     //<editor-fold desc="saveBitmapToSD">
-    public static boolean saveBitmapToSD(String filePath, Bitmap bitmap) {
-        return saveBitmapToSD(null, filePath, bitmap, DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY, false);
-    }
-
-    public static boolean saveBitmapToSD(String filePath, Bitmap bitmap, int quality) {
-        return saveBitmapToSD(null, filePath, bitmap, DEFAULT_COMPRESS_FORMAT, quality, false);
-    }
-
-    public static boolean saveBitmapToSD(String filePath, Bitmap bitmap, Bitmap.CompressFormat format) {
-        return saveBitmapToSD(null, filePath, bitmap, format, DEFAULT_QUALITY, false);
-    }
-
-    public static boolean saveBitmapToSD(String filePath, Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
-        return saveBitmapToSD(null, filePath, bitmap, format, quality, false);
-    }
 
     public static boolean saveBitmapToSD(Context context, String filePath, Bitmap bitmap, Bitmap.CompressFormat format, int quality, boolean insertMediaStore) {
         File file = bitmapToFile(bitmap, new File(filePath), format, quality);
@@ -458,8 +435,9 @@ public class ABitmapUtils {
      * @return
      */
     public static Bitmap getRoundBitmap(Bitmap bitmap) {
-        if (bitmap == null)
+        if (bitmap == null) {
             return null;
+        }
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         float roundPx;
@@ -647,8 +625,9 @@ public class ABitmapUtils {
      * @return 剪切后返回的图片
      */
     public static final Bitmap getSquareCropBitmap(Bitmap bitmap) {
-        if (bitmap == null)
+        if (bitmap == null) {
             return null;
+        }
         int w = bitmap.getWidth(); // 得到图片的宽，高
         int h = bitmap.getHeight();
 
@@ -910,7 +889,7 @@ public class ABitmapUtils {
      */
     public static Bitmap getInnerAreaRatioBitmap(int width, int height, String largeImagePath) {
         Bitmap bitmap = null;
-        if (AFileUtils.fileIsExist(largeImagePath)) {
+        if (AFileUtils.exists(largeImagePath)) {
             BitmapFactory.Options opts = new BitmapFactory.Options();
             opts.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(largeImagePath, opts);
@@ -948,8 +927,9 @@ public class ABitmapUtils {
                 bitmap = BitmapFactory.decodeFile(largeImagePath, opts);
             }
         }
-        if (bitmap != null)
+        if (bitmap != null) {
             LogUtil.LLJe("处理后图片的宽高比:" + bitmap.getWidth() + "x" + bitmap.getHeight());
+        }
         return bitmap;
     }
 
@@ -979,8 +959,9 @@ public class ABitmapUtils {
         } else if (w < h && h > hh) { // 如果高度高的话根据宽度固定大小缩放
             be = (int) (newOpts.outHeight / hh);
         }
-        if (be <= 0)
+        if (be <= 0) {
             be = 1;
+        }
         newOpts.inSampleSize = be;// 设置缩放比例
         // 重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
         newOpts.inPreferredConfig = Config.ARGB_8888;// 该模式是默认的,可不设
@@ -1032,7 +1013,7 @@ public class ABitmapUtils {
      * @throws Exception
      */
     public static void createImageThumbnail(Context context, String largeImagePath, String thumbFilePath, int quality, int allPx) throws Exception {
-        if (AFileUtils.fileIsExist(largeImagePath)) {
+        if (AFileUtils.exists(largeImagePath)) {
             BitmapFactory.Options opts = new BitmapFactory.Options();
             opts.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(largeImagePath, opts);
@@ -1055,7 +1036,7 @@ public class ABitmapUtils {
                 bitmap = ABitmapUtils.rotateBitmap(bitmap, degree);
             }
             //保存到文件中
-            ABitmapUtils.saveBitmapToSD(thumbFilePath, bitmap, Bitmap.CompressFormat.JPEG, quality);
+            ABitmapUtils.saveBitmapToSD(context,thumbFilePath, bitmap, Bitmap.CompressFormat.JPEG, quality,false);
             if (bitmap != null && !bitmap.isRecycled()) {
                 LogUtil.LLJe("已经完成一张图片的压缩,bitmap:" + bitmap.getWidth() + "x" + bitmap.getHeight());
                 LogUtil.LLJe("已经完成一张图片的压缩,bitmap的总像素:" + bitmap.getWidth() * bitmap.getHeight() / 10000.0 + "万");
@@ -1063,8 +1044,9 @@ public class ABitmapUtils {
             } else {
                 LogUtil.LLJe("bitmap == null || bitmap is recycled");
             }
-            if (bitmap != null && !bitmap.isRecycled())
+            if (bitmap != null && !bitmap.isRecycled()) {
                 bitmap.recycle();
+            }
             System.gc();
         }
     }
@@ -1138,7 +1120,7 @@ public class ABitmapUtils {
      */
     public static int[] getBitmapFileSize(String bitmapFilePath) {
         int[] hw = new int[]{0, 0};
-        if (AFileUtils.fileIsExist(bitmapFilePath)) {
+        if (AFileUtils.exists(bitmapFilePath)) {
             BitmapFactory.Options opts = new BitmapFactory.Options();
             opts.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(bitmapFilePath, opts);
