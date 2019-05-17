@@ -8,7 +8,7 @@ import java.util.*
  * author liulj
  * date 2018/6/28
  */
-interface IBaseActivityComposeView4<T1, T2, T3, T4> : IBaseActivityView {
+interface IBaseActivityComposeView4<T1, T2, T3, T4> : IBaseTaskView {
 
     fun getParams1(): HashMap<String, Any>
     fun onDataSuccess1(result: T1)

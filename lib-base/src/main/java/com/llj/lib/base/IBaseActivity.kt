@@ -12,8 +12,8 @@ import com.llj.lib.utils.AInputMethodManagerUtils
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/5/24
+ * @author llj
+ * @date 2018/5/24
  */
 interface IBaseActivity : IActivityStack {
 

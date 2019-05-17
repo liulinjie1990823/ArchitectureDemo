@@ -6,9 +6,9 @@ import com.llj.lib.utils.AActivityStackUtils
 
 /**
  * ArchitectureDemo
- * describe:
- * author liulj
- * date 2018/5/24
+ * describe:activity控制
+ * @author llj
+ * @date 2018/5/24
  */
 interface IActivityStack {
 

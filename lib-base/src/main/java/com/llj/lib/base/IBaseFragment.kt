@@ -5,10 +5,10 @@ import android.arch.lifecycle.Lifecycle
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/5/24
+ * @author liulj
+ * @date 2018/5/24
  */
-interface IFragment :IFragmentLazy{
+interface IBaseFragment :IBaseFragmentLazy{
     fun initLifecycleObserver(lifecycle: Lifecycle)
 
     fun moduleName(): String {

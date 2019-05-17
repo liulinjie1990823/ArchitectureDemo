@@ -17,9 +17,9 @@ import com.llj.lib.utils.AToastUtils
 
 /**
  * ArchitectureDemo
- * describe:
- * author llj
- * date 2018/5/24
+ * describe: 相关ui控制
+ * @author llj
+ * @date 2018/5/24
  */
 interface IUiHandler {
 

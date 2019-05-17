@@ -42,6 +42,7 @@ import java.util.*
  */
 @Route(path = CRouter.LOGIN_LOGIN_ACTIVITY)
 class LoginActivity : ComponentMvcBaseActivity() {
+
     @BindView(com.llj.login.R2.id.login_tabs) lateinit var mTabs: MagicIndicator
     @BindView(com.llj.login.R2.id.login_viewpager) lateinit var mViewPager: ViewPager
     @BindView(com.llj.login.R2.id.rv_login) lateinit var mRecyclerView: RecyclerView

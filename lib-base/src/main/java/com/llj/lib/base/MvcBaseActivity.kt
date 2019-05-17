@@ -24,7 +24,7 @@ import io.reactivex.disposables.Disposable
  * date 2019/3/13
  */
 abstract class MvcBaseActivity : AppCompatActivity()
-        , IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask, ITracker, IBaseActivityView {
+        , IBaseActivity, ICommon, IUiHandler, IEvent, ITracker, IBaseActivityView {
 
     val mTagLog: String = this.javaClass.simpleName
 

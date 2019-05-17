@@ -4,9 +4,9 @@ import org.greenrobot.eventbus.EventBus
 
 /**
  * ArchitectureDemo
- * describe:事件总线相关方法
- * author llj
- * date 2018/5/24
+ * describe:事件控制
+ * @author llj
+ * @date 2018/5/24
  */
 interface IEvent {
 

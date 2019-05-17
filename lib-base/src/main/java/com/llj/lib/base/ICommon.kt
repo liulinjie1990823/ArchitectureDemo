@@ -7,9 +7,9 @@ import android.view.View
 
 /**
  * ArchitectureDemo
- * describe:
- * author llj
- * date 2018/5/24
+ * describe:通用的方法
+ * @author llj
+ * @date 2018/5/24
  */
 interface ICommon {
     fun getIntentData(intent: Intent) {}

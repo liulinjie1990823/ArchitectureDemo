@@ -18,6 +18,7 @@ import dagger.android.AndroidInjection
  * date 2018/11/7
  */
 class LoadingService(name: String) : MvpBaseIntentService<PreLoadingPresenter>(name), IPreLoadingView {
+
     override fun getParams(): HashMap<String, Any> {
         return HashMap()
     }

@@ -132,13 +132,13 @@ abstract class MvcBaseFragment : BaseFragment() {
     }
     //</editor-fold >
 
-    //<editor-fold desc="IFragment">
+    //<editor-fold desc="IBaseFragment">
     override fun initLifecycleObserver(lifecycle: Lifecycle) {
         //将mPresenter作为生命周期观察者添加到lifecycle中
     }
     //</editor-fold >
 
-    //<editor-fold desc="IFragmentLazy">
+    //<editor-fold desc="IBaseFragmentLazy">
     override fun hasInitAndVisible(): Boolean {
         return mIsInit && mIsVisible
     }

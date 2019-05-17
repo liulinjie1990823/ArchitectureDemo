@@ -10,4 +10,5 @@ import com.llj.lib.base.ITask
  */
 interface IBaseView :  ITask {
 
+
 }

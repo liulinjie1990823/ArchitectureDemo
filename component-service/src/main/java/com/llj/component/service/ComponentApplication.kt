@@ -90,8 +90,8 @@ abstract class ComponentApplication : BaseApplication() {
         FrescoImageLoader.getInstance(this.applicationContext, mComponent.okHttpClient())
     }
 
-    override fun initStetho() {
-        super.initStetho()
+    override fun initFlipper() {
+        super.initFlipper()
         if (!isDebug()) {
             return
         }

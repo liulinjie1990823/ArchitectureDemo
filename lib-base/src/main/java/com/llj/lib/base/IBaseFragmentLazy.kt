@@ -3,10 +3,10 @@ package com.llj.lib.base
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/5/24
+ * @author llj
+ * @date 2018/5/24
  */
-interface IFragmentLazy {
+interface IBaseFragmentLazy {
 
     fun useLazyLoad(): Boolean {
         return false

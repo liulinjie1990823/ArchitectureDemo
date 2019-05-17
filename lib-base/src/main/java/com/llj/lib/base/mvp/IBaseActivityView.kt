@@ -9,18 +9,17 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 
 /**
  * ArchitectureDemo
- * describe:
- * author liulj
- * date 2018/5/16
+ * describe:需要ITask，ILoadingDialogHandler，LifecycleOwner。
+ * @author llj
+ * @date 2018/5/16
  */
-interface IBaseActivityView :
-        IBaseView,
-        LifecycleOwner,
-        ILoadingDialogHandler {
+interface IBaseActivityView : IBaseView, ILoadingDialogHandler , LifecycleOwner {
 
+    /**
+     *用AutoDispose绑定生命周期
+     */
     fun <Data> bindRequestLifecycle(): AutoDisposeConverter<BaseResponse<Data>> {
         return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))
     }
 
-    fun onDataError(tag: Int, e: Throwable)
 }

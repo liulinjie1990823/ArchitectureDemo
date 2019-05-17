@@ -53,8 +53,8 @@ abstract class BaseApplication : Application(),
             initToast() //全局toast初始化
 
             initCrashHandler() //异常捕捉
-            initStetho() //设置okhttp请求调试
             initLeakCanary() //监听内存溢出
+            initFlipper() //设置okhttp请求调试
             initStrictMode() //设置严格模式
         }
         injectApp()
@@ -88,7 +88,7 @@ abstract class BaseApplication : Application(),
         CrashHelper.getInstance().init(this) { LogUtil.LLJe(it) }
     }
 
-    protected open fun initStetho() {
+    protected open fun initFlipper() {
     }
 
     protected open fun initLeakCanary() {

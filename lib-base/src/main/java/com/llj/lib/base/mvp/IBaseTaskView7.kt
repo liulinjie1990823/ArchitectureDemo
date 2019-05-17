@@ -3,12 +3,12 @@ package com.llj.lib.base.mvp
 import java.util.*
 
 /**
- * WeddingBazaar
+ * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/6/28
+ * @author llj
+ * @date 2018/5/16
  */
-interface IBaseActivityView7<T> : IBaseActivityView {
+interface IBaseTaskView7<T> : IBaseTaskView {
 
     fun getParams7(): HashMap<String, Any>
 
