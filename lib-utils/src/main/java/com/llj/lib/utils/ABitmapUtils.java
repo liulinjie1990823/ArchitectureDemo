@@ -25,6 +25,7 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.text.format.Formatter;
+import android.util.Base64;
 import android.util.Log;
 
 import java.io.BufferedOutputStream;
@@ -221,13 +222,13 @@ public class ABitmapUtils {
     /**
      * 将bitmap转化为数组
      *
-     * @param bmp
+     * @param bitmap
      *
      * @return
      */
-    public static final byte[] bitmapToByteArray(Bitmap bmp) {
+    public static final byte[] bitmapToByteArray(Bitmap bitmap) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 85, output);
+        bitmap.compress(DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY, output);
         byte[] result = output.toByteArray();
         try {
             output.close();
@@ -240,13 +241,13 @@ public class ABitmapUtils {
     /**
      * 将bitmap转化为数组
      *
-     * @param bmp
+     * @param bitmap
      *
      * @return
      */
-    public static final byte[] bitmapToByteArray(Bitmap bmp, Bitmap.CompressFormat format, int quality) {
+    public static final byte[] bitmapToByteArray(Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        bmp.compress(format, quality, output);
+        bitmap.compress(format, quality, output);
         byte[] result = output.toByteArray();
         try {
             output.close();
@@ -308,9 +309,9 @@ public class ABitmapUtils {
     }
     //</editor-fold desc="bitmapToFile">
 
-    //<editor-fold desc="saveBitmapToSD">
+    //<editor-fold desc="bitmapToSD">
 
-    public static boolean saveBitmapToSD(Context context, String filePath, Bitmap bitmap, Bitmap.CompressFormat format, int quality, boolean insertMediaStore) {
+    public static boolean bitmapToSD(Context context, String filePath, Bitmap bitmap, Bitmap.CompressFormat format, int quality, boolean insertMediaStore) {
         File file = bitmapToFile(bitmap, new File(filePath), format, quality);
 
         try {
@@ -325,7 +326,20 @@ public class ABitmapUtils {
         }
         return false;
     }
-    //</editor-fold desc="saveBitmapToSD">
+    //</editor-fold desc="bitmapToSD">
+
+    //<editor-fold desc="base64ToBitmap">
+    public static Bitmap base64ToBitmap(String string) {
+        Bitmap bitmap = null;
+        try {
+            byte[] bitmapArray = Base64.decode(string.split(",")[1], Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+    //</editor-fold desc="base64ToBitmap">
 
     //<editor-fold desc="fileToBitmap">
 
@@ -1036,7 +1050,7 @@ public class ABitmapUtils {
                 bitmap = ABitmapUtils.rotateBitmap(bitmap, degree);
             }
             //保存到文件中
-            ABitmapUtils.saveBitmapToSD(context,thumbFilePath, bitmap, Bitmap.CompressFormat.JPEG, quality,false);
+            ABitmapUtils.bitmapToSD(context, thumbFilePath, bitmap, Bitmap.CompressFormat.JPEG, quality, false);
             if (bitmap != null && !bitmap.isRecycled()) {
                 LogUtil.LLJe("已经完成一张图片的压缩,bitmap:" + bitmap.getWidth() + "x" + bitmap.getHeight());
                 LogUtil.LLJe("已经完成一张图片的压缩,bitmap的总像素:" + bitmap.getWidth() * bitmap.getHeight() / 10000.0 + "万");

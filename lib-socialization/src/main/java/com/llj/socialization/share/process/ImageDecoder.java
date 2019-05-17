@@ -5,9 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Base64;
 
 import com.llj.socialization.log.INFO;
+import com.llj.socialization.log.Logger;
 import com.llj.socialization.share.ShareObject;
 
 import java.io.BufferedOutputStream;
@@ -35,38 +38,81 @@ import okio.Okio;
 
 public class ImageDecoder {
 
-    private static final String FILE_NAME_NO_SUFFIX = "share_image.";//分享图片的文件名
-    private static final String DEFAULT_SUFFIX      = "png";//图片的默认后缀
+    /**
+     * 分享图片的文件名
+     */
+    private static final String FILE_NAME_NO_SUFFIX = "share_image";
+    /**
+     * 图片的默认后缀
+     */
+    private static final String DEFAULT_SUFFIX      = ".png";
+
+    /**
+     * 默认的质量
+     */
+    public static final int                   DEFAULT_QUALITY         = 100;
+    public static final Bitmap.CompressFormat DEFAULT_COMPRESS_FORMAT = Bitmap.CompressFormat.PNG;
+    public static final String                BASE_64                 = "base64";
 
 
     public static String decode(Context context, ShareObject shareObject) throws Exception {
         if (!TextUtils.isEmpty(shareObject.getImageUrlOrPath())) {
             //路径，则需要解析(网络地址则下载，本地地址则复制一个副本)
-            return decode(context, shareObject.getImageUrlOrPath());
+
+            return pathToFile(context, shareObject.getImageUrlOrPath());
+
         } else if (shareObject.getImageBitmap() != null) {
             //bitmap,保存到本地
-            File resultFile = getCacheFile(context, shareObject.getImageUrlOrPath());
 
+            File resultFile = getCacheFile(context, shareObject.getImageUrlOrPath());
             Bitmap.CompressFormat format = isJpgPath(resultFile.getAbsolutePath()) ? Bitmap.CompressFormat.JPEG : Bitmap.CompressFormat.PNG;
-            return bitmapToFile(shareObject.getImageBitmap(), resultFile, format, 100).getAbsolutePath();
+
+            return bitmapToFile(shareObject.getImageBitmap(), resultFile, format, DEFAULT_QUALITY).getAbsolutePath();
         } else {
-            throw new IllegalArgumentException();
+
+            throw new IllegalArgumentException("need bitmap or path");
         }
     }
 
-    private static String decode(Context context, String pathOrUrl) throws Exception {
+
+    /**
+     * 将本地文件，url，base64值转换成file
+     * @param context 上下文
+     * @param pathOrUrl 本地路径，url，base64
+     * @return
+     * @throws Exception
+     */
+    private static String pathToFile(Context context, @NonNull String pathOrUrl) throws Exception {
+        if (pathOrUrl == null || pathOrUrl.length() == 0) {
+            throw new IllegalArgumentException("Please input a file path or http url");
+        }
         File resultFile = getCacheFile(context, pathOrUrl);
 
         if (new File(pathOrUrl).exists()) {
             //复制本地文件
-            return decodeFile(new File(pathOrUrl), resultFile);
+            return copyFile(new File(pathOrUrl), resultFile);
         } else if (HttpUrl.parse(pathOrUrl) != null) {
             //下载文件
             return downloadImageToUri(pathOrUrl, resultFile);
-        } else {
-            throw new IllegalArgumentException("Please input a file path or http url");
+        } else if (pathOrUrl.contains(BASE_64)) {
+            //解析base64图片路径
+            Bitmap bitmap = stringToBitmap(pathOrUrl);
+            return bitmapToFile(bitmap, resultFile, DEFAULT_COMPRESS_FORMAT, DEFAULT_QUALITY).getAbsolutePath();
         }
+        return null;
     }
+
+    private static Bitmap stringToBitmap(String string) {
+        Bitmap bitmap = null;
+        try {
+            byte[] bitmapArray = Base64.decode(string.split(",")[1], Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
 
     /**
      * 下载图片到本地
@@ -104,17 +150,40 @@ public class ImageDecoder {
     private static File getCacheFile(Context context, String pathOrUrl) throws Exception {
         String fileName;
         if (TextUtils.isEmpty(pathOrUrl)) {
-            fileName = FILE_NAME_NO_SUFFIX + getSuffix(pathOrUrl, DEFAULT_SUFFIX);
+            fileName = FILE_NAME_NO_SUFFIX ;
         } else {
-            fileName = md5(pathOrUrl.getBytes()) + FILE_NAME_NO_SUFFIX + getSuffix(pathOrUrl, DEFAULT_SUFFIX);
+            fileName = md5(pathOrUrl.getBytes()) + FILE_NAME_NO_SUFFIX ;
         }
         String state = Environment.getExternalStorageState();
         if (state != null && state.equals(Environment.MEDIA_MOUNTED)) {
-            return new File(context.getExternalFilesDir(""), fileName);
+            File file = new File(context.getExternalFilesDir(""), fileName);
+
+            Logger.i("CacheFile:" + file.getAbsolutePath());
+
+            return file;
         } else {
             throw new Exception(INFO.SD_CARD_NOT_AVAILABLE);
         }
     }
+
+//    private static File getCacheFile(Context context, String pathOrUrl) throws Exception {
+//        String fileName;
+//        if (TextUtils.isEmpty(pathOrUrl)) {
+//            fileName = FILE_NAME_NO_SUFFIX + getSuffix(pathOrUrl, DEFAULT_SUFFIX);
+//        } else {
+//            fileName = md5(pathOrUrl.getBytes()) + FILE_NAME_NO_SUFFIX + getSuffix(pathOrUrl, DEFAULT_SUFFIX);
+//        }
+//        String state = Environment.getExternalStorageState();
+//        if (state != null && state.equals(Environment.MEDIA_MOUNTED)) {
+//            File file = new File(context.getExternalFilesDir(""), fileName);
+//
+//            Logger.i("CacheFile:" + file.getAbsolutePath());
+//
+//            return file;
+//        } else {
+//            throw new Exception(INFO.SD_CARD_NOT_AVAILABLE);
+//        }
+//    }
 
     /**
      * 返回后缀的路径
@@ -171,7 +240,7 @@ public class ImageDecoder {
      *
      * @throws IOException
      */
-    private static String decodeFile(File origin, File result) throws IOException {
+    private static String copyFile(File origin, File result) throws IOException {
         copyFile(new FileInputStream(origin), new FileOutputStream(result, false));
         return result.getAbsolutePath();
     }

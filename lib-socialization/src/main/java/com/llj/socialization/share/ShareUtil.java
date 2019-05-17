@@ -173,6 +173,8 @@ public class ShareUtil {
             case TYPE_WEB:
                 sIShare.shareWeb(activity, mPlatform, mShareObject);
                 break;
+            default:
+                break;
         }
     }
 
@@ -266,10 +268,11 @@ public class ShareUtil {
                     return null;
                 }
                 String imageLocalPathWrap = mShareListener.imageLocalPathWrap(imageLocalPath);
-                if (TextUtils.isEmpty(imageLocalPathWrap))
+                if (TextUtils.isEmpty(imageLocalPathWrap)) {
                     return imageLocalPath;
-                else
+                } else {
                     return imageLocalPathWrap;
+                }
             }
         }
     }
@@ -357,8 +360,9 @@ public class ShareUtil {
      */
     public static void sendSms(Context context, String phone, String msg) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        if (TextUtils.isEmpty(phone))
+        if (TextUtils.isEmpty(phone)) {
             phone = "";
+        }
         intent.setData(Uri.parse("smsto:" + phone));
         intent.putExtra("sms_body", msg);
         intent.setType("vnd.android-dir/mms-sms");
@@ -376,8 +380,9 @@ public class ShareUtil {
      */
     public static void sendEmail(Context context, String mailto, String subject, String msg) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
-        if (TextUtils.isEmpty(mailto))
+        if (TextUtils.isEmpty(mailto)) {
             mailto = "";
+        }
         intent.setData(Uri.parse("mailto:" + mailto));
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, msg);
