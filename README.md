@@ -7,7 +7,7 @@
 - 地图 [lib-map](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-map)
 - 网络 [lib-net](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-net)
 - opengl封装 [lib-opengl](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-opengl)
-- 系统图片选择封装 [lib-oss](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-oss)
+- oss对象存储 [lib-oss](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-oss)
 - 二维码扫描 [lib-qrcodecore](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-qrcodecore)
 - 拍照和录制视频 [lib-record](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-record)
 - 社会化组件 [lib-socialization](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-socialization)

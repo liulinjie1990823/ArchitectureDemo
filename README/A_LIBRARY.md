@@ -81,7 +81,7 @@
 
 ##### ui库
 - webView：tbs服务
-- 约束布局：com.android.support.constraint:constraint-layout:2.0.0-alpha2
+- 约束布局：com.android.support.constraint:constraint-layout:2.0.0-beta1
 - 换肤：<https://github.com/ximsfei/Android-skin-support>
 - vlayout：<https://github.com/alibaba/vlayout> com.alibaba.android:vlayout:1.2.18@aar
 - 刷新：<https://github.com/scwang90/SmartRefreshLayout>  com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-19

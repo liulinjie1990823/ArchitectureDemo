@@ -2,8 +2,6 @@ package com.llj.socialization.init;
 
 import android.content.Context;
 
-import com.llj.socialization.login.hook.HookHelper;
-
 /**
  * Created by shaohui on 2016/12/5.
  */
@@ -23,7 +21,7 @@ public class SocialManager {
     public static void init(SocialConfig config) {
         CONFIG = config;
         try {
-            HookHelper.attachContext();
+//            HookHelper.attachContext();
         } catch (Exception e) {
             e.printStackTrace();
         }

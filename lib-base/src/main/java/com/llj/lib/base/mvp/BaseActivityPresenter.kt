@@ -6,8 +6,8 @@ import com.llj.lib.utils.LogUtil
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/5/16
+ * @author llj
+ * @date 2018/5/16
  */
 open class BaseActivityPresenter<R : BaseRepository, V : IBaseActivityView> : IBasePresenter {
     val mTagLog = this.javaClass.simpleName

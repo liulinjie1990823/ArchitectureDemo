@@ -181,6 +181,11 @@ public abstract class AbstractImageSelectHelper {
         }
     }
 
+    /**
+     * 兼容android7.0
+     * @param file
+     * @return
+     */
     Uri getUriCompat(File file) {
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
