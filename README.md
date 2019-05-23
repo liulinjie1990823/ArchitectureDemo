@@ -4,6 +4,7 @@
 - 基础框架库 [lib-base](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-base)
 - 图片加载封装 [lib-image-loader](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-image-loader)
 - 系统图片选择封装 [lib-image-select](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-image-select)
+- 七牛对象存储 [lib-kodo](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-kodo)
 - 地图 [lib-map](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-map)
 - 网络 [lib-net](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-net)
 - opengl封装 [lib-opengl](https://github.com/liulinjie1990823/ArchitectureDemo/tree/master/lib-opengl)

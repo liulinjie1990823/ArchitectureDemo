@@ -13,7 +13,7 @@ import com.llj.architecturedemo.R
 import com.llj.architecturedemo.ui.model.BabyHomeModuleItemVo
 import com.llj.component.service.ComponentMvcBaseFragment
 import com.llj.component.service.arouter.CRouter
-import com.llj.component.service.scrollableLayout.ScrollableHelper
+import com.llj.lib.scrollable.ScrollableHelper
 import com.llj.lib.webview.CWebViewActivity
 
 /**

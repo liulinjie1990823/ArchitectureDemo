@@ -25,8 +25,8 @@ import javax.tools.Diagnostic;
 /**
  * ArchitectureDemo.
  * describe:
- * author llj
- * date 2018/9/6
+ * @author llj
+ * @date 2018/9/6
  */
 @AutoService(Processor.class)
 public class ComponentProcesser extends AbstractProcessor {

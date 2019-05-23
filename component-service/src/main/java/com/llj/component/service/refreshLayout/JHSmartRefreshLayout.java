@@ -10,7 +10,7 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 /**
  * dmp_hunbohui
  * describe:
- * author liulj
+ * @author liulj
  * date 2018/1/22
  */
 

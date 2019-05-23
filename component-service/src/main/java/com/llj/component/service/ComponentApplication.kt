@@ -8,8 +8,6 @@ import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
-import com.facebook.flipper.plugins.leakcanary.LeakCanaryFlipperPlugin
-import com.facebook.flipper.plugins.leakcanary.RecordLeakService
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
 import com.llj.component.service.preference.UserInfoPreference
@@ -95,11 +93,6 @@ abstract class ComponentApplication : BaseApplication() {
         if (!isDebug()) {
             return
         }
-        //        val build = Stetho.newInitializerBuilder(this)
-        //                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-        //                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-        //                .build()
-        //        Stetho.initialize(build)
 
         if (FlipperUtils.shouldEnableFlipper(this)) {
             val client = AndroidFlipperClient.getInstance(this)
@@ -107,8 +100,6 @@ abstract class ComponentApplication : BaseApplication() {
             client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
             //网络
             client.addPlugin(NetworkFlipperPlugin())
-            //内存管理
-            client.addPlugin(LeakCanaryFlipperPlugin())
             //文件操作
             val descriptors = ArrayList<SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor>()
             descriptors.add(SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor(UserInfoPreference.FILE_NAME, Context.MODE_PRIVATE))
@@ -129,10 +120,7 @@ abstract class ComponentApplication : BaseApplication() {
             // You should not init your app in this process.
             return
         }
-        LeakCanary.refWatcher(this)
-                .listenerServiceClass(RecordLeakService::class.java)
-                .buildAndInstall()
-        //        LeakCanary.install(this)
+        LeakCanary.install(this)
     }
 
     override fun initStrictMode() {

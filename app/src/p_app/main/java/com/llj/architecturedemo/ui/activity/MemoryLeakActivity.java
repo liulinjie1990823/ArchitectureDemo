@@ -41,6 +41,8 @@ public class MemoryLeakActivity extends ComponentMvcBaseActivity {
         this.getClass().getSimpleName();
         new EditText(this).setFilters(new InputFilter[]{});
 
+        mHandler.sendEmptyMessageDelayed(1, 100);
+
 //        DynamicProxyHandler dynamicProxyHandler = new DynamicProxyHandler(new RealSubject1());
 //        Proxy.newProxyInstance(dynamicProxyHandler.getClass().getClassLoader(), dynamicProxyHandler.getClass().getInterfaces(), dynamicProxyHandler);
 

@@ -11,7 +11,7 @@ import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
 import com.llj.component.service.ComponentMvcBaseFragment
-import com.llj.component.service.scrollableLayout.ScrollableHelper
+import com.llj.lib.scrollable.ScrollableHelper
 
 /**
  * ArchitectureDemo.

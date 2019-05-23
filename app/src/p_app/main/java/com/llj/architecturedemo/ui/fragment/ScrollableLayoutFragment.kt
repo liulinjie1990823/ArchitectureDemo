@@ -39,13 +39,13 @@ import com.llj.architecturedemo.ui.view.IScrollableLayoutView
 import com.llj.component.service.ComponentMvpBaseFragment
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
-import com.llj.component.service.scrollableLayout.ScrollableHelper
-import com.llj.component.service.scrollableLayout.ScrollableLayout
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.OnMyClickListener
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.net.response.BaseResponse
+import com.llj.lib.scrollable.ScrollableHelper
+import com.llj.lib.scrollable.ScrollableLayout
 import com.llj.lib.utils.helper.Utils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener

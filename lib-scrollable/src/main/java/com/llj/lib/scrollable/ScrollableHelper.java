@@ -21,7 +21,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-package com.llj.component.service.scrollableLayout;
+package com.llj.lib.scrollable;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
