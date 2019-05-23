@@ -41,6 +41,7 @@ public class CRouter {
     public static final String APP_HOOK_ACTIVITY              = "/app/HookActivity";
     public static final String APP_REWARD_LAYOUT_ACTIVITY     = "/app/RewardLayoutActivity";
     public static final String APP_SWIPE_BACK_LAYOUT_ACTIVITY = "/app/SwipeBackLayoutActivity";
+    public static final String APP_FIRST_ACTIVITY = "/app/FirstActivity";
     public static final String WIDGET_CONSTRAINT_ACTIVITY     = "/app/widget/ConstraintActivity";
     public static final String CIRCLE_VIEW_ACTIVITY           = "/app/widget/CircleViewActivity";
 

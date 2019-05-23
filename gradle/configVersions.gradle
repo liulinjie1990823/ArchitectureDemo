@@ -194,7 +194,7 @@ ext {
             constraint_layout                 : "com.android.support.constraint:constraint-layout:2.0.0-beta1",//约束布局
             MagicIndicator                    : "com.github.hackware1993:MagicIndicator:1.6.0",//tab
             badgeview                         : "q.rorbin:badgeview:1.1.3",//标签
-            vlayout                           : "com.alibaba.android:vlayout:1.2.21",
+            vlayout                           : "com.alibaba.android:vlayout:1.2.22",
             ExpandableTextView                : "cn.carbs.android:ExpandableTextView:1.0.3",//折叠TextView
             pickerView                        : "com.contrarywind:Android-PickerView:3.2.7",//选择城市
             hyman_flowlayout                  : "com.hyman:flowlayout-lib:1.1.2",//流式布局

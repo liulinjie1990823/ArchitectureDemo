@@ -129,6 +129,9 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.KodoActivity"/>
         <activity android:name=".ui.activity.RecordVideo2Activity"/>
+        <activity
+            android:name=".ui.activity.FirstActivity"
+            android:launchMode="singleTask"/>
 
         <service android:name=".ui.service.LoadingService"/>
     </application>

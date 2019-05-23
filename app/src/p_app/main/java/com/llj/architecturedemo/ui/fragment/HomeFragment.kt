@@ -1,5 +1,6 @@
 package com.llj.architecturedemo.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -10,6 +11,7 @@ import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
+import com.llj.architecturedemo.ui.activity.FirstActivity
 import com.llj.architecturedemo.ui.model.BabyHomeModuleItemVo
 import com.llj.component.service.ComponentMvcBaseFragment
 import com.llj.component.service.arouter.CRouter
@@ -50,6 +52,7 @@ class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableCont
         super.initViews(savedInstanceState)
 
         val arrayList = arrayListOf<Data>()
+        arrayList.add(Data("FirstActivity", CRouter.APP_FIRST_ACTIVITY))
         arrayList.add(Data("KodoActivity", CRouter.APP_KODO_ACTIVITY))
         arrayList.add(Data("RecordVideoActivity", CRouter.APP_RECORD_VIDEO_ACTIVITY))
         arrayList.add(Data("RecordVideo2Activity", CRouter.APP_RECORD_VIDEO2_ACTIVITY))
@@ -112,6 +115,10 @@ class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableCont
             viewHolder.itemView.setOnClickListener {
                 when (item.path) {
                     "CWebViewActivity" -> CWebViewActivity.start(mContext, "http://m.reallycar.cn/ocert")
+                    "FirstActivity" -> {
+                        val intent= Intent(mContext, FirstActivity::class.java)
+                        mContext.startActivity(intent)
+                    }
                     else -> CRouter.start(item.path)
                 }
 
