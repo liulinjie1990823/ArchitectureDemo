@@ -1,5 +1,4 @@
 task zipChannels(type: Zip) {
-    println 'zipChannels'
     from 'build/outputs/channels'    //需要打包的文件夹内容
     //into 'build/outputs/channels'  //zip包里面的的文件夹路径
     baseName "$project.name-channels"
@@ -7,13 +6,11 @@ task zipChannels(type: Zip) {
     destinationDir file("$buildDir/outputs")  //输出路径
 }
 
-//tasks.whenTaskAdded { task ->
-//    println 'whenTaskAdded:' + task.name
-//    if (task.name == 'zipChannels') {
-//        task.dependsOn = assembleReleaseChannels
-//    }
-//}
+//错误案例
+//tasks.getByName("assembleReleaseChannels").dependsOn zipChannels
 
+
+//在assembleReleaseChannels被添加的时候，设置finalizedBy，zipChannels任务会在assembleReleaseChannels后执行
 tasks.whenTaskAdded { task ->
     if (task.name == 'assembleReleaseChannels') {
         task.finalizedBy(zipChannels)

@@ -125,5 +125,7 @@ dependencies {
     kapt deps.dagger_compiler
     kapt deps.dagger_android_support_compiler
 
+    api deps.bolts
+
 
 }

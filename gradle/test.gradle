@@ -1,25 +1,3 @@
-task taska {
-    doLast {
-        println 'taska'
-        println releaseTime()
-    }
-}
-task taskb {
-    doLast {
-        println 'taskb'
-    }
-}
-task taskc {
-    println 'taskc'
-}
-task taskd {
-    println 'taskd'
-}
-tasks.getByName("taskb").dependsOn taska
-
-//tasks.getByName("assembleReleaseChannels").mustRunAfter taskX
-//taskY.mustRunAfter taskX
-
 //BuildListener
 gradle.settingsEvaluated {
     println "lifecycle settingsEvaluated of $it"
@@ -71,6 +49,27 @@ allprojects {
         println "${task.project.name} gradle.taskGraph.afterTask:${task.name}"
     }
 }
+
+
+task taska {
+    doLast {
+        println 'taska'
+        println releaseTime()
+    }
+}
+task taskb {
+    doLast {
+        println 'taskb'
+    }
+}
+
+task taskc {
+}
+task taskd {
+}
+//tasks.getByName("taskb").dependsOn taska
+//tasks.getByName("assembleReleaseChannels").mustRunAfter taskX
+//taskY.mustRunAfter taskX
 
 
 

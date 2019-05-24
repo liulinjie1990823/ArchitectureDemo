@@ -2,6 +2,7 @@ apply plugin: 'groovy'
 
 repositories {
     jcenter()
+    google()
 }
 
 dependencies {

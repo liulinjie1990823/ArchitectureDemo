@@ -4,6 +4,7 @@ package com.llj.plugin.upload
     String name
     String pgyApiKey
     String pgyUserKey
+    String pgyAppKey
 
     public BuildTypeExtensions(String name) {
         this.name = name
@@ -17,6 +18,7 @@ package com.llj.plugin.upload
                  "name='" + name + '\'' +
                  ", pgyApiKey='" + pgyApiKey + '\'' +
                  ", pgyUserKey='" + pgyUserKey + '\'' +
+                 ", pgyAppKey='" + pgyAppKey + '\'' +
                  '}';
      }
  }

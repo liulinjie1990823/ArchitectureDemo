@@ -25,11 +25,11 @@ buildscript {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         //组件化插件
         classpath 'com.billy.android:cc-register:1.1.1'
+
         if (useApkUploadPlugin) {
-//            classpath 'com.llj:plugin-upload:0.0.4'
+            classpath 'com.llj:plugin-upload:0.0.5'
         }
 
-//        classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
 //        classpath 'com.llj:plugin-tracker-inject:0.0.1'
     }
 }
@@ -103,5 +103,3 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-//测试
-//apply from: "test.gradle"

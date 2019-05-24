@@ -174,15 +174,15 @@ walle {
     channelFile = new File("${project.getProjectDir()}/channel")
 }
 
+//测试
+//apply from: rootProject.file('gradle/test.gradle')
 //打包任务
 apply from: rootProject.file('gradle/zipChannel.gradle')
 
 
 if (useApkUploadPlugin) {
     //使用插件
-//    apply plugin: 'com.llj.plugin.upload.apkUploadPlugin'
-    //使用脚本
-    apply from: rootProject.file('gradle/pgyUpload.gradle')
+    apply plugin: 'com.llj.plugin.upload.apkUploadPlugin'
 
     upload {
         dingTalkAccessToken = dingTalkDebugAccessToken
