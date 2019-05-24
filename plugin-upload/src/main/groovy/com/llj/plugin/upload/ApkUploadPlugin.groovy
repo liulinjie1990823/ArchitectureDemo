@@ -2,13 +2,16 @@ package com.llj.plugin.upload
 
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.api.BaseVariant
-import groovy.json.internal.LazyMap
 import groovyx.net.http.HTTPBuilder
+import org.apache.commons.collections.map.LazyMap
 import org.apache.http.entity.mime.MultipartEntity
 import org.apache.http.entity.mime.content.FileBody
 import org.apache.http.entity.mime.content.StringBody
 import org.apache.http.protocol.HTTP
-import org.gradle.api.*
+import org.gradle.api.DomainObjectCollection
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.api.ProjectConfigurationException
 
 import java.nio.charset.Charset
 
@@ -67,6 +70,7 @@ class ApkUploadPlugin implements Plugin<Project> {
         println "----------------------------------"
         println("apiKey:" + buildType.pgyApiKey)
         println("userKey:" + buildType.pgyUserKey)
+        println("appKey:" + buildType.pgyAppKey)
         println("dingTalkAccessToken:" + upload.dingTalkAccessToken)
         println "----------------------------------"
         def desc
@@ -82,6 +86,7 @@ class ApkUploadPlugin implements Plugin<Project> {
             entity.addPart("file", new FileBody(new File(apkFile)))
             entity.addPart("_api_key", new StringBody(buildType.pgyApiKey))
             entity.addPart("uKey", new StringBody(buildType.pgyUserKey))
+            entity.addPart("aKey", new StringBody(buildType.pgyAppKey))
             entity.addPart("updateDescription", new StringBody(desc, Charset.forName(HTTP.UTF_8)))
             req.entity = entity
             requestContentType = 'multipart/form-data'
@@ -102,7 +107,7 @@ class ApkUploadPlugin implements Plugin<Project> {
         }
     }
 
-    private void noticeDingTalk(Project project, ApkUploadExtensions upload, String variantName,LazyMap data) {
+    private void noticeDingTalk(Project project, ApkUploadExtensions upload, String variantName, LazyMap data) {
         println "----------------------------------"
         try {
             def http = new HTTPBuilder(DING_TALK_URL)
