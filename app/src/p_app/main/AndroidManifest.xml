@@ -85,7 +85,7 @@
             android:name=".ui.activity.MainActivity"
             android:theme="@style/MyAppTheme.NoActionBar.Tab"/>
         <activity android:name=".ui.activity.MemoryLeakActivity"/>
-        <activity android:name=".ui.activity.SecondActivity"/>
+
         <activity
             android:name="com.llj.widget.ui.activity.ConstraintActivity"
             android:theme="@style/MyAppTheme.NoActionBar.common"/>
@@ -129,9 +129,19 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.KodoActivity"/>
         <activity android:name=".ui.activity.RecordVideo2Activity"/>
+
         <activity
             android:name=".ui.activity.FirstActivity"
-            android:launchMode="singleTask"/>
+            android:taskAffinity="com.llj.task2"/>
+        <activity android:name=".ui.activity.SecondActivity"/>
+
+
+        <activity android:name=".ui.activity.ThirdActivity"/>
+        <activity
+            android:name=".ui.activity.FourthActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.llj.architecturedemo2"/>
+        <activity android:name=".ui.activity.FifthActivity"/>
 
         <service android:name=".ui.service.LoadingService"/>
     </application>

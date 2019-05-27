@@ -116,7 +116,8 @@ class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableCont
                 when (item.path) {
                     "CWebViewActivity" -> CWebViewActivity.start(mContext, "http://m.reallycar.cn/ocert")
                     "FirstActivity" -> {
-                        val intent= Intent(mContext, FirstActivity::class.java)
+                        val intent= Intent()
+                        intent.setClassName("com.llj.architecturedemo", FirstActivity::class.java.name)
                         mContext.startActivity(intent)
                     }
                     else -> CRouter.start(item.path)
