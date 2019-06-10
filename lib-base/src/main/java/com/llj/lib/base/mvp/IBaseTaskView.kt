@@ -8,5 +8,5 @@ package com.llj.lib.base.mvp
  */
 interface IBaseTaskView : IBaseActivityView {
 
-    fun onDataError(tag: Int, e: Throwable)
+    fun onDataError(tag: Int, e: Throwable, taskId: Int)
 }

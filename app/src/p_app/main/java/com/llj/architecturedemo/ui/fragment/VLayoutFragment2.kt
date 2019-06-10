@@ -60,12 +60,11 @@ import kotlin.collections.ArrayList
  */
 class VLayoutFragment2 : ComponentMvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
 
-    override fun getParams1(): HashMap<String, Any> {
+    override fun getParams1(taskId: Int): HashMap<String, Any>? {
         return HashMap()
     }
 
-
-    override fun onDataSuccess1(result: BaseResponse<List<BabyHomeModuleVo?>?>) {
+    override fun onDataSuccess1(result: BaseResponse<List<BabyHomeModuleVo?>?>, taskId: Int) {
         mRefreshLayout.finishRefresh()
         if (result == null || isEmpty(result.data)) {
             return
@@ -105,7 +104,7 @@ class VLayoutFragment2 : ComponentMvpBaseFragment<VLayoutPresenter>(), IVLayoutV
         mMyHandler.sendEmptyMessageDelayed(1, 1000)
     }
 
-    override fun onDataError(tag: Int, e: Throwable) {
+    override fun onDataError(tag: Int, e: Throwable, taskId: Int) {
         mRefreshLayout.finishRefresh()
     }
 

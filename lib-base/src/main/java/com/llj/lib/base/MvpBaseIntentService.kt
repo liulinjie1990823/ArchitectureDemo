@@ -13,12 +13,12 @@ import javax.inject.Inject
  * author llj
  * date 2018/11/7
  */
-  abstract class MvpBaseIntentService<P : IBasePresenter>(name: String) :  ITask,IUiHandler,
+abstract class MvpBaseIntentService<P : IBasePresenter>(name: String) : ITask, IUiHandler,
         IntentService(name) {
 
     @Inject lateinit var mPresenter: P
 
-    private val mCancelableTask: ArrayMap<Any, Disposable> = ArrayMap()
+    private val mCancelableTask: ArrayMap<Int, Disposable> = ArrayMap()
 
     override fun onCreate() {
         super.onCreate()
@@ -26,16 +26,16 @@ import javax.inject.Inject
     }
 
     //<editor-fold desc="任务处理">
-    override fun addDisposable(tag: Any, disposable: Disposable) {
-        mCancelableTask[tag] = disposable
+    override fun addDisposable(taskId: Int, disposable: Disposable) {
+        mCancelableTask[taskId] = disposable
     }
 
-    override fun removeDisposable(tag: Any?) {
-        val disposable = mCancelableTask[tag] ?: return
+    override fun removeDisposable(taskId: Int?) {
+        val disposable = mCancelableTask[taskId] ?: return
 
         if (!disposable.isDisposed) {
             disposable.dispose()
-            mCancelableTask.remove(tag)
+            mCancelableTask.remove(taskId)
         }
     }
 

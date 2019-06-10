@@ -48,7 +48,7 @@ class MobileRepository @Inject constructor(private val mMobileDao: MobileDao,
 
             //一般是用activity里设置的hashcode，也可以单独设置
             override fun tag(): Any {
-                return view.getRequestTag()
+                return view.getRequestId()
             }
 
             override fun shouldFetch(mobileEntity: MobileEntity?): Boolean {

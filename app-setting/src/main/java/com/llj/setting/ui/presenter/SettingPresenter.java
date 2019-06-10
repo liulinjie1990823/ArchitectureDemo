@@ -2,6 +2,7 @@ package com.llj.setting.ui.presenter;
 
 import com.llj.component.service.vo.UserInfoVo;
 import com.llj.lib.base.mvp.BaseActivityPresenter;
+import com.llj.lib.base.mvp.IBaseActivityView;
 import com.llj.lib.net.RxApiManager;
 import com.llj.lib.net.observer.BaseApiObserver;
 import com.llj.lib.net.response.BaseResponse;
@@ -25,67 +26,80 @@ import retrofit2.Response;
  * author llj
  * date 2019/3/25
  */
-public class SettingPresenter extends BaseActivityPresenter<SettingRepository, SettingView> {
+public class SettingPresenter extends BaseActivityPresenter<SettingRepository, IBaseActivityView> {
 
     @Inject
-    SettingPresenter(@NotNull SettingRepository repository, @NotNull SettingView view) {
-        super(repository, view);
+    SettingPresenter(@NotNull SettingRepository repository) {
+        super(repository);
     }
 
     //手机登录
-    public void phoneLogin(HashMap<String, Object> map, Boolean showLoading) {
-        if (getMRepository() == null) {
+    public void phoneLogin(boolean showLoading, SettingView.UserInfo view) {
+        int taskId = view.hashCode();
+        if (view.getLoadingDialog() != null) {
+            view.getLoadingDialog().setRequestId(taskId);
+        }
+        HashMap<String, Object> param = view.getParams1(taskId);
+        if (param == null) {
             return;
         }
-        //Single
-        Single<Response<BaseResponse<UserInfoVo>>> phoneLogin = getMRepository().phoneLogin(map);
+        Single<Response<BaseResponse<UserInfoVo>>> phoneLogin = getRepository().phoneLogin(param);
+
         if (showLoading) {
-            phoneLogin = phoneLogin.doOnSubscribe(getMView()).doFinally(getMView());
+            phoneLogin = phoneLogin.doOnSubscribe(view).doFinally(view);
         }
-        if (phoneLogin != null) {
-            subscribeLogin(phoneLogin);
-        }
+        subscribeLogin(phoneLogin, view);
     }
 
     //账号登录
-    public void accountLogin(HashMap<String, Object> map, Boolean showLoading) {
-        if (getMRepository() == null) {
+    public void accountLogin(boolean showLoading, SettingView.UserInfo view) {
+        int taskId = view.hashCode();
+        if (view.getLoadingDialog() != null) {
+            view.getLoadingDialog().setRequestId(taskId);
+        }
+        HashMap<String, Object> param = view.getParams1(taskId);
+        if (param == null) {
             return;
         }
-        //Single
-        Single<Response<BaseResponse<UserInfoVo>>> phoneLogin = getMRepository().accountLogin(map);
+        Single<Response<BaseResponse<UserInfoVo>>> phoneLogin = getRepository().accountLogin(param);
+
         if (showLoading) {
-            phoneLogin = phoneLogin.doOnSubscribe(getMView()).doFinally(getMView());
+            phoneLogin = phoneLogin.doOnSubscribe(view).doFinally(view);
         }
-        if (phoneLogin != null) {
-            subscribeLogin(phoneLogin);
-        }
+        subscribeLogin(phoneLogin, view);
     }
 
     //获取手机号信息
-    public void getMobileInfo(String mobile, Boolean showLoading) {
-        if (getMRepository() == null) {
+    public void getMobileInfo(boolean showLoading, SettingView.MobileInfo view) {
+        int taskId = view.hashCode();
+        if (view.getLoadingDialog() != null) {
+            view.getLoadingDialog().setRequestId(taskId);
+        }
+
+        HashMap<String, Object> param = view.getParams2(taskId);
+        if (param == null) {
             return;
         }
-        //Single
-        Single<Response<BaseResponse<MobileInfoVo>>> getMobileInfo = getMRepository().getMobileInfo(mobile);
+        String mobile = (String) param.get("mobile");
+
+        Single<Response<BaseResponse<MobileInfoVo>>> getMobileInfo = getRepository().getMobileInfo(mobile);
         if (showLoading) {
-            getMobileInfo = getMobileInfo.doOnSubscribe(getMView()).doFinally(getMView());
+            getMobileInfo = getMobileInfo.doOnSubscribe(view).doFinally(view);
         }
         //Observer
-        BaseApiObserver<MobileInfoVo> baseApiObserver = new BaseApiObserver<MobileInfoVo>(getMView().getRequestTag()) {
+        BaseApiObserver<MobileInfoVo> baseApiObserver = new BaseApiObserver<MobileInfoVo>(getView()) {
 
             @Override
             public void onSubscribe(@NotNull Disposable d) {
                 super.onSubscribe(d);
-                getMView().addDisposable(getRequestTag(), d);
+                view.addDisposable(getRequestId(), d);
             }
 
 
             @Override
             public void onSuccess(@NotNull BaseResponse<MobileInfoVo> response) {
                 super.onSuccess(response);
-                getMView().onDataSuccess2(response.getData());
+                view.onDataSuccess2(response.getData(), getRequestId());
             }
 
 
@@ -97,24 +111,24 @@ public class SettingPresenter extends BaseActivityPresenter<SettingRepository, S
         };
 
         //subscribe
-        RxApiManager.get().subscribeApi(getMobileInfo, getMView().bindRequestLifecycle(), baseApiObserver);
+        RxApiManager.get().subscribeApi(getMobileInfo, getView().bindRequestLifecycle(), baseApiObserver);
     }
 
-    private void subscribeLogin(Single<Response<BaseResponse<UserInfoVo>>> single) {
+    private void subscribeLogin(Single<Response<BaseResponse<UserInfoVo>>> single, SettingView.UserInfo view) {
         //Observer
-        BaseApiObserver<UserInfoVo> baseApiObserver = new BaseApiObserver<UserInfoVo>(getMView().getRequestTag()) {
+        BaseApiObserver<UserInfoVo> baseApiObserver = new BaseApiObserver<UserInfoVo>(getView().getRequestId()) {
 
             @Override
             public void onSubscribe(@NotNull Disposable d) {
                 super.onSubscribe(d);
-                getMView().addDisposable(getRequestTag(), d);
+                view.addDisposable(getRequestId(), d);
             }
 
 
             @Override
             public void onSuccess(@NotNull BaseResponse<UserInfoVo> response) {
                 super.onSuccess(response);
-                getMView().onDataSuccess1(response.getData());
+                view.onDataSuccess1(response.getData(), getRequestId());
             }
 
 
@@ -126,6 +140,6 @@ public class SettingPresenter extends BaseActivityPresenter<SettingRepository, S
         };
 
         //subscribe
-        RxApiManager.get().subscribeApi(single, getMView().bindRequestLifecycle(), baseApiObserver);
+        RxApiManager.get().subscribeApi(single, getView().bindRequestLifecycle(), baseApiObserver);
     }
 }

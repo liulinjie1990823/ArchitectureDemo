@@ -21,7 +21,8 @@ class PreLoadingPresenter @Inject constructor(repository: HomeRepository, view: 
 
     //获取二维码信息
     fun getTabBar() {
-        val single = mRepository!!.getTabBar(mView.getParams())
+        val param = view?.getParams() ?: return
+        val single = repository?.getTabBar(param)
 
         //Observer
         val baseApiObserver = object : BaseApiObserver<TabListVo?>() {
@@ -29,22 +30,23 @@ class PreLoadingPresenter @Inject constructor(repository: HomeRepository, view: 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 //将请求添加到请求map中
-                mView.addDisposable(getRequestTag(), d)
+                view?.addDisposable(getRequestId(), d)
             }
 
             override fun onSuccess(response: BaseResponse<TabListVo?>) {
                 super.onSuccess(response)
-                mView.onDataSuccess(response)
+                view?.onDataSuccess(response)
 
             }
 
             override fun onError(t: Throwable) {
                 super.onError(t)
-                mView.onDataError(t)
+                view?.onDataError(t)
             }
         }
 
         //subscribe
-        subscribeApi(single, baseApiObserver)
+        if (single != null)
+            subscribeApi(single, baseApiObserver)
     }
 }

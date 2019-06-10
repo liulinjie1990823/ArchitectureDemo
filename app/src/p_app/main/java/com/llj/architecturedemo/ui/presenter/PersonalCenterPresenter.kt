@@ -13,7 +13,7 @@ import javax.inject.Inject
 /**
  * dmp_hunbohui
  * describe:
- * author liulj
+ * @author llj
  * date 2018/1/20
  */
 
@@ -27,30 +27,30 @@ class PersonalCenterPresenter @Inject constructor(repository: HomeRepository, vi
 
     //获取二维码信息
     fun getQrCode(isShowDialog: Boolean) {
-        var single = mRepository!!.getQrCode(mView.getParams3())
 
-        if (isShowDialog) {
-            single = single.doOnSubscribe(mView).doFinally(mView)
-        }
+        view?.getLoadingDialog()?.setRequestId(view.hashCode())
+        val params = view?.getParams1(view?.getLoadingDialog()?.getRequestId() ?: 0) ?: return
+        var single = repository.getQrCode(params)
+        if (isShowDialog) single = single.doOnSubscribe(view).doFinally(view)
 
         //Observer
-        val baseApiObserver = object : BaseApiObserver<String?>(mView.getRequestTag()) {
+        val baseApiObserver = object : BaseApiObserver<String?>(view?.getLoadingDialog()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 //将请求添加到请求map中
-                mView.addDisposable(getRequestTag(), d)
+                view?.addDisposable(getRequestId(), d)
             }
 
             override fun onSuccess(response: BaseResponse<String?>) {
                 super.onSuccess(response)
-                mView.onDataSuccess3(response)
+                view?.onDataSuccess3(response, getRequestId())
 
             }
 
             override fun onError(t: Throwable) {
                 super.onError(t)
-                mView.onDataError(GET_PERSONAL_CENTER_INFO, t)
+                view?.onDataError(GET_PERSONAL_CENTER_INFO, t, getRequestId())
             }
         }
 
@@ -60,30 +60,28 @@ class PersonalCenterPresenter @Inject constructor(repository: HomeRepository, vi
 
     //获取个人中心信息
     fun getPersonalCenterInfo(isShowDialog: Boolean) {
-        var single = mRepository!!.getPersonalCenterInfo(mView.getParams1())
-
-        if (isShowDialog) {
-            single = single.doOnSubscribe(mView).doFinally(mView)
-        }
+        view?.getLoadingDialog()?.setRequestId(view.hashCode())
+        val params = view?.getParams1(view?.getLoadingDialog()?.getRequestId() ?: 0) ?: return
+        var single = repository.getPersonalCenterInfo(params)
+        if (isShowDialog) single = single.doOnSubscribe(view).doFinally(view)
 
         //Observer
-        val baseApiObserver = object : BaseApiObserver<PersonalCenterVo?>(mView.getRequestTag()) {
+        val baseApiObserver = object : BaseApiObserver<PersonalCenterVo?>(view?.getLoadingDialog()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 //将请求添加到请求map中
-                mView.addDisposable(getRequestTag(), d)
+                view?.addDisposable(getRequestId(), d)
             }
 
             override fun onSuccess(response: BaseResponse<PersonalCenterVo?>) {
                 super.onSuccess(response)
-                mView.onDataSuccess1(response)
-
+                view?.onDataSuccess1(response, getRequestId())
             }
 
             override fun onError(t: Throwable) {
                 super.onError(t)
-                mView.onDataError(GET_PERSONAL_CENTER_INFO, t)
+                view?.onDataError(GET_PERSONAL_CENTER_INFO, t, getRequestId())
             }
         }
 
@@ -93,30 +91,30 @@ class PersonalCenterPresenter @Inject constructor(repository: HomeRepository, vi
 
     //获取个人中心数量
     fun getPersonalCenterCount(isShowDialog: Boolean) {
-        var single = mRepository!!.getPersonalCenterCount(mView.getParams2())
 
-        if (isShowDialog) {
-            single = single.doOnSubscribe(mView).doFinally(mView)
-        }
+        view?.getLoadingDialog()?.setRequestId(view.hashCode())
+        val params = view?.getParams1(view?.getLoadingDialog()?.getRequestId() ?: 0) ?: return
+        var single = repository.getPersonalCenterCount(params)
+        if (isShowDialog) single = single.doOnSubscribe(view).doFinally(view)
 
         //Observer
-        val baseApiObserver = object : BaseApiObserver<PersonalCenterCountVo?>(mView.getRequestTag()) {
+        val baseApiObserver = object : BaseApiObserver<PersonalCenterCountVo?>(view?.getLoadingDialog()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 //将请求添加到请求map中
-                mView.addDisposable(getRequestTag(), d)
+                view?.addDisposable(getRequestId(), d)
             }
 
             override fun onSuccess(response: BaseResponse<PersonalCenterCountVo?>) {
                 super.onSuccess(response)
-                mView.onDataSuccess2(response)
+                view?.onDataSuccess2(response, getRequestId())
 
             }
 
             override fun onError(t: Throwable) {
                 super.onError(t)
-                mView.onDataError(GET_PERSONAL_CENTER_COUNT, t)
+                view?.onDataError(GET_PERSONAL_CENTER_COUNT, t, getRequestId())
             }
         }
 

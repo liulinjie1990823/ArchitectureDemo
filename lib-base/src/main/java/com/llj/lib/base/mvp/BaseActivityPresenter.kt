@@ -12,17 +12,18 @@ import com.llj.lib.utils.LogUtil
 open class BaseActivityPresenter<R : BaseRepository, V : IBaseActivityView> : IBasePresenter {
     val mTagLog = this.javaClass.simpleName
 
-    var mRepository: R? = null
-    var mView: V
+    val repository: R
+    var view: V? = null
 
     constructor(repository: R, view: V) {
-        this.mRepository = repository
-        this.mView = view
+        this.repository = repository
+        this.view = view
     }
 
-    constructor(view: V) {
-        this.mView = view
+    constructor(repository: R) {
+        this.repository = repository
     }
+
 
     override fun destroy() {
     }

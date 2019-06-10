@@ -34,6 +34,6 @@ ext.kodoAccessKey = properties.getProperty("kodoAccessKey")
 ext.kodoSecretKey = properties.getProperty("kodoSecretKey")
 
 println("ext----------")
-println(ext)
+println(ext.toString())
 
 

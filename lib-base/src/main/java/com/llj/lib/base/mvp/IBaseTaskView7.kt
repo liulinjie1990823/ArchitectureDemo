@@ -10,8 +10,8 @@ import java.util.*
  */
 interface IBaseTaskView7<T> : IBaseTaskView {
 
-    fun getParams7(): HashMap<String, Any>
+    fun getParams7(taskId: Int): HashMap<String, Any>?
 
-    fun onDataSuccess7(result: T)
+    fun onDataSuccess7(result: T, taskId: Int)
 
 }

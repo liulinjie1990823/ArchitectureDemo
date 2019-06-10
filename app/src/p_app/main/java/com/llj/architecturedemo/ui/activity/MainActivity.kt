@@ -32,7 +32,7 @@ import com.llj.lib.net.response.BaseResponse
 class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
 
     override fun getPageKey(): String {
-       return ComponentMvcBaseActivity.PAGE_NAME
+        return ComponentMvcBaseActivity.PAGE_NAME
     }
 
     @BindView(R.id.ll_footer_bar) lateinit var mLlFooterBar: LinearLayout
@@ -157,13 +157,13 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         mTabAdapter.onItemRangeChanged(hidePosition, 1)
     }
 
-    override fun getParams1(): HashMap<String, Any> {
+    override fun getParams1(taskId: Int): java.util.HashMap<String, Any>? {
         return HashMap()
     }
 
-    override fun onDataSuccess1(result: BaseResponse<TabListVo?>) {
+    override fun onDataSuccess1(result: BaseResponse<TabListVo?>, taskId: Int) {
     }
 
-    override fun onDataError(tag: Int, e: Throwable) {
+    override fun onDataError(tag: Int, e: Throwable, taskId: Int) {
     }
 }

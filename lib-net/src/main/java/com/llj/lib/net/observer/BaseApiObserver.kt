@@ -11,18 +11,17 @@ import io.reactivex.disposables.Disposable
  * author liulj
  * date 2018/5/7
  */
-abstract class BaseApiObserver<Data> : SingleObserver<BaseResponse<Data>>, IObserverTag {
+abstract class BaseApiObserver<Data> : SingleObserver<BaseResponse<Data>>, IObserverTask {
     private lateinit var mDisposable: Disposable
-    private var mTag: Any = 0
+    private var mTaskId: Int = 0
 
 
-
-    constructor(tag: Any) {
-        mTag = tag
+    constructor(taskId: Int) {
+        mTaskId = taskId
     }
 
-    constructor(iTag: ITag?) {
-        mTag = iTag?.getRequestTag() ?: 0
+    constructor(iTaskId: ITaskId?) {
+        mTaskId = iTaskId?.getRequestId() ?: 0
     }
 
     constructor()
@@ -38,12 +37,12 @@ abstract class BaseApiObserver<Data> : SingleObserver<BaseResponse<Data>>, IObse
     override fun onError(t: Throwable) {}
 
 
-    override fun setRequestTag(tag: Any) {
-        this.mTag = tag
+    override fun setRequestId(taskId: Int) {
+        this.mTaskId = taskId
     }
 
-    override fun getRequestTag(): Any {
-        return mTag
+    override fun getRequestId(): Int {
+        return mTaskId
     }
 
     override fun getDisposable(): Disposable {

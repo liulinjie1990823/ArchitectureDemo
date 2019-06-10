@@ -1,10 +1,6 @@
 package com.llj.setting.ui.module;
 
-import com.llj.setting.ui.activity.QrCodeActivity;
-import com.llj.setting.ui.view.SettingView;
-
 import dagger.Module;
-import dagger.Provides;
 
 /**
  * ArchitectureDemo.
@@ -19,8 +15,5 @@ public class SettingActivityModule {
      * @param activity activity中inject的对象
      * @return
      */
-    @Provides
-     SettingView settingActivity(QrCodeActivity activity) {
-        return activity;
-    }
+
 }

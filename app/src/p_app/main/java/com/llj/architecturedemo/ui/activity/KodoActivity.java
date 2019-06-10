@@ -68,7 +68,8 @@ public class KodoActivity extends AppMvcBaseActivity {
         mBtnUpload.setOnClickListener(new DebouncingOnClickListener() {
             @Override
             public void doClick(View v) {
-                File file = new File(Environment.getExternalStorageDirectory() + "/" + "camera_test/" + "test1.jpeg");
+//                File file = new File(Environment.getExternalStorageDirectory() + "/" + "camera_test/" + "test1.jpeg");
+                File file = new File(Environment.getExternalStorageDirectory() + "/" + ".mv/" + "73F09569AFDF7A7328AD427144F348DD.mp4");
                 String accessKey = getResources().getString(R.string.kodo_access_key);
                 String secretKey = getResources().getString(R.string.kodo_secret_key);
                 String bucketName = getResources().getString(R.string.bucket_name);

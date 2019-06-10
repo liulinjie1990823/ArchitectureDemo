@@ -39,7 +39,7 @@ subprojects {
             }
         }
         boolean isApplication = it.pluginManager.hasPlugin("com.android.application")
-        print("isApplication:" + project.name + isApplication)
+        println("subproject:" + project.name + ",isApplication:" + isApplication)
 
         //android
         if (it.name != 'app') {

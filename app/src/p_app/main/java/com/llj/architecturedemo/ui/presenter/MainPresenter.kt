@@ -21,30 +21,33 @@ class MainPresenter @Inject constructor(repository: HomeRepository, view: MainCo
 
     //获取二维码信息
     fun getTabBar(isShowDialog: Boolean) {
-        var single = mRepository!!.getTabBar(mView.getParams1())
 
-        if (isShowDialog) {
-            single = single.doOnSubscribe(mView).doFinally(mView)
-        }
+        view?.getLoadingDialog()?.setRequestId(view.hashCode())
+
+        val params = view?.getParams1(view?.getLoadingDialog()?.getRequestId()?:0) ?: return
+
+        var single = repository.getTabBar(params)
+
+        if (isShowDialog) single = single.doOnSubscribe(view).doFinally(view)
 
         //Observer
-        val baseApiObserver = object : BaseApiObserver<TabListVo?>(mView.getRequestTag()) {
+        val baseApiObserver = object : BaseApiObserver<TabListVo?>(view?.getLoadingDialog()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 //将请求添加到请求map中
-                mView.addDisposable(getRequestTag(), d)
+                view?.addDisposable(getRequestId(), d)
             }
 
             override fun onSuccess(response: BaseResponse<TabListVo?>) {
                 super.onSuccess(response)
-                mView.onDataSuccess1(response)
+                view?.onDataSuccess1(response, getRequestId())
 
             }
 
             override fun onError(t: Throwable) {
                 super.onError(t)
-                mView.onDataError(-1,t)
+                view?.onDataError(-1, t, getRequestId())
             }
         }
 

@@ -14,12 +14,12 @@ interface ITask {
     /**
      * 添加任务
      */
-    fun addDisposable(tag: Any, disposable: Disposable)
+    fun addDisposable(taskId: Int, disposable: Disposable)
 
     /**
      * 移除对应的任务
      */
-    fun removeDisposable(tag: Any?)
+    fun removeDisposable(taskId: Int?)
 
     /**
      * 移除所有的任务

@@ -1,6 +1,6 @@
 package com.llj.lib.base
 
-import com.llj.lib.net.observer.ITag
+import com.llj.lib.net.observer.ITaskId
 
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Action
@@ -12,11 +12,11 @@ import io.reactivex.functions.Consumer
  * @author llj
  * @date 2018/5/24
  */
-interface ILoadingDialogHandler : Consumer<Disposable>, Action, ITag {
+interface ILoadingDialogHandler : Consumer<Disposable>, Action, ITaskId {
 
-    fun getLoadingDialog(): ITag?
+    fun getLoadingDialog(): ITaskId?
 
-    fun initLoadingDialog(): ITag?
+    fun initLoadingDialog(): ITaskId?
 
     fun showLoadingDialog() {}
 

@@ -12,16 +12,15 @@ import retrofit2.Response
 /**
  * ArchitectureDemo.
  * describe:
- * author llj
+ * @author llj
  * date 2018/11/5
  */
 abstract class ComponentBaseActivityPresenter<R : BaseRepository, V : IBaseActivityView> : BaseActivityPresenter<R, V> {
     constructor(repository: R, view: V) : super(repository, view)
-
-    constructor(view: V) : super(view)
+    constructor(repository: R) : super(repository)
 
 
     fun <Data> subscribeApi(single: Single<Response<BaseResponse<Data>>>, observer: BaseApiObserver<Data>) {
-        RxApiManager.get().subscribeApi(single, mView.bindRequestLifecycle(), observer)
+        RxApiManager.get().subscribeApi(single, view?.bindRequestLifecycle(), observer)
     }
 }

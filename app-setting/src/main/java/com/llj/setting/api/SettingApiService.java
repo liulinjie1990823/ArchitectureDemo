@@ -17,7 +17,7 @@ import retrofit2.http.Query;
 /**
  * ArchitectureDemo.
  * describe:
- * author llj
+ * @author llj
  * date 2019/3/25
  */
 public interface SettingApiService {
@@ -27,7 +27,6 @@ public interface SettingApiService {
 
     @POST("user/account/get-login")
     Single<Response<BaseResponse<UserInfoVo>>> accountLogin(@Body  HashMap<String, Object> map);
-
 
     @Headers("Domain-Name: https://www.iteblog.com")
     @GET("/api/mobile.php")

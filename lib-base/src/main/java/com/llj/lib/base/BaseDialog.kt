@@ -7,7 +7,7 @@ import android.support.annotation.LayoutRes
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import com.llj.lib.base.widget.LoadingDialog
-import com.llj.lib.net.observer.ITag
+import com.llj.lib.net.observer.ITaskId
 
 /**
  * ArchitectureDemo
@@ -27,10 +27,12 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
 
     val mTagLog: String = this.javaClass.simpleName
 
-    private var mRequestDialog: ITag? = null
+    private var mRequestDialog: ITaskId? = null
 
     init {
         bindViews()
+
+        initViews()
     }
 
     private fun bindViews() {
@@ -47,7 +49,6 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
     override fun onCreate(savedInstanceState: Bundle) {
         super.onCreate(savedInstanceState)
         // 第一次show的时候会调用该方法
-        initViews()
         setWindowParam()
         if (needLoadingDialog()) {
             checkRequestDialog()
@@ -101,24 +102,24 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
                 mRequestDialog = LoadingDialog(context)
             }
         }
-        setRequestTag(hashCode())
+        setRequestId(hashCode())
     }
 
-    override fun initLoadingDialog(): ITag? {
+    override fun initLoadingDialog(): ITaskId? {
         return null
     }
 
-    override fun getLoadingDialog(): ITag? {
+    override fun getLoadingDialog(): ITaskId? {
         return mRequestDialog
     }
 
     //如果该RequestDialog和请求关联就设置tag
-    override fun setRequestTag(tag: Any) {
-        getLoadingDialog()?.setRequestTag(tag)
+    override fun setRequestId(taskId: Int) {
+        getLoadingDialog()?.setRequestId(taskId)
     }
 
-    override fun getRequestTag(): Any {
-        return getLoadingDialog()?.getRequestTag() ?: -1
+    override fun getRequestId(): Int {
+        return getLoadingDialog()?.getRequestId() ?: -1
     }
 
 

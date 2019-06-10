@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.llj.lib.base.widget.LoadingDialog
-import com.llj.lib.net.observer.ITag
+import com.llj.lib.net.observer.ITaskId
 import com.llj.lib.utils.LogUtil
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.Disposable
@@ -30,7 +30,7 @@ abstract class MvcBaseFragment : BaseFragment() {
     private val mIsVisible: Boolean = false
 
     private lateinit var mUnBinder: Unbinder
-    private var mRequestDialog: ITag? = null
+    private var mRequestDialog: ITaskId? = null
 
     //<editor-fold desc="生命周期">
     override fun onAttach(context: Context?) {
@@ -113,15 +113,15 @@ abstract class MvcBaseFragment : BaseFragment() {
 
 
     //<editor-fold desc="任务处理">
-    override fun addDisposable(tag: Any, disposable: Disposable) {
+    override fun addDisposable(taskId: Int, disposable: Disposable) {
         if (mContext is ITask) {
-            (mContext as ITask).addDisposable(tag, disposable)
+            (mContext as ITask).addDisposable(taskId, disposable)
         }
     }
 
-    override fun removeDisposable(tag: Any?) {
+    override fun removeDisposable(taskId: Int?) {
         if (mContext is ITask) {
-            (mContext as ITask).removeDisposable(tag)
+            (mContext as ITask).removeDisposable(taskId)
         }
     }
 
@@ -149,12 +149,12 @@ abstract class MvcBaseFragment : BaseFragment() {
     //</editor-fold >
 
     //<editor-fold desc="ILoadingDialogHandler">
-    override fun getLoadingDialog(): ITag? {
+    override fun getLoadingDialog(): ITaskId? {
         return mRequestDialog
     }
 
     //自定义实现
-    override fun initLoadingDialog(): ITag? {
+    override fun initLoadingDialog(): ITaskId? {
         return null
     }
 
@@ -166,16 +166,16 @@ abstract class MvcBaseFragment : BaseFragment() {
                 mRequestDialog = LoadingDialog(mContext)
             }
         }
-        setRequestTag(hashCode())
+        setRequestId(hashCode())
     }
 
 
-    override fun setRequestTag(tag: Any) {
-        getLoadingDialog()?.setRequestTag(tag)
+    override fun setRequestId(taskId: Int) {
+        getLoadingDialog()?.setRequestId(taskId)
     }
 
-    override fun getRequestTag(): Any {
-        return getLoadingDialog()?.getRequestTag() ?: -1
+    override fun getRequestId(): Int {
+        return getLoadingDialog()?.getRequestId() ?: -1
     }
     //</editor-fold >
 }

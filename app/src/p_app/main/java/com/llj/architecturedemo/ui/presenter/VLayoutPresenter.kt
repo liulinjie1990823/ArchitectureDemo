@@ -17,67 +17,67 @@ import javax.inject.Inject
  * date 2018/10/24
  */
 class VLayoutPresenter @Inject constructor(repository: HomeRepository, view: IVLayoutView)
-    : ComponentBaseActivityPresenter<HomeRepository, IVLayoutView>(repository,view) {
+    : ComponentBaseActivityPresenter<HomeRepository, IVLayoutView>(repository, view) {
 
 
     fun getHomeData(isShowDialog: Boolean) {
-        var single = mRepository!!.getBabyHome(HashMap())
+        var single = repository.getBabyHome(HashMap())
 
         if (isShowDialog) {
-            single = single.doOnSubscribe(mView).doFinally(mView)
+            single = single.doOnSubscribe(view).doFinally(view)
         }
 
         //Observer
-        val baseApiObserver = object : BaseApiObserver<List<BabyHomeModuleVo?>?>(mView.getRequestTag()) {
+        val baseApiObserver = object : BaseApiObserver<List<BabyHomeModuleVo?>?>(view?.getLoadingDialog()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 //将请求添加到请求map中
-                mView.addDisposable(getRequestTag(), d)
+                view?.addDisposable(getRequestId(), d)
             }
 
             override fun onSuccess(response: BaseResponse<List<BabyHomeModuleVo?>?>) {
                 super.onSuccess(response)
-                mView.onDataSuccess1(response)
+                view?.onDataSuccess1(response, getRequestId())
 
             }
 
             override fun onError(t: Throwable) {
                 super.onError(t)
-                mView.onDataError(-1,t)
+                view?.onDataError(-1, t, getRequestId())
             }
         }
 
         //subscribe
-        subscribeApi(single,baseApiObserver)
+        subscribeApi(single, baseApiObserver)
     }
 
 
     fun getWeddingHome(isShowDialog: Boolean) {
-        var single = mRepository!!.getWeddingHome(HashMap())
+        var single = repository.getWeddingHome(HashMap())
 
         if (isShowDialog) {
-            single = single.doOnSubscribe(mView).doFinally(mView)
+            single = single.doOnSubscribe(view).doFinally(view)
         }
 
         //Observer
-        val baseApiObserver = object : BaseApiObserver<List<BabyHomeModuleVo?>?>(mView.getRequestTag()) {
+        val baseApiObserver = object : BaseApiObserver<List<BabyHomeModuleVo?>?>(view?.getLoadingDialog()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 //将请求添加到请求map中
-                mView.addDisposable(getRequestTag(), d)
+                view?.addDisposable(getRequestId(), d)
             }
 
             override fun onSuccess(response: BaseResponse<List<BabyHomeModuleVo?>?>) {
                 super.onSuccess(response)
-                mView.onDataSuccess1(response)
+                view?.onDataSuccess1(response, getRequestId())
 
             }
 
             override fun onError(t: Throwable) {
                 super.onError(t)
-                mView.onDataError(-1,t)
+                view?.onDataError(-1, t, getRequestId())
             }
         }
 

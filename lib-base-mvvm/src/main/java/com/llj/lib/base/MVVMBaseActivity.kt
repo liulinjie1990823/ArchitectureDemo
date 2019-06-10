@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import com.llj.lib.base.mvvm.BaseViewModel
 import com.llj.lib.base.widget.LoadingDialog
-import com.llj.lib.net.observer.ITag
+import com.llj.lib.net.observer.ITaskId
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -29,9 +29,9 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
 
     @Inject lateinit var mViewModel: VM
     private lateinit var mDataBinding: B
-    private var mRequestDialog: ITag? = null
+    private var mRequestDialog: ITaskId? = null
 
-    private val mCancelableTask: ArrayMap<Any, Disposable> = ArrayMap()
+    private val mCancelableTask: ArrayMap<Int, Disposable> = ArrayMap()
 
     //<editor-fold desc="生命周期">
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,16 +105,16 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
     //</editor-fold >
 
     //<editor-fold desc="任务处理">
-    override fun addDisposable(tag: Any, disposable: Disposable) {
-        mCancelableTask[tag] = disposable
+    override fun addDisposable(taskId: Int, disposable: Disposable) {
+        mCancelableTask[taskId] = disposable
     }
 
-    override fun removeDisposable(tag: Any?) {
-        val disposable = mCancelableTask[tag] ?: return
+    override fun removeDisposable(taskId: Int?) {
+        val disposable = mCancelableTask[taskId] ?: return
 
         if (!disposable.isDisposed) {
             disposable.dispose()
-            mCancelableTask.remove(tag)
+            mCancelableTask.remove(taskId)
         }
     }
 
@@ -130,9 +130,9 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
     //</editor-fold >
 
     //<editor-fold desc="事件总线">
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    fun onEvent(event: BaseEvent) {
-//    }
+    //    @Subscribe(threadMode = ThreadMode.MAIN)
+    //    fun onEvent(event: BaseEvent) {
+    //    }
     //</editor-fold >
 
     //<editor-fold desc="IBaseActivity">
@@ -148,11 +148,11 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
     //</editor-fold >
 
     //<editor-fold desc="ILoadingDialogHandler">
-    override fun getLoadingDialog(): ITag? {
+    override fun getLoadingDialog(): ITaskId? {
         return mRequestDialog
     }
 
-    override fun initLoadingDialog(): ITag? {
+    override fun initLoadingDialog(): ITaskId? {
         return null
     }
 
@@ -164,16 +164,16 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
                 mRequestDialog = LoadingDialog(this)
             }
         }
-        setRequestTag(hashCode())
+        setRequestId(hashCode())
     }
 
     //如果该RequestDialog和请求关联就设置tag
-    override fun setRequestTag(tag: Any) {
-        getLoadingDialog()?.setRequestTag(tag)
+    override fun setRequestId(taskId: Int) {
+        getLoadingDialog()?.setRequestId(taskId)
     }
 
-    override fun getRequestTag(): Any {
-        return getLoadingDialog()?.getRequestTag() ?: -1
+    override fun getRequestId(): Int {
+        return getLoadingDialog()?.getRequestId() ?: -1
     }
     //</editor-fold >
 

@@ -27,41 +27,37 @@ class PhoneLoginPresenter @Inject constructor(mRepository: LoginRepository, mVie
     //手机登录
     fun phoneLogin(map: HashMap<String, Any>, showLoading: Boolean) {
         //Single
-        var phoneLogin = mRepository?.phoneLogin(map)
+        var phoneLogin = repository.phoneLogin(map)
         if (showLoading) {
-            phoneLogin = phoneLogin?.doOnSubscribe(mView)?.doFinally(mView)
+            phoneLogin = phoneLogin.doOnSubscribe(view).doFinally(view)
         }
-        if (phoneLogin != null) {
-            subscribeLogin(phoneLogin)
-        }
+        subscribeLogin(phoneLogin)
     }
 
     //账号登录
     fun accountLogin(map: HashMap<String, Any>, showLoading: Boolean) {
         //Single
-        var phoneLogin = mRepository?.accountLogin(map)
+        var phoneLogin = repository.accountLogin(map)
         if (showLoading) {
-            phoneLogin = phoneLogin?.doOnSubscribe(mView)?.doFinally(mView)
+            phoneLogin = phoneLogin.doOnSubscribe(view).doFinally(view)
         }
-        if (phoneLogin != null) {
-            subscribeLogin(phoneLogin)
-        }
+        subscribeLogin(phoneLogin)
     }
 
     //获取手机号信息
     fun getMobileInfo(mobile: String, showLoading: Boolean) {
         //Single
-        var getMobileInfo = mRepository?.getMobileInfo(mobile)
+        var getMobileInfo = repository.getMobileInfo(mobile)
         if (showLoading) {
-            getMobileInfo = getMobileInfo?.doOnSubscribe(mView)?.doFinally(mView)
+            getMobileInfo = getMobileInfo.doOnSubscribe(view).doFinally(view)
         }
         //Observer
-        val baseApiObserver = object : BaseApiObserver<MobileInfoVo>(mView.getRequestTag()) {
+        val baseApiObserver = object : BaseApiObserver<MobileInfoVo>(view?.getLoadingDialog()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 //将请求添加到请求map中
-                mView.addDisposable(getRequestTag(), d)
+                view?.addDisposable(getRequestId(), d)
             }
 
             override fun onSuccess(response: BaseResponse<MobileInfoVo>) {
@@ -77,23 +73,23 @@ class PhoneLoginPresenter @Inject constructor(mRepository: LoginRepository, mVie
         //subscribe
         RxApiManager.get().subscribeApi<MobileInfoVo>(
                 getMobileInfo,
-                mView.bindRequestLifecycle(),
+                view?.bindRequestLifecycle(),
                 baseApiObserver)
     }
 
     private fun subscribeLogin(single: Single<Response<BaseResponse<UserInfoVo>>>) {
         //Observer
-        val baseApiObserver = object : BaseApiObserver<UserInfoVo>(mView.getRequestTag()) {
+        val baseApiObserver = object : BaseApiObserver<UserInfoVo>(view?.getLoadingDialog()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 //将请求添加到请求map中
-                mView.addDisposable(getRequestTag(), d)
+                view?.addDisposable(getRequestId(), d)
             }
 
             override fun onSuccess(response: BaseResponse<UserInfoVo>) {
                 super.onSuccess(response)
-                mView.onSuccessUserInfo(response.data)
+                view?.onSuccessUserInfo(response.data)
 
             }
 
@@ -105,7 +101,7 @@ class PhoneLoginPresenter @Inject constructor(mRepository: LoginRepository, mVie
         //subscribe
         RxApiManager.get().subscribeApi<UserInfoVo>(
                 single,
-                mView.bindRequestLifecycle(),
+                view?.bindRequestLifecycle(),
                 baseApiObserver)
     }
 

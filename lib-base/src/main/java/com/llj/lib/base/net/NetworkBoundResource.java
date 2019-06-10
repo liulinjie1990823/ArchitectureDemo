@@ -57,12 +57,12 @@ public abstract class NetworkBoundResource<Data> {
                 .doFinally(view);
 
         //Observer
-        BaseApiObserver<Data> baseApiObserver = new BaseApiObserver<Data>(tag()) {
+        BaseApiObserver<Data> baseApiObserver = new BaseApiObserver<Data>(view.getLoadingDialog()) {
 
             @Override
             public void onSubscribe(@NotNull Disposable d) {
                 super.onSubscribe(d);
-                view.addDisposable(getRequestTag(), getDisposable());
+                view.addDisposable(getRequestId(), getDisposable());
             }
 
             @Override

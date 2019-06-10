@@ -23,12 +23,12 @@ class RequestPresenter @Inject constructor(repository: MobileRepository, view: I
         super.onResume(owner)
 
         PermissionManager.checkPhoneState(Utils.getApp(), PermissionManager.PermissionListener {
-            val mobileLivData = mRepository?.getMobile("13188888888", mView)
-            mobileLivData?.removeObservers(mView)
-            mobileLivData?.observe(mView, Observer { baseResponse ->
+            val mobileLivData = repository.getMobile("13188888888", view!!)
+            mobileLivData.removeObservers(view!!)
+            mobileLivData.observe(view!!, Observer { baseResponse ->
 
                 if (baseResponse != null) {
-                    mView.toast(baseResponse.data)
+                    view?.toast(baseResponse.data)
                 }
 
             })

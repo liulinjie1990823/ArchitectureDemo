@@ -132,16 +132,21 @@
 
         <activity
             android:name=".ui.activity.FirstActivity"
-            android:taskAffinity="com.llj.task2"/>
-        <activity android:name=".ui.activity.SecondActivity"/>
-
-
-        <activity android:name=".ui.activity.ThirdActivity"/>
-        <activity
-            android:name=".ui.activity.FourthActivity"
+            android:exported="true"
             android:launchMode="singleTask"
-            android:taskAffinity="com.llj.architecturedemo2"/>
-        <activity android:name=".ui.activity.FifthActivity"/>
+            android:taskAffinity="com.llj.task2"/>
+        <activity
+            android:name=".ui.activity.SecondActivity"
+            android:exported="true"
+            android:taskAffinity="com.llj.task2"/>
+
+
+        <!--<activity android:name=".ui.activity.ThirdActivity"/>-->
+        <!--<activity-->
+        <!--android:name=".ui.activity.FourthActivity"-->
+        <!--android:launchMode="singleTask"-->
+        <!--android:taskAffinity="com.llj.architecturedemo2"/>-->
+        <!--<activity android:name=".ui.activity.FifthActivity"/>-->
 
         <service android:name=".ui.service.LoadingService"/>
     </application>

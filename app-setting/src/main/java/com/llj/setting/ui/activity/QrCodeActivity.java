@@ -23,7 +23,7 @@ import java.util.HashMap;
  * date 2019/3/25
  */
 @Route(path = CRouter.QRCODE_ACTIVITY)
-public class QrCodeActivity extends SettingMvpBaseActivity<SettingPresenter> implements SettingView {
+public class QrCodeActivity extends SettingMvpBaseActivity<SettingPresenter> implements SettingView.UserInfo, SettingView.MobileInfo {
 
     @Override
     public int layoutId() {
@@ -40,30 +40,28 @@ public class QrCodeActivity extends SettingMvpBaseActivity<SettingPresenter> imp
 
     }
 
-    @NotNull
     @Override
-    public HashMap<String, Object> getParams1() {
+    public HashMap<String, Object> getParams1(int taskId) {
         return null;
     }
 
     @Override
-    public void onDataSuccess1(UserInfoVo result) {
+    public void onDataSuccess1(UserInfoVo result, int taskId) {
 
     }
 
-    @NotNull
     @Override
-    public HashMap<String, Object> getParams2() {
+    public HashMap<String, Object> getParams2(int taskId) {
         return null;
     }
 
     @Override
-    public void onDataSuccess2(MobileInfoVo result) {
+    public void onDataSuccess2(MobileInfoVo result, int taskId) {
 
     }
 
     @Override
-    public void onDataError(int tag, @NotNull Throwable e) {
+    public void onDataError(int tag, @NotNull Throwable e, int taskId) {
 
     }
 }

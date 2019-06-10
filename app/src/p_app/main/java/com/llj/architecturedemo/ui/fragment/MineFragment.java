@@ -56,6 +56,7 @@ import com.uber.autodispose.AutoDisposeConverter;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -632,27 +633,27 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
 //    }
 
 
-    @NotNull
+    @Nullable
     @Override
-    public HashMap<String, Object> getParams1() {
+    public HashMap<String, Object> getParams1(int taskId) {
         return new HashMap<>();
     }
 
     @NotNull
     @Override
-    public HashMap<String, Object> getParams2() {
+    public HashMap<String, Object> getParams2(int taskId) {
         return new HashMap<>();
     }
 
     @NotNull
     @Override
-    public HashMap<String, Object> getParams3() {
+    public HashMap<String, Object> getParams3(int taskId) {
         return new HashMap<>();
     }
 
     @NotNull
     @Override
-    public HashMap<String, Object> getParams4() {
+    public HashMap<String, Object> getParams4(int taskId) {
         return new HashMap<>();
     }
 
@@ -668,7 +669,7 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
     }
 
     @Override
-    public void onDataSuccess1(BaseResponse<PersonalCenterVo> result) {
+    public void onDataSuccess1(BaseResponse<PersonalCenterVo> result, int taskId) {
         mRefreshLayout.finishRefresh(true);
         mIsLoadingMushUp = false;
         if (isAllLoadFinish()) {
@@ -735,7 +736,7 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
     }
 
     @Override
-    public void onDataSuccess2(BaseResponse<PersonalCenterCountVo> result) {
+    public void onDataSuccess2(BaseResponse<PersonalCenterCountVo> result, int taskId) {
         mIsLoadingMushUpNum = false;
         if (isAllLoadFinish()) {
             dismissLoadingDialog();
@@ -753,7 +754,7 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
     }
 
     @Override
-    public void onDataSuccess3(BaseResponse<String> result) {
+    public void onDataSuccess3(BaseResponse<String> result, int taskId) {
         if (result == null) {
             return;
         }
@@ -765,7 +766,7 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
     }
 
     @Override
-    public void onDataSuccess4(BaseResponse<ExpoInfoVo> result) {
+    public void onDataSuccess4(BaseResponse<ExpoInfoVo> result, int taskId) {
 //        if (result.isOpen()) {
 //            mH5Link = result.getH5Link();
 //            LatLng latLngStart = new LatLng(UserInfoPreference.getInstance().getLat(), UserInfoPreference.getInstance().getLng());
@@ -800,7 +801,7 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
     }
 
     @Override
-    public void onDataError(int tag, @NotNull Throwable e) {
+    public void onDataError(int tag, @NotNull Throwable e, int taskId) {
         if (tag == PersonalCenterPresenter.GET_PERSONAL_CENTER_INFO) {
             mRefreshLayout.finishRefresh(true);
             mIsLoadingMushUp = false;

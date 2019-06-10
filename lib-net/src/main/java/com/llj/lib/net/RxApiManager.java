@@ -110,7 +110,7 @@ public class RxApiManager implements RxActionManager<Object> {
                                     BaseApiObserver<Data> observer) {
 
         Single<BaseResponse<Data>> baseResponseSingle = single
-                .subscribeOn(Schedulers.io())//指定io
+                .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(httpResult)

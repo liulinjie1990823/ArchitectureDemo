@@ -10,10 +10,10 @@ import java.util.*
  */
 interface IBaseActivityComposeView2<T1, T2> : IBaseTaskView {
 
-    fun getParams1(): HashMap<String, Any>
-    fun onDataSuccess1(result: T1)
+    fun getParams1(taskId: Int): HashMap<String, Any>?
+    fun onDataSuccess1(result: T1,taskId: Int)
 
-    fun getParams2(): HashMap<String, Any>
-    fun onDataSuccess2(result: T2)
+    fun getParams2(taskId: Int): HashMap<String, Any>?
+    fun onDataSuccess2(result: T2,taskId: Int)
 
 }

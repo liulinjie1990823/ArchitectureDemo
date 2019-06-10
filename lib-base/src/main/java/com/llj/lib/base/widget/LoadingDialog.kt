@@ -8,7 +8,6 @@ import com.llj.lib.base.BaseDialog
 import com.llj.lib.base.ITask
 import com.llj.lib.base.MvcBaseActivity
 import com.llj.lib.base.R
-import com.llj.lib.net.observer.ITag
 import com.llj.lib.utils.ADisplayUtils
 import com.llj.lib.utils.LogUtil
 
@@ -18,11 +17,9 @@ import com.llj.lib.utils.LogUtil
  * author llj
  * date 2018/5/24
  */
-class LoadingDialog(context: Context)
-    : BaseDialog(context, R.style.no_dim_dialog),
-        ITag {
+class LoadingDialog(context: Context) : BaseDialog(context, R.style.no_dim_dialog) {
 
-    private var mTag: Any = -1
+    private var mTaskId: Int = -1
 
     private var mOnCustomerCancelListener: OnCustomerCancelListener? = null
 
@@ -41,9 +38,9 @@ class LoadingDialog(context: Context)
 
     override fun initViews() {
         setOnCancelListener {
-            LogUtil.i(mTagLog, "cancelTask:" + getRequestTag())
+            LogUtil.i(mTagLog, "cancelTask:" + getRequestId())
             when (context) {
-                is MvcBaseActivity -> (context as ITask).removeDisposable(getRequestTag())
+                is MvcBaseActivity -> (context as ITask).removeDisposable(getRequestId())
             }
 
             mOnCustomerCancelListener?.onCancel(it)
@@ -67,12 +64,12 @@ class LoadingDialog(context: Context)
     }
 
 
-    override fun setRequestTag(tag: Any) {
-        mTag = tag
+    override fun setRequestId(taskId: Int) {
+        mTaskId = taskId
     }
 
-    override fun getRequestTag(): Any {
-        return mTag
+    override fun getRequestId(): Int {
+        return mTaskId
     }
 
     override fun showLoadingDialog() {

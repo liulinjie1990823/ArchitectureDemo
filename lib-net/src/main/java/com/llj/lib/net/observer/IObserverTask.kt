@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
  * author liulj
  * date 2018/5/10
  */
-interface IObserverTag : ITag {
+interface IObserverTask : ITaskId {
 
     fun getDisposable() :Disposable
 }
