@@ -4,9 +4,12 @@
 
 subprojects {
     //配置类库公用的配置
-    if (it.name.startsWith('lib-')||(it.name.startsWith('lib_'))) {
+    if (it.name.startsWith('lib-') || (it.name.startsWith('lib_'))) {
         if (it.name.startsWith('lib-component-annotation')
-                || it.name.startsWith('lib-component-compiler')) {
+                || it.name.startsWith('lib-component-compiler')
+                || it.name.startsWith('lib-base-annotation')
+                || it.name.startsWith('lib-base-compiler')
+                || it.name.startsWith('lib-base-compiler2')) {
             return
         }
         apply plugin: 'com.android.library'
@@ -23,7 +26,7 @@ subprojects {
             buildTypes {
                 debug {}
                 beta {}
-                release{}
+                release {}
             }
             buildTypes.all { type ->
                 type.matchingFallbacks = ['debug']

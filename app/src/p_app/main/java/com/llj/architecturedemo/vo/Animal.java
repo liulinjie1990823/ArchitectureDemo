@@ -1,12 +1,14 @@
 package com.llj.architecturedemo.vo;
 
+import java.io.Serializable;
+
 /**
  * ArchitectureDemo
  * describe:
  * author liulj
  * date 2018/4/26
  */
-public class Animal {
+public class Animal implements Serializable {
 
 
     /**

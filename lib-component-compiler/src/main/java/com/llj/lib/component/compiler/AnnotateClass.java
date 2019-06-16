@@ -64,13 +64,13 @@ public class AnnotateClass {
 
     public JavaFile generateFinder() {
         System.out.println("----- start ---- generateFinder----------");
+
         // method inject(final T activity, Object source, Provider provider)
         MethodSpec.Builder injectMethodBuilder = MethodSpec.methodBuilder("inject")
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class)
                 .addParameter(TypeName.get(mClassElement.asType()), "activity", Modifier.FINAL)
-                .addParameter(ANDROID_VIEW, "source")
-                ;
+                .addParameter(ANDROID_VIEW, "source");
 
         //赋值mIntentFields
         for (IntentField field : mIntentFields) {
@@ -81,7 +81,7 @@ public class AnnotateClass {
         for (BindViewField field : mBindViewFields) {
             // find views
 //            injectMethodBuilder.addStatement("activity.$N = ($T)(provider.findView(source, $L))", field.getFieldName(), ClassName.get(field.getFieldType()), field.getResId());
-            injectMethodBuilder.addStatement("activity.$N = $T.findRequiredViewAsType(source, $L, $S, $T.class)", field.getFieldName(), UTILS, field.getResId(),"activity",field.getRawType());
+            injectMethodBuilder.addStatement("activity.$N = $T.findRequiredViewAsType(source, $L, $S, $T.class)", field.getFieldName(), UTILS, field.getResId(), "activity", field.getRawType());
 //            injectMethodBuilder.addStatement("activity.$N = $T.findViewById(source, $L)", field.getFieldName(), UTILS, field.getResId());
         }
 
@@ -118,7 +118,9 @@ public class AnnotateClass {
         String packageName = mElementUtils.getPackageOf(mClassElement).getQualifiedName().toString();
 
         JavaFile javaFile = JavaFile.builder(packageName, finderClass).build();
-        System.out.println("~~@#￥%……&*（ ------ === " + javaFile.toString());
+        System.out.println(javaFile.toString());
+
+        System.out.println("----- end ---- generateFinder----------");
         return javaFile;
     }
 }

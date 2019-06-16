@@ -18,10 +18,10 @@ public class CRouter {
     public static final String AROUTER_FORWARD_PATH = "AROUTER_FORWARD_PATH";
 
     //app
-    public static final String APP_KODO_ACTIVITY     = "/app/KodoActivity";
-    public static final String APP_RECORD_VIDEO_ACTIVITY     = "/app/RecordVideoActivity";
+    public static final String APP_KODO_ACTIVITY              = "/app/KodoActivity";
+    public static final String APP_RECORD_VIDEO_ACTIVITY      = "/app/RecordVideoActivity";
     public static final String APP_RECORD_VIDEO2_ACTIVITY     = "/app/RecordVideo2Activity";
-    public static final String APP_GLSURFACE_VIEW_ACTIVITY     = "/app/GLSurfaceViewActivity";
+    public static final String APP_GLSURFACE_VIEW_ACTIVITY    = "/app/GLSurfaceViewActivity";
     public static final String APP_PERMISSION_ACTIVITY        = "/app/PermissionActivity";
     public static final String APP_EVENT_ACTIVITY             = "/app/EventActivity";
     public static final String APP_MAIN_ACTIVITY              = "/app/MainActivity";
@@ -38,14 +38,15 @@ public class CRouter {
     public static final String APP_SHARE_ACTIVITY             = "/app/ShareActivity";
     public static final String APP_MEMORY_LEAK_ACTIVITY       = "/app/MemoryLeakActivity";
     public static final String APP_APT_ACTIVITY               = "/app/AptActivity";
+    public static final String APP_APT_ACTIVITY2               = "/app/AptActivity2";
     public static final String APP_HOOK_ACTIVITY              = "/app/HookActivity";
     public static final String APP_REWARD_LAYOUT_ACTIVITY     = "/app/RewardLayoutActivity";
     public static final String APP_SWIPE_BACK_LAYOUT_ACTIVITY = "/app/SwipeBackLayoutActivity";
-    public static final String APP_FIRST_ACTIVITY = "/app/FirstActivity";
+    public static final String APP_FIRST_ACTIVITY             = "/app/FirstActivity";
     public static final String WIDGET_CONSTRAINT_ACTIVITY     = "/app/widget/ConstraintActivity";
     public static final String CIRCLE_VIEW_ACTIVITY           = "/app/widget/CircleViewActivity";
 
-    //login
+    //needLogin
     public static final String LOGIN_LOGIN_ACTIVITY       = "/login/LoginActivity";
     public static final String LOGIN_PHONE_LOGIN_ACTIVITY = "/login/PhoneLoginActivity";
     public static final String LOGIN_REGISTER_ACTIVITY    = "/login/RegisterActivity";
@@ -196,7 +197,7 @@ public class CRouter {
     /**
      * 相册列表
      *
-     * @param path
+     * @param ciw
      */
     public static final String COMMENT_PHOTO_LIST = "/album/photopickeractivity";
 

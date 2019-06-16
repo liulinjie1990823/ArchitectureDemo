@@ -12,6 +12,7 @@ public class AParseUtils {
      * 1.
      *
      * @param string
+     *
      * @return
      */
     public static int parseInt(String string) {
@@ -23,6 +24,7 @@ public class AParseUtils {
      *
      * @param string
      * @param def
+     *
      * @return
      */
     public static int parseInt(String string, int def) {
@@ -41,6 +43,7 @@ public class AParseUtils {
      * 3.
      *
      * @param string
+     *
      * @return
      */
     public static long parseLong(String string) {
@@ -52,6 +55,7 @@ public class AParseUtils {
      *
      * @param string
      * @param def
+     *
      * @return
      */
     public static long parseLong(String string, long def) {
@@ -69,6 +73,7 @@ public class AParseUtils {
     /**
      * @param string
      * @param def
+     *
      * @return
      */
     public static float parseFloat(String string, float def) {
@@ -86,6 +91,7 @@ public class AParseUtils {
 
     /**
      * @param string
+     *
      * @return
      */
     public static float parseFloat(String string) {
@@ -95,6 +101,7 @@ public class AParseUtils {
     /**
      * @param string
      * @param def
+     *
      * @return
      */
     public static double parseDouble(String string, double def) {
@@ -112,9 +119,26 @@ public class AParseUtils {
 
     /**
      * @param string
+     *
      * @return
      */
     public static double parseDouble(String string) {
         return parseDouble(string, 0f);
+    }
+
+    public static short parseShort(String string) {
+        return parseShort(string, (short) 0);
+    }
+
+    public static short parseShort(String string, short def) {
+        if (TextUtils.isEmpty(string))
+            return def;
+        short num = def;
+        try {
+            num = Short.parseShort(string);
+        } catch (Exception e) {
+            return num;
+        }
+        return num;
     }
 }

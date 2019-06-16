@@ -25,8 +25,9 @@ public class AToastUtils {
     }
 
     public static void init() {
-        if (sHandler == null)
+        if (sHandler == null) {
             sHandler = new Handler(Looper.getMainLooper());
+        }
     }
 
     public static void init(Toast toast) {
@@ -37,13 +38,15 @@ public class AToastUtils {
     }
 
     public static void show(@StringRes int resId) {
-        if (Utils.getApp() != null && Utils.getApp().getResources() != null)
+        if (Utils.getApp() != null && Utils.getApp().getResources() != null) {
             show(Utils.getApp().getResources().getText(resId), Toast.LENGTH_SHORT);
+        }
     }
 
     public static void showLong(@StringRes int resId) {
-        if (Utils.getApp() != null && Utils.getApp().getResources() != null)
+        if (Utils.getApp() != null && Utils.getApp().getResources() != null) {
             show(Utils.getApp().getResources().getText(resId), Toast.LENGTH_LONG);
+        }
     }
 
     public static void show(@StringRes int resId, int duration) {

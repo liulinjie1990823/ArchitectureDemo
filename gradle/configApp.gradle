@@ -36,6 +36,8 @@ subprojects {
         kapt {
             arguments {
                 arg("AROUTER_MODULE_NAME", project.getName())
+                arg("loginOuterKey", "login")
+                arg("loginInnerKey", "needLogin")
             }
         }
         boolean isApplication = it.pluginManager.hasPlugin("com.android.application")

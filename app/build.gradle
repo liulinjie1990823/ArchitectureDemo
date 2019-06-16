@@ -155,6 +155,7 @@ dependencies {
         kapt deps.component_compiler
     } else {
         kapt project(':lib-component-compiler')
+        kapt project(':lib-base-compiler')
     }
 
 //    implementation (name:'in2magic_atlas', ext:'aar')

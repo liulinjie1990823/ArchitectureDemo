@@ -56,8 +56,9 @@ abstract class BaseApplication : Application(),
             initLeakCanary() //监听内存溢出
             initFlipper() //设置okhttp请求调试
             initStrictMode() //设置严格模式
+
+            injectApp()
         }
-        injectApp()
     }
 
     private fun initDisplay() {

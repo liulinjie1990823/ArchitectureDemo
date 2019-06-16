@@ -27,4 +27,8 @@
 - Alibaba Java Coding Guidelines plugin support
 - CheckStyle
 - Translation
+- Gradle View
+- reveal-dependency-plugin
+
+
 

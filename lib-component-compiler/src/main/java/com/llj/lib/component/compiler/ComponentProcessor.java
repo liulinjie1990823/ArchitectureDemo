@@ -29,7 +29,7 @@ import javax.tools.Diagnostic;
  * @date 2018/9/6
  */
 @AutoService(Processor.class)
-public class ComponentProcesser extends AbstractProcessor {
+public class ComponentProcessor extends AbstractProcessor {
     private Filer    mFiler;       //文件相关的辅助类
     private Elements mElementUtils;//元素相关的辅助类
     private Messager mMessager;    //日志相关的辅助类
@@ -60,6 +60,7 @@ public class ComponentProcesser extends AbstractProcessor {
                 info("Generating file for %s", annotatedClass.getFullClassName());
                 annotatedClass.generateFinder().writeTo(mFiler);
             } catch (IOException e) {
+                e.printStackTrace();
                 error("Generate file failed, reason: %s", e.getMessage());
                 return true;
             }

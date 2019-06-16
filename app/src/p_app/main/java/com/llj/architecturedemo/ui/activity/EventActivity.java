@@ -5,9 +5,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.lib.base.annotation.Jump;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.vo.Cat;
 import com.llj.component.service.ComponentMvcBaseActivity;
+import com.llj.component.service.arouter.CInner;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.BaseEvent;
 import com.llj.lib.jni.test.JniTest;
@@ -24,6 +26,7 @@ import butterknife.internal.DebouncingOnClickListener;
  * author llj
  * date 2019/1/8
  */
+@Jump(ciw = CInner.CIW_EVENT_ACTIVITY, route = CRouter.APP_EVENT_ACTIVITY, desc = "EventActivity")
 @Route(path = CRouter.APP_EVENT_ACTIVITY)
 public class EventActivity extends ComponentMvcBaseActivity {
 

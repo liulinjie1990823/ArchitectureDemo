@@ -4,8 +4,14 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.lib.base.annotation.Jump;
+import com.example.lib.base.annotation.JumpKey;
 import com.llj.architecturedemo.R;
+import com.llj.architecturedemo.vo.Animal;
+import com.llj.architecturedemo.vo.Cat;
+import com.llj.architecturedemo.vo.User;
 import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.component.annotation.BindView;
@@ -22,11 +28,26 @@ import org.jetbrains.annotations.Nullable;
  * date 2019/3/12
  */
 @PageName(value = "activity_apt")
-@Route(path = CRouter.APP_APT_ACTIVITY)
+@Jump(ciw = "ciw://AptActivity2", route = CRouter.APP_APT_ACTIVITY2,needLogin = true,desc = "AptActivity2")
+@Route(path = CRouter.APP_APT_ACTIVITY2)
 public class AptActivity2 extends ComponentMvcBaseActivity {
     @BindView(R.id.root) ConstraintLayout mConstraintLayout;
 
     @IntentKey(name = "key") String key;
+
+    @JumpKey(ciw = "name", name = CRouter.KEY_NICKNAME)
+    @Autowired(name = CRouter.KEY_NICKNAME) String mName;
+
+    @JumpKey(ciw = "boolean1", name = "BOOLEAN", required = true) boolean mBoolean;
+    @JumpKey(ciw = "short1", name = "SHORT")                      short   mShort;
+    @JumpKey(ciw = "int1", name = "INT")                          int     mInt;
+    @JumpKey(ciw = "long1", name = "LONG")                        long    mLong;
+    @JumpKey(ciw = "float1", name = "FLOAT")                      float   mFloat;
+    @JumpKey(ciw = "double1", name = "DOUBLE")                    double  mDouble;
+    @JumpKey(ciw = "char1", name = "CHAR")                        char    mChar;
+    @JumpKey(ciw = "animal", name = "ANIMAL")                     Animal  mAnimal;
+    @JumpKey(ciw = "user", name = "USER")                         User    mUser;
+    @JumpKey(ciw = "cat", name = "CAT")                           Cat     mCat;
 
     @OnClick({R.id.root})
     public void fabClick() {
