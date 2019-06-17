@@ -2,6 +2,7 @@ package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -33,6 +34,7 @@ public class SecondActivity extends AppMvcBaseActivity implements SecondView {
     public void initViews(@Nullable Bundle savedInstanceState) {
         TextView text = findViewById(R.id.tv_second);
         text.setText("SecondActivity");
+        WebSettings.getDefaultUserAgent(this);
         findViewById(R.id.tv_second).setOnClickListener(new DebouncingOnClickListener() {
             @Override
             public void doClick(View v) {

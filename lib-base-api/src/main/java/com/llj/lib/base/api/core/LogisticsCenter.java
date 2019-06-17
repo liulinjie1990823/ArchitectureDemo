@@ -11,9 +11,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.llj.lib.base.api.JumpHelp.logger;
+import static com.llj.lib.base.api.utils.Consts.DOT;
 import static com.llj.lib.base.api.utils.Consts.JUMP_SP_CACHE_KEY;
 import static com.llj.lib.base.api.utils.Consts.JUMP_SP_KEY_MAP;
-import static com.llj.lib.base.api.utils.Consts.DOT;
 import static com.llj.lib.base.api.utils.Consts.ROUTE_ROOT_PACKAGE;
 import static com.llj.lib.base.api.utils.Consts.SDK_NAME;
 import static com.llj.lib.base.api.utils.Consts.SEPARATOR;
@@ -62,7 +62,10 @@ public class LogisticsCenter {
                 for (String className : routerMap) {
                     if (className.startsWith(ROUTE_ROOT_PACKAGE + DOT + SDK_NAME + SEPARATOR)) {
                         // This one of root elements, load root.
-                        ((IRouteGroup) (Class.forName(className).getConstructor().newInstance())).loadInto(Warehouse.sMap);
+                        try {
+                            ((IRouteGroup) (Class.forName(className).getConstructor().newInstance())).loadInto(Warehouse.sMap);
+                        } catch (Exception e) {
+                        }
                     }
                 }
             }
