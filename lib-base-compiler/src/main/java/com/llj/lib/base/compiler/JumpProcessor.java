@@ -184,7 +184,7 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
 
             for (InnerKeyField innerKeyField : innerKeyFields) {
                 // postcard.withBoolean("BOOLEAN",Boolean.parseBoolean(map.get("boolean1")));
-                addStatement(method, "postcard.", innerKeyField, mTypeUtils.typeExchange(innerKeyField.getElement()));
+                addStatement(method, "if(map != null) postcard.", innerKeyField, mTypeUtils.typeExchange(innerKeyField.getElement()));
             }
 
             //获取配置的登录参数

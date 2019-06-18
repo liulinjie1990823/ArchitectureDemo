@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.llj.socialization.ResponseActivity;
 import com.llj.socialization.init.SocialManager;
 import com.llj.socialization.log.INFO;
+import com.llj.socialization.log.Logger;
 import com.llj.socialization.login.LoginPlatformType;
 import com.llj.socialization.login.callback.LoginListener;
 import com.llj.socialization.login.interfaces.ILogin;
@@ -22,6 +23,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.concurrent.Callable;
@@ -50,14 +52,16 @@ public class LoginWeChat implements ILogin {
 
     private OkHttpClient mClient;
     private boolean      mFetchUserInfo;
+    private boolean      mFetchWxToken;
 
     @Override
-    public void init(Context context, LoginListener listener, boolean fetchUserInfo) {
+    public void init(Context context, LoginListener listener, boolean fetchUserInfo, boolean fetchWxToken) {
         this.mContext = context;
         this.mLoginListener = listener;
         this.mIWXAPI = WXAPIFactory.createWXAPI(context, SocialManager.getConfig(context).getWxId());
         this.mClient = new OkHttpClient();
         this.mFetchUserInfo = fetchUserInfo;
+        this.mFetchWxToken = fetchUserInfo;
 
         mIWXAPIEventHandler = new IWXAPIEventHandler() {
             @Override
@@ -70,22 +74,38 @@ public class LoginWeChat implements ILogin {
                     SendAuth.Resp resp = (SendAuth.Resp) baseResp;
                     switch (resp.errCode) {
                         case BaseResp.ErrCode.ERR_OK:
-                            getToken(resp.code);
+                            if (mFetchWxToken) {
+                                getToken(resp.code);
+                            } else {
+                                JSONObject jsonObject = new JSONObject();
+                                try {
+                                    jsonObject.putOpt("code", resp.code);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_SUCCESS, jsonObject.toString(), null, null));
+                            }
                             break;
                         case BaseResp.ErrCode.ERR_USER_CANCEL:
-                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_HAS_CANCEL));
+                            Logger.e(INFO.WX_ERR_LOGIN_CANCEL);
+                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_HAS_CANCEL, INFO.WX_ERR_LOGIN_CANCEL));
                             break;
                         case BaseResp.ErrCode.ERR_SENT_FAILED:
+                            Logger.e(INFO.WX_ERR_SENT_FAILED);
                             mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_SENT_FAILED));
                             break;
                         case BaseResp.ErrCode.ERR_UNSUPPORT:
+                            Logger.e(INFO.WX_ERR_UNSUPPORT);
                             mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_UNSUPPORT));
                             break;
                         case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                            Logger.e(INFO.WX_ERR_AUTH_DENIED);
                             mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_AUTH_DENIED));
                             break;
                         default:
+                            Logger.e(INFO.WX_ERR_AUTH_ERROR);
                             mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_AUTH_ERROR));
+                            break;
                     }
                 }
             }
@@ -93,52 +113,16 @@ public class LoginWeChat implements ILogin {
     }
 
     @Override
-    public void doLogin(Activity activity, boolean fetchUserInfo) {
+    public void doLogin(Activity activity) {
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = SCOPE_USER_INFO;
         req.state = String.valueOf(System.currentTimeMillis());
         mIWXAPI.sendReq(req);
     }
 
-    @Override
-    public void fetchUserInfo(Context context, final BaseToken token) {
-        Task.callInBackground(new Callable<WxUser>() {
-            @Override
-            public WxUser call() throws Exception {
-                Request request = new Request.Builder().url(buildUserInfoUrl(token)).build();
-                Response response = mClient.newCall(request).execute();
-                JSONObject jsonObject = new JSONObject(response.body().string());
-                WxUser user = WxUser.parse(jsonObject);
-                return user;
-            }
-        }).continueWith(new Continuation<WxUser, Void>() {
-            @Override
-            public Void then(Task<WxUser> task) throws Exception {
-                if (task.getError() != null) {
-                    mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, task.getError().getMessage()));
-                    return null;
-                }
-                mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_SUCCESS, token, task.getResult()));
-                return null;
-            }
-        });
-    }
-
-    @Override
-    public void handleResult(int requestCode, int resultCode, Intent data) {
-        if (ResponseActivity.class.getName().equals(data.getComponent().getClassName())) {
-            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_HAS_CANCEL));
-            return;
-        }
-        mIWXAPI.handleIntent(data, mIWXAPIEventHandler);
-    }
-
-    @Override
-    public boolean isInstalled(Context context) {
-        return mIWXAPI.isWXAppInstalled();
-    }
-
     /**
+     * 获取WxToken
+     *
      * @param code
      */
     private void getToken(final String code) {
@@ -158,6 +142,8 @@ public class LoginWeChat implements ILogin {
                     mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, task.getError().getMessage()));
                     return null;
                 }
+                Logger.e(INFO.WX_FETCH_TOKEN_SUCCESS);
+
                 if (mFetchUserInfo) {
                     mLoginListener.beforeFetchUserInfo(task.getResult());
                     fetchUserInfo(null, task.getResult());
@@ -167,6 +153,47 @@ public class LoginWeChat implements ILogin {
                 return null;
             }
         });
+    }
+
+
+    @Override
+    public void fetchUserInfo(Context context, final BaseToken token) {
+        Task.callInBackground(new Callable<WxUser>() {
+            @Override
+            public WxUser call() throws Exception {
+                Request request = new Request.Builder().url(buildUserInfoUrl(token)).build();
+                Response response = mClient.newCall(request).execute();
+                JSONObject jsonObject = new JSONObject(response.body().string());
+                WxUser user = WxUser.parse(jsonObject);
+                return user;
+            }
+        }).continueWith(new Continuation<WxUser, Void>() {
+            @Override
+            public Void then(Task<WxUser> task) throws Exception {
+                if (task.getError() != null) {
+                    mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, task.getError().getMessage()));
+                } else {
+                    Logger.e(INFO.WX_FETCH_USER_INFO_SUCCESS);
+
+                    mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_SUCCESS, token, task.getResult()));
+                }
+                return null;
+            }
+        });
+    }
+
+    @Override
+    public void handleResult(int requestCode, int resultCode, Intent data) {
+        if (ResponseActivity.class.getName().equals(data.getComponent().getClassName())) {
+            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_HAS_CANCEL));
+            return;
+        }
+        mIWXAPI.handleIntent(data, mIWXAPIEventHandler);
+    }
+
+    @Override
+    public boolean isInstalled(Context context) {
+        return mIWXAPI.isWXAppInstalled();
     }
 
     @Override

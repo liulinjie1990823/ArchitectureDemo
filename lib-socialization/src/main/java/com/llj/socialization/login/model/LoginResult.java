@@ -1,59 +1,62 @@
 package com.llj.socialization.login.model;
 
+import android.support.annotation.StringDef;
+
 import com.llj.socialization.ThirdCommonResult;
 import com.llj.socialization.login.LoginPlatformType;
 import com.llj.socialization.share.SharePlatformType;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 public class LoginResult extends ThirdCommonResult implements LoginPlatformType {
-    public static final String RESPONSE_LOGIN_SUCCESS    = "LOGIN_SUCCESS";//分享成功
-    public static final String RESPONSE_LOGIN_FAILURE    = "LOGIN_FAILURE";//分享失败
-    public static final String RESPONSE_LOGIN_HAS_CANCEL = "LOGIN_HAS_CANCEL";//分享已取消
-    public static final String RESPONSE_SHARE_NOT_INSTALL = "RESPONSE_LOGIN_NOT_INSTALL";//应用没安装
+    public static final String RESPONSE_LOGIN_SUCCESS     = "LOGIN_SUCCESS";//登录成功
+    public static final String RESPONSE_LOGIN_FAILURE     = "LOGIN_FAILURE";//登录失败
+    public static final String RESPONSE_LOGIN_HAS_CANCEL  = "LOGIN_HAS_CANCEL";//登录已取消
+    public static final String RESPONSE_SHARE_NOT_INSTALL = "RESPONSE_LOGIN_NOT_INSTALL";//登录没安装
 
-    private @SharePlatformType.Platform int    mPlatform;//分享的类型
-    private                             String mResponse;//分享成功或者失败或者其他
-    private                             String mMessage;//分享返回的信息
 
-    private Object    mObject;
+    @StringDef({RESPONSE_LOGIN_SUCCESS, RESPONSE_LOGIN_FAILURE, RESPONSE_LOGIN_HAS_CANCEL, RESPONSE_SHARE_NOT_INSTALL})
+    @Retention(RetentionPolicy.SOURCE)
+    @interface Response {
+    }
+
+    private @SharePlatformType.Platform int mPlatform;//登录的类型
+
+    private String    mResponse;//登录成功或者失败或者其他
+    private String    mMessage;//登录返回的信息
+    private Object    mObject;//登录返回未解析的对象
     private BaseToken mToken;
     private BaseUser  mUserInfo;
 
-    public LoginResult(int platform, String response, String message) {
-        mPlatform = platform;
-        mResponse = response;
-        this.mMessage = message;
-    }
 
-    public LoginResult(int platform, String response) {
+    public LoginResult(int platform, @LoginResult.Response String response) {
         mPlatform = platform;
         mResponse = response;
     }
 
-    public LoginResult(int platform, BaseToken token) {
+    public LoginResult(int platform, @LoginResult.Response String response, String message) {
         mPlatform = platform;
-        mToken = token;
+        mResponse = response;
+        mMessage = message;
     }
 
-    public LoginResult(int platform, String response, BaseToken token) {
+
+    public LoginResult(int platform, @LoginResult.Response String response, BaseToken token) {
         mPlatform = platform;
         mResponse = response;
         mToken = token;
     }
 
-    public LoginResult(int platform, BaseToken token, BaseUser userInfo) {
+    //成功
+    public LoginResult(int platform, @LoginResult.Response String response, BaseToken token, BaseUser userInfo) {
         mPlatform = platform;
+        mResponse = response;
         mToken = token;
         mUserInfo = userInfo;
     }
 
-    public LoginResult(int platform, Object object, BaseToken token, BaseUser userInfo) {
-        mObject = object;
-        mToken = token;
-        mUserInfo = userInfo;
-        mPlatform = platform;
-    }
-
-    public LoginResult(int platform, String response, Object object, BaseToken token, BaseUser userInfo) {
+    public LoginResult(int platform, @LoginResult.Response String response, Object object, BaseToken token, BaseUser userInfo) {
         mPlatform = platform;
         mResponse = response;
         mObject = object;
@@ -65,23 +68,23 @@ public class LoginResult extends ThirdCommonResult implements LoginPlatformType 
         return mPlatform;
     }
 
-    public void setPlatform(int platform) {
-        this.mPlatform = platform;
+    public String getResponse() {
+        return mResponse;
+    }
+
+    public String getMessage() {
+        return mMessage;
+    }
+
+    public Object getObject() {
+        return mObject;
     }
 
     public BaseToken getToken() {
         return mToken;
     }
 
-    public void setToken(BaseToken token) {
-        mToken = token;
-    }
-
     public BaseUser getUserInfo() {
         return mUserInfo;
-    }
-
-    public void setUserInfo(BaseUser userInfo) {
-        mUserInfo = userInfo;
     }
 }

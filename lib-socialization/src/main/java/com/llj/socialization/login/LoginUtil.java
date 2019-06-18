@@ -27,7 +27,8 @@ public class LoginUtil {
 
     private static int mPlatform;
 
-    private static boolean isFetchUserInfo;
+    private static boolean sFetchUserInfo;
+    private static boolean sFetchWxToken;
 
 
     public static void login(Context context, @LoginPlatformType.Platform int platform, LoginListener listener) {
@@ -35,11 +36,16 @@ public class LoginUtil {
     }
 
     public static void login(Context context, @LoginPlatformType.Platform int platform, LoginListener listener, boolean fetchUserInfo) {
+        login(context, platform, listener, fetchUserInfo, true);
+    }
+
+    public static void login(Context context, @LoginPlatformType.Platform int platform, LoginListener listener, boolean fetchUserInfo, boolean fetchWxToken) {
         listener.setPlatform(platform);
 
         mPlatform = platform;
         mLoginListenerWrap = buildWrapListener(listener);
-        isFetchUserInfo = fetchUserInfo;
+        sFetchUserInfo = fetchUserInfo;
+        sFetchWxToken = fetchWxToken;
 
         ResponseActivity.start(context, TYPE, platform);
     }
@@ -62,7 +68,7 @@ public class LoginUtil {
         }
         mLoginListenerWrap.onStart();
 
-        mLoginInstance.doLogin(activity, isFetchUserInfo);
+        mLoginInstance.doLogin(activity);
     }
 
     private static ILogin getPlatform(@LoginPlatformType.Platform int platform, Activity activity) {
@@ -84,7 +90,7 @@ public class LoginUtil {
                     break;
             }
             login = (ILogin) clazz.newInstance();
-            login.init(activity.getApplicationContext(), mLoginListenerWrap, isFetchUserInfo);
+            login.init(activity.getApplicationContext(), mLoginListenerWrap, sFetchUserInfo, sFetchWxToken);
 
         } catch (Exception e) {
 
@@ -105,7 +111,8 @@ public class LoginUtil {
         mLoginInstance = null;
         mLoginListenerWrap = null;
         mPlatform = 0;
-        isFetchUserInfo = false;
+        sFetchUserInfo = false;
+        sFetchWxToken = false;
     }
 
     private static class LoginListenerWrap extends LoginListener {

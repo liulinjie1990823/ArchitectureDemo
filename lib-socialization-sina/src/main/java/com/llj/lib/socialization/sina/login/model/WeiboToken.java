@@ -11,12 +11,12 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 public class WeiboToken extends BaseToken {
 
     private String refreshToken;
-
     private String phoneNum;
+    private String uid;
 
     public static WeiboToken parse(Oauth2AccessToken token) {
         WeiboToken target = new WeiboToken();
-        target.setOpenid(token.getUid());
+        target.setUid(token.getUid());
         target.setAccessToken(token.getToken());
         target.setRefreshToken(token.getRefreshToken());
         target.setPhoneNum(token.getPhoneNum());
@@ -37,5 +37,13 @@ public class WeiboToken extends BaseToken {
 
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

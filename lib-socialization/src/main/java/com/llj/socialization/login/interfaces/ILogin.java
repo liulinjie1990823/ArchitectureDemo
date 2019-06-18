@@ -15,9 +15,9 @@ import com.llj.socialization.login.model.BaseToken;
 
 public interface ILogin extends IControl {
 
-    void init(final Context context, final LoginListener listener, final boolean fetchUserInfo);
+    void init( Context context,  LoginListener listener,  boolean fetchUserInfo, boolean fetchWxToken);
 
-    void doLogin(Activity activity, boolean fetchUserInfo);
+    void doLogin(Activity activity);
 
     void fetchUserInfo(Context context, BaseToken token);
 

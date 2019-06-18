@@ -32,8 +32,12 @@ public class LoginSina implements ILogin {
     private SsoHandler    mSsoHandler;
     private LoginListener mLoginListener;
 
+    private boolean mFetchUserInfo;
+
     @Override
-    public void init(Context context, LoginListener listener, boolean fetchUserInfo) {
+    public void init(Context context, LoginListener listener, boolean fetchUserInfo, boolean fetchWxToken) {
+        mFetchUserInfo=fetchUserInfo;
+
         AuthInfo authInfo = new AuthInfo(context, SocialManager.getConfig(context).getSignId(),
                 SocialManager.getConfig(context).getSignRedirectUrl(),
                 SocialManager.getConfig(context).getSignScope());
@@ -46,16 +50,16 @@ public class LoginSina implements ILogin {
 
 
     @Override
-    public void doLogin(final Activity activity, final boolean fetchUserInfo) {
+    public void doLogin(final Activity activity) {
         mSsoHandler.authorizeClientSso(new WbAuthListener() {
             @Override
             public void onSuccess(Oauth2AccessToken oauth2AccessToken) {
                 AccessTokenKeeper.writeAccessToken(activity, oauth2AccessToken);
                 //
                 WeiboToken weiboToken = WeiboToken.parse(oauth2AccessToken);
-                weiboToken.setExpires_in(oauth2AccessToken.getExpiresTime());
+                weiboToken.setExpiresIn(oauth2AccessToken.getExpiresTime());
                 //
-                if (fetchUserInfo) {
+                if (mFetchUserInfo) {
                     mLoginListener.beforeFetchUserInfo(weiboToken);
                     fetchUserInfo(activity, weiboToken, oauth2AccessToken);
                 } else {

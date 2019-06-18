@@ -38,8 +38,12 @@ public class LoginQQ implements ILogin {
 
     private LoginListener mLoginListener;
 
+    private boolean mFetchUserInfo;
+
     @Override
-    public void init(Context context, LoginListener listener, boolean fetchUserInfo) {
+    public void init(Context context, LoginListener listener, boolean fetchUserInfo, boolean fetchWxToken) {
+        mFetchUserInfo = fetchUserInfo;
+
         mTencent = Tencent.createInstance(SocialManager.getConfig(context).getQqId(), context.getApplicationContext());
         mLoginListener = listener;
         mIUiListener = new IUiListener() {
@@ -47,17 +51,17 @@ public class LoginQQ implements ILogin {
             public void onComplete(Object o) {
                 Logger.e(INFO.QQ_AUTH_SUCCESS);
                 try {
-                    //
+                    //解析JSONObject
                     QQToken token = QQToken.parse((JSONObject) o);
-                    //
-                    mTencent.setAccessToken(token.getAccessToken(), token.getExpires_in() + "");
+                    //设置参数
+                    mTencent.setAccessToken(token.getAccessToken(), token.getExpiresIn() + "");
                     mTencent.setOpenId(token.getOpenid());
                     //
-                    if (fetchUserInfo) {
+                    if (mFetchUserInfo) {
                         mLoginListener.beforeFetchUserInfo(token);
                         fetchUserInfo(context, token);
                     } else {
-                        mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.QQ,LoginResult.RESPONSE_LOGIN_SUCCESS, token));
+                        mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.QQ, LoginResult.RESPONSE_LOGIN_SUCCESS, token));
                     }
                 } catch (JSONException e) {
                     Logger.e(INFO.ILLEGAL_TOKEN);
@@ -81,7 +85,7 @@ public class LoginQQ implements ILogin {
 
 
     @Override
-    public void doLogin(final Activity activity, final boolean fetchUserInfo) {
+    public void doLogin(final Activity activity) {
         mTencent.login(activity, SCOPE, mIUiListener);
     }
 
@@ -91,11 +95,13 @@ public class LoginQQ implements ILogin {
         info.getUserInfo(new IUiListener() {
             @Override
             public void onComplete(Object object) {
-                Logger.e("QQLogin:" + object.toString());
                 QQUser qqUser;
                 try {
                     qqUser = QQUser.parse(token.getOpenid(), (JSONObject) object);
-                    mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.QQ,LoginResult.RESPONSE_LOGIN_SUCCESS, object, token, qqUser));
+
+                    Logger.e(INFO.QQ_FETCH_USER_INFO_SUCCESS);
+
+                    mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.QQ, LoginResult.RESPONSE_LOGIN_SUCCESS, object, token, qqUser));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

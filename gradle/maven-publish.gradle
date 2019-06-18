@@ -1,5 +1,4 @@
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
 // load properties
 Properties localProperties = new Properties()
@@ -44,46 +43,7 @@ def bintrayApikey = localProperties.getProperty("bintray.apikey")
 
 def javadocName = properties.getProperty("javadoc.name")
 
-group = projectGroupId
-version = projectVersionName
 
-// This generates POM.xml with proper parameters
-install {
-    repositories.mavenInstaller {
-
-        pom.groupId = projectGroupId
-        pom.artifactId = projectArtifactId
-        pom.version = projectVersionName
-
-        pom.project {
-            name = projectName
-            packaging = projectPackaging
-            description = projectDescription
-            url = webSiteUrl
-
-            scm {
-                connection = vscUrl
-                developerConnection = vscUrl
-                url = webSiteUrl
-            }
-
-            licenses {
-                license {
-                    name = 'The Apache Software License, Version 2.0'
-                    url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                }
-            }
-
-            developers {
-                developer {
-                    id = developerId
-                    name = developerName
-                    email = developerEmail
-                }
-            }
-        }
-    }
-}
 //定义文档task
 if (project.getPlugins().hasPlugin('com.android.application') ||
         project.getPlugins().hasPlugin('com.android.library')) {
@@ -93,12 +53,12 @@ if (project.getPlugins().hasPlugin('com.android.application') ||
         classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     }
     //文档
-    task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    task javadocJar(type: Jar, dependsOn: androidJavadocs) {
         from androidJavadocs.destinationDir
         classifier = 'javadoc'
     }
     //源码
-    task androidSourcesJar(type: Jar) {
+    task sourcesJar(type: Jar) {
         from android.sourceSets.main.java.source
         classifier = 'sources'
     }
@@ -127,35 +87,51 @@ if (JavaVersion.current().isJava8Compatible()) {
     }
 }
 
-//上传到jcenter所需要的源码文件
-artifacts {
-    if (project.getPlugins().hasPlugin('com.android.application') ||
-            project.getPlugins().hasPlugin('com.android.library')) {
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
 
-        archives androidJavadocsJar
-        archives androidSourcesJar
-    } else {
+            groupId = projectGroupId
+            artifactId = projectArtifactId
+            version = projectVersionName
 
-        archives javadocJar
-        archives sourcesJar
+            artifact javadocJar
+            artifact sourcesJar
+
+            pom {
+                name = projectName
+                packaging = projectPackaging
+                description = projectDescription
+                url = webSiteUrl
+
+                scm {
+                    connection = vscUrl
+                    developerConnection = vscUrl
+                    url = webSiteUrl
+                }
+
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = developerId
+                        name = developerName
+                        email = developerEmail
+                    }
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url = "../repo"
+        }
     }
 }
 
-// bintray configuration
-bintray {
-    user = bintrayUser
-    key = bintrayApikey
-    configurations = ['archives']
-    pkg {
-        userOrg = projectUserOrg
-        repo = projectRepo
-        name = projectArtifactId
-        version projectVersionName
-        desc = projectDescription
-        websiteUrl = webSiteUrl
-        issueTrackerUrl = issueUrl
-        vcsUrl = vscUrl
-        licenses = [projectLicense]
-        publish = true
-    }
-}

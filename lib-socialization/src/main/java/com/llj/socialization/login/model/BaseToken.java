@@ -7,22 +7,14 @@ package com.llj.socialization.login.model;
 public class BaseToken {
     private long   expires_in;
     private String access_token;
-    private String openid;
+    private String openid;//每个用户在子体（公众号，小程序，移动应用等等）返回的openid都不同；而这些子体只要通过微信开放平台绑定了，就会返回唯一的unionId，用户唯一
 
-    public long getExpires_in() {
+    public long getExpiresIn() {
         return expires_in;
     }
 
-    public void setExpires_in(long expires_in) {
+    public void setExpiresIn(long expires_in) {
         this.expires_in = expires_in;
-    }
-
-    public String getAccess_token() {
-        return access_token;
-    }
-
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
     }
 
     public String getAccessToken() {

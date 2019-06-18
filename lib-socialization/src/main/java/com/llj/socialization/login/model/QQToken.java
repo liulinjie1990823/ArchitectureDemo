@@ -12,7 +12,7 @@ public class QQToken extends BaseToken {
         QQToken token = new QQToken();
         token.setAccessToken(jsonObject.getString("access_token"));
         token.setOpenid(jsonObject.getString("openid"));
-        token.setExpires_in(jsonObject.getLong("expires_in"));
+        token.setExpiresIn(jsonObject.getLong("expires_in"));
         return token;
     }
 

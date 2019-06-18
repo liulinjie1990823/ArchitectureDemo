@@ -26,16 +26,21 @@ public class INFO {
     public static final String LOGIN_FAIl         = "call login failed";
     public static final String LOGIN_CANCEL       = "call login cancel";
     public static final String LOGIN_AUTH_SUCCESS = "call before fetch user info";
-    public static final String ILLEGAL_TOKEN      = "Illegal token, please check your config";
-    public static final String QQ_LOGIN_ERROR     = "QQ login error";
-    public static final String QQ_AUTH_SUCCESS    = "QQ auth success";
-    public static final String WEIBO_AUTH_ERROR   = "weibo auth error";
-    public static final String UNKNOW_PLATFORM    = "unknown platform";
 
-    public static final String WX_ERR_SENT_FAILED = "Wx sent failed";
-    public static final String WX_ERR_UNSUPPORT   = "Wx UnSupport";
-    public static final String WX_ERR_AUTH_DENIED = "Wx auth denied";
-    public static final String WX_ERR_AUTH_ERROR  = "Wx auth error";
+    public static final String ILLEGAL_TOKEN              = "Illegal token, please check your config";
+    public static final String QQ_LOGIN_ERROR             = "QQ login error";
+    public static final String QQ_AUTH_SUCCESS            = "QQ auth success";
+    public static final String QQ_FETCH_USER_INFO_SUCCESS = "qq fetch userInfo success";
+    public static final String WEIBO_AUTH_ERROR           = "weibo auth error";
+    public static final String UNKNOW_PLATFORM            = "unknown platform";
+
+    public static final String WX_ERR_LOGIN_CANCEL        = "Wx login has cancel";
+    public static final String WX_ERR_SENT_FAILED         = "Wx sent failed";
+    public static final String WX_ERR_UNSUPPORT           = "Wx UnSupport";
+    public static final String WX_ERR_AUTH_DENIED         = "Wx auth denied";
+    public static final String WX_ERR_AUTH_ERROR          = "Wx auth error";
+    public static final String WX_FETCH_TOKEN_SUCCESS = "Wx fetch token success";
+    public static final String WX_FETCH_USER_INFO_SUCCESS = "Wx fetch userInfo success";
 
     public static final String AUTH_CANCEL           = "auth cancel";
     public static final String FETCH_USER_INOF_ERROR = "Fetch user info error";

@@ -11,7 +11,7 @@ import android.util.Log;
  */
 
 public class Logger {
-    public static final String TAG = "third-part";
+    public static final String TAG = "lib-socialization";
 
     public static void i(String message) {
         Log.i(TAG, message);
