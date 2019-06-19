@@ -16,8 +16,6 @@ import com.llj.component.service.tracker.ITrackerReport;
 
 import org.jetbrains.annotations.Nullable;
 
-import butterknife.internal.DebouncingOnClickListener;
-
 /**
  * ArchitectureDemo.
  * describe:
@@ -37,11 +35,16 @@ public class SecondActivity extends AppMvcBaseActivity implements SecondView, IT
         TextView text = findViewById(R.id.tv_second);
         text.setText("SecondActivity");
         WebSettings.getDefaultUserAgent(this);
-        findViewById(R.id.tv_second).setOnClickListener(new DebouncingOnClickListener() {
-            @Override
-            public void doClick(View v) {
+        findViewById(R.id.tv_second).setOnClickListener(v -> {
+            setTrackerData(v, "text", "http://www.baidu.com");
 
-                setTrackerData(v,"text","http://www.baidu.com");
+            Intent intent = new Intent(mContext, FirstActivity.class);
+//                mContext.startActivity(intent);
+        });
+        findViewById(R.id.tv_third).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTrackerData(v, "text", "http://www.baidu.com");
 
                 Intent intent = new Intent(mContext, FirstActivity.class);
 //                mContext.startActivity(intent);

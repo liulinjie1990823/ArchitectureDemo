@@ -89,6 +89,7 @@
         <activity
             android:name="com.llj.widget.ui.activity.ConstraintActivity"
             android:theme="@style/MyAppTheme.NoActionBar.common"/>
+
         <activity android:name="com.llj.architecturedemo.ui.activity.ShareActivity"/>
         <activity android:name="com.llj.widget.ui.activity.CircleViewActivity"/>
         <activity android:name=".ui.activity.TouchEventActivity"/>

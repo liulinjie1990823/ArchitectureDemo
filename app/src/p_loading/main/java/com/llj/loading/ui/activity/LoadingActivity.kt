@@ -2,6 +2,7 @@ package com.llj.loading.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewTreeObserver
 import android.widget.TextView
 import butterknife.BindView
 import com.alibaba.android.arouter.launcher.ARouter
@@ -10,6 +11,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.llj.architecturedemo.R
 import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
+import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.statusbar.StatusBarCompat
@@ -59,6 +61,12 @@ class LoadingActivity : ComponentMvcBaseActivity() {
 
             finish()
         }
+        mSdvAdd.viewTreeObserver.addOnGlobalLayoutListener(object :ViewTreeObserver.OnGlobalLayoutListener{
+            override fun onGlobalLayout() {
+                mSdvAdd.viewTreeObserver.removeOnDrawListener(this)
+            }
+
+        })
     }
 
     override fun initData() {
@@ -101,7 +109,7 @@ class LoadingActivity : ComponentMvcBaseActivity() {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
             val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
-//            mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
+            mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
 
         }
     }

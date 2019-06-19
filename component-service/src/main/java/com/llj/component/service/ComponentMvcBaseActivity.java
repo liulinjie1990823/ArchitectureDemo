@@ -27,6 +27,8 @@ public abstract class ComponentMvcBaseActivity extends MvcBaseActivity {
 
     public static final String PAGE_NAME = "PageName";
 
+    protected boolean mUseAnim;
+
 
     @NonNull
     @Override
@@ -36,9 +38,11 @@ public abstract class ComponentMvcBaseActivity extends MvcBaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        mIsWindowIsTranslucent = isWindowIsTranslucent();
-        initAnim();
-        overridePendingTransition(mActivityOpenEnterAnimation, mActivityOpenExitAnimation);
+        if (mUseAnim) {
+            mIsWindowIsTranslucent = isWindowIsTranslucent();
+            initAnim();
+            overridePendingTransition(mActivityOpenEnterAnimation, mActivityOpenExitAnimation);
+        }
         super.onCreate(savedInstanceState);
     }
 
@@ -67,6 +71,8 @@ public abstract class ComponentMvcBaseActivity extends MvcBaseActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(mActivityCloseEnterAnimation, mActivityCloseExitAnimation);
+        if (mUseAnim) {
+            overridePendingTransition(mActivityCloseEnterAnimation, mActivityCloseExitAnimation);
+        }
     }
 }
