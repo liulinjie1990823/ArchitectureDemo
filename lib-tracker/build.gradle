@@ -1,9 +1,4 @@
-android {
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     if (useMaven) {
@@ -13,9 +8,9 @@ dependencies {
     }
 
     api 'org.aspectj:aspectjrt:1.8.9'
-//    implementation deps.lifecycle_runtime
-//    implementation deps.lifecycle_java8
-//    implementation deps.lifecycle_extensions
+    implementation deps.lifecycle_runtime
+    implementation deps.lifecycle_java8
+    implementation deps.lifecycle_extensions
 }
 apply from: rootProject.file('gradle/uploadArchives.gradle')
 apply from: rootProject.file('gradle/bintrayUpload.gradle')
