@@ -46,7 +46,5 @@ public class Platform {
         int WECHAT_CIRCLE = 4;//微信朋友圈
         int SINA          = 5;//新浪
         int ALI           = 6;//支付宝
-
-
     }
 }

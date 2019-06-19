@@ -26,6 +26,13 @@ import java.util.Map;
  * @author liulj
  */
 public class AGsonUtils {
+
+    private static Gson sGson = new Gson();
+
+    public static Gson getGson() {
+        return sGson;
+    }
+
     /**
      * 1.解析成指定对象
      *
@@ -246,10 +253,6 @@ public class AGsonUtils {
         return gsonBuilder.excludeFieldsWithoutExposeAnnotation().create().toJson(object);
     }
 
-
-    public static Gson getGson() {
-        return new Gson();
-    }
 
     public static Gson getSerializeNullsGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();

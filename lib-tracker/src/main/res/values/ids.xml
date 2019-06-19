@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tracker_uid" type="id"/>
+    <item name="tracker_datetime" type="id"/>
+
+    <item name="tracker_page_name" type="id"/>
+    <item name="tracker_page_class" type="id"/>
+    <item name="tracker_page_title" type="id"/>
+
+    <item name="tracker_event_name" type="id"/>
+    <item name="tracker_event_type" type="id"/>
+
+    <item name="tracker_extra_data" type="id"/>
+
+</resources>
