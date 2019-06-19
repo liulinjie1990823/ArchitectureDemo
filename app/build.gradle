@@ -4,6 +4,16 @@ if (useDexcount) {
 apply plugin: 'walle'
 //apply plugin: 'plugin-tracker-inject'
 
+if (useAspectjx) {
+    apply plugin: 'android-aspectjx'
+
+    aspectjx {
+        //AspectJX功能开关
+        enabled true
+//        exclude 'com.llj.architecturedemo'
+    }
+}
+
 
 android {
     compileSdkVersion build_versions.compileSdkVersion

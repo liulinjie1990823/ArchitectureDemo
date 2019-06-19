@@ -12,6 +12,7 @@ try {
 ext.useComponent = properties.getProperty("useComponent")=="true"
 ext.useMaven = properties.getProperty("useMaven")=="true"
 ext.useDexcount = properties.getProperty("useDexcount")=="true"
+ext.useAspectjx = properties.getProperty("useAspectjx")=="true"
 ext.useApkUploadPlugin = properties.getProperty("useApkUploadPlugin")=="true"
 
 ext.pgyDebugApiKey = properties.getProperty("pgyDebugApiKey")

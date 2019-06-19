@@ -1,5 +1,6 @@
 package com.llj.architecturedemo.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -38,7 +39,7 @@ public class SecondActivity extends AppMvcBaseActivity implements SecondView {
         findViewById(R.id.tv_second).setOnClickListener(new DebouncingOnClickListener() {
             @Override
             public void doClick(View v) {
-//                Intent intent = new Intent(mContext, FirstActivity./class);
+                Intent intent = new Intent(mContext, FirstActivity.class);
 //                mContext.startActivity(intent);
             }
         });

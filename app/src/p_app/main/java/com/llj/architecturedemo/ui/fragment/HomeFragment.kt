@@ -112,24 +112,25 @@ class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableCont
             val textView = viewHolder.getView<TextView>(R.id.tv_text)
             setText(textView, position.toString() + "  " + item.text)
 
-            viewHolder.itemView.setOnClickListener {
-                when (item.text) {
-                    "CWebViewActivity" -> CWebViewActivity.start(mContext, "http://m.reallycar.cn/ocert")
-                    "FirstActivity" -> {
-                        val intent= Intent()
-                        intent.setClassName("com.llj.architecturedemo", "com.llj.architecturedemo.ui.activity.FirstActivity")
-                        mContext.startActivity(intent)
+            viewHolder.itemView.setOnClickListener(object :View.OnClickListener{
+                override fun onClick(v: View?) {
+                    when (item.text) {
+                        "CWebViewActivity" -> CWebViewActivity.start(mContext, "http://m.reallycar.cn/ocert")
+                        "FirstActivity" -> {
+                            val intent= Intent()
+                            intent.setClassName("com.llj.architecturedemo", "com.llj.architecturedemo.ui.activity.FirstActivity")
+                            mContext.startActivity(intent)
+                        }
+                        "SecondActivity" -> {
+                            val intent= Intent()
+                            intent.setClassName("com.llj.architecturedemo", "com.llj.architecturedemo.ui.activity.SecondActivity")
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            mContext.startActivity(intent)
+                        }
+                        else -> CRouter.start(item.path)
                     }
-                    "SecondActivity" -> {
-                        val intent= Intent()
-                        intent.setClassName("com.llj.architecturedemo", "com.llj.architecturedemo.ui.activity.SecondActivity")
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        mContext.startActivity(intent)
-                    }
-                    else -> CRouter.start(item.path)
                 }
-
-            }
+            })
         }
     }
 

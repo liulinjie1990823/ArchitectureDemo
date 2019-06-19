@@ -26,8 +26,14 @@ buildscript {
         //组件化插件
         classpath 'com.billy.android:cc-register:1.1.1'
 
+        //上传apk
         if (useApkUploadPlugin) {
             classpath 'com.llj:plugin-upload:0.0.5'
+        }
+
+        //aspectj
+        if (useAspectjx) {
+            classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.5'
         }
 
 //        classpath 'com.llj:plugin-tracker-inject:0.0.1'

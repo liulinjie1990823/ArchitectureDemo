@@ -115,7 +115,7 @@ ext {
             arouter_api                       : "com.alibaba:arouter-api:$versions.arouter_api",
             arouter_compiler                  : "com.alibaba:arouter-compiler:$versions.arouter_compiler",
 
-            //
+            //注解
             butterknife                       : "com.jakewharton:butterknife:$versions.butterknife",
             butterknife_compiler              : "com.jakewharton:butterknife-compiler:$versions.butterknife",
 
@@ -127,10 +127,10 @@ ext {
             retrofit2_gson                    : "com.squareup.retrofit2:converter-gson:$versions.retrofit2",
             retrofit2_adapter_rxjava2         : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit2",
             retrofit2_adapter_rxjava          : "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit2",
-
             okhttp                            : "com.squareup.okhttp3:okhttp:$versions.okhttp",
             okhttp_logging_interceptor        : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
             okhttp_mock_web_server            : "com.squareup.okhttp3:mockwebserver:$versions.mockwebserver",
+
             gson                              : "com.google.code.gson:gson:2.8.5",
             fastjson                          : "com.alibaba:fastjson:1.1.70.android",
             bolts                             : "com.parse.bolts:bolts-tasks:1.4.0",
@@ -143,16 +143,19 @@ ext {
             fresco_webpsupport                : "com.facebook.fresco:webpsupport:$versions.fresco",
             fresco_imagepipeline_okhttp3      : "com.facebook.fresco:imagepipeline-okhttp3:$versions.fresco",
 
+            //监控内存泄露
+            leakcanary_android                : "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary",
+            leakcanary_android_no_op          : "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leakcanary",
+
             //测试
             stetho                            : "com.facebook.stetho:stetho:$versions.stetho",
             stetho_okhttp3                    : "com.facebook.stetho:stetho-okhttp3:$versions.stetho",
             stetho_urlconnection              : "com.facebook.stetho:stetho-urlconnection:$versions.stetho",
-
             flipper                           : "com.facebook.flipper:flipper:0.16.2",
-            timber                            : "com.jakewharton.timber:timber:4.7.1",
 
-            leakcanary_android                : "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary",
-            leakcanary_android_no_op          : "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leakcanary",
+            //日志
+            timber                            : "com.jakewharton.timber:timber:4.7.1",
+            logger                            : "com.orhanobut:logger:2.2.0",
 
             auto_value_annotations            : "com.google.auto.value:auto-value-annotations:$versions.auto_value",
             auto_value_compile                : "com.google.auto.value:auto-value:$versions.auto_value",

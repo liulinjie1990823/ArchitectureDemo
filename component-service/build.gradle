@@ -127,6 +127,9 @@ dependencies {
     kapt deps.dagger_android_support_compiler
 
     api deps.bolts
+    //日志相关
+    api deps.timber
+    api deps.logger
 
 
 }
