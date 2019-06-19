@@ -185,6 +185,25 @@ public class PermissionManager {
                 .start();
     }
 
+    public static void checkPhoneStateAndStorage(Context context, PermissionListener listener) {
+        AndPermission.with(context)
+                .runtime()
+                .permission(Permission.Group.PHONE, Permission.Group.STORAGE)
+                .rationale(new RuntimeRationale())
+                .onGranted(permissions -> {
+                    if (listener != null) {
+                        listener.onGranted(permissions);
+                    }
+                })
+                .onDenied(permissions -> {
+                    if (AndPermission.hasAlwaysDeniedPermission(context, permissions)) {
+                        //不再询问
+                        GoSettingDialog.show(context, permissions);
+                    }
+                })
+                .start();
+    }
+
     //身体传感器
     public static void checkSensors(Context context, PermissionListener listener) {
         AndPermission.with(context)

@@ -64,6 +64,7 @@ android {
             signingConfig signingConfigs.release
         }
         release {
+            debuggable true
             minifyEnabled true
             useProguard true
             shrinkResources true
@@ -101,8 +102,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility build_versions.compileJdkVersion
-        sourceCompatibility build_versions.compileJdkVersion
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {

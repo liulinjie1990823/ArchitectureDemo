@@ -11,6 +11,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.llj.architecturedemo.R
 import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
+import com.llj.component.service.permission.PermissionManager
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
@@ -61,16 +62,28 @@ class LoadingActivity : ComponentMvcBaseActivity() {
 
             finish()
         }
-        mSdvAdd.viewTreeObserver.addOnGlobalLayoutListener(object :ViewTreeObserver.OnGlobalLayoutListener{
-            override fun onGlobalLayout() {
-                mSdvAdd.viewTreeObserver.removeOnDrawListener(this)
-            }
 
+
+        PermissionManager.checkPhoneStateAndStorage(this, object : PermissionManager.PermissionListener {
+            override fun onGranted(permissions: MutableList<String>?) {
+
+                mSdvAdd.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        mSdvAdd.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
+                        mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
+                    }
+                })
+
+                countDown()
+            }
         })
     }
 
     override fun initData() {
+    }
 
+    fun countDown() {
         val count: Long = 3 //倒计时10秒
         Observable.interval(0, 1, TimeUnit.SECONDS)
                 .take(count + 1)
@@ -103,14 +116,5 @@ class LoadingActivity : ComponentMvcBaseActivity() {
                         finish()
                     }
                 })
-    }
-
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) {
-            val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
-            mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
-
-        }
     }
 }
