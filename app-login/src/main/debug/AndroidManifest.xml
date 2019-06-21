@@ -44,20 +44,26 @@
     <application
         android:name="debug.MyApp"
         android:allowBackup="false"
+        android:appComponentFactory="whateverString"
         android:icon="@mipmap/login_ic_launcher"
         android:supportsRtl="true"
-        tools:replace="android:appComponentFactory"
         android:theme="@style/MyAppTheme.NoActionBar"
-        android:appComponentFactory="whateverString"
-       >
+        tools:replace="android:appComponentFactory"
+        >
         <activity android:name="com.llj.login.ui.activity.LoginActivity">
+
+        </activity>
+        <activity android:name=".ui.activity.RegisterActivity"/>
+        <activity android:name=".ui.activity.PhoneLoginActivity"/>
+        <activity android:name=".ui.activity.BeaconDemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.RegisterActivity"/>
-        <activity android:name=".ui.activity.PhoneLoginActivity"/>
+
+        <service android:name=".ui.service.JobTestService"
+                 android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 </manifest>
