@@ -116,6 +116,15 @@ class ReWriterConfig {
                 0, 3,
                 [Opcodes.ALOAD, Opcodes.ALOAD, Opcodes.ILOAD]))
 
+        sInterfaceMethods.put('onProgressChanged(Landroid/widget/SeekBar;IZ)V', new MethodCell(
+                'onProgressChanged',
+                '(Landroid/widget/SeekBar;IZ)V',
+                'android/widget/SeekBar$OnSeekBarChangeListener',
+                'onProgressChanged',
+                '(Ljava/lang/Object;Landroid/widget/RadioGroup;IZ)V',
+                0, 4,
+                [Opcodes.ALOAD, Opcodes.ALOAD, Opcodes.ILOAD, Opcodes.ILOAD]))
+
         // Todo: 扩展
     }
 

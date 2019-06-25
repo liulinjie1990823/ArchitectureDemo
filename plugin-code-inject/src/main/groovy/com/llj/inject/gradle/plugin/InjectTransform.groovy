@@ -29,9 +29,14 @@ class InjectTransform extends Transform {
         mProject = project
     }
 
+    /**
+     * Transform的名字
+     */
     @Override
     String getName() {
-        return "codeInject"
+        //关系任务名和Transform文件夹下创建的文件夹
+        //transformClassesWithCode-injectForDebug
+        return "code-inject"
     }
 
     /**
@@ -95,53 +100,65 @@ class InjectTransform extends Transform {
         inputs.each { TransformInput input ->
             //遍历jarInputs
             input.jarInputs.each { JarInput jarInput ->
-                String destName = jarInput.file.name
+                String destName = jarInput.file.name  //destName = "64"
                 // 重名名输出文件,因为可能同名,会覆盖
-                def hexName = DigestUtils.md5Hex(jarInput.file.absolutePath).substring(0, 8)
+                def hexName = DigestUtils.md5Hex(jarInput.file.absolutePath).substring(0, 8) //hexName = "3687e7d3"
                 if (destName.endsWith(".jar")) {
                     destName = destName.substring(0, destName.length() - 4)
                 }
                 //获得输出文件
+                //"/Users/liulinjie/GitHub/ArchitectureDemo/app/build/intermediates/transforms/code-inject/debug/64.jar"
                 File dest = outputProvider.getContentLocation(destName + "_" + hexName, jarInput.contentTypes, jarInput.scopes, Format.JAR)
 
                 def modifiedJar = null
                 //判断jar包是否需要改动
                 if (jarNeedModify(jarInput.file)) {
+                    //"/Users/liulinjie/GitHub/ArchitectureDemo/app/build/intermediates/transforms/cc-register/debug/64.jar"
+                    //"/Users/liulinjie/GitHub/ArchitectureDemo/app/build/tmp/transformClassesWithCode-injectForDebug"
                     modifiedJar = modifyJarFile(jarInput.file, context.getTemporaryDir())
                 }
+                //"/Users/liulinjie/GitHub/ArchitectureDemo/app/build/tmp/transformClassesWithCode-injectForDebug/3687e7d3_64.jar"
                 if (modifiedJar == null) {
                     modifiedJar = jarInput.file;
                 } else {
+                    //保存到自己设置的文件夹
                     saveModifiedJarForCheck(modifiedJar);
                 }
                 FileUtils.copyFile(modifiedJar, dest);
             }
             //遍历directoryInputs
             input.directoryInputs.each { DirectoryInput directoryInput ->
+
+                // /Users/liulinjie/GitHub/ArchitectureDemo/app/build/intermediates/transforms/code-inject/debug/183
                 File dest = outputProvider.getContentLocation(directoryInput.name, directoryInput.contentTypes, directoryInput.scopes, Format.DIRECTORY);
-//                Log.info("dest dir  ${dest.absolutePath}")
+                // /Users/liulinjie/GitHub/ArchitectureDemo/app/build/intermediates/transforms/cc-register/debug/183
                 File dir = directoryInput.file
                 if (dir) {
                     HashMap<String, File> modifyMap = new HashMap<>();
-                    dir.traverse(type: FileType.FILES, nameFilter: ~/.*\.class/) {
-                        File classFile ->
-                            File modified = modifyClassFile(dir, classFile, context.getTemporaryDir());
-                            if (modified != null) {
-                                //key为相对路径
-                                modifyMap.put(classFile.absolutePath.replace(dir.absolutePath, ""), modified);
-                            }
+                    dir.traverse(type: FileType.FILES, nameFilter: ~/.*\.class/) { File classFile ->
+                        File modified = modifyClassFile(dir, classFile, context.getTemporaryDir());
+                        //"/Users/liulinjie/GitHub/ArchitectureDemo/app/build/tmp/transformClassesWithCode-injectForDebug/com_llj_architecturedemo_ui_fragment_MineFragment_ViewBinding$7.class"
+                        if (modified != null) {
+                            //key为相对路径
+                            //key = "/com/llj/architecturedemo/ui/fragment/MineFragment_ViewBinding$7.class"
+                            modifyMap.put(classFile.absolutePath.replace(dir.absolutePath, ""), modified);
+                        }
                     }
                     FileUtils.copyDirectory(directoryInput.file, dest);
-                    modifyMap.entrySet().each {
-                        Map.Entry<String, File> en ->
-                            File target = new File(dest.absolutePath + en.getKey());
-                            Log.info(target.getAbsolutePath());
-                            if (target.exists()) {
-                                target.delete();
-                            }
-                            FileUtils.copyFile(en.getValue(), target);
-                            saveModifiedJarForCheck(en.getValue());
-                            en.getValue().delete();
+                    modifyMap.entrySet().each { Map.Entry<String, File> en ->
+                        //"/Users/liulinjie/GitHub/ArchitectureDemo/app/build/intermediates/transforms/code-inject/debug/183/com/llj/architecturedemo/ui/fragment/MineFragment_ViewBinding$7.class"
+                        File target = new File(dest.absolutePath + en.getKey());
+                        Log.info(target.getAbsolutePath());
+                        if (target.exists()) {
+                            target.delete();
+                        }
+                        //保存到自己设置的文件夹
+                        saveModifiedJarForCheck(en.getValue());
+
+                        //"/Users/liulinjie/GitHub/ArchitectureDemo/app/build/tmp/transformClassesWithCode-injectForDebug/com_llj_architecturedemo_ui_fragment_MineFragment_ViewBinding$7.class"
+                        //"/Users/liulinjie/GitHub/ArchitectureDemo/app/build/intermediates/transforms/code-inject/debug/183/com/llj/architecturedemo/ui/fragment/MineFragment_ViewBinding$7.class"
+                        FileUtils.copyFile(en.getValue(), target);
+                        en.getValue().delete();
                     }
                 }
             }
@@ -154,6 +171,8 @@ class InjectTransform extends Transform {
         if (checkJarFile.exists()) {
             checkJarFile.delete();
         }
+        //optJar = {File@77798} "/Users/liulinjie/GitHub/ArchitectureDemo/app/build/tmp/transformClassesWithCode-injectForDebug/3687e7d3_64.jar"
+        //checkJarFile = {File@77834} "/Users/liulinjie/GitHub/ArchitectureDemo/app/build/code-inject-modify/3687e7d3_64.jar"
         FileUtils.copyFile(optJar, checkJarFile);
     }
 
@@ -164,42 +183,41 @@ class InjectTransform extends Transform {
      */
     private File modifyJarFile(File jarFile, File tempDir) {
         if (jarFile) {
-            /** 设置输出到的jar */
+            //设置输出到的jar
             def hexName = DigestUtils.md5Hex(jarFile.absolutePath).substring(0, 8);
-            def optJar = new File(tempDir, hexName + jarFile.name)
+            //"/Users/liulinjie/GitHub/ArchitectureDemo/app/build/tmp/transformClassesWithCodeInjectForDebug/3687e7d3_64.jar"
+            def optJar = new File(tempDir, hexName + "_" + jarFile.name)
             JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(optJar));
-            /**
-             * 读取原jar
-             */
+
+            // 读取原jar
             def file = new JarFile(jarFile);
             Enumeration enumeration = file.entries();
             while (enumeration.hasMoreElements()) {
+                //某个class文件
                 JarEntry jarEntry = (JarEntry) enumeration.nextElement();
                 InputStream inputStream = file.getInputStream(jarEntry);
 
                 String entryName = jarEntry.getName();
-                String className
 
                 ZipEntry zipEntry = new ZipEntry(entryName);
-
                 jarOutputStream.putNextEntry(zipEntry);
 
                 byte[] modifiedClassBytes = null;
                 byte[] sourceClassBytes = IOUtils.toByteArray(inputStream);
                 if (entryName.endsWith(".class")) {
-                    className = pathToClassname(entryName)
+                    //转换成类名
+                    String className = pathToClassname(entryName)
                     if (classNeedModify(className)) {
+                        //判断该class是否需要修改
                         modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes);
                     }
                 }
-                if (modifiedClassBytes == null) {
-                    jarOutputStream.write(sourceClassBytes);
-                } else {
-                    jarOutputStream.write(modifiedClassBytes);
-                }
+
+                jarOutputStream.write(modifiedClassBytes == null ? sourceClassBytes : modifiedClassBytes)
                 jarOutputStream.closeEntry();
             }
             Log.info("${hexName} is modified");
+
             jarOutputStream.close();
             file.close();
             return optJar;
@@ -218,13 +236,15 @@ class InjectTransform extends Transform {
     private File modifyClassFile(File dir, File classFile, File tempDir) {
         File modified = null
         try {
+            //com.llj.architecturedemo.ui.fragment.DialogTestFragmen
             String className = pathToClassname(classFile.absolutePath.replace(dir.absolutePath + File.separator, ""))
             byte[] sourceClassBytes = IOUtils.toByteArray(new FileInputStream(classFile));
 
             if (classNeedModify(className)) {
                 byte[] modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes);
                 if (modifiedClassBytes) {
-                    modified = new File(tempDir, className.replace('.', '') + '.class')
+                    modified = new File(tempDir, className.replace('.', '_') + '.class')
+                    ///Users/liulinjie/GitHub/ArchitectureDemo/app/build/tmp/transformClassesWithCode-injectForDebug/comlljarchitecturedemouifragmentDialogTestFragment.class
                     if (modified.exists()) {
                         modified.delete();
                     }

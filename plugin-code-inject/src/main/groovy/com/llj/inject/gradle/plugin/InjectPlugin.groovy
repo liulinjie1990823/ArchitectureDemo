@@ -34,7 +34,7 @@ class InjectPlugin implements Plugin<Project> {
 
 
     void initDir(Project project) {
-        File pluginTmpDir = new File(project.buildDir, 'LazierTracker')
+        File pluginTmpDir = new File(project.buildDir, 'code-inject-modify')
         if (!pluginTmpDir.exists()) {
             pluginTmpDir.mkdir()
         }
