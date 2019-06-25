@@ -87,9 +87,9 @@ class MyApp : ComponentApplication(), BootstrapNotifier {
         return AndroidInjector { activity ->
             val mvpBaseActivity = activity as MvpBaseActivity<*>
 
-            if ("app" == mvpBaseActivity.moduleName()) {
+            if ("app" == mvpBaseActivity.getModuleName()) {
                 //主工程
-            } else if ("login" == mvpBaseActivity.moduleName()) {
+            } else if ("login" == mvpBaseActivity.getModuleName()) {
                 mLoginComponent.activityInjector().inject(mvpBaseActivity)
             }
         }
@@ -99,9 +99,9 @@ class MyApp : ComponentApplication(), BootstrapNotifier {
         return AndroidInjector { fragment ->
             val mvpBaseFragment = fragment as MvpBaseFragment<*>
 
-            if ("app" == mvpBaseFragment.moduleName()) {
+            if ("app" == mvpBaseFragment.getModuleName()) {
                 //主工程
-            } else if ("login" == mvpBaseFragment.moduleName()) {
+            } else if ("login" == mvpBaseFragment.getModuleName()) {
                 mLoginComponent.supportFragmentInjector().inject(mvpBaseFragment)
             }
         }

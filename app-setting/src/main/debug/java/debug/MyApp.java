@@ -66,9 +66,9 @@ public class MyApp extends ComponentApplication {
             @Override
             public void inject(Activity instance) {
                 MvpBaseActivity activity = (MvpBaseActivity) instance;
-                if ("app".equals(activity.moduleName())) {
+                if ("app".equals(activity.getModuleName())) {
                     //主工程
-                } else if ("setting".equals(activity.moduleName())) {
+                } else if ("setting".equals(activity.getModuleName())) {
                     mSettingComponent.activityInjector().inject(activity);
                 }
             }
@@ -88,9 +88,9 @@ public class MyApp extends ComponentApplication {
             @Override
             public void inject(Fragment instance) {
                 MvpBaseFragment fragment = (MvpBaseFragment) instance;
-                if ("app".equals(fragment.moduleName())) {
+                if ("app".equals(fragment.getModuleName())) {
                     //主工程
-                } else if ("setting".equals(fragment.moduleName())) {
+                } else if ("setting".equals(fragment.getModuleName())) {
                     mSettingComponent.supportFragmentInjector().inject(fragment);
                 }
             }

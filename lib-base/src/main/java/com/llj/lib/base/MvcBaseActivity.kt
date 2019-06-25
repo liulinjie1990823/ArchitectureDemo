@@ -48,8 +48,6 @@ abstract class MvcBaseActivity : AppCompatActivity()
 
         addCurrentActivity(this)
 
-        setPageName(this)
-
         getIntentData(intent)
 
         val layoutView = layoutView()

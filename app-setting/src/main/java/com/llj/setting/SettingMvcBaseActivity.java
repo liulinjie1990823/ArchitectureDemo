@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class SettingMvcBaseActivity extends ComponentMvcBaseActivity {
     @NotNull
     @Override
-    public String moduleName() {
+    public String getModuleName() {
         return "app-setting";
     }
 }

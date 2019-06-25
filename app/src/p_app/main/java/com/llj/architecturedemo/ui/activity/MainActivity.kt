@@ -31,9 +31,6 @@ import com.llj.lib.net.response.BaseResponse
 @Route(path = CRouter.APP_MAIN_ACTIVITY)
 class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
 
-    override fun getPageKey(): String {
-        return ComponentMvcBaseActivity.PAGE_NAME
-    }
 
     @BindView(R.id.ll_footer_bar) lateinit var mLlFooterBar: LinearLayout
 

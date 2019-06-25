@@ -108,7 +108,7 @@ class AppApplication : ComponentApplication() {
             val mvpBaseActivity = activity as MvpBaseActivity<*>
 
             //调用IModule中的对应action
-            CC.obtainBuilder(mvpBaseActivity.moduleName())
+            CC.obtainBuilder(mvpBaseActivity.getModuleName())
                     .setContext(activity)
                     .setActionName(IModule.INJECT_ACTIVITY)
                     .build()
@@ -121,7 +121,7 @@ class AppApplication : ComponentApplication() {
             val mvpBaseFragment = fragment as MvpBaseFragment<*>
 
             //调用IModule中的对应action
-            CC.obtainBuilder(mvpBaseFragment.moduleName())
+            CC.obtainBuilder(mvpBaseFragment.getModuleName())
                     .setContext(fragment.context)
                     .addParam("fragment", fragment.tag)
                     .setActionName(IModule.INJECT_FRAGMENT)

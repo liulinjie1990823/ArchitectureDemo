@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class SettingMvpBaseActivity<P extends IBasePresenter> extends ComponentMvpBaseActivity<P> {
     @NotNull
     @Override
-    public String moduleName() {
+    public String getModuleName() {
         return "app-setting";
     }
 

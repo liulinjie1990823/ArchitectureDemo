@@ -11,7 +11,7 @@ import android.arch.lifecycle.Lifecycle
 interface IBaseFragment :IBaseFragmentLazy{
     fun initLifecycleObserver(lifecycle: Lifecycle)
 
-    fun moduleName(): String {
+    fun getModuleName(): String {
         return "app"
     }
 }

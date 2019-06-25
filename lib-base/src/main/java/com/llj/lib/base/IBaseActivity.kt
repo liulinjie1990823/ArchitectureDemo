@@ -34,7 +34,7 @@ interface IBaseActivity : IActivityStack {
         }
     }
 
-    fun moduleName(): String {
+    fun getModuleName(): String {
         return "app"
     }
 

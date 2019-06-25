@@ -11,7 +11,7 @@ import com.llj.lib.base.mvp.IBasePresenter
  */
 abstract class LoginMvpBaseFragment<P : IBasePresenter> : MvpBaseFragment<P>() {
 
-    override fun moduleName(): String {
+    override fun getModuleName(): String {
         return "app-login"
     }
 }

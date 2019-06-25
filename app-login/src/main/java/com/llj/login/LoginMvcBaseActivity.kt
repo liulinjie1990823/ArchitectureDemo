@@ -10,7 +10,7 @@ import com.llj.component.service.ComponentMvcBaseActivity
  */
 abstract class LoginMvcBaseActivity : ComponentMvcBaseActivity() {
 
-    override fun moduleName(): String {
+    override fun getModuleName(): String {
         return "app-login"
     }
 }

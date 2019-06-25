@@ -42,10 +42,6 @@ abstract class ComponentMvpBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>
         }
 
 
-    override fun getPageKey(): String {
-        return PAGE_NAME
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         mIsWindowIsTranslucent = isWindowIsTranslucent
         initAnim()

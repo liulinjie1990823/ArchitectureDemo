@@ -54,10 +54,10 @@ interface AppComponent: IInject {
 //        return AndroidInjector { activity ->
 //            val mvpBaseActivity = activity as MvpBaseActivity<*>
 //
-//            if ("app" == mvpBaseActivity.moduleName()) {
+//            if ("app" == mvpBaseActivity.getModuleName()) {
 //                //主工程
 //                mAppComponent.activityInjector().inject(activity)
-//            } else if ("login" == mvpBaseActivity.moduleName()) {
+//            } else if ("login" == mvpBaseActivity.getModuleName()) {
 //                CC.obtainBuilder("LoginModule")
 //                        .setContext(activity)
 //                        .setActionName("injectActivity")

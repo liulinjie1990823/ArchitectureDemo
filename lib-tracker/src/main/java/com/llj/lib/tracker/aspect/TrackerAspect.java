@@ -6,14 +6,11 @@ import android.view.View;
 import com.llj.lib.tracker.R;
 import com.llj.lib.tracker.Tracker;
 import com.llj.lib.tracker.model.TrackerEvent;
-import com.llj.lib.utils.AToastUtils;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -27,9 +24,6 @@ import org.aspectj.lang.annotation.Pointcut;
  */
 @Aspect
 public class TrackerAspect {
-
-    public static final long CLICK_INTERVAL = 2000;
-    private static      long sLastClickTime;
 
     @Pointcut("execution(* android.view.View.OnClickListener.onClick(..))||execution(void *..lambda*(*..view.View))")
     public void onClick() {
@@ -46,17 +40,6 @@ public class TrackerAspect {
         Log.i("onClick", "onClickBefore  aspect   " + joinPoint.getSignature().getName());
     }
 
-    @Around("onClick()")
-    public void onClickAround(ProceedingJoinPoint joinPoint) throws Throwable {
-        Log.i("onClick", "onClickAround  aspect   ");
-        if (System.currentTimeMillis() - sLastClickTime >= CLICK_INTERVAL) {
-            sLastClickTime = System.currentTimeMillis();
-            joinPoint.proceed();
-        } else {
-            AToastUtils.show("请不要重复点击");
-            Log.e("onClick", "onClickAround  aspect   重复点击,已过滤");
-        }
-    }
 
     @After("onClick()")
     public void onClickAfter(JoinPoint joinPoint) throws Throwable {

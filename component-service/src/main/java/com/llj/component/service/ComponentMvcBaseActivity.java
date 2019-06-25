@@ -25,16 +25,9 @@ public abstract class ComponentMvcBaseActivity extends MvcBaseActivity {
     protected int     mActivityCloseExitAnimation;
     protected boolean mIsWindowIsTranslucent;
 
-    public static final String PAGE_NAME = "PageName";
 
     protected boolean mUseAnim;
 
-
-    @NonNull
-    @Override
-    public String getPageKey() {
-        return PAGE_NAME;
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
