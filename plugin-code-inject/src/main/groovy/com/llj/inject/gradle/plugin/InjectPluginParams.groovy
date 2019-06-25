@@ -1,7 +1,6 @@
 package com.llj.inject.gradle.plugin
 
-public class InjectPluginParams {
-    String pluginName = ''
+class InjectPluginParams {
     boolean enableModify = true
     boolean watchTimeConsume = false
     boolean keepQuiet = false

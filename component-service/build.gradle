@@ -120,6 +120,7 @@ dependencies {
     debugImplementation deps.flipper
     //内存检测
     debugImplementation deps.leakcanary_android
+    betaImplementation deps.leakcanary_android_no_op
     releaseImplementation deps.leakcanary_android_no_op
 
     kapt deps.butterknife_compiler

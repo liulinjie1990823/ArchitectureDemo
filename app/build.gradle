@@ -2,7 +2,6 @@ if (useDexcount) {
     apply plugin: 'com.getkeepsafe.dexcount'
 }
 apply plugin: 'walle'
-//apply plugin: 'plugin-tracker-inject'
 
 if (useAspectjx) {
     apply plugin: 'android-aspectjx'
@@ -10,7 +9,17 @@ if (useAspectjx) {
     aspectjx {
         //AspectJX功能开关
         enabled true
-//        exclude 'com.llj.architecturedemo'
+    }
+}
+
+if (useCodeInject) {
+    apply plugin: 'plugin-code-inject'
+
+    codeInjectConfig {
+        showHelp = true
+        keepQuiet = false
+        watchTimeConsume = false
+        targetPackages = ['com.llj.architecturedemo.ui.fragment']
     }
 }
 

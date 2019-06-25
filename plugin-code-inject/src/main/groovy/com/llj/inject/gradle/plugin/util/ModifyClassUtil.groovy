@@ -1,6 +1,7 @@
 package com.llj.inject.gradle.plugin.util
 
 import com.llj.inject.gradle.plugin.MethodCell
+import com.llj.inject.gradle.plugin.ReWriterConfig
 import org.objectweb.asm.*
 
 /**
@@ -8,11 +9,13 @@ import org.objectweb.asm.*
  * Modified by nailperry on 2017/3/2.
  *
  */
-public class ModifyClassUtil {
+class ModifyClassUtil {
 
-    public static byte[] modifyClasses(String className, byte[] srcByteCode) {
+    static byte[] modifyClasses(String className, byte[] srcByteCode) {
         byte[] classBytesCode = null;
         try {
+            Log.info(" ");
+            Log.info(" ");
             Log.info("====start modifying ${className}====");
             classBytesCode = modifyClass(srcByteCode);
             Log.info("====revisit modified ${className}====");
@@ -31,22 +34,26 @@ public class ModifyClassUtil {
 
     private static byte[] modifyClass(byte[] srcClass) throws IOException {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        ClassVisitor methodFilterCV = new MethodFilterClassVisitor(classWriter);
-        ClassReader cr = new ClassReader(srcClass);
-        cr.accept(methodFilterCV, ClassReader.SKIP_DEBUG);
+        ClassVisitor classVisitor = new MethodFilterClassVisitor(classWriter);
+        ClassReader classReader = new ClassReader(srcClass);
+        classReader.accept(classVisitor, ClassReader.SKIP_DEBUG);
         return classWriter.toByteArray();
     }
 
     private static void onlyVisitClassMethod(byte[] srcClass) throws IOException {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        MethodFilterClassVisitor methodFilterCV = new MethodFilterClassVisitor(classWriter);
-        methodFilterCV.onlyVisit = true;
-        ClassReader cr = new ClassReader(srcClass);
-        cr.accept(methodFilterCV, ClassReader.SKIP_DEBUG);
+        MethodFilterClassVisitor classVisitor = new MethodFilterClassVisitor(classWriter);
+        classVisitor.onlyVisit = true;
+        ClassReader classReader = new ClassReader(srcClass);
+        classReader.accept(classVisitor, ClassReader.SKIP_DEBUG);
     }
 
     private static boolean instanceOfFragment(String superName) {
-        return superName.equals('android/app/Fragment') || superName.equals('android/support/v4/app/Fragment')
+        return 'android/app/Fragment'.equals(superName) ||
+                'android/support/v4/app/Fragment'.equals(superName) ||
+                'android/support/v4/app/DialogFragment'.equals(superName) ||
+                'com/llj/lib/base/MvcBaseFragment'.equals(superName) ||
+                'com/llj/lib/base/MvpBaseFragment'.equals(superName)
     }
 
     /**
@@ -131,8 +138,7 @@ public class ModifyClassUtil {
         }
 
         @Override
-        void visitInnerClass(String name, String outerName,
-                             String innerName, int access) {
+        void visitInnerClass(String name, String outerName, String innerName, int access) {
             Log.logEach('* visitInnerClass *', name, outerName, innerName, Log.accCode2String(access));
             super.visitInnerClass(name, outerName, innerName, access)
         }
@@ -156,8 +162,7 @@ public class ModifyClassUtil {
         }
 
         @Override
-        public void visit(int version, int access, String name,
-                          String signature, String superName, String[] interfaces) {
+        public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
             Log.logEach('* visit *', Log.accCode2String(access), name, signature, superName, interfaces);
             this.superName = superName
             this.interfaces = interfaces
@@ -165,8 +170,7 @@ public class ModifyClassUtil {
         }
 
         @Override
-        public MethodVisitor visitMethod(int access, String name,
-                                         String desc, String signature, String[] exceptions) {
+        public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
             MethodVisitor myMv = null;
             if (!onlyVisit) {
                 Log.logEach("* visitMethod *", Log.accCode2String(access), name, desc, signature, exceptions);
@@ -200,7 +204,8 @@ public class ModifyClassUtil {
                     // 记录该方法已存在
                     visitedFragMethods.add(name + desc)
                     if (onlyVisit) {
-                        myMv = new MethodLogVisitor(cv.visitMethod(access, name, desc, signature, exceptions));
+                        MethodVisitor methodVisitor = cv.visitMethod(access, name, desc, signature, exceptions);
+                        myMv = new MethodLogVisitor(methodVisitor);
                     } else {
                         try {
                             MethodVisitor methodVisitor = cv.visitMethod(access, name, desc, signature, exceptions);
@@ -208,7 +213,6 @@ public class ModifyClassUtil {
 
                                 @Override
                                 void visitInsn(int opcode) {
-
                                     // 确保super.onHiddenChanged(hidden);等先被调用
                                     if (opcode == Opcodes.RETURN) { //在返回之前安插代码
                                         visitMethodWithLoadedParams(methodVisitor, Opcodes.INVOKESTATIC, ReWriterConfig.sAgentClassName, methodCell.agentName, methodCell.agentDesc, methodCell.paramsStart, methodCell.paramsCount, methodCell.opcodes)

@@ -6,6 +6,10 @@ dependencies {
     debugImplementation deps.SmartRefreshLayout
     debugImplementation deps.kotlin_stdlib_jdk8
 
+    betaCompileOnly deps.support_recyclerview_v7
+    betaCompileOnly deps.SmartRefreshLayout
+    betaCompileOnly deps.kotlin_stdlib_jdk8
+
     releaseCompileOnly deps.support_recyclerview_v7
     releaseCompileOnly deps.SmartRefreshLayout
     releaseCompileOnly deps.kotlin_stdlib_jdk8

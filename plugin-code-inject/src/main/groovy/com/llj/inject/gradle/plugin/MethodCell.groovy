@@ -4,7 +4,7 @@ package com.llj.inject.gradle.plugin
  * Created by nailperry on 2017/3/4.
  */
 
-public class MethodCell {
+class MethodCell {
     // 原方法名
     String name
     // 原方法描述

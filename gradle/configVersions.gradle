@@ -213,7 +213,7 @@ ext {
 
 def addRepos(RepositoryHandler handler) {
     //本地的maven仓库，需要maven格式的包
-//    handler.maven { url uri('./repo') }//插件
+    handler.maven { url uri('./repo') }//插件
 //    handler.mavenLocal()
     //工程中的lib文件夹，依赖aar和jar文件
 

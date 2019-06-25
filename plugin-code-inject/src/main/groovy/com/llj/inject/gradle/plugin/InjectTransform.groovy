@@ -31,29 +31,38 @@ class InjectTransform extends Transform {
 
     @Override
     String getName() {
-        return "InjectTransform"
+        return "codeInject"
     }
 
-    //用于指明Transform的输入类型，可以作为输入过滤的手段
+    /**
+     * 用于指明Transform的输入类型，可以作为输入过滤的手段
+     * @return
+     */
     @Override
     Set<QualifiedContent.ContentType> getInputTypes() {
         return TransformManager.CONTENT_CLASS
     }
 
-    //指Transform要操作内容的范围
-//    EXTERNAL_LIBRARIES        只有外部库
-//    PROJECT                   只有项目内容
-//    PROJECT_LOCAL_DEPS        只有项目的本地依赖(本地jar)
-//    PROVIDED_ONLY             只提供本地或远程依赖项
-//    SUB_PROJECTS              只有子项目。
-//    SUB_PROJECTS_LOCAL_DEPS   只有子项目的本地依赖项(本地jar)。
-//    TESTED_CODE               由当前变量(包括依赖项)测试的代码
+    /**
+     * 指Transform要操作内容的范围
+     *
+     *     EXTERNAL_LIBRARIES        只有外部库
+     *     PROJECT                   只有项目内容
+     *     PROJECT_LOCAL_DEPS        只有项目的本地依赖(本地jar)
+     *     PROVIDED_ONLY             只提供本地或远程依赖项
+     *     SUB_PROJECTS              只有子项目。
+     *     SUB_PROJECTS_LOCAL_DEPS   只有子项目的本地依赖项(本地jar)。
+     *     TESTED_CODE               由当前变量(包括依赖项)测试的代码
+     */
     @Override
     Set<? super QualifiedContent.Scope> getScopes() {
         return TransformManager.SCOPE_FULL_PROJECT
     }
 
-    //用于指明是否是增量构建
+    /**
+     * 用于指明是否是增量构建
+     * @return
+     */
     @Override
     boolean isIncremental() {
         return false
@@ -71,21 +80,22 @@ class InjectTransform extends Transform {
 
         //应用包名
         String appPackageName = getAppPackageName()
-        if (appPackageName != null) {
-            mTargetPackages.add(appPackageName)
-        }
+//        if (appPackageName != null) {
+//            mTargetPackages.add(appPackageName)
+//        }
+
 
         //设置的需要扫描的包名
-        HashSet<String> inputPackages = mProject.codelessConfig.targetPackages
+        HashSet<String> inputPackages = mProject.codeInjectConfig.targetPackages
         if (inputPackages != null) {
-            mTargetPackages.addAll(inputPackages);
+            mTargetPackages.addAll(inputPackages)
         }
 
         //遍历输入文件
         inputs.each { TransformInput input ->
             //遍历jarInputs
             input.jarInputs.each { JarInput jarInput ->
-                String destName = jarInput.file.name;
+                String destName = jarInput.file.name
                 // 重名名输出文件,因为可能同名,会覆盖
                 def hexName = DigestUtils.md5Hex(jarInput.file.absolutePath).substring(0, 8)
                 if (destName.endsWith(".jar")) {
@@ -93,9 +103,11 @@ class InjectTransform extends Transform {
                 }
                 //获得输出文件
                 File dest = outputProvider.getContentLocation(destName + "_" + hexName, jarInput.contentTypes, jarInput.scopes, Format.JAR)
-                def modifiedJar = null;
-                if (isJarNeedModify(jarInput.file)) {
-                    modifiedJar = modifyJarFile(jarInput.file, context.getTemporaryDir());
+
+                def modifiedJar = null
+                //判断jar包是否需要改动
+                if (jarNeedModify(jarInput.file)) {
+                    modifiedJar = modifyJarFile(jarInput.file, context.getTemporaryDir())
                 }
                 if (modifiedJar == null) {
                     modifiedJar = jarInput.file;
@@ -135,7 +147,6 @@ class InjectTransform extends Transform {
             }
         }
     }
-
 
     private void saveModifiedJarForCheck(File optJar) {
         File dir = DataHelper.ext.pluginTmpDir;
@@ -177,7 +188,7 @@ class InjectTransform extends Transform {
                 byte[] sourceClassBytes = IOUtils.toByteArray(inputStream);
                 if (entryName.endsWith(".class")) {
                     className = pathToClassname(entryName)
-                    if (shouldModifyClass(className)) {
+                    if (classNeedModify(className)) {
                         modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes);
                     }
                 }
@@ -197,13 +208,20 @@ class InjectTransform extends Transform {
     }
 
 
+    /**
+     *
+     * @param dir
+     * @param classFile
+     * @param tempDir
+     * @return
+     */
     private File modifyClassFile(File dir, File classFile, File tempDir) {
         File modified = null
         try {
             String className = pathToClassname(classFile.absolutePath.replace(dir.absolutePath + File.separator, ""))
             byte[] sourceClassBytes = IOUtils.toByteArray(new FileInputStream(classFile));
 
-            if (shouldModifyClass(className)) {
+            if (classNeedModify(className)) {
                 byte[] modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes);
                 if (modifiedClassBytes) {
                     modified = new File(tempDir, className.replace('.', '') + '.class')
@@ -225,8 +243,8 @@ class InjectTransform extends Transform {
      * @param className 形如 mAndroid.app.Fragment 的类名
      * @return
      */
-    private boolean shouldModifyClass(String className) {
-        if ((!mProject.codelessConfig.enableModify) || mTargetPackages == null) {
+    private boolean classNeedModify(String className) {
+        if ((!mProject.codeInjectConfig.enableModify) || mTargetPackages == null) {
             return false
         }
         Iterator<String> iterator = mTargetPackages.iterator()
@@ -234,6 +252,7 @@ class InjectTransform extends Transform {
         while (iterator.hasNext()) {
             String packageName = iterator.next()
             if (className.contains(packageName)) {
+                //在指定的包名mTargetPackages中，且不是R,BuildConfig文件
                 return (!className.contains("R\$") && !className.endsWith("R") && !className.endsWith("BuildConfig"))
             }
         }
@@ -245,7 +264,7 @@ class InjectTransform extends Transform {
      * @param jarFile
      * @return
      */
-    private boolean isJarNeedModify(File jarFile) {
+    private boolean jarNeedModify(File jarFile) {
         boolean modified = false
 
         if (mTargetPackages == null || mTargetPackages.size() <= 0) {
@@ -253,7 +272,7 @@ class InjectTransform extends Transform {
         }
         if (jarFile) {
             //读取原jar
-            def file = new JarFile(jarFile);
+            def file = new JarFile(jarFile)
             Enumeration enumeration = file.entries()
             while (enumeration.hasMoreElements()) {
                 JarEntry jarEntry = (JarEntry) enumeration.nextElement()
@@ -262,7 +281,7 @@ class InjectTransform extends Transform {
                     continue
                 }
                 String className = pathToClassname(entryName)
-                if (shouldModifyClass(className)) {
+                if (classNeedModify(className)) {
                     modified = true
                     break
                 }

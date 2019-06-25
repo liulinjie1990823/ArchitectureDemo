@@ -10,18 +10,20 @@ class InjectPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        println ":applied LazierTracker"
+        println ":applied plugin-code-inject"
 
-        project.extensions.create('codelessConfig', InjectPluginParams)
+        project.extensions.create('codeInjectConfig', InjectPluginParams)
 
-        registerTransform(project)
+        project.extensions.getByType(BaseExtension).registerTransform(new InjectTransform(project))
 
         initDir(project)
+
         project.afterEvaluate {
-            Log.setQuiet(project.codelessConfig.keepQuiet);
-            Log.setShowHelp(project.codelessConfig.showHelp);
+            Log.setQuiet(project.codeInjectConfig.keepQuiet);
+            Log.setShowHelp(project.codeInjectConfig.showHelp);
             Log.logHelp();
-            if (project.codelessConfig.watchTimeConsume) {
+
+            if (project.codeInjectConfig.watchTimeConsume) {
                 Log.info "watchTimeConsume enabled"
                 project.gradle.addListener(new TimeListener())
             } else {
@@ -30,12 +32,6 @@ class InjectPlugin implements Plugin<Project> {
         }
     }
 
-
-    def static registerTransform(Project project) {
-        def android = project.extensions.getByType(BaseExtension)
-        InjectTransform transform = new InjectTransform(project)
-        android.registerTransform(transform)
-    }
 
     void initDir(Project project) {
         File pluginTmpDir = new File(project.buildDir, 'LazierTracker')
