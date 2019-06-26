@@ -38,7 +38,6 @@ public class CommonAspect {
 
     }
 
-    @Around("getPageName()")
     public Object getPageNameAround(ProceedingJoinPoint joinPoint) throws Throwable {
         Log.i("getPageName", "getPageNameAround  aspect   ");
         Object target = joinPoint.getTarget();

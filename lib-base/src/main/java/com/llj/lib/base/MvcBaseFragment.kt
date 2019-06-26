@@ -14,6 +14,7 @@ import com.llj.lib.base.event.BaseEvent
 import com.llj.lib.base.tracker.ITracker
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITaskId
+import com.llj.lib.tracker.PageName
 import com.llj.lib.utils.AInputMethodManagerUtils
 import com.llj.lib.utils.LogUtil
 import dagger.android.support.AndroidSupportInjection
@@ -64,6 +65,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     var mUseSoftInput: Boolean = false //是否使用软键盘
 
+    private var mPageName: String? = null
     private var mChildPageName: String? = null
 
     override fun getChildPageName(): String? {
@@ -75,7 +77,11 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
     }
 
     override fun getPageName(): String {
-        return this.javaClass.simpleName
+        if (mPageName == null) {
+            val annotation = javaClass.getAnnotation(PageName::class.java)
+            mPageName = annotation?.value ?: this.javaClass.simpleName
+        }
+        return mPageName!!
     }
 
     //<editor-fold desc="生命周期">
