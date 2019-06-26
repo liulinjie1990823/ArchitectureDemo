@@ -6,33 +6,77 @@ import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.support.annotation.CallSuper
 import android.view.*
 import butterknife.ButterKnife
 import butterknife.Unbinder
+import com.llj.lib.base.event.BaseEvent
+import com.llj.lib.base.tracker.ITracker
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITaskId
 import com.llj.lib.utils.AInputMethodManagerUtils
 import com.llj.lib.utils.LogUtil
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.Disposable
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
+ * 08-11 11:33:36.156    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ setUserVisibleHint false
+ * 08-11 11:33:36.156    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ setUserVisibleHint false
+ * 08-11 11:33:36.157    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ setUserVisibleHint true
+ * 08-11 11:33:36.158    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ onAttach
+ * 08-11 11:33:36.158    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ onCreate
+ * 08-11 11:33:36.159    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ onCreateView
+ * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ onActivityCreated
+ * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ onResume()
+ * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ onAttach
+ * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ onCreate
+ * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ onCreateView
+ * 08-11 11:33:36.161    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ onActivityCreated
+ * 08-11 11:33:36.161    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ onResume()
+ *
+ * 当切换到第二个fragment时打印日志：
+ *
+ * 08-11 11:33:54.084    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ setUserVisibleHint false
+ * 08-11 11:33:54.084    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ setUserVisibleHint false
+ * 08-11 11:33:54.084    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ setUserVisibleHint true
+ * 08-11 11:33:54.084    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ onAttach
+ * 08-11 11:33:54.085    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ onCreate
+ * 08-11 11:33:54.085    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ onCreateView
+ * 08-11 11:33:54.085    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ onActivityCreated
+ * 08-11 11:33:54.085    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ onResume()
+ *
  * ArchitectureDemo.
  * describe:
  * author llj
  * date 2018/8/15
  */
-abstract class MvcBaseFragment : BaseFragment() {
+abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
+        , IBaseFragment, ICommon, IUiHandler, IEvent, ITracker, ITask, ILoadingDialogHandler {
     val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context
 
     private var mInit: Boolean = false //是否已经初始化
-    private var mVisible: Boolean = false //是否可见
 
     private lateinit var mUnBinder: Unbinder
     private var mRequestDialog: ITaskId? = null
 
     var mUseSoftInput: Boolean = false //是否使用软键盘
+
+    private var mChildPageName: String? = null
+
+    override fun getChildPageName(): String? {
+        return mChildPageName
+    }
+
+    override fun setChildPageName(name: String) {
+        mChildPageName = name
+    }
+
+    override fun getPageName(): String {
+        return this.javaClass.simpleName
+    }
 
     //<editor-fold desc="生命周期">
     override fun onAttach(context: Context?) {
@@ -105,6 +149,8 @@ abstract class MvcBaseFragment : BaseFragment() {
 
         checkRequestDialog()
 
+        register(this)
+
         initViews(savedInstanceState)
 
         return view
@@ -116,10 +162,11 @@ abstract class MvcBaseFragment : BaseFragment() {
         //当使用viewPager进行预加载fragment的时候,先调用setUserVisibleHint,后调用onViewCreated
         //所以刚开始是mIsInit=true,mIsVisible为false
 
-        mVisible = true
-
-        if (hasInitAndVisible()) {
-            onLazyLoad()
+        // 加载数据
+        if (useLazyLoad()) {
+            if (hasInitAndVisible()) {
+                onLazyInitData()
+            }
         }
     }
 
@@ -128,14 +175,15 @@ abstract class MvcBaseFragment : BaseFragment() {
 
         // 已经完成初始化
         mInit = true
-        //
-        initViews(savedInstanceState)
-        //
+        // 加载数据
         if (useLazyLoad()) {
             if (hasInitAndVisible()) {
-                onLazyLoad()
+                onLazyInitData()
             }
         } else {
+            val tracker = mContext as ITracker
+            tracker.childPageName = pageName
+
             initData()
         }
     }
@@ -149,6 +197,8 @@ abstract class MvcBaseFragment : BaseFragment() {
             requestDialog.cancel()
         }
 
+        unregister(this)
+
         removeAllDisposable()
 
         mUnBinder.unbind()
@@ -158,21 +208,41 @@ abstract class MvcBaseFragment : BaseFragment() {
 
     //<editor-fold desc="任务处理">
     override fun addDisposable(taskId: Int, disposable: Disposable) {
-        if (mContext is ITask) {
-            (mContext as ITask).addDisposable(taskId, disposable)
+        mContext.let {
+            if (it is ITask) {
+                it.addDisposable(taskId, disposable)
+            }
         }
     }
 
     override fun removeDisposable(taskId: Int?) {
-        if (mContext is ITask) {
-            (mContext as ITask).removeDisposable(taskId)
+        mContext.let {
+            if (it is ITask) {
+                it.removeDisposable(taskId)
+            }
         }
     }
 
     override fun removeAllDisposable() {
-        if (mContext is ITask) {
-            (mContext as ITask).removeAllDisposable()
+        mContext.let {
+            if (it is ITask) {
+                it.removeAllDisposable()
+            }
         }
+    }
+    //</editor-fold >
+
+    //<editor-fold desc="事件总线">
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun <T> onEvent(event: BaseEvent<T>) {
+        if ("refresh" == event.message && pageName == event.data) {
+            initData()
+        } else {
+            onReceiveEvent(event)
+        }
+    }
+
+    override fun <T : Any?> onReceiveEvent(event: BaseEvent<T>) {
     }
     //</editor-fold >
 
@@ -184,11 +254,17 @@ abstract class MvcBaseFragment : BaseFragment() {
 
     //<editor-fold desc="IBaseFragmentLazy">
     override fun hasInitAndVisible(): Boolean {
-        return mInit && mVisible
+        return mInit && userVisibleHint
     }
 
-    override fun onLazyLoad() {
-        LogUtil.e(mTagLog, "mInit:$mInit,mVisible:$mVisible")
+    @CallSuper
+    override fun onLazyInitData() {
+        mContext.let {
+            if (it is ITracker) {
+                it.childPageName = pageName
+            }
+        }
+        LogUtil.e(mTagLog, "mInit:$mInit,mVisible:$userVisibleHint")
     }
     //</editor-fold >
 

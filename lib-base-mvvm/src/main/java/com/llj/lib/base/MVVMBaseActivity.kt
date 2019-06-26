@@ -23,7 +23,7 @@ import javax.inject.Inject
  * date 2018/6/30
  */
 abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCompatActivity(),
-        IBaseActivity, ICommon, IUiHandler, IEvent, ILoadingDialogHandler, ITask {
+        IBaseActivity, ICommon, IUiHandler, IEventK, ILoadingDialogHandler, ITask {
     val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context
 

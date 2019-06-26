@@ -13,6 +13,7 @@ import com.llj.architecturedemo.db.entity.MobileEntity;
 import com.llj.architecturedemo.ui.view.SecondView;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.component.service.tracker.ITrackerReport;
+import com.llj.lib.tracker.PageName;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -23,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
  * @author llj
  * @date 2019-05-23
  */
+@PageName(value = "SecondActivityTest")
 @Route(path = CRouter.APP_FIRST_ACTIVITY)
 public class SecondActivity extends AppMvcBaseActivity implements SecondView, ITrackerReport {
     @Override
@@ -44,10 +46,7 @@ public class SecondActivity extends AppMvcBaseActivity implements SecondView, IT
         findViewById(R.id.tv_third).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setTrackerData(v, "text", "http://www.baidu.com");
-
-                Intent intent = new Intent(mContext, FirstActivity.class);
-//                mContext.startActivity(intent);
+                showToast(getPageName());
             }
         });
     }

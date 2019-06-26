@@ -1,7 +1,9 @@
 package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -14,6 +16,7 @@ import com.llj.architecturedemo.vo.Cat;
 import com.llj.architecturedemo.vo.User;
 import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
+import com.llj.lib.base.event.BaseEvent;
 import com.llj.lib.component.annotation.BindView;
 import com.llj.lib.component.annotation.IntentKey;
 import com.llj.lib.component.annotation.OnClick;
@@ -28,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
  * date 2019/3/12
  */
 @PageName(value = "activity_apt")
-@Jump(ciw = "ciw://AptActivity2", route = CRouter.APP_APT_ACTIVITY2,needLogin = true,desc = "AptActivity2")
+@Jump(ciw = "ciw://AptActivity2", route = CRouter.APP_APT_ACTIVITY2, needLogin = true, desc = "AptActivity2")
 @Route(path = CRouter.APP_APT_ACTIVITY2)
 public class AptActivity2 extends ComponentMvcBaseActivity {
     @BindView(R.id.root) ConstraintLayout mConstraintLayout;
@@ -63,10 +66,45 @@ public class AptActivity2 extends ComponentMvcBaseActivity {
     public void initViews(@Nullable Bundle savedInstanceState) {
 //        NeacyFinder.inject(this);
 
+        findViewById(R.id.text1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BaseEvent baseEvent = new BaseEvent();
+                baseEvent.setCode(1);
+                post(baseEvent);
+
+            }
+        });
+        findViewById(R.id.text2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BaseEvent<String> baseEvent = new BaseEvent<>();
+                baseEvent.setCode(1);
+                baseEvent.setData("cadadada");
+                post(baseEvent);
+            }
+        });
+
+        findViewById(R.id.text3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BaseEvent<Integer> baseEvent = new BaseEvent<>();
+                baseEvent.setCode(1);
+                baseEvent.setData(10086);
+                post(baseEvent);
+            }
+        });
     }
 
     @Override
     public void initData() {
 
     }
+
+    @Override
+    public <T> void onReceiveEvent(@NonNull BaseEvent<T> event) {
+        super.onReceiveEvent(event);
+    }
+
+
 }

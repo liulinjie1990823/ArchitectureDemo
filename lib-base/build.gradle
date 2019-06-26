@@ -13,11 +13,13 @@ dependencies {
         implementation deps.statusbar
         implementation deps.net
         implementation deps.tracker
+        api deps.base_event
     } else {
         implementation project(':lib-utils')
         implementation project(':lib-statusbar')
         implementation project(':lib-net')
         implementation project(':lib-tracker')
+        api project(':lib-base-event')
     }
 
     //kotlin
@@ -52,8 +54,6 @@ dependencies {
     //butterknife
     api deps.butterknife
 
-    //事件
-    api deps.eventbus
 
     //网络
     api deps.retrofit2

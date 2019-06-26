@@ -2,6 +2,7 @@ package com.llj.lib.tracker.aspect;
 
 import android.util.Log;
 
+import com.llj.lib.tracker.PageName;
 import com.llj.lib.utils.AToastUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -37,6 +38,17 @@ public class CommonAspect {
 
     }
 
+    @Around("getPageName()")
+    public Object getPageNameAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        Log.i("getPageName", "getPageNameAround  aspect   ");
+        Object target = joinPoint.getTarget();
+        PageName annotation = target.getClass().getAnnotation(PageName.class);
+        if (annotation != null && !annotation.value().isEmpty()) {
+            return annotation.value();
+        } else {
+            return target.getClass().getSimpleName();
+        }
+    }
 
     @Around("onClick()")
     public void onClickAround(ProceedingJoinPoint joinPoint) throws Throwable {

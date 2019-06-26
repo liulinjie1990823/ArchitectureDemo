@@ -13,6 +13,7 @@ import android.widget.SeekBar;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.ui.model.BabyHomeModuleItemVo;
 import com.llj.lib.base.MvcBaseFragment;
+import com.llj.lib.tracker.PageName;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
  * author llj
  * date 2018/11/2
  */
+@PageName(value = "DataFragment")
 public class DataFragment extends MvcBaseFragment
         implements View.OnClickListener,
         android.content.DialogInterface.OnClickListener,
@@ -51,6 +53,9 @@ public class DataFragment extends MvcBaseFragment
     @Override
     public void initViews(@Nullable Bundle savedInstanceState) {
 
+        getView().findViewById(R.id.tv_title).setOnClickListener(v -> {
+
+        });
     }
 
     @Override

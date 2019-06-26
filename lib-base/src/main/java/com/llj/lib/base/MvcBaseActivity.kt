@@ -10,12 +10,16 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import butterknife.ButterKnife
 import butterknife.Unbinder
+import com.llj.lib.base.event.BaseEvent
 import com.llj.lib.base.mvp.IBaseActivityView
+import com.llj.lib.base.tracker.ITracker
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITaskId
-import com.llj.lib.tracker.ITracker
+import com.llj.lib.tracker.PageName
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * ArchitectureDemo.
@@ -34,6 +38,29 @@ abstract class MvcBaseActivity : AppCompatActivity()
     private var mRequestDialog: ITaskId? = null
 
     private val mCancelableTask: ArrayMap<Int, Disposable> = ArrayMap()
+
+    private var mPageName: String? = null
+    private var mChildPageName: String? = null
+
+    override fun getChildPageName(): String? {
+        return mChildPageName
+    }
+
+    override fun setChildPageName(name: String) {
+        mChildPageName = name
+    }
+
+    override fun getPageName(): String {
+        if (mPageName == null) {
+            val annotation = javaClass.getAnnotation(PageName::class.java)
+            mPageName = annotation?.value ?: this.javaClass.simpleName
+        }
+        return mPageName!!
+    }
+
+    override fun useEventBus(): Boolean {
+        return true
+    }
 
     //<editor-fold desc="生命周期">
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,9 +158,17 @@ abstract class MvcBaseActivity : AppCompatActivity()
     //</editor-fold >
 
     //<editor-fold desc="事件总线">
-    //    @Subscribe(threadMode = ThreadMode.MAIN)
-    //    fun <T> onEvent(event: BaseEvent<T>) {
-    //    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun <T> onEvent(event: BaseEvent<T>) {
+        if ("refresh" == event.message && pageName == event.data) {
+            initData()
+        } else {
+            onReceiveEvent(event)
+        }
+    }
+
+    override fun <T : Any?> onReceiveEvent(event: BaseEvent<T>) {
+    }
     //</editor-fold >
 
     //<editor-fold desc="IBaseActivity">

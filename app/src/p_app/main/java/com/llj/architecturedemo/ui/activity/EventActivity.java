@@ -11,7 +11,7 @@ import com.llj.architecturedemo.vo.Cat;
 import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CInner;
 import com.llj.component.service.arouter.CRouter;
-import com.llj.lib.base.BaseEvent;
+import com.llj.lib.base.event.BaseEvent;
 import com.llj.lib.jni.test.JniTest;
 import com.llj.lib.utils.LogUtil;
 

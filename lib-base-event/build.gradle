@@ -1,11 +1,8 @@
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation deps.eventbus
-
-    implementation deps.lifecycle_runtime
-    implementation deps.lifecycle_java8
-    implementation deps.lifecycle_extensions
+    //事件
+    api deps.eventbus
 }
 
 apply from: rootProject.file('gradle/uploadArchives.gradle')

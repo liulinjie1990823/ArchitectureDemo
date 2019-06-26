@@ -11,7 +11,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
@@ -22,7 +21,6 @@ import org.aspectj.lang.annotation.Pointcut;
  * @author llj
  * @date 2019-06-19
  */
-@Aspect
 public class TrackerAspect {
 
     @Pointcut("execution(* android.view.View.OnClickListener.onClick(..))||execution(void *..lambda*(*..view.View))")
