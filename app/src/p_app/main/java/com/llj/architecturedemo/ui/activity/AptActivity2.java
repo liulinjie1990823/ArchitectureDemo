@@ -24,6 +24,8 @@ import com.llj.lib.tracker.PageName;
 
 import org.jetbrains.annotations.Nullable;
 
+import timber.log.Timber;
+
 /**
  * ArchitectureDemo.
  * describe:
@@ -69,6 +71,7 @@ public class AptActivity2 extends ComponentMvcBaseActivity {
         findViewById(R.id.text1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Timber.e("onClick text1");
                 BaseEvent baseEvent = new BaseEvent();
                 baseEvent.setCode(1);
                 post(baseEvent);
@@ -78,6 +81,7 @@ public class AptActivity2 extends ComponentMvcBaseActivity {
         findViewById(R.id.text2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Timber.e("onClick text1");
                 BaseEvent<String> baseEvent = new BaseEvent<>();
                 baseEvent.setCode(1);
                 baseEvent.setData("cadadada");
@@ -88,6 +92,7 @@ public class AptActivity2 extends ComponentMvcBaseActivity {
         findViewById(R.id.text3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Timber.e("onClick text1");
                 BaseEvent<Integer> baseEvent = new BaseEvent<>();
                 baseEvent.setCode(1);
                 baseEvent.setData(10086);

@@ -22,6 +22,8 @@ import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
 import com.tencent.smtt.export.external.interfaces.WebResourceError;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
+import com.tencent.smtt.sdk.CookieManager;
+import com.tencent.smtt.sdk.CookieSyncManager;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
@@ -29,7 +31,10 @@ import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import timber.log.Timber;
 
 /**
  * https://blog.csdn.net/carson_ho/article/details/52693322
@@ -39,6 +44,7 @@ import java.util.Map;
  * date 2018/5/8
  */
 public class CWebView extends WebView {
+    public static final String TAG = CWebView.class.getSimpleName();
 
     private MyWebChromeClient.OpenFileChooserCallBack mOpenFileChooserCallBack;
 
@@ -85,6 +91,80 @@ public class CWebView extends WebView {
         initLongClickListener();
 
         requestFocus();
+    }
+
+    private String domain;
+
+    /**
+     * 最好获取顶级域名的Domain，更好的适配cookie
+     *
+     * @param url
+     */
+    private void getDomain(String url) {
+        try {
+            HashMap<String, Boolean> suffixMap = new HashMap<>();
+            suffixMap.put("com", true);
+            suffixMap.put("cn", true);
+            suffixMap.put("net", true);
+            suffixMap.put("org", true);
+            suffixMap.put("cc", true);
+            String host = Uri.parse(url).getHost();
+            domain = host;
+            if (host == null) {
+                return;
+            }
+            String[] urlArray = host.split("\\.");
+            for (int i = urlArray.length - 1; i >= 0; i--) {
+                if (suffixMap.get(urlArray[i]) == null) {
+                    domain = "";
+                    for (int j = i; j < urlArray.length; j++) {
+                        domain += "." + urlArray[j];
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void setCookie(String url) {
+        if (url == null) {
+            return;
+        }
+        CookieSyncManager.createInstance(getContext());
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("app-key", "");
+        map.put("client-id", "");
+        map.put("device-id", "");
+
+        for (String key : map.keySet()) {
+            String sbCookie = String.format(key + "=%s", map.get(key)) +
+                    String.format(";domain=%s", domain) +
+                    String.format(";path=%s", "/");
+            cookieManager.setCookie(url, sbCookie);
+            Timber.i("setCookie -- %s", sbCookie);
+        }
+        CookieSyncManager.getInstance().sync();
+
+        getCookie(url);
+    }
+
+    public void loadUrlWrap(String url) {
+        Timber.i("loadUrlWrap -- %s", url);
+        getDomain(url);
+        setCookie(url);
+        loadUrl(url);
+    }
+
+    private void getCookie(String url) {
+        String cookie = CookieManager.getInstance().getCookie(url);
+        Timber.i("SyncedCookie -- %s", cookie);
     }
 
 
@@ -151,6 +231,7 @@ public class CWebView extends WebView {
             //对url进行拦截
             @Override
             public boolean shouldOverrideUrlLoading(WebView webView, String s) {
+                Timber.i("shouldOverrideUrlLoading -- %s", s);
                 return super.shouldOverrideUrlLoading(webView, s);
             }
 
@@ -181,12 +262,14 @@ public class CWebView extends WebView {
             @Override
             public void onPageStarted(WebView webView, String s, Bitmap bitmap) {
                 super.onPageStarted(webView, s, bitmap);
+                Timber.i("onPageStarted -- %s", s);
             }
 
             //在Android4.4的手机上onPageFinished()回调会多调用一次,所以用onProgressChanged来代替
             @Override
             public void onPageFinished(WebView webView, String s) {
                 super.onPageFinished(webView, s);
+                Timber.i("onPageFinished -- %s", s);
                 if (!webView.getSettings().getLoadsImagesAutomatically()) {
                     webView.getSettings().setLoadsImagesAutomatically(true);
                 }
@@ -252,7 +335,7 @@ public class CWebView extends WebView {
         //
         clearCache(true);
         //移除cookie
-        CookiesUtil.removeAllCookie(getContext());
+        CookiesUtil.removeAllCookie(getContext().getApplicationContext());
 
         ((ViewGroup) getParent()).removeView(this);
         super.destroy();
@@ -339,23 +422,27 @@ public class CWebView extends WebView {
 
         // For Android < 3.0
         public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+            Timber.i("openFileChooser < 3.0");
             mOpenFileChooserCallBack.openFileChooserCallBack(uploadMsg, "image/*");
         }
 
         // For Android >= 3.0
         public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
+            Timber.i("openFileChooser >= 3.0");
             mOpenFileChooserCallBack.openFileChooserCallBack(uploadMsg, acceptType);
         }
 
         // For Android >= 4.1
         @Override
         public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+            Timber.i("openFileChooser >= 4.1");
             mOpenFileChooserCallBack.openFileChooserCallBack(uploadMsg, acceptType);
         }
 
         // For Android >= 5.0
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         public boolean onShowFileChooser(WebView mWebView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+            Timber.i("onShowFileChooser >= 5.0");
             return mOpenFileChooserCallBack.showFileChooserCallBack(mWebView, filePathCallback, fileChooserParams);
         }
 

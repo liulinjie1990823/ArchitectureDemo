@@ -1,7 +1,7 @@
 package com.llj.lib.base.mvp
 
 import android.arch.lifecycle.LifecycleOwner
-import com.llj.lib.utils.LogUtil
+import timber.log.Timber
 
 /**
  * ArchitectureDemo
@@ -29,27 +29,27 @@ open class BaseActivityPresenter<R : BaseRepository, V : IBaseActivityView> : IB
     }
 
     override fun onCreate(owner: LifecycleOwner) {
-        LogUtil.e(mTagLog, mTagLog + " onCreate()" + "state:" + owner.lifecycle.currentState)
+        Timber.i("onCreate() state:%s", owner.lifecycle.currentState.name)
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        LogUtil.e(mTagLog, mTagLog + " onStart()" + "state:" + owner.lifecycle.currentState)
+        Timber.i("onStart() state:%s", owner.lifecycle.currentState.name)
     }
 
     override fun onResume(owner: LifecycleOwner) {
-        LogUtil.e(mTagLog, mTagLog + " onResume()" + "state:" + owner.lifecycle.currentState)
+        Timber.i("onResume() state:%s", owner.lifecycle.currentState.name)
     }
 
     override fun onPause(owner: LifecycleOwner) {
-        LogUtil.e(mTagLog, mTagLog + " onPause()" + "state:" + owner.lifecycle.currentState)
+        Timber.i("onPause() state:%s", owner.lifecycle.currentState.name)
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        LogUtil.e(mTagLog, mTagLog + " onStop()" + "state:" + owner.lifecycle.currentState)
+        Timber.i("onStop() state:%s", owner.lifecycle.currentState.name)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        LogUtil.e(mTagLog, mTagLog + " onDestroy()" + "state:" + owner.lifecycle.currentState)
+        Timber.i("onDestroy() state:%s", owner.lifecycle.currentState.name)
         destroy()
         owner.lifecycle.removeObserver(this)
     }

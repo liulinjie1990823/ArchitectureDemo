@@ -60,6 +60,8 @@ dependencies {
     api deps.okhttp_logging_interceptor
     api deps.gson
 
+    implementation deps.timber
+
 }
 
 //apply from: rootProject.file('gradle/uploadArchives.gradle')

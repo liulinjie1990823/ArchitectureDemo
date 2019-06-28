@@ -21,6 +21,7 @@ import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import timber.log.Timber
 
 /**
  * 08-11 11:33:36.156    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ setUserVisibleHint false
@@ -91,11 +92,13 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onAttach(activity: Activity?) {
         super.onAttach(activity)
+        Timber.i("onAttach")
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.i("onCreate")
 
         showsDialog = false
 
@@ -140,6 +143,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Timber.i("onActivityCreated")
         if (dialog == null || dialog.window == null) {
             return
         }
@@ -148,6 +152,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Timber.i("onCreateView")
         val layoutView = layoutView()
         val view = layoutView ?: inflater.inflate(layoutId(), null)
 
@@ -164,6 +169,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
+        Timber.i("setUserVisibleHint:%s", isVisibleToUser)
         //当fragment在viewPager中的时候需要实现懒加载的模式
         //当使用viewPager进行预加载fragment的时候,先调用setUserVisibleHint,后调用onViewCreated
         //所以刚开始是mIsInit=true,mIsVisible为false
@@ -178,6 +184,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Timber.i("onViewCreated")
 
         // 已经完成初始化
         mInit = true
@@ -194,8 +201,30 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        Timber.i("onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.i("onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.i("onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.i("onStop")
+    }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
+        Timber.i("onDestroyView")
 
         //防止窗口泄漏
         val requestDialog = getLoadingDialog() as Dialog?
@@ -208,6 +237,16 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
         removeAllDisposable()
 
         mUnBinder.unbind()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("onDestroy")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Timber.i("onDetach")
     }
     //</editor-fold >
 

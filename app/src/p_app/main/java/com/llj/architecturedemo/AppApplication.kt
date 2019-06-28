@@ -24,6 +24,7 @@ import com.llj.socialization.init.SocialConfig
 import com.llj.socialization.init.SocialManager
 import com.tencent.bugly.crashreport.CrashReport
 import dagger.android.AndroidInjector
+import timber.log.Timber
 
 
 /**
@@ -36,6 +37,14 @@ class AppApplication : ComponentApplication() {
     private lateinit var mAppComponent: AppComponent
 
     override fun injectApp() {
+        Timber.plant(object : Timber.DebugTree() {
+            override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+                if (BuildConfig.DEBUG) {
+                    super.log(priority, tag, message, t)
+                }
+            }
+        })
+
         JumpHelp.init(this)
 
         mAppComponent = DaggerAppComponent.builder()
@@ -59,21 +68,27 @@ class AppApplication : ComponentApplication() {
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onCreate(owner: LifecycleOwner) {
+                Timber.i("ProcessLifecycleOwner onCreate")
             }
 
             override fun onStart(owner: LifecycleOwner) {
+                Timber.i("ProcessLifecycleOwner onStart")
             }
 
             override fun onResume(owner: LifecycleOwner) {
+                Timber.i("ProcessLifecycleOwner onResume")
             }
 
             override fun onPause(owner: LifecycleOwner) {
+                Timber.i("ProcessLifecycleOwner onPause")
             }
 
             override fun onStop(owner: LifecycleOwner) {
+                Timber.i("ProcessLifecycleOwner onStop")
             }
 
             override fun onDestroy(owner: LifecycleOwner) {
+                Timber.i("ProcessLifecycleOwner onDestroy")
             }
         })
 
@@ -94,6 +109,7 @@ class AppApplication : ComponentApplication() {
                 }
             }
         })
+
 
     }
 

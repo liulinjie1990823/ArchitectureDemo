@@ -20,6 +20,7 @@ import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import timber.log.Timber
 
 /**
  * ArchitectureDemo.
@@ -72,6 +73,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
         }
 
         super.onCreate(savedInstanceState)
+        Timber.i("onCreate")
 
         addCurrentActivity(this)
 
@@ -95,23 +97,28 @@ abstract class MvcBaseActivity : AppCompatActivity()
 
     override fun onStart() {
         super.onStart()
+        Timber.i("onStart")
     }
 
     override fun onResume() {
         super.onResume()
+        Timber.i("onResume")
     }
 
     override fun onPause() {
         super.onPause()
+        Timber.i("onPause")
     }
 
     override fun onStop() {
         super.onStop()
+        Timber.i("onStop")
     }
 
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()
+        Timber.i("onDestroy")
 
         //防止窗口泄漏，关闭dialog同时结束相关请求
         val requestDialog = getLoadingDialog() as Dialog?
