@@ -21,9 +21,11 @@ public interface IControl {
     void recycle();
 
     default void finishActivity(Context context) {
-        Activity activity = (Activity) context;
-        if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity.isDestroyed()) {
-            activity.finish();
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity.isDestroyed()) {
+                activity.finish();
+            }
         }
     }
 }

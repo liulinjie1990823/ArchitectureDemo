@@ -3,6 +3,7 @@ package com.llj.lib.socialization.wechat.login;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.llj.socialization.ResponseActivity;
 import com.llj.socialization.init.SocialManager;
@@ -70,6 +71,8 @@ public class LoginWeChat implements ILogin {
 
             @Override
             public void onResp(BaseResp baseResp) {
+                Log.e("LoginWeChat", "onResp:" + "resp.getType():" + baseResp.getType() + "resp.errCode:" + baseResp.errCode + "resp.errStr:" + baseResp.errStr);
+
                 if (baseResp instanceof SendAuth.Resp && baseResp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
                     SendAuth.Resp resp = (SendAuth.Resp) baseResp;
                     switch (resp.errCode) {

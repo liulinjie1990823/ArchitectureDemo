@@ -2,7 +2,6 @@ package com.llj.loading.ui.activity
 
 import android.os.Bundle
 import android.util.Log
-import android.view.ViewTreeObserver
 import android.widget.TextView
 import butterknife.BindView
 import com.alibaba.android.arouter.launcher.ARouter
@@ -11,8 +10,6 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.llj.architecturedemo.R
 import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
-import com.llj.component.service.permission.PermissionManager
-import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.statusbar.StatusBarCompat
@@ -64,20 +61,21 @@ class LoadingActivity : ComponentMvcBaseActivity() {
         }
 
 
-        PermissionManager.checkPhoneStateAndStorage(this, object : PermissionManager.PermissionListener {
-            override fun onGranted(permissions: MutableList<String>?) {
-
-                mSdvAdd.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                    override fun onGlobalLayout() {
-                        mSdvAdd.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
-                        mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
-                    }
-                })
-
-                countDown()
-            }
-        })
+//        PermissionManager.checkPhoneStateAndStorage(this, object : PermissionManager.PermissionListener {
+//            override fun onGranted(permissions: MutableList<String>?) {
+//
+//                mSdvAdd.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+//                    override fun onGlobalLayout() {
+//                        mSdvAdd.viewTreeObserver.removeOnGlobalLayoutListener(this)
+//                        val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
+//                        mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
+//                    }
+//                })
+//
+//                countDown()
+//            }
+//        })
+        countDown()
     }
 
     override fun initData() {

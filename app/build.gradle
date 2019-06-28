@@ -38,6 +38,7 @@ android {
 
         resConfigs "zh", "xxhdpi"
 
+//        ndk { abiFilters "x86" }
         ndk { abiFilters "armeabi-v7a" }
 
         dataBinding { enabled = true }

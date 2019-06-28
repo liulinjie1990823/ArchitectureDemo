@@ -30,8 +30,10 @@ import bolts.Task;
  */
 
 public class ShareUtil {
-    public static final String TAG          = ShareUtil.class.getSimpleName();
-    public static final int    REQUEST_CODE = 10086;
+    public static final String TAG  = ShareUtil.class.getSimpleName();
+    public static final int    TYPE = 10086;
+
+    public static boolean sIsInProcess;//避免华为手机多次调用WXEntryActivity，通过变量判断是否已经启动过ResponseActivity
 
     private static IShare        sIShare;
     public static  ShareListener mShareListenerWrap;
@@ -50,11 +52,13 @@ public class ShareUtil {
 
     //在未打开回调页之前就判断参数是否合法
     private static void sendFailure(Context context, ShareListener shareListener, String message) {
-        Activity activity = (Activity) context;
-        if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity.isDestroyed()) {
-            activity.finish();
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity.isDestroyed()) {
+                activity.finish();
+            }
+            shareListener.onShareResponse(new ShareResult(shareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, message));
         }
-        shareListener.onShareResponse(new ShareResult(shareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, message));
     }
 
     private static void commonShare(Context context,
@@ -67,7 +71,7 @@ public class ShareUtil {
         listener.setPlatform(platform);
         mShareListenerWrap = buildWrapListener(listener);
 
-        ResponseActivity.start(context, REQUEST_CODE);
+        ResponseActivity.start(context, TYPE);
     }
 
     //分享title
@@ -203,7 +207,7 @@ public class ShareUtil {
                     break;
             }
             share = (IShare) clazz.newInstance();
-            share.init(context, mShareListenerWrap);
+            share.init(context.getApplicationContext(), mShareListenerWrap);
         } catch (Exception e) {
         }
         return share;

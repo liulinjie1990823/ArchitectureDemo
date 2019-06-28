@@ -9,13 +9,12 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.R
 import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.MvcBaseActivity
+import com.llj.lib.utils.AToastUtils
 import com.llj.socialization.Platform
 import com.llj.socialization.share.ShareObject
 import com.llj.socialization.share.ShareUtil
 import com.llj.socialization.share.callback.ShareListener
 import com.llj.socialization.share.model.ShareResult
-import java.lang.ref.WeakReference
 
 
 /**
@@ -43,10 +42,7 @@ class ShareActivity : ComponentMvcBaseActivity() {
     private class MyShareListener : ShareListener {
 
 
-        private var mActivity: WeakReference<MvcBaseActivity>
-
-        constructor(activity: MvcBaseActivity) : super() {
-            mActivity = WeakReference(activity)
+        constructor() : super() {
         }
 
         override fun onShareResponse(shareResult: ShareResult?) {
@@ -54,15 +50,15 @@ class ShareActivity : ComponentMvcBaseActivity() {
                 return
             }
             when (shareResult.response) {
-                ShareResult.RESPONSE_SHARE_NOT_INSTALL -> mActivity.get()?.showLongToast("应用未安装")
-                ShareResult.RESPONSE_SHARE_SUCCESS -> mActivity.get()?.showLongToast("分享成功")
+                ShareResult.RESPONSE_SHARE_NOT_INSTALL -> AToastUtils.showLong("应用未安装")
+                ShareResult.RESPONSE_SHARE_SUCCESS -> AToastUtils.showLong("分享成功")
                 ShareResult.RESPONSE_SHARE_FAILURE -> if (!TextUtils.isEmpty(shareResult.message)) {
-                    mActivity.get()?.showLongToast(shareResult.message)
+                    AToastUtils.showLong(shareResult.message)
                 } else {
-                    mActivity.get()?.showLongToast("分享失败")
+                    AToastUtils.showLong("分享失败")
                 }
-                ShareResult.RESPONSE_SHARE_HAS_CANCEL -> mActivity.get()?.showLongToast("分享已取消")
-                ShareResult.RESPONSE_SHARE_AUTH_DENIED -> mActivity.get()?.showLongToast("分享被拒绝")
+                ShareResult.RESPONSE_SHARE_HAS_CANCEL -> AToastUtils.showLong("分享已取消")
+                ShareResult.RESPONSE_SHARE_AUTH_DENIED -> AToastUtils.showLong("分享被拒绝")
             }
         }
 
@@ -76,7 +72,7 @@ class ShareActivity : ComponentMvcBaseActivity() {
 
     }
 
-    private val mShareListener = MyShareListener(this)
+    private val mShareListener = MyShareListener()
 
 
     @OnClick(R.id.tv_qq_title,

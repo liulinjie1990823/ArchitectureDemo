@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.llj.socialization.login.LoginUtil;
 import com.llj.socialization.pay.PayUtil;
@@ -18,11 +19,11 @@ import com.llj.socialization.share.ShareUtil;
  */
 
 public class ResponseActivity extends Activity {
-    private int     mType;
-    private int     mPlatform;
-    private boolean isNew;
-    private static final String TYPE     = "share_activity_type";
-    private static final String PLATFORM = "share_activity_platform";
+    private              int     mType;//登录，分享，支付
+    private              int     mPlatform; //平台
+    private              boolean isNew;
+    private static final String  TYPE     = "share_activity_type";
+    private static final String  PLATFORM = "share_activity_platform";
 
     public static void start(Context context, int type) {
         Intent intent = new Intent(context, ResponseActivity.class);
@@ -48,7 +49,7 @@ public class ResponseActivity extends Activity {
     }
 
     public boolean isShare() {
-        return mType == ShareUtil.REQUEST_CODE;
+        return mType == ShareUtil.TYPE;
     }
 
     public boolean isPay() {
@@ -58,16 +59,23 @@ public class ResponseActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.e("ResponseActivity", "onCreate:" + hashCode());
+        if (ShareUtil.sIsInProcess) {
+            finish();
+            return;
+        } else {
+            ShareUtil.sIsInProcess = true;
+        }
+
         isNew = true;
 
         // init data
         mType = getIntent().getIntExtra(TYPE, 0);
         mPlatform = getIntent().getIntExtra(PLATFORM, 0);
         if (isShare()) {
-            // 分享
             ShareUtil.perform(this);
         } else if (isLogin()) {
-            // 登录
             LoginUtil.perform(this);
         } else if (isPay()) {
             PayUtil.perform(this);
@@ -77,13 +85,18 @@ public class ResponseActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e("ResponseActivity", "onResume:" + hashCode());
         if (isNew) {
             isNew = false;
         } else {
             if (Platform.isWechat(mPlatform)) {
-                LoginUtil.handleResult(-1, -1, getIntent());
-                ShareUtil.handleResult(-1, -1, getIntent());
-                PayUtil.handleResult(-1, -1, getIntent());
+                if (isLogin()) {
+                    LoginUtil.handleResult(-1, -1, getIntent());
+                } else if (isShare()) {
+                    ShareUtil.handleResult(-1, -1, getIntent());
+                } else if (isPay()) {
+                    PayUtil.handleResult(-1, -1, getIntent());
+                }
             }
             finish();
         }
@@ -92,6 +105,7 @@ public class ResponseActivity extends Activity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        Log.e("ResponseActivity", "onNewIntent:" + hashCode());
         setIntent(intent);
         // 处理回调
         if (isLogin()) {
@@ -105,8 +119,17 @@ public class ResponseActivity extends Activity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("ResponseActivity", "onDestroy:" + hashCode());
+
+        ShareUtil.sIsInProcess = false;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("ResponseActivity", "onActivityResult:" + hashCode());
         // 处理回调
         if (isLogin()) {
             LoginUtil.handleResult(requestCode, resultCode, data);
