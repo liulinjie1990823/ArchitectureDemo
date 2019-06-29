@@ -20,6 +20,8 @@ import com.llj.socialization.pay.model.PayResult;
 public class PayUtil {
     public static final String TAG  = PayUtil.class.getSimpleName();
     public static final int    TYPE = 780;
+    public static boolean sIsInProcess;//避免华为手机多次调用WXEntryActivity，通过变量判断是否已经启动过ResponseActivity
+
 
     private static IPay        sMIPay;
     private static PayListener mPayListenerWrap;

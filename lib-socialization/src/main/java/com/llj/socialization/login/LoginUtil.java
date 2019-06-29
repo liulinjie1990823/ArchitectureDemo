@@ -21,6 +21,7 @@ import com.llj.socialization.login.model.LoginResult;
 public class LoginUtil {
     public static final String TAG  = LoginUtil.class.getSimpleName();
     public static final int    TYPE = 799;
+    public static boolean sIsInProcess;//避免华为手机多次调用WXEntryActivity，通过变量判断是否已经启动过ResponseActivity
 
     private static ILogin        mLoginInstance;
     private static LoginListener mLoginListenerWrap;

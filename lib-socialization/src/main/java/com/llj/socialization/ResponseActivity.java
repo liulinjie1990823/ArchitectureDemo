@@ -59,20 +59,26 @@ public class ResponseActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Log.e("ResponseActivity", "onCreate:" + hashCode());
-        if (ShareUtil.sIsInProcess) {
+        // init data
+        mType = getIntent().getIntExtra(TYPE, 0);
+        mPlatform = getIntent().getIntExtra(PLATFORM, 0);
+
+        if (ShareUtil.sIsInProcess || LoginUtil.sIsInProcess || PayUtil.sIsInProcess) {
             finish();
             return;
         } else {
-            ShareUtil.sIsInProcess = true;
+            if (isShare()) {
+                ShareUtil.sIsInProcess = true;
+            } else if (isLogin()) {
+                LoginUtil.sIsInProcess = true;
+            } else if (isPay()) {
+                PayUtil.sIsInProcess = true;
+            }
         }
 
         isNew = true;
 
-        // init data
-        mType = getIntent().getIntExtra(TYPE, 0);
-        mPlatform = getIntent().getIntExtra(PLATFORM, 0);
         if (isShare()) {
             ShareUtil.perform(this);
         } else if (isLogin()) {
@@ -124,6 +130,8 @@ public class ResponseActivity extends Activity {
         Log.e("ResponseActivity", "onDestroy:" + hashCode());
 
         ShareUtil.sIsInProcess = false;
+        LoginUtil.sIsInProcess = false;
+        PayUtil.sIsInProcess = false;
     }
 
     @Override
