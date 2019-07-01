@@ -28,6 +28,8 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import java.lang.ref.WeakReference;
+
 import bolts.Continuation;
 import bolts.Task;
 
@@ -50,44 +52,63 @@ public class ShareWechat implements IShare {
 
     @Override
     public void init(Context context, ShareListener listener) {
-        mIWXAPI = WXAPIFactory.createWXAPI(context, SocialManager.getConfig(context).getWxId(), true);
-        mIWXAPI.registerApp(SocialManager.getConfig(context).getWxId());
+        mIWXAPI = WXAPIFactory.createWXAPI(context.getApplicationContext(), SocialManager.getConfig(context.getApplicationContext()).getWxId(), true);
+        mIWXAPI.registerApp(SocialManager.getConfig(context.getApplicationContext()).getWxId());
         mShareListener = listener;
 
-        mIWXAPIEventHandler = new IWXAPIEventHandler() {
-            @Override
-            public void onReq(BaseReq baseReq) {
+        mIWXAPIEventHandler = new MyIWXAPIEventHandler(context, listener);
+    }
 
-            }
+    private static class MyIWXAPIEventHandler implements IWXAPIEventHandler {
 
-            @Override
-            public void onResp(BaseResp baseResp) {
-                Log.e("ShareWechat", "onResp:" + "resp.getType():" + baseResp.getType() + "resp.errCode:" + baseResp.errCode + "resp.errStr:" + baseResp.errStr);
+        private WeakReference<Context> mWeakReference;
+        private ShareListener          mShareListener;
 
-                if (ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX == baseResp.getType()) {
-                    //分享
-                    switch (baseResp.errCode) {
-                        case BaseResp.ErrCode.ERR_OK:
-                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
-                            break;
-                        case BaseResp.ErrCode.ERR_USER_CANCEL:
-                            finishActivity(context);
-                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
-                            break;
-                        case BaseResp.ErrCode.ERR_SENT_FAILED:
-                            finishActivity(context);
-                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, baseResp.errStr));
-                            break;
-                        case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_AUTH_DENIED));
-                            break;
-                        default:
-                            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, baseResp.errStr));
-                            break;
-                    }
+        public MyIWXAPIEventHandler(Context context, ShareListener shareListener) {
+            mWeakReference = new WeakReference<>(context);
+            mShareListener = shareListener;
+        }
+
+        @Override
+        public void onReq(BaseReq baseReq) {
+
+        }
+
+        void finishActivity(Context context) {
+            if (context instanceof Activity) {
+                Activity activity = (Activity) context;
+                if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity.isDestroyed()) {
+                    activity.finish();
                 }
             }
-        };
+        }
+
+        @Override
+        public void onResp(BaseResp baseResp) {
+            Log.e("ShareWechat", "onResp:" + "resp.getType():" + baseResp.getType() + "resp.errCode:" + baseResp.errCode + "resp.errStr:" + baseResp.errStr);
+
+            if (ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX == baseResp.getType()) {
+                //分享
+                switch (baseResp.errCode) {
+                    case BaseResp.ErrCode.ERR_OK:
+                        mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
+                        break;
+                    case BaseResp.ErrCode.ERR_USER_CANCEL:
+                        mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
+                        break;
+                    case BaseResp.ErrCode.ERR_SENT_FAILED:
+                        mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, baseResp.errStr));
+                        break;
+                    case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                        mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_AUTH_DENIED));
+                        break;
+                    default:
+                        mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, baseResp.errStr));
+                        break;
+                }
+            }
+            finishActivity(mWeakReference.get());
+        }
     }
 
     @Override

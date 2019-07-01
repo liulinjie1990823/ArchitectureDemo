@@ -30,9 +30,9 @@ import bolts.Task;
  */
 
 public class ShareUtil {
-    public static final String TAG  = ShareUtil.class.getSimpleName();
-    public static final int    TYPE = 10086;
-    public static boolean sIsInProcess;//避免华为手机多次调用WXEntryActivity，通过变量判断是否已经启动过ResponseActivity
+    public static final String  TAG  = ShareUtil.class.getSimpleName();
+    public static final int     TYPE = 10086;
+    public static       boolean sIsInProcess;//避免华为手机多次调用WXEntryActivity，通过变量判断是否已经启动过ResponseActivity
 
     private static IShare        sIShare;
     public static  ShareListener mShareListenerWrap;
@@ -206,7 +206,7 @@ public class ShareUtil {
                     break;
             }
             share = (IShare) clazz.newInstance();
-            share.init(context.getApplicationContext(), mShareListenerWrap);
+            share.init(context, mShareListenerWrap);
         } catch (Exception e) {
         }
         return share;

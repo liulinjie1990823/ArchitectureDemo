@@ -92,20 +92,20 @@ public class ResponseActivity extends Activity {
     protected void onResume() {
         super.onResume();
         Log.e("ResponseActivity", "onResume:" + hashCode());
-        if (isNew) {
-            isNew = false;
-        } else {
-            if (Platform.isWechat(mPlatform)) {
-                if (isLogin()) {
-                    LoginUtil.handleResult(-1, -1, getIntent());
-                } else if (isShare()) {
-                    ShareUtil.handleResult(-1, -1, getIntent());
-                } else if (isPay()) {
-                    PayUtil.handleResult(-1, -1, getIntent());
-                }
-            }
-            finish();
-        }
+//        if (isNew) {
+//            isNew = false;
+//        } else {
+//            if (Platform.isWechat(mPlatform)) {
+//                if (isLogin()) {
+//                    LoginUtil.handleResult(-1, -1, getIntent());
+//                } else if (isShare()) {
+//                    ShareUtil.handleResult(-1, -1, getIntent());
+//                } else if (isPay()) {
+//                    PayUtil.handleResult(-1, -1, getIntent());
+//                }
+//            }
+//            finish();
+//        }
     }
 
     @Override
@@ -114,12 +114,16 @@ public class ResponseActivity extends Activity {
         Log.e("ResponseActivity", "onNewIntent:" + hashCode());
         setIntent(intent);
         // 处理回调
-        if (isLogin()) {
-            LoginUtil.handleResult(0, 0, intent);
-        } else if (isShare()) {
+        if (Platform.isWechat(mPlatform) || Platform.isWechatCircle(mPlatform)) {
+            if (isLogin()) {
+                LoginUtil.handleResult(0, 0, intent);
+            } else if (isShare()) {
+                ShareUtil.handleResult(0, 0, intent);
+            } else if (isPay()) {
+                PayUtil.handleResult(0, 0, intent);
+            }
+        } else if (Platform.isSina(mPlatform) && isShare()) {
             ShareUtil.handleResult(0, 0, intent);
-        } else if (isPay()) {
-            PayUtil.handleResult(0, 0, intent);
         }
         finish();
     }
@@ -139,12 +143,16 @@ public class ResponseActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e("ResponseActivity", "onActivityResult:" + hashCode());
         // 处理回调
-        if (isLogin()) {
+        if (Platform.isQQ(mPlatform) || Platform.isQQZone(mPlatform)) {
+            if (isLogin()) {
+                LoginUtil.handleResult(requestCode, resultCode, data);
+            } else if (isShare()) {
+                ShareUtil.handleResult(requestCode, resultCode, data);
+            } else if (isPay()) {
+                PayUtil.handleResult(requestCode, resultCode, data);
+            }
+        }else if (Platform.isSina(mPlatform) && isLogin()) {
             LoginUtil.handleResult(requestCode, resultCode, data);
-        } else if (isShare()) {
-            ShareUtil.handleResult(requestCode, resultCode, data);
-        } else if (isPay()) {
-            PayUtil.handleResult(requestCode, resultCode, data);
         }
         finish();
     }

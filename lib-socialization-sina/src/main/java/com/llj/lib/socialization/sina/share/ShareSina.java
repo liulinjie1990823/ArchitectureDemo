@@ -47,10 +47,10 @@ public class ShareSina implements IShareSinaCustom {
 
     @Override
     public void init(Context context, ShareListener listener) {
-        AuthInfo authInfo = new AuthInfo(context, SocialManager.getConfig(context).getSignId(),
-                SocialManager.getConfig(context).getSignRedirectUrl(),
-                SocialManager.getConfig(context).getSignScope());
-        WbSdk.install(context, authInfo);
+        AuthInfo authInfo = new AuthInfo(context.getApplicationContext(), SocialManager.getConfig(context.getApplicationContext()).getSignId(),
+                SocialManager.getConfig(context.getApplicationContext()).getSignRedirectUrl(),
+                SocialManager.getConfig(context.getApplicationContext()).getSignScope());
+        WbSdk.install(context.getApplicationContext(), authInfo);
 
         mWbShareHandler = new WbShareHandler((Activity) context);
         mWbShareHandler.registerApp();

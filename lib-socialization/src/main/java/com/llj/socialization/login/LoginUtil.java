@@ -91,7 +91,7 @@ public class LoginUtil {
                     break;
             }
             login = (ILogin) clazz.newInstance();
-            login.init(activity.getApplicationContext(), mLoginListenerWrap, sFetchUserInfo, sFetchWxToken);
+            login.init(activity, mLoginListenerWrap, sFetchUserInfo, sFetchWxToken);
 
         } catch (Exception e) {
 

@@ -59,7 +59,7 @@ public class LoginWeChat implements ILogin {
     public void init(Context context, LoginListener listener, boolean fetchUserInfo, boolean fetchWxToken) {
         this.mContext = context;
         this.mLoginListener = listener;
-        this.mIWXAPI = WXAPIFactory.createWXAPI(context, SocialManager.getConfig(context).getWxId());
+        this.mIWXAPI = WXAPIFactory.createWXAPI(context.getApplicationContext(), SocialManager.getConfig(context.getApplicationContext()).getWxId());
         this.mClient = new OkHttpClient();
         this.mFetchUserInfo = fetchUserInfo;
         this.mFetchWxToken = fetchUserInfo;

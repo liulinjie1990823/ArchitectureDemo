@@ -26,6 +26,7 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import bolts.Continuation;
@@ -51,31 +52,51 @@ public class ShareQzone implements IShareQzone {
     private String  mAppName;
 
     private ShareListener mShareListener;
-    private IUiListener   mIUiListener;
+    private MyIUiListener mIUiListener;
 
     @Override
     public void init(Context context, ShareListener listener) {
-        mTencent = Tencent.createInstance(SocialManager.getConfig(context).getQqId(), context.getApplicationContext());
+        mTencent = Tencent.createInstance(SocialManager.getConfig(context.getApplicationContext()).getQqId(), context.getApplicationContext());
         mShareListener = listener;
 
-        mIUiListener = new IUiListener() {
-            @Override
-            public void onComplete(Object o) {
-                mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
-            }
+        mIUiListener = new MyIUiListener(context, listener);
+    }
 
-            @Override
-            public void onError(UiError uiError) {
-                finishActivity(context);
-                mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, uiError.errorMessage));
-            }
+    private static class MyIUiListener implements IUiListener {
+        private WeakReference<Context> mWeakReference;
+        private ShareListener          mShareListener;
 
-            @Override
-            public void onCancel() {
-                finishActivity(context);
-                mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
+        public MyIUiListener(Context context, ShareListener shareListener) {
+            mWeakReference = new WeakReference<>(context);
+            mShareListener = shareListener;
+        }
+
+        void finishActivity(Context context) {
+            if (context instanceof Activity) {
+                Activity activity = (Activity) context;
+                if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity.isDestroyed()) {
+                    activity.finish();
+                }
             }
-        };
+        }
+
+        @Override
+        public void onComplete(Object o) {
+            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
+            finishActivity(mWeakReference.get());
+        }
+
+        @Override
+        public void onError(UiError uiError) {
+            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, uiError.errorMessage));
+            finishActivity(mWeakReference.get());
+        }
+
+        @Override
+        public void onCancel() {
+            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
+            finishActivity(mWeakReference.get());
+        }
     }
 
     public String getAppName() {
