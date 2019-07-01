@@ -142,6 +142,10 @@ public class CWebViewFragment extends Fragment {
                 break;
             case JsInvokeJavaEvent.DIRECT_SHARE:
                 break;
+            case JsInvokeJavaEvent.UI_SHOW_CLOSE:
+                break;
+            case JsInvokeJavaEvent.UI_SHOW_SHARE:
+                break;
             default:
                 break;
         }

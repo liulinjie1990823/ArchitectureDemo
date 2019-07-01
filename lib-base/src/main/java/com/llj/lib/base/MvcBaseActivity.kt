@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v4.util.ArrayMap
+import android.support.v4.util.ArraySet
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import butterknife.ButterKnife
@@ -38,7 +39,8 @@ abstract class MvcBaseActivity : AppCompatActivity()
     private lateinit var mUnBinder: Unbinder
     private var mRequestDialog: ITaskId? = null
 
-    private val mCancelableTask: ArrayMap<Int, Disposable> = ArrayMap()
+    private val mCancelableTasks: ArrayMap<Int, Disposable> = ArrayMap()
+    private val mDelayMessages: ArraySet<String> = ArraySet()
 
     private var mPageName: String? = null
     private var mChildPageName: String? = null
@@ -90,6 +92,8 @@ abstract class MvcBaseActivity : AppCompatActivity()
 
         register(this)
 
+        pageName
+
         initViews(savedInstanceState)
 
         initData()
@@ -103,6 +107,8 @@ abstract class MvcBaseActivity : AppCompatActivity()
     override fun onResume() {
         super.onResume()
         Timber.i("onResume")
+        Timber.i("mPageName：%s", pageName)
+        Timber.i("mChildPageName：%s", childPageName)
     }
 
     override fun onPause() {
@@ -141,23 +147,23 @@ abstract class MvcBaseActivity : AppCompatActivity()
 
     //<editor-fold desc="任务处理">
     override fun addDisposable(taskId: Int, disposable: Disposable) {
-        mCancelableTask[taskId] = disposable
+        mCancelableTasks[taskId] = disposable
     }
 
     override fun removeDisposable(taskId: Int?) {
-        val disposable = mCancelableTask[taskId] ?: return
+        val disposable = mCancelableTasks[taskId] ?: return
 
         if (!disposable.isDisposed) {
             disposable.dispose()
-            mCancelableTask.remove(taskId)
+            mCancelableTasks.remove(taskId)
         }
     }
 
     override fun removeAllDisposable() {
-        if (mCancelableTask.isEmpty) {
+        if (mCancelableTasks.isEmpty) {
             return
         }
-        val keys = mCancelableTask.keys
+        val keys = mCancelableTasks.keys
         for (apiKey in keys) {
             removeDisposable(apiKey)
         }
@@ -165,12 +171,24 @@ abstract class MvcBaseActivity : AppCompatActivity()
     //</editor-fold >
 
     //<editor-fold desc="事件总线">
+
+    //限定界面
+    protected fun <T> inCurrentPage(event: BaseEvent<T>): Boolean {
+        return pageName == event.data
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun <T> onEvent(event: BaseEvent<T>) {
-        if ("refresh" == event.message && pageName == event.data) {
-            initData()
+        if (!isEmpty(event.delayMessage)) {
+            //延迟消息
+            mDelayMessages.add(event.delayMessage)
         } else {
-            onReceiveEvent(event)
+            if ("refresh" == event.message && inCurrentPage(event)) {
+                //限定界面
+                initData()
+            } else {
+                onReceiveEvent(event)
+            }
         }
     }
 

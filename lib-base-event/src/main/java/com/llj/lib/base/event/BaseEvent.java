@@ -8,9 +8,10 @@ package com.llj.lib.base.event;
  * @date 2019-06-26
  */
 public class BaseEvent<T> {
-    private int code;
+    private int    code;
     private String message;
-    private T data;
+    private String delayMessage;//用于在页面resume后调用
+    private T      data;
 
     public BaseEvent() {
     }
@@ -39,6 +40,14 @@ public class BaseEvent<T> {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getDelayMessage() {
+        return delayMessage;
+    }
+
+    public void setDelayMessage(String delayMessage) {
+        this.delayMessage = delayMessage;
     }
 
     public T getData() {

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.CallSuper
+import android.support.v4.util.ArraySet
 import android.view.*
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -57,12 +58,15 @@ import timber.log.Timber
 abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
         , IBaseFragment, ICommon, IUiHandler, IEvent, ITracker, ITask, ILoadingDialogHandler {
     val mTagLog: String = this.javaClass.simpleName
+
     lateinit var mContext: Context
 
     private var mInit: Boolean = false //是否已经初始化
 
     private lateinit var mUnBinder: Unbinder
     private var mRequestDialog: ITaskId? = null
+
+    private val mDelayMessages: ArraySet<String> = ArraySet()
 
     var mUseSoftInput: Boolean = false //是否使用软键盘
 
@@ -221,14 +225,13 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
         Timber.i("onStop")
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         Timber.i("onDestroyView")
 
         //防止窗口泄漏
         val requestDialog = getLoadingDialog() as Dialog?
-        if (requestDialog!!.isShowing) {
+        if (requestDialog != null && requestDialog.isShowing) {
             requestDialog.cancel()
         }
 
@@ -278,12 +281,23 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
     //</editor-fold >
 
     //<editor-fold desc="事件总线">
+    //限定界面
+    protected fun <T> inCurrentPage(event: BaseEvent<T>): Boolean {
+        return pageName == event.data
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun <T> onEvent(event: BaseEvent<T>) {
-        if ("refresh" == event.message && pageName == event.data) {
-            initData()
+        if (!isEmpty(event.delayMessage)) {
+            //延迟消息
+            mDelayMessages.add(event.delayMessage)
         } else {
-            onReceiveEvent(event)
+            if ("refresh" == event.message && inCurrentPage(event)) {
+                //限定界面
+                initData()
+            } else {
+                onReceiveEvent(event)
+            }
         }
     }
 

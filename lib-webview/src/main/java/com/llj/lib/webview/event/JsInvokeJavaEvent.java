@@ -15,11 +15,15 @@ public class JsInvokeJavaEvent {
     public static final String UI_VIEW_DESTROY   = "ui_view_destroy";
     public static final String APP_ACTIVATION    = "app_activation";
     public static final String APP_BACKGROUND    = "app_background";
-    public static final String APP_JUMP          = "app_jump";//页面跳转
-    public static final String UI_VIEW_REFRESH   = "ui_view_refresh";//刷新其他页面
-    public static final String CLOSE_WAP         = "close_wap";//关闭页面
-    public static final String UI_SHARE          = "ui_share";//使用ui界面分享
-    public static final String DIRECT_SHARE      = "direct_share";//直接分享
+
+    public static final String APP_JUMP        = "app_jump";//页面跳转
+    public static final String UI_VIEW_REFRESH = "ui_view_refresh";//刷新其他页面
+    public static final String CLOSE_WAP       = "close_wap";//关闭页面
+    public static final String UI_SHARE        = "ui_share";//使用ui界面分享
+    public static final String DIRECT_SHARE    = "direct_share";//直接分享
+
+    public static final String UI_SHOW_CLOSE = "UI_SHOW_CLOSE";//显示x按钮
+    public static final String UI_SHOW_SHARE = "UI_SHOW_SHARE";//显示分享按钮
 
     public String     handler;
     public JSONObject args;
