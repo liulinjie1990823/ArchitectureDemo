@@ -166,6 +166,8 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
         register(this)
 
+        pageName
+
         initViews(savedInstanceState)
 
         return view
