@@ -29,19 +29,19 @@ open class BaseActivityPresenter<R : BaseRepository, V : IBaseActivityView> : IB
     }
 
     override fun onCreate(owner: LifecycleOwner) {
-        Timber.i("onCreate() state:%s", owner.lifecycle.currentState.name)
+        Timber.tag(mTagLog).i("onCreate() state:%s", owner.lifecycle.currentState.name)
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        Timber.i("onStart() state:%s", owner.lifecycle.currentState.name)
+        Timber.tag(mTagLog).i("onStart() state:%s", owner.lifecycle.currentState.name)
     }
 
     override fun onResume(owner: LifecycleOwner) {
-        Timber.i("onResume() state:%s", owner.lifecycle.currentState.name)
+        Timber.tag(mTagLog).i("onResume() state:%s", owner.lifecycle.currentState.name)
     }
 
     override fun onPause(owner: LifecycleOwner) {
-        Timber.i("onPause() state:%s", owner.lifecycle.currentState.name)
+        Timber.tag(mTagLog).i("onPause() state:%s", owner.lifecycle.currentState.name)
     }
 
     override fun onStop(owner: LifecycleOwner) {
@@ -49,7 +49,7 @@ open class BaseActivityPresenter<R : BaseRepository, V : IBaseActivityView> : IB
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        Timber.i("onDestroy() state:%s", owner.lifecycle.currentState.name)
+        Timber.tag(mTagLog).i("onDestroy() state:%s", owner.lifecycle.currentState.name)
         destroy()
         owner.lifecycle.removeObserver(this)
     }

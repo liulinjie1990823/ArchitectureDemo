@@ -68,6 +68,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
     //<editor-fold desc="生命周期">
     override fun onCreate(savedInstanceState: Bundle?) {
         mContext = this
+        pageName
 
         try {
             AndroidInjection.inject(this)
@@ -75,7 +76,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
         }
 
         super.onCreate(savedInstanceState)
-        Timber.i("onCreate")
+        Timber.tag(mTagLog).i("onCreate：%s", pageName)
 
         addCurrentActivity(this)
 
@@ -92,8 +93,6 @@ abstract class MvcBaseActivity : AppCompatActivity()
 
         register(this)
 
-        pageName
-
         initViews(savedInstanceState)
 
         initData()
@@ -101,30 +100,30 @@ abstract class MvcBaseActivity : AppCompatActivity()
 
     override fun onStart() {
         super.onStart()
-        Timber.i("onStart")
+        Timber.tag(mTagLog).i("onStart：%s", pageName)
     }
 
     override fun onResume() {
         super.onResume()
-        Timber.i("onResume")
-        Timber.i("mPageName：%s", pageName)
-        Timber.i("mChildPageName：%s", childPageName)
+        Timber.tag(mTagLog).i("onResume：%s", pageName)
+        Timber.tag(mTagLog).i("mPageName：%s", pageName)
+        Timber.tag(mTagLog).i("mChildPageName：%s", childPageName)
     }
 
     override fun onPause() {
         super.onPause()
-        Timber.i("onPause")
+        Timber.tag(mTagLog).i("onPause：%s", pageName)
     }
 
     override fun onStop() {
         super.onStop()
-        Timber.i("onStop")
+        Timber.tag(mTagLog).i("onStop：%s", pageName)
     }
 
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()
-        Timber.i("onDestroy")
+        Timber.tag(mTagLog).i("onDestroy：%s", pageName)
 
         //防止窗口泄漏，关闭dialog同时结束相关请求
         val requestDialog = getLoadingDialog() as Dialog?

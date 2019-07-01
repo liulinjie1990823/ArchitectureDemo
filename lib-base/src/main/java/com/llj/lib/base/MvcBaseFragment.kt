@@ -96,13 +96,15 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onAttach(activity: Activity?) {
         super.onAttach(activity)
-        Timber.i("onAttach")
+        pageName
+        Timber.tag(mTagLog).i("onAttach：%s", pageName)
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.i("onCreate")
+        pageName
+        Timber.tag(mTagLog).i("onCreate：%s", pageName)
 
         showsDialog = false
 
@@ -147,7 +149,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Timber.i("onActivityCreated")
+        Timber.tag(mTagLog).i("onActivityCreated：%s", pageName)
         if (dialog == null || dialog.window == null) {
             return
         }
@@ -156,7 +158,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Timber.i("onCreateView")
+        Timber.tag(mTagLog).i("onCreateView：%s", pageName)
         val layoutView = layoutView()
         val view = layoutView ?: inflater.inflate(layoutId(), null)
 
@@ -166,8 +168,6 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
         register(this)
 
-        pageName
-
         initViews(savedInstanceState)
 
         return view
@@ -175,7 +175,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        Timber.i("setUserVisibleHint:%s", isVisibleToUser)
+        Timber.tag(mTagLog).i("setUserVisibleHint:%s,%s", isVisibleToUser, pageName)
         //当fragment在viewPager中的时候需要实现懒加载的模式
         //当使用viewPager进行预加载fragment的时候,先调用setUserVisibleHint,后调用onViewCreated
         //所以刚开始是mIsInit=true,mIsVisible为false
@@ -190,7 +190,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.i("onViewCreated")
+        Timber.tag(mTagLog).i("onViewCreated：%s", pageName)
 
         // 已经完成初始化
         mInit = true
@@ -209,27 +209,27 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onStart() {
         super.onStart()
-        Timber.i("onStart")
+        Timber.tag(mTagLog).i("onStart：%s", pageName)
     }
 
     override fun onResume() {
         super.onResume()
-        Timber.i("onResume")
+        Timber.tag(mTagLog).i("onResume：%s", pageName)
     }
 
     override fun onPause() {
         super.onPause()
-        Timber.i("onPause")
+        Timber.tag(mTagLog).i("onPause：%s", pageName)
     }
 
     override fun onStop() {
         super.onStop()
-        Timber.i("onStop")
+        Timber.tag(mTagLog).i("onStop：%s", pageName)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Timber.i("onDestroyView")
+        Timber.tag(mTagLog).i("onDestroyView：%s", pageName)
 
         //防止窗口泄漏
         val requestDialog = getLoadingDialog() as Dialog?
@@ -246,12 +246,12 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.i("onDestroy")
+        Timber.tag(mTagLog).i("onDestroy：%s", pageName)
     }
 
     override fun onDetach() {
         super.onDetach()
-        Timber.i("onDetach")
+        Timber.tag(mTagLog).i("onDetach：%s", pageName)
     }
     //</editor-fold >
 
