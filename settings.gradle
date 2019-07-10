@@ -12,7 +12,7 @@ try {
 //这里的useMaven只是该文件下使用，没有设置到ext中；如需要在init.gradle中设置
 def useMaven = properties.getProperty("useMaven") == "true"
 
-include ':lib-swipeback', ':lib-tracker', ':lib-zbar', ':lib-zxing', ':lib-map', ':lib-oss', ':lib-qrcodecore', ':lib-jni-test', ':lib-opengl', ':lib-record', ':lib-kodo', ':lib-jni-test2', ':lib-scrollable', ':lib-base-compiler', ':lib-base-event'
+include ':lib-swipeback', ':lib-tracker', ':lib-zbar', ':lib-zxing', ':lib-map', ':lib-oss', ':lib-qrcodecore', ':lib-jni-test', ':lib-opengl', ':lib-record', ':lib-kodo', ':lib-jni-test2', ':lib-scrollable', ':lib-base-event'
 //include ':module-java'
 //include ':lib-player'
 
@@ -25,10 +25,13 @@ include 'app',
 include 'plugin-code-inject'
 include ':plugin-upload'
 
+include ':lib-base-compiler'
+include ':lib-jump-api'
+include ':lib-jump-annotation'
+include ':lib-jump-compiler'
+
 if (!useMaven) {
     include ':lib-base',
-            ':lib-base-api',
-            ':lib-base-annotation',
             ':lib-base-mvvm',
             ':lib-component-api',
             ':lib-component-annotation',

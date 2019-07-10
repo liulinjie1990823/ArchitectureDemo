@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.example.lib.base.annotation.Jump;
-import com.example.lib.base.annotation.JumpKey;
+import com.example.lib.jump.annotation.Jump;
+import com.example.lib.jump.annotation.JumpKey;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.vo.Animal;
 import com.llj.architecturedemo.vo.Cat;

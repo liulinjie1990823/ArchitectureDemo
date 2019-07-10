@@ -7,9 +7,9 @@ subprojects {
     if (it.name.startsWith('lib-') || (it.name.startsWith('lib_'))) {
         if (it.name.startsWith('lib-component-annotation')
                 || it.name.startsWith('lib-component-compiler')
-                || it.name.startsWith('lib-base-annotation')
-                || it.name.startsWith('lib-base-compiler')
-                || it.name.startsWith('lib-base-compiler2')) {
+                || it.name.startsWith('lib-jump-annotation')
+                || it.name.startsWith('lib-jump-compiler')
+                || it.name.startsWith('lib-base-compiler')) {
             return
         }
         apply plugin: 'com.android.library'

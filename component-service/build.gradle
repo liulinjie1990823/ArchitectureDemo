@@ -71,7 +71,7 @@ dependencies {
         api project(':lib-statusbar')
         api project(':lib-base')
         api project(':lib-base-mvvm')
-        api project(':lib-base-api')
+        api project(':lib-jump-api')
         api project(':lib-component-api')
         api project(':lib-image-loader')
         api project(':lib-image-select')

@@ -1,6 +1,6 @@
 package com.llj.lib.base.compiler.base;
 
-import com.llj.lib.base.compiler.utils.Consts;
+import com.llj.lib.base.compiler.utils.Constants;
 import com.llj.lib.base.compiler.utils.Logger;
 import com.llj.lib.base.compiler.utils.TypeUtils;
 
@@ -30,15 +30,18 @@ public abstract class BaseProcessor<T extends BaseAnnotateClass> extends Abstrac
     protected Filer    mFiler;       //文件相关的辅助类
     protected Messager mMessager;    //日志相关的辅助类
 
+    protected String prefix;
     protected Logger logger;//封装Messager，记录日志
 
     protected String mModuleName;
 
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-
         mElementUtils = processingEnv.getElementUtils();
         mTypes = processingEnv.getTypeUtils();
         mTypeUtils = new TypeUtils(mTypes, mElementUtils);
@@ -46,20 +49,23 @@ public abstract class BaseProcessor<T extends BaseAnnotateClass> extends Abstrac
         mFiler = processingEnv.getFiler();
         mMessager = processingEnv.getMessager();
 
-        logger = new Logger(mMessager);
+        logger = new Logger(mMessager, prefix);
 
         // Attempt to get user configuration [moduleName]
         Map<String, String> options = processingEnv.getOptions();
-        if (options != null && !options.isEmpty()) {
-            mModuleName = options.get(Consts.KEY_MODULE_NAME);
-        }
+        initModuleName(options);
+    }
 
+    private void initModuleName(Map<String, String> options) {
+        if (options != null && !options.isEmpty()) {
+            mModuleName = options.get(Constants.KEY_MODULE_NAME);
+        }
         if (mModuleName != null && !mModuleName.isEmpty()) {
             mModuleName = mModuleName.replaceAll("[^0-9a-zA-Z_]+", "");
 
             logger.info("The user has configuration the module name, it was [" + mModuleName + "]");
         } else {
-            logger.error(Consts.NO_MODULE_NAME_TIPS);
+            logger.error(Constants.NO_MODULE_NAME_TIPS);
             throw new RuntimeException("ARouter::Compiler >>> No module name, for more information, look at gradle log.");
         }
     }

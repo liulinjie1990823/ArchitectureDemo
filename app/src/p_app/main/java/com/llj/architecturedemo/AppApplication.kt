@@ -15,8 +15,8 @@ import com.llj.component.service.ComponentApplication
 import com.llj.component.service.IModule
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.MvpBaseFragment
-import com.llj.lib.base.api.JumpHelp
 import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
+import com.llj.lib.jump.api.JumpHelp
 import com.llj.lib.statusbar.LightStatusBarCompat
 import com.llj.lib.statusbar.StatusBarCompat
 import com.llj.socialization.SocialConstants

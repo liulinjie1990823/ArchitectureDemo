@@ -20,9 +20,11 @@ import javax.tools.Diagnostic;
  */
 public class Logger {
     private Messager msg;
+    private String prefix;
 
-    public Logger(Messager messager) {
-        msg = messager;
+    public Logger(Messager msg, String prefix) {
+        this.msg = msg;
+        this.prefix = prefix;
     }
 
     public boolean isEmpty(final CharSequence cs) {
@@ -34,26 +36,26 @@ public class Logger {
      */
     public void info(CharSequence info) {
         if (isEmpty(info)) {
-            msg.printMessage(Diagnostic.Kind.NOTE, Consts.PREFIX_OF_LOGGER + info);
+            msg.printMessage(Diagnostic.Kind.NOTE, prefix + info);
         }
     }
 
     public void warning(CharSequence warning) {
         if (isEmpty(warning)) {
-            msg.printMessage(Diagnostic.Kind.WARNING, Consts.PREFIX_OF_LOGGER + warning);
+            msg.printMessage(Diagnostic.Kind.WARNING, prefix+ warning);
         }
     }
 
 
     public void error(CharSequence error) {
         if (!isEmpty(error)) {
-            msg.printMessage(Diagnostic.Kind.ERROR, Consts.PREFIX_OF_LOGGER + "An exception is encountered, [" + error + "]");
+            msg.printMessage(Diagnostic.Kind.ERROR, prefix + "An exception is encountered, [" + error + "]");
         }
     }
 
     public void error(Throwable error) {
         if (null != error) {
-            msg.printMessage(Diagnostic.Kind.ERROR, Consts.PREFIX_OF_LOGGER + "An exception is encountered, [" + error.getMessage() + "]" + "\n" + formatStackTrace(error.getStackTrace()));
+            msg.printMessage(Diagnostic.Kind.ERROR, prefix + "An exception is encountered, [" + error.getMessage() + "]" + "\n" + formatStackTrace(error.getStackTrace()));
         }
     }
 

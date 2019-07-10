@@ -1,8 +1,8 @@
 package com.llj.login.ui.presenter;
 
-import com.example.lib.base.annotation.IView;
-import com.example.lib.base.annotation.ShowLoading;
-import com.example.lib.base.annotation.ShowRefreshing;
+import com.example.lib.jump.annotation.IView;
+import com.example.lib.jump.annotation.ShowLoading;
+import com.example.lib.jump.annotation.ShowRefreshing;
 import com.llj.lib.base.mvp.BaseActivityPresenter;
 import com.llj.lib.base.mvp.IBaseActivityView;
 import com.llj.login.ui.repository.LoginRepository;

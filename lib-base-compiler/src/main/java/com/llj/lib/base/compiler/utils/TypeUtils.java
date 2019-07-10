@@ -24,8 +24,8 @@ public class TypeUtils {
     public TypeUtils(Types types, Elements elements) {
         this.types = types;
 
-        parcelableType = elements.getTypeElement(Consts.PARCELABLE).asType();
-        serializableType = elements.getTypeElement(Consts.SERIALIZABLE).asType();
+        parcelableType = elements.getTypeElement(Constants.PARCELABLE).asType();
+        serializableType = elements.getTypeElement(Constants.SERIALIZABLE).asType();
     }
 
     /**
@@ -45,23 +45,23 @@ public class TypeUtils {
 
         //Box Kind and other
         switch (typeMirror.toString()) {
-            case Consts.BYTE:
+            case Constants.BYTE:
                 return TypeKind.BYTE.ordinal();
-            case Consts.SHORT:
+            case Constants.SHORT:
                 return TypeKind.SHORT.ordinal();
-            case Consts.INTEGER:
+            case Constants.INTEGER:
                 return TypeKind.INT.ordinal();
-            case Consts.LONG:
+            case Constants.LONG:
                 return TypeKind.LONG.ordinal();
-            case Consts.FLOAT:
+            case Constants.FLOAT:
                 return TypeKind.FLOAT.ordinal();
-            case Consts.DOUBLE:
+            case Constants.DOUBLE:
                 return TypeKind.DOUBLE.ordinal();
-            case Consts.BOOLEAN:
+            case Constants.BOOLEAN:
                 return TypeKind.BOOLEAN.ordinal();
-            case Consts.CHAR:
+            case Constants.CHAR:
                 return TypeKind.CHAR.ordinal();
-            case Consts.STRING:
+            case Constants.STRING:
                 return TypeKind.STRING.ordinal();
             default:
                 // Other side, maybe the PARCELABLE or SERIALIZABLE or OBJECT.
