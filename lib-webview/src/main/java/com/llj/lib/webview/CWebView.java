@@ -280,6 +280,7 @@ public class CWebView extends WebView {
             public WebResourceResponse shouldInterceptRequest(WebView webView, String s) {
                 return super.shouldInterceptRequest(webView, s);
             }
+
         });
     }
 

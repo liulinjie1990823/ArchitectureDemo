@@ -1,8 +1,12 @@
 package com.llj.lib.webview;
 
+import android.app.Activity;
 import android.arch.lifecycle.DefaultLifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ProcessLifecycleOwner;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +18,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.llj.lib.webview.event.JsInvokeJavaEvent;
+import com.tencent.smtt.sdk.ValueCallback;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,6 +44,12 @@ public class CWebViewFragment extends Fragment {
     private DefaultLifecycleObserver  mAppLifecycleObserver;
     private DefaultLifecycleObserver  mCustomLifecycleObserver;
 
+    private             ValueCallback<Uri>   mUploadMessage;
+    private             ValueCallback<Uri[]> mUploadMessage5;
+    private             String               mFileType;
+    public static final int                  FILECHOOSER_RESULTCODE               = 5173;
+    public static final int                  FILECHOOSER_RESULTCODE_FOR_ANDROID_5 = 5174;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,6 +62,31 @@ public class CWebViewFragment extends Fragment {
         mUrl = getArguments().getString("url");
 
         mCWebView = new CWebView(getContext().getApplicationContext());
+        mCWebView.setOpenFileChooserCallBack(new CWebView.MyWebChromeClient.OpenFileChooserCallBack() {
+            @Override
+            public void openFileChooserCallBack(ValueCallback<Uri> uploadMsg, String acceptType) {
+                mUploadMessage = uploadMsg;
+            }
+
+            @Override
+            public boolean showFileChooserCallBack(WebView mWebView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mUploadMessage5 = filePathCallback;
+                    if (fileChooserParams.getAcceptTypes() != null && fileChooserParams.getAcceptTypes().length > 0) {
+                        mFileType = fileChooserParams.getAcceptTypes()[0];
+                    }
+                    if (mFileType.equals("image/*")) {
+
+
+                    } else {
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType(mFileType);
+                        startActivityForResult(intent, FILECHOOSER_RESULTCODE_FOR_ANDROID_5);
+                    }
+                }
+                return true;
+            }
+        });
 
         inflate.addView(mCWebView, new FrameLayout.LayoutParams(-1, -1));
 
@@ -183,4 +221,34 @@ public class CWebViewFragment extends Fragment {
         getLifecycle().removeObserver(mCustomLifecycleObserver);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FILECHOOSER_RESULTCODE_FOR_ANDROID_5 && resultCode == Activity.RESULT_OK) {
+            //5.0以上
+            if (mUploadMessage5 != null) {
+                if (mFileType.equals("image/*")) {
+                    //自己的选择照片
+//                Uri[] results = null;
+//                List<String> urlList = (List<String>) data.getSerializableExtra(PhotoPickerConfig.KEY_SELECTED_PHOTOS);
+//                if (AbPreconditions.checkNotEmptyList(urlList)) {
+//                    results = new Uri[urlList.size()];
+//                    for (int i = 0; i < urlList.size(); i++) {
+//                        results[i] = Uri.parse(urlList.get(i));
+//                        //                        results[i] =  ImageUtils.getImageContentUri(this,new File(urlList.get(i)));
+//                    }
+//                }
+//                    mUploadMessage5.onReceiveValue(results);
+                } else {
+                    mUploadMessage5.onReceiveValue(new Uri[]{data.getData()});
+                }
+            }
+            mUploadMessage5 = null;
+        } else {
+            if (mUploadMessage != null) {
+                mUploadMessage.onReceiveValue(null);
+                mUploadMessage = null;
+            }
+        }
+    }
 }

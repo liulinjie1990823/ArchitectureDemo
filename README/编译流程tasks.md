@@ -26,6 +26,9 @@
 - app:createDebugCompatibleScreenManifests	38ms
 - app:processDebugManifest（合并Manifest）	1s 582ms
 - app:mergeDebugResources	17s 871ms
+```
+解压所有的aar包输出到app/build/intermediates/exploded-aar，并且把所有的资源文件合并到app/build/intermediates/res/merged/debug目录里
+```
 - app:splitsDiscoveryTaskDebug	61ms
 - app:mergeDebugShaders	20ms
 - app:compileDebugShaders	128ms

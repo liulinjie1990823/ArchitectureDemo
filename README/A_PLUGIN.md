@@ -26,9 +26,10 @@
 - eventbus3-intellij-plugin
 - Alibaba Java Coding Guidelines plugin support
 - CheckStyle
-- Translation
+- Translation 翻译
 - Gradle View
 - reveal-dependency-plugin
+- CamelCase 转换驼峰下划线
 
 
 
