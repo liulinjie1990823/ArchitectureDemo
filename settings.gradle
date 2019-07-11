@@ -26,9 +26,12 @@ include 'plugin-code-inject'
 include ':plugin-upload'
 
 include ':lib-base-compiler'
-include ':lib-jump-api'
 include ':lib-jump-annotation'
+include ':lib-jump-api'
 include ':lib-jump-compiler'
+
+include ':lib-mvp-annotation'
+include ':lib-mvp-compiler'
 
 if (!useMaven) {
     include ':lib-base',

@@ -9,7 +9,10 @@ subprojects {
                 || it.name.startsWith('lib-component-compiler')
                 || it.name.startsWith('lib-jump-annotation')
                 || it.name.startsWith('lib-jump-compiler')
-                || it.name.startsWith('lib-base-compiler')) {
+                || it.name.startsWith('lib-base-compiler')
+                || it.name.startsWith('lib-mvp-compiler')
+                || it.name.startsWith('lib-mvp-annotation')
+        ) {
             return
         }
         apply plugin: 'com.android.library'

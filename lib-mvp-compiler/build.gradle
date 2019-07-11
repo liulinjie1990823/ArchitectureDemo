@@ -2,8 +2,8 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.squareup:javapoet:1.11.1'
-    api 'com.google.auto.service:auto-service:1.0-rc4'
+    implementation project(':lib-base-compiler')
+    implementation project(':lib-mvp-annotation')
 }
 sourceCompatibility = "8"
 targetCompatibility = "8"

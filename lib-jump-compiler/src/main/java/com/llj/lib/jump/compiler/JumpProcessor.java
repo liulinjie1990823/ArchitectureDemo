@@ -8,7 +8,6 @@ import com.llj.lib.base.compiler.base.BaseProcessor;
 import com.llj.lib.base.compiler.enums.TypeKind;
 import com.llj.lib.jump.compiler.utils.Consts;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -97,7 +96,7 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
         Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(JumpKey.class);
         for (Element element : elements) {
             JumpAnnotateClass annotatedClass = getAnnotatedClass(element);
-            annotatedClass.addField(new InnerKeyField(element));
+            annotatedClass.addField(new JumpKeyField(element));
         }
     }
 
@@ -152,6 +151,8 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                 .initializer("new $T<>()", HashMap.class);
 
+        //  @Override
+        //  public void loadInto(Map<String, JumpCallback> map) {
         MethodSpec.Builder loadIntoMethodOfGroupBuilder = MethodSpec.methodBuilder("loadInto")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
@@ -159,11 +160,10 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
                 .addParameter(ParameterSpec.builder(paramType, "map").build());
 
 
-        CodeBlock.Builder builder = CodeBlock.builder();
         for (JumpAnnotateClass annotatedClass : mAnnotatedClassMap.values()) {
 
             JumpClass jumpClass = annotatedClass.getJumpClass();
-            List<InnerKeyField> innerKeyFields = annotatedClass.getInnerKeyFields();
+            List<JumpKeyField> jumpKeyFields = annotatedClass.getJumpKeyFields();
 
             // @Override
             //public void process(String paramOriginStr, Map<String, String> map) {}
@@ -174,21 +174,27 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
                     .addParameter(String.class, "paramOriginStr")
                     .addParameter(ParameterizedTypeName.get(Map.class, String.class, String.class), "map");
 
-            for (InnerKeyField innerKeyField : innerKeyFields) {
-                if (innerKeyField.isRequired()) {
-                    method.beginControlFlow("if(map == null || map.get($S) == null)", innerKeyField.getCiw());//if(map != null) {
+            //        if(map == null || map.get("boolean1") == null) {
+            //          return;
+            //        }
+            for (JumpKeyField jumpKeyField : jumpKeyFields) {
+                if (jumpKeyField.isRequired()) {
+                    method.beginControlFlow("if(map == null || map.get($S) == null)", jumpKeyField.getCiw());//if(map != null) {
                     method.addStatement("return");//
                     method.endControlFlow();//
                 }
             }
+            //Postcard postcard = ARouter.getInstance().build("/app/AptActivity2");
             method.addStatement("$T postcard = $T.getInstance().build($S)"
                     , POSTCARD
                     , AROUTER
-                    , jumpClass.getRoute());//Postcard postcard = ARouter.getInstance().build("/app/AptActivity2");
+                    , jumpClass.getRoute());
 
-            for (InnerKeyField innerKeyField : innerKeyFields) {
+            //if(map != null) postcard.withBoolean("BOOLEAN",Boolean.parseBoolean(map.get("boolean1")));
+            //if(map != null) postcard.withShort("SHORT",AParseUtils.parseShort(map.get("short1")));
+            for (JumpKeyField jumpKeyField : jumpKeyFields) {
                 // postcard.withBoolean("BOOLEAN",Boolean.parseBoolean(map.get("boolean1")));
-                addStatement(method, "if(map != null) postcard.", innerKeyField, mTypeUtils.typeExchange(innerKeyField.getElement()));
+                addStatement(method, "if(map != null) postcard.", jumpKeyField, mTypeUtils.typeExchange(jumpKeyField.getElement()));
             }
 
             //获取配置的登录参数
@@ -197,11 +203,12 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
             }
 
             //页面强制需要登录
+            //postcard.withInt("needLogin", 1);
             if (annotatedClass.getJumpClass().needLogin()) {
-                //withInt(JHRoute.AROUTER_NEED_LOGIN, 1)
                 method.addStatement("postcard.withInt($S, 1)", loginInnerKey);
             }
 
+            //postcard.navigation();
             method.addStatement("postcard.navigation()");//postcard.navigation();
 
             //内部类JumpCallback
@@ -209,8 +216,6 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
                     .superclass(JumpCallback.class)
                     .addMethod(method.build());
 
-            //map.put("ciw://AptActivity2",new JumpCallback() {}
-            //builder.addStatement("sMap.put($S,$L)", jumpClass.getCiw(), callBack.build());
             //map.put("ciw://EventActivity",new JumpCallback() {}
             loadIntoMethodOfGroupBuilder.addStatement("map.put($S,$L)", jumpClass.getCiw(), callBack.build());
         }
@@ -219,8 +224,6 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
         TypeSpec finderClass = TypeSpec.classBuilder(CLASS_NAME + "_" + mModuleName)
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(IROUTEGROUP)
-//                .addField(mapFieldBuilder.build())
-//                .addStaticBlock(builder.build())
                 .addMethod(loadIntoMethodOfGroupBuilder.build())
                 .build();
 
@@ -234,38 +237,38 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
         return javaFile;
     }
 
-    private void addStatement(MethodSpec.Builder method, String statement, InnerKeyField innerKeyField, int type) {
+    private void addStatement(MethodSpec.Builder method, String statement, JumpKeyField jumpKeyField, int type) {
         switch (TypeKind.values()[type]) {
             case BOOLEAN:
-                //method.addStatement(statement + "withBoolean($S," + "$T.parseBoolean(" + innerKeyField.getCiw() + "))", innerKeyField.getRoute(), Boolean.class);
-                method.addStatement(statement + "withBoolean($S," + "$T.parseBoolean(map.get($S)" + "))", innerKeyField.getRoute(), Boolean.class, innerKeyField.getCiw());
+                //method.addStatement(statement + "withBoolean($S," + "$T.parseBoolean(" + jumpKeyField.getCiw() + "))", jumpKeyField.getRoute(), Boolean.class);
+                method.addStatement(statement + "withBoolean($S," + "$T.parseBoolean(map.get($S)" + "))", jumpKeyField.getRoute(), Boolean.class, jumpKeyField.getCiw());
                 break;
             case BYTE:
                 break;
             case SHORT:
-                //method.addStatement(statement + "withShort($S," + innerKeyField.getCiw() + ")", innerKeyField.getRoute());
-                method.addStatement(statement + "withShort($S," + "$T.parseShort(map.get($S)" + "))", innerKeyField.getRoute(), APARSEUTILS, innerKeyField.getCiw());
+                //method.addStatement(statement + "withShort($S," + jumpKeyField.getCiw() + ")", jumpKeyField.getRoute());
+                method.addStatement(statement + "withShort($S," + "$T.parseShort(map.get($S)" + "))", jumpKeyField.getRoute(), APARSEUTILS, jumpKeyField.getCiw());
                 break;
             case INT:
-                //method.addStatement(statement + "withInt($S," + innerKeyField.getCiw() + ")", innerKeyField.getRoute());
-                method.addStatement(statement + "withInt($S," + "$T.parseInt(map.get($S)" + "))", innerKeyField.getRoute(), APARSEUTILS, innerKeyField.getCiw());
+                //method.addStatement(statement + "withInt($S," + jumpKeyField.getCiw() + ")", jumpKeyField.getRoute());
+                method.addStatement(statement + "withInt($S," + "$T.parseInt(map.get($S)" + "))", jumpKeyField.getRoute(), APARSEUTILS, jumpKeyField.getCiw());
                 break;
             case LONG:
-                //method.addStatement(statement + "withLong($S," + innerKeyField.getCiw() + ")", innerKeyField.getRoute());
-                method.addStatement(statement + "withLong($S," + "$T.parseLong(map.get($S)" + "))", innerKeyField.getRoute(), APARSEUTILS, innerKeyField.getCiw());
+                //method.addStatement(statement + "withLong($S," + jumpKeyField.getCiw() + ")", jumpKeyField.getRoute());
+                method.addStatement(statement + "withLong($S," + "$T.parseLong(map.get($S)" + "))", jumpKeyField.getRoute(), APARSEUTILS, jumpKeyField.getCiw());
                 break;
             case CHAR:
                 break;
             case FLOAT:
-                //method.addStatement(statement + "withFloat($S," + innerKeyField.getCiw() + ")", innerKeyField.getRoute());
-                method.addStatement(statement + "withFloat($S," + "$T.parseFloat(map.get($S)" + "))", innerKeyField.getRoute(), APARSEUTILS, innerKeyField.getCiw());
+                //method.addStatement(statement + "withFloat($S," + jumpKeyField.getCiw() + ")", jumpKeyField.getRoute());
+                method.addStatement(statement + "withFloat($S," + "$T.parseFloat(map.get($S)" + "))", jumpKeyField.getRoute(), APARSEUTILS, jumpKeyField.getCiw());
                 break;
             case DOUBLE:
-                //method.addStatement(statement + "withDouble($S," + innerKeyField.getCiw() + ")", innerKeyField.getRoute());
-                method.addStatement(statement + "withDouble($S," + "$T.parseDouble(map.get($S)" + "))", innerKeyField.getRoute(), APARSEUTILS, innerKeyField.getCiw());
+                //method.addStatement(statement + "withDouble($S," + jumpKeyField.getCiw() + ")", jumpKeyField.getRoute());
+                method.addStatement(statement + "withDouble($S," + "$T.parseDouble(map.get($S)" + "))", jumpKeyField.getRoute(), APARSEUTILS, jumpKeyField.getCiw());
                 break;
             case STRING:
-                method.addStatement(statement + "withString($S,map.get($S))", innerKeyField.getRoute(), innerKeyField.getCiw());
+                method.addStatement(statement + "withString($S,map.get($S))", jumpKeyField.getRoute(), jumpKeyField.getCiw());
                 break;
             case SERIALIZABLE:
                 break;
