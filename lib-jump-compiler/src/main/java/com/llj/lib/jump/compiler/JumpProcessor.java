@@ -123,7 +123,7 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
 
         JumpAnnotateClass annotatedClass = mAnnotatedClassMap.get(fullClassName);
         if (annotatedClass == null) {
-            annotatedClass = new JumpAnnotateClass(mElementUtils);
+            annotatedClass = new JumpAnnotateClass(classElement,mElementUtils);
             mAnnotatedClassMap.put(fullClassName, annotatedClass);
         }
         return annotatedClass;

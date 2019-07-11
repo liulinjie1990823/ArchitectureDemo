@@ -19,8 +19,8 @@ public abstract class BaseMethod {
     private ExecutableElement mMethodElement;
 
     private List<? extends VariableElement> mParameters;//参数
-    private String                          fullClassName;//全类名：com.llj.login.ui.presenter.LoginPresenter
-    private String                          simpleClassName;//简单类名：LoginPresenter
+    private Name                            fullClassName;//全类名：com.llj.login.ui.presenter.LoginPresenter
+    private Name                            simpleClassName;//简单类名：LoginPresenter
 
     public BaseMethod(Element element) {
         if (element.getKind() != ElementKind.METHOD) {
@@ -29,8 +29,8 @@ public abstract class BaseMethod {
         }
         this.mMethodElement = (ExecutableElement) element;
         this.mParameters = mMethodElement.getParameters();
-        this.fullClassName = ((Symbol.ClassSymbol) ((Symbol.MethodSymbol) mMethodElement).owner).fullname.toString();
-        this.simpleClassName = ((Symbol.ClassSymbol) ((Symbol.MethodSymbol) mMethodElement).owner).name.toString();
+        this.simpleClassName = mMethodElement.getEnclosingElement().getSimpleName();
+        this.fullClassName = mMethodElement.getEnclosingElement().getSimpleName();
     }
 
     public Name getMethodName() {
@@ -41,11 +41,11 @@ public abstract class BaseMethod {
         return mParameters;
     }
 
-    public String getFullClassName() {
+    public Name getFullClassName() {
         return fullClassName;
     }
 
-    public String getSimpleClassName() {
+    public Name getSimpleClassName() {
         return simpleClassName;
     }
 }

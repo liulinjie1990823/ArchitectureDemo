@@ -18,18 +18,19 @@ public abstract class BaseAnnotateClass {
     public Elements    mElementUtils;
 
 
-    public BaseAnnotateClass(Elements elementUtils) {
-        mElementUtils = elementUtils;
-    }
 
     public BaseAnnotateClass(TypeElement classElement, Elements elementUtils) {
         mClassElement = classElement;
         mElementUtils = elementUtils;
     }
 
-    public abstract String getFullClassName();
+    public String getPackageName() {
+        return mElementUtils.getPackageOf(mClassElement).getQualifiedName().toString();
+    }
 
-    public abstract String getSimpleClassName();
+    public String getSimpleClassName() {
+        return mClassElement.getSimpleName().toString();
+    }
 
     public abstract JavaFile generateCode();
 }

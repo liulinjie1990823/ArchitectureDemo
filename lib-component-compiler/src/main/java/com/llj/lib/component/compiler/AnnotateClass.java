@@ -114,10 +114,9 @@ public class AnnotateClass {
                 .addSuperinterface(ParameterizedTypeName.get(FINDER, TypeName.get(mClassElement.asType())))
                 .addMethod(injectMethodBuilder.build())
                 .build();
-
         String packageName = mElementUtils.getPackageOf(mClassElement).getQualifiedName().toString();
-
         JavaFile javaFile = JavaFile.builder(packageName, finderClass).build();
+
         System.out.println(javaFile.toString());
 
         System.out.println("----- end ---- generateFinder----------");

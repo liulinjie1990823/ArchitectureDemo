@@ -6,6 +6,7 @@ import com.squareup.javapoet.JavaFile;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
 /**
@@ -19,13 +20,13 @@ public class JumpAnnotateClass extends BaseAnnotateClass {
     private List<JumpKeyField> mJumpKeyFields;//@JumpKey
 
 
-    public JumpAnnotateClass(Elements elementUtils) {
-        super(elementUtils);
+    public JumpAnnotateClass(TypeElement classElement, Elements elementUtils) {
+        super(classElement, elementUtils);
         this.mJumpKeyFields = new ArrayList<>();
     }
 
     @Override
-    public String getFullClassName() {
+    public String getPackageName() {
         return JumpProcessor.PACKAGE + JumpProcessor.CLASS_NAME;
     }
 
