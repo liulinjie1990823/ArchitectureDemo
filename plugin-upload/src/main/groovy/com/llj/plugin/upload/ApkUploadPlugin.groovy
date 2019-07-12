@@ -76,9 +76,16 @@ class ApkUploadPlugin implements Plugin<Project> {
         println("gitLog:" + upload.gitLog)
         String branch = getGitBranch(project)
         String commit = getGitCommit(project, upload.gitLog)
+        String[] split = commit.split("\\n")
+
+        StringBuilder builder = new StringBuilder();
+        for (String temp : split) {
+            builder.append("- ").append(temp).append(" \\n ")
+        }
+        commit = builder.toString()
         println "----------------------------------"
 
-        if(upload.testDingDing){
+        if (upload.testDingDing) {
             noticeDingTalk(project, upload, branch, commit, variantName, new LazyMap())
             return
         }
@@ -180,7 +187,7 @@ class ApkUploadPlugin implements Plugin<Project> {
                 body = "{\n" +
                         "    \"actionCard\": {\n" +
                         "        \"title\": \"Android：${data.appName}\", \n" +
-                        "        \"text\": \"![screenshot](${data.appQRCodeURL}) \\n #### **Android**：${data.appName} \\n\\n - build版本：${variantName} \\n - git分支：${branch} \\n - commit记录： \\n  > ${commit} \\n - 版本信息：${data.appVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(data.appFileSize==null?0:Long.valueOf(data.appFileSize))} \\n - 更新时间：${data.appUpdated} \\n - 更新内容：${data.appUpdateDescription}\", \n" +
+                        "        \"text\": \"![screenshot](${data.appQRCodeURL}) \\n #### **Android**：${data.appName} \\n\\n - build版本：${variantName} \\n - git分支：${branch} \\n - commit记录：\\n ${commit}- 版本信息：${data.appVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(data.appFileSize == null ? 0 : Long.valueOf(data.appFileSize))} \\n - 更新时间：${data.appUpdated} \\n - 更新内容：${data.appUpdateDescription}\", \n" +
                         "        \"hideAvatar\": \"0\", \n" +
                         "        \"btnOrientation\": \"0\", \n" +
                         "        \"singleTitle\" : \"点击下载最新应用包\",\n" +
