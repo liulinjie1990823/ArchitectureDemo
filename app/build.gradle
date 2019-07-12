@@ -229,6 +229,9 @@ if (useApkUploadPlugin) {
     }
 }
 
+apply from: rootProject.file('gradle/git.gradle')
+
+
 
 
 
