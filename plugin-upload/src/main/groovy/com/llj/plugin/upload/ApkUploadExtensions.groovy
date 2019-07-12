@@ -6,6 +6,8 @@ import org.gradle.api.Project
 
 class ApkUploadExtensions {
     String dingTalkAccessToken
+    String gitLog
+    boolean testDingDing
     NamedDomainObjectContainer<BuildTypeExtensions> buildTypes
 
     ApkUploadExtensions(Project project) {

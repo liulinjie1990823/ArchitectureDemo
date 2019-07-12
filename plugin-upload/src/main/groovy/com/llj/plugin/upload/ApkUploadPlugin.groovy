@@ -3,7 +3,7 @@ package com.llj.plugin.upload
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.api.BaseVariant
 import groovyx.net.http.HTTPBuilder
-import org.apache.commons.collections.map.LazyMap
+import groovy.json.internal.LazyMap
 import org.apache.http.entity.mime.MultipartEntity
 import org.apache.http.entity.mime.content.FileBody
 import org.apache.http.entity.mime.content.StringBody
@@ -42,7 +42,7 @@ class ApkUploadPlugin implements Plugin<Project> {
                 def apkFile = variant.outputs[0].outputFile.getAbsolutePath()
                 println("apkFile:${apkFile}")
 
-                //获得buildType
+                //获得对应buildType的参数
                 BuildTypeExtensions buildType = upload.buildTypes.findByName(variant.name)
 
                 if (buildType != null) {
@@ -51,28 +51,38 @@ class ApkUploadPlugin implements Plugin<Project> {
 
                     //上传本地apk
                     def uploadLocalApkToPgy = project.task("uploadLocal${variantName}ToPgy").doFirst {
-                        uploadPgyApk(project, apkFile, upload, buildType,variantName)
+                        uploadPgyApk(project, apkFile, upload, buildType, variantName)
                     }
                     uploadLocalApkToPgy.setGroup("uploadPgy")
 
                     //上传apk,apk会重新生成
                     def uploadApkToPgy = project.task("assemble${variantName}ToPgy").doFirst {
-                        uploadPgyApk(project, apkFile, upload, buildType,variantName)
+                        uploadPgyApk(project, apkFile, upload, buildType, variantName)
                     }
                     uploadApkToPgy.setGroup("uploadPgy")
+                    //该任务会依赖assemble任务
                     uploadApkToPgy.dependsOn(project.tasks.getByName("assemble${variantName}"))
                 }
             }
         }
     }
 
-    private void uploadPgyApk(Project project, String apkFile, ApkUploadExtensions upload, BuildTypeExtensions buildType,String variantName) {
+    private void uploadPgyApk(Project project, String apkFile, ApkUploadExtensions upload, BuildTypeExtensions buildType, String variantName) {
         println "----------------------------------"
         println("apiKey:" + buildType.pgyApiKey)
         println("userKey:" + buildType.pgyUserKey)
         println("appKey:" + buildType.pgyAppKey)
         println("dingTalkAccessToken:" + upload.dingTalkAccessToken)
+        println("gitLog:" + upload.gitLog)
+        String branch = getGitBranch(project)
+        String commit = getGitCommit(project, upload.gitLog)
         println "----------------------------------"
+
+        if(upload.testDingDing){
+            noticeDingTalk(project, upload, branch, commit, variantName, new LazyMap())
+            return
+        }
+
         def desc
         if (project.hasProperty("desc")) {
             desc = project.properties.get("desc")
@@ -95,8 +105,11 @@ class ApkUploadPlugin implements Plugin<Project> {
                 if (json.code == 0) {
                     println "pgy upload success"
                     println("json.data:" + json.data.toString())
-
-                    noticeDingTalk(project, upload,variantName, json.data)
+                    try {
+                        noticeDingTalk(project, upload, branch, commit, variantName, json.data)
+                    } catch (Exception e) {
+                        println e.toString()
+                    }
                 } else {
                     println json.message
                 }
@@ -107,7 +120,57 @@ class ApkUploadPlugin implements Plugin<Project> {
         }
     }
 
-    private void noticeDingTalk(Project project, ApkUploadExtensions upload, String variantName, LazyMap data) {
+    /**
+     * 获取分支信息
+     * @param project
+     * @return
+     */
+    private String getGitBranch(Project project) {
+        def gitDir = new File("${new File("${project.getRootDir()}").getAbsolutePath()}/.git")
+
+        if (!gitDir.isDirectory()) {
+            return 'non-git-build'
+        }
+
+        def cmd = 'git symbolic-ref --short -q HEAD'
+        String result = cmd.execute().text.trim()
+        println "getGitBranch:" + result
+        return result
+    }
+
+    /**
+     * 获取git提交记录
+     * @param project
+     * @param commit
+     * @return
+     */
+    private String getGitCommit(Project project, String commit) {
+        def gitDir = new File("${new File("${project.getRootDir()}").getAbsolutePath()}/.git")
+
+        if (!gitDir.isDirectory()) {
+            return 'non-git-build'
+        }
+
+//        def cmd = "git log --pretty=format:%cn--%cd--%s --date=local --after=\"yesterday\" --grep=fix"
+        def cmd = commit
+        if (cmd == null || cmd.length() == 0) {
+            return ""
+        }
+        String result = cmd.execute().text.trim()
+        println "getGitCommit:" + result
+        return result
+    }
+
+    /**
+     * 钉钉通知
+     * @param project
+     * @param upload
+     * @param branch
+     * @param commit
+     * @param variantName
+     * @param data
+     */
+    private void noticeDingTalk(Project project, ApkUploadExtensions upload, String branch, String commit, String variantName, LazyMap data) {
         println "----------------------------------"
         try {
             def http = new HTTPBuilder(DING_TALK_URL)
@@ -117,7 +180,7 @@ class ApkUploadPlugin implements Plugin<Project> {
                 body = "{\n" +
                         "    \"actionCard\": {\n" +
                         "        \"title\": \"Android：${data.appName}\", \n" +
-                        "        \"text\": \"![screenshot](${data.appQRCodeURL}) \\n #### **Android**：${data.appName} \\n\\n - build版本：${variantName} \\n - 版本信息：${data.appVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(Long.valueOf(data.appFileSize))} \\n - 更新时间：${data.appUpdated} \\n - 更新内容：${data.appUpdateDescription}\", \n" +
+                        "        \"text\": \"![screenshot](${data.appQRCodeURL}) \\n #### **Android**：${data.appName} \\n\\n - build版本：${variantName} \\n - git分支：${branch} \\n - commit记录： \\n  > ${commit} \\n - 版本信息：${data.appVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(data.appFileSize==null?0:Long.valueOf(data.appFileSize))} \\n - 更新时间：${data.appUpdated} \\n - 更新内容：${data.appUpdateDescription}\", \n" +
                         "        \"hideAvatar\": \"0\", \n" +
                         "        \"btnOrientation\": \"0\", \n" +
                         "        \"singleTitle\" : \"点击下载最新应用包\",\n" +

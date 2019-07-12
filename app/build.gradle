@@ -208,6 +208,7 @@ if (useApkUploadPlugin) {
 
     upload {
         dingTalkAccessToken = dingTalkDebugAccessToken
+        gitLog = "git log --pretty=format:%cn--%cd--%s --date=local --after=\"yesterday\" --grep=fix"
 
         buildTypes {
             debug {
