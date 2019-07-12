@@ -6,7 +6,7 @@ def getGitCommit() {
         return 'non-git-build'
     }
 
-    def cmd = 'git log --pretty=format:%cn,%ad:%s -2'
+    def cmd = "git log --pretty=format:%cn--%cd--%s --date=local --after=\"yesterday\" --grep=fix"
     def gitCommit = cmd.execute().text.trim()
     assert !gitCommit.isEmpty()
     gitCommit
