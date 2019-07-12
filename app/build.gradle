@@ -207,6 +207,7 @@ if (useApkUploadPlugin) {
     apply plugin: 'com.llj.plugin.upload.apkUploadPlugin'
 
     upload {
+        testDingDing = true
         dingTalkAccessToken = dingTalkDebugAccessToken
         gitLog = "git log --pretty=format:%cn--%cd--%s --date=local --after=\"yesterday\" --grep=fix"
 
