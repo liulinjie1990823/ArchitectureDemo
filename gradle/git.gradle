@@ -1,0 +1,40 @@
+def getGitCommit() {
+    def gitDir = new File("${new File("${rootDir}").getAbsolutePath()}/.git")
+
+    println gitDir
+    if (!gitDir.isDirectory()) {
+        return 'non-git-build'
+    }
+
+    def cmd = 'git log --pretty=format:%cn,%ad:%s -2'
+    def gitCommit = cmd.execute().text.trim()
+    assert !gitCommit.isEmpty()
+    gitCommit
+}
+
+task getCommit {
+    doLast {
+        println("${getGitCommit()}")
+    }
+}
+
+
+def getGitBranch() {
+    def gitDir = new File("${new File("${rootDir}").getAbsolutePath()}/.git")
+    println gitDir
+
+    if (!gitDir.isDirectory()) {
+        return 'non-git-build'
+    }
+
+    def cmd = 'git symbolic-ref --short -q HEAD'
+    def result = cmd.execute().text.trim()
+    assert !result.isEmpty()
+    result
+}
+
+task getBranch {
+    doLast {
+        println("commit: ${getGitBranch()}")
+    }
+}
