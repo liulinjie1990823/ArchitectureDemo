@@ -70,7 +70,7 @@ public class ShareUtil {
         listener.setPlatform(platform);
         mShareListenerWrap = buildWrapListener(listener);
 
-        ResponseActivity.start(context, TYPE);
+        ResponseActivity.start(context, TYPE,platform);
     }
 
     //分享title

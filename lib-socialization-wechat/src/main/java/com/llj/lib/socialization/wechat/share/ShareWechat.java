@@ -85,7 +85,7 @@ public class ShareWechat implements IShare {
 
         @Override
         public void onResp(BaseResp baseResp) {
-            Log.e("ShareWechat", "onResp:" + "resp.getType():" + baseResp.getType() + "resp.errCode:" + baseResp.errCode + "resp.errStr:" + baseResp.errStr);
+            Log.e("ShareWechat", "onResp:" + "resp.getType()=" + baseResp.getType() + " resp.errCode=" + baseResp.errCode + " resp.errStr=" + baseResp.errStr);
 
             if (ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX == baseResp.getType()) {
                 //分享
