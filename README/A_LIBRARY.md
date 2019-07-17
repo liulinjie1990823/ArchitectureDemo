@@ -13,11 +13,14 @@
 ##### 事件
 - eventbus：<https://github.com/greenrobot/EventBus> org.greenrobot:eventbus:3.1.1
 
+##### 页面路由
+- arouter: <https://github.com/alibaba/ARouter>
+
 ##### 组件化
 - cc：<https://github.com/luckybilly/CC>
 
-##### 页面路由
-- arouter: <https://github.com/alibaba/ARouter>
+##### 插件化
+- tinker：<https://github.com/Tencent/tinker>
 
 ##### 网络
 - okhttp：<https://github.com/square/okhttp> com.squareup.okhttp3:okhttp:3.12.1
@@ -77,6 +80,9 @@
 ##### ffmpeg
 - javacv：<https://github.com/bytedeco/javacv>
 - FFmpeg-Android：<https://github.com/bravobit/FFmpeg-Android>
+
+##### 繁体和简体转换
+- opencc：<https://github.com/qichuan/android-opencc>
 
 
 ##### ui库
