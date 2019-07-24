@@ -22,7 +22,7 @@ import java.util.HashMap;
  * author llj
  * date 2019/3/25
  */
-@Route(path = CRouter.QRCODE_ACTIVITY)
+@Route(path = CRouter.SETTING_QRCODE_ACTIVITY)
 public class QrCodeActivity extends SettingMvpBaseActivity<SettingPresenter> implements SettingView.UserInfo, SettingView.MobileInfo {
 
     @Override

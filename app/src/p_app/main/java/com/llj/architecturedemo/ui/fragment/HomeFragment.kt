@@ -58,7 +58,7 @@ class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableCont
         arrayList.add(Data("RecordVideo2Activity", CRouter.APP_RECORD_VIDEO2_ACTIVITY))
         arrayList.add(Data("GLSurfaceViewActivity", CRouter.APP_GLSURFACE_VIEW_ACTIVITY))
         arrayList.add(Data("LoginActivity", CRouter.LOGIN_LOGIN_ACTIVITY))
-        arrayList.add(Data("QrCodeActivity", CRouter.QRCODE_ACTIVITY))
+        arrayList.add(Data("QrCodeActivity", CRouter.SETTING_QRCODE_ACTIVITY))
         arrayList.add(Data("PermissionActivity", CRouter.APP_PERMISSION_ACTIVITY))
         arrayList.add(Data("EventActivity", CRouter.APP_EVENT_ACTIVITY))
         arrayList.add(Data("RewardLayoutActivity", CRouter.APP_REWARD_LAYOUT_ACTIVITY))

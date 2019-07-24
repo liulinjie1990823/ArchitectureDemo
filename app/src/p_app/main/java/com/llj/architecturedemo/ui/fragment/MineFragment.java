@@ -422,7 +422,8 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
             case R.id.iv_setting:
                 //埋点
 //                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_SETTING);
-                CRouter.start(CRouter.APP_MINE_SETTING_ACTIVITY);
+//                CRouter.start(CRouter.APP_MINE_SETTING_ACTIVITY);
+                CRouter.start(CRouter.SETTING_SETTING_ACTIVITY);
                 break;
             //我的资料界面
             case R.id.iv_header:

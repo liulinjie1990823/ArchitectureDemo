@@ -2,5 +2,6 @@
           package="com.llj.setting">
     <application>
         <activity android:name=".ui.activity.QrCodeActivity"/>
+        <activity android:name=".ui.activity.SettingActivity"/>
     </application>
 </manifest>

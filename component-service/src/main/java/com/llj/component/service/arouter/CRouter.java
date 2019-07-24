@@ -52,7 +52,8 @@ public class CRouter {
     public static final String LOGIN_REGISTER_ACTIVITY    = "/login/RegisterActivity";
 
     //setting
-    public static final String QRCODE_ACTIVITY = "/setting/QrCodeActivity";
+    public static final String SETTING_QRCODE_ACTIVITY  = "/setting/QrCodeActivity";
+    public static final String SETTING_SETTING_ACTIVITY = "/setting/SettingActivity";
 
 
     public static final String QRCODE_CAPTUREACTIVITY                  = "/qrcode/CaptureActivity";

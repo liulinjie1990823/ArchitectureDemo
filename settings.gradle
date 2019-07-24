@@ -55,5 +55,11 @@ if (!useMaven) {
 
 }
 
+setBinding(new Binding([gradle: this]))
+evaluate(new File(
+        settingsDir,
+        'flutter_setting/.android/include_flutter.groovy'
+))
+
 
 

@@ -9,6 +9,8 @@ android {
 dependencies {
     implementation deps.multidex
     implementation deps.multidex_instrumentation
+
+    implementation project(':flutter')
 }
 
 
