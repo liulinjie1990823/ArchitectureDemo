@@ -2,14 +2,13 @@ package com.llj.lib.base
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.TextView
-
-import com.llj.lib.base.listeners.OnMyClickListener
 import com.llj.lib.utils.ACollectionUtils
 import com.llj.lib.utils.ADisplayUtils
 import com.llj.lib.utils.ATextUtils
@@ -28,18 +27,6 @@ interface IUiHandler {
     // ui相关操作
     ///////////////////////////////////////////////////////////////////////////
 
-    fun setOnClickListener(view: View, onClickListener: View.OnClickListener?) {
-        if (onClickListener == null) {
-            view.setOnClickListener(null)
-        } else {
-            view.setOnClickListener(object : OnMyClickListener() {
-                override fun onCanClick(v: View) {
-                    onClickListener.onClick(v)
-                }
-            })
-        }
-    }
-
     fun getTextStr(textView: TextView): String {
         return ATextUtils.getText(textView)
     }
@@ -50,6 +37,10 @@ interface IUiHandler {
 
     fun setText(textView: TextView, destination: CharSequence?, defaultStr: CharSequence) {
         ATextUtils.setText(textView, destination, defaultStr)
+    }
+
+    fun setTextWithVisibility(textView: TextView, destination: CharSequence?) {
+        ATextUtils.setTextWithVisibility(textView, destination)
     }
 
     fun showToast(content: CharSequence?) {
@@ -90,6 +81,105 @@ interface IUiHandler {
 
     fun getCompatDrawable(context: Context, @DrawableRes id: Int): Drawable? {
         return ContextCompat.getDrawable(context, id)
+    }
+
+
+    fun getCustomDrawable(context: Context,
+                          conner: Float, @ColorRes bgColor: Int): Drawable {
+        val drawable = GradientDrawable()
+        drawable.shape = GradientDrawable.RECTANGLE
+        drawable.setColor(getCompatColor(context, bgColor))
+        drawable.cornerRadius = conner
+        return drawable
+    }
+
+    fun getCustomDrawable(context: Context, shape: Int,
+                          conner: Float, @ColorRes bgColor: Int): Drawable {
+        val drawable = GradientDrawable()
+        drawable.shape = shape
+        drawable.setColor(getCompatColor(context, bgColor))
+        drawable.cornerRadius = conner
+        return drawable
+    }
+
+
+    fun getCustomDrawable(context: Context,
+                          connerLAT: Float, connerRAT: Float, @ColorRes bgColor: Int): Drawable {
+        val drawable = GradientDrawable()
+        drawable.shape = GradientDrawable.RECTANGLE
+        drawable.setColor(getCompatColor(context, bgColor))
+        val radios = floatArrayOf(connerLAT, connerLAT, connerRAT, connerRAT, 0f, 0f, 0f, 0f)
+        drawable.cornerRadii = radios
+        return drawable
+    }
+
+    fun getCustomDrawable(context: Context, shape: Int,
+                          connerLAT: Float, connerRAT: Float, @ColorRes bgColor: Int): Drawable {
+        val drawable = GradientDrawable()
+        drawable.shape = shape
+        drawable.setColor(getCompatColor(context, bgColor))
+        val radios = floatArrayOf(connerLAT, connerLAT, connerRAT, connerRAT, 0f, 0f, 0f, 0f)
+        drawable.cornerRadii = radios
+        return drawable
+    }
+
+    fun getCustomDrawable(context: Context,
+                          connerLAT: Float, connerRAT: Float, @ColorRes bgColor: Int,
+                          strokeWidth: Int, @ColorRes strokeColor: Int): Drawable {
+        val drawable = GradientDrawable()
+        drawable.shape = GradientDrawable.RECTANGLE
+        drawable.setColor(getCompatColor(context, bgColor))
+        val radios = floatArrayOf(connerLAT, connerLAT, connerRAT, connerRAT, 0f, 0f, 0f, 0f)
+        drawable.cornerRadii = radios
+        drawable.setStroke(strokeWidth, getCompatColor(context, strokeColor))
+        return drawable
+    }
+
+    fun getCustomDrawable(context: Context, shape: Int,
+                          connerLAT: Float, connerRAT: Float, @ColorRes bgColor: Int,
+                          strokeWidth: Int, @ColorRes strokeColor: Int): Drawable {
+        val drawable = GradientDrawable()
+        drawable.shape = shape
+        drawable.setColor(getCompatColor(context, bgColor))
+        val radios = floatArrayOf(connerLAT, connerLAT, connerRAT, connerRAT, 0f, 0f, 0f, 0f)
+        drawable.cornerRadii = radios
+        drawable.setStroke(strokeWidth, getCompatColor(context, strokeColor))
+        return drawable
+    }
+
+    fun getCustomDrawable(context: Context,
+                          conner: Float, @ColorRes bgColor: Int,
+                          strokeWidth: Int, @ColorRes strokeColor: Int): Drawable {
+        val drawable = GradientDrawable()
+        drawable.shape = GradientDrawable.RECTANGLE
+        drawable.setColor(getCompatColor(context, bgColor))
+        drawable.cornerRadius = conner
+        drawable.setStroke(strokeWidth, getCompatColor(context, strokeColor))
+        return drawable
+    }
+
+    fun getCustomDrawable(context: Context, shape: Int,
+                          conner: Float, @ColorRes bgColor: Int,
+                          strokeWidth: Int, @ColorRes strokeColor: Int): Drawable {
+        val drawable = GradientDrawable()
+        drawable.shape = shape
+        drawable.setColor(getCompatColor(context, bgColor))
+        drawable.cornerRadius = conner
+        drawable.setStroke(strokeWidth, getCompatColor(context, strokeColor))
+        return drawable
+    }
+
+
+    fun getCustomDrawable(context: Context, shape: Int,
+                          conner: FloatArray, @ColorRes bgColor: Int,
+                          strokeWidth: Int, @ColorRes strokeColor: Int,
+                          dashWidth: Float, dashGap: Float): Drawable {
+        val drawable = GradientDrawable()
+        drawable.shape = shape
+        drawable.setColor(getCompatColor(context, bgColor))
+        drawable.cornerRadii = conner
+        drawable.setStroke(strokeWidth, getCompatColor(context, bgColor))
+        return drawable
     }
 
     fun dip2px(context: Context, dpValue: Float): Int {

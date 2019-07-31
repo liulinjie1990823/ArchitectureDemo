@@ -91,42 +91,42 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  List<Widget> getItems() {
+    return [
+      setItem("环境切换", ""),
+      setDivider(),
+      setItem("我的资料", ""),
+      setDivider2(),
+      setItem("关联微信", ""),
+      setDivider2(),
+      setItem("清除缓存", "1000KB"),
+      setDivider(),
+      setItem("意见反馈", ""),
+      setDivider2(),
+      setItem("关于中国婚博会", "v6.12.0"),
+      setDivider(),
+      setItem("隐私政策", ""),
+      setDivider(),
+      setItem("推荐给好友", ""),
+      setDivider(),
+      setItem("官方微信", ""),
+      setDivider(),
+      setItem("联系客服", "400-365-520"),
+      setDivider(),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
+    return Container(
+      child: Column(
         children: <Widget>[
           setToolbar(),
-          CustomScrollView(
-            slivers: <Widget>[
-              SliverFixedExtentList(
-                itemExtent: 50.0,
-                delegate: SliverChildListDelegate([
-                  setItem("环境切换", ""),
-                  setDivider(),
-                  setItem("我的资料", ""),
-                  setDivider2(),
-                  setItem("关联微信", ""),
-                  setDivider2(),
-                  setItem("清除缓存", "1000KB"),
-                  setDivider(),
-                  setItem("意见反馈", ""),
-                  setDivider2(),
-                  setItem("关于中国婚博会", "v6.12.0"),
-                  setDivider(),
-                  setItem("隐私政策", ""),
-                  setDivider(),
-                  setItem("推荐给好友", ""),
-                  setDivider(),
-                  setItem("官方微信", ""),
-                  setDivider(),
-                  setItem("联系客服", "400-365-520"),
-                  setDivider(),
-                ]),
-              ),
-            ],
-          ),
+          Scrollbar(
+              child: SingleChildScrollView(
+                  child: Column(
+            children: getItems(),
+          ))),
         ],
       ),
     );

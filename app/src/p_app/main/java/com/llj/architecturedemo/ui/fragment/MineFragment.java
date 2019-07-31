@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
@@ -34,8 +35,8 @@ import com.llj.architecturedemo.ui.model.PersonalCenterCountVo;
 import com.llj.architecturedemo.ui.model.PersonalCenterVo;
 import com.llj.architecturedemo.ui.presenter.PersonalCenterPresenter;
 import com.llj.architecturedemo.ui.view.IMineView;
-import com.llj.component.service.ComponentMvpBaseFragment;
 import com.llj.component.service.ComponentApplication;
+import com.llj.component.service.ComponentMvpBaseFragment;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout;
 import com.llj.component.service.vo.UserInfoVo;
@@ -899,7 +900,7 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
         }
 
         @Override
-        protected void onBindViewHolder(ViewHolderHelper viewHolder, final PersonalCenterVo.ToolsVo item, final int position) {
+        protected void onBindViewHolder(@NonNull ViewHolderHelper viewHolder, final PersonalCenterVo.ToolsVo item, final int position) {
             viewHolder.setText(R.id.tv_title, item.getTitle());
             RecyclerView recyclerView = viewHolder.getView(R.id.rv_tools_menu);
             recyclerView.setFocusableInTouchMode(false);

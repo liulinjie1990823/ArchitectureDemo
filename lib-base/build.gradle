@@ -27,6 +27,7 @@ dependencies {
 
     //support
     api deps.support_appcompat_v7
+    api deps.constraint_layout
 
     //Architecture components
     api deps.lifecycle_runtime
