@@ -2,6 +2,8 @@ package com.llj.lib.socialization.wechat.pay;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.llj.socialization.init.SocialManager;
 import com.llj.socialization.log.INFO;
@@ -47,6 +49,8 @@ public class PayWechat implements IPay {
 
             @Override
             public void onResp(BaseResp baseResp) {
+                Log.e("PayWeChat", "onResp:" + "resp.getType()=" + baseResp.getType() + " resp.errCode=" + baseResp.errCode + " resp.errStr=" + baseResp.errStr);
+
                 if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
                     switch (baseResp.errCode) {
                         case BaseResp.ErrCode.ERR_OK:
@@ -62,7 +66,7 @@ public class PayWechat implements IPay {
                             mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_UNSUPPORT));
                             break;
                         case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_AUTH_DENIED));
+                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_AUTH_DENIED, INFO.WX_ERR_AUTH_DENIED));
                             break;
                         default:
                             mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_AUTH_ERROR));
@@ -76,12 +80,12 @@ public class PayWechat implements IPay {
     public void doPay(PayParam payParam) {
         PayReq request = new PayReq();
         request.appId = payParam.getAppId();
+        request.partnerId = payParam.getPartnerId();
+        request.prepayId = payParam.getPrepayId();
         request.nonceStr = payParam.getNonceStr();
-        request.packageValue = "Sign=WXPay";
-        request.partnerId = payParam.getMch_id();
-        request.prepayId = payParam.getPrepay_id();
+        request.packageValue = payParam.getPackageValue();
         request.timeStamp = payParam.getTimeStamp() + "";
-        request.sign = genAppSign(request, payParam.getMch_key());
+        request.sign = TextUtils.isEmpty(payParam.getSign()) ? genAppSign(request, payParam.getMch_key()) : payParam.getSign();
         mIWXAPI.sendReq(request);
     }
 

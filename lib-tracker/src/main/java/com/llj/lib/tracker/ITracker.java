@@ -1,4 +1,4 @@
-package com.llj.lib.base.tracker;
+package com.llj.lib.tracker;
 
 import android.support.annotation.Nullable;
 
@@ -20,6 +20,10 @@ public interface ITracker {
     //如果是一个页面公用的情况使用该方法传递，否则用PageName中的name
     default String getPageName() {
         return "";
+    }
+
+    default boolean ignore() {
+        return false;
     }
 
 }

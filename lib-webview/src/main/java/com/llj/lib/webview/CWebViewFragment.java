@@ -37,8 +37,10 @@ import org.json.JSONObject;
 public class CWebViewFragment extends Fragment {
     private CWebView mCWebView;
 
-    private ArrayMap<String, String> mCallback = new ArrayMap<>();
-    private String                   mUrl;
+    private ArrayMap<String, String> mCallback = new ArrayMap<>();//js
+
+    private String mUrl;
+    private int    mHeight;
 
     private CWebViewLifecycleObserver mCWebViewLifecycleObserver;
     private DefaultLifecycleObserver  mAppLifecycleObserver;
@@ -66,6 +68,11 @@ public class CWebViewFragment extends Fragment {
             @Override
             public void openFileChooserCallBack(ValueCallback<Uri> uploadMsg, String acceptType) {
                 mUploadMessage = uploadMsg;
+
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*");
+                startActivityForResult(Intent.createChooser(i, "File Browser"), FILECHOOSER_RESULTCODE);
             }
 
             @Override
@@ -222,13 +229,15 @@ public class CWebViewFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == FILECHOOSER_RESULTCODE_FOR_ANDROID_5 && resultCode == Activity.RESULT_OK) {
             //5.0以上
-            if (mUploadMessage5 != null) {
-                if (mFileType.equals("image/*")) {
-                    //自己的选择照片
+            if (null == mUploadMessage5) {
+                return;
+            }
+            if (mFileType.equals("image/*")) {
+                //自己的选择照片
 //                Uri[] results = null;
 //                List<String> urlList = (List<String>) data.getSerializableExtra(PhotoPickerConfig.KEY_SELECTED_PHOTOS);
 //                if (AbPreconditions.checkNotEmptyList(urlList)) {
@@ -239,16 +248,18 @@ public class CWebViewFragment extends Fragment {
 //                    }
 //                }
 //                    mUploadMessage5.onReceiveValue(results);
-                } else {
-                    mUploadMessage5.onReceiveValue(new Uri[]{data.getData()});
-                }
+            } else {
+                mUploadMessage5.onReceiveValue(new Uri[]{intent.getData()});
             }
             mUploadMessage5 = null;
-        } else {
-            if (mUploadMessage != null) {
-                mUploadMessage.onReceiveValue(null);
-                mUploadMessage = null;
+        } else if (requestCode == FILECHOOSER_RESULTCODE) {
+            //5.0以下
+            if (null == mUploadMessage) {
+                return;
             }
+            Uri result = intent == null || resultCode != Activity.RESULT_OK ? null : intent.getData();
+            mUploadMessage.onReceiveValue(result);
+            mUploadMessage = null;
         }
     }
 }

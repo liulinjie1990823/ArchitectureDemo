@@ -22,8 +22,17 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
         const val WRAP = ViewGroup.LayoutParams.WRAP_CONTENT
     }
 
-    constructor(context: Context) : super(context, R.style.dim_dialog)
-    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+
+    var mContext: Context
+
+
+    constructor(context: Context, themeResId: Int) : super(context, themeResId) {
+        mContext = context
+    }
+
+    constructor(context: Context) : super(context, R.style.dim_dialog) {
+        mContext = context
+    }
 
     val mTagLog: String = this.javaClass.simpleName
 

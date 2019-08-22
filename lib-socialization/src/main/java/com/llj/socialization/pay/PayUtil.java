@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.llj.socialization.ResponseActivity;
-import com.llj.socialization.login.LoginPlatformType;
 import com.llj.socialization.pay.callback.PayListener;
 import com.llj.socialization.pay.interfaces.IPay;
 import com.llj.socialization.pay.model.PayParam;
@@ -30,7 +29,7 @@ public class PayUtil {
     private static PayParam mPayParam;
 
 
-    public static void pay(Context context, @LoginPlatformType.Platform int platform, PayParam payParam, PayListener listener) {
+    public static void pay(Context context, @PayPlatformType.Platform int platform, PayParam payParam, PayListener listener) {
         listener.setPlatform(platform);
 
         mPlatform = platform;

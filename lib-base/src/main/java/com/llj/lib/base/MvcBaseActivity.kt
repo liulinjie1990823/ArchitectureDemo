@@ -13,9 +13,9 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.llj.lib.base.event.BaseEvent
 import com.llj.lib.base.mvp.IBaseActivityView
-import com.llj.lib.base.tracker.ITracker
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITaskId
+import com.llj.lib.tracker.ITracker
 import com.llj.lib.tracker.PageName
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
@@ -87,7 +87,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
 
         mUnBinder = ButterKnife.bind(this)
 
-        checkRequestDialog()
+        checkLoadingDialog()
 
         initLifecycleObserver(lifecycle)
 
@@ -130,6 +130,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
         if (requestDialog != null && requestDialog.isShowing) {
             requestDialog.cancel()
         }
+        mRequestDialog = null
 
         //注销事件总线
         unregister(this)
@@ -219,7 +220,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
         return null
     }
 
-    private fun checkRequestDialog() {
+    private fun checkLoadingDialog() {
         if (mRequestDialog == null) {
             mRequestDialog = initLoadingDialog()
 

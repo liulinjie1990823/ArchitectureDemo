@@ -7,14 +7,16 @@ package com.llj.socialization.pay.model;
  */
 
 public class PayParam {
-    private String appId;
-    private String mch_id;
-    private String mch_key;
-    private String nonceStr;
-    private String paySign;
-    private String prepay_id;
+    private String appId;//微信开放平台审核通过的应用APPID
+    private String partnerId;//微信支付分配的商户号
+    private String prepayId;//微信返回的支付交易会话ID
+    private String packageValue;//暂填写固定值Sign=WXPay
+    private String nonceStr;//随机字符串，不长于32位。推荐随机数生成算法
+    private long   timeStamp;//时间戳
+    private String sign;
+
     private String signType;
-    private long   timeStamp;
+    private String mch_key;
 
     public String getAppId() {
         return appId;
@@ -24,20 +26,28 @@ public class PayParam {
         this.appId = appId;
     }
 
-    public String getMch_id() {
-        return mch_id;
+    public String getPartnerId() {
+        return partnerId;
     }
 
-    public void setMch_id(String mch_id) {
-        this.mch_id = mch_id;
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
     }
 
-    public String getMch_key() {
-        return mch_key;
+    public String getPrepayId() {
+        return prepayId;
     }
 
-    public void setMch_key(String mch_key) {
-        this.mch_key = mch_key;
+    public void setPrepayId(String prepayId) {
+        this.prepayId = prepayId;
+    }
+
+    public String getPackageValue() {
+        return packageValue;
+    }
+
+    public void setPackageValue(String packageValue) {
+        this.packageValue = packageValue;
     }
 
     public String getNonceStr() {
@@ -48,20 +58,20 @@ public class PayParam {
         this.nonceStr = nonceStr;
     }
 
-    public String getPaySign() {
-        return paySign;
+    public long getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setPaySign(String paySign) {
-        this.paySign = paySign;
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
-    public String getPrepay_id() {
-        return prepay_id;
+    public String getSign() {
+        return sign;
     }
 
-    public void setPrepay_id(String prepay_id) {
-        this.prepay_id = prepay_id;
+    public void setSign(String sign) {
+        this.sign = sign;
     }
 
     public String getSignType() {
@@ -72,11 +82,11 @@ public class PayParam {
         this.signType = signType;
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public String getMch_key() {
+        return mch_key;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setMch_key(String mch_key) {
+        this.mch_key = mch_key;
     }
 }

@@ -12,9 +12,9 @@ import android.view.*
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.llj.lib.base.event.BaseEvent
-import com.llj.lib.base.tracker.ITracker
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITaskId
+import com.llj.lib.tracker.ITracker
 import com.llj.lib.tracker.PageName
 import com.llj.lib.utils.AInputMethodManagerUtils
 import com.llj.lib.utils.LogUtil
@@ -164,7 +164,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
         mUnBinder = ButterKnife.bind(this, view)
 
-        checkRequestDialog()
+        checkLoadingDialog()
 
         register(this)
 
@@ -339,7 +339,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
         return null
     }
 
-    private fun checkRequestDialog() {
+    private fun checkLoadingDialog() {
         if (mRequestDialog == null) {
             mRequestDialog = initLoadingDialog()
 

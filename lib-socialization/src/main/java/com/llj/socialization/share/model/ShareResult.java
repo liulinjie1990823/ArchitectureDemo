@@ -1,7 +1,12 @@
 package com.llj.socialization.share.model;
 
+import android.support.annotation.StringDef;
+
 import com.llj.socialization.ThirdCommonResult;
 import com.llj.socialization.share.SharePlatformType;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * PROJECT:babyphoto_app
@@ -15,6 +20,11 @@ public class ShareResult extends ThirdCommonResult implements SharePlatformType 
     public static final String RESPONSE_SHARE_HAS_CANCEL  = "RESPONSE_SHARE_HAS_CANCEL";//分享已取消
     public static final String RESPONSE_SHARE_AUTH_DENIED = "RESPONSE_SHARE_AUTH_DENIED";//分享被拒绝
     public static final String RESPONSE_SHARE_NOT_INSTALL = "RESPONSE_SHARE_NOT_INSTALL";//应用没安装
+
+    @StringDef({RESPONSE_SHARE_SUCCESS, RESPONSE_SHARE_FAILURE, RESPONSE_SHARE_HAS_CANCEL, RESPONSE_SHARE_AUTH_DENIED, RESPONSE_SHARE_NOT_INSTALL})
+    @Retention(RetentionPolicy.SOURCE)
+    @interface Response {
+    }
 
     private @SharePlatformType.Platform int    mPlatform;//分享的类型
     private                             String mResponse;//分享成功或者失败或者其他

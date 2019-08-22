@@ -80,8 +80,9 @@ public class ResponseActivity extends Activity {
         }
     }
 
-    private boolean mIsFirst;//是否是第一次进入还是从其他页面返回
-    //如果分享出去，选择了留在微信，返回时不会进onNewIntent和onActivityResult，仅仅进了onResume，导致ResponseActivity页面无法关闭
+    //是否是第一次进入还是从其他页面返回
+    private boolean mIsFirst;
+    //如果分享出去，选择了留在微信，返回时不会进onNewIntent和onActivityResult，仅仅进了onResume，导致ResponseActivity页面无法关闭；用户选择返回则会走相关逻辑，页面也会关闭
     private boolean mHasProcess;
 
     @Override

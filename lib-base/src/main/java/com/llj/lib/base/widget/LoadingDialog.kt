@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Gravity
 import com.llj.lib.base.BaseDialog
 import com.llj.lib.base.ITask
-import com.llj.lib.base.MvcBaseActivity
 import com.llj.lib.base.R
 import com.llj.lib.utils.ADisplayUtils
 import com.llj.lib.utils.LogUtil
@@ -37,14 +36,24 @@ class LoadingDialog(context: Context) : BaseDialog(context, R.style.no_dim_dialo
     }
 
     override fun initViews() {
-        setOnCancelListener {
+        setOnCancelListener { dialogInterface ->
             LogUtil.i(mTagLog, "cancelTask:" + getRequestId())
-            when (context) {
-                is MvcBaseActivity -> (context as ITask).removeDisposable(getRequestId())
+
+            //移除任务
+            mContext.let {
+                if (it is ITask) {
+                    it.removeDisposable(getRequestId())
+                }
             }
 
-            mOnCustomerCancelListener?.onCancel(it)
+            //回调监听
+            mOnCustomerCancelListener?.onCancel(dialogInterface)
         }
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+        setOnCancelListener(null)
     }
 
 

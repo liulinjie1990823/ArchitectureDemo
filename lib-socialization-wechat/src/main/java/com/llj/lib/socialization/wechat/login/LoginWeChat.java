@@ -103,7 +103,7 @@ public class LoginWeChat implements ILogin {
                             break;
                         case BaseResp.ErrCode.ERR_AUTH_DENIED:
                             Logger.e(INFO.WX_ERR_AUTH_DENIED);
-                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_FAILURE, INFO.WX_ERR_AUTH_DENIED));
+                            mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.WECHAT, LoginResult.RESPONSE_LOGIN_AUTH_DENIED, INFO.WX_ERR_AUTH_DENIED));
                             break;
                         default:
                             Logger.e(INFO.WX_ERR_AUTH_ERROR);

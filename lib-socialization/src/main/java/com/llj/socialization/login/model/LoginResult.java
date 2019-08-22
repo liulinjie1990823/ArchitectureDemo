@@ -10,13 +10,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class LoginResult extends ThirdCommonResult implements LoginPlatformType {
-    public static final String RESPONSE_LOGIN_SUCCESS     = "LOGIN_SUCCESS";//登录成功
-    public static final String RESPONSE_LOGIN_FAILURE     = "LOGIN_FAILURE";//登录失败
-    public static final String RESPONSE_LOGIN_HAS_CANCEL  = "LOGIN_HAS_CANCEL";//登录已取消
+    public static final String RESPONSE_LOGIN_SUCCESS     = "RESPONSE_LOGIN_SUCCESS";//登录成功
+    public static final String RESPONSE_LOGIN_FAILURE     = "RESPONSE_LOGIN_FAILURE";//登录失败
+    public static final String RESPONSE_LOGIN_HAS_CANCEL  = "RESPONSE_LOGIN_HAS_CANCEL";//登录已取消
+    public static final String RESPONSE_LOGIN_AUTH_DENIED = "RESPONSE_LOGIN_AUTH_DENIED";//被拒绝
     public static final String RESPONSE_SHARE_NOT_INSTALL = "RESPONSE_LOGIN_NOT_INSTALL";//登录没安装
 
 
-    @StringDef({RESPONSE_LOGIN_SUCCESS, RESPONSE_LOGIN_FAILURE, RESPONSE_LOGIN_HAS_CANCEL, RESPONSE_SHARE_NOT_INSTALL})
+    @StringDef({RESPONSE_LOGIN_SUCCESS, RESPONSE_LOGIN_FAILURE, RESPONSE_LOGIN_HAS_CANCEL,RESPONSE_LOGIN_AUTH_DENIED, RESPONSE_SHARE_NOT_INSTALL})
     @Retention(RetentionPolicy.SOURCE)
     @interface Response {
     }
