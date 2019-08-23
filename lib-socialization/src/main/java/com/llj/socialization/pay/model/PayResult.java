@@ -39,4 +39,16 @@ public class PayResult {
         mResponse = response;
         this.mMessage = message;
     }
+
+    public int getPlatform() {
+        return mPlatform;
+    }
+
+    public String getResponse() {
+        return mResponse;
+    }
+
+    public String getMessage() {
+        return mMessage;
+    }
 }
