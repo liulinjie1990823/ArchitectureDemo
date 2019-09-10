@@ -6,7 +6,7 @@ import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.mvp.IBasePresenter
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 /**
@@ -15,17 +15,16 @@ import javax.inject.Inject
  * author llj
  * date 2018/12/13
  */
-abstract class ComponentMvpBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>(), HasSupportFragmentInjector {
+abstract class ComponentMvpBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>(),HasAndroidInjector {
 
     //下面代码是为了在component-service中生成ComponentMvpBaseActivity_MembersInjector对象
     //否则会在多个module中生成多个ComponentMvpBaseActivity_MembersInjector对象
     @Inject
     lateinit var mSupportFragmentInjector: DispatchingAndroidInjector<Fragment>
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-       return mSupportFragmentInjector
+    override fun androidInjector(): AndroidInjector<Any> {
+        return  AndroidInjector {  }
     }
-
 
     var mActivityOpenEnterAnimation: Int = 0
     var mActivityOpenExitAnimation: Int = 0

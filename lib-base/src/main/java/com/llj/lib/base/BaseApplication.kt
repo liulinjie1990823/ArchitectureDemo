@@ -1,11 +1,8 @@
 package com.llj.lib.base
 
-import android.app.Activity
 import android.app.Application
-import android.app.Service
 import android.os.StrictMode
 import android.support.annotation.CallSuper
-import android.support.v4.app.Fragment
 import com.llj.lib.base.help.CrashHelper
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.help.FilePathHelper
@@ -15,9 +12,7 @@ import com.llj.lib.utils.LogUtil
 import com.llj.lib.utils.helper.Utils
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.HasServiceInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 /**
@@ -27,17 +22,11 @@ import javax.inject.Inject
  * date 2018/4/25
  */
 abstract class BaseApplication : Application(),
-        HasActivityInjector,
-        HasServiceInjector,
-        HasSupportFragmentInjector {
+        HasAndroidInjector{
     val mTagLog: String = this.javaClass.simpleName
 
     @Inject
-    lateinit var mActivityInjector: DispatchingAndroidInjector<Activity>
-    @Inject
-    lateinit var mSupportFragmentInjector: DispatchingAndroidInjector<Fragment>
-    @Inject
-    lateinit var mServiceInjector: DispatchingAndroidInjector<Service>
+    lateinit var mActivityInjector: DispatchingAndroidInjector<Any>
 
 
     @CallSuper
@@ -107,19 +96,7 @@ abstract class BaseApplication : Application(),
 
     protected abstract fun injectApp()
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Dependencies Injection by dagger.android
-    ///////////////////////////////////////////////////////////////////////////
-
-    override fun activityInjector(): AndroidInjector<Activity>? {
+    override fun androidInjector(): AndroidInjector<Any> {
         return mActivityInjector
-    }
-
-    override fun serviceInjector(): AndroidInjector<Service> {
-        return mServiceInjector
-    }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
-        return mSupportFragmentInjector
     }
 }

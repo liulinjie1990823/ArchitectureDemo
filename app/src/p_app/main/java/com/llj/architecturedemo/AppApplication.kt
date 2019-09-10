@@ -7,7 +7,6 @@ import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.Context
 import android.os.Bundle
 import android.support.multidex.MultiDex
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import com.billy.cc.core.component.CC
 import com.llj.architecturedemo.ui.activity.MainActivity
@@ -118,32 +117,29 @@ class AppApplication : ComponentApplication() {
         MultiDex.install(this)
     }
 
+    override fun androidInjector(): AndroidInjector<Any> {
+        return AndroidInjector { data ->
 
-    override fun activityInjector(): AndroidInjector<Activity>? {
-        return AndroidInjector { activity ->
-            val mvpBaseActivity = activity as MvpBaseActivity<*>
+            if (data is MvpBaseActivity<*>) {
+                val mvpBaseActivity = data
 
-            //调用IModule中的对应action
-            CC.obtainBuilder(mvpBaseActivity.getModuleName())
-                    .setContext(activity)
-                    .setActionName(IModule.INJECT_ACTIVITY)
-                    .build()
-                    .call()
+                //调用IModule中的对应action
+                CC.obtainBuilder(mvpBaseActivity.getModuleName())
+                        .setContext(mvpBaseActivity)
+                        .setActionName(IModule.INJECT_ACTIVITY)
+                        .build()
+                        .call()
+            } else {
+                val mvpBaseFragment = data as MvpBaseFragment<*>
+
+                //调用IModule中的对应action
+                CC.obtainBuilder(mvpBaseFragment.getModuleName())
+                        .setContext(mvpBaseFragment.context)
+                        .addParam("fragment", mvpBaseFragment.tag)
+                        .setActionName(IModule.INJECT_FRAGMENT)
+                        .build()
+                        .call()
+            }
         }
     }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
-        return AndroidInjector { fragment ->
-            val mvpBaseFragment = fragment as MvpBaseFragment<*>
-
-            //调用IModule中的对应action
-            CC.obtainBuilder(mvpBaseFragment.getModuleName())
-                    .setContext(fragment.context)
-                    .addParam("fragment", fragment.tag)
-                    .setActionName(IModule.INJECT_FRAGMENT)
-                    .build()
-                    .call()
-        }
-    }
-
 }

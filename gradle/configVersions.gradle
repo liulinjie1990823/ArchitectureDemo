@@ -5,7 +5,7 @@
 
 def versions = [
         android_gradle_plugin: "3.3.2",
-        kotlin               : '1.3.31',
+        kotlin               : '1.3.50',
         bintray_release      : '0.8.1',
         walle                : '1.1.6',
 
@@ -13,7 +13,7 @@ def versions = [
         lifecycle            : "1.1.1",
         room                 : "1.1.1",
 
-        dagger               : "2.22.1",
+        dagger               : "2.24",
         autodispose          : "1.0.0-RC2",
         arouter_api          : "1.5.0",
         arouter_compiler     : "1.2.2",

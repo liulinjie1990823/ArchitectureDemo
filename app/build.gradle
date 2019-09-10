@@ -3,6 +3,61 @@ if (useDexcount) {
 }
 apply plugin: 'walle'
 
+apply plugin: 'com.uber.okbuck'
+
+okbuck {
+    buildToolVersion = "28.0.3"
+    target = "android-28"
+    linearAllocHardLimit = [
+            app: 16 * 1024 * 1024
+    ]
+    primaryDexPatterns = [
+            app: [
+                    '^com/uber/okbuck/example/AppShell^',
+                    '^com/uber/okbuck/example/BuildConfig^',
+                    '^android/support/multidex/',
+                    '^com/facebook/buck/android/support/exopackage/',
+                    '^com/github/promeg/xlog_android/lib/XLogConfig^',
+                    '^com/squareup/leakcanary/LeakCanary^',
+            ]
+    ]
+    exopackage = [
+            appDebug: true
+    ]
+    appLibDependencies = [
+            'appProd': [
+                    'buck-android-support',
+                    'com.android.support:multidex',
+                    'libraries/javalibrary:main',
+                    'libraries/common:paidRelease',
+            ],
+            'appDev': [
+                    'buck-android-support',
+                    'com.android.support:multidex',
+                    'libraries/javalibrary:main',
+                    'libraries/common:freeDebug',
+            ]
+    ]
+    annotationProcessors = [
+            "local-apt-dependency": ['com.okbuck.apt.ExampleProcessor']
+    ]
+    buckProjects = project.subprojects
+    extraBuckOpts = [
+            'appDebug': [
+                    "android_binary": ["trim_resource_ids = True"]
+            ]
+    ]
+
+    wrapper {
+        repo = 'https://github.com/facebook/buck.git'
+    }
+
+//    experimental {
+//        transform = true
+//    }
+}
+
+
 if (useAspectjx) {
     apply plugin: 'android-aspectjx'
 

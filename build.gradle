@@ -37,6 +37,8 @@ buildscript {
         if (useCodeInject) {
             classpath 'com.llj:plugin-code-inject:0.0.1'
         }
+
+        classpath 'com.uber:okbuck:0.48.7'
     }
 }
 
