@@ -5,6 +5,8 @@
 subprojects {
     //配置类库公用的配置
     if (it.name.startsWith('lib-') || (it.name.startsWith('lib_'))) {
+//        apply from: rootProject.file('gradle/novoda-bintray.gradle')
+
         if (it.name.startsWith('lib-component-annotation')
                 || it.name.startsWith('lib-component-compiler')
                 || it.name.startsWith('lib-jump-annotation')
@@ -13,47 +15,58 @@ subprojects {
                 || it.name.startsWith('lib-mvp-compiler')
                 || it.name.startsWith('lib-mvp-annotation')
         ) {
-            return
-        }
-        apply plugin: 'com.android.library'
 
-        android {
-            compileSdkVersion build_versions.compileSdkVersion
-            buildToolsVersion build_versions.buildToolsVersion
+            apply plugin: 'java-library'
 
-            defaultConfig {
-                minSdkVersion build_versions.minSdkVersion
-                targetSdkVersion build_versions.targetSdkVersion
-            }
+            sourceCompatibility = "1.8"
+            targetCompatibility = "1.8"
 
-            buildTypes {
-                debug {}
-                beta {}
-                release {}
+        } else {
+            //
+            apply plugin: 'com.android.library'
+
+            android {
+                compileSdkVersion build_versions.compileSdkVersion
+                buildToolsVersion build_versions.buildToolsVersion
+
+                defaultConfig {
+                    minSdkVersion build_versions.minSdkVersion
+                    targetSdkVersion build_versions.targetSdkVersion
+                }
+
+                buildTypes {
+                    debug {}
+                    beta {}
+                    release {}
+                }
+                buildTypes.all { type ->
+                    type.matchingFallbacks = ['debug']
+                    type.minifyEnabled = false
+                    type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
+                }
+                compileOptions {
+                    targetCompatibility build_versions.compileJdkVersion
+                    sourceCompatibility build_versions.compileJdkVersion
+                }
+                lintOptions {
+                    abortOnError false
+                }
+                packagingOptions {
+                    exclude 'META-INF/proguard/androidx-annotations.pro'
+                    exclude 'META-INF/androidx.core_core.version'
+                    exclude 'META-INF/androidx.versionedparcelable_versionedparcelable.version'
+                }
             }
-            buildTypes.all { type ->
-                type.matchingFallbacks = ['debug']
-                type.minifyEnabled = false
-                type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
-            }
-            compileOptions {
-                targetCompatibility build_versions.compileJdkVersion
-                sourceCompatibility build_versions.compileJdkVersion
-            }
-            lintOptions {
-                abortOnError false
-            }
-            packagingOptions {
-                exclude 'META-INF/proguard/androidx-annotations.pro'
-                exclude 'META-INF/androidx.core_core.version'
-                exclude 'META-INF/androidx.versionedparcelable_versionedparcelable.version'
+            dependencies {
+                implementation fileTree(dir: 'libs', include: ['*.jar'])
+                implementation deps.support_support_annotations
+                implementation deps.support_recyclerview_v7
+                implementation deps.support_appcompat_v7
             }
         }
-        dependencies {
-            implementation fileTree(dir: 'libs', include: ['*.jar'])
-            implementation deps.support_support_annotations
-            implementation deps.support_recyclerview_v7
-            implementation deps.support_appcompat_v7
-        }
+        //打包本地
+        apply from: rootProject.file('gradle/uploadArchives.gradle')
+        //上传bintray
+        apply from: rootProject.file('gradle/bintrayUpload.gradle')
     }
 }

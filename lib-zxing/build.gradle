@@ -4,5 +4,3 @@ dependencies {
     api 'com.google.zxing:core:3.4.0'
 }
 
-apply from: rootProject.file('gradle/uploadArchives.gradle')
-apply from: rootProject.file('gradle/bintrayUpload.gradle')

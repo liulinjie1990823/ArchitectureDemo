@@ -2,6 +2,3 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
-
-apply from: rootProject.file('gradle/uploadArchives.gradle')
-apply from: rootProject.file('gradle/bintrayUpload.gradle')

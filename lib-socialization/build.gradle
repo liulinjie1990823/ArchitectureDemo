@@ -5,6 +5,3 @@ dependencies {
     //调试的时候依赖
     implementation deps.okhttp
 }
-
-apply from: rootProject.file('gradle/uploadArchives.gradle')
-apply from: rootProject.file('gradle/bintrayUpload.gradle')

@@ -62,11 +62,6 @@ dependencies {
     api deps.gson
 
     implementation deps.timber
-
 }
-
-//apply from: rootProject.file('gradle/uploadArchives.gradle')
-//apply from: rootProject.file('gradle/bintrayUpload.gradle')
-apply from: rootProject.file('gradle/maven-publish.gradle')
 
 

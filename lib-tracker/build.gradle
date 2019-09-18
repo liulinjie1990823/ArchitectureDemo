@@ -12,6 +12,4 @@ dependencies {
     implementation deps.lifecycle_java8
     implementation deps.lifecycle_extensions
 }
-apply from: rootProject.file('gradle/uploadArchives.gradle')
-apply from: rootProject.file('gradle/bintrayUpload.gradle')
 

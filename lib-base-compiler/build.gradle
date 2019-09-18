@@ -1,13 +1,8 @@
-apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api 'com.squareup:javapoet:1.11.1'
     api 'com.google.auto.service:auto-service:1.0-rc4'
 }
-sourceCompatibility = "8"
-targetCompatibility = "8"
 
 
-apply from: rootProject.file('gradle/uploadArchives.gradle')
-apply from: rootProject.file('gradle/bintrayUpload.gradle')

@@ -5,6 +5,3 @@ dependencies {
     api project(':lib-socialization')
     api 'com.sina.weibo.sdk:core:4.3.7:openDefaultRelease@aar'
 }
-
-apply from: rootProject.file('gradle/uploadArchives.gradle')
-apply from: rootProject.file('gradle/bintrayUpload.gradle')

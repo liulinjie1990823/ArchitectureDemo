@@ -1,13 +1,8 @@
-apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':lib-base-compiler')
     implementation project(':lib-jump-annotation')
 }
-sourceCompatibility = "8"
-targetCompatibility = "8"
 
 
-apply from: rootProject.file('gradle/uploadArchives.gradle')
-apply from: rootProject.file('gradle/bintrayUpload.gradle')

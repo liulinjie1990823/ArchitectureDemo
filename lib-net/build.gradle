@@ -25,6 +25,4 @@ dependencies {
     implementation deps.okhttp_logging_interceptor
     implementation deps.PersistentCookieJar
 }
-apply from: rootProject.file('gradle/uploadArchives.gradle')
-apply from: rootProject.file('gradle/bintrayUpload.gradle')
 

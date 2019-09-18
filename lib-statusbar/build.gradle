@@ -3,5 +3,3 @@ dependencies {
     implementation deps.support_design
 }
 
-apply from: rootProject.file('gradle/uploadArchives.gradle')
-apply from: rootProject.file('gradle/bintrayUpload.gradle')

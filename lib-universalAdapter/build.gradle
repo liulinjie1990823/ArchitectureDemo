@@ -14,6 +14,3 @@ dependencies {
     releaseCompileOnly deps.SmartRefreshLayout
     releaseCompileOnly deps.kotlin_stdlib_jdk8
 }
-
-apply from: rootProject.file('gradle/uploadArchives.gradle')
-apply from: rootProject.file('gradle/bintrayUpload.gradle')

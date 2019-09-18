@@ -39,8 +39,8 @@ def versions = [
 ]
 ext {
     build_versions = [
-//            applicationId    : "com.china.hunbohui",
-            applicationId    : "com.llj.architecturedemo",
+            applicationId    : "com.china.hunbohui",
+//            applicationId    : "com.llj.architecturedemo",
             compileJdkVersion: 1.8,
             compileSdkVersion: 28,
             buildToolsVersion: "28.0.3",
@@ -164,7 +164,7 @@ ext {
 
             //工具
             base                              : "com.llj:lib-base:0.0.11",
-            base_event                              : "com.llj:lib-base-event:0.0.1",
+            base_event                        : "com.llj:lib-base-event:0.0.1",
             base_mvvm                         : "com.llj:lib-base-mvvm:0.0.11",
             net                               : "com.llj:lib-net:0.0.9",
             component_annotation              : "com.llj:lib-component-annotation:0.0.1",
