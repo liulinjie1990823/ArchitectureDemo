@@ -94,6 +94,7 @@ class ShareActivity : ComponentMvcBaseActivity() {
             R.id.tv_wechat_text,
             R.id.tv_wechat_image,
             R.id.tv_wechat_webpage,
+            R.id.tv_wechat_mini,
             R.id.tv_wechat_circle_title,
             R.id.tv_wechat_circle_desc,
             R.id.tv_wechat_circle_text,
@@ -205,6 +206,16 @@ class ShareActivity : ComponentMvcBaseActivity() {
                 shareObject.imageUrlOrPath = "http://imgsrc.baidu.com/image/c0%3Dshijue1%2C0%2C0%2C294%2C40/sign=a33885321bdfa9ece9235e540ab99d76/8b13632762d0f703c06472f202fa513d2797c5ce.jpg"
                 shareObject.targetUrl = "https://www.baidu.com"
                 ShareUtil.shareWeb(this, Platform.PlatformType.WECHAT, shareObject, mShareListener)
+            }
+            R.id.tv_wechat_mini -> {
+                shareObject.title = "这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题"
+                shareObject.description = "这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容"
+                shareObject.imageUrlOrPath = "http://imgsrc.baidu.com/image/c0%3Dshijue1%2C0%2C0%2C294%2C40/sign=a33885321bdfa9ece9235e540ab99d76/8b13632762d0f703c06472f202fa513d2797c5ce.jpg"
+                shareObject.targetUrl = ""
+                shareObject.userName = "gh_6edc8047318b"
+                shareObject.path = "pages/assist/assist?assistId=1171965739193208833"
+                shareObject.miniprogramType = 2
+                ShareUtil.shareMiniProgram(this, Platform.PlatformType.WECHAT, shareObject, mShareListener)
             }
             R.id.tv_wechat_circle_title -> {
                 shareObject.title = "这是标题"

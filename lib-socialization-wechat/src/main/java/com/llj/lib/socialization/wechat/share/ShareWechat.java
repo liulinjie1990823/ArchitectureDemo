@@ -22,6 +22,7 @@ import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXEmojiObject;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -236,6 +237,36 @@ public class ShareWechat implements IShare {
                     }
                     message.thumbData = task.getResult();
                     sendMessage(platform, message, buildTransaction("webPage"));
+                    return null;
+                }, Task.UI_THREAD_EXECUTOR);
+    }
+
+    //小程序类型分享
+    @Override
+    public void shareMiniProgram(Activity activity, int platform, @NonNull ShareObject shareObject) {
+        WXMiniProgramObject miniProgramObj = new WXMiniProgramObject();
+        miniProgramObj.webpageUrl = shareObject.getTargetUrl(); // 兼容低版本的网页链接
+        miniProgramObj.miniprogramType = shareObject.getMiniprogramType();// 正式版:0，测试版:1，体验版:2
+        miniProgramObj.userName = shareObject.getUserName();     // 小程序原始id
+        miniProgramObj.path = shareObject.getPath();            //小程序页面路径；对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"
+
+        WXMediaMessage message = new WXMediaMessage(miniProgramObj);
+        message.title = shareObject.getTitle();                    // 小程序消息title
+        message.description = shareObject.getDescription();               // 小程序消息desc
+        Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+                .continueWith(new ShareUtil.ThumbDataContinuation(TARGET_SIZE, THUMB_SIZE))
+                .continueWith((Continuation<byte[], Void>) task -> {
+                    if (task.getError() != null) {
+                        Logger.e(TAG, task.getError());
+                        sendFailure(activity, mShareListener, activity.getString(R.string.compress_image_failure));
+                        return null;
+                    }
+                    if (task.getResult() == null) {
+                        sendFailure(activity, mShareListener, activity.getString(R.string.compress_image_failure));
+                        return null;
+                    }
+                    message.thumbData = task.getResult();
+                    sendMessage(platform, message, buildTransaction("miniProgram"));
                     return null;
                 }, Task.UI_THREAD_EXECUTOR);
     }

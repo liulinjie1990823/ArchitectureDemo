@@ -16,6 +16,34 @@ public class ShareObject {
     private String  targetUrl;
     private boolean isShareEmoji;
 
+    private String userName;
+    private String path;
+    private int miniprogramType;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public int getMiniprogramType() {
+        return miniprogramType;
+    }
+
+    public void setMiniprogramType(int miniprogramType) {
+        this.miniprogramType = miniprogramType;
+    }
+
     public String getTitle() {
         return title;
     }

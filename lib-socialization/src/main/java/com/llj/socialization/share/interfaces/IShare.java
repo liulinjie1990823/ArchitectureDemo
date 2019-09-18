@@ -34,6 +34,8 @@ public interface IShare extends IControl {
     //web+链接
     void shareWeb(Activity activity, int platform, @NonNull ShareObject shareObject);
 
+    default void shareMiniProgram(Activity activity, int platform, @NonNull ShareObject shareObject) {
+    }
 
     default void sendFailure(Context context, ShareListener shareListener, String message) {
         finishActivity(context);

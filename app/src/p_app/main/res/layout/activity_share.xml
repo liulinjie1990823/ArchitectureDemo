@@ -204,6 +204,13 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="wechat分享页面"/>
+
+            <TextView
+                android:id="@+id/tv_wechat_mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="wechat分享小程序"/>
         </LinearLayout>
         <!--wechat_circle-->
         <LinearLayout

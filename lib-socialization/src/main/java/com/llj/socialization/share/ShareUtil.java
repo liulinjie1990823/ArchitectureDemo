@@ -43,6 +43,7 @@ public class ShareUtil {
     private final static int TYPE_TEXT        = 3;
     private final static int TYPE_IMAGE       = 4;
     private final static int TYPE_WEB         = 5;
+    private final static int TYPE_MINIPROGRAM = 6;
 
     private static int mPlatform;
 
@@ -70,7 +71,7 @@ public class ShareUtil {
         listener.setPlatform(platform);
         mShareListenerWrap = buildWrapListener(listener);
 
-        ResponseActivity.start(context, TYPE,platform);
+        ResponseActivity.start(context, TYPE, platform);
     }
 
     //分享title
@@ -138,6 +139,14 @@ public class ShareUtil {
         commonShare(context, platform, shareObject, listener);
     }
 
+    public static void shareMiniProgram(Context context,
+                                        @SharePlatformType.Platform int platform,
+                                        ShareObject shareObject,
+                                        ShareListener listener) {
+        mType = TYPE_MINIPROGRAM;
+        commonShare(context, platform, shareObject, listener);
+    }
+
 
     /**
      * 执行分享操作
@@ -175,6 +184,9 @@ public class ShareUtil {
                 break;
             case TYPE_WEB:
                 sIShare.shareWeb(activity, mPlatform, mShareObject);
+                break;
+            case TYPE_MINIPROGRAM:
+                sIShare.shareMiniProgram(activity, mPlatform, mShareObject);
                 break;
             default:
                 break;
