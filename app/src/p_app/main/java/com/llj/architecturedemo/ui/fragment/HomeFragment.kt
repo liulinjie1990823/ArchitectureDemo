@@ -51,6 +51,7 @@ class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableCont
         super.initViews(savedInstanceState)
 
         val arrayList = arrayListOf<Data>()
+        arrayList.add(Data("RunnableActivity", CRouter.APP_RUNNABLE_ACTIVITY))
         arrayList.add(Data("SecondActivity", CRouter.APP_FIRST_ACTIVITY))
         arrayList.add(Data("FirstActivity", CRouter.APP_FIRST_ACTIVITY))
         arrayList.add(Data("KodoActivity", CRouter.APP_KODO_ACTIVITY))
@@ -113,17 +114,17 @@ class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableCont
             val textView = viewHolder.getView<TextView>(R.id.tv_text)
             setText(textView, position.toString() + "  " + item.text)
 
-            viewHolder.itemView.setOnClickListener(object :View.OnClickListener{
+            viewHolder.itemView.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(v: View?) {
                     when (item.text) {
                         "CWebViewActivity" -> CWebViewActivity.start(mContext, "http://m.reallycar.cn/ocert")
                         "FirstActivity" -> {
-                            val intent= Intent()
+                            val intent = Intent()
                             intent.setClassName("com.llj.architecturedemo", "com.llj.architecturedemo.ui.activity.FirstActivity")
                             mContext.startActivity(intent)
                         }
                         "SecondActivity" -> {
-                            val intent= Intent()
+                            val intent = Intent()
                             intent.setClassName("com.llj.architecturedemo", "com.llj.architecturedemo.ui.activity.SecondActivity")
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             mContext.startActivity(intent)
