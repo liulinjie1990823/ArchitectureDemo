@@ -36,18 +36,19 @@ def versions = [
         mockwebserver        : "3.8.1",
         glide                : "3.8.0",
         paging               : "1.0.0-beta1",
+        socialization        : "2.0.14",
 ]
 ext {
     build_versions = [
-            applicationId    : "com.china.hunbohui",
-//            applicationId    : "com.llj.architecturedemo",
-            compileJdkVersion: 1.8,
-            compileSdkVersion: 28,
-            buildToolsVersion: "28.0.3",
-            minSdkVersion    : 21,
-            targetSdkVersion : 28,
-            versionCode      : 100,
-            versionName      : "1.0.0",
+//            applicationId    : "com.china.hunbohui",
+applicationId    : "com.llj.architecturedemo",
+compileJdkVersion: 1.8,
+compileSdkVersion: 28,
+buildToolsVersion: "28.0.3",
+minSdkVersion    : 21,
+targetSdkVersion : 28,
+versionCode      : 100,
+versionName      : "1.0.0",
     ]
     deps = [
             //插件
@@ -172,10 +173,10 @@ ext {
             component_compiler                : "com.llj:lib-component-compiler:0.0.1",
             imageLoader                       : "com.llj:lib-image-loader:0.0.4",
             imageSelect                       : "com.llj:lib-image-select:0.0.3",
-            socialization                     : "com.llj:lib-socialization:2.0.12",
-            socialization_qq                  : "com.llj:lib-socialization-qq:2.0.12",
-            socialization_sina                : "com.llj:lib-socialization-sina:2.0.12",
-            socialization_wechat              : "com.llj:lib-socialization-wechat:2.0.12",
+            socialization                     : "com.llj:lib-socialization:$versions.socialization",
+            socialization_qq                  : "com.llj:lib-socialization-qq:$versions.socialization",
+            socialization_sina                : "com.llj:lib-socialization-sina:$versions.socialization",
+            socialization_wechat              : "com.llj:lib-socialization-wechat:$versions.socialization",
             statelayout                       : "com.llj:lib-statelayout:0.0.1",
             universalAdapter                  : "com.llj.adapter:lib-universalAdapter:1.0.14",
             utils                             : "com.llj:lib-utils:0.0.6",
