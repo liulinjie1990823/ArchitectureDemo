@@ -66,3 +66,11 @@ repo/
 #jni工程编译文件
 .externalNativeBuild/
 .cxx/
+
+
+#buck编译相关文件夹
+.buckconfig
+*/BUCK
+.buckd
+.okbuck
+buck-out
