@@ -63,4 +63,6 @@ node_modules/
 repo/
 /lib-zbar/src/main/obj/
 
+#jni工程编译文件
 .externalNativeBuild/
+.cxx/
