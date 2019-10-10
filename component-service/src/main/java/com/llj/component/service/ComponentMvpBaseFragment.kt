@@ -36,7 +36,7 @@ abstract class ComponentMvpBaseFragment<P : IBasePresenter> : MvpBaseFragment<P>
     }
 
     fun isLogin(): Boolean {
-        return !TextUtils.isEmpty(ComponentApplication.mUserInfoVo.access_token)
+        return !TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -52,7 +52,7 @@ abstract class ComponentMvpBaseFragment<P : IBasePresenter> : MvpBaseFragment<P>
     }
 
     fun checkLogin(): Boolean {
-        return if (TextUtils.isEmpty(ComponentApplication.mUserInfoVo.access_token)) {
+        return if (TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)) {
             //            CRouter.start(CRouter.LOGIN_PHONE_LOGIN);
             false
         } else true

@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
         dependencies = [
-            com.llj.component.service.Component::class
+            com.llj.component.service.MiddleComponent::class
         ],
         modules = [
             AndroidInjectionModule::class,
@@ -50,19 +50,29 @@ interface AppComponent: IInject {
     //通过下面两个方法，可以获取各自Component的activityInjector和supportFragmentInjector，在AppApplication中返回
     //各自组件的activityInjector和supportFragmentInjector，如下代码
 
-//    override fun activityInjector(): AndroidInjector<Activity>? {
-//        return AndroidInjector { activity ->
-//            val mvpBaseActivity = activity as MvpBaseActivity<*>
+//    override fun androidInjector(): AndroidInjector<Any> {
+//        return object : AndroidInjector<Any> {
+//            override fun inject(data: Any?) {
+//                if (data is MvpBaseActivity<*>) {
+//                    val mvpBaseActivity = data
 //
-//            if ("app" == mvpBaseActivity.getModuleName()) {
-//                //主工程
-//                mAppComponent.activityInjector().inject(activity)
-//            } else if ("login" == mvpBaseActivity.getModuleName()) {
-//                CC.obtainBuilder("LoginModule")
-//                        .setContext(activity)
-//                        .setActionName("injectActivity")
-//                        .build()
-//                        .call()
+//                    //调用IModule中的对应action
+//                    CC.obtainBuilder(mvpBaseActivity.getModuleName())
+//                            .setContext(mvpBaseActivity)
+//                            .setActionName(IModule.INJECT_ACTIVITY)
+//                            .build()
+//                            .call()
+//                } else {
+//                    val mvpBaseFragment = data as MvpBaseFragment<*>
+//
+//                    //调用IModule中的对应action
+//                    CC.obtainBuilder(mvpBaseFragment.getModuleName())
+//                            .setContext(mvpBaseFragment.context)
+//                            .addParam("fragment", mvpBaseFragment.tag)
+//                            .setActionName(IModule.INJECT_FRAGMENT)
+//                            .build()
+//                            .call()
+//                }
 //            }
 //        }
 //    }

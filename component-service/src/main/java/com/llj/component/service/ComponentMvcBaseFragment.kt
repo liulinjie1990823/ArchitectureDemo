@@ -22,7 +22,7 @@ abstract class ComponentMvcBaseFragment : MvcBaseFragment() {
     }
 
     fun isLogin(): Boolean {
-        return !TextUtils.isEmpty(ComponentApplication.mUserInfoVo.access_token)
+        return !TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)
     }
 
     @CallSuper
@@ -39,7 +39,7 @@ abstract class ComponentMvcBaseFragment : MvcBaseFragment() {
     }
 
     fun checkLogin(): Boolean {
-        return if (TextUtils.isEmpty(ComponentApplication.mUserInfoVo.access_token)) {
+        return if (TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)) {
             //            CRouter.start(CRouter.LOGIN_PHONE_LOGIN);
             false
         } else true

@@ -27,9 +27,9 @@ import skin.support.design.app.SkinMaterialViewInflater
  * author llj
  * date 2018/7/3
  */
-abstract class ComponentApplication : BaseApplication() {
+abstract class MiddleApplication : BaseApplication() {
 
-    lateinit var mComponent: Component
+    lateinit var mMiddleComponent: MiddleComponent
 
     companion object {
         lateinit var mUserInfoVo: UserInfoVo //用户信息
@@ -50,7 +50,7 @@ abstract class ComponentApplication : BaseApplication() {
                 .setSkinWindowBackgroundEnable(false)                   // 关闭windowBackground换肤，默认打开[可选]
                 .loadSkin()
 
-        mComponent = DaggerComponent.builder()
+        mMiddleComponent = DaggerMiddleComponent.builder()
                 .application(this)
                 .build()
 
@@ -66,7 +66,7 @@ abstract class ComponentApplication : BaseApplication() {
         //        QbSdk.initX5Environment(applicationContext, object : QbSdk.PreInitCallback {
         //            override fun onViewInitFinished(arg0: Boolean) {
         //                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
-        //                Log.e("ComponentApplication", " onViewInitFinished is $arg0")
+        //                Log.e("MiddleApplication", " onViewInitFinished is $arg0")
         //            }
         //
         //            override fun onCoreInitFinished() {
@@ -84,7 +84,7 @@ abstract class ComponentApplication : BaseApplication() {
 
     override fun initImageLoader() {
         super.initImageLoader()
-        FrescoImageLoader.getInstance(this.applicationContext, mComponent.okHttpClient())
+        FrescoImageLoader.getInstance(this.applicationContext, mMiddleComponent.okHttpClient())
     }
 
     override fun initFlipper() {

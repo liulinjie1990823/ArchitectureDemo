@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
         dependencies = [
-            com.llj.component.service.Component::class //依赖库中的Component，可以获得一些字段
+            com.llj.component.service.MiddleComponent::class //依赖库中的Component，可以获得一些字段
         ],
         modules = [
             AndroidInjectionModule::class,

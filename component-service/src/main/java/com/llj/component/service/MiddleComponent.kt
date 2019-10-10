@@ -13,9 +13,9 @@ import retrofit2.Retrofit
  * date 2018/5/18
  */
 @Component(modules = [
-    ComponentModule::class
+    MiddleComponentModule::class
 ])
-interface Component {
+interface MiddleComponent {
 
     @Component.Builder
     interface Builder {
@@ -24,7 +24,7 @@ interface Component {
         @BindsInstance
         fun application(application: Application): Builder
 
-        fun build(): com.llj.component.service.Component
+        fun build(): com.llj.component.service.MiddleComponent
     }
 
     //将ComponentModule中的实例提供出来给依赖的Component使用

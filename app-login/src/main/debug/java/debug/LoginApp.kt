@@ -4,11 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.multidex.MultiDex
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.billy.cc.core.component.CC
-import com.llj.component.service.ComponentApplication
+import com.llj.component.service.MiddleApplication
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
@@ -28,13 +27,13 @@ import org.altbeacon.beacon.startup.RegionBootstrap
  * @author billy.qi
  * @since 17/11/20 20:02
  */
-class MyApp : ComponentApplication(), BootstrapNotifier {
+class LoginApp : MiddleApplication(), BootstrapNotifier {
     private lateinit var backgroundPowerSaver: BackgroundPowerSaver
     override fun didDetermineStateForRegion(p0: Int, p1: Region?) {
     }
 
     override fun didEnterRegion(p0: Region?) {
-        Log.i("ComponentApplication", "Got a didEnterRegion call");
+        Log.i("MiddleApplication", "Got a didEnterRegion call");
         // This call to disable will make it so the activity below only gets launched the first time a beacon is seen (until the next time the app is launched)
         // if you want the Activity to launch every single time beacons come into view, remove this call.
         //        regionBootstrap.disable()
@@ -83,26 +82,26 @@ class MyApp : ComponentApplication(), BootstrapNotifier {
                 .build()
     }
 
-    override fun activityInjector(): AndroidInjector<Activity>? {
-        return AndroidInjector { activity ->
-            val mvpBaseActivity = activity as MvpBaseActivity<*>
 
-            if ("app" == mvpBaseActivity.getModuleName()) {
-                //主工程
-            } else if ("login" == mvpBaseActivity.getModuleName()) {
-                mLoginComponent.activityInjector().inject(mvpBaseActivity)
-            }
-        }
-    }
+    override fun androidInjector(): AndroidInjector<Any> {
+        return AndroidInjector { data ->
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
-        return AndroidInjector { fragment ->
-            val mvpBaseFragment = fragment as MvpBaseFragment<*>
+            if (data is MvpBaseActivity<*>) {
+                val mvpBaseActivity = data
 
-            if ("app" == mvpBaseFragment.getModuleName()) {
-                //主工程
-            } else if ("login" == mvpBaseFragment.getModuleName()) {
-                mLoginComponent.supportFragmentInjector().inject(mvpBaseFragment)
+                if ("app" == mvpBaseActivity.getModuleName()) {
+                    //主工程
+                } else if ("login" == mvpBaseActivity.getModuleName()) {
+                    mLoginComponent.activityInjector().inject(mvpBaseActivity)
+                }
+            } else {
+                val mvpBaseFragment = data as MvpBaseFragment<*>
+
+                if ("app" == mvpBaseFragment.getModuleName()) {
+                    //主工程
+                } else if ("login" == mvpBaseFragment.getModuleName()) {
+                    mLoginComponent.supportFragmentInjector().inject(mvpBaseFragment)
+                }
             }
         }
     }

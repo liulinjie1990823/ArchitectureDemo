@@ -10,8 +10,8 @@ import android.support.multidex.MultiDex
 import android.support.v4.content.ContextCompat
 import com.billy.cc.core.component.CC
 import com.llj.architecturedemo.ui.activity.MainActivity
-import com.llj.component.service.ComponentApplication
 import com.llj.component.service.IModule
+import com.llj.component.service.MiddleApplication
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
@@ -32,7 +32,7 @@ import timber.log.Timber
  * author llj
  * date 2018/5/18
  */
-class AppApplication : ComponentApplication() {
+class AppApplication : MiddleApplication() {
     private lateinit var mAppComponent: AppComponent
 
     override fun injectApp() {
@@ -47,7 +47,7 @@ class AppApplication : ComponentApplication() {
         JumpHelp.init(this)
 
         mAppComponent = DaggerAppComponent.builder()
-                .component(mComponent)
+                .middleComponent(mMiddleComponent)
                 .build()
 
         //调用LoginComponent中的dagger组件
@@ -118,27 +118,28 @@ class AppApplication : ComponentApplication() {
     }
 
     override fun androidInjector(): AndroidInjector<Any> {
-        return AndroidInjector { data ->
+        return object : AndroidInjector<Any> {
+            override fun inject(data: Any?) {
+                if (data is MvpBaseActivity<*>) {
+                    val mvpBaseActivity = data
 
-            if (data is MvpBaseActivity<*>) {
-                val mvpBaseActivity = data
+                    //调用IModule中的对应action
+                    CC.obtainBuilder(mvpBaseActivity.getModuleName())
+                            .setContext(mvpBaseActivity)
+                            .setActionName(IModule.INJECT_ACTIVITY)
+                            .build()
+                            .call()
+                } else {
+                    val mvpBaseFragment = data as MvpBaseFragment<*>
 
-                //调用IModule中的对应action
-                CC.obtainBuilder(mvpBaseActivity.getModuleName())
-                        .setContext(mvpBaseActivity)
-                        .setActionName(IModule.INJECT_ACTIVITY)
-                        .build()
-                        .call()
-            } else {
-                val mvpBaseFragment = data as MvpBaseFragment<*>
-
-                //调用IModule中的对应action
-                CC.obtainBuilder(mvpBaseFragment.getModuleName())
-                        .setContext(mvpBaseFragment.context)
-                        .addParam("fragment", mvpBaseFragment.tag)
-                        .setActionName(IModule.INJECT_FRAGMENT)
-                        .build()
-                        .call()
+                    //调用IModule中的对应action
+                    CC.obtainBuilder(mvpBaseFragment.getModuleName())
+                            .setContext(mvpBaseFragment.context)
+                            .addParam("fragment", mvpBaseFragment.tag)
+                            .setActionName(IModule.INJECT_FRAGMENT)
+                            .build()
+                            .call()
+                }
             }
         }
     }

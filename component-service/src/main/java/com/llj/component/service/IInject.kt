@@ -6,7 +6,7 @@ import dagger.android.DispatchingAndroidInjector
 
 /**
  * ArchitectureDemo.
- * describe:
+ * dagger中各个子Component
  * author llj
  * date 2019/3/26
  */

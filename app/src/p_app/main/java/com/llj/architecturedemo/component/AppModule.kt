@@ -3,9 +3,9 @@ package com.llj.architecturedemo.component
 import com.billy.cc.core.component.CC
 import com.billy.cc.core.component.IComponent
 import com.llj.architecturedemo.DaggerAppComponent
-import com.llj.component.service.ComponentApplication
 import com.llj.component.service.IInject
 import com.llj.component.service.IModule
+import com.llj.component.service.MiddleApplication
 
 /**
  * ArchitectureDemo.
@@ -20,9 +20,9 @@ class AppModule : IComponent,IModule {
         return "app"
     }
 
-    override fun initComponent(application: ComponentApplication) {
+    override fun initComponent(application: MiddleApplication) {
         mComponent = DaggerAppComponent.builder()
-                .component(application.mComponent)
+                .middleComponent(application.mMiddleComponent)
                 .build()
     }
 

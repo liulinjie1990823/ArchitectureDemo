@@ -22,7 +22,7 @@ import javax.inject.Inject
  * date 2018/4/25
  */
 abstract class BaseApplication : Application(),
-        HasAndroidInjector{
+        HasAndroidInjector {
     val mTagLog: String = this.javaClass.simpleName
 
     @Inject

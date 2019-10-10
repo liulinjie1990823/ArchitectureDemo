@@ -42,7 +42,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <application
-        android:name="debug.MyApp"
+        android:name="debug.SettingApp"
         android:allowBackup="false"
         android:appComponentFactory="whateverString"
         android:icon="@mipmap/login_ic_launcher"

@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import com.billy.cc.core.component.CC;
-import com.llj.component.service.ComponentApplication;
+import com.llj.component.service.MiddleApplication;
 import com.llj.lib.base.MvpBaseActivity;
 import com.llj.lib.base.MvpBaseFragment;
 import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter;
@@ -18,7 +18,7 @@ import com.llj.setting.DaggerSettingComponent;
 import com.llj.setting.R;
 import com.llj.setting.SettingComponent;
 
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import dagger.android.AndroidInjector;
 
@@ -28,7 +28,7 @@ import dagger.android.AndroidInjector;
  * author llj
  * date 2019/3/25
  */
-public class MyApp extends ComponentApplication {
+public class SettingApp extends MiddleApplication {
 
     private SettingComponent mSettingComponent;
 
@@ -59,41 +59,36 @@ public class MyApp extends ComponentApplication {
                 .build();
     }
 
-    @Nullable
-    @Override
-    public AndroidInjector<Activity> activityInjector() {
-        return new AndroidInjector<Activity>() {
-            @Override
-            public void inject(Activity instance) {
-                MvpBaseActivity activity = (MvpBaseActivity) instance;
-                if ("app".equals(activity.getModuleName())) {
-                    //主工程
-                } else if ("setting".equals(activity.getModuleName())) {
-                    mSettingComponent.activityInjector().inject(activity);
-                }
-            }
-        };
-    }
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
 
-    @Nullable
+    @NotNull
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return new AndroidInjector<Fragment>() {
+    public AndroidInjector<Object> androidInjector() {
+        return new AndroidInjector<Object>() {
             @Override
-            public void inject(Fragment instance) {
-                MvpBaseFragment fragment = (MvpBaseFragment) instance;
-                if ("app".equals(fragment.getModuleName())) {
-                    //主工程
-                } else if ("setting".equals(fragment.getModuleName())) {
-                    mSettingComponent.supportFragmentInjector().inject(fragment);
+            public void inject(Object instance) {
+                if(instance instanceof Activity){
+                    MvpBaseActivity activity = (MvpBaseActivity) instance;
+                    if ("app".equals(activity.getModuleName())) {
+                        //主工程
+                    } else if ("setting".equals(activity.getModuleName())) {
+                        mSettingComponent.activityInjector().inject(activity);
+                    }
+                }else if(instance instanceof Fragment){
+                    MvpBaseFragment fragment = (MvpBaseFragment) instance;
+                    if ("app".equals(fragment.getModuleName())) {
+                        //主工程
+                    } else if ("setting".equals(fragment.getModuleName())) {
+                        mSettingComponent.supportFragmentInjector().inject(fragment);
+                    }
                 }
+
             }
         };
     }
+
 }

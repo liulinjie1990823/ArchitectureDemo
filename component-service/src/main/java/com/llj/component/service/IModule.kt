@@ -6,7 +6,7 @@ import com.billy.cc.core.component.CC
 
 /**
  * ArchitectureDemo.
- * describe:
+ * 各个子module需要实现该类，可以通过cc的IComponent，或者ARouter来实现。
  * author llj
  * date 2019/3/26
  */
@@ -18,7 +18,7 @@ interface IModule {
         const val INJECT_FRAGMENT = "injectFragment"
     }
 
-    fun initComponent(application: ComponentApplication)
+    fun initComponent(application: MiddleApplication)
 
     fun getComponent(): IInject
 
@@ -31,7 +31,7 @@ interface IModule {
 
     fun innerCall(cc: CC): Boolean {
         if (INIT == cc.actionName) {
-            val componentApplication = cc.context as ComponentApplication
+            val componentApplication = cc.context as MiddleApplication
             initComponent(componentApplication)
         } else if (INJECT_ACTIVITY == cc.actionName) {
             val activity = cc.context as Activity

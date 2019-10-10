@@ -2,14 +2,14 @@ package com.llj.login.component
 
 import com.billy.cc.core.component.CC
 import com.billy.cc.core.component.IComponent
-import com.llj.component.service.ComponentApplication
+import com.llj.component.service.MiddleApplication
 import com.llj.component.service.IInject
 import com.llj.component.service.IModule
 import com.llj.login.DaggerLoginComponent
 
 /**
  * ArchitectureDemo.
- * describe:
+ * Module之间交互类,也可以通过ARouter来实现。当前类持有dagger中的Component对象。
  * author llj
  * date 2018/8/23
  */
@@ -20,9 +20,9 @@ class LoginModule : IComponent, IModule {
         return "app-login"
     }
 
-    override fun initComponent(application: ComponentApplication) {
+    override fun initComponent(application: MiddleApplication) {
         mComponent = DaggerLoginComponent.builder()
-                .component(application.mComponent)
+                .middleComponent(application.mMiddleComponent)
                 .build()
     }
 

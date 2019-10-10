@@ -4,10 +4,15 @@
 
 subprojects {
     //配置类库公用的配置
-    if (it.name.startsWith('lib-') || (it.name.startsWith('lib_'))) {
+    if (it.name.startsWith('lib-') || (it.name.startsWith('lib_')) || (it.name.startsWith('plugin-'))) {
 //        apply from: rootProject.file('gradle/novoda-bintray.gradle')
+        if (it.name.startsWith('plugin-code-inject')
+                || it.name.startsWith('plugin-upload')
+        ) {
 
-        if (it.name.startsWith('lib-component-annotation')
+            apply plugin: 'groovy'
+
+        } else if (it.name.startsWith('lib-component-annotation')
                 || it.name.startsWith('lib-component-compiler')
                 || it.name.startsWith('lib-jump-annotation')
                 || it.name.startsWith('lib-jump-compiler')

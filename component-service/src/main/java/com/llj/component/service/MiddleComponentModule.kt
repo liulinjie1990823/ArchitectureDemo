@@ -21,7 +21,7 @@ import java.io.File
  * date 2018/9/20
  */
 @Module
-class ComponentModule {
+class MiddleComponentModule {
 
     @Provides
     fun provideOkHttpClient(context: Application): OkHttpClient {

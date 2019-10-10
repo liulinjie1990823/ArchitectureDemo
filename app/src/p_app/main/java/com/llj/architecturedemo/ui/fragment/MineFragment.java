@@ -35,7 +35,7 @@ import com.llj.architecturedemo.ui.model.PersonalCenterCountVo;
 import com.llj.architecturedemo.ui.model.PersonalCenterVo;
 import com.llj.architecturedemo.ui.presenter.PersonalCenterPresenter;
 import com.llj.architecturedemo.ui.view.IMineView;
-import com.llj.component.service.ComponentApplication;
+import com.llj.component.service.MiddleApplication;
 import com.llj.component.service.ComponentMvpBaseFragment;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout;
@@ -150,7 +150,7 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
         if (!isHidden() && hasInLoading()) {
             showLoadingDialog();
         }
-        handleUserInfo(ComponentApplication.mUserInfoVo);
+        handleUserInfo(MiddleApplication.mUserInfoVo);
 
     }
 
@@ -686,9 +686,9 @@ public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresent
 
         //用户信息
         if (data.getUser() != null) {
-            data.getUser().setAccess_token(ComponentApplication.mUserInfoVo.getAccess_token());
-            ComponentApplication.Companion.initUserInfo(data.getUser());
-            handleUserInfo(ComponentApplication.mUserInfoVo);
+            data.getUser().setAccess_token(MiddleApplication.mUserInfoVo.getAccess_token());
+            MiddleApplication.Companion.initUserInfo(data.getUser());
+            handleUserInfo(MiddleApplication.mUserInfoVo);
         }
 
 //        UserInfoPreference.Companion.getInstance().(data.getServer_tel());

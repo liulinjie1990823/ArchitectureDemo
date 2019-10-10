@@ -1,6 +1,20 @@
 # lib-webview
 
 
+## 功能
+1. 统一属性设置
+2. 统一header和cookie设置
+3. 统一web发起的js调用
+4. 统一原生页主动发起的js调用，如生命周期
+5. 接受页面reload刷新事件
+6. input标签事件响应
+7. 统一titleBar设置
+8. 页面响应优化
+9. 页面异常显示
+10. webView嵌套内容自适应兼容
+11. shouldOverrideUrlLoading对url拦截
+
+
 ## License
 ```text
 Copyright 2018 liulinjie

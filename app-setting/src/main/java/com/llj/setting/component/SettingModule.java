@@ -2,7 +2,7 @@ package com.llj.setting.component;
 
 import com.billy.cc.core.component.CC;
 import com.billy.cc.core.component.IComponent;
-import com.llj.component.service.ComponentApplication;
+import com.llj.component.service.MiddleApplication;
 import com.llj.component.service.IInject;
 import com.llj.component.service.IModule;
 import com.llj.setting.DaggerSettingComponent;
@@ -33,9 +33,9 @@ public class SettingModule implements IComponent, IModule {
     }
 
     @Override
-    public void initComponent(@NotNull ComponentApplication application) {
+    public void initComponent(@NotNull MiddleApplication application) {
         mComponent = DaggerSettingComponent.builder()
-                .component(application.mComponent)
+                .middleComponent(application.mMiddleComponent)
                 .build();
     }
 
