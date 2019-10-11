@@ -25,16 +25,14 @@ import javax.inject.Singleton
         ])
 internal interface LoginComponent : IInject {
 
-    //    @Component.Builder
-    //    interface Builder {
-    //
-    //        //提供给AppModule中方法中的Application入参用
-    //        @BindsInstance
-    //        fun application(application: Application): Builder
-    //
-    //        fun build(): LoginComponent
-    //    }
-    //调用该方法才会注入BaseApplication中的@Inject标记的对象
-    //    override fun inject(application: BaseApplication)
+//    @Component.Builder
+//    interface Builder {
+//
+//        //提供给AppModule中方法中的Application入参用
+//        @BindsInstance
+//        fun application(application: Application): Builder
+//
+//        fun build(): LoginComponent
+//    }
 
 }

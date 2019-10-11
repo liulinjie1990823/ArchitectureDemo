@@ -115,6 +115,7 @@ class AppApplication : MiddleApplication() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
+
     }
 
     override fun androidInjector(): AndroidInjector<Any> {

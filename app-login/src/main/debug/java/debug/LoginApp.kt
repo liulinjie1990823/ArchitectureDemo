@@ -77,9 +77,9 @@ class LoginApp : MiddleApplication(), BootstrapNotifier {
     }
 
     override fun injectApp() {
-        mLoginComponent = DaggerLoginComponent.builder()
-                .component(mComponent)
-                .build()
+//        mLoginComponent = DaggerLoginComponent.builder()
+//                .middleComponent(mMiddleComponent)
+//                .build()
     }
 
 

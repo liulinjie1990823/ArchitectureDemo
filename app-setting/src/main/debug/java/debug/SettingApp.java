@@ -55,7 +55,7 @@ public class SettingApp extends MiddleApplication {
     @Override
     protected void injectApp() {
         mSettingComponent = DaggerSettingComponent.builder()
-                .component(mComponent)
+                .middleComponent(mMiddleComponent)
                 .build();
     }
 
