@@ -17,7 +17,6 @@ import com.llj.lib.net.observer.ITaskId
 import com.llj.lib.tracker.ITracker
 import com.llj.lib.tracker.PageName
 import com.llj.lib.utils.AInputMethodManagerUtils
-import com.llj.lib.utils.LogUtil
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
@@ -25,6 +24,8 @@ import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
 
 /**
+ * Fragment在 ViewPager中的表现
+ *
  * 08-11 11:33:36.156    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ setUserVisibleHint false
  * 08-11 11:33:36.156    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ setUserVisibleHint false
  * 08-11 11:33:36.157    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ setUserVisibleHint true
@@ -89,39 +90,6 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
         return mPageName!!
     }
 
-    //<editor-fold desc="生命周期">
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-    }
-
-    override fun onAttach(activity: Activity?) {
-        super.onAttach(activity)
-        pageName
-        Timber.tag(mTagLog).i("onAttach：%s", pageName)
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        pageName
-        Timber.tag(mTagLog).i("onCreate：%s", pageName)
-
-        showsDialog = false
-
-        setStyle(STYLE_NO_TITLE, R.style.no_dim_dialog)
-
-        mContext = context!!
-
-        if (arguments !== null) {
-            getArgumentsData(arguments!!)
-        }
-
-        try {
-            AndroidSupportInjection.inject(this)
-        } catch (e: Exception) {
-        }
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BaseDialogImpl(activity!!, theme)
         if (mUseSoftInput) {
@@ -137,6 +105,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
         return dialog
     }
 
+    //如果有dialog，dialog的dismiss会回调该方法
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         if (activity == null) {
@@ -144,6 +113,53 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
         }
         if (mUseSoftInput) {
             AInputMethodManagerUtils.hideSoftInputFromWindow(getDialog())
+        }
+    }
+
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        Timber.tag(mTagLog).i("setUserVisibleHint:%s,%s", isVisibleToUser, pageName)
+        //当fragment在viewPager中的时候需要实现懒加载的模式
+        //当使用viewPager进行预加载fragment的时候,先调用setUserVisibleHint,后调用onViewCreated
+        //所以刚开始是mIsInit=true,mIsVisible为false
+
+        // 加载数据
+        if (useLazyLoad() && hasInitAndVisible()) {
+            onLazyInitData()
+        }
+    }
+
+    //<editor-fold desc="生命周期">
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+    }
+
+    override fun onAttach(activity: Activity?) {
+        super.onAttach(activity)
+        pageName
+        Timber.tag(mTagLog).i("onAttach：%s", pageName)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        pageName
+        Timber.tag(mTagLog).i("onCreate：%s", pageName)
+
+        //如果要修改可以在Fragment的构造函数中修改
+        showsDialog = false
+
+        setStyle(STYLE_NO_TITLE, R.style.no_dim_dialog)
+
+        mContext = context!!
+
+        if (arguments !== null) {
+            getArgumentsData(arguments!!)
+        }
+
+        try {
+            AndroidSupportInjection.inject(this)
+        } catch (e: Exception) {
         }
     }
 
@@ -173,20 +189,6 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
         return view
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        Timber.tag(mTagLog).i("setUserVisibleHint:%s,%s", isVisibleToUser, pageName)
-        //当fragment在viewPager中的时候需要实现懒加载的模式
-        //当使用viewPager进行预加载fragment的时候,先调用setUserVisibleHint,后调用onViewCreated
-        //所以刚开始是mIsInit=true,mIsVisible为false
-
-        // 加载数据
-        if (useLazyLoad()) {
-            if (hasInitAndVisible()) {
-                onLazyInitData()
-            }
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -325,7 +327,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
                 it.childPageName = pageName
             }
         }
-        LogUtil.e(mTagLog, "mInit:$mInit,mVisible:$userVisibleHint")
+        Timber.tag(mTagLog).i("mInit：%s ,mVisible：%s", mInit, userVisibleHint)
     }
     //</editor-fold >
 

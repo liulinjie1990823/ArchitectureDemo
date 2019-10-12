@@ -16,9 +16,74 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.Elements;
 
+
+
 /**
  * ArchitectureDemo.
- * describe:generate Jump Code
+ * 自动生成网络请求的task,避免写重复的代码。
+ * <pre>
+ * {@code
+ *
+ * package com.llj.login.ui.presenter;
+ *
+ * import com.llj.adapter.refresh.IRefresh;
+ * import com.llj.component.service.vo.UserInfoVo;
+ * import com.llj.lib.net.RxApiManager;
+ * import com.llj.lib.net.observer.BaseApiObserver;
+ * import com.llj.lib.net.response.BaseResponse;
+ * import com.llj.login.ui.repository.LoginRepository;
+ * import com.llj.login.ui.view.ILoginView;
+ * import io.reactivex.Single;
+ * import io.reactivex.disposables.Disposable;
+ * import java.lang.Override;
+ * import java.lang.Throwable;
+ * import java.util.HashMap;
+ * import retrofit2.Response;
+ *
+ * public class LoginPresenter_Helper extends LoginPresenter {
+ *   public LoginPresenter_Helper(LoginRepository repository) {
+ *     super(repository);
+ *   }
+ *
+ *   public void accountLogin(boolean showLoading, int requestId, ILoginView.PhoneLogin view) {
+ *     if (view == null) {
+ *       return;
+ *     }
+ *     int taskId = requestId;
+ *     if (view.getLoadingDialog() != null) view.getLoadingDialog().setRequestId(taskId);
+ *     HashMap<String, Object> param = view.getParams1(taskId);
+ *     if (param == null)  {
+ *       return;
+ *     }
+ *     Single<Response<BaseResponse<UserInfoVo>>> single = getRepository().accountLogin(param);
+ *     if (showLoading) {
+ *       single = single.doOnSubscribe(view).doFinally(view);
+ *     }
+ *     BaseApiObserver<UserInfoVo> baseApiObserver = new BaseApiObserver<UserInfoVo>(view) {
+ *       @Override
+ *       public void onSubscribe(Disposable d) {
+ *         super.onSubscribe(d);
+ *         view.addDisposable(getRequestId(), d);
+ *       }
+ *
+ *       @Override
+ *       public void onSuccess(BaseResponse<UserInfoVo> response) {
+ *         super.onSuccess(response);
+ *         view.onDataSuccess1(response.getData(), getRequestId());
+ *       }
+ *
+ *       @Override
+ *       public void onError(Throwable t) {
+ *         super.onError(t);
+ *         view.onDataError(1, t, getRequestId());
+ *       }
+ *     };
+ *     RxApiManager.get().subscribeApi(single, view.bindRequestLifecycle(), baseApiObserver);
+ *   }
+ * }
+ *
+ * }
+ * </pre>
  * author llj
  * date 2018/9/6
  */

@@ -1,9 +1,6 @@
 package com.llj.architecturedemo
 
 import android.app.Activity
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.Context
 import android.os.Bundle
 import android.support.multidex.MultiDex
@@ -18,6 +15,8 @@ import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
 import com.llj.lib.jump.api.JumpHelp
 import com.llj.lib.statusbar.LightStatusBarCompat
 import com.llj.lib.statusbar.StatusBarCompat
+import com.llj.lib.tracker.Tracker
+import com.llj.lib.tracker.TrackerConfig
 import com.llj.socialization.SocialConstants
 import com.llj.socialization.init.SocialConfig
 import com.llj.socialization.init.SocialManager
@@ -36,6 +35,7 @@ class AppApplication : MiddleApplication() {
     private lateinit var mAppComponent: AppComponent
 
     override fun injectApp() {
+        //设置日志
         Timber.plant(object : Timber.DebugTree() {
             override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
                 if (BuildConfig.DEBUG) {
@@ -43,6 +43,8 @@ class AppApplication : MiddleApplication() {
                 }
             }
         })
+        //设置埋点
+        Tracker.init(this, TrackerConfig.Builder().build())
 
         JumpHelp.init(this)
 
@@ -62,35 +64,8 @@ class AppApplication : MiddleApplication() {
                 .build()
         SocialManager.init(config)
 
+        //Crash记录
         CrashReport.initCrashReport(applicationContext, "a0ed9c00ad", false)
-
-
-        ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onCreate(owner: LifecycleOwner) {
-                Timber.i("ProcessLifecycleOwner onCreate")
-            }
-
-            override fun onStart(owner: LifecycleOwner) {
-                Timber.i("ProcessLifecycleOwner onStart")
-            }
-
-            override fun onResume(owner: LifecycleOwner) {
-                Timber.i("ProcessLifecycleOwner onResume")
-            }
-
-            override fun onPause(owner: LifecycleOwner) {
-                Timber.i("ProcessLifecycleOwner onPause")
-            }
-
-            override fun onStop(owner: LifecycleOwner) {
-                Timber.i("ProcessLifecycleOwner onStop")
-            }
-
-            override fun onDestroy(owner: LifecycleOwner) {
-                Timber.i("ProcessLifecycleOwner onDestroy")
-            }
-        })
-
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
             override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {

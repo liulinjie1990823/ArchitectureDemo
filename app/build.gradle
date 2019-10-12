@@ -67,6 +67,7 @@ if (useAspectjx) {
     }
 }
 
+
 if (useCodeInject) {
     apply plugin: 'plugin-code-inject'
 
@@ -75,7 +76,15 @@ if (useCodeInject) {
         showHelp = true
         keepQuiet = false
         watchTimeConsume = false
-        targetPackages = ['com.llj.architecturedemo.ui.fragment']
+        targetPackages = ['com.llj.setting.ui.fragment',
+//                          'com.llj.lib.base.MvcBaseFragment'
+        ]
+        superFragments = ['android/support/v4/app/Fragment',
+                           'androidx/fragment/app/Fragment',
+                           'android/support/v4/app/DialogFragment',
+//                           'com/llj/setting/SettingMvcBaseFragment'
+        ]
+        //butterknife.internal.DebouncingOnClickListener
     }
 }
 

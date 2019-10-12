@@ -19,9 +19,9 @@ class InjectPlugin implements Plugin<Project> {
         initDir(project)
 
         project.afterEvaluate {
-            Log.setQuiet(project.codeInjectConfig.keepQuiet);
-            Log.setShowHelp(project.codeInjectConfig.showHelp);
-            Log.logHelp();
+            Log.setQuiet(project.codeInjectConfig.keepQuiet)
+            Log.setShowHelp(project.codeInjectConfig.showHelp)
+            Log.logHelp()
 
             if (project.codeInjectConfig.watchTimeConsume) {
                 Log.info "watchTimeConsume enabled"

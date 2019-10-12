@@ -52,6 +52,7 @@ class HomeFragment : ComponentMvcBaseFragment(), ScrollableHelper.ScrollableCont
 
         val arrayList = arrayListOf<Data>()
         arrayList.add(Data("RunnableActivity", CRouter.APP_RUNNABLE_ACTIVITY))
+        arrayList.add(Data("InjectActivity", CRouter.SETTING_INJECT_ACTIVITY))
         arrayList.add(Data("SecondActivity", CRouter.APP_FIRST_ACTIVITY))
         arrayList.add(Data("FirstActivity", CRouter.APP_FIRST_ACTIVITY))
         arrayList.add(Data("KodoActivity", CRouter.APP_KODO_ACTIVITY))

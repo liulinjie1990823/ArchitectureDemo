@@ -30,12 +30,9 @@ public class TrackerConfig {
         private String mBaseUrl;
         private int    mReportStrategy;
 
-        private Builder() {
+        public Builder() {
         }
 
-        public static Builder aTrackerConfig() {
-            return new Builder();
-        }
 
         public Builder AppName(String AppName) {
             this.mAppName = AppName;

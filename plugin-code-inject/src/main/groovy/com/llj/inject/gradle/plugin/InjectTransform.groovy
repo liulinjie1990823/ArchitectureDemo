@@ -23,7 +23,8 @@ class InjectTransform extends Transform {
 
     private AppExtension mAndroid
     private Project mProject
-    private HashSet<String> mTargetPackages = ['butterknife.internal.DebouncingOnClickListener']
+    private HashSet<String> mTargetPackages = []
+    private  HashSet<String> mSuperFragments = []
 
     InjectTransform(Project project) {
         mProject = project
@@ -94,6 +95,12 @@ class InjectTransform extends Transform {
         HashSet<String> inputPackages = mProject.codeInjectConfig.targetPackages
         if (inputPackages != null) {
             mTargetPackages.addAll(inputPackages)
+        }
+
+        //
+        HashSet<String> superFragments = mProject.codeInjectConfig.superFragments
+        if (superFragments != null) {
+            mSuperFragments.addAll(superFragments)
         }
 
         //遍历输入文件
@@ -209,7 +216,7 @@ class InjectTransform extends Transform {
                     String className = pathToClassname(entryName)
                     if (classNeedModify(className)) {
                         //判断该class是否需要修改
-                        modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes);
+                        modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes,mSuperFragments)
                     }
                 }
 
@@ -241,7 +248,7 @@ class InjectTransform extends Transform {
             byte[] sourceClassBytes = IOUtils.toByteArray(new FileInputStream(classFile));
 
             if (classNeedModify(className)) {
-                byte[] modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes);
+                byte[] modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes,mSuperFragments)
                 if (modifiedClassBytes) {
                     modified = new File(tempDir, className.replace('.', '_') + '.class')
                     ///Users/liulinjie/GitHub/ArchitectureDemo/app/build/tmp/transformClassesWithCode-injectForDebug/comlljarchitecturedemouifragmentDialogTestFragment.class

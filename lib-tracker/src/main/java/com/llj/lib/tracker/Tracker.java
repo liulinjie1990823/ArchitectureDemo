@@ -22,6 +22,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * ArchitectureDemo.
  * describe:
@@ -45,35 +47,36 @@ public class Tracker {
         ProcessLifecycleOwner.get().getLifecycle().addObserver(new DefaultLifecycleObserver() {
             @Override
             public void onCreate(@NonNull LifecycleOwner owner) {
-                Log.e(TAG, "app onCreate");
+                Timber.tag(TAG).i("app onCreate");
             }
 
             @Override
             public void onStart(@NonNull LifecycleOwner owner) {
-                Log.e(TAG, "app onStart");
+                Timber.tag(TAG).i("app onStart");
             }
 
             @Override
             public void onResume(@NonNull LifecycleOwner owner) {
-                Log.e(TAG, "app onResume");
+                Timber.tag(TAG).i("app onResume");
             }
 
             @Override
             public void onPause(@NonNull LifecycleOwner owner) {
-                Log.e(TAG, "app onPause");
+                Timber.tag(TAG).i("app onPause");
             }
 
             @Override
             public void onStop(@NonNull LifecycleOwner owner) {
-                Log.e(TAG, "app onStop");
+                Timber.tag(TAG).i("app onStop");
             }
 
             @Override
             public void onDestroy(@NonNull LifecycleOwner owner) {
-                Log.e(TAG, "app onDestroy");
+                Timber.tag(TAG).i("app onDestroy");
             }
         });
     }
+
 
     /**
      * 点击记录，编译时注入
@@ -81,12 +84,47 @@ public class Tracker {
      * @param view
      */
     public static void trackEvent(View view) {
+
         String pageName = getPageName(view);
+
+        Timber.tag(TAG).i("trackEvent：%s", pageName);
+
         TrackerEvent trackerEvent = new TrackerEvent(TrackerEvent.APP_CLICK, pageName, System.currentTimeMillis());
 
 
         //请求或者写入本地
         report(trackerEvent);
+    }
+
+
+    public static void trackViewOnClick(View view) {
+
+        trackEvent(view);
+    }
+
+    public static void trackFragmentResume(Fragment fragment) {
+
+    }
+
+    public static void trackFragmentStart(Fragment fragment) {
+
+    }
+
+    public static void trackFragmentPause(Fragment fragment) {
+
+    }
+
+    public static void trackFragmentStop(Fragment fragment) {
+
+    }
+
+
+    public static void trackFragmentUserVisibleHint(Fragment fragment, boolean isVisibleToUser) {
+
+    }
+
+    public static void trackFragmentHiddenChanged(Fragment fragment, boolean hidden) {
+
     }
 
     /**
@@ -151,15 +189,17 @@ public class Tracker {
                     } catch (NullPointerException e) {
                         return pageName;
                     }
-
+                    //childFragment不忽略的情况下使用childFragment
                     if (rectChild.contains(rectView) && !(childFragment instanceof ITracker && ((ITracker) childFragment).ignore())) {
                         pageName = ((ITracker) childFragment).getPageName();
                     } else {
+                        //parentFragment不忽略的情况下使用parentFragment
                         if (rectParent.contains(rectView) && !(parentFragment instanceof ITracker && ((ITracker) parentFragment).ignore())) {
                             pageName = ((ITracker) parentFragment).getPageName();
                         }
                     }
                 } else {
+                    //parentFragment不忽略的情况下使用parentFragment
                     if (rectParent.contains(rectView) && !(parentFragment instanceof ITracker && ((ITracker) parentFragment).ignore())) {
                         pageName = ((ITracker) parentFragment).getPageName();
                     }
@@ -170,6 +210,13 @@ public class Tracker {
         return pageName;
     }
 
+    /**
+     * 获得准确的Activity
+     *
+     * @param view
+     *
+     * @return
+     */
     private static Context getTrueContext(View view) {
         Context context = view.getContext();
         if (context instanceof Activity) {
@@ -196,6 +243,13 @@ public class Tracker {
         return pageName;
     }
 
+    /**
+     * 获取显示的fragment
+     *
+     * @param fragmentManager
+     *
+     * @return
+     */
     private static Fragment findVisibleFragment(FragmentManager fragmentManager) {
         List<Fragment> children = fragmentManager.getFragments();
         Fragment fragment = null;

@@ -3,5 +3,6 @@
     <application>
         <activity android:name=".ui.activity.QrCodeActivity"/>
         <activity android:name=".ui.activity.SettingActivity"/>
+        <activity android:name=".ui.activity.InjectActivity"/>
     </application>
 </manifest>

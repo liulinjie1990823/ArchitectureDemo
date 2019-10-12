@@ -1,10 +1,10 @@
-package com.llj.inject.gradle.plugin
+package com.llj.inject.gradle.plugin.util
 
 /**
  * Created by nailperry on 2017/3/4.
  */
 
-class MethodCell {
+class InjectMethodCell {
     // 原方法名
     String name
     // 原方法描述
@@ -22,7 +22,7 @@ class MethodCell {
     // 参数类型对应的ASM指令，加载不同类型的参数需要不同的指令
     List<Integer> opcodes
 
-    MethodCell(String name, String desc, String parent, String agentName, String agentDesc, int paramsStart, int paramsCount, List<Integer> opcodes) {
+    InjectMethodCell(String name, String desc, String parent, String agentName, String agentDesc, int paramsStart, int paramsCount, List<Integer> opcodes) {
         this.name = name
         this.desc = desc
         this.parent = parent

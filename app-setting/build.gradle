@@ -1,10 +1,10 @@
-
 android {
     defaultConfig {
         multiDexEnabled true
     }
     resourcePrefix "setting_"
 }
+
 
 dependencies {
     implementation deps.multidex

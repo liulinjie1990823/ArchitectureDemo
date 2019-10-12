@@ -11,5 +11,7 @@ dependencies {
     implementation deps.lifecycle_runtime
     implementation deps.lifecycle_java8
     implementation deps.lifecycle_extensions
+
+    implementation deps.timber
 }
 
