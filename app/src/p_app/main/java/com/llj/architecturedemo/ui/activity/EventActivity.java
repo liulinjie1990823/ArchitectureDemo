@@ -6,9 +6,9 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.lib.jump.annotation.Jump;
+import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.vo.Cat;
-import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CInner;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.event.BaseEvent;
@@ -28,7 +28,7 @@ import butterknife.internal.DebouncingOnClickListener;
  */
 @Jump(ciw = CInner.CIW_EVENT_ACTIVITY, route = CRouter.APP_EVENT_ACTIVITY, desc = "EventActivity")
 @Route(path = CRouter.APP_EVENT_ACTIVITY)
-public class EventActivity extends ComponentMvcBaseActivity {
+public class EventActivity extends AppMvcBaseActivity {
 
     @BindView(R.id.tv_click) TextView mTextView;
 

@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.mvp.IBasePresenter
+import com.llj.lib.tracker.ITracker
+import com.llj.lib.tracker.PageName
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -15,7 +18,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/12/13
  */
-abstract class ComponentMvpBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>(),HasAndroidInjector {
+abstract class ComponentMvpBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>(), HasAndroidInjector, ITracker {
 
     //下面代码是为了在component-service中生成ComponentMvpBaseActivity_MembersInjector对象
     //否则会在多个module中生成多个ComponentMvpBaseActivity_MembersInjector对象
@@ -23,7 +26,7 @@ abstract class ComponentMvpBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>
     lateinit var mSupportFragmentInjector: DispatchingAndroidInjector<Fragment>
 
     override fun androidInjector(): AndroidInjector<Any> {
-        return  AndroidInjector {  }
+        return AndroidInjector { }
     }
 
     var mActivityOpenEnterAnimation: Int = 0
@@ -31,6 +34,26 @@ abstract class ComponentMvpBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>
     var mActivityCloseEnterAnimation: Int = 0
     var mActivityCloseExitAnimation: Int = 0
     var mIsWindowIsTranslucent: Boolean = false
+
+    protected var mUseAnim: Boolean = false
+
+    private var mPageName: String? = null
+    private var mPageId: String? = null
+
+    override fun getPageName(): String {
+        if (mPageName == null) {
+            val annotation = javaClass.getAnnotation(PageName::class.java)
+            mPageName = annotation?.value ?: javaClass.simpleName
+        }
+        return mPageName!!
+    }
+
+    override fun getPageId(): String {
+        if (mPageId == null) {
+            mPageId = UUID.randomUUID().toString()
+        }
+        return mPageId!!
+    }
 
     private val isWindowIsTranslucent: Boolean
         get() {
@@ -42,9 +65,14 @@ abstract class ComponentMvpBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        mIsWindowIsTranslucent = isWindowIsTranslucent
-        initAnim()
-        overridePendingTransition(mActivityOpenEnterAnimation, mActivityOpenExitAnimation)
+        if (mUseAnim) {
+            mIsWindowIsTranslucent = isWindowIsTranslucent
+            initAnim()
+            overridePendingTransition(mActivityOpenEnterAnimation, mActivityOpenExitAnimation)
+        }
+        pageName
+        pageId
+
         super.onCreate(savedInstanceState)
     }
 
@@ -65,10 +93,8 @@ abstract class ComponentMvpBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(mActivityCloseEnterAnimation, mActivityCloseExitAnimation)
-    }
-
-    companion object {
-        val PAGE_NAME = "PageName"
+        if (mUseAnim) {
+            overridePendingTransition(mActivityCloseEnterAnimation, mActivityCloseExitAnimation)
+        }
     }
 }

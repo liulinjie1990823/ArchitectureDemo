@@ -2,7 +2,7 @@ package com.llj.loading.ui.activity
 
 import android.os.Bundle
 import com.llj.architecturedemo.R
-import com.llj.component.service.ComponentMvcBaseActivity
+import com.llj.component.service.MiddleMvcBaseActivity
 
 /**
  * ArchitectureDemo.
@@ -10,7 +10,7 @@ import com.llj.component.service.ComponentMvcBaseActivity
  * author llj
  * date 2018/9/20
  */
-class GuideActivity : ComponentMvcBaseActivity() {
+class GuideActivity : MiddleMvcBaseActivity() {
 
     override fun layoutId(): Int {
         return R.layout.activity_guide

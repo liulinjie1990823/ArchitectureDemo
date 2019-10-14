@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * author llj
  * date 2019/3/25
  */
-public abstract class SettingMvcBaseActivity extends ComponentMvcBaseToolbarActivity {
+public abstract class SettingMvcBaseActivity extends ComponentMvcBaseToolbarActivity   {
     @NotNull
     @Override
     public String getModuleName() {

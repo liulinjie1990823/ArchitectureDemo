@@ -12,11 +12,11 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.llj.architecturedemo.AppMvcBaseActivity
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.ui.fragment.ItemFragment
 import com.llj.architecturedemo.widget.tab.ITab
 import com.llj.architecturedemo.widget.tab.ITabs
-import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
 import net.lucode.hackware.magicindicator.MagicIndicator
 import net.lucode.hackware.magicindicator.ViewPagerHelper
@@ -35,7 +35,7 @@ import java.util.*
  * date 2018/8/16
  */
 @Route(path = CRouter.APP_RECYCLE_VIEW_ACTIVITY)
-class RecycleViewActivity : ComponentMvcBaseActivity() {
+class RecycleViewActivity : AppMvcBaseActivity() {
     @BindView(R.id.vp_container) lateinit var mVpContent: ViewPager
     @BindView(R.id.tabs) lateinit var mTabs: MagicIndicator
 

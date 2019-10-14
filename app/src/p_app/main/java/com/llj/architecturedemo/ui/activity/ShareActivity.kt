@@ -6,8 +6,8 @@ import android.text.TextUtils
 import android.view.View
 import butterknife.OnClick
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.llj.architecturedemo.AppMvcBaseActivity
 import com.llj.architecturedemo.R
-import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.utils.AToastUtils
 import com.llj.socialization.Platform
@@ -24,7 +24,7 @@ import com.llj.socialization.share.model.ShareResult
  * date 2018/8/10
  */
 @Route(path = CRouter.APP_SHARE_ACTIVITY)
-class ShareActivity : ComponentMvcBaseActivity() {
+class ShareActivity : AppMvcBaseActivity() {
 
 
     override fun layoutId(): Int {

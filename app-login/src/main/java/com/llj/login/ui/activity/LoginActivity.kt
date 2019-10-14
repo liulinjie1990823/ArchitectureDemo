@@ -15,9 +15,9 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
-import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.utils.LogUtil
+import com.llj.login.LoginMvcBaseActivity
 import com.llj.login.R
 import com.llj.login.ui.fragment.CodeLoginFragmentMvc
 import com.llj.login.ui.fragment.PasswordLoginFragment
@@ -41,7 +41,7 @@ import java.util.*
  * date 2018/8/22
  */
 @Route(path = CRouter.LOGIN_LOGIN_ACTIVITY)
-class LoginActivity : ComponentMvcBaseActivity() {
+class LoginActivity : LoginMvcBaseActivity() {
 
     @BindView(com.llj.login.R2.id.login_tabs) lateinit var mTabs: MagicIndicator
     @BindView(com.llj.login.R2.id.login_viewpager) lateinit var mViewPager: ViewPager

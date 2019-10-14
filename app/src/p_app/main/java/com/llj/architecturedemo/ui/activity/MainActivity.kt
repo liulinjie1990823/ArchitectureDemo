@@ -19,7 +19,6 @@ import com.llj.architecturedemo.ui.model.TabListVo
 import com.llj.architecturedemo.ui.model.TabVo
 import com.llj.architecturedemo.ui.presenter.MainPresenter
 import com.llj.architecturedemo.ui.view.MainContractView
-import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
 import com.llj.component.service.preference.ConfigPreference
 import com.llj.lib.base.BaseTabActivity

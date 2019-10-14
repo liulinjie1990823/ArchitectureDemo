@@ -9,6 +9,7 @@ package com.llj.lib.base.event;
  */
 public class BaseEvent<T> {
     private int    code;
+    private String pageName;
     private String message;
     private String delayMessage;//用于在页面resume后调用
     private T      data;
@@ -32,6 +33,14 @@ public class BaseEvent<T> {
 
     public void setCode(int code) {
         this.code = code;
+    }
+
+    public void setPageName(String pageName) {
+        this.pageName = pageName;
+    }
+
+    public String getPageName() {
+        return pageName;
     }
 
     public String getMessage() {

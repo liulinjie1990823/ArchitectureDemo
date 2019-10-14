@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
@@ -18,7 +19,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="周大福时尚大表盘情侣手表周大福大表盘情侣手表敌法表周大福大表盘情侣手表" />
+        android:text="周大福时尚大表盘情侣手表周大福大表盘情侣手表敌法表周大福大表盘情侣手表" />
 
     <TextView
         android:id="@+id/textView2"
@@ -32,6 +33,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="周大福时尚大表盘情侣手表周大福大表盘情侣手表敌法表周大福大表盘情侣手表" />
+        android:text="周大福时尚大表盘情侣手表周大福大表盘情侣手表敌法表周大福大表盘情侣手表" />
 
 </LinearLayout>

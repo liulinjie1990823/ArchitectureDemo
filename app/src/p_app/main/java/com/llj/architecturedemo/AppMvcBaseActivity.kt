@@ -1,6 +1,6 @@
 package com.llj.architecturedemo
 
-import com.llj.component.service.ComponentMvcBaseActivity
+import com.llj.component.service.MiddleMvcBaseActivity
 
 /**
  * ArchitectureDemo.
@@ -8,4 +8,4 @@ import com.llj.component.service.ComponentMvcBaseActivity
  * author llj
  * date 2019/3/14
  */
-abstract class AppMvcBaseActivity : ComponentMvcBaseActivity()
+abstract class AppMvcBaseActivity : MiddleMvcBaseActivity()

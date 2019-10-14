@@ -3,8 +3,8 @@ package com.llj.architecturedemo.ui.activity
 import android.os.Bundle
 import android.view.MotionEvent
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.llj.architecturedemo.AppMvcBaseActivity
 import com.llj.architecturedemo.R
-import com.llj.component.service.ComponentMvcBaseActivity
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.utils.LogUtil
 
@@ -15,7 +15,7 @@ import com.llj.lib.utils.LogUtil
  * date 2018/8/16
  */
 @Route(path = CRouter.APP_TOUCH_EVENT_ACTIVITY)
-class TouchEventActivity : ComponentMvcBaseActivity() {
+class TouchEventActivity : AppMvcBaseActivity() {
 
     override fun layoutId(): Int {
 //        val lic = TemplateManager.getInstance().getLicenseString(this)

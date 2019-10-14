@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.gw.swipeback.SwipeBackLayout;
+import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
-import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.statusbar.LightStatusBarCompat;
 import com.llj.lib.statusbar.StatusBarCompat;
@@ -21,7 +21,7 @@ import butterknife.BindView;
  * date 2018/12/17
  */
 @Route(path = CRouter.APP_SWIPE_BACK_LAYOUT_ACTIVITY)
-public class SwipeBackLayoutActivity extends ComponentMvcBaseActivity {
+public class SwipeBackLayoutActivity extends AppMvcBaseActivity {
     @BindView(R.id.swipeBackLayout) SwipeBackLayout mSwipeBackLayout;
 
     @Override

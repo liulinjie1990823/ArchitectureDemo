@@ -15,8 +15,6 @@ import com.llj.lib.base.event.BaseEvent
 import com.llj.lib.base.mvp.IBaseActivityView
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITaskId
-import com.llj.lib.tracker.ITracker
-import com.llj.lib.tracker.PageName
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
@@ -30,7 +28,7 @@ import timber.log.Timber
  * date 2019/3/13
  */
 abstract class MvcBaseActivity : AppCompatActivity()
-        , IBaseActivity, ICommon, IUiHandler, IEvent, ITracker, IBaseActivityView {
+        , IBaseActivity, ICommon, IUiHandler, IEvent, IBaseActivityView {
 
     val mTagLog: String = this.javaClass.simpleName
 
@@ -42,24 +40,6 @@ abstract class MvcBaseActivity : AppCompatActivity()
     private val mCancelableTasks: ArrayMap<Int, Disposable> = ArrayMap()
     private val mDelayMessages: ArraySet<String> = ArraySet()
 
-    private var mPageName: String? = null
-    private var mChildPageName: String? = null
-
-    override fun getChildPageName(): String? {
-        return mChildPageName
-    }
-
-    override fun setChildPageName(name: String) {
-        mChildPageName = name
-    }
-
-    override fun getPageName(): String {
-        if (mPageName == null) {
-            val annotation = javaClass.getAnnotation(PageName::class.java)
-            mPageName = annotation?.value ?: this.javaClass.simpleName
-        }
-        return mPageName!!
-    }
 
     override fun useEventBus(): Boolean {
         return true
@@ -68,7 +48,6 @@ abstract class MvcBaseActivity : AppCompatActivity()
     //<editor-fold desc="生命周期">
     override fun onCreate(savedInstanceState: Bundle?) {
         mContext = this
-        pageName
 
         try {
             AndroidInjection.inject(this)
@@ -76,7 +55,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
         }
 
         super.onCreate(savedInstanceState)
-        Timber.tag(mTagLog).i("onCreate：%s", pageName)
+        Timber.tag(mTagLog).i("onCreate：%s", mTagLog)
 
         addCurrentActivity(this)
 
@@ -100,30 +79,29 @@ abstract class MvcBaseActivity : AppCompatActivity()
 
     override fun onStart() {
         super.onStart()
-        Timber.tag(mTagLog).i("onStart：%s", pageName)
+        Timber.tag(mTagLog).i("onStart：%s", mTagLog)
     }
 
     override fun onResume() {
         super.onResume()
-        Timber.tag(mTagLog).i("onResume：%s", pageName)
-        Timber.tag(mTagLog).i("mPageName：%s", pageName)
-        Timber.tag(mTagLog).i("mChildPageName：%s", childPageName)
+        Timber.tag(mTagLog).i("onResume：%s", mTagLog)
+        Timber.tag(mTagLog).i("mPageName：%s", mTagLog)
     }
 
     override fun onPause() {
         super.onPause()
-        Timber.tag(mTagLog).i("onPause：%s", pageName)
+        Timber.tag(mTagLog).i("onPause：%s", mTagLog)
     }
 
     override fun onStop() {
         super.onStop()
-        Timber.tag(mTagLog).i("onStop：%s", pageName)
+        Timber.tag(mTagLog).i("onStop：%s", mTagLog)
     }
 
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()
-        Timber.tag(mTagLog).i("onDestroy：%s", pageName)
+        Timber.tag(mTagLog).i("onDestroy：%s", mTagLog)
 
         //防止窗口泄漏，关闭dialog同时结束相关请求
         val requestDialog = getLoadingDialog() as Dialog?
@@ -174,7 +152,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
 
     //限定界面
     protected fun <T> inCurrentPage(event: BaseEvent<T>): Boolean {
-        return pageName == event.data
+        return mTagLog == event.data
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

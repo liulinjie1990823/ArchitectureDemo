@@ -9,8 +9,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
-import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
 import com.zhangyf.gift.RewardLayout;
 import com.zhangyf.gift.bean.GiftIdentify;
@@ -27,7 +27,7 @@ import butterknife.internal.DebouncingOnClickListener;
  * date 2019/1/7
  */
 @Route(path = CRouter.APP_REWARD_LAYOUT_ACTIVITY)
-public class RewardLayoutActivity extends ComponentMvcBaseActivity {
+public class RewardLayoutActivity extends AppMvcBaseActivity {
     @BindView(R.id.rewardLayout) RewardLayout mRewardLayout;
     @BindView(R.id.tv_click)     TextView     mClick;
 

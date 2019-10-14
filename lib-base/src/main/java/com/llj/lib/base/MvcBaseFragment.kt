@@ -14,8 +14,6 @@ import butterknife.Unbinder
 import com.llj.lib.base.event.BaseEvent
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITaskId
-import com.llj.lib.tracker.ITracker
-import com.llj.lib.tracker.PageName
 import com.llj.lib.utils.AInputMethodManagerUtils
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.Disposable
@@ -57,7 +55,7 @@ import timber.log.Timber
  * date 2018/8/15
  */
 abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
-        , IBaseFragment, ICommon, IUiHandler, IEvent, ITracker, ITask, ILoadingDialogHandler {
+        , IBaseFragment, ICommon, IUiHandler, IEvent,  ITask, ILoadingDialogHandler {
     val mTagLog: String = this.javaClass.simpleName
 
     lateinit var mContext: Context
@@ -71,24 +69,6 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     var mUseSoftInput: Boolean = false //是否使用软键盘
 
-    private var mPageName: String? = null
-    private var mChildPageName: String? = null
-
-    override fun getChildPageName(): String? {
-        return mChildPageName
-    }
-
-    override fun setChildPageName(name: String) {
-        mChildPageName = name
-    }
-
-    override fun getPageName(): String {
-        if (mPageName == null) {
-            val annotation = javaClass.getAnnotation(PageName::class.java)
-            mPageName = annotation?.value ?: this.javaClass.simpleName
-        }
-        return mPageName!!
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BaseDialogImpl(activity!!, theme)
@@ -119,7 +99,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        Timber.tag(mTagLog).i("setUserVisibleHint:%s,%s", isVisibleToUser, pageName)
+        Timber.tag(mTagLog).i("setUserVisibleHint:%s,%s", isVisibleToUser, mTagLog)
         //当fragment在viewPager中的时候需要实现懒加载的模式
         //当使用viewPager进行预加载fragment的时候,先调用setUserVisibleHint,后调用onViewCreated
         //所以刚开始是mIsInit=true,mIsVisible为false
@@ -137,14 +117,12 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onAttach(activity: Activity?) {
         super.onAttach(activity)
-        pageName
-        Timber.tag(mTagLog).i("onAttach：%s", pageName)
+        Timber.tag(mTagLog).i("onAttach：%s", mTagLog)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pageName
-        Timber.tag(mTagLog).i("onCreate：%s", pageName)
+        Timber.tag(mTagLog).i("onCreate：%s", mTagLog)
 
         //如果要修改可以在Fragment的构造函数中修改
         showsDialog = false
@@ -165,7 +143,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Timber.tag(mTagLog).i("onActivityCreated：%s", pageName)
+        Timber.tag(mTagLog).i("onActivityCreated：%s", mTagLog)
         if (dialog == null || dialog.window == null) {
             return
         }
@@ -174,7 +152,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Timber.tag(mTagLog).i("onCreateView：%s", pageName)
+        Timber.tag(mTagLog).i("onCreateView：%s", mTagLog)
         val layoutView = layoutView()
         val view = layoutView ?: inflater.inflate(layoutId(), null)
 
@@ -192,7 +170,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.tag(mTagLog).i("onViewCreated：%s", pageName)
+        Timber.tag(mTagLog).i("onViewCreated：%s", mTagLog)
 
         // 已经完成初始化
         mInit = true
@@ -202,36 +180,33 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
                 onLazyInitData()
             }
         } else {
-            val tracker = mContext as ITracker
-            tracker.childPageName = pageName
-
             initData()
         }
     }
 
     override fun onStart() {
         super.onStart()
-        Timber.tag(mTagLog).i("onStart：%s", pageName)
+        Timber.tag(mTagLog).i("onStart：%s", mTagLog)
     }
 
     override fun onResume() {
         super.onResume()
-        Timber.tag(mTagLog).i("onResume：%s", pageName)
+        Timber.tag(mTagLog).i("onResume：%s", mTagLog)
     }
 
     override fun onPause() {
         super.onPause()
-        Timber.tag(mTagLog).i("onPause：%s", pageName)
+        Timber.tag(mTagLog).i("onPause：%s", mTagLog)
     }
 
     override fun onStop() {
         super.onStop()
-        Timber.tag(mTagLog).i("onStop：%s", pageName)
+        Timber.tag(mTagLog).i("onStop：%s", mTagLog)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Timber.tag(mTagLog).i("onDestroyView：%s", pageName)
+        Timber.tag(mTagLog).i("onDestroyView：%s", mTagLog)
 
         //防止窗口泄漏
         val requestDialog = getLoadingDialog() as Dialog?
@@ -248,12 +223,12 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.tag(mTagLog).i("onDestroy：%s", pageName)
+        Timber.tag(mTagLog).i("onDestroy：%s", mTagLog)
     }
 
     override fun onDetach() {
         super.onDetach()
-        Timber.tag(mTagLog).i("onDetach：%s", pageName)
+        Timber.tag(mTagLog).i("onDetach：%s", mTagLog)
     }
     //</editor-fold >
 
@@ -287,7 +262,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
     //<editor-fold desc="事件总线">
     //限定界面
     protected fun <T> inCurrentPage(event: BaseEvent<T>): Boolean {
-        return pageName == event.data
+        return mTagLog == event.pageName
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -322,11 +297,6 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
 
     @CallSuper
     override fun onLazyInitData() {
-        mContext.let {
-            if (it is ITracker) {
-                it.childPageName = pageName
-            }
-        }
         Timber.tag(mTagLog).i("mInit：%s ,mVisible：%s", mInit, userVisibleHint)
     }
     //</editor-fold >

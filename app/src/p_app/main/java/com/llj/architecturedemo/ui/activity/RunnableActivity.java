@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
-import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
 
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +23,7 @@ import butterknife.internal.DebouncingOnClickListener;
  * @date 2019-09-23
  */
 @Route(path = CRouter.APP_RUNNABLE_ACTIVITY)
-public class RunnableActivity extends ComponentMvcBaseActivity {
+public class RunnableActivity extends AppMvcBaseActivity {
     @BindView(R.id.tv_start) TextView mStart;
     @BindView(R.id.tv_stop)  TextView mStop;
 

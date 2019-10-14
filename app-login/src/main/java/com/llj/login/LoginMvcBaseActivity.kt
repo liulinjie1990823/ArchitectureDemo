@@ -1,6 +1,6 @@
 package com.llj.login
 
-import com.llj.component.service.ComponentMvcBaseActivity
+import com.llj.component.service.MiddleMvcBaseActivity
 
 /**
  * ArchitectureDemo.
@@ -8,7 +8,7 @@ import com.llj.component.service.ComponentMvcBaseActivity
  * author llj
  * date 2018/9/20
  */
-abstract class LoginMvcBaseActivity : ComponentMvcBaseActivity() {
+abstract class LoginMvcBaseActivity : MiddleMvcBaseActivity() {
 
     override fun getModuleName(): String {
         return "app-login"

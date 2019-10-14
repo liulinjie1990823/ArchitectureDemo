@@ -44,21 +44,22 @@ public class InjectFragment extends SettingMvcBaseFragment {
                 mTextView.setText("");
             }
         });
-
-        mTextView.setOnClickListener(v -> {
-            mTextView.setText("");
-        });
-
-        mTextView2.setOnClickListener(v -> {
-            mTextView2.setText("");
-        });
-
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mTextView.setText("");
             }
         });
+
+        mTextView.setOnClickListener(v -> {
+            mTextView.setText("mTextView");
+        });
+
+        mTextView2.setOnClickListener(v -> {
+            mTextView2.setText("mTextView2");
+        });
+
+
 
     }
 

@@ -67,6 +67,7 @@ dependencies {
         api project(':lib-scrollable')
         api project(':lib-zbar')
         api project(':lib-zxing')
+        implementation deps.tracker
     } else {
         api project(':lib-statusbar')
         api project(':lib-base')
@@ -91,6 +92,7 @@ dependencies {
         api project(':lib-scrollable')
         api project(':lib-zbar')
         api project(':lib-zxing')
+        implementation project(':lib-tracker')
     }
 
 

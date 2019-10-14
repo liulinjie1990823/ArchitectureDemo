@@ -10,11 +10,11 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.lib.jump.annotation.Jump;
 import com.example.lib.jump.annotation.JumpKey;
+import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.vo.Animal;
 import com.llj.architecturedemo.vo.Cat;
 import com.llj.architecturedemo.vo.User;
-import com.llj.component.service.ComponentMvcBaseActivity;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.event.BaseEvent;
 import com.llj.lib.component.annotation.BindView;
@@ -35,7 +35,7 @@ import timber.log.Timber;
 @PageName(value = "activity_apt")
 @Jump(ciw = "ciw://AptActivity2", route = CRouter.APP_APT_ACTIVITY2, needLogin = true, desc = "AptActivity2")
 @Route(path = CRouter.APP_APT_ACTIVITY2)
-public class AptActivity2 extends ComponentMvcBaseActivity {
+public class AptActivity2 extends AppMvcBaseActivity {
     @BindView(R.id.root) ConstraintLayout mConstraintLayout;
 
     @IntentKey(name = "key") String key;
