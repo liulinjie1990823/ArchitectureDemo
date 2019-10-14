@@ -6,6 +6,7 @@ import android.arch.lifecycle.DefaultLifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ProcessLifecycleOwner;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
@@ -34,11 +35,11 @@ import timber.log.Timber;
  * @date 2019-06-19
  */
 public class Tracker {
-    public static final String TAG = Tracker.class.getSimpleName();
+    private static final String TAG = Tracker.class.getSimpleName();
 
-    public static final int DISABLE = -1;
-    public static final int DEBUG   = 0;
-    public static final int RELEASE = 1;
+    static final int DISABLE = -1;
+    static final int DEBUG   = 0;
+    static final int RELEASE = 1;
 
     @IntDef({DISABLE, DEBUG, RELEASE})
     @Retention(RetentionPolicy.SOURCE)
@@ -52,19 +53,30 @@ public class Tracker {
         mFilter.add("");
     }
 
+    private static boolean isDebug(Application application) {
+        return (application.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+    }
 
     public static void init(Application application, TrackerConfig config) {
+        if (config.getReportStrategy() == Tracker.DISABLE) {
+            return;
+        }
+        //要求RELEASE上传，如果当前是debug就不传
+        if ((config.getReportStrategy() == Tracker.RELEASE && isDebug(application))) {
+            return;
+        }
+
         ProcessLifecycleOwner.get().getLifecycle().addObserver(new DefaultLifecycleObserver() {
             @Override
             public void onCreate(@NonNull LifecycleOwner owner) {
                 Timber.tag(TAG).i("app onCreate");
 
-                trackApp(owner, TrackerEvent.APP_START);
             }
 
             @Override
             public void onStart(@NonNull LifecycleOwner owner) {
                 Timber.tag(TAG).i("app onStart");
+                trackApp(owner, TrackerEvent.APP_APPEAR);
             }
 
             @Override
@@ -80,13 +92,13 @@ public class Tracker {
             @Override
             public void onStop(@NonNull LifecycleOwner owner) {
                 Timber.tag(TAG).i("app onStop");
+                trackApp(owner, TrackerEvent.APP_DISAPPEAR);
             }
 
             @Override
             public void onDestroy(@NonNull LifecycleOwner owner) {
                 Timber.tag(TAG).i("app onDestroy");
 
-                trackApp(owner, TrackerEvent.APP_END);
             }
         });
 
@@ -168,11 +180,10 @@ public class Tracker {
             return;
         }
         ITracker iTracker = getTracker(object);
-        if (iTracker==null) {
+        if (iTracker == null) {
             return;
         }
         Timber.tag(TAG).i("trackPage：%s", iTracker.getPageName());
-
 
 
         TrackerEvent trackerEvent = new TrackerEvent(eventType, iTracker, System.currentTimeMillis());
@@ -182,8 +193,6 @@ public class Tracker {
     }
 
     /**
-     * 点击记录，编译时注入
-     *
      * @param view
      */
     public static void trackEvent(View view, @TrackerEvent.ActionType String eventType) {
@@ -192,7 +201,6 @@ public class Tracker {
             return;
         }
         Timber.tag(TAG).i("trackEvent：%s", iTracker.getPageName());
-
 
 
         TrackerEvent trackerEvent = new TrackerEvent(eventType, iTracker, System.currentTimeMillis());

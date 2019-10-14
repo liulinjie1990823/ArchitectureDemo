@@ -12,7 +12,37 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * ArchitectureDemo.
- * describe:
+ * activity.getModuleName -> SettingModule.onCall
+ *
+ *  <pre>
+ *          override fun androidInjector(): AndroidInjector<Any> {
+ *         return object : AndroidInjector<Any> {
+ *             override fun inject(data: Any?) {
+ *                 if (data is MvpBaseActivity<*>) {
+ *                     val mvpBaseActivity = data
+ *
+ *                     //调用IModule中的对应action
+ *                     CC.obtainBuilder(mvpBaseActivity.getModuleName())
+ *                             .setContext(mvpBaseActivity)
+ *                             .setActionName(IModule.INJECT_ACTIVITY)
+ *                             .build()
+ *                             .call()
+ *                 } else {
+ *                     val mvpBaseFragment = data as MvpBaseFragment<*>
+ *
+ *                     //调用IModule中的对应action
+ *                     CC.obtainBuilder(mvpBaseFragment.getModuleName())
+ *                             .setContext(mvpBaseFragment.context)
+ *                             .addParam("fragment", mvpBaseFragment.tag)
+ *                             .setActionName(IModule.INJECT_FRAGMENT)
+ *                             .build()
+ *                             .call()
+ *                 }
+ *             }
+ *         }
+ *     }
+ *
+ *  </pre>
  * author llj
  * date 2019/3/25
  */

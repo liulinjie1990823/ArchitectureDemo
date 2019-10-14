@@ -36,7 +36,7 @@ public class InjectFragment extends SettingMvcBaseFragment {
 
     @Override
     public void initViews(@Nullable Bundle savedInstanceState) {
-
+        super.initViews(savedInstanceState);
 
         mTextView.setOnClickListener(new DebouncingOnClickListener() {
             @Override
@@ -58,8 +58,6 @@ public class InjectFragment extends SettingMvcBaseFragment {
         mTextView2.setOnClickListener(v -> {
             mTextView2.setText("mTextView2");
         });
-
-
 
     }
 

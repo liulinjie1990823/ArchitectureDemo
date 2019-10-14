@@ -36,7 +36,7 @@ import com.llj.architecturedemo.ui.model.PersonalCenterVo;
 import com.llj.architecturedemo.ui.presenter.PersonalCenterPresenter;
 import com.llj.architecturedemo.ui.view.IMineView;
 import com.llj.component.service.MiddleApplication;
-import com.llj.component.service.ComponentMvpBaseFragment;
+import com.llj.component.service.MiddleMvpBaseFragment;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout;
 import com.llj.component.service.vo.UserInfoVo;
@@ -76,7 +76,7 @@ import q.rorbin.badgeview.QBadgeView;
  * author llj
  * date 2018/11/5
  */
-public class MineFragment extends ComponentMvpBaseFragment<PersonalCenterPresenter> implements IMineView {
+public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter> implements IMineView {
 
     @NotNull
     @Override

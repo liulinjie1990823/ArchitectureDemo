@@ -17,7 +17,7 @@ import java.util.UUID;
  * author llj
  * date 2018/12/13
  */
-public abstract class ComponentMvcBaseToolbarActivity extends MvcBaseToolbarActivity implements ITracker {
+public abstract class MiddleMvcBaseToolbarActivity extends MvcBaseToolbarActivity implements ITracker {
 
     protected int     mActivityOpenEnterAnimation;
     protected int     mActivityOpenExitAnimation;

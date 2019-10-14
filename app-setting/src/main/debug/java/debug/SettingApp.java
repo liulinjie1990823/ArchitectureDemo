@@ -73,18 +73,10 @@ public class SettingApp extends MiddleApplication {
             public void inject(Object instance) {
                 if(instance instanceof Activity){
                     MvpBaseActivity activity = (MvpBaseActivity) instance;
-                    if ("app".equals(activity.getModuleName())) {
-                        //主工程
-                    } else if ("setting".equals(activity.getModuleName())) {
-                        mSettingComponent.activityInjector().inject(activity);
-                    }
+                    mSettingComponent.activityInjector().inject(activity);
                 }else if(instance instanceof Fragment){
                     MvpBaseFragment fragment = (MvpBaseFragment) instance;
-                    if ("app".equals(fragment.getModuleName())) {
-                        //主工程
-                    } else if ("setting".equals(fragment.getModuleName())) {
-                        mSettingComponent.supportFragmentInjector().inject(fragment);
-                    }
+                    mSettingComponent.supportFragmentInjector().inject(fragment);
                 }
 
             }

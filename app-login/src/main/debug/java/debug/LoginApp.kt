@@ -77,9 +77,9 @@ class LoginApp : MiddleApplication(), BootstrapNotifier {
     }
 
     override fun injectApp() {
-//        mLoginComponent = DaggerLoginComponent.builder()
-//                .middleComponent(mMiddleComponent)
-//                .build()
+        mLoginComponent = DaggerLoginComponent.builder()
+                .middleComponent(mMiddleComponent)
+                .build()
     }
 
 
@@ -88,20 +88,10 @@ class LoginApp : MiddleApplication(), BootstrapNotifier {
 
             if (data is MvpBaseActivity<*>) {
                 val mvpBaseActivity = data
-
-                if ("app" == mvpBaseActivity.getModuleName()) {
-                    //主工程
-                } else if ("login" == mvpBaseActivity.getModuleName()) {
-                    mLoginComponent.activityInjector().inject(mvpBaseActivity)
-                }
+                mLoginComponent.activityInjector().inject(mvpBaseActivity)
             } else {
                 val mvpBaseFragment = data as MvpBaseFragment<*>
-
-                if ("app" == mvpBaseFragment.getModuleName()) {
-                    //主工程
-                } else if ("login" == mvpBaseFragment.getModuleName()) {
-                    mLoginComponent.supportFragmentInjector().inject(mvpBaseFragment)
-                }
+                mLoginComponent.supportFragmentInjector().inject(mvpBaseFragment)
             }
         }
     }

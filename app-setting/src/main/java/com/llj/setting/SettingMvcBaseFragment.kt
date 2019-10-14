@@ -1,6 +1,6 @@
 package com.llj.setting
 
-import com.llj.lib.base.MvcBaseFragment
+import com.llj.component.service.MiddleMvcBaseFragment
 
 /**
  * ArchitectureDemo.
@@ -8,7 +8,7 @@ import com.llj.lib.base.MvcBaseFragment
  * author llj
  * date 2018/9/20
  */
-abstract class SettingMvcBaseFragment : MvcBaseFragment() {
+abstract class SettingMvcBaseFragment : MiddleMvcBaseFragment() {
 
     override fun getModuleName(): String {
         return "app-setting"

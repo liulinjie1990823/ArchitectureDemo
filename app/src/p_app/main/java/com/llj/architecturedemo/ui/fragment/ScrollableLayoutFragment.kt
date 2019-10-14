@@ -36,7 +36,7 @@ import com.llj.architecturedemo.ui.model.BabyHomeModuleVo
 import com.llj.architecturedemo.ui.model.HomeModelType
 import com.llj.architecturedemo.ui.presenter.ScrollableLayoutPresenter
 import com.llj.architecturedemo.ui.view.IScrollableLayoutView
-import com.llj.component.service.ComponentMvpBaseFragment
+import com.llj.component.service.MiddleMvpBaseFragment
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
 import com.llj.lib.base.help.DisplayHelper
@@ -66,7 +66,7 @@ import kotlin.collections.ArrayList
  * author llj
  * date 2018/10/30
  */
-class ScrollableLayoutFragment : ComponentMvpBaseFragment<ScrollableLayoutPresenter>(), IScrollableLayoutView {
+class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter>(), IScrollableLayoutView {
     @BindView(R.id.cv_toolbar) lateinit var mCvToolbar: ConstraintLayout
     @BindView(R.id.refreshLayout) lateinit var mRefreshLayout: JHSmartRefreshLayout
     @BindView(R.id.scrollableLayout) lateinit var mScrollableLayout: ScrollableLayout

@@ -13,6 +13,8 @@ import com.llj.component.service.MiddleApplication
  * 而Component实现了IInject接口，自动生成的类中实现了activityInjector和supportFragmentInjector方法，并持有对应module中注册的activity和fragment.
  * AppApplication的androidInjector中通过cc来调用对应Module中的onCall方法。并间接调用getComponent().activityInjector().inject(activity)。
  *
+ *
+ *
  * author llj
  * date 2018/8/23
  */

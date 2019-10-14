@@ -16,7 +16,7 @@ import java.util.*
  * author llj
  * date 2018/11/5
  */
-abstract class ComponentMvcBaseFragment : MvcBaseFragment(), ITracker {
+abstract class MiddleMvcBaseFragment : MvcBaseFragment(), ITracker {
 
     //页面统计用
     private var mPageName: String? = null

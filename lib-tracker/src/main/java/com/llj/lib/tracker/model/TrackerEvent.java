@@ -16,14 +16,14 @@ import java.lang.annotation.RetentionPolicy;
  */
 public class TrackerEvent {
 
-    public static final String APP_START = "AppStart";
-    public static final String APP_END   = "AppEnd";
-    public static final String APP_CLICK = "AppClick";
+    public static final String APP_APPEAR    = "AppAppear";
+    public static final String APP_DISAPPEAR = "AppDisappear";
+    public static final String APP_CLICK     = "AppClick";
 
     public static final String PAGE_APPEAR    = "PageAppear";
     public static final String PAGE_DISAPPEAR = "PageDisappear";
 
-    @StringDef({APP_START, APP_END, PAGE_APPEAR, PAGE_DISAPPEAR})
+    @StringDef({APP_APPEAR, APP_DISAPPEAR, PAGE_APPEAR, PAGE_DISAPPEAR})
     @Retention(RetentionPolicy.SOURCE)
     public @interface PageType {
     }
@@ -70,11 +70,12 @@ public class TrackerEvent {
     @Override
     public String toString() {
         return "TrackerEvent{" +
-                "uid='" + uid + '\'' +
+                "eventType='" + eventType + '\'' +
+                ", uid='" + uid + '\'' +
                 ", dateTime=" + dateTime +
                 ", pageName='" + pageName + '\'' +
+                ", pageId='" + pageId + '\'' +
                 ", pageTitle='" + pageTitle + '\'' +
-                ", eventType='" + eventType + '\'' +
                 ", eventName='" + eventName + '\'' +
                 ", extraData='" + extraData + '\'' +
                 '}';

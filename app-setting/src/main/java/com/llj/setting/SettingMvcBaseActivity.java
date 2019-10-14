@@ -1,6 +1,6 @@
 package com.llj.setting;
 
-import com.llj.component.service.ComponentMvcBaseToolbarActivity;
+import com.llj.component.service.MiddleMvcBaseToolbarActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * author llj
  * date 2019/3/25
  */
-public abstract class SettingMvcBaseActivity extends ComponentMvcBaseToolbarActivity   {
+public abstract class SettingMvcBaseActivity extends MiddleMvcBaseToolbarActivity {
     @NotNull
     @Override
     public String getModuleName() {

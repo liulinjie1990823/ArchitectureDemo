@@ -19,7 +19,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/11/5
  */
-abstract class ComponentMvpBaseFragment<P : IBasePresenter> : MvpBaseFragment<P>(), HasAndroidInjector {
+abstract class MiddleMvpBaseFragment<P : IBasePresenter> : MvpBaseFragment<P>(), HasAndroidInjector {
 
     //下面代码是为了在component-service中生成ComponentMvpBaseFragment_MembersInjector对象
     //否则会在多个module中生成多个ComponentMvpBaseFragment_MembersInjector对象
