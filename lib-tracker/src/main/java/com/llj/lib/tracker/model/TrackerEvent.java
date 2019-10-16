@@ -16,14 +16,14 @@ import java.lang.annotation.RetentionPolicy;
  */
 public class TrackerEvent {
 
-    public static final String TYPE_PAGE      = "typePage";
+    public static final String TYPE_PAGE      = "Page";
     public static final String APP_APPEAR     = "AppAppear";
     public static final String APP_DISAPPEAR  = "AppDisappear";
     public static final String PAGE_APPEAR    = "PageAppear";
     public static final String PAGE_DISAPPEAR = "PageDisappear";
 
-    public static final String APP_CLICK   = "AppClick";
-    public static final String TYPE_ACTION = "typeAction";
+    public static final String APP_CLICK   = "Click";
+    public static final String TYPE_ACTION = "Action";
 
     @StringDef({APP_APPEAR, APP_DISAPPEAR, PAGE_APPEAR, PAGE_DISAPPEAR})
     @Retention(RetentionPolicy.SOURCE)
@@ -48,7 +48,7 @@ public class TrackerEvent {
     public String uid;
     public String extraData;
 
-    public boolean sync=true;
+    public boolean sync = true;
 
     public TrackerEvent() {
     }
