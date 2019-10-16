@@ -26,8 +26,9 @@ import butterknife.internal.DebouncingOnClickListener;
 @Route(path = CRouter.SETTING_INJECT_FRAGMENT)
 public class InjectFragment extends SettingMvcBaseFragment {
 
-    @BindView(R2.id.textView) TextView mTextView;
+    @BindView(R2.id.textView)  TextView mTextView;
     @BindView(R2.id.textView2) TextView mTextView2;
+    @BindView(R2.id.textView3) TextView textView3;
 
     @Override
     public int layoutId() {
@@ -41,23 +42,22 @@ public class InjectFragment extends SettingMvcBaseFragment {
         mTextView.setOnClickListener(new DebouncingOnClickListener() {
             @Override
             public void doClick(View v) {
-                mTextView.setText("");
+                mTextView.setText("mTextView");
             }
         });
-        mTextView.setOnClickListener(new View.OnClickListener() {
+        mTextView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTextView.setText("");
+                mTextView2.setText("mTextView2");
             }
         });
-
-        mTextView.setOnClickListener(v -> {
-            mTextView.setText("mTextView");
+        textView3.setOnClickListener(v -> {
+            textView3.setText("textView3");
         });
-
-        mTextView2.setOnClickListener(v -> {
-            mTextView2.setText("mTextView2");
-        });
+//
+//        mTextView2.setOnClickListener(v -> {
+//            mTextView2.setText("mTextView2");
+//        });
 
     }
 

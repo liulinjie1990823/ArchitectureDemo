@@ -77,12 +77,15 @@ if (useCodeInject) {
         keepQuiet = false
         watchTimeConsume = false
         targetPackages = ['com.llj.setting.ui.fragment',
-//                          'com.llj.lib.base.MvcBaseFragment'
+                          'com.llj.component.service.MiddleMvcBaseFragment',
+                          'com.llj.component.service.MiddleMvpBaseFragment',
         ]
-        superFragments = ['android/support/v4/app/Fragment',
-                           'androidx/fragment/app/Fragment',
-                           'android/support/v4/app/DialogFragment',
-//                           'com/llj/setting/SettingMvcBaseFragment'
+        superFragments = [
+//                'android/support/v4/app/Fragment',
+//                'androidx/fragment/app/Fragment',
+//                'android/support/v4/app/DialogFragment',
+                'com.llj.lib.base.MvcBaseFragment',
+                'com.llj.lib.base.MvpBaseFragment',
         ]
         //butterknife.internal.DebouncingOnClickListener
     }

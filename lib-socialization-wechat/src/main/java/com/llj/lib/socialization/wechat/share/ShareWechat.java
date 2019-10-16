@@ -45,8 +45,9 @@ public class ShareWechat implements IShare {
 
     private IWXAPI mIWXAPI;
 
-    private static final int TARGET_SIZE = 200;
-    private static final int THUMB_SIZE  = 32 * 1024;//32kb的字节（微信的限制）
+    private static final int TARGET_SIZE    = 200;
+    private static final int THUMB_SIZE     = 32 * 1024;//32kb的字节（微信的限制）
+    private static final int THUMB_SIZE_128 = 128 * 1024;//32kb的字节（微信的限制）
 
     private ShareListener      mShareListener;
     private IWXAPIEventHandler mIWXAPIEventHandler;
@@ -254,7 +255,7 @@ public class ShareWechat implements IShare {
         message.title = shareObject.getTitle();                    // 小程序消息title
         message.description = shareObject.getDescription();               // 小程序消息desc
         Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
-                .continueWith(new ShareUtil.ThumbDataContinuation(TARGET_SIZE, THUMB_SIZE))
+                .continueWith(new ShareUtil.ThumbDataContinuation(500, THUMB_SIZE_128))
                 .continueWith((Continuation<byte[], Void>) task -> {
                     if (task.getError() != null) {
                         Logger.e(TAG, task.getError());

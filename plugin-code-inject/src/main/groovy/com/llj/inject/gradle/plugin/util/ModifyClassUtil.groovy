@@ -1,11 +1,7 @@
 package com.llj.inject.gradle.plugin.util
 
-
 import com.llj.inject.gradle.plugin.InjectMethodFilterClassVisitor
-import org.objectweb.asm.ClassReader
-import org.objectweb.asm.ClassVisitor
-import org.objectweb.asm.ClassWriter
-import org.objectweb.asm.MethodVisitor
+import org.objectweb.asm.*
 
 /**
  * Created by bryansharp(bsp0911932@163.com) on 2016/5/10.
@@ -91,6 +87,23 @@ class ModifyClassUtil {
             methodVisitor.visitVarInsn(paramOpcodes[i - start], i)
         }
         methodVisitor.visitMethodInsn(opcode, owner, agentName, agentDesc, false)
+    }
+
+
+    public static boolean isSynthetic(int access) {
+        return (access & Opcodes.ACC_SYNTHETIC) != 0
+    }
+
+    public static boolean isPrivate(int access) {
+        return (access & Opcodes.ACC_PRIVATE) != 0
+    }
+
+    public static boolean isPublic(int access) {
+        return (access & Opcodes.ACC_PUBLIC) != 0
+    }
+
+    public static boolean isStatic(int access) {
+        return (access & Opcodes.ACC_STATIC) != 0
     }
 
 

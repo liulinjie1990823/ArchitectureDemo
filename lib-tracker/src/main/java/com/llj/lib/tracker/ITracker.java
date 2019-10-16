@@ -18,7 +18,11 @@ public interface ITracker {
         return "";
     }
 
-    default boolean ignore() {
+    default boolean ignoreAction() {
+        return false;
+    }
+
+    default boolean ignorePage() {
         return false;
     }
 

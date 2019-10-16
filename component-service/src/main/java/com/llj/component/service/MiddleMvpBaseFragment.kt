@@ -30,14 +30,6 @@ abstract class MiddleMvpBaseFragment<P : IBasePresenter> : MvpBaseFragment<P>(),
         return AndroidInjector { }
     }
 
-    // true 黑色字体  false 白色
-    protected open fun statusBarTextColorBlack(): Boolean {
-        return true
-    }
-
-    fun isLogin(): Boolean {
-        return !TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)
-    }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
@@ -51,10 +43,47 @@ abstract class MiddleMvpBaseFragment<P : IBasePresenter> : MvpBaseFragment<P>(),
         LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, statusBarTextColorBlack())
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
     fun checkLogin(): Boolean {
         return if (TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)) {
             //            CRouter.start(CRouter.LOGIN_PHONE_LOGIN);
             false
         } else true
+    }
+
+    // true 黑色字体  false 白色
+    protected open fun statusBarTextColorBlack(): Boolean {
+        return true
+    }
+
+    fun isLogin(): Boolean {
+        return !TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)
     }
 }

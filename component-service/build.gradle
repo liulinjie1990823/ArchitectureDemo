@@ -21,7 +21,7 @@ android {
     buildTypes {
         debug {}
         beta {}
-        release{}
+        release {}
     }
     buildTypes.all { type ->
         type.matchingFallbacks = ['debug']
@@ -67,7 +67,6 @@ dependencies {
         api project(':lib-scrollable')
         api project(':lib-zbar')
         api project(':lib-zxing')
-        implementation deps.tracker
     } else {
         api project(':lib-statusbar')
         api project(':lib-base')
@@ -92,7 +91,6 @@ dependencies {
         api project(':lib-scrollable')
         api project(':lib-zbar')
         api project(':lib-zxing')
-        implementation project(':lib-tracker')
     }
 
 
@@ -116,7 +114,8 @@ dependencies {
     api deps.skin_support                   // skin-support 基础控件支持
     api deps.skin_support_design            // skin-support-design material design 控件支持[可选]
     api deps.skin_support_cardview          // skin-support-cardview CardView 控件支持[可选]
-    api deps.skin_support_constraint_layout // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
+    api deps.skin_support_constraint_layout
+    // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
 
     //应用调试
     debugImplementation deps.flipper

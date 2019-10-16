@@ -110,22 +110,20 @@ public class Tracker {
 
             @Override
             public void onActivityStarted(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
                 trackPage(activity, TrackerEvent.PAGE_APPEAR);
             }
 
             @Override
+            public void onActivityResumed(Activity activity) {
+            }
+
+            @Override
             public void onActivityPaused(Activity activity) {
-                trackPage(activity, TrackerEvent.PAGE_DISAPPEAR);
             }
 
             @Override
             public void onActivityStopped(Activity activity) {
-
+                trackPage(activity, TrackerEvent.PAGE_DISAPPEAR);
             }
 
             @Override
@@ -158,13 +156,13 @@ public class Tracker {
 
     /**
      * @param object
-     * @param eventType
+     * @param eventName
      */
-    public static void trackApp(Object object, @TrackerEvent.PageType String eventType) {
+    public static void trackApp(Object object, @TrackerEvent.PageType String eventName) {
         String pageName = object.getClass().getName();
         Timber.tag(TAG).i("trackApp：%s", pageName);
 
-        TrackerEvent trackerEvent = new TrackerEvent(eventType, pageName, System.currentTimeMillis());
+        TrackerEvent trackerEvent = new TrackerEvent(TrackerEvent.TYPE_PAGE, eventName, pageName, System.currentTimeMillis());
 
 
         //请求或者写入本地
@@ -172,10 +170,12 @@ public class Tracker {
     }
 
     /**
-     * @param object
-     * @param eventType
+     * 页面事件
+     *
+     * @param object    activity or fragment
+     * @param eventName
      */
-    public static void trackPage(Object object, @TrackerEvent.PageType String eventType) {
+    public static void trackPage(Object object, @TrackerEvent.PageType String eventName) {
         if (filterPage(object.getClass().getName())) {
             return;
         }
@@ -186,7 +186,7 @@ public class Tracker {
         Timber.tag(TAG).i("trackPage：%s", iTracker.getPageName());
 
 
-        TrackerEvent trackerEvent = new TrackerEvent(eventType, iTracker, System.currentTimeMillis());
+        TrackerEvent trackerEvent = new TrackerEvent(TrackerEvent.TYPE_PAGE, eventName, iTracker, System.currentTimeMillis());
 
         //请求或者写入本地
         report(trackerEvent);
@@ -195,7 +195,7 @@ public class Tracker {
     /**
      * @param view
      */
-    public static void trackEvent(View view, @TrackerEvent.ActionType String eventType) {
+    public static void trackEvent(View view, @TrackerEvent.ActionType String eventName) {
         ITracker iTracker = getTracker(view);
         if (filterPage(iTracker.getPageName())) {
             return;
@@ -203,7 +203,7 @@ public class Tracker {
         Timber.tag(TAG).i("trackEvent：%s", iTracker.getPageName());
 
 
-        TrackerEvent trackerEvent = new TrackerEvent(eventType, iTracker, System.currentTimeMillis());
+        TrackerEvent trackerEvent = new TrackerEvent(TrackerEvent.TYPE_ACTION, eventName, iTracker, System.currentTimeMillis());
 
         //请求或者写入本地
         report(trackerEvent);
@@ -211,6 +211,12 @@ public class Tracker {
 
     public static void report(TrackerEvent event) {
         Timber.tag(TAG).e("report：%s", event.toString());
+
+        if (event.sync) {
+            //同步上传
+        } else {
+            //异步上传
+        }
     }
 
 
@@ -219,29 +225,39 @@ public class Tracker {
         trackEvent(view, TrackerEvent.APP_CLICK);
     }
 
-    public static void trackFragmentResume(Fragment fragment) {
+
+    public static void trackFragmentStart(Object fragment) {
+        if (!isFragmentVisible((Fragment) fragment)) {
+            return;
+        }
+        trackPage(fragment, TrackerEvent.PAGE_APPEAR);
+    }
+
+    public static void trackFragmentResume(Object fragment) {
 
     }
 
-    public static void trackFragmentStart(Fragment fragment) {
+    public static void trackFragmentPause(Object fragment) {
 
     }
 
-    public static void trackFragmentPause(Fragment fragment) {
-
+    public static void trackFragmentStop(Object fragment) {
+        if (!isFragmentVisible((Fragment) fragment)) {
+            return;
+        }
+        trackPage(fragment, TrackerEvent.PAGE_DISAPPEAR);
     }
 
-    public static void trackFragmentStop(Fragment fragment) {
 
+    public static void trackFragmentUserVisibleHint(Object fragment, boolean isVisibleToUser) {
+        if (!isFragmentVisible((Fragment) fragment)) {
+            return;
+        }
+        trackPage(fragment, TrackerEvent.PAGE_APPEAR);
     }
 
-
-    public static void trackFragmentUserVisibleHint(Fragment fragment, boolean isVisibleToUser) {
-
-    }
-
-    public static void trackFragmentHiddenChanged(Fragment fragment, boolean hidden) {
-
+    public static void trackFragmentHiddenChanged(Object fragment, boolean hidden) {
+        trackPage(fragment, hidden ? TrackerEvent.PAGE_DISAPPEAR : TrackerEvent.APP_APPEAR);
     }
 
 
@@ -279,7 +295,7 @@ public class Tracker {
                 }
 
                 //parentFragment不忽略的情况下使用parentFragment
-                if (rectParent.contains(rectView) && (parentFragment instanceof ITracker) && (!((ITracker) parentFragment).ignore())) {
+                if (rectParent.contains(rectView) && (parentFragment instanceof ITracker) && (!((ITracker) parentFragment).ignoreAction())) {
                     pageName = ((ITracker) parentFragment);
                 }
 
@@ -293,7 +309,7 @@ public class Tracker {
                         return pageName;
                     }
                     //childFragment不忽略的情况下使用childFragment
-                    if (rectChild.contains(rectView) && (childFragment instanceof ITracker) && (!((ITracker) childFragment).ignore())) {
+                    if (rectChild.contains(rectView) && (childFragment instanceof ITracker) && (!((ITracker) childFragment).ignoreAction())) {
                         pageName = ((ITracker) childFragment);
                     }
                 }
@@ -313,27 +329,8 @@ public class Tracker {
     private static ITracker getTracker(Object context) {
         ITracker pageName = null;
 
-        if (context instanceof ITracker) {
+        if (context instanceof ITracker && (!((ITracker) context).ignorePage())) {
             pageName = ((ITracker) context);
-        }
-
-        if (context instanceof FragmentActivity) {
-
-            FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-            Fragment parentFragment = findVisibleFragment(fragmentManager);
-
-            if (parentFragment != null) {
-                if ((parentFragment instanceof ITracker) && (!((ITracker) parentFragment).ignore())) {
-                    pageName = ((ITracker) parentFragment);
-                }
-
-                Fragment childFragment = findVisibleFragment(parentFragment.getChildFragmentManager());
-                if (childFragment != null) {
-                    if ((childFragment instanceof ITracker) && (!((ITracker) childFragment).ignore())) {
-                        pageName = ((ITracker) childFragment);
-                    }
-                }
-            }
         }
         return pageName;
     }
@@ -368,12 +365,16 @@ public class Tracker {
         Fragment fragment = null;
         for (Fragment child : children) {
             //adapter模式下isVisible都是true,hideAndShow模式下getUserVisibleHint都是true,所以这里要同时判断
-            if (child != null && (!child.isHidden()) && child.getUserVisibleHint()) {
+            if (child != null && isFragmentVisible(child)) {
                 fragment = child;
                 break;
             }
         }
         return fragment;
+    }
+
+    private static boolean isFragmentVisible(Fragment child) {
+        return (!child.isHidden()) && child.getUserVisibleHint();
     }
 
 

@@ -24,7 +24,7 @@ class InjectTransform extends Transform {
     private AppExtension mAndroid
     private Project mProject
     private HashSet<String> mTargetPackages = []
-    private  HashSet<String> mSuperFragments = []
+    private HashSet<String> mSuperFragments = []
 
     InjectTransform(Project project) {
         mProject = project
@@ -97,10 +97,17 @@ class InjectTransform extends Transform {
             mTargetPackages.addAll(inputPackages)
         }
 
-        //
+        //fragment的父类，用来辨别superName，将.转换成/
         HashSet<String> superFragments = mProject.codeInjectConfig.superFragments
         if (superFragments != null) {
-            mSuperFragments.addAll(superFragments)
+            Iterator<String> iterator = superFragments.iterator()
+            while (iterator.hasNext()) {
+                String item = iterator.next()
+                if (item != null) {
+                    item = item.replace(".", File.separator)
+                    mSuperFragments.add(item)
+                }
+            }
         }
 
         //遍历输入文件
@@ -216,7 +223,7 @@ class InjectTransform extends Transform {
                     String className = pathToClassname(entryName)
                     if (classNeedModify(className)) {
                         //判断该class是否需要修改
-                        modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes,mSuperFragments)
+                        modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes, mSuperFragments)
                     }
                 }
 
@@ -248,7 +255,7 @@ class InjectTransform extends Transform {
             byte[] sourceClassBytes = IOUtils.toByteArray(new FileInputStream(classFile));
 
             if (classNeedModify(className)) {
-                byte[] modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes,mSuperFragments)
+                byte[] modifiedClassBytes = ModifyClassUtil.modifyClasses(className, sourceClassBytes, mSuperFragments)
                 if (modifiedClassBytes) {
                     modified = new File(tempDir, className.replace('.', '_') + '.class')
                     ///Users/liulinjie/GitHub/ArchitectureDemo/app/build/tmp/transformClassesWithCode-injectForDebug/comlljarchitecturedemouifragmentDialogTestFragment.class

@@ -155,6 +155,45 @@ class InjectMethodFilterClassVisitor extends ClassVisitor {
         }
 
         if (!isHasTracked) {
+            if (name.trim().startsWith('lambda$') && ModifyClassUtil.isPrivate(access) && ModifyClassUtil.isSynthetic(access)) {
+                InjectMethodCell methodCell = InjectHookConfig.sLambdaMethods.get(desc)
+                if(methodCell!=null){
+
+                    int paramStart = methodCell.paramsStart
+                    if (ModifyClassUtil.isStatic(access)) {
+                        methodCell.paramsStart = paramStart - 1
+                    }
+
+                    if (onlyVisit) {
+                        //仅仅是访问，只会打log
+                        myMv = new MethodLogVisitor(cv.visitMethod(access, name, desc, signature, exceptions))
+                    } else {
+                        //打log,也会修改方法
+                        try {
+                            MethodVisitor methodVisitor = cv.visitMethod(access, name, desc, signature, exceptions)
+                            myMv = new MethodLogVisitor(methodVisitor) {
+
+                                @Override
+                                void visitInsn(int opcode) {
+                                    // 确保super.onHiddenChanged(hidden)等先被调用
+                                    if (opcode == Opcodes.RETURN) { //在返回之前安插代码
+                                        ModifyClassUtil.visitMethodWithLoadedParams(methodVisitor, Opcodes.INVOKESTATIC, InjectHookConfig.sAgentClassName, methodCell)
+                                    }
+                                    isHasTracked = true
+                                    super.visitInsn(opcode)
+                                }
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace()
+                            myMv = null
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!isHasTracked) {
             InjectMethodCell methodCell = InjectHookConfig.sSuperNameMethods.get(nameDesc)
             //判断该类是否实现了该方法的接口
             if (methodCell != null && superName.equals(methodCell.parent)) {

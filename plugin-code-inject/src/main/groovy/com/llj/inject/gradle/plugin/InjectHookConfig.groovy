@@ -313,14 +313,7 @@ class InjectHookConfig {
      */
     public final static HashMap<String, InjectMethodCell> sFragmentMethods = new HashMap<>()
     static {
-        sFragmentMethods.put('onResume()V', new InjectMethodCell(
-                'onResume',
-                '()V',
-                '',// parent省略，均为 android/app/Fragment 或 android/support/v4/app/Fragment
-                'trackFragmentResume',
-                '(Ljava/lang/Object;)V',
-                0, 1,
-                [Opcodes.ALOAD]))
+
         sFragmentMethods.put('onStart()V', new InjectMethodCell(
                 'onStart',
                 '()V',
@@ -329,6 +322,15 @@ class InjectHookConfig {
                 '(Ljava/lang/Object;)V',
                 0, 1,
                 [Opcodes.ALOAD]))
+        sFragmentMethods.put('onResume()V', new InjectMethodCell(
+                'onResume',
+                '()V',
+                '',// parent省略，均为 android/app/Fragment 或 android/support/v4/app/Fragment
+                'trackFragmentResume',
+                '(Ljava/lang/Object;)V',
+                0, 1,
+                [Opcodes.ALOAD]))
+
         sFragmentMethods.put('onPause()V', new InjectMethodCell(
                 'onPause',
                 '()V',
