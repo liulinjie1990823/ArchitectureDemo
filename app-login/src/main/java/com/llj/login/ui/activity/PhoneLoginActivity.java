@@ -6,7 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.lib.jump.annotation.Jump;
 import com.example.lib.jump.annotation.JumpKey;
-import com.llj.component.service.arouter.CInner;
+import com.llj.component.service.arouter.CJump;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.component.service.vo.UserInfoVo;
 import com.llj.login.LoginMvpBaseActivity;
@@ -25,7 +25,7 @@ import java.util.HashMap;
  * @author llj
  * @date 2019-06-11
  */
-@Jump(ciw = CInner.CIW_LOGIN, route = CRouter.LOGIN_PHONE_LOGIN_ACTIVITY)
+@Jump(ciw = CJump.CIW_LOGIN, route = CRouter.LOGIN_PHONE_LOGIN_ACTIVITY)
 @Route(path = CRouter.LOGIN_PHONE_LOGIN_ACTIVITY)
 public class PhoneLoginActivity extends LoginMvpBaseActivity<LoginPresenter> implements ILoginView.PhoneLogin {
     @JumpKey(ciw = "nickName", name = CRouter.KEY_NICKNAME)

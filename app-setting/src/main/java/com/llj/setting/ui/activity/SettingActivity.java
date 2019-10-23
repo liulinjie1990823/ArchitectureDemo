@@ -43,7 +43,7 @@ public class SettingActivity extends SettingMvcBaseActivity {
 
     @Override
     public void initViews(@Nullable Bundle savedInstanceState) {
-        setText(mTvTbTitle, "设置");
+//        setText(mTvTbTitle, "设置");
         DebouncingOnClickListener onClickListener = new DebouncingOnClickListener() {
             @Override
             public void doClick(View v) {

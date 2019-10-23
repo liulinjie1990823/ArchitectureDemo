@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import butterknife.BindView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.example.lib.jump.annotation.Jump
 import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.llj.architecturedemo.R
 import com.llj.component.service.MiddleMvcBaseActivity
+import com.llj.component.service.arouter.CJump
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
@@ -26,6 +29,8 @@ import java.util.concurrent.TimeUnit
  * author llj
  * date 2018/9/20
  */
+@Jump(ciw = CJump.JUMP_LOADING_ACTIVITY, route = CRouter.APP_LOADING_ACTIVITY, needLogin = true, desc = "LoadingActivity")
+@Route(path = CRouter.APP_LOADING_ACTIVITY)
 class LoadingActivity : MiddleMvcBaseActivity() {
     @BindView(R.id.sdv_add) lateinit var mSdvAdd: SimpleDraweeView
     @BindView(R.id.sdv_icon) lateinit var mSdvIcon: SimpleDraweeView
@@ -61,20 +66,20 @@ class LoadingActivity : MiddleMvcBaseActivity() {
         }
 
 
-//        PermissionManager.checkPhoneStateAndStorage(this, object : PermissionManager.PermissionListener {
-//            override fun onGranted(permissions: MutableList<String>?) {
-//
-//                mSdvAdd.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-//                    override fun onGlobalLayout() {
-//                        mSdvAdd.viewTreeObserver.removeOnGlobalLayoutListener(this)
-//                        val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
-//                        mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
-//                    }
-//                })
-//
-//                countDown()
-//            }
-//        })
+        //        PermissionManager.checkPhoneStateAndStorage(this, object : PermissionManager.PermissionListener {
+        //            override fun onGranted(permissions: MutableList<String>?) {
+        //
+        //                mSdvAdd.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        //                    override fun onGlobalLayout() {
+        //                        mSdvAdd.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        //                        val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
+        //                        mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
+        //                    }
+        //                })
+        //
+        //                countDown()
+        //            }
+        //        })
         countDown()
     }
 

@@ -43,7 +43,7 @@ subprojects {
         boolean isApplication = it.pluginManager.hasPlugin("com.android.application")
         println("subproject:" + project.name + ",isApplication:" + isApplication)
 
-        //android
+        //除了app的其他module
         if (it.name != 'app') {
             android {
                 compileSdkVersion build_versions.compileSdkVersion
@@ -93,6 +93,8 @@ subprojects {
         dependencies {
             implementation fileTree(include: ['*.jar'], dir: 'libs')
             api project(':component-service')
+
+//            implementation project(':flutter')
 
             kapt deps.dagger_compiler
             kapt deps.dagger_android_support_compiler

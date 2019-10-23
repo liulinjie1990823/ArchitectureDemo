@@ -32,7 +32,7 @@ buildscript {
         }
         //aspectj
         if (useAspectjx) {
-            classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.5'
+            classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
         }
         if (useCodeInject) {
             classpath 'com.llj:plugin-code-inject:0.0.1'

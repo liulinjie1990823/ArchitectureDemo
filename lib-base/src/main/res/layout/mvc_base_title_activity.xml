@@ -20,7 +20,6 @@
             android:layout_height="0dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:src="@drawable/service_icon_back"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -55,7 +54,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:textColor="@color/black"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -77,6 +76,7 @@
             tools:visibility="visible"/>
 
         <View
+            android:id="@+id/v_divide"
             android:layout_width="0dp"
             android:layout_height="1px"
             android:background="@color/black"

@@ -12,9 +12,12 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
+import com.llj.lib.webview.manager.WebViewConfig;
+import com.llj.lib.webview.manager.WebViewManager;
 import com.tencent.smtt.export.external.interfaces.JsPromptResult;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.export.external.interfaces.SslError;
@@ -79,7 +82,14 @@ public class CWebView extends WebView {
         init();
     }
 
+    private WebViewConfig mWebViewConfig;
+
     private void init() {
+        mWebViewConfig = WebViewManager.getInstance().getWebViewConfig();
+        if (mWebViewConfig == null) {
+            mWebViewConfig = new WebViewConfig();
+        }
+
         initSetting();
 
         initWebViewClient();
@@ -232,6 +242,14 @@ public class CWebView extends WebView {
             @Override
             public boolean shouldOverrideUrlLoading(WebView webView, String s) {
                 Timber.i("shouldOverrideUrlLoading -- %s", s);
+
+
+                if(mWebViewConfig.getIWebViewClient()!=null){
+                    return mWebViewConfig.getIWebViewClient().shouldOverrideUrlLoading(webView,s);
+                }
+
+                if (!TextUtils.isEmpty(mWebViewConfig.getScheme())&&s.startsWith(mWebViewConfig.getScheme())) {
+                }
                 return super.shouldOverrideUrlLoading(webView, s);
             }
 

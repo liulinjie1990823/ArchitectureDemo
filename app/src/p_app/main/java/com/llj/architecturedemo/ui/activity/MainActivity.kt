@@ -82,6 +82,10 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
     override fun initData() {
     }
 
+    private fun jumpFromOut(){
+
+    }
+
 
     private inner class TabAdapter(list: ArrayList<TabVo>?) : ListBasedAdapter<TabVo, ViewHolderHelper>(list), IUiHandler {
 

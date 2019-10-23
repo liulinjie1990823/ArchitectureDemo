@@ -51,8 +51,9 @@ class HomeFragment : MiddleMvcBaseFragment(), ScrollableHelper.ScrollableContain
         super.initViews(savedInstanceState)
 
         val arrayList = arrayListOf<Data>()
+        arrayList.add(Data("SvgActivity", CRouter.APP_SVG_ACTIVITY))
         arrayList.add(Data("RunnableActivity", CRouter.APP_RUNNABLE_ACTIVITY))
-        arrayList.add(Data("InjectActivity", CRouter.SETTING_INJECT_ACTIVITY))
+        arrayList.add(Data("InjectActivity", "ciw://InjectActivity?needLogin=1&a=1&b=2&c=3"))
         arrayList.add(Data("SecondActivity", CRouter.APP_FIRST_ACTIVITY))
         arrayList.add(Data("FirstActivity", CRouter.APP_FIRST_ACTIVITY))
         arrayList.add(Data("KodoActivity", CRouter.APP_KODO_ACTIVITY))

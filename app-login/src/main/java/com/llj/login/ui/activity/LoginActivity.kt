@@ -11,20 +11,21 @@ import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.TextView
 import butterknife.BindView
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
+import com.example.lib.jump.annotation.Jump
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
+import com.llj.component.service.arouter.CJump
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.utils.LogUtil
+import com.llj.lib.base.AppManager
 import com.llj.login.LoginMvcBaseActivity
 import com.llj.login.R
 import com.llj.login.ui.fragment.CodeLoginFragmentMvc
 import com.llj.login.ui.fragment.PasswordLoginFragment
 import com.llj.socialization.login.LoginPlatformType
-import com.llj.socialization.login.LoginUtil
-import com.llj.socialization.login.callback.LoginListener
-import com.llj.socialization.login.model.LoginResult
 import net.lucode.hackware.magicindicator.MagicIndicator
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -40,6 +41,7 @@ import java.util.*
  * author llj
  * date 2018/8/22
  */
+@Jump(ciw = CJump.JUMP_LOGIN_ACTIVITY, route = CRouter.LOGIN_LOGIN_ACTIVITY, needLogin = true, desc = "LoginActivity")
 @Route(path = CRouter.LOGIN_LOGIN_ACTIVITY)
 class LoginActivity : LoginMvcBaseActivity() {
 
@@ -47,11 +49,15 @@ class LoginActivity : LoginMvcBaseActivity() {
     @BindView(com.llj.login.R2.id.login_viewpager) lateinit var mViewPager: ViewPager
     @BindView(com.llj.login.R2.id.rv_login) lateinit var mRecyclerView: RecyclerView
 
+
+    @Autowired(name = CRouter.AROUTER_FORWARD_PATH) lateinit var mForwardPath: String
+
     override fun layoutId(): Int {
         return R.layout.login_activity_login
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
+        ARouter.getInstance().inject(this)
     }
 
     override fun initData() {
@@ -88,11 +94,17 @@ class LoginActivity : LoginMvcBaseActivity() {
             setText(textView, position.toString() + "  " + item.text)
 
             viewHolder.itemView.setOnClickListener {
-                LoginUtil.login(mContext, item.platform, object : LoginListener() {
-                    override fun onLoginResponse(result: LoginResult?) {
-                        LogUtil.LLJi(result.toString())
-                    }
-                }, true)
+
+                finish()
+                AppManager.getInstance().userInfoConfig.isLogin = true
+                ARouter.getInstance().build(mForwardPath)
+                        .navigation()
+
+                //                LoginUtil.login(mContext, item.platform, object : LoginListener() {
+                //                    override fun onLoginResponse(result: LoginResult?) {
+                //                        LogUtil.LLJi(result.toString())
+                //                    }
+                //                }, true)
             }
         }
     }

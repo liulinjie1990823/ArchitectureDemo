@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.lib.jump.annotation.Jump;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.utils.AFragmentUtils;
 import com.llj.setting.R;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
  * @date 2019-10-12
  */
 @Route(path = CRouter.SETTING_INJECT_ACTIVITY)
+@Jump(ciw = "ciw://InjectActivity", route = CRouter.SETTING_INJECT_ACTIVITY, needLogin = true, desc = "InjectActivity")
 public class InjectActivity extends SettingMvcBaseActivity {
     @Override
     public int layoutId() {

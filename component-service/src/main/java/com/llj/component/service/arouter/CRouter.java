@@ -17,7 +17,11 @@ public class CRouter {
     public static final String AROUTER_NEED_LOGIN   = "needLogin";
     public static final String AROUTER_FORWARD_PATH = "AROUTER_FORWARD_PATH";
 
+
     //app
+    public static final String APP_LOADING_ACTIVITY = "/app/LoadingActivity";
+
+    public static final String APP_SVG_ACTIVITY               = "/app/SvgActivity";
     public static final String APP_KODO_ACTIVITY              = "/app/KodoActivity";
     public static final String APP_RECORD_VIDEO_ACTIVITY      = "/app/RecordVideoActivity";
     public static final String APP_RECORD_VIDEO2_ACTIVITY     = "/app/RecordVideo2Activity";
@@ -38,10 +42,10 @@ public class CRouter {
     public static final String APP_SHARE_ACTIVITY             = "/app/ShareActivity";
     public static final String APP_MEMORY_LEAK_ACTIVITY       = "/app/MemoryLeakActivity";
     public static final String APP_APT_ACTIVITY               = "/app/AptActivity";
-    public static final String APP_APT_ACTIVITY2               = "/app/AptActivity2";
+    public static final String APP_APT_ACTIVITY2              = "/app/AptActivity2";
     public static final String APP_HOOK_ACTIVITY              = "/app/HookActivity";
     public static final String APP_REWARD_LAYOUT_ACTIVITY     = "/app/RewardLayoutActivity";
-    public static final String APP_RUNNABLE_ACTIVITY     = "/app/RunnableActivity";
+    public static final String APP_RUNNABLE_ACTIVITY          = "/app/RunnableActivity";
     public static final String APP_SWIPE_BACK_LAYOUT_ACTIVITY = "/app/SwipeBackLayoutActivity";
     public static final String APP_FIRST_ACTIVITY             = "/app/FirstActivity";
     public static final String WIDGET_CONSTRAINT_ACTIVITY     = "/app/widget/ConstraintActivity";
@@ -55,12 +59,11 @@ public class CRouter {
     //setting
     public static final String SETTING_QRCODE_ACTIVITY  = "/setting/QrCodeActivity";
     public static final String SETTING_SETTING_ACTIVITY = "/setting/SettingActivity";
-    public static final String SETTING_INJECT_ACTIVITY = "/setting/InjectActivity";
-    public static final String SETTING_INJECT_FRAGMENT = "/setting/InjectFragment";
+    public static final String SETTING_INJECT_ACTIVITY  = "/setting/InjectActivity";
+    public static final String SETTING_INJECT_FRAGMENT  = "/setting/InjectFragment";
 
 
     public static final String QRCODE_CAPTUREACTIVITY                  = "/qrcode/CaptureActivity";
-    public static final String APP_GUIDE_ACTIVITY                      = "/app/GuideActivity";                 //跳转到首页
     public static final String APP_ADV_ACTIVITY                        = "/app/AdvertisingActivity";                 //广告页
     public static final String APP_MAIN_TAB_ACTIVITY                   = "/app/MainTabActivity";                 //跳转到首页
     public static final String KEY_TAB_INDEX                           = "KEY_TAB_INDEX";                        //跳转到首页

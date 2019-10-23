@@ -10,7 +10,11 @@ dependencies {
     implementation deps.multidex
     implementation deps.multidex_instrumentation
 
-    implementation project(':flutter')
+    if (useMaven) {
+    } else {
+        kapt project(':lib-jump-compiler')
+    }
+
 }
 
 

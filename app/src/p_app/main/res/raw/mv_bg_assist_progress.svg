@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="378px" height="14px" viewBox="0 0 378 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>Repeat-Group@1x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="3.89902667%" y1="25.2277204%" x2="96.8803713%" y2="25.2277204%" id="linearGradient-1">
+            <stop stop-color="#FF3B50" offset="0%"></stop>
+            <stop stop-color="#FF5542" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-2" x="0.125631329" y="0.625631329" width="376" height="12" rx="6"></rect>
+    </defs>
+    <g id="请柬APP-V4.0.0" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="助力_2" transform="translate(-79.000000, -1139.000000)">
+            <g id="编组-8" transform="translate(79.000000, 1130.000000)">
+                <g id="Repeat-Group" transform="translate(0.874369, 9.374369)">
+                    <mask id="mask-3" fill="white">
+                        <use xlink:href="#path-2"></use>
+                    </mask>
+                    <use id="蒙版" fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+                    <g mask="url(#mask-3)" fill="#FFFFFF" fill-opacity="0.501748252" id="矩形">
+                        <g transform="translate(-4.000000, -6.000000)">
+                            <rect transform="translate(12.500000, 13.000000) rotate(45.000000) translate(-12.500000, -13.000000) " x="10" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(27.500000, 13.000000) rotate(45.000000) translate(-27.500000, -13.000000) " x="25" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(42.500000, 13.000000) rotate(45.000000) translate(-42.500000, -13.000000) " x="40" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(57.500000, 13.000000) rotate(45.000000) translate(-57.500000, -13.000000) " x="55" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(72.500000, 13.000000) rotate(45.000000) translate(-72.500000, -13.000000) " x="70" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(87.500000, 13.000000) rotate(45.000000) translate(-87.500000, -13.000000) " x="85" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(102.500000, 13.000000) rotate(45.000000) translate(-102.500000, -13.000000) " x="100" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(117.500000, 13.000000) rotate(45.000000) translate(-117.500000, -13.000000) " x="115" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(132.500000, 13.000000) rotate(45.000000) translate(-132.500000, -13.000000) " x="130" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(147.500000, 13.000000) rotate(45.000000) translate(-147.500000, -13.000000) " x="145" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(162.500000, 13.000000) rotate(45.000000) translate(-162.500000, -13.000000) " x="160" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(177.500000, 13.000000) rotate(45.000000) translate(-177.500000, -13.000000) " x="175" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(192.500000, 13.000000) rotate(45.000000) translate(-192.500000, -13.000000) " x="190" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(207.500000, 13.000000) rotate(45.000000) translate(-207.500000, -13.000000) " x="205" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(222.500000, 13.000000) rotate(45.000000) translate(-222.500000, -13.000000) " x="220" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(237.500000, 13.000000) rotate(45.000000) translate(-237.500000, -13.000000) " x="235" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(252.500000, 13.000000) rotate(45.000000) translate(-252.500000, -13.000000) " x="250" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(267.500000, 13.000000) rotate(45.000000) translate(-267.500000, -13.000000) " x="265" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(282.500000, 13.000000) rotate(45.000000) translate(-282.500000, -13.000000) " x="280" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(297.500000, 13.000000) rotate(45.000000) translate(-297.500000, -13.000000) " x="295" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(312.500000, 13.000000) rotate(45.000000) translate(-312.500000, -13.000000) " x="310" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(327.500000, 13.000000) rotate(45.000000) translate(-327.500000, -13.000000) " x="325" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(342.500000, 13.000000) rotate(45.000000) translate(-342.500000, -13.000000) " x="340" y="-2" width="5" height="30"></rect>
+                            <rect transform="translate(357.500000, 13.000000) rotate(45.000000) translate(-357.500000, -13.000000) " x="355" y="-2" width="5" height="30"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

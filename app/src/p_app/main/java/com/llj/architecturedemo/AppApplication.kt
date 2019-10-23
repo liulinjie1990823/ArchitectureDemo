@@ -9,18 +9,28 @@ import com.billy.cc.core.component.CC
 import com.llj.architecturedemo.ui.activity.MainActivity
 import com.llj.component.service.IModule
 import com.llj.component.service.MiddleApplication
+import com.llj.component.service.arouter.CJump
+import com.llj.component.service.arouter.CRouter
+import com.llj.lib.base.AppManager
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.MvpBaseFragment
+import com.llj.lib.base.config.JumpConfig
+import com.llj.lib.base.config.ToolbarConfig
+import com.llj.lib.base.config.UserInfoConfig
 import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
 import com.llj.lib.jump.api.JumpHelp
 import com.llj.lib.statusbar.LightStatusBarCompat
 import com.llj.lib.statusbar.StatusBarCompat
 import com.llj.lib.tracker.Tracker
 import com.llj.lib.tracker.TrackerConfig
+import com.llj.lib.webview.manager.IWebViewClient
+import com.llj.lib.webview.manager.WebViewConfig
+import com.llj.lib.webview.manager.WebViewManager
 import com.llj.socialization.SocialConstants
 import com.llj.socialization.init.SocialConfig
 import com.llj.socialization.init.SocialManager
 import com.tencent.bugly.crashreport.CrashReport
+import com.tencent.smtt.sdk.WebView
 import dagger.android.AndroidInjector
 import timber.log.Timber
 
@@ -45,8 +55,38 @@ class AppApplication : MiddleApplication() {
         })
         //设置埋点
         Tracker.init(this, TrackerConfig.Builder().build())
-
+        //页面跳转
         JumpHelp.init(this)
+
+        //设置共用的toolbar
+        val toolbarConfig = ToolbarConfig()
+        toolbarConfig.leftImageRes = R.drawable.service_icon_back
+        AppManager.getInstance().toolbarConfig = toolbarConfig
+
+        //跳转配置
+        val jumpConfig = JumpConfig()
+        jumpConfig.nativeScheme = CJump.SCHEME
+        jumpConfig.loadingPath = CRouter.APP_LOADING_ACTIVITY
+        jumpConfig.loginPath = CRouter.LOGIN_LOGIN_ACTIVITY
+        AppManager.getInstance().jumpConfig = jumpConfig
+
+        val userInfoConfig = UserInfoConfig()
+        userInfoConfig.isLogin = false
+        AppManager.getInstance().userInfoConfig = userInfoConfig
+
+        //
+        val webViewConfig = WebViewConfig()
+        webViewConfig.scheme = CJump.SCHEME
+        webViewConfig.iWebViewClient = object : IWebViewClient {
+            override fun shouldOverrideUrlLoading(webView: WebView?, s: String?): Boolean {
+                if (s != null && s.startsWith(webViewConfig.scheme)) {
+
+                }
+
+                return false
+            }
+        }
+        WebViewManager.getInstance().webViewConfig = webViewConfig
 
         mAppComponent = DaggerAppComponent.builder()
                 .middleComponent(mMiddleComponent)
