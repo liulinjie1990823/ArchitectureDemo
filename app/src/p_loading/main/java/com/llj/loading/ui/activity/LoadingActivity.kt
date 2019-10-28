@@ -2,6 +2,7 @@ package com.llj.loading.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewTreeObserver
 import android.widget.TextView
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -13,6 +14,8 @@ import com.llj.architecturedemo.R
 import com.llj.component.service.MiddleMvcBaseActivity
 import com.llj.component.service.arouter.CJump
 import com.llj.component.service.arouter.CRouter
+import com.llj.component.service.permission.PermissionManager
+import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.statusbar.StatusBarCompat
@@ -38,6 +41,7 @@ class LoadingActivity : MiddleMvcBaseActivity() {
     @BindView(R.id.tv_app_name) lateinit var mTvAppName: TextView
     @BindView(R.id.tv_sub_title) lateinit var mTvSubTitle: TextView
 
+
     private lateinit var mImageLoader: ICustomImageLoader<GenericDraweeView>
 
     private lateinit var mDisposable: Disposable
@@ -49,6 +53,7 @@ class LoadingActivity : MiddleMvcBaseActivity() {
     override fun initViews(savedInstanceState: Bundle?) {
         StatusBarCompat.translucentStatusBar(window, true)
 
+        mUseAnim = false
         mImageLoader = FrescoImageLoader.getInstance(this.applicationContext)
 
 
@@ -59,28 +64,26 @@ class LoadingActivity : MiddleMvcBaseActivity() {
             mDisposable.dispose()
 
             ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
-                    //                    .withTransition(R.anim.fade_in, R.anim.no_fade)
                     .navigation(mContext)
 
             finish()
         }
 
+        PermissionManager.checkPhoneStateAndStorage(this, object : PermissionManager.PermissionListener {
+            override fun onGranted(permissions: MutableList<String>?) {
 
-        //        PermissionManager.checkPhoneStateAndStorage(this, object : PermissionManager.PermissionListener {
-        //            override fun onGranted(permissions: MutableList<String>?) {
-        //
-        //                mSdvAdd.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-        //                    override fun onGlobalLayout() {
-        //                        mSdvAdd.viewTreeObserver.removeOnGlobalLayoutListener(this)
-        //                        val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
-        //                        mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
-        //                    }
-        //                })
-        //
-        //                countDown()
-        //            }
-        //        })
-        countDown()
+                mSdvAdd.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        mSdvAdd.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
+                        mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
+                    }
+                })
+
+                countDown()
+            }
+        })
+        //        countDown()
     }
 
     override fun initData() {
@@ -113,9 +116,8 @@ class LoadingActivity : MiddleMvcBaseActivity() {
 
                     override fun onComplete() {
                         ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
-                                //                                .withTransition(R.anim.fade_in, R.anim.no_fade)
+                                .withTransition(R.anim.fade_in, R.anim.no_fade)
                                 .navigation(mContext)
-
                         finish()
                     }
                 })

@@ -83,10 +83,6 @@
         android:theme="@style/MyAppTheme.NoActionBar"
         tools:replace="android:appComponentFactory">
 
-        <activity
-            android:name=".ui.activity.MainActivity"
-            android:theme="@style/MyAppTheme.NoActionBar.Tab" />
-        <activity android:name=".ui.activity.MemoryLeakActivity" />
 
         <activity
             android:name="com.llj.widget.ui.activity.ConstraintActivity"
@@ -125,6 +121,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/MyAppTheme.NoActionBar.Tab" />
+        <activity android:name=".ui.activity.MemoryLeakActivity" />
 
         <activity android:name="com.llj.loading.ui.activity.GuideActivity" />
         <activity android:name=".ui.activity.JavaTypeActivity" />

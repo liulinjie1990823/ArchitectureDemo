@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.multidex.MultiDex
-import android.support.v4.content.ContextCompat
 import com.billy.cc.core.component.CC
+import com.didichuxing.doraemonkit.DoraemonKit
 import com.llj.architecturedemo.ui.activity.MainActivity
 import com.llj.component.service.IModule
 import com.llj.component.service.MiddleApplication
@@ -44,7 +44,41 @@ import timber.log.Timber
 class AppApplication : MiddleApplication() {
     private lateinit var mAppComponent: AppComponent
 
+
+    override fun onCreate() {
+        //设置共用的toolbar
+        val toolbarConfig = ToolbarConfig()
+        toolbarConfig.leftImageRes = R.drawable.service_icon_back
+        AppManager.getInstance().toolbarConfig = toolbarConfig
+        //跳转配置
+        val jumpConfig = JumpConfig()
+        jumpConfig.nativeScheme = CJump.SCHEME
+        jumpConfig.loadingPath = CRouter.APP_LOADING_ACTIVITY
+        jumpConfig.loginPath = CRouter.LOGIN_LOGIN_ACTIVITY
+        AppManager.getInstance().jumpConfig = jumpConfig
+        //用户信息配置
+        val userInfoConfig = UserInfoConfig()
+        userInfoConfig.isLogin = false
+        AppManager.getInstance().userInfoConfig = userInfoConfig
+
+        //WebView配置
+        val webViewConfig = WebViewConfig()
+        webViewConfig.scheme = CJump.SCHEME
+        webViewConfig.iWebViewClient = object : IWebViewClient {
+            override fun shouldOverrideUrlLoading(webView: WebView?, s: String?): Boolean {
+                if (s != null && s.startsWith(webViewConfig.scheme)) {
+
+                }
+
+                return false
+            }
+        }
+        WebViewManager.getInstance().webViewConfig = webViewConfig
+        super.onCreate()
+    }
+
     override fun injectApp() {
+        DoraemonKit.install(this)
         //设置日志
         Timber.plant(object : Timber.DebugTree() {
             override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
@@ -58,35 +92,7 @@ class AppApplication : MiddleApplication() {
         //页面跳转
         JumpHelp.init(this)
 
-        //设置共用的toolbar
-        val toolbarConfig = ToolbarConfig()
-        toolbarConfig.leftImageRes = R.drawable.service_icon_back
-        AppManager.getInstance().toolbarConfig = toolbarConfig
 
-        //跳转配置
-        val jumpConfig = JumpConfig()
-        jumpConfig.nativeScheme = CJump.SCHEME
-        jumpConfig.loadingPath = CRouter.APP_LOADING_ACTIVITY
-        jumpConfig.loginPath = CRouter.LOGIN_LOGIN_ACTIVITY
-        AppManager.getInstance().jumpConfig = jumpConfig
-
-        val userInfoConfig = UserInfoConfig()
-        userInfoConfig.isLogin = false
-        AppManager.getInstance().userInfoConfig = userInfoConfig
-
-        //
-        val webViewConfig = WebViewConfig()
-        webViewConfig.scheme = CJump.SCHEME
-        webViewConfig.iWebViewClient = object : IWebViewClient {
-            override fun shouldOverrideUrlLoading(webView: WebView?, s: String?): Boolean {
-                if (s != null && s.startsWith(webViewConfig.scheme)) {
-
-                }
-
-                return false
-            }
-        }
-        WebViewManager.getInstance().webViewConfig = webViewConfig
 
         mAppComponent = DaggerAppComponent.builder()
                 .middleComponent(mMiddleComponent)
@@ -118,7 +124,8 @@ class AppApplication : MiddleApplication() {
                     LightStatusBarCompat.setLightStatusBar(activity.window, false)
                 } else {
                     //status和界面中的布局线性布局，白低黑字
-                    StatusBarCompat.setStatusBarColor(activity.window, ContextCompat.getColor(activity, R.color.white))
+//                    StatusBarCompat.setStatusBarColor(activity.window, ContextCompat.getColor(activity, R.color.white))
+                    StatusBarCompat.translucentStatusBar(activity.window, true)
                     LightStatusBarCompat.setLightStatusBar(activity.window, true)
                 }
             }

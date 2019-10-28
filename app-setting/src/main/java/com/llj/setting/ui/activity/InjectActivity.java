@@ -30,11 +30,12 @@ public class InjectActivity extends SettingMvcBaseActivity {
 
     @Override
     public void initViews(@Nullable Bundle savedInstanceState) {
+        mClToolbar.setBackgroundColor(getCompatColor(mContext, R.color.red));
+        mTvTbTitle.setText("InjectActivity");
         Fragment fragment = (Fragment) ARouter.getInstance().build(CRouter.SETTING_INJECT_FRAGMENT)
                 .navigation();
 
-        AFragmentUtils.addFragment(getSupportFragmentManager(),R.id.container,fragment);
-
+        AFragmentUtils.addFragment(getSupportFragmentManager(), R.id.container, fragment);
     }
 
     @Override

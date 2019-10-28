@@ -14,7 +14,7 @@ import com.alibaba.android.arouter.facade.service.PathReplaceService;
  * @author llj
  * @date 2019-10-22
  */
-@Route(path = "/login/PathReplaceService")
+@Route(path = "/login/PathProcessServiceImpl")
 public class PathProcessServiceImpl implements PathReplaceService {
     @Override
     public String forString(String path) {
