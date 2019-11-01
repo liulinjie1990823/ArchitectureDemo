@@ -38,7 +38,7 @@ import timber.log.Timber;
 public class AptActivity2 extends AppMvcBaseActivity {
     @BindView(R.id.root) ConstraintLayout mConstraintLayout;
 
-    @IntentKey(name = "key") String key;
+    @IntentKey(name = "key") String mKey;
 
     @JumpKey(ciw = "name", name = CRouter.KEY_NICKNAME)
     @Autowired(name = CRouter.KEY_NICKNAME) String mName;
@@ -59,6 +59,9 @@ public class AptActivity2 extends AppMvcBaseActivity {
         Toast.makeText(this, "Neacy", Toast.LENGTH_LONG).show();
     }
 
+
+
+
     @Override
     public int layoutId() {
         return R.layout.activity_apt;
@@ -66,7 +69,7 @@ public class AptActivity2 extends AppMvcBaseActivity {
 
     @Override
     public void initViews(@Nullable Bundle savedInstanceState) {
-//        NeacyFinder.inject(this);
+        //NeacyFinder.inject(this);
 
         findViewById(R.id.text1).setOnClickListener(new View.OnClickListener() {
             @Override

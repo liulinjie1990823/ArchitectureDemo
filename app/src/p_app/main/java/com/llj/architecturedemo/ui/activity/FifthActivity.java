@@ -35,7 +35,7 @@ public class FifthActivity extends AppMvcBaseActivity implements SecondView {
             @Override
             public void doClick(View v) {
                 Intent intent = new Intent(mContext, SecondActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 mContext.startActivity(intent);
             }
         });

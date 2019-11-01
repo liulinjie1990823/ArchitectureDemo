@@ -125,8 +125,6 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
     private ICustomImageLoader<GenericDraweeView> mImageLoad = FrescoImageLoader.getInstance(Utils.getApp());
 
 
-    private String mH5Link;
-
     @Override
     public int layoutId() {
         return R.layout.fragment_mine;
@@ -276,7 +274,7 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
         });
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
+            public void onRefresh(@NonNull RefreshLayout refreshlayout) {
                 mPresenter.getPersonalCenterInfo(false);
                 mPresenter.getPersonalCenterCount(false);
             }
@@ -345,25 +343,25 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
         return (!mIsLoadingMushUp) && (!mIsLoadingMushUpNum);
     }
 
-//    @Override
-//    public void onReceive(BaseResponse baseResponse) {
-//        super.onReceive(baseResponse);
-//        if (baseResponse.getCmd() == EventConstants.EVENT_LOGIN_SUCCESS
-//                || baseResponse.getCmd() == EventConstants.EVENT_SELECTCITY_SUCCESS
-//                || baseResponse.getCmd() == EventConstants.EVENT_LOGIN_OUT) {
-//            mIsLoadingMushUp = true;
-//            mIsLoadingMushUpNum = true;
-//            resetView();
-//            mPersonalCenterPresenter.getHomePageInfo(this);
-//
-//            if (baseResponse.getCmd() == EventConstants.EVENT_LOGIN_OUT) {
-//                if (mHeaderMenuAdapter != null) {
-//                    mHeaderMenuAdapter.notifyDataSetChanged();
-//                }
-//            }
-//            mPersonalCenterPresenter.getMashupNum(this);
-//        }
-//    }
+    //    @Override
+    //    public void onReceive(BaseResponse baseResponse) {
+    //        super.onReceive(baseResponse);
+    //        if (baseResponse.getCmd() == EventConstants.EVENT_LOGIN_SUCCESS
+    //                || baseResponse.getCmd() == EventConstants.EVENT_SELECTCITY_SUCCESS
+    //                || baseResponse.getCmd() == EventConstants.EVENT_LOGIN_OUT) {
+    //            mIsLoadingMushUp = true;
+    //            mIsLoadingMushUpNum = true;
+    //            resetView();
+    //            mPersonalCenterPresenter.getHomePageInfo(this);
+    //
+    //            if (baseResponse.getCmd() == EventConstants.EVENT_LOGIN_OUT) {
+    //                if (mHeaderMenuAdapter != null) {
+    //                    mHeaderMenuAdapter.notifyDataSetChanged();
+    //                }
+    //            }
+    //            mPersonalCenterPresenter.getMashupNum(this);
+    //        }
+    //    }
 
     private void resetView() {
         mCvImage1.setVisibility(View.GONE);
@@ -371,18 +369,18 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
         mTvSignTag.setVisibility(View.GONE);
     }
 
-//    private UserQrCodeDialog mUserQrCodeDialog;
-//
-//    private void showQrCodeDialog(String qrCode) {
-//        if (isEmpty(qrCode)) {
-//            return;
-//        }
-//        if (mUserQrCodeDialog == null) {
-//            mUserQrCodeDialog = new UserQrCodeDialog(mContext);
-//        }
-//        mUserQrCodeDialog.setQrCode(qrCode);
-//        mUserQrCodeDialog.show();
-//    }
+    //    private UserQrCodeDialog mUserQrCodeDialog;
+    //
+    //    private void showQrCodeDialog(String qrCode) {
+    //        if (isEmpty(qrCode)) {
+    //            return;
+    //        }
+    //        if (mUserQrCodeDialog == null) {
+    //            mUserQrCodeDialog = new UserQrCodeDialog(mContext);
+    //        }
+    //        mUserQrCodeDialog.setQrCode(qrCode);
+    //        mUserQrCodeDialog.show();
+    //    }
 
     @OnClick({
             R.id.iv_scanning,
@@ -400,13 +398,13 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
             //扫描
             case R.id.iv_scanning:
                 //埋点
-//                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_SCAN);
-//                PermissionUtils.checkPermission(this, Manifest.permission.CAMERA);
+                //                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_SCAN);
+                //                PermissionUtils.checkPermission(this, Manifest.permission.CAMERA);
                 break;
             //二维码
             case R.id.iv_qr_code:
                 //埋点
-//                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_CODE);
+                //                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_CODE);
                 if (checkLogin()) {
                     mPresenter.getQrCode(false);
                 }
@@ -414,7 +412,7 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
             //消息
             case R.id.iv_message:
                 //埋点
-//                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_NEWS);
+                //                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_NEWS);
                 if (checkLogin()) {
                     CRouter.start(CRouter.MESSAGE_MESSAGE_CENTER);
                 }
@@ -422,8 +420,8 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
             //设置
             case R.id.iv_setting:
                 //埋点
-//                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_SETTING);
-//                CRouter.start(CRouter.APP_MINE_SETTING_ACTIVITY);
+                //                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_SETTING);
+                //                CRouter.start(CRouter.APP_MINE_SETTING_ACTIVITY);
                 CRouter.start(CRouter.SETTING_SETTING_ACTIVITY);
                 break;
             //我的资料界面
@@ -441,7 +439,7 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
             //会员
             case R.id.iv_member_tag:
                 //埋点
-//                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_LEVEL);
+                //AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_LEVEL);
                 if (checkLogin()) {
                     CRouter.start(CRouter.APP_MINE_MEMBER_CENTER_ACTIVITY);
                 }
@@ -449,16 +447,19 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
             //查看积分
             case R.id.tv_diamond_points:
                 //埋点
-//                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_INTEGRAL);
+                //                AnalysisUtils.getInstance().sendEvent(view, Category.TAP, AppAction.MINE_INTEGRAL);
                 break;
             //签到
             case R.id.tv_sign_in:
                 if (mTvSignIn.getTag() != null) {
                     //去签到
-//                    WebViewConfig.builder().setWebUrl(mTvSignIn.getTag().toString()).start((Activity) mContext);
+                    //                    WebViewConfig.builder().setWebUrl(mTvSignIn.getTag().toString()).start((Activity) mContext);
                     //埋点
-//                    AnalysisUtils.getInstance().sendEvent(mTvSignIn, Category.TAP, AppAction.SIGN_IN_MINE, mTvSignIn.getTag().toString());
+                    //                    AnalysisUtils.getInstance().sendEvent(mTvSignIn, Category.TAP, AppAction.SIGN_IN_MINE, mTvSignIn.getTag()
+                    //                    .toString());
                 }
+                break;
+            default:
                 break;
         }
     }
@@ -506,8 +507,9 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
                     @Override
                     public void doClick(View v) {
                         //统计
-//                        AnalysisUtils.getInstance().sendEvent(mCvImage1, Category.TAP, AppAction.CMS, AbStringUtils.nullOrString(ad.getPosition_id()), ad.getLink());
-//                        CiwHelper.startActivity((BaseActivity) mContext, ad.getLink());
+                        //AnalysisUtils.getInstance().sendEvent(mCvImage1, Category.TAP, AppAction.CMS, AbStringUtils
+                        //        .nullOrString(ad.getPosition_id()), ad.getLink());
+                        //CiwHelper.startActivity((BaseActivity) mContext, ad.getLink());
                     }
                 });
             }
@@ -586,8 +588,9 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
             }
             mCardBadge.setBadgeText(cardCountString);
         } else {
-            if (mCardBadge != null)
+            if (mCardBadge != null) {
                 mCardBadge.hide(false);
+            }
         }
         if (commentCount > 0) {
             if (mCommentBadge == null) {
@@ -604,8 +607,9 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
             }
             mCommentBadge.setBadgeText(commentCountString);
         } else {
-            if (mCommentBadge != null)
+            if (mCommentBadge != null) {
                 mCommentBadge.hide(false);
+            }
         }
         if (noticeNum > 0) {
             if (mNoticeBadge == null) {
@@ -622,17 +626,18 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
             }
             mNoticeBadge.setBadgeText("1");
         } else {
-            if (mNoticeBadge != null)
+            if (mNoticeBadge != null) {
                 mNoticeBadge.hide(false);
+            }
         }
     }
 
-//    @Override
-//    public void onGetRecordUrl(HttpResult<RecordUrlVo> result) {
-//        if (result != null && result.getData() != null) {
-//            CiwHelper.startActivity(result.getData().getLdurl());
-//        }
-//    }
+    //    @Override
+    //    public void onGetRecordUrl(HttpResult<RecordUrlVo> result) {
+    //        if (result != null && result.getData() != null) {
+    //            CiwHelper.startActivity(result.getData().getLdurl());
+    //        }
+    //    }
 
 
     @Nullable
@@ -691,7 +696,7 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
             handleUserInfo(MiddleApplication.mUserInfoVo);
         }
 
-//        UserInfoPreference.Companion.getInstance().(data.getServer_tel());
+        //        UserInfoPreference.Companion.getInstance().(data.getServer_tel());
 
         //签到信息
         handleSign(data);
@@ -764,42 +769,42 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
             showLongToast("没有二维码");
             return;
         }
-//        showQrCodeDialog(result.getData());
+        //        showQrCodeDialog(result.getData());
     }
 
     @Override
     public void onDataSuccess4(BaseResponse<ExpoInfoVo> result, int taskId) {
-//        if (result.isOpen()) {
-//            mH5Link = result.getH5Link();
-//            LatLng latLngStart = new LatLng(UserInfoPreference.getInstance().getLat(), UserInfoPreference.getInstance().getLng());
-//            if (result.getLatitude() != null && result.getLongitude() != null) {
-//                LatLng latLngEnd = new LatLng(Double.valueOf(result.getLatitude()), Double.valueOf(result.getLongitude()));
-//                double distance = LocationHelper.getDistance(latLngStart, latLngEnd);
-//                if (distance <= result.getRange()) {
-//                    Log.e("distance", "distance=" + distance);
-//                    //isRange = true;
-//                    if (isLogin()) {
-//                        WebViewConfig.builder().setWebUrl(mH5Link).start((Activity) mContext);
-//                        /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-//                            Intent intent = new Intent(getActivity(), PlazaActivity.class);
-//                            intent.putExtra("url",mH5Link);
-//                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
-//                        }*/
-//                    } else {
-//                        showPlazaDialog();
-//                    }
-//                } else {
-//                    AbToast.show("仅展馆内用户可参与");
-//
-//                }
-//            }
-//        } else if (result.isPreheat()) {
-//            PreHeatDialog dialog = new PreHeatDialog(mContext);
-//            dialog.setBg(result.getPhotoLink());
-//            dialog.show();
-//        } else {
-//            showLongToast("无法识别，请稍后重试");
-//        }
+        //        if (result.isOpen()) {
+        //            mH5Link = result.getH5Link();
+        //            LatLng latLngStart = new LatLng(UserInfoPreference.getInstance().getLat(), UserInfoPreference.getInstance().getLng());
+        //            if (result.getLatitude() != null && result.getLongitude() != null) {
+        //                LatLng latLngEnd = new LatLng(Double.valueOf(result.getLatitude()), Double.valueOf(result.getLongitude()));
+        //                double distance = LocationHelper.getDistance(latLngStart, latLngEnd);
+        //                if (distance <= result.getRange()) {
+        //                    Log.e("distance", "distance=" + distance);
+        //                    //isRange = true;
+        //                    if (isLogin()) {
+        //                        WebViewConfig.builder().setWebUrl(mH5Link).start((Activity) mContext);
+        //                        /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        //                            Intent intent = new Intent(getActivity(), PlazaActivity.class);
+        //                            intent.putExtra("url",mH5Link);
+        //                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+        //                        }*/
+        //                    } else {
+        //                        showPlazaDialog();
+        //                    }
+        //                } else {
+        //                    AbToast.show("仅展馆内用户可参与");
+        //
+        //                }
+        //            }
+        //        } else if (result.isPreheat()) {
+        //            PreHeatDialog dialog = new PreHeatDialog(mContext);
+        //            dialog.setBg(result.getPhotoLink());
+        //            dialog.show();
+        //        } else {
+        //            showLongToast("无法识别，请稍后重试");
+        //        }
     }
 
     @Override
@@ -833,26 +838,30 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
                     .setOnItemClickListener(new DebouncingOnClickListener() {
                         @Override
                         public void doClick(View v) {
-                            if (data.getType().equals("collect")) {//收藏
+                            if (data.getType().equals("collect")) {
+                                //收藏
                                 //埋点
-//                                AnalysisUtils.getInstance().sendEvent(v, Category.TAP, AppAction.MINE_COLLECT);
-                            } else if (data.getType().equals("activity")) {//活动
+                                //                                AnalysisUtils.getInstance().sendEvent(v, Category.TAP, AppAction.MINE_COLLECT);
+                            } else if (data.getType().equals("activity")) {
+                                //活动
                                 //埋点
-//                                AnalysisUtils.getInstance().sendEvent(v, Category.TAP, AppAction.MINE_ACTIVITY);
-                            } else if (data.getType().equals("demand")) {//我的预约
+                                //                                AnalysisUtils.getInstance().sendEvent(v, Category.TAP, AppAction.MINE_ACTIVITY);
+                            } else if (data.getType().equals("demand")) {
+                                //我的预约
                                 //埋点
-//                                AnalysisUtils.getInstance().sendEvent(v, Category.TAP, AppAction.MINE_RESERVE);
+                                //                                AnalysisUtils.getInstance().sendEvent(v, Category.TAP, AppAction.MINE_RESERVE);
                             } else {
                                 //统计
-//                                AnalysisUtils.getInstance().sendEvent(v, Category.TAP, AppAction.CMS, data.getPosition_id(), data.getLink());
+                                //                                AnalysisUtils.getInstance().sendEvent(v, Category.TAP, AppAction.CMS, data
+                                //                                .getPosition_id(), data.getLink());
                             }
 
                             if ("yes".equals(data.getNeed_login())) {
                                 if (checkLogin()) {
-//                                    CiwHelper.startActivity(data.getLink());
+                                    //                                    CiwHelper.startActivity(data.getLink());
                                 }
                             } else {
-//                                CiwHelper.startActivity(data.getLink());
+                                //                                CiwHelper.startActivity(data.getLink());
                             }
                         }
                     });
@@ -879,7 +888,7 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
                                 CRouter.start(item.path);
                             }
                             //埋点
-//                            AnalysisUtils.getInstance().sendEvent(v, Category.TAP, data.action);
+                            //                            AnalysisUtils.getInstance().sendEvent(v, Category.TAP, data.action);
 
                         }
                     });
@@ -906,12 +915,14 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
             recyclerView.setFocusableInTouchMode(false);
 
             if ("user_expo".equals(item.getMenu_type())) {
-                new UniversalBind.Builder<PersonalCenterVo.ToolsMenuVo, ViewHolderHelper, ToolsItemAdapter>(recyclerView, new ToolsItemAdapter(item.getLists()))
+                new UniversalBind.Builder<PersonalCenterVo.ToolsMenuVo, ViewHolderHelper, ToolsItemAdapter>(recyclerView,
+                        new ToolsItemAdapter(item.getLists()))
                         .setGridLayoutManager(3)
                         .setNestedScrollingEnabled(false)
                         .build();
             } else if ("user_tool".equals(item.getMenu_type())) {
-                new UniversalBind.Builder<PersonalCenterVo.ToolsMenuVo, ViewHolderHelper, ToolsItemAdapter>(recyclerView, new ToolsItemAdapter(item.getLists()))
+                new UniversalBind.Builder<PersonalCenterVo.ToolsMenuVo, ViewHolderHelper, ToolsItemAdapter>(recyclerView,
+                        new ToolsItemAdapter(item.getLists()))
                         .setGridLayoutManager(3)
                         .setNestedScrollingEnabled(false)
                         .build();
@@ -940,14 +951,15 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
                 public void doClick(View v) {
 
                     //统计
-//                    AnalysisUtils.getInstance().sendEvent(v, Category.TAP, AppAction.CMS, data.getPosition_id(), data.getLink());
+                    //                    AnalysisUtils.getInstance().sendEvent(v, Category.TAP, AppAction.CMS, data.getPosition_id(), data.getLink
+                    //                    ());
 
                     if ("yes".equals(item.getNeed_login())) {
                         if (checkLogin()) {
-//                            CiwHelper.startActivity(item.getLink());
+                            //                            CiwHelper.startActivity(item.getLink());
                         }
                     } else {
-//                        CiwHelper.startActivity(item.getLink());
+                        //                        CiwHelper.startActivity(item.getLink());
                     }
                 }
             });
