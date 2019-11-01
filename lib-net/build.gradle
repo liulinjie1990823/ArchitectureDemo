@@ -22,7 +22,8 @@ dependencies {
     implementation deps.retrofit2
     implementation deps.retrofit2_gson
     implementation deps.retrofit2_adapter_rxjava2
-    implementation deps.okhttp_logging_interceptor
+    api deps.okhttp_logging_interceptor
+    api deps.okhttp
     implementation deps.PersistentCookieJar
 }
 

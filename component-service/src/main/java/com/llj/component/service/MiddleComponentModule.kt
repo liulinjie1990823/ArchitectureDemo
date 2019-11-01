@@ -4,7 +4,6 @@ import android.app.Application
 import com.llj.component.service.http.ComponentHttpUrl
 import com.llj.component.service.http.HeaderInterceptor
 import com.llj.lib.net.Interceptors.InterceptorFactory
-import com.llj.lib.net.ssl.SSLFactory
 import com.llj.lib.net.utils.OkHttpClientUtils
 import com.llj.lib.net.utils.RetrofitUtils
 import dagger.Module
@@ -13,6 +12,8 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import java.io.File
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.SSLSession
 
 /**
  * ArchitectureDemo.
@@ -50,8 +51,11 @@ class MiddleComponentModule {
         okHttpClientBuilder.cache(cache)
 
         //ssl
-        okHttpClientBuilder.sslSocketFactory(SSLFactory.getUnsafeSocketFactory())
-        okHttpClientBuilder.hostnameVerifier { hostname, session -> true }
+        okHttpClientBuilder.hostnameVerifier(object : HostnameVerifier {
+            override fun verify(hostname: String?, session: SSLSession?): Boolean {
+                return true
+            }
+        })
 
 
         return okHttpClientBuilder.build()

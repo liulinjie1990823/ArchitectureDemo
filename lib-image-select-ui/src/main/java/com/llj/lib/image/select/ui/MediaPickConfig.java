@@ -14,6 +14,8 @@ public class MediaPickConfig {
     private Set<MimeType> mimeTypeSet;
     private boolean       showSingleMediaType;
 
+
+
     public Set<MimeType> getMimeTypeSet() {
         return mimeTypeSet;
     }

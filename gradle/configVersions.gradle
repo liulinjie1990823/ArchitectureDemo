@@ -13,14 +13,14 @@ def versions = [
         lifecycle            : "1.1.1",
         room                 : "1.1.1",
 
-        dagger               : "2.24",
+        dagger               : "2.25.2",
         autodispose          : "1.0.0-RC2",
         arouter_api          : "1.5.0",
         arouter_compiler     : "1.2.2",
         butterknife          : "9.0.0-rc2",
 
-        retrofit2            : "2.5.0",
-        okhttp               : "3.13.1",
+        retrofit2            : "2.6.2",
+        okhttp               : "4.2.2",
 
         fresco               : "1.13.0",
 
@@ -105,7 +105,7 @@ versionName      : "1.0.0",
             dagger_android_support            : "com.google.dagger:dagger-android-support:$versions.dagger",
             dagger_android_support_compiler   : "com.google.dagger:dagger-android-processor:$versions.dagger",
 
-            rxjava2                           : "io.reactivex.rxjava2:rxjava:2.2.8",
+            rxjava2                           : "io.reactivex.rxjava2:rxjava:2.2.13",
             rxandroid                         : "io.reactivex.rxjava2:rxandroid:2.1.1",
 
             autodispose                       : "com.uber.autodispose:autodispose:$versions.autodispose",
@@ -199,7 +199,7 @@ versionName      : "1.0.0",
             constraint_layout                 : "com.android.support.constraint:constraint-layout:2.0.0-beta1",//约束布局
             MagicIndicator                    : "com.github.hackware1993:MagicIndicator:1.6.0",//tab
             badgeview                         : "q.rorbin:badgeview:1.1.3",//标签
-            vlayout                           : "com.alibaba.android:vlayout:1.2.22",
+            vlayout                           : "com.alibaba.android:vlayout:1.2.31",
             ExpandableTextView                : "cn.carbs.android:ExpandableTextView:1.0.3",//折叠TextView
             pickerView                        : "com.contrarywind:Android-PickerView:3.2.7",//选择城市
             hyman_flowlayout                  : "com.hyman:flowlayout-lib:1.1.2",//流式布局
@@ -214,9 +214,11 @@ versionName      : "1.0.0",
 
 
 def addRepos(RepositoryHandler handler) {
+    handler.jcenter()
+    handler.maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     //本地的maven仓库，需要maven格式的包
     handler.maven { url uri('./repo') }//插件
-//    handler.mavenLocal()
+    //handler.mavenLocal()
     //工程中的lib文件夹，依赖aar和jar文件
 
     handler.google()
@@ -228,6 +230,7 @@ def addRepos(RepositoryHandler handler) {
 //    handler.flatDir { dirs '../lib', '../libs' }
     handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
     handler.maven { url "https://dl.bintray.com/liulinjie1990823/gradle/" }
+
 }
 
 ext.addRepos = this.&addRepos

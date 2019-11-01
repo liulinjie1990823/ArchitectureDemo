@@ -24,12 +24,7 @@ public class JHSmartRefreshLayout extends SmartRefreshLayout {
         super(context, attrs);
         initViews();
     }
-
-    public JHSmartRefreshLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        initViews();
-    }
-
+    
     private void initViews() {
         ClassicsFooter classicsFooter = new ClassicsFooter(getContext());
         classicsFooter.setPrimaryColor(Color.WHITE);

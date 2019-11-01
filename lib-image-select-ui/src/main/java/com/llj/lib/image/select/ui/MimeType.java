@@ -160,7 +160,7 @@ public enum MimeType {
             }
             if (!pathParsed) {
                 // we only resolve the path for one time
-                path = PhotoMetadataUtils.getPath(resolver, uri);
+                //path = PhotoMetadataUtils.getPath(resolver, uri);
                 if (!TextUtils.isEmpty(path)) {
                     path = path.toLowerCase(Locale.US);
                 }

@@ -41,6 +41,6 @@ public class MediaPick {
     }
 
     public MediaPickConfig choose(Set<MimeType> mimeTypes, boolean mediaTypeExclusive) {
-        return new MediaPickConfig(this, mimeTypes, mediaTypeExclusive);
+        return new MediaPickConfig();
     }
 }

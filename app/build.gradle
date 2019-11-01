@@ -106,7 +106,7 @@ android {
 
         resConfigs "zh", "xxhdpi"
 
-//        ndk { abiFilters "x86" }
+        //ndk { abiFilters "x86" }
         ndk { abiFilters "armeabi-v7a" }
 
         dataBinding { enabled = true }
@@ -179,7 +179,10 @@ android {
 
     }
 
-
+    //buildFeatures {
+    //    // Enables Jetpack Compose for this module
+    //    compose true
+    //}
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -193,7 +196,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             if (output.outputFile != null && outputFile.name.endsWith('.apk')) {
-//                outputFileName = "v${variant.versionName}_${variant.name}_${releaseTime()}.apk"
+                //outputFileName = "v${variant.versionName}_${variant.name}_${releaseTime()}.apk"
                 outputFileName = getApkName(variant.versionName, variant.name)
             }
         }
@@ -256,9 +259,9 @@ dependencies {
     //svg
     implementation 'com.pixplicity.sharp:library:1.1.3@aar'
     //doraemonkit
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
-    betaImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.8'
+    betaImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.8'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.8'
 
 }
 

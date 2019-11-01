@@ -1,11 +1,11 @@
 ## 插件选择
-- Key Promoter X
+- Key Promoter X 快捷键提示
 - Lombok plugin
-- PGY upload plugin
-- fir.im upload plugin
-- GsonFormat
-- .ignore
-- Markdown Navigator
+- PGY upload plugin 蒲公英
+- fir.im upload plugin fir
+- GsonFormat model格式化
+- .ignore 忽略文件
+- Markdown Navigator Markdown编辑
 - Kotlin
 - Flutter
 - Dart
@@ -25,11 +25,14 @@
 - MvpAutoCodePlus
 - eventbus3-intellij-plugin
 - Alibaba Java Coding Guidelines plugin support
-- CheckStyle
+- ARoute Helper ARoute路由点击
+- CheckStyle 检查代码风格
 - Translation 翻译
 - Gradle View
 - reveal-dependency-plugin
 - CamelCase 转换驼峰下划线
+- Git Commit Template git提交模板
+
 
 
 

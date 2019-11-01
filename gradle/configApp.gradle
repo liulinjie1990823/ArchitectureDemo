@@ -32,12 +32,15 @@ subprojects {
         apply plugin: 'com.jakewharton.butterknife'
         apply plugin: 'kotlin-android'
         apply plugin: 'kotlin-kapt'
+        //保存页面字段
+        //apply plugin: 'save.state'
 
         kapt {
             arguments {
                 arg("AROUTER_MODULE_NAME", project.getName())
                 arg("loginOuterKey", "login")
                 arg("loginInnerKey", "needLogin")
+                arg("serializer", "gson")
             }
         }
         boolean isApplication = it.pluginManager.hasPlugin("com.android.application")
@@ -94,8 +97,8 @@ subprojects {
             implementation fileTree(include: ['*.jar'], dir: 'libs')
             api project(':component-service')
 
-//            implementation project(':flutter')
-
+            //implementation project(':flutter')
+            //dagger
             kapt deps.dagger_compiler
             kapt deps.dagger_android_support_compiler
 
@@ -107,6 +110,7 @@ subprojects {
             kapt deps.butterknife_compiler
             //跳转路由
             kapt deps.arouter_compiler
+            //kapt "com.airbnb:deeplinkdispatch-processor:3.1.1"
         }
     }
 }
