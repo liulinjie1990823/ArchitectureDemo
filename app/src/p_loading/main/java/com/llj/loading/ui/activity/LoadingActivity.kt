@@ -7,7 +7,7 @@ import android.widget.TextView
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.example.lib.jump.annotation.Jump
+import com.llj.lib.jump.annotation.Jump
 import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.llj.architecturedemo.R

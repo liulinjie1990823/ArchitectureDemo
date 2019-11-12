@@ -8,7 +8,7 @@ import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.service.PretreatmentService;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.example.lib.jump.annotation.callback.JumpCallback;
+import com.llj.lib.jump.annotation.callback.JumpCallback;
 import com.llj.component.service.arouter.CJump;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.AppManager;

@@ -1,6 +1,6 @@
 package com.llj.lib.jump.compiler;
 
-import com.example.lib.jump.annotation.Jump;
+import com.llj.lib.jump.annotation.Jump;
 import com.llj.lib.base.compiler.base.BaseClass;
 
 import javax.lang.model.element.Element;

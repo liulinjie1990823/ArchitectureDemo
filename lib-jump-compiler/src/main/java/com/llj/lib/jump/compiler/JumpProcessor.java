@@ -1,8 +1,8 @@
 package com.llj.lib.jump.compiler;
 
-import com.example.lib.jump.annotation.Jump;
-import com.example.lib.jump.annotation.JumpKey;
-import com.example.lib.jump.annotation.callback.JumpCallback;
+import com.llj.lib.jump.annotation.Jump;
+import com.llj.lib.jump.annotation.JumpKey;
+import com.llj.lib.jump.annotation.callback.JumpCallback;
 import com.google.auto.service.AutoService;
 import com.llj.lib.base.compiler.base.BaseProcessor;
 import com.llj.lib.base.compiler.enums.TypeKind;

@@ -72,6 +72,6 @@ subprojects {
         //打包本地
         apply from: rootProject.file('gradle/uploadArchives.gradle')
         //上传bintray
-        //apply from: rootProject.file('gradle/bintrayUpload.gradle')
+        apply from: rootProject.file('gradle/bintrayUpload.gradle')
     }
 }

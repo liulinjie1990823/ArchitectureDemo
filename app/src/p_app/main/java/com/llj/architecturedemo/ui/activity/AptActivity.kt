@@ -2,7 +2,7 @@ package com.llj.architecturedemo.ui.activity
 
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import com.example.lib.jump.annotation.Jump
+import com.llj.lib.jump.annotation.Jump
 import com.llj.architecturedemo.AppMvcBaseActivity
 import com.llj.architecturedemo.R
 import com.llj.component.service.arouter.CJump

@@ -1,4 +1,4 @@
-package com.example.lib.jump.annotation;
+package com.llj.lib.jump.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

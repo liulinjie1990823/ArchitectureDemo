@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.example.lib.jump.annotation.Jump;
+import com.llj.lib.jump.annotation.Jump;
 import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.vo.Cat;

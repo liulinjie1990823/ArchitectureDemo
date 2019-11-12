@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.example.lib.jump.annotation.Jump;
+import com.llj.lib.jump.annotation.Jump;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.utils.AFragmentUtils;
 import com.llj.setting.R;

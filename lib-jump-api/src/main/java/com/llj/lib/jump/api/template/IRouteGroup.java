@@ -1,6 +1,6 @@
 package com.llj.lib.jump.api.template;
 
-import com.example.lib.jump.annotation.callback.JumpCallback;
+import com.llj.lib.jump.annotation.callback.JumpCallback;
 
 import java.util.Map;
 
