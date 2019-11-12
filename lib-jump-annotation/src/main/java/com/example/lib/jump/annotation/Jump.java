@@ -6,20 +6,31 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * ArchitectureDemo.
- * describe:
- * author llj
- * date 2018/9/6
+ * ArchitectureDemo. describe: author llj date 2018/9/6
  */
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE)
 public @interface Jump {
 
-    String ciw();
+  /**
+   * 外部路径path
+   */
+  String outPath();
 
-    String route();
+  /**
+   * 内部路径
+   */
+  String inPath();
 
-    String desc() default "";
+  /**
+   * 注释描述
+   */
+  String desc() default "";
 
-    boolean needLogin() default false;
+  /**
+   * 是否需要登录
+   *
+   * @return true 是
+   */
+  boolean needLogin() default false;
 }

@@ -17,19 +17,6 @@ import javax.lang.model.util.Elements;
  *
  * <pre>
  * {@code
- *
- * package com.llj.jump;
- *
- * import com.alibaba.android.arouter.facade.Postcard;
- * import com.alibaba.android.arouter.launcher.ARouter;
- * import com.example.lib.jump.annotation.callback.JumpCallback;
- * import com.llj.lib.jump.api.template.IRouteGroup;
- * import com.llj.lib.utils.AParseUtils;
- * import java.lang.Boolean;
- * import java.lang.Override;
- * import java.lang.String;
- * import java.util.Map;
- *
  * public class JumpHelp_app implements IRouteGroup {
  *   @Override
  *   public void loadInto(Map<String, JumpCallback> map) {
@@ -40,6 +27,11 @@ import javax.lang.model.util.Elements;
  *         postcard.withInt("needLogin", AParseUtils.parseInt(map.get("login")));
  *         postcard.navigation();
  *       }
+ *
+ *       @Override
+ *       public String getInPath() {
+ *         return "/app/EventActivity";
+ *       }
  *     });
  *     map.put("ciw://AptActivity",new JumpCallback() {
  *       @Override
@@ -48,15 +40,20 @@ import javax.lang.model.util.Elements;
  *         postcard.withInt("needLogin", AParseUtils.parseInt(map.get("login")));
  *         postcard.navigation();
  *       }
+ *
+ *       @Override
+ *       public String getInPath() {
+ *         return "/app/AptActivity";
+ *       }
  *     });
- *     map.put("ciw://AptActivity2",new JumpCallback() {
+ *     map.put("outPath://AptActivity2",new JumpCallback() {
  *       @Override
  *       public void process(String paramOriginStr, Map<String, String> map) {
  *         if(map == null || map.get("boolean1") == null) {
  *           return;
  *         }
  *         Postcard postcard = ARouter.getInstance().build("/app/AptActivity2");
- *         if(map != null) postcard.withString("KEY_NICKNAME",map.get("name"));
+ *         if(map != null) postcard.withString("KEY_NICKNAME",map.get("value"));
  *         if(map != null) postcard.withBoolean("BOOLEAN",Boolean.parseBoolean(map.get("boolean1")));
  *         if(map != null) postcard.withShort("SHORT",AParseUtils.parseShort(map.get("short1")));
  *         if(map != null) postcard.withInt("INT",AParseUtils.parseInt(map.get("int1")));
@@ -67,56 +64,72 @@ import javax.lang.model.util.Elements;
  *         postcard.withInt("needLogin", 1);
  *         postcard.navigation();
  *       }
+ *
+ *       @Override
+ *       public String getInPath() {
+ *         return "/app/AptActivity2";
+ *       }
+ *     });
+ *     map.put("ciw://LoadingActivity",new JumpCallback() {
+ *       @Override
+ *       public void process(String paramOriginStr, Map<String, String> map) {
+ *         Postcard postcard = ARouter.getInstance().build("/app/LoadingActivity");
+ *         postcard.withInt("needLogin", AParseUtils.parseInt(map.get("login")));
+ *         postcard.withInt("needLogin", 1);
+ *         postcard.navigation();
+ *       }
+ *
+ *       @Override
+ *       public String getInPath() {
+ *         return "/app/LoadingActivity";
+ *       }
  *     });
  *   }
  * }
  *
- * }
- *
  * </pre>
  *
- *
- * author llj
- * date 2018/9/6
+ * @author llj date 2018/9/6
  */
 public class JumpAnnotateClass extends BaseAnnotateClass {
-    private JumpClass          mJumpClass;//@Jump
-    private List<JumpKeyField> mJumpKeyFields;//@JumpKey
+
+  private JumpClass          mJumpClass;//@Jump
+  private List<JumpKeyField> mJumpKeyFields;//@JumpKey
 
 
-    public JumpAnnotateClass(TypeElement classElement, Elements elementUtils) {
-        super(classElement, elementUtils);
-        this.mJumpKeyFields = new ArrayList<>();
-    }
+  public JumpAnnotateClass(TypeElement classElement, Elements elementUtils) {
+    super(classElement, elementUtils);
+    this.mJumpKeyFields = new ArrayList<>();
+  }
 
-    @Override
-    public String getPackageName() {
-        return JumpProcessor.PACKAGE + JumpProcessor.CLASS_NAME;
-    }
+  @Override
+  public String getPackageName() {
+    return JumpProcessor.PACKAGE + JumpProcessor.CLASS_NAME;
+  }
 
-    @Override
-    public String getSimpleClassName() {
-        return JumpProcessor.CLASS_NAME;
-    }
+  @Override
+  public String getSimpleClassName() {
+    return JumpProcessor.CLASS_NAME;
+  }
 
-    public void setJumpClass(JumpClass jumpClass) {
-        mJumpClass = jumpClass;
-    }
+  public void setJumpClass(JumpClass jumpClass) {
+    mJumpClass = jumpClass;
+  }
 
-    public JumpClass getJumpClass() {
-        return mJumpClass;
-    }
+  public JumpClass getJumpClass() {
+    return mJumpClass;
+  }
 
-    public List<JumpKeyField> getJumpKeyFields() {
-        return mJumpKeyFields;
-    }
+  public List<JumpKeyField> getJumpKeyFields() {
+    return mJumpKeyFields;
+  }
 
-    public void addField(JumpKeyField field) {
-        mJumpKeyFields.add(field);
-    }
+  public void addField(JumpKeyField field) {
+    mJumpKeyFields.add(field);
+  }
 
-    @Override
-    public JavaFile generateCode() {
-        return null;
-    }
+  @Override
+  public JavaFile generateCode() {
+    return null;
+  }
 }

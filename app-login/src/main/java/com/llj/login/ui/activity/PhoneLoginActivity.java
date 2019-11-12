@@ -19,46 +19,47 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 
 /**
- * ArchitectureDemo.
- * describe:
+ * ArchitectureDemo. describe:
  *
  * @author llj
  * @date 2019-06-11
  */
-@Jump(ciw = CJump.CIW_LOGIN, route = CRouter.LOGIN_PHONE_LOGIN_ACTIVITY)
+@Jump(outPath = CJump.CIW_LOGIN, inPath = CRouter.LOGIN_PHONE_LOGIN_ACTIVITY)
 @Route(path = CRouter.LOGIN_PHONE_LOGIN_ACTIVITY)
-public class PhoneLoginActivity extends LoginMvpBaseActivity<LoginPresenter> implements ILoginView.PhoneLogin {
-    @JumpKey(ciw = "nickName", name = CRouter.KEY_NICKNAME)
-    @Autowired(name = CRouter.KEY_NICKNAME) String mName;
+public class PhoneLoginActivity extends LoginMvpBaseActivity<LoginPresenter> implements
+    ILoginView.PhoneLogin {
 
-    @Override
-    public int layoutId() {
-        return 0;
-    }
+  @JumpKey(outKey = "nickName", inKey = CRouter.KEY_NICKNAME)
+  @Autowired(name = CRouter.KEY_NICKNAME) String mName;
 
-    @Override
-    public void initViews(@Nullable Bundle savedInstanceState) {
+  @Override
+  public int layoutId() {
+    return 0;
+  }
 
-    }
+  @Override
+  public void initViews(@Nullable Bundle savedInstanceState) {
 
-    @Override
-    public void initData() {
+  }
 
-    }
+  @Override
+  public void initData() {
 
-    @Nullable
-    @Override
-    public HashMap<String, Object> getParams1(int taskId) {
-        return null;
-    }
+  }
 
-    @Override
-    public void onDataSuccess1(UserInfoVo result, int taskId) {
+  @Nullable
+  @Override
+  public HashMap<String, Object> getParams1(int taskId) {
+    return null;
+  }
 
-    }
+  @Override
+  public void onDataSuccess1(UserInfoVo result, int taskId) {
 
-    @Override
-    public void onDataError(int tag, @NotNull Throwable e, int taskId) {
+  }
 
-    }
+  @Override
+  public void onDataError(int tag, @NotNull Throwable e, int taskId) {
+
+  }
 }

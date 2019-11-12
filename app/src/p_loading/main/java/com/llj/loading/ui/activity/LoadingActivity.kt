@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit
  * author llj
  * date 2018/9/20
  */
-@Jump(ciw = CJump.JUMP_LOADING_ACTIVITY, route = CRouter.APP_LOADING_ACTIVITY, needLogin = true, desc = "LoadingActivity")
+@Jump(outPath = CJump.JUMP_LOADING_ACTIVITY, inPath = CRouter.APP_LOADING_ACTIVITY, needLogin = true, desc = "LoadingActivity")
 @Route(path = CRouter.APP_LOADING_ACTIVITY)
 class LoadingActivity : MiddleMvcBaseActivity() {
     @BindView(R.id.sdv_add) lateinit var mSdvAdd: SimpleDraweeView

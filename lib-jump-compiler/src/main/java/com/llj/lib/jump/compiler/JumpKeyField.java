@@ -13,23 +13,23 @@ import javax.lang.model.element.Element;
  * @date 2019-06-13
  */
 public class JumpKeyField extends BaseField {
-    private String ciw;//
-    private String route;//
+    private String outKey;//
+    private String inKey;//
     private boolean required;//
 
     public JumpKeyField(Element element) {
         super(element);
-        route = element.getAnnotation(JumpKey.class).name();
-        ciw = element.getAnnotation(JumpKey.class).ciw();
+        outKey = element.getAnnotation(JumpKey.class).outKey();
+        inKey = element.getAnnotation(JumpKey.class).inKey();
         required = element.getAnnotation(JumpKey.class).required();
     }
 
-    public String getRoute() {
-        return route;
+    public String getOutKey() {
+        return outKey;
     }
 
-    public String getCiw() {
-        return ciw;
+    public String getInKey() {
+        return inKey;
     }
 
     public boolean isRequired() {

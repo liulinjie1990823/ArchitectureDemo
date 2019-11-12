@@ -7,13 +7,13 @@ import io.reactivex.functions.Function;
 
 /**
  * ArchitectureDemo
- * describe:
+ * describe 请求错误处理
  * author liulj
  * date 2018/5/7
  */
-public class ExceptionFunction<Data> implements Function<Throwable, Single<BaseResponse<Data>>> {
+public class ExceptionFunction<T> implements Function<Throwable, Single<BaseResponse<T>>> {
     @Override
-    public Single<BaseResponse<Data>> apply(Throwable throwable) {
+    public Single<BaseResponse<T>> apply(Throwable throwable) {
         return Single.error(ExceptionHandle.handleException(throwable));
     }
 }

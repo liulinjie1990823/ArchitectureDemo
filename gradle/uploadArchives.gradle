@@ -1,4 +1,4 @@
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven'
 
 // load properties
 Properties properties = new Properties()

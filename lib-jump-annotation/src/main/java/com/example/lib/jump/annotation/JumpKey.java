@@ -15,9 +15,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface JumpKey {
 
-    String ciw();
+    String outKey();
 
-    String name();
+    String inKey();
 
     boolean required() default false;
 }

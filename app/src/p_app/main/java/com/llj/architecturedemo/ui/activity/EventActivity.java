@@ -21,53 +21,50 @@ import butterknife.BindView;
 import butterknife.internal.DebouncingOnClickListener;
 
 /**
- * ArchitectureDemo.
- * describe:
- * author llj
- * date 2019/1/8
+ * ArchitectureDemo. describe: author llj date 2019/1/8
  */
-@Jump(ciw = CJump.CIW_EVENT_ACTIVITY, route = CRouter.APP_EVENT_ACTIVITY, desc = "EventActivity")
+@Jump(outPath = CJump.CIW_EVENT_ACTIVITY, inPath = CRouter.APP_EVENT_ACTIVITY, desc = "EventActivity")
 @Route(path = CRouter.APP_EVENT_ACTIVITY)
 public class EventActivity extends AppMvcBaseActivity {
 
-    @BindView(R.id.tv_click) TextView mTextView;
+  @BindView(R.id.tv_click) TextView mTextView;
 
-    @Override
-    public int layoutId() {
-        return R.layout.event_activity;
-    }
+  @Override
+  public int layoutId() {
+    return R.layout.event_activity;
+  }
 
-    @Override
-    public void initViews(@Nullable Bundle savedInstanceState) {
-        mTextView.setOnClickListener(new DebouncingOnClickListener() {
-            @Override
-            public void doClick(View v) {
-                BaseEvent<String> baseEvent = new BaseEvent<>(100);
-                BaseEvent<String> baseEvent2 = new BaseEvent<>(100, "", null);
-                post(new BaseEvent<String>(100));
+  @Override
+  public void initViews(@Nullable Bundle savedInstanceState) {
+    mTextView.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View v) {
+        BaseEvent<String> baseEvent = new BaseEvent<>(100);
+        BaseEvent<String> baseEvent2 = new BaseEvent<>(100, "", null);
+        post(new BaseEvent<String>(100));
 
-                Cat cat = new Cat(1);
-                Cat cat2 = new Cat(1, "");
-                Cat cat3 = new Cat(1, "", "");
-            }
-        });
+        Cat cat = new Cat(1);
+        Cat cat2 = new Cat(1, "");
+        Cat cat3 = new Cat(1, "", "");
+      }
+    });
 
-        JniTest jniTest = new JniTest();
+    JniTest jniTest = new JniTest();
 
-        mTextView.setText(jniTest.stringFromJNI());
+    mTextView.setText(jniTest.stringFromJNI());
 
-        mContext.databaseList();
+    mContext.databaseList();
 
-        LogUtil.DEBUGLLJ = true;
-        jniTest.test2();
-        LogUtil.i(getMTagLog(), jniTest.test3() + "");
-        LogUtil.i(getMTagLog(), jniTest.test4() + "");
-        LogUtil.i(getMTagLog(), jniTest.stringFromJNI2());
-    }
+    LogUtil.DEBUGLLJ = true;
+    jniTest.test2();
+    LogUtil.i(getMTagLog(), jniTest.test3() + "");
+    LogUtil.i(getMTagLog(), jniTest.test4() + "");
+    LogUtil.i(getMTagLog(), jniTest.stringFromJNI2());
+  }
 
-    @Override
-    public void initData() {
+  @Override
+  public void initData() {
 
-    }
+  }
 
 }

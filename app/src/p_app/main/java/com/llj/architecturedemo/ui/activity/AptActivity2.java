@@ -27,92 +27,88 @@ import org.jetbrains.annotations.Nullable;
 import timber.log.Timber;
 
 /**
- * ArchitectureDemo.
- * describe:
- * author llj
- * date 2019/3/12
+ * ArchitectureDemo. describe: author llj date 2019/3/12
  */
 @PageName(value = "activity_apt")
-@Jump(ciw = "ciw://AptActivity2", route = CRouter.APP_APT_ACTIVITY2, needLogin = true, desc = "AptActivity2")
+@Jump(outPath = "outPath://AptActivity2", inPath = CRouter.APP_APT_ACTIVITY2, needLogin = true, desc = "AptActivity2")
 @Route(path = CRouter.APP_APT_ACTIVITY2)
 public class AptActivity2 extends AppMvcBaseActivity {
-    @BindView(R.id.root) ConstraintLayout mConstraintLayout;
 
-    @IntentKey(name = "key") String mKey;
+  @BindView(R.id.root) ConstraintLayout mConstraintLayout;
 
-    @JumpKey(ciw = "name", name = CRouter.KEY_NICKNAME)
-    @Autowired(name = CRouter.KEY_NICKNAME) String mName;
+  @IntentKey(name = "outKey") String mKey;
 
-    @JumpKey(ciw = "boolean1", name = "BOOLEAN", required = true) boolean mBoolean;
-    @JumpKey(ciw = "short1", name = "SHORT")                      short   mShort;
-    @JumpKey(ciw = "int1", name = "INT")                          int     mInt;
-    @JumpKey(ciw = "long1", name = "LONG")                        long    mLong;
-    @JumpKey(ciw = "float1", name = "FLOAT")                      float   mFloat;
-    @JumpKey(ciw = "double1", name = "DOUBLE")                    double  mDouble;
-    @JumpKey(ciw = "char1", name = "CHAR")                        char    mChar;
-    @JumpKey(ciw = "animal", name = "ANIMAL")                     Animal  mAnimal;
-    @JumpKey(ciw = "user", name = "USER")                         User    mUser;
-    @JumpKey(ciw = "cat", name = "CAT")                           Cat     mCat;
+  @JumpKey(outKey = "value", inKey = CRouter.KEY_NICKNAME)
+  @Autowired(name = CRouter.KEY_NICKNAME) String mName;
 
-    @OnClick({R.id.root})
-    public void fabClick() {
-        Toast.makeText(this, "Neacy", Toast.LENGTH_LONG).show();
-    }
+  @JumpKey(outKey = "boolean1", inKey = "BOOLEAN", required = true) boolean mBoolean;
+  @JumpKey(outKey = "short1", inKey = "SHORT")                      short   mShort;
+  @JumpKey(outKey = "int1", inKey = "INT")                          int     mInt;
+  @JumpKey(outKey = "long1", inKey = "LONG")                        long    mLong;
+  @JumpKey(outKey = "float1", inKey = "FLOAT")                      float   mFloat;
+  @JumpKey(outKey = "double1", inKey = "DOUBLE")                    double  mDouble;
+  @JumpKey(outKey = "char1", inKey = "CHAR")                        char    mChar;
+  @JumpKey(outKey = "animal", inKey = "ANIMAL")                     Animal  mAnimal;
+  @JumpKey(outKey = "user", inKey = "USER")                         User    mUser;
+  @JumpKey(outKey = "cat", inKey = "CAT")                           Cat     mCat;
+
+  @OnClick({R.id.root})
+  public void fabClick() {
+    Toast.makeText(this, "Neacy", Toast.LENGTH_LONG).show();
+  }
 
 
+  @Override
+  public int layoutId() {
+    return R.layout.activity_apt;
+  }
 
+  @Override
+  public void initViews(@Nullable Bundle savedInstanceState) {
+    //NeacyFinder.inject(this);
 
-    @Override
-    public int layoutId() {
-        return R.layout.activity_apt;
-    }
+    findViewById(R.id.text1).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Timber.e("onClick text1");
+        BaseEvent baseEvent = new BaseEvent();
+        baseEvent.setCode(1);
+        post(baseEvent);
 
-    @Override
-    public void initViews(@Nullable Bundle savedInstanceState) {
-        //NeacyFinder.inject(this);
+      }
+    });
+    findViewById(R.id.text2).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Timber.e("onClick text1");
+        BaseEvent<String> baseEvent = new BaseEvent<>();
+        baseEvent.setCode(1);
+        baseEvent.setData("cadadada");
+        post(baseEvent);
+      }
+    });
 
-        findViewById(R.id.text1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Timber.e("onClick text1");
-                BaseEvent baseEvent = new BaseEvent();
-                baseEvent.setCode(1);
-                post(baseEvent);
+    findViewById(R.id.text3).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Timber.e("onClick text1");
+        BaseEvent<Integer> baseEvent = new BaseEvent<>();
+        baseEvent.setCode(1);
+        baseEvent.setData(10086);
+        post(baseEvent);
+      }
+    });
+  }
 
-            }
-        });
-        findViewById(R.id.text2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Timber.e("onClick text1");
-                BaseEvent<String> baseEvent = new BaseEvent<>();
-                baseEvent.setCode(1);
-                baseEvent.setData("cadadada");
-                post(baseEvent);
-            }
-        });
+  @Override
+  public void initData() {
 
-        findViewById(R.id.text3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Timber.e("onClick text1");
-                BaseEvent<Integer> baseEvent = new BaseEvent<>();
-                baseEvent.setCode(1);
-                baseEvent.setData(10086);
-                post(baseEvent);
-            }
-        });
-    }
+  }
 
-    @Override
-    public void initData() {
-
-    }
-
-    @Override
-    public <T> void onReceiveEvent(@NonNull BaseEvent<T> event) {
-        super.onReceiveEvent(event);
-    }
+  @Override
+  public <T> void onReceiveEvent(@NonNull BaseEvent<T> event) {
+    super.onReceiveEvent(event);
+  }
 
 
 }

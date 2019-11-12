@@ -41,7 +41,7 @@ buildscript {
             classpath 'com.llj:plugin-code-inject:0.0.1'
         }
 
-        classpath 'com.uber:okbuck:0.48.7'
+        classpath 'com.uber:okbuck:0.49.0'
         //保存页面字段
         //classpath "io.github.prototypez:save-state:0.2.3"
     }

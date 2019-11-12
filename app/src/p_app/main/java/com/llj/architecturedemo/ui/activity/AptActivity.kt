@@ -16,8 +16,8 @@ import com.llj.lib.component.api.finder.NeacyFinder
  * author llj
  * date 2018/9/6
  */
-//@Route(ciw = CRouter.APP_APT_ACTIVITY)
-@Jump(ciw = CJump.CIW_APT_ACTIVITY, route = CRouter.APP_APT_ACTIVITY, desc = "AptActivity")
+//@Route(outPath = CRouter.APP_APT_ACTIVITY)
+@Jump(outPath = CJump.CIW_APT_ACTIVITY, inPath = CRouter.APP_APT_ACTIVITY, desc = "AptActivity")
 class AptActivity : AppMvcBaseActivity() {
     @BindView(R.id.root) lateinit var mRecyclerView: ConstraintLayout
 

@@ -41,7 +41,7 @@ import java.util.*
  * author llj
  * date 2018/8/22
  */
-@Jump(ciw = CJump.JUMP_LOGIN_ACTIVITY, route = CRouter.LOGIN_LOGIN_ACTIVITY, needLogin = true, desc = "LoginActivity")
+@Jump(outPath = CJump.JUMP_LOGIN_ACTIVITY, inPath = CRouter.LOGIN_LOGIN_ACTIVITY, needLogin = true, desc = "LoginActivity")
 @Route(path = CRouter.LOGIN_LOGIN_ACTIVITY)
 class LoginActivity : LoginMvcBaseActivity() {
 

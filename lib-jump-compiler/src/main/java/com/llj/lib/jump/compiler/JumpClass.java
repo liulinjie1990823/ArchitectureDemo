@@ -7,41 +7,41 @@ import javax.lang.model.element.Element;
 
 /**
  * ArchitectureDemo.
- * describe:
  *
- * <pre></pre>
+ * describe :
+ *
  * @author llj
  * @date 2019-06-11
  */
 public class JumpClass extends BaseClass {
 
-    private String ciw;
-    private String route;
-    private String desc;
-    private boolean needLogin;
+  private String  outPath;
+  private String  inPath;
+  private String  desc;
+  private boolean needLogin;
 
-    public JumpClass(Element element) {
-        super(element);
-        ciw = element.getAnnotation(Jump.class).ciw();
-        route = element.getAnnotation(Jump.class).route();
-        desc = element.getAnnotation(Jump.class).desc();
-        needLogin = element.getAnnotation(Jump.class).needLogin();
-    }
+  public JumpClass(Element element) {
+    super(element);
+    outPath = element.getAnnotation(Jump.class).outPath();
+    inPath = element.getAnnotation(Jump.class).inPath();
+    desc = element.getAnnotation(Jump.class).desc();
+    needLogin = element.getAnnotation(Jump.class).needLogin();
+  }
 
-    public String getCiw() {
-        return ciw;
-    }
+  public String getOutPath() {
+    return outPath;
+  }
 
-    public String getRoute() {
-        return route;
-    }
+  public String getInPath() {
+    return inPath;
+  }
 
-    public String getDesc() {
-        return desc;
-    }
+  public String getDesc() {
+    return desc;
+  }
 
 
-    public boolean needLogin() {
-        return needLogin;
-    }
+  public boolean needLogin() {
+    return needLogin;
+  }
 }

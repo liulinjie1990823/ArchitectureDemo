@@ -18,7 +18,7 @@ import javax.inject.Singleton
  * date 2018/9/18
  */
 @Singleton
-class LoginRepository @Inject constructor(private val mApiService: LoginApiService)
+class LoginRepository @Inject constructor(val mApiService: LoginApiService)
     : BaseRepository() {
 
     fun phoneLogin(map: HashMap<String, Any>): Single<Response<BaseResponse<UserInfoVo>>> {

@@ -4,7 +4,9 @@
 
 
 def versions = [
+        //3.3.2，3.5.1
         android_gradle_plugin: "3.3.2",
+//        android_gradle_plugin: "3.5.1",
         kotlin               : '1.3.50',
         bintray_release      : '0.8.1',
         walle                : '1.1.6',
@@ -214,15 +216,19 @@ versionName      : "1.0.0",
 
 
 def addRepos(RepositoryHandler handler) {
-    handler.jcenter()
+
+    handler.maven { url 'https://maven.aliyun.com/repository/jcenter' }
+    handler.maven { url 'https://maven.aliyun.com/repository/google' }
+
     handler.maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     //本地的maven仓库，需要maven格式的包
     handler.maven { url uri('./repo') }//插件
     //handler.mavenLocal()
     //工程中的lib文件夹，依赖aar和jar文件
 
-    handler.google()
+//    handler.google()
     handler.jcenter()
+
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     handler.maven { url "https://jitpack.io" }
     //微博的maven地址

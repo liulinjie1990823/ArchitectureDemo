@@ -14,32 +14,32 @@ import com.llj.setting.SettingMvcBaseActivity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * ArchitectureDemo.
- * describe:
+ * ArchitectureDemo. describe:
  *
  * @author llj
  * @date 2019-10-12
  */
 @Route(path = CRouter.SETTING_INJECT_ACTIVITY)
-@Jump(ciw = "ciw://InjectActivity", route = CRouter.SETTING_INJECT_ACTIVITY, needLogin = true, desc = "InjectActivity")
+@Jump(outPath = "ciw://InjectActivity", inPath = CRouter.SETTING_INJECT_ACTIVITY, needLogin = true, desc = "InjectActivity")
 public class InjectActivity extends SettingMvcBaseActivity {
-    @Override
-    public int layoutId() {
-        return R.layout.setting_inject_activity;
-    }
 
-    @Override
-    public void initViews(@Nullable Bundle savedInstanceState) {
-        mClToolbar.setBackgroundColor(getCompatColor(mContext, R.color.red));
-        mTvTbTitle.setText("InjectActivity");
-        Fragment fragment = (Fragment) ARouter.getInstance().build(CRouter.SETTING_INJECT_FRAGMENT)
-                .navigation();
+  @Override
+  public int layoutId() {
+    return R.layout.setting_inject_activity;
+  }
 
-        AFragmentUtils.addFragment(getSupportFragmentManager(), R.id.container, fragment);
-    }
+  @Override
+  public void initViews(@Nullable Bundle savedInstanceState) {
+    mClToolbar.setBackgroundColor(getCompatColor(mContext, R.color.red));
+    mTvTbTitle.setText("InjectActivity");
+    Fragment fragment = (Fragment) ARouter.getInstance().build(CRouter.SETTING_INJECT_FRAGMENT)
+        .navigation();
 
-    @Override
-    public void initData() {
+    AFragmentUtils.addFragment(getSupportFragmentManager(), R.id.container, fragment);
+  }
 
-    }
+  @Override
+  public void initData() {
+
+  }
 }

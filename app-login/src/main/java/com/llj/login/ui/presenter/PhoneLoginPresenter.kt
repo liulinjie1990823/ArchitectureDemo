@@ -27,7 +27,7 @@ class PhoneLoginPresenter @Inject constructor(mRepository: LoginRepository, mVie
     //手机登录
     fun phoneLogin(map: HashMap<String, Any>, showLoading: Boolean) {
         //Single
-        var phoneLogin = repository.phoneLogin(map)
+        var phoneLogin = repository.mApiService.phoneLogin(map)
         if (showLoading) {
             phoneLogin = phoneLogin.doOnSubscribe(view).doFinally(view)
         }
