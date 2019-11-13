@@ -17,108 +17,107 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
 /**
- * ArchitectureDemo
- * describe:
- * author liulj
- * date 2018/5/10
+ * ArchitectureDemo describe: author liulj date 2018/5/10
  */
 public class RxApiManager implements RxActionManager<Object> {
-    private static RxApiManager sInstance = null;
 
-    private HashMap<Object, Disposable> mArrayMap;
+  private static RxApiManager sInstance = null;
 
-    public static RxApiManager get() {
+  private HashMap<Object, Disposable> mArrayMap;
+
+  public static RxApiManager get() {
+    if (sInstance == null) {
+      synchronized (RxApiManager.class) {
         if (sInstance == null) {
-            synchronized (RxApiManager.class) {
-                if (sInstance == null) {
-                    sInstance = new RxApiManager();
-                }
-            }
+          sInstance = new RxApiManager();
         }
-        return sInstance;
+      }
     }
+    return sInstance;
+  }
 
-    public RxApiManager() {
-        mArrayMap = new HashMap<>();
+  public RxApiManager() {
+    mArrayMap = new HashMap<>();
+  }
+
+  @Override
+  public void add(Object tag, Disposable disposable) {
+    mArrayMap.put(tag, disposable);
+  }
+
+  @Override
+  public void remove(Object tag) {
+    if (!mArrayMap.isEmpty()) {
+      mArrayMap.remove(tag);
     }
+  }
 
-    @Override
-    public void add(Object tag, Disposable disposable) {
-        mArrayMap.put(tag, disposable);
+  @Override
+  public void removeAll() {
+    if (!mArrayMap.isEmpty()) {
+      mArrayMap.clear();
     }
+  }
 
-    @Override
-    public void remove(Object tag) {
-        if (!mArrayMap.isEmpty()) {
-            mArrayMap.remove(tag);
-        }
+  @Override
+  public void cancel(Object tag) {
+    if (mArrayMap.isEmpty() || mArrayMap.get(tag) == null) {
+      return;
     }
-
-    @Override
-    public void removeAll() {
-        if (!mArrayMap.isEmpty()) {
-            mArrayMap.clear();
-        }
+    if (!mArrayMap.get(tag).isDisposed()) {
+      mArrayMap.get(tag).dispose();
+      mArrayMap.remove(tag);
     }
+  }
 
-    @Override
-    public void cancel(Object tag) {
-        if (mArrayMap.isEmpty() || mArrayMap.get(tag) == null) {
-            return;
-        }
-        if (!mArrayMap.get(tag).isDisposed()) {
-            mArrayMap.get(tag).dispose();
-            mArrayMap.remove(tag);
-        }
+  @Override
+  public void cancelAll() {
+    if (mArrayMap.isEmpty()) {
+      return;
     }
-
-    @Override
-    public void cancelAll() {
-        if (mArrayMap.isEmpty()) {
-            return;
-        }
-        Set<Object> keys = mArrayMap.keySet();
-        for (Object apiKey : keys) {
-            cancel(apiKey);
-        }
+    Set<Object> keys = mArrayMap.keySet();
+    for (Object apiKey : keys) {
+      cancel(apiKey);
     }
+  }
 
-    /**
-     * @param single
-     * @param autoDisposeConverter
-     * @param observer
-     * @param <Data>
-     */
-    public <Data> void subscribeApi(Single<Response<BaseResponse<Data>>> single,
-                                    AutoDisposeConverter<BaseResponse<Data>> autoDisposeConverter,
-                                    BaseApiObserver<Data> observer) {
-        subscribeApi(single, new HttpResponseFunction<>(), new ExceptionFunction<>(), autoDisposeConverter, observer);
+  /**
+   * @param single
+   * @param autoDisposeConverter
+   * @param observer
+   * @param <Data>
+   */
+  public <Data> void subscribeApi(Single<Response<BaseResponse<Data>>> single,
+      AutoDisposeConverter<BaseResponse<Data>> autoDisposeConverter,
+      BaseApiObserver<Data> observer) {
+    subscribeApi(single, new HttpResponseFunction<>(), new ExceptionFunction<>(),
+        autoDisposeConverter, observer);
+  }
+
+  /**
+   * @param single Single
+   * @param httpResult http结果处理
+   * @param error 错误处理
+   * @param autoDisposeConverter 生命周期管理
+   * @param observer 观察者
+   * @param <Data> data数据
+   */
+  public <Data> void subscribeApi(Single<Response<BaseResponse<Data>>> single,
+      Function<Response<BaseResponse<Data>>, BaseResponse<Data>> httpResult,
+      Function<Throwable, Single<BaseResponse<Data>>> error,
+      AutoDisposeConverter<BaseResponse<Data>> autoDisposeConverter,
+      BaseApiObserver<Data> observer) {
+
+    Single<BaseResponse<Data>> baseResponseSingle = single
+        .subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .map(httpResult)
+        .onErrorResumeNext(error);
+    if (autoDisposeConverter != null) {
+      baseResponseSingle.as(autoDisposeConverter).subscribe(observer);
+    } else {
+      baseResponseSingle.subscribe(observer);
     }
-
-    /**
-     * @param single               Single
-     * @param httpResult           http结果处理
-     * @param error                错误处理
-     * @param autoDisposeConverter 生命周期管理
-     * @param observer             观察者
-     * @param <Data>               data数据
-     */
-    public <Data> void subscribeApi(Single<Response<BaseResponse<Data>>> single,
-                                    Function<Response<BaseResponse<Data>>, BaseResponse<Data>> httpResult,
-                                    Function<Throwable, Single<BaseResponse<Data>>> error,
-                                    AutoDisposeConverter<BaseResponse<Data>> autoDisposeConverter,
-                                    BaseApiObserver<Data> observer) {
-
-        Single<BaseResponse<Data>> baseResponseSingle = single
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(httpResult)
-                .onErrorResumeNext(error);
-        if (autoDisposeConverter != null) {
-            baseResponseSingle.as(autoDisposeConverter).subscribe(observer);
-        } else {
-            baseResponseSingle.subscribe(observer);
-        }
-    }
+  }
 }

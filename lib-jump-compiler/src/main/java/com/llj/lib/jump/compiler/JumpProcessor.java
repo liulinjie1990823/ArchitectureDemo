@@ -217,7 +217,8 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
 
       //获取配置的登录参数
       if (loginOuterKey != null && !loginOuterKey.isEmpty()) {
-        method.addStatement("postcard.withInt($S, $T.parseInt(map.get($S)))", loginInnerKey,
+        method.addStatement("if(map != null) postcard.withInt($S, $T.parseInt(map.get($S)))",
+            loginInnerKey,
             APARSEUTILS, loginOuterKey);
       }
 
@@ -229,7 +230,7 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
 
       //页面打开模式
       method.addStatement(
-          "if (\"singleTask\".equals(map.get($S))) postcard.withFlags($T.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP)",
+          "if (map != null && \"singleTask\".equals(map.get($S))) postcard.withFlags($T.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP)",
           launchModeKey, INTENT);
 
       //postcard.navigation();

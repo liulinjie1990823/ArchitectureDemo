@@ -38,7 +38,7 @@ subprojects {
         kapt {
             arguments {
                 arg("AROUTER_MODULE_NAME", project.getName())
-                arg("loginOuterKey", "login")
+                arg("loginOuterKey", "needLogin")
                 arg("loginInnerKey", "needLogin")
                 arg("serializer", "gson")
             }
