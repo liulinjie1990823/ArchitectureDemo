@@ -294,16 +294,22 @@ if (useApkUploadPlugin) {
                 pgyApiKey = pgyDebugApiKey
                 pgyUserKey = pgyDebugUserKey
                 pgyAppKey = pgyDebugAppKey
+                password = "123456"
+                installType = "2"
             }
             beta {
                 pgyApiKey = pgyBetaApiKey
                 pgyUserKey = pgyBetaUserKey
                 pgyAppKey = pgyBetaAppKey
+                password = "123456"
+                installType = "2"
             }
             release {
                 pgyApiKey = pgyReleaseApiKey
                 pgyUserKey = pgyReleaseUserKey
                 pgyAppKey = pgyReleaseAppKey
+                password = "123456"
+                installType = "2"
             }
         }
     }

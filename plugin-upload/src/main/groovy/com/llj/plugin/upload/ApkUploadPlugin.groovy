@@ -2,8 +2,10 @@ package com.llj.plugin.upload
 
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.api.BaseVariant
+import groovyx.net.http.ContentType
 import groovyx.net.http.HTTPBuilder
 import groovy.json.internal.LazyMap
+import org.apache.commons.lang.StringUtils
 import org.apache.http.entity.mime.MultipartEntity
 import org.apache.http.entity.mime.content.FileBody
 import org.apache.http.entity.mime.content.StringBody
@@ -26,8 +28,9 @@ import static groovyx.net.http.Method.POST
  */
 class ApkUploadPlugin implements Plugin<Project> {
 
-    private static final String PGY_URL = "https://qiniu-storage.pgyer.com/"
-    private static final String PGY_UPLOAD_PATH = "/apiv1/app/upload"
+    private static final String PGY_URL = "https://www.pgyer.com/"
+    private static final String PGY_UPLOAD_PATH = "/apiv2/app/upload"
+
     private static final String DING_TALK_URL = "https://oapi.dingtalk.com/"
     private static final String DING_TALK_SEND_PATH = "/robot/send"
 
@@ -46,8 +49,6 @@ class ApkUploadPlugin implements Plugin<Project> {
                 BuildTypeExtensions buildType = upload.buildTypes.findByName(variant.name)
 
                 if (buildType != null) {
-
-                    println("buildType:${buildType.toString()}")
 
                     //上传本地apk
                     def uploadLocalApkToPgy = project.task("uploadLocal${variantName}ToPgy").doFirst {
@@ -69,9 +70,7 @@ class ApkUploadPlugin implements Plugin<Project> {
 
     private void uploadPgyApk(Project project, String apkFile, ApkUploadExtensions upload, BuildTypeExtensions buildType, String variantName) {
         println "----------------------------------"
-        println("apiKey:" + buildType.pgyApiKey)
-        println("userKey:" + buildType.pgyUserKey)
-        println("appKey:" + buildType.pgyAppKey)
+        println("buildType:${buildType.toString()}")
         println("dingTalkAccessToken:" + upload.dingTalkAccessToken)
         println("gitLog:" + upload.gitLog)
         String branch = getGitBranch(project)
@@ -97,14 +96,15 @@ class ApkUploadPlugin implements Plugin<Project> {
             desc = "no desc"
         }
         def http = new HTTPBuilder(PGY_URL)
-        http.request(POST, JSON) { req ->
+        http.request(POST, ContentType.JSON) { req ->
             uri.path = PGY_UPLOAD_PATH
             MultipartEntity entity = new MultipartEntity()
             entity.addPart("file", new FileBody(new File(apkFile)))
             entity.addPart("_api_key", new StringBody(buildType.pgyApiKey))
-            entity.addPart("uKey", new StringBody(buildType.pgyUserKey))
-            entity.addPart("aKey", new StringBody(buildType.pgyAppKey))
-            entity.addPart("updateDescription", new StringBody(desc, Charset.forName(HTTP.UTF_8)))
+            entity.addPart("appKey", new StringBody(buildType.pgyAppKey))
+            entity.addPart("buildPassword", new StringBody(buildType.password))
+            entity.addPart("buildInstallType", StringUtils.isEmpty(buildType.installType) ? new StringBody("1") : new StringBody(buildType.installType))
+            entity.addPart("buildUpdateDescription", new StringBody(desc, Charset.forName(HTTP.UTF_8)))
             req.entity = entity
             requestContentType = 'multipart/form-data'
             response.success = { resp, json ->
@@ -118,7 +118,7 @@ class ApkUploadPlugin implements Plugin<Project> {
                         println e.toString()
                     }
                 } else {
-                    println json.message
+                    println "pgy upload fail, ${json.message}"
                 }
             }
             response.failure = { resp ->
@@ -186,12 +186,12 @@ class ApkUploadPlugin implements Plugin<Project> {
                 uri.query = ["access_token": upload.dingTalkAccessToken]
                 body = "{\n" +
                         "    \"actionCard\": {\n" +
-                        "        \"title\": \"Android：${data.appName}\", \n" +
-                        "        \"text\": \"![screenshot](${data.appQRCodeURL}) \\n #### **Android**：${data.appName} \\n\\n - build版本：${variantName} \\n - git分支：${branch} \\n - commit记录：\\n ${commit}- 版本信息：${data.appVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(data.appFileSize == null ? 0 : Long.valueOf(data.appFileSize))} \\n - 更新时间：${data.appUpdated} \\n - 更新内容：${data.appUpdateDescription}\", \n" +
+                        "        \"title\": \"Android：${data.buildName}\", \n" +
+                        "        \"text\": \"![screenshot](${data.buildQRCodeURL}) \\n #### **Android**：${data.buildName} \\n\\n - build版本：${variantName} \\n - git分支：${branch} \\n - commit记录：\\n ${commit}- 版本信息：${data.buildVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(data.buildFileSize == null ? 0 : Long.valueOf(data.buildFileSize))} \\n - 更新时间：${data.buildUpdated} \\n - 更新内容：${data.buildUpdateDescription}\", \n" +
                         "        \"hideAvatar\": \"0\", \n" +
                         "        \"btnOrientation\": \"0\", \n" +
                         "        \"singleTitle\" : \"点击下载最新应用包\",\n" +
-                        "        \"singleURL\" : \"https://www.pgyer.com/${data.appShortcutUrl}\"\n" +
+                        "        \"singleURL\" : \"https://www.pgyer.com/${data.buildShortcutUrl}\"\n" +
                         "    }, \n" +
                         "    \"msgtype\": \"actionCard\"\n" +
                         "}"
