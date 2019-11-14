@@ -64,9 +64,9 @@ subprojects {
             }
             dependencies {
                 implementation fileTree(dir: 'libs', include: ['*.jar'])
-                implementation deps.support_support_annotations
+                implementation deps.annotations
                 implementation deps.support_recyclerview_v7
-                implementation deps.support_appcompat_v7
+                implementation deps.appcompat
             }
         }
         //打包本地

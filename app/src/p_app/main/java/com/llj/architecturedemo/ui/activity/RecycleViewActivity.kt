@@ -3,9 +3,6 @@ package com.llj.architecturedemo.ui.activity
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
 import android.util.TypedValue
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -111,7 +108,7 @@ class RecycleViewActivity : AppMvcBaseActivity() {
                 return types.size
             }
 
-            override fun getItem(position: Int): androidx.fragment.app.Fragment? {
+            override fun getItem(position: Int): androidx.fragment.app.Fragment {
                 return switchFragment(types[position])
             }
         }

@@ -24,7 +24,7 @@ dependencies {
     api deps.kotlin_stdlib_jdk8
 
     //support
-    api deps.support_appcompat_v7
+    api deps.appcompat
     api deps.constraint_layout
 
     //Architecture components

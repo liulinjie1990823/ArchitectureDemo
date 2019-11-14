@@ -1,63 +1,69 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/white">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+  <TextView
+    android:id="@+id/title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
-    <!--
-    Flow, introduced in constraintlayout:2.0.0-alpha5
-    Here we set the number of columns to one using `flow_maxElementsWrap`
-    -->
-<!--    <androidx.constraintlayout.helper.Flow-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:padding="16dp"-->
-<!--        app:constraint_referenced_ids="text1,text2,text3,text4"-->
-<!--        app:flow_horizontalBias="0"-->
-<!--        app:flow_maxElementsWrap="1"-->
-<!--        app:flow_verticalBias="0"-->
-<!--        app:flow_verticalGap="8dp"-->
-<!--        app:flow_verticalStyle="packed"-->
-<!--        app:flow_wrapMode="aligned"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/title" />-->
+  <!--
+  Flow, introduced in constraintlayout:2.0.0-alpha5
+  Here we set the number of columns to one using `flow_maxElementsWrap`
+  -->
 
-<!--    <TextView-->
-<!--        android:id="@+id/text1"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"-->
-<!--        tools:ignore="MissingConstraints" />-->
+  <androidx.constraintlayout.helper.widget.Flow
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    app:constraint_referenced_ids="text1,text2,text3,text4"
+    app:flow_horizontalBias="0"
+    app:flow_maxElementsWrap="1"
+    app:flow_verticalBias="0"
+    app:flow_verticalGap="8dp"
+    app:flow_verticalStyle="packed"
+    app:flow_wrapMode="aligned"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/title" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/text2"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"-->
-<!--        tools:ignore="MissingConstraints" />-->
+  <TextView
+    android:id="@+id/text1"
+    android:layout_width="0dp"
+    android:text="text1"
+    android:layout_height="wrap_content"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+    tools:ignore="MissingConstraints" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/text3"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"-->
-<!--        tools:ignore="MissingConstraints" />-->
+  <TextView
+    android:id="@+id/text2"
+    android:layout_width="0dp"
+    android:text="text2"
+    android:layout_height="wrap_content"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+    tools:ignore="MissingConstraints" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/text4"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"-->
-<!--        tools:ignore="MissingConstraints" />-->
+  <TextView
+    android:id="@+id/text3"
+    android:text="text3"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+    tools:ignore="MissingConstraints" />
+
+  <TextView
+    android:id="@+id/text4"
+    android:text="text4"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+    tools:ignore="MissingConstraints" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

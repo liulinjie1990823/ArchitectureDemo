@@ -263,6 +263,7 @@ dependencies {
     betaImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.8'
     releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.8'
 
+
 }
 
 walle {

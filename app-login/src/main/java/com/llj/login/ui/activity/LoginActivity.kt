@@ -3,24 +3,21 @@ package com.llj.login.ui.activity
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
-import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.llj.lib.jump.annotation.Jump
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.component.service.arouter.CJump
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.AppManager
+import com.llj.lib.jump.annotation.Jump
 import com.llj.login.LoginMvcBaseActivity
 import com.llj.login.R
 import com.llj.login.ui.fragment.CodeLoginFragmentMvc
@@ -45,12 +42,16 @@ import java.util.*
 @Route(path = CRouter.LOGIN_LOGIN_ACTIVITY)
 class LoginActivity : LoginMvcBaseActivity() {
 
-    @BindView(com.llj.login.R2.id.login_tabs) lateinit var mTabs: MagicIndicator
-    @BindView(com.llj.login.R2.id.login_viewpager) lateinit var mViewPager: androidx.viewpager.widget.ViewPager
-    @BindView(com.llj.login.R2.id.rv_login) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
+    @BindView(com.llj.login.R2.id.login_tabs)
+    lateinit var mTabs: MagicIndicator
+    @BindView(com.llj.login.R2.id.login_viewpager)
+    lateinit var mViewPager: androidx.viewpager.widget.ViewPager
+    @BindView(com.llj.login.R2.id.rv_login)
+    lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
 
 
-    @Autowired(name = CRouter.AROUTER_FORWARD_PATH) lateinit var mForwardPath: String
+    @Autowired(name = CRouter.AROUTER_FORWARD_PATH)
+    lateinit var mForwardPath: String
 
     override fun layoutId(): Int {
         return R.layout.login_activity_login
@@ -149,13 +150,13 @@ class LoginActivity : LoginMvcBaseActivity() {
                 return titles.size
             }
 
-            override fun getItem(position: Int): androidx.fragment.app.Fragment? {
+            override fun getItem(position: Int): Fragment {
 
                 when (position) {
                     0 -> return CodeLoginFragmentMvc.getInstance()
                     1 -> return PasswordLoginFragment.getInstance()
                 }
-                return null
+                return CodeLoginFragmentMvc.getInstance()
             }
         }
         ViewPagerHelper.bind(mTabs, mViewPager)

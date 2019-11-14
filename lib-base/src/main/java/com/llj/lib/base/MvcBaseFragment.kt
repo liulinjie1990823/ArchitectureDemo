@@ -1,6 +1,5 @@
 package com.llj.lib.base
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
@@ -54,7 +53,7 @@ import timber.log.Timber
  * date 2018/8/15
  */
 abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
-        , IBaseFragment, ICommon, IUiHandler, IEvent,  ITask, ILoadingDialogHandler {
+        , IBaseFragment, ICommon, IUiHandler, IEvent, ITask, ILoadingDialogHandler {
     val mTagLog: String = this.javaClass.simpleName
 
     lateinit var mContext: Context
@@ -110,12 +109,9 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     }
 
     //<editor-fold desc="生命周期">
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-    }
 
-    override fun onAttach(activity: Activity?) {
-        super.onAttach(activity)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         Timber.tag(mTagLog).i("onAttach：%s", mTagLog)
     }
 
@@ -143,10 +139,10 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Timber.tag(mTagLog).i("onActivityCreated：%s", mTagLog)
-        if (dialog == null || dialog.window == null) {
+        if (dialog == null || dialog?.window == null) {
             return
         }
-        setWindowParams(dialog.window!!, -1, -1, Gravity.CENTER)
+        setWindowParams(dialog?.window!!, -1, -1, Gravity.CENTER)
     }
 
 
