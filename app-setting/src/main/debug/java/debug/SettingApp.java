@@ -3,9 +3,6 @@ package debug;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.multidex.MultiDex;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 
 import com.billy.cc.core.component.CC;
 import com.llj.component.service.MiddleApplication;
@@ -20,6 +17,9 @@ import com.llj.setting.SettingComponent;
 
 import org.jetbrains.annotations.NotNull;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.multidex.MultiDex;
 import dagger.android.AndroidInjector;
 
 /**
@@ -71,10 +71,10 @@ public class SettingApp extends MiddleApplication {
         return new AndroidInjector<Object>() {
             @Override
             public void inject(Object instance) {
-                if(instance instanceof Activity){
+                if (instance instanceof Activity) {
                     MvpBaseActivity activity = (MvpBaseActivity) instance;
                     mSettingComponent.activityInjector().inject(activity);
-                }else if(instance instanceof Fragment){
+                } else if (instance instanceof Fragment) {
                     MvpBaseFragment fragment = (MvpBaseFragment) instance;
                     mSettingComponent.supportFragmentInjector().inject(fragment);
                 }

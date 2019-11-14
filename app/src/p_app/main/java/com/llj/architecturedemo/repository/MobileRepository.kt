@@ -1,8 +1,8 @@
 package com.llj.architecturedemo.repository
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.llj.architecturedemo.api.TestApiService
 import com.llj.architecturedemo.db.dao.MobileDao
 import com.llj.architecturedemo.db.entity.MobileEntity

@@ -1,6 +1,6 @@
 package com.llj.socialization.share.model;
 
-import android.support.annotation.StringDef;
+import androidx.annotation.StringDef;
 
 import com.llj.socialization.ThirdCommonResult;
 import com.llj.socialization.share.SharePlatformType;

@@ -1,7 +1,7 @@
 package com.llj.lib.image.loader;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.facebook.drawee.view.GenericDraweeView;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher;

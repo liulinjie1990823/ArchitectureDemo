@@ -3,7 +3,7 @@ package com.llj.lib.base.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;

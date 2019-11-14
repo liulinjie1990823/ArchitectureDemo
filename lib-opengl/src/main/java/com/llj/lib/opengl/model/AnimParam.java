@@ -1,6 +1,6 @@
 package com.llj.lib.opengl.model;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 import com.llj.lib.opengl.anim.IAnim;
 

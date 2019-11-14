@@ -1,6 +1,6 @@
 package com.llj.lib.net.utils;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;

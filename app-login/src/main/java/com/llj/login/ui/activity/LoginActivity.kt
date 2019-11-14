@@ -3,10 +3,10 @@ package com.llj.login.ui.activity
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.TextView
@@ -46,8 +46,8 @@ import java.util.*
 class LoginActivity : LoginMvcBaseActivity() {
 
     @BindView(com.llj.login.R2.id.login_tabs) lateinit var mTabs: MagicIndicator
-    @BindView(com.llj.login.R2.id.login_viewpager) lateinit var mViewPager: ViewPager
-    @BindView(com.llj.login.R2.id.rv_login) lateinit var mRecyclerView: RecyclerView
+    @BindView(com.llj.login.R2.id.login_viewpager) lateinit var mViewPager: androidx.viewpager.widget.ViewPager
+    @BindView(com.llj.login.R2.id.rv_login) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
 
 
     @Autowired(name = CRouter.AROUTER_FORWARD_PATH) lateinit var mForwardPath: String
@@ -72,7 +72,7 @@ class LoginActivity : LoginMvcBaseActivity() {
         arrayList.add(Data(R.drawable.def_user_header, "sina", LoginPlatformType.SINA))
 
         UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
-                .setLinearLayoutManager(RecyclerView.HORIZONTAL)
+                .setLinearLayoutManager(androidx.recyclerview.widget.RecyclerView.HORIZONTAL)
                 .build()
                 .getAdapter()
     }
@@ -144,12 +144,12 @@ class LoginActivity : LoginMvcBaseActivity() {
         mTabs.navigator = commonNavigator
 
         mViewPager.offscreenPageLimit = 2
-        mViewPager.adapter = object : FragmentPagerAdapter(supportFragmentManager) {
+        mViewPager.adapter = object : androidx.fragment.app.FragmentPagerAdapter(supportFragmentManager) {
             override fun getCount(): Int {
                 return titles.size
             }
 
-            override fun getItem(position: Int): Fragment? {
+            override fun getItem(position: Int): androidx.fragment.app.Fragment? {
 
                 when (position) {
                     0 -> return CodeLoginFragmentMvc.getInstance()

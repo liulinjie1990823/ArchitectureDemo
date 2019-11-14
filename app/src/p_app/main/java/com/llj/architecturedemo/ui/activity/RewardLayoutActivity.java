@@ -1,7 +1,7 @@
 package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;

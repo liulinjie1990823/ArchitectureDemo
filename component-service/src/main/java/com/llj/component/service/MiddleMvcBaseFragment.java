@@ -2,7 +2,7 @@ package com.llj.component.service;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 
 import com.llj.lib.base.MvcBaseFragment;
 import com.llj.lib.statusbar.LightStatusBarCompat;

@@ -3,7 +3,7 @@ package com.llj.lib.base
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.LayoutRes
+import androidx.annotation.LayoutRes
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import com.llj.lib.base.widget.LoadingDialog

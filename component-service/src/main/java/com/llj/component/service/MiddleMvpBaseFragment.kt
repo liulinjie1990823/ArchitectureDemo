@@ -2,8 +2,8 @@ package com.llj.component.service
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.v4.app.Fragment
+import androidx.annotation.CallSuper
+import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.mvp.IBasePresenter
@@ -24,7 +24,7 @@ abstract class MiddleMvpBaseFragment<P : IBasePresenter> : MvpBaseFragment<P>(),
     //下面代码是为了在component-service中生成ComponentMvpBaseFragment_MembersInjector对象
     //否则会在多个module中生成多个ComponentMvpBaseFragment_MembersInjector对象
     @Inject
-    lateinit var mSupportFragmentInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var mSupportFragmentInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
 
     override fun androidInjector(): AndroidInjector<Any> {
         return AndroidInjector { }

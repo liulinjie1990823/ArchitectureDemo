@@ -1,6 +1,6 @@
 package com.llj.socialization.pay;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 import com.llj.socialization.Platform;
 

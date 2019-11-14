@@ -1,7 +1,7 @@
 package com.llj.lib.base
 
-import android.arch.lifecycle.Lifecycle
-import android.support.annotation.CallSuper
+import androidx.lifecycle.Lifecycle
+import androidx.annotation.CallSuper
 import com.llj.lib.base.mvp.IBasePresenter
 import javax.inject.Inject
 

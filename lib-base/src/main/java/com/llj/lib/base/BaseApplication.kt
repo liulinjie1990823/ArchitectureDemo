@@ -2,7 +2,7 @@ package com.llj.lib.base
 
 import android.app.Application
 import android.os.StrictMode
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 import com.llj.lib.base.help.CrashHelper
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.help.FilePathHelper

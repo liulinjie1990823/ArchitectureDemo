@@ -1,15 +1,15 @@
 package com.llj.lib.webview;
 
-import android.arch.lifecycle.DefaultLifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.ProcessLifecycleOwner;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ProcessLifecycleOwner;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.ArrayMap;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.ViewGroup;
 
 import com.llj.lib.webview.event.JsInvokeJavaEvent;

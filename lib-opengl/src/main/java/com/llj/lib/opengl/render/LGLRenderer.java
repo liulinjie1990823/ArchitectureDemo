@@ -3,7 +3,7 @@ package com.llj.lib.opengl.render;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.llj.lib.opengl.anim.IAnim;
 import com.llj.lib.opengl.utils.ShaderUtil;

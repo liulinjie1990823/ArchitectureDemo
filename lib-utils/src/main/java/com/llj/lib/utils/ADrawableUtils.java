@@ -1,7 +1,7 @@
 package com.llj.lib.utils;
 
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 
 /**
  * ArchitectureDemo.

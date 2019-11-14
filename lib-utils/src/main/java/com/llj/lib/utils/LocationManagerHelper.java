@@ -2,16 +2,15 @@ package com.llj.lib.utils;
 
 import android.app.Activity;
 import android.app.Application;
-import android.arch.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleObserver;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 
 /**

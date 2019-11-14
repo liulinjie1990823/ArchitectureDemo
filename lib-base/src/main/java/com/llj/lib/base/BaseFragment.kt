@@ -6,6 +6,6 @@ package com.llj.lib.base
  * author llj
  * date 2019/3/13
  */
-abstract class BaseFragment :android.support.v4.app.DialogFragment()
+abstract class BaseFragment : androidx.fragment.app.DialogFragment()
         ,IBaseFragment, ICommon, IUiHandler, IEventK, ILoadingDialogHandler, ITask  {
 }

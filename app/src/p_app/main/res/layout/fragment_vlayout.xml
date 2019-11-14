@@ -18,7 +18,7 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cv_header"
             android:layout_width="match_parent"
             android:layout_height="44dp"
@@ -67,7 +67,7 @@
                 app:layout_constraintRight_toRightOf="@+id/v_search_bg"
                 app:layout_constraintTop_toTopOf="@+id/v_search_bg"/>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.llj.component.service.refreshLayout.JHSmartRefreshLayout
             android:id="@+id/refresh_layout"
@@ -79,7 +79,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cv_header">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -6,9 +6,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.support.constraint.ConstraintLayout
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.viewpager.widget.ViewPager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,7 +76,7 @@ class VLayoutFragment2 : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView
         mRecyclerView.layoutManager = layoutManager
 
         //设置回收复用池大小，（如果一屏内相同类型的 View 个数比较多，需要设置一个合适的大小，防止来回滚动时重新创建 View）
-        val viewPool = RecyclerView.RecycledViewPool()
+        val viewPool = androidx.recyclerview.widget.RecyclerView.RecycledViewPool()
         mRecyclerView.setRecycledViewPool(viewPool)
         mRecyclerView.setItemViewCacheSize(2)
 
@@ -97,7 +97,7 @@ class VLayoutFragment2 : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView
             switchBabyHomeModuleVo(babyHomeModuleVo)
         }
         //设置适配器
-        (mRecyclerView.adapter as DelegateAdapter).setAdapters(mAdapters as List<DelegateAdapter.Adapter<RecyclerView.ViewHolder>>?)
+        (mRecyclerView.adapter as DelegateAdapter).setAdapters(mAdapters as List<DelegateAdapter.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>>?)
 
 
         mMyHandler.removeMessages(1)
@@ -113,7 +113,7 @@ class VLayoutFragment2 : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView
     @BindView(R.id.v_search_bg) lateinit var mVSearchBg: View
     @BindView(R.id.tv_search) lateinit var mTvSearch: TextView
     @BindView(R.id.cv_header) lateinit var mCvHeader: ConstraintLayout
-    @BindView(R.id.recyclerView) lateinit var mRecyclerView: RecyclerView
+    @BindView(R.id.recyclerView) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
     @BindView(R.id.refresh_layout) lateinit var mRefreshLayout: JHSmartRefreshLayout
 
     private val mAdapters = ArrayList<DelegateAdapter.Adapter<ViewHolderHelper>>()
@@ -184,7 +184,7 @@ class VLayoutFragment2 : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView
                 circleNavigator.setNormalCircleColor(Color.parseColor("#4dffffff"))
                 circleNavigator.setSelectedCircleColor(Color.WHITE)
                 indicator.navigator = circleNavigator
-                viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                viewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
                     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                         indicator.onPageScrolled(imageAdapter.getPosition(position), positionOffset, positionOffsetPixels)
                     }

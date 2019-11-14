@@ -1,8 +1,8 @@
 package com.llj.lib.image.loader;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.Nullable;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import okhttp3.OkHttpClient;

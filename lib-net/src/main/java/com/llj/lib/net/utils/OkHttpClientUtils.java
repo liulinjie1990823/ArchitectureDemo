@@ -1,6 +1,6 @@
 package com.llj.lib.net.utils;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;

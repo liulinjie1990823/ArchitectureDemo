@@ -1,6 +1,6 @@
 package com.llj.lib.base.utils;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * ArchitectureDemo

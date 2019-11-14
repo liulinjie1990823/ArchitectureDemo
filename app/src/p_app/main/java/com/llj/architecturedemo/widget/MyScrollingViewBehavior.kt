@@ -1,8 +1,8 @@
 package com.llj.architecturedemo.widget
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
-import android.support.v7.widget.RecyclerView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 
@@ -12,15 +12,15 @@ import android.view.View
  * author llj
  * date 2018/8/17
  */
-class MyScrollingViewBehavior : CoordinatorLayout.Behavior<View> {
+class MyScrollingViewBehavior : androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior<View> {
     constructor() : super()
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
-    override fun layoutDependsOn(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
-        return dependency is RecyclerView
+    override fun layoutDependsOn(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: View, dependency: View): Boolean {
+        return dependency is androidx.recyclerview.widget.RecyclerView
     }
 
-    override fun onDependentViewChanged(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
+    override fun onDependentViewChanged(parent: androidx.coordinatorlayout.widget.CoordinatorLayout, child: View, dependency: View): Boolean {
         child.y = dependency.y
         return true
     }

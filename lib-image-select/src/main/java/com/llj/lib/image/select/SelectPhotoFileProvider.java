@@ -1,7 +1,7 @@
 package com.llj.lib.image.select;
 
 
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 
 /**
  * WeddingBazaar.

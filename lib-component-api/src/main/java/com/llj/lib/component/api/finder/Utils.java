@@ -1,6 +1,6 @@
 package com.llj.lib.component.api.finder;
 
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 import android.view.View;
 
 /**

@@ -3,7 +3,7 @@ package com.llj.lib.socialization.sina.share;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 

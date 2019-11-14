@@ -1,8 +1,8 @@
 package com.llj.lib.component.api.finder;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.util.ArrayMap;
+import androidx.fragment.app.Fragment;
+import androidx.collection.ArrayMap;
 import android.view.View;
 
 

@@ -2,13 +2,12 @@ package com.llj.lib.base
 
 import android.app.Activity
 import android.app.Dialog
-import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.v4.util.ArraySet
 import android.view.*
+import androidx.annotation.CallSuper
+import androidx.lifecycle.Lifecycle
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.llj.lib.base.event.BaseEvent
@@ -54,7 +53,7 @@ import timber.log.Timber
  * author llj
  * date 2018/8/15
  */
-abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
+abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
         , IBaseFragment, ICommon, IUiHandler, IEvent,  ITask, ILoadingDialogHandler {
     val mTagLog: String = this.javaClass.simpleName
 
@@ -65,7 +64,7 @@ abstract class MvcBaseFragment : android.support.v4.app.DialogFragment()
     private lateinit var mUnBinder: Unbinder
     private var mRequestDialog: ITaskId? = null
 
-    private val mDelayMessages: ArraySet<String> = ArraySet()
+    private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
 
     var mUseSoftInput: Boolean = false //是否使用软键盘
 

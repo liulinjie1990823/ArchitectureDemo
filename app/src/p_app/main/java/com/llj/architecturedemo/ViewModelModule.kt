@@ -1,7 +1,7 @@
 package com.llj.architecturedemo
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 
 import com.llj.architecturedemo.vm.MainContractViewModel
 import com.llj.lib.base.di.ViewModelKey

@@ -1,7 +1,7 @@
 package com.llj.lib.base
 
 import android.app.IntentService
-import android.support.v4.util.ArrayMap
+import androidx.collection.ArrayMap
 import com.llj.lib.base.mvp.IBasePresenter
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
@@ -18,7 +18,7 @@ abstract class MvpBaseIntentService<P : IBasePresenter>(name: String) : ITask, I
 
     @Inject lateinit var mPresenter: P
 
-    private val mCancelableTask: ArrayMap<Int, Disposable> = ArrayMap()
+    private val mCancelableTask: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
 
     override fun onCreate() {
         super.onCreate()

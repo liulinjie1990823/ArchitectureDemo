@@ -1,6 +1,6 @@
 package com.llj.adapter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * PROJECT:UniversalAdapter

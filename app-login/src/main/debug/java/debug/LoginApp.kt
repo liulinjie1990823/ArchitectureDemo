@@ -3,9 +3,9 @@ package debug
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.support.multidex.MultiDex
-import android.support.v4.content.ContextCompat
 import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.multidex.MultiDex
 import com.billy.cc.core.component.CC
 import com.llj.component.service.MiddleApplication
 import com.llj.lib.base.MvpBaseActivity

@@ -1,7 +1,7 @@
 package com.llj.lib.opengl.utils;
 
 import android.opengl.GLES20;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.llj.lib.opengl.render.LGLRenderer;
 

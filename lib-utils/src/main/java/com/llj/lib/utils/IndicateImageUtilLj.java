@@ -1,7 +1,7 @@
 package com.llj.lib.utils;
 
 import android.app.Activity;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.ViewPager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

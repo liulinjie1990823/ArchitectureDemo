@@ -1,6 +1,6 @@
 package com.llj.architecturedemo.ui.presenter
 
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import com.llj.architecturedemo.repository.HomeRepository
 import com.llj.architecturedemo.ui.view.SecondView
 import com.llj.lib.base.mvp.BaseActivityPresenter

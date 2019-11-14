@@ -4,10 +4,10 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
@@ -72,7 +72,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
     @BindView(R.id.scrollableLayout) lateinit var mScrollableLayout: ScrollableLayout
     @BindView(R.id.ll_header) lateinit var mLiHeader: LinearLayout
     @BindView(R.id.tab) lateinit var mTab: MagicIndicator
-    @BindView(R.id.viewpager) lateinit var mViewpager: ViewPager
+    @BindView(R.id.viewpager) lateinit var mViewpager: androidx.viewpager.widget.ViewPager
 
     private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(Utils.getApp())
 
@@ -156,7 +156,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
         ViewPagerHelper.bind(mTab, mViewpager)
 
 
-        mViewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        mViewpager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(p0: Int) {
             }
 
@@ -195,7 +195,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
     }
 
     private val mTabTitleList = ArrayList<String?>()
-    private val mFragments = ArrayList<Fragment>()
+    private val mFragments = ArrayList<androidx.fragment.app.Fragment>()
 
     private fun switchBabyHomeModuleVo(babyHomeModuleVo: BabyHomeModuleVo) {
         when (babyHomeModuleVo.block_tmpl) {
@@ -327,7 +327,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
                 circleNavigator.setNormalCircleColor(Color.parseColor("#4dffffff"))
                 circleNavigator.setSelectedCircleColor(Color.WHITE)
                 indicator.navigator = circleNavigator
-                viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                viewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
                     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                         indicator.onPageScrolled(imageAdapter.getPosition(position), positionOffset, positionOffsetPixels)
                     }
@@ -361,7 +361,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
                     return
                 }
 
-                val recyclerView = holder.itemView as RecyclerView
+                val recyclerView = holder.itemView as androidx.recyclerview.widget.RecyclerView
                 val spanCount = 5
                 val h = item.data!!.size / spanCount
                 val babyHomeModuleItemVos = item.data.subList(0, h * spanCount)
@@ -459,7 +459,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
                 }
 
                 val tvTitle = holder.getView<TextView>(R.id.tv_title)
-                val recyclerView = holder.getView<RecyclerView>(R.id.recyclerView)
+                val recyclerView = holder.getView<androidx.recyclerview.widget.RecyclerView>(R.id.recyclerView)
 
                 setText(tvTitle, item.block_name)
                 val initJhToolsItemAdapter = initJhToolsItemAdapter(item.data!!)

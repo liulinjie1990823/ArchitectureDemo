@@ -10,7 +10,7 @@
     android:orientation="vertical">
 
     <!--toolbar-->
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cv_toolbar"
         android:layout_width="match_parent"
         android:layout_height="44dp">
@@ -55,7 +55,7 @@
             app:layout_constraintRight_toRightOf="parent"
             />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--content-->
     <com.llj.component.service.refreshLayout.JHSmartRefreshLayout
@@ -84,7 +84,7 @@
                 android:visibility="visible"/>
 
             <!--左右滑动页面-->
-            <android.support.v4.view.ViewPager
+            <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

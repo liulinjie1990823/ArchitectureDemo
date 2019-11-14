@@ -1,6 +1,6 @@
 package com.llj.socialization.share;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 import com.llj.socialization.Platform;
 

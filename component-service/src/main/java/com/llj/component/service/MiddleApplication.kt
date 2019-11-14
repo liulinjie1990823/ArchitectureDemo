@@ -1,14 +1,13 @@
 package com.llj.component.service
 
 import android.content.Context
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 import com.alibaba.android.arouter.launcher.ARouter
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
-import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
 import com.llj.component.service.preference.UserInfoPreference
 import com.llj.component.service.vo.UserInfoVo
@@ -98,7 +97,6 @@ abstract class MiddleApplication : BaseApplication() {
             //布局查看
             client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
             //网络
-            client.addPlugin(NetworkFlipperPlugin())
             //文件操作
             val descriptors = ArrayList<SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor>()
             descriptors.add(SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor(UserInfoPreference.FILE_NAME, Context.MODE_PRIVATE))

@@ -1,6 +1,6 @@
 package com.llj.socialization.pay.model;
 
-import android.support.annotation.StringDef;
+import androidx.annotation.StringDef;
 
 import com.llj.socialization.pay.PayPlatformType;
 

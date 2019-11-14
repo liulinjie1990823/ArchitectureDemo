@@ -2,7 +2,7 @@ package com.llj.lib.base
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.LayoutRes
+import androidx.annotation.LayoutRes
 import android.view.View
 
 /**

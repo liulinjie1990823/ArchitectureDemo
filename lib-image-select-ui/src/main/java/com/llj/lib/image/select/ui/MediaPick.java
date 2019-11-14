@@ -1,7 +1,7 @@
 package com.llj.lib.image.select.ui;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import java.lang.ref.WeakReference;
 import java.util.Set;

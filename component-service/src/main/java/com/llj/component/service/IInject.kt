@@ -1,7 +1,7 @@
 package com.llj.component.service
 
 import android.app.Activity
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import dagger.android.DispatchingAndroidInjector
 
 /**
@@ -13,5 +13,5 @@ import dagger.android.DispatchingAndroidInjector
 interface IInject {
 
     fun activityInjector(): DispatchingAndroidInjector<Activity>
-    fun supportFragmentInjector(): DispatchingAndroidInjector<Fragment>
+    fun supportFragmentInjector(): DispatchingAndroidInjector<androidx.fragment.app.Fragment>
 }

@@ -1,8 +1,8 @@
 package com.llj.lib.webview;
 
-import android.arch.lifecycle.DefaultLifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.annotation.NonNull;
 
 /**
  * ArchitectureDemo.

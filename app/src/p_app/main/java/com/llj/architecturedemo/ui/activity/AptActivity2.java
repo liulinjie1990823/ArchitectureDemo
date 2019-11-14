@@ -1,8 +1,8 @@
 package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.View;
 import android.widget.Toast;
 

@@ -1,6 +1,6 @@
 package com.llj.lib.base.mvp
 
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import com.llj.lib.base.ILoadingDialogHandler
 import com.llj.lib.net.response.BaseResponse
 import com.uber.autodispose.AutoDispose

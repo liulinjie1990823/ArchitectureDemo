@@ -3,9 +3,9 @@ package com.llj.architecturedemo.ui.activity
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
 import android.util.TypedValue
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -36,7 +36,7 @@ import java.util.*
  */
 @Route(path = CRouter.APP_RECYCLE_VIEW_ACTIVITY)
 class RecycleViewActivity : AppMvcBaseActivity() {
-    @BindView(R.id.vp_container) lateinit var mVpContent: ViewPager
+    @BindView(R.id.vp_container) lateinit var mVpContent: androidx.viewpager.widget.ViewPager
     @BindView(R.id.tabs) lateinit var mTabs: MagicIndicator
 
     override fun layoutId(): Int {
@@ -106,12 +106,12 @@ class RecycleViewActivity : AppMvcBaseActivity() {
         mTabs.navigator = commonNavigator
 
         mVpContent.offscreenPageLimit = tables.size
-        mVpContent.adapter = object : FragmentPagerAdapter(supportFragmentManager) {
+        mVpContent.adapter = object : androidx.fragment.app.FragmentPagerAdapter(supportFragmentManager) {
             override fun getCount(): Int {
                 return types.size
             }
 
-            override fun getItem(position: Int): Fragment? {
+            override fun getItem(position: Int): androidx.fragment.app.Fragment? {
                 return switchFragment(types[position])
             }
         }
@@ -127,7 +127,7 @@ class RecycleViewActivity : AppMvcBaseActivity() {
     }
 
 
-    private fun switchFragment(type: String?): Fragment {
+    private fun switchFragment(type: String?): androidx.fragment.app.Fragment {
         if (isEmpty(type)) {
             return ItemFragment.getInstance()
         }

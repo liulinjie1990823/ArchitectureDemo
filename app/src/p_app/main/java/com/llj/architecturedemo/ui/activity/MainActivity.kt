@@ -1,7 +1,7 @@
 package com.llj.architecturedemo.ui.activity
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
@@ -131,7 +131,7 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
         private const val TAB_MY = "my"
     }
 
-    override fun makeFragment(showItem: String): Fragment {
+    override fun makeFragment(showItem: String): androidx.fragment.app.Fragment {
         when (showItem) {
             TAB_INDEX -> return HomeFragment()
             TAB_TONGSHANG -> return VLayoutFragment()

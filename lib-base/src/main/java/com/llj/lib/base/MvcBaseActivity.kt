@@ -1,13 +1,13 @@
 package com.llj.lib.base
 
 import android.app.Dialog
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.v4.util.ArrayMap
-import android.support.v4.util.ArraySet
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.CallSuper
+import androidx.collection.ArrayMap
+import androidx.collection.ArraySet
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -37,8 +37,8 @@ abstract class MvcBaseActivity : AppCompatActivity()
     private lateinit var mUnBinder: Unbinder
     private var mRequestDialog: ITaskId? = null
 
-    private val mCancelableTasks: ArrayMap<Int, Disposable> = ArrayMap()
-    private val mDelayMessages: ArraySet<String> = ArraySet()
+    private val mCancelableTasks: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
+    private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
 
 
     override fun useEventBus(): Boolean {

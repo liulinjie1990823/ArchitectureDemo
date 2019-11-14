@@ -1,6 +1,6 @@
 package com.llj.architecturedemo.vm
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.architecturedemo.repository.MobileRepository

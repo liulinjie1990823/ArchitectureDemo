@@ -1,6 +1,6 @@
 package com.llj.lib.base.mvvm
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 
 /**
  * ArchitectureDemo

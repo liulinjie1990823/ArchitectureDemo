@@ -1,7 +1,7 @@
 package com.llj.architecturedemo.ui.presenter
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.llj.architecturedemo.repository.MobileRepository
 import com.llj.architecturedemo.ui.view.IRequestView
 import com.llj.component.service.permission.PermissionManager

@@ -2,7 +2,7 @@ package com.llj.lib.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v4.util.ArrayMap;
+import androidx.collection.ArrayMap;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 

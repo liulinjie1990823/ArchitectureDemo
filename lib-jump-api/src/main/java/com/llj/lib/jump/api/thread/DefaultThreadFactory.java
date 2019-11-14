@@ -1,6 +1,6 @@
 package com.llj.lib.jump.api.thread;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.llj.lib.jump.api.JumpHelp;
 import com.llj.lib.jump.api.utils.Consts;

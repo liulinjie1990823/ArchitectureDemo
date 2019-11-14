@@ -8,7 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 import android.util.Log;
 
 import java.io.BufferedReader;

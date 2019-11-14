@@ -1,7 +1,7 @@
 package com.llj.lib.utils;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.format.Formatter;
 
 import java.math.BigDecimal;

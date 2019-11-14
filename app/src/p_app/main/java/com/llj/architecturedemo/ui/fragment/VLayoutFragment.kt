@@ -5,9 +5,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.support.constraint.ConstraintLayout
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.viewpager.widget.ViewPager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,19 +73,19 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
         //创建VirtualLayoutManager对象
         val layoutManager = VirtualLayoutManager(mContext)
         mRecyclerView.layoutManager = layoutManager
-        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+        mRecyclerView.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 when (newState) {
-                    RecyclerView.SCROLL_STATE_IDLE -> Fresco.getImagePipeline().resume()
-                    RecyclerView.SCROLL_STATE_DRAGGING -> Fresco.getImagePipeline().pause()
-                    RecyclerView.SCROLL_STATE_SETTLING -> Fresco.getImagePipeline().pause()
+                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE -> Fresco.getImagePipeline().resume()
+                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING -> Fresco.getImagePipeline().pause()
+                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_SETTLING -> Fresco.getImagePipeline().pause()
                 }
             }
         })
 
         //设置回收复用池大小，（如果一屏内相同类型的 View 个数比较多，需要设置一个合适的大小，防止来回滚动时重新创建 View）
-        val viewPool = RecyclerView.RecycledViewPool()
+        val viewPool = androidx.recyclerview.widget.RecyclerView.RecycledViewPool()
         viewPool.setMaxRecycledViews(ViewType.BANNER, 1)
         viewPool.setMaxRecycledViews(ViewType.NAVIGATION, 10)
         viewPool.setMaxRecycledViews(ViewType.AD, 1)
@@ -110,7 +110,7 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
             switchBabyHomeModuleVo(babyHomeModuleVo)
         }
         //设置适配器
-        (mRecyclerView.adapter as DelegateAdapter).setAdapters(mAdapters as List<DelegateAdapter.Adapter<RecyclerView.ViewHolder>>?)
+        (mRecyclerView.adapter as DelegateAdapter).setAdapters(mAdapters as List<DelegateAdapter.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>>?)
 
 
         mMyHandler.removeMessages(1)
@@ -125,7 +125,7 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
     @BindView(R.id.v_search_bg) lateinit var mVSearchBg: View
     @BindView(R.id.tv_search) lateinit var mTvSearch: TextView
     @BindView(R.id.cv_header) lateinit var mCvHeader: ConstraintLayout
-    @BindView(R.id.recyclerView) lateinit var mRecyclerView: RecyclerView
+    @BindView(R.id.recyclerView) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
     @BindView(R.id.refresh_layout) lateinit var mRefreshLayout: JHSmartRefreshLayout
 
     private val mAdapters = ArrayList<DelegateAdapter.Adapter<ViewHolderHelper>>()
@@ -193,7 +193,7 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
                 circleNavigator.setNormalCircleColor(Color.parseColor("#4dffffff"))
                 circleNavigator.setSelectedCircleColor(Color.WHITE)
                 indicator.navigator = circleNavigator
-                viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                viewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
                     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                         indicator.onPageScrolled(imageAdapter.getPosition(position), positionOffset, positionOffsetPixels)
                     }

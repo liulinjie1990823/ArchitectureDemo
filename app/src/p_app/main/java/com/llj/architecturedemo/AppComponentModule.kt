@@ -1,7 +1,7 @@
 package com.llj.architecturedemo
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import com.llj.architecturedemo.api.TestApiService
 import com.llj.architecturedemo.db.AppDb
 import com.llj.architecturedemo.db.dao.MobileDao

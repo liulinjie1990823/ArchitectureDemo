@@ -1,6 +1,6 @@
 package com.llj.lib.base;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 /**
  * ArchitectureDemo.

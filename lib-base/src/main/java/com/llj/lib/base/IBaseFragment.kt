@@ -1,6 +1,6 @@
 package com.llj.lib.base
 
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 
 /**
  * ArchitectureDemo

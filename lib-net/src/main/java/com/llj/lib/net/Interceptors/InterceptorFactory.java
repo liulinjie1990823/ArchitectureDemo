@@ -1,6 +1,6 @@
 package com.llj.lib.net.Interceptors;
 
-import android.support.annotation.RequiresPermission;
+import androidx.annotation.RequiresPermission;
 import android.text.TextUtils;
 
 import com.llj.lib.net.url.DomainUrlParser;

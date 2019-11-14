@@ -1,6 +1,6 @@
 package com.llj.lib.base.mvp
 
-import android.arch.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.DefaultLifecycleObserver
 
 /**
  * ArchitectureDemo

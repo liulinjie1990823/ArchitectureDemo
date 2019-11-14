@@ -3,9 +3,9 @@ package com.llj.lib.image.loader;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.Nullable;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.facebook.common.internal.Supplier;

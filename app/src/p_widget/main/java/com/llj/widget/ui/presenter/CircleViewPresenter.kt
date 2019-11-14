@@ -1,6 +1,6 @@
 package com.llj.widget.ui.presenter
 
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import com.llj.architecturedemo.repository.MobileRepository
 import com.llj.lib.base.mvp.BaseActivityPresenter
 import com.llj.widget.ui.view.CircleViewView

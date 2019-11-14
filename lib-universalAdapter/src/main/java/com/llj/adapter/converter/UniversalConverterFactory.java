@@ -1,7 +1,7 @@
 package com.llj.adapter.converter;
 
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;

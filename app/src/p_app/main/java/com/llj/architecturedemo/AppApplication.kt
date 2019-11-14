@@ -3,7 +3,7 @@ package com.llj.architecturedemo
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.support.multidex.MultiDex
+import androidx.multidex.MultiDex
 import com.billy.cc.core.component.CC
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.llj.architecturedemo.ui.activity.MainActivity

@@ -1,7 +1,7 @@
 package com.llj.lib.net;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * https://blog.csdn.net/a19881029/article/details/14002273

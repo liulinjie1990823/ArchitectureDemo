@@ -1,13 +1,13 @@
 package com.llj.lib.base
 
 import android.app.Dialog
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 import android.content.Context
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.v4.util.ArrayMap
-import android.support.v7.app.AppCompatActivity
+import androidx.collection.ArrayMap
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
 import com.llj.lib.base.mvvm.BaseViewModel
 import com.llj.lib.base.widget.LoadingDialog
@@ -31,7 +31,7 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
     private lateinit var mDataBinding: B
     private var mRequestDialog: ITaskId? = null
 
-    private val mCancelableTask: ArrayMap<Int, Disposable> = ArrayMap()
+    private val mCancelableTask: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
 
     //<editor-fold desc="生命周期">
     override fun onCreate(savedInstanceState: Bundle?) {

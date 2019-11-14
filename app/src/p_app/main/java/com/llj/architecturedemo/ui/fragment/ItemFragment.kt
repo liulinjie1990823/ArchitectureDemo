@@ -1,8 +1,8 @@
 package com.llj.architecturedemo.ui.fragment
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import butterknife.BindView
@@ -25,12 +25,12 @@ class ItemFragment : MiddleMvcBaseFragment(), ScrollableHelper.ScrollableContain
     }
 
     companion object {
-        fun getInstance(): Fragment {
+        fun getInstance(): androidx.fragment.app.Fragment {
             return ItemFragment()
         }
     }
 
-    @BindView(R.id.recyclerView) lateinit var mRecyclerView: RecyclerView
+    @BindView(R.id.recyclerView) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
 
     override fun layoutId(): Int {
         return R.layout.fragment_item

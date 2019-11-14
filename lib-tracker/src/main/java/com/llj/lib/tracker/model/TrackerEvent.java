@@ -1,6 +1,6 @@
 package com.llj.lib.tracker.model;
 
-import android.support.annotation.StringDef;
+import androidx.annotation.StringDef;
 
 import com.llj.lib.tracker.ITracker;
 

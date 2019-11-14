@@ -1,6 +1,6 @@
 package com.llj.lib.base.mvp
 
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import timber.log.Timber
 
 /**

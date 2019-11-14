@@ -1,7 +1,7 @@
 package com.llj.component.service
 
 import android.app.Activity
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import com.billy.cc.core.component.CC
 
 /**
@@ -37,7 +37,7 @@ interface IModule {
             val activity = cc.context as Activity
             getComponent().activityInjector().inject(activity)
         } else if (INJECT_FRAGMENT == cc.actionName) {
-            val activity = cc.context as FragmentActivity
+            val activity = cc.context as androidx.fragment.app.FragmentActivity
             val tag = cc.getParamItem<String>("fragment")
 
             if (tag != null) {

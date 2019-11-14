@@ -1,6 +1,6 @@
 package com.llj.adapter
 
-import android.support.v7.widget.*
+import androidx.appcompat.widget.*
 import android.view.ViewGroup
 import com.llj.adapter.converter.UniversalConverterFactory
 
@@ -36,57 +36,57 @@ class UniversalBind<Item, Holder : ViewHolder, T : ListBasedAdapter<Item, Holder
         }
 
 
-        fun setLayoutManager(layoutManager: RecyclerView.LayoutManager): Builder<Item, Holder, T> {
-            if (mViewGroup is RecyclerView) {
+        fun setLayoutManager(layoutManager: androidx.recyclerview.widget.RecyclerView.LayoutManager): Builder<Item, Holder, T> {
+            if (mViewGroup is androidx.recyclerview.widget.RecyclerView) {
                 mViewGroup.layoutManager = layoutManager
             }
             return this
         }
 
         fun setLinearLayoutManager(): Builder<Item, Holder, T> {
-            if (mViewGroup is RecyclerView) {
-                mViewGroup.layoutManager = LinearLayoutManager(null)
+            if (mViewGroup is androidx.recyclerview.widget.RecyclerView) {
+                mViewGroup.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(null)
             }
             return this
         }
 
         fun setLinearLayoutManager(orientation: Int): Builder<Item, Holder, T> {
-            if (mViewGroup is RecyclerView) {
-                mViewGroup.layoutManager = LinearLayoutManager(null, orientation, false)
+            if (mViewGroup is androidx.recyclerview.widget.RecyclerView) {
+                mViewGroup.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(null, orientation, false)
             }
             return this
         }
 
         fun setGridLayoutManager(spanCount: Int): Builder<Item, Holder, T> {
-            if (mViewGroup is RecyclerView) {
-                mViewGroup.layoutManager = GridLayoutManager(null, spanCount)
+            if (mViewGroup is androidx.recyclerview.widget.RecyclerView) {
+                mViewGroup.layoutManager = androidx.recyclerview.widget.GridLayoutManager(null, spanCount)
             }
             return this
         }
 
         fun setStaggeredGridLayoutManager(spanCount: Int, orientation: Int): Builder<Item, Holder, T> {
-            if (mViewGroup is RecyclerView) {
-                mViewGroup.layoutManager = StaggeredGridLayoutManager(spanCount, orientation)
+            if (mViewGroup is androidx.recyclerview.widget.RecyclerView) {
+                mViewGroup.layoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(spanCount, orientation)
             }
             return this
         }
 
-        fun addItemDecoration(dividerItemDecoration: DividerItemDecoration): Builder<Item, Holder, T> {
-            if (mViewGroup is RecyclerView) {
+        fun addItemDecoration(dividerItemDecoration: androidx.recyclerview.widget.DividerItemDecoration): Builder<Item, Holder, T> {
+            if (mViewGroup is androidx.recyclerview.widget.RecyclerView) {
                 mViewGroup.addItemDecoration(dividerItemDecoration)
             }
             return this
         }
 
-        fun addItemDecoration(gridDividerItemDecoration: RecyclerView.ItemDecoration): Builder<Item, Holder, T> {
-            if (mViewGroup is RecyclerView) {
+        fun addItemDecoration(gridDividerItemDecoration: androidx.recyclerview.widget.RecyclerView.ItemDecoration): Builder<Item, Holder, T> {
+            if (mViewGroup is androidx.recyclerview.widget.RecyclerView) {
                 mViewGroup.addItemDecoration(gridDividerItemDecoration)
             }
             return this
         }
 
         fun setNestedScrollingEnabled(enabled: Boolean): Builder<Item, Holder, T> {
-            if (mViewGroup is RecyclerView) {
+            if (mViewGroup is androidx.recyclerview.widget.RecyclerView) {
                 mViewGroup.isNestedScrollingEnabled = enabled
             }
             return this

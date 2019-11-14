@@ -1,6 +1,6 @@
 package com.llj.lib.opengl.anim;
 
-import android.support.annotation.RawRes;
+import androidx.annotation.RawRes;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 

@@ -2,7 +2,7 @@ package com.llj.architecturedemo.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -28,7 +28,7 @@ class HomeFragment : MiddleMvcBaseFragment(), ScrollableHelper.ScrollableContain
         return mRecyclerView
     }
 
-    @BindView(R.id.recyclerView) lateinit var mRecyclerView: RecyclerView
+    @BindView(R.id.recyclerView) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
     @BindView(R.id.tv_update) lateinit var mUpdate: TextView
 
     companion object {
