@@ -293,7 +293,7 @@ if (useApkUploadPlugin) {
             debug {
                 pgyApiKey = pgyDebugApiKey
                 pgyUserKey = pgyDebugUserKey
-                pgyAppKey = pgyDebugAppKey
+                pgyAppKey = ""
                 password = "123456"
                 installType = "2"
             }

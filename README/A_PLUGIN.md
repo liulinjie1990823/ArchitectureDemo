@@ -25,7 +25,7 @@
 - MvpAutoCodePlus
 - eventbus3-intellij-plugin
 - Alibaba Java Coding Guidelines plugin support
-- ARoute Helper ARoute路由点击
+- ARoute Helper ARoute路由点击跳转
 - CheckStyle 检查代码风格
 - Translation 翻译
 - Gradle View
