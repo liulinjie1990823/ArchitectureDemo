@@ -97,7 +97,7 @@ subprojects {
             implementation fileTree(include: ['*.jar'], dir: 'libs')
             api project(':component-service')
 
-            //implementation project(':flutter')
+            implementation project(':flutter')
             //dagger
             kapt deps.dagger_compiler
             kapt deps.dagger_android_support_compiler

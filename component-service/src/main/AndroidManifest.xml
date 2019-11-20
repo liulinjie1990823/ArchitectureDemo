@@ -3,6 +3,8 @@
 
     <application>
         <service android:name="com.facebook.flipper.plugins.leakcanary.RecordLeakService"/>
+        <activity android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
+          android:exported="true"/>
     </application>
 
 </manifest>

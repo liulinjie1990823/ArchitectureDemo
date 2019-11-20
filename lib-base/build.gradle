@@ -25,11 +25,13 @@ dependencies {
 
     //support
     api deps.appcompat
+    api deps.activity
     api deps.constraint_layout
 
     //Architecture components
     api deps.lifecycle_runtime
     api deps.lifecycle_java8
+    api deps.lifecycle_viewmodel_savedstate
     api deps.lifecycle_extensions
     //db
     api deps.room_runtime

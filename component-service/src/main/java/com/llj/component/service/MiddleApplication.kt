@@ -1,14 +1,26 @@
 package com.llj.component.service
 
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import androidx.annotation.CallSuper
 import com.alibaba.android.arouter.launcher.ARouter
+import com.blankj.utilcode.util.FileUtils
+import com.facebook.common.memory.manager.NoOpDebugMemoryManager
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
+import com.facebook.flipper.perflogger.NoOpFlipperPerfLogger
 import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin
+import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
+import com.facebook.flipper.plugins.databases.impl.SqliteDatabaseDriver
+import com.facebook.flipper.plugins.databases.impl.SqliteDatabaseProvider
+import com.facebook.flipper.plugins.fresco.FrescoFlipperPlugin
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
+import com.facebook.flipper.plugins.sandbox.SandboxFlipperPlugin
+import com.facebook.flipper.plugins.sandbox.SandboxFlipperPluginStrategy
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
+import com.facebook.imagepipeline.debug.FlipperImageTracker
 import com.llj.component.service.preference.UserInfoPreference
 import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.BaseApplication
@@ -18,6 +30,7 @@ import skin.support.SkinCompatManager
 import skin.support.app.SkinCardViewInflater
 import skin.support.constraint.app.SkinConstraintViewInflater
 import skin.support.design.app.SkinMaterialViewInflater
+import java.io.File
 
 
 /**
@@ -78,7 +91,7 @@ abstract class MiddleApplication : BaseApplication() {
 
 
     override fun isDebug(): Boolean {
-        return BuildConfig.DEBUG
+        return applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
     }
 
     override fun initImageLoader() {
@@ -96,11 +109,42 @@ abstract class MiddleApplication : BaseApplication() {
             val client = AndroidFlipperClient.getInstance(this)
             //布局查看
             client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
+            //图片加载
+            client.addPlugin(FrescoFlipperPlugin(
+                    FlipperImageTracker(),
+                    Fresco.getImagePipelineFactory().platformBitmapFactory,
+                    null,
+                    NoOpDebugMemoryManager(),
+                    NoOpFlipperPerfLogger(),
+                    null,
+                    null))
+            //沙盒
+            client.addPlugin(SandboxFlipperPlugin(object : SandboxFlipperPluginStrategy {
+                override fun getKnownSandboxes(): MutableMap<String, String> {
+                    return HashMap()
+                }
+
+                override fun setSandbox(sandbox: String?) {
+                }
+
+            }))
+            //数据库
+            client.addPlugin(DatabasesFlipperPlugin(SqliteDatabaseDriver(this, object : SqliteDatabaseProvider {
+                override fun getDatabaseFiles(): MutableList<File> {
+                    val databaseFiles = ArrayList<File>()
+                    for (item in applicationContext.databaseList()) {
+                        databaseFiles.add(applicationContext.getDatabasePath(item))
+                    }
+                    return databaseFiles
+                }
+            })))
             //网络
             //文件操作
             val descriptors = ArrayList<SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor>()
-            descriptors.add(SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor(UserInfoPreference.FILE_NAME, Context.MODE_PRIVATE))
-            descriptors.add(SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor("SocialConfig", Context.MODE_PRIVATE))
+            val listFilesInDir = FileUtils.listFilesInDir(cacheDir.parentFile.absolutePath + File.separator + "shared_prefs")
+            for (file in listFilesInDir) {
+                descriptors.add(SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor(file.name.replace(".xml",""), Context.MODE_PRIVATE))
+            }
             client.addPlugin(SharedPreferencesFlipperPlugin(this, descriptors))
             //崩溃统计
             client.addPlugin(CrashReporterPlugin.getInstance())

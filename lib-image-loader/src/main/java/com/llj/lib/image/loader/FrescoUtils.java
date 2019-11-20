@@ -83,7 +83,7 @@ public class FrescoUtils {
                 getMaxCacheSize(),                    // 内存缓存中总图片的最大大小,以字节为单位。
                 56,                     // 内存缓存中图片的最大数量。
                 MAX_MEMORY_CACHE_SIZE,                // 内存缓存中准备清除但尚未被删除的总图片的最大大小,以字节为单位。
-                Integer.MAX_VALUE,               // 内存缓存中准备清除的总图片的最大数量。
+                Integer.MAX_VALUE,                    // 内存缓存中准备清除的总图片的最大数量。
                 Integer.MAX_VALUE);                  // 内存缓存中单个图片的最大大小。
 
         //修改内存图片缓存数量，空间策略（这个方式有点恶心）

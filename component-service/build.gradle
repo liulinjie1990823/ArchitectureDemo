@@ -118,7 +118,12 @@ dependencies {
     // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
 
     //应用调试
-    debugImplementation deps.flipper
+    debugImplementation 'com.facebook.flipper:flipper:0.28.0'
+    betaImplementation 'com.facebook.flipper:flipper-noop:0.28.0'
+    releaseImplementation 'com.facebook.flipper:flipper-noop:0.28.0'
+
+    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.28.0'
+    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.28.0'
     //内存检测
     debugImplementation deps.leakcanary_android
     betaImplementation deps.leakcanary_android_no_op
@@ -132,6 +137,8 @@ dependencies {
     //日志相关
     api deps.timber
     api deps.logger
+    //
+    api 'com.blankj:utilcode:1.25.9'
 
 
 }

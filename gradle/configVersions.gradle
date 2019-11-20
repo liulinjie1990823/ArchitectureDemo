@@ -31,14 +31,14 @@ def versions = [
         retrofit2            : "2.6.2",
         okhttp               : "4.2.2",
 
-        fresco               : "1.13.0",
+        fresco               : "2.0.0",
 
         smartrefresh         : "1.1.0-alpha-16",
         skin                 : "3.1.1",
 
         auto_value           : "1.6.2",
 
-        stetho               : "1.5.0",
+        stetho               : "1.5.1",
         leakcanary           : "1.6.3",
         flipper              : "0.28.0",
 
@@ -46,7 +46,6 @@ def versions = [
 
         mockwebserver        : "3.8.1",
         glide                : "3.8.0",
-        paging               : "1.0.0-beta1",
         socialization        : "2.0.14",
 ]
 
@@ -82,8 +81,12 @@ versionName      : "1.0.0",
             multidex_instrumentation          : "androidx.multidex:multidex-instrumentation:$versions.multidex",
 
             //lifecycle
+            lifecycle_common                  : "androidx.lifecycle:lifecycle-common:$versions.lifecycle",
             lifecycle_runtime                 : "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle",
             lifecycle_extensions              : "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle",
+            lifecycle_viewmodel               : "androidx.lifecycle:lifecycle-viewmodel:$versions.lifecycle",
+            lifecycle_viewmodel_savedstate    : "androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-rc02",
+            lifecycle_livedata                : "androidx.lifecycle:lifecycle-livedata:$versions.lifecycle",
             lifecycle_java8                   : "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle",
             lifecycle_compiler                : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
 
@@ -93,6 +96,7 @@ versionName      : "1.0.0",
             arch_common                       : "androidx.arch.core:core-common:2.1.0",
             arch_runtime                      : "androidx.arch.core:core-runtime:2.1.0",
             androidx_core                     : "androidx.core:core:1.1.0",
+            activity                          : "androidx.activity:activity:1.1.0-rc02",
             fragment                          : "androidx.fragment:fragment:1.1.0",
 
             support_support_v4                : "androidx.legacy:legacy-support-v4:$versions.legacy",
@@ -177,6 +181,7 @@ versionName      : "1.0.0",
             stetho_okhttp3                    : "com.facebook.stetho:stetho-okhttp3:$versions.stetho",
             stetho_urlconnection              : "com.facebook.stetho:stetho-urlconnection:$versions.stetho",
             flipper                           : "com.facebook.flipper:flipper:$versions.flipper",
+            flipper_noop                      : "com.facebook.flipper:flipper-noop:$versions.flipper",
 
             //日志
             timber                            : "com.jakewharton.timber:timber:4.7.1",
@@ -239,6 +244,7 @@ def addRepos(RepositoryHandler handler) {
 
     handler.maven { url "https://maven.aliyun.com/repository/jcenter" }
     handler.maven { url "https://maven.aliyun.com/repository/google" }
+    handler.mavenCentral()
 
     handler.maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
     //本地的maven仓库，需要maven格式的包
@@ -247,7 +253,7 @@ def addRepos(RepositoryHandler handler) {
     //工程中的lib文件夹，依赖aar和jar文件
 
 //    handler.google()
-    handler.jcenter()
+//    handler.jcenter()
 
     handler.maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     handler.maven { url "https://jitpack.io" }
