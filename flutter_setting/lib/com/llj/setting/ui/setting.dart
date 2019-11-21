@@ -33,7 +33,7 @@ class MyHomePage extends StatelessWidget {
             color: Colors.white,
             alignment: Alignment.center,
             constraints:
-            BoxConstraints.expand(width: double.infinity, height: 49),
+                BoxConstraints.expand(width: double.infinity, height: 49),
             child: Text(
               "退出登录",
               style: TextStyle(
