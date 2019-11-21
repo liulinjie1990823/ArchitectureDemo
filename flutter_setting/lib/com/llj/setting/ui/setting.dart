@@ -11,44 +11,54 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+class MyHomePage extends StatelessWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(0xFFF6F6F6),
+      child: Column(
+        children: <Widget>[
+          Toolbar(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Item(),
+            ),
+          ),
+          Container(
+            color: Colors.white,
+            alignment: Alignment.center,
+            constraints:
+            BoxConstraints.expand(width: double.infinity, height: 49),
+            child: Text(
+              "退出登录",
+              style: TextStyle(
+                fontSize: 15,
+                color: Color(0xFF666666),
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.w600,
+                decoration: TextDecoration.none,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  String imageUrl2 =
-      "http://n.sinaimg.cn/sports/2_img/upload/4f160954/107/w1024h683/20181128/Yrxn-hpinrya6814381.jpg";
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  Widget setToolbar() {
+class Item extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-      height: 148,
-      decoration: BoxDecoration(
-        color: Colors.amber,
-      ),
-      child: Row(
-        children: <Widget>[
-          Image(image: NetworkImage(imageUrl2, scale: 8.5)),
-          Expanded(child: Text("设置", textAlign: TextAlign.center)),
-          Image(image: NetworkImage(imageUrl2, scale: 8.5)),
-        ],
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        children: getItems(),
       ),
     );
   }
@@ -57,7 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       height: 1,
       color: Color(0xffeeeeee),
-      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
     );
   }
 
@@ -68,65 +77,203 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget setItem(String title, String dec) {
+  Widget setItem(String title, String dec, int titleColor, int decColor) {
     return Container(
       height: 50,
-      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      padding: EdgeInsets.symmetric(horizontal: 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          //标题
           Expanded(
-              child: Container(
-                  color: Colors.black12,
-                  child: Text(title, textAlign: TextAlign.left))),
-          Text(dec, textAlign: TextAlign.center),
+            child: Container(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Color(titleColor),
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w600,
+                  decoration: TextDecoration.none,
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+          ),
+          //内容
+          Text(
+            dec,
+            softWrap: true,
+            maxLines: 10,
+            style: TextStyle(
+              fontSize: 15,
+              color: Color(decColor),
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.normal,
+              decoration: TextDecoration.none,
+            ),
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+          ),
+          //箭头
           Container(
-            color: Colors.grey,
             child: Image(
-                fit: BoxFit.scaleDown,
-                image:
-                    AssetImage("assets/images/service_icon_right_arrow.png")),
+              fit: BoxFit.scaleDown,
+              image: AssetImage("assets/images/service_icon_right_arrow.png"),
+            ),
           ),
         ],
       ),
     );
   }
 
+  Widget wrapItems() {}
+
   List<Widget> getItems() {
+    int titleColor = 0xFF333333;
+    int decColor = 0xFF666666;
     return [
-      setItem("环境切换", ""),
-      setDivider(),
-      setItem("我的资料", ""),
-      setDivider2(),
-      setItem("关联微信", ""),
-      setDivider2(),
-      setItem("清除缓存", "1000KB"),
-      setDivider(),
-      setItem("意见反馈", ""),
-      setDivider2(),
-      setItem("关于中国婚博会", "v6.12.0"),
-      setDivider(),
-      setItem("隐私政策", ""),
-      setDivider(),
-      setItem("推荐给好友", ""),
-      setDivider(),
-      setItem("官方微信", ""),
-      setDivider(),
-      setItem("联系客服", "400-365-520"),
-      setDivider(),
+//      setItem("环境切换", "", 0xFF33333, 0xFF666666),
+      Container(
+        margin: EdgeInsets.only(top: 10),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        child: setItem("我的资料", "", titleColor, decColor),
+      ),
+      Container(
+        margin: EdgeInsets.only(top: 10),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        child: Column(
+          children: <Widget>[
+            setItem("绑定支付宝", "", titleColor, decColor),
+            setDivider(),
+            setItem("绑定微信", "", titleColor, decColor),
+            setDivider(),
+            setItem("推送开关", "", titleColor, decColor),
+            setDivider(),
+            setItem("清除缓存", "1000KB", titleColor, decColor),
+            setDivider(),
+            setItem("意见反馈", "", titleColor, decColor),
+          ],
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.only(top: 10),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        child: Column(
+          children: <Widget>[
+            setItem("关于中国婚博会", "v6.12.0", titleColor, decColor),
+            setDivider(),
+            setItem("隐私政策", "", titleColor, decColor),
+            setDivider(),
+            setItem("推荐给好友", "", titleColor, decColor),
+            setDivider(),
+            setItem("官方微信", "", titleColor, decColor),
+            setDivider(),
+            setItem("联系客服", "400-365-520", titleColor, decColor),
+          ],
+        ),
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text("hi"),
+          Text("world"),
+          Text("world"),
+          Text("world"),
+          Text("world"),
+          Text("world"),
+          Text("world"),
+          Text("world"),
+        ],
+      ),
     ];
   }
+}
+
+class Toolbar extends StatelessWidget {
+  String imageUrl2 =
+      "http://n.sinaimg.cn/sports/2_img/upload/4f160954/107/w1024h683/20181128/Yrxn-hpinrya6814381.jpg";
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
+      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+      constraints: BoxConstraints.expand(width: double.infinity, height: 49),
+      decoration: BoxDecoration(
+        color: Colors.amber,
+      ),
+      child: Stack(
+        fit: StackFit.loose,
+        alignment: Alignment.center,
         children: <Widget>[
-          setToolbar(),
-          Scrollbar(
-              child: SingleChildScrollView(
-                  child: Column(
-            children: getItems(),
-          ))),
+//          Positioned(
+//            left: 0,
+//            child: Container(
+//              padding: EdgeInsets.symmetric(horizontal: 8),
+//              alignment: Alignment.centerLeft,
+//              width: 100.0,
+//              height: 49.0,
+//              decoration: BoxDecoration(
+//                color: Colors.deepOrangeAccent,
+//                image: DecorationImage(
+//                  image: AssetImage("assets/images/service_icon_back.png"),
+//                  fit: BoxFit.scaleDown,
+//                ),
+//              ),
+////              child: Image(
+////                image: AssetImage("assets/images/service_icon_back.png"),
+////                fit: BoxFit.scaleDown,
+////              ),
+//            ),
+//          ),
+
+          Positioned(
+            left: 0,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              alignment: Alignment.centerLeft,
+              height: 89,
+              color: Colors.brown,
+              child: Image(
+                image: AssetImage("assets/images/service_icon_back.png"),
+                fit: BoxFit.scaleDown,
+              ),
+            ),
+          ),
+          Text(
+            "设置",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.normal,
+              decoration: TextDecoration.none,
+            ),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Positioned(
+            right: 0,
+            child: Container(
+              width: 49.0,
+              height: 49.0,
+              decoration: BoxDecoration(
+                color: Colors.blueGrey,
+                image: DecorationImage(
+                  image: NetworkImage(imageUrl2),
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
