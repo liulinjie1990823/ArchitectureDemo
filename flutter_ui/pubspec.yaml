@@ -1,4 +1,4 @@
-name: flutter_setting
+name: flutter_ui
 description: A new Flutter module.
 
 # The following defines the version and build number for your application.
@@ -81,8 +81,6 @@ flutter:
   # They also do not have any bearing on your native host application's
   # identifiers, which may be completely independent or the same as these.
   module:
-    androidX: true
-    androidPackage: com.llj.flutter.flutter_setting
-    iosBundleIdentifier: com.llj.flutter.flutterSetting
-  assets:
-    - assets/images/
+    androidX: false
+    androidPackage: com.llj.flutter.flutter_ui
+    iosBundleIdentifier: com.llj.flutter.flutterUi

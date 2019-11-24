@@ -1,426 +1,433 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/white">
+
+  <ScrollView
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:visibility="gone"
+    android:background="@color/gray"
+    app:layout_constraintBottom_toTopOf="@+id/tv_login_out"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/white"
+      android:orientation="vertical">
+
+      <LinearLayout
+        android:id="@+id/ll_switch_environment"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/tv_switch_environment"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:text="环境切换"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:src="@drawable/service_icon_right_arrow" />
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/ll_data"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/tv_data"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:text="我的资料"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:src="@drawable/service_icon_right_arrow" />
+
+      </LinearLayout>
+
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/antiquewhite" />
+
+      <LinearLayout
+        android:id="@+id/ll_association"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/tv_association"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:text="关联微信"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:src="@drawable/service_icon_right_arrow" />
+
+      </LinearLayout>
+
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/antiquewhite" />
+
+      <LinearLayout
+        android:id="@+id/ll_push_switch"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/tv_push_switch"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:text="推送开关"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <Switch
+          android:id="@+id/sh_push_switch"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp" />
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/ll_clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/tv_clear_cache"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:text="清除缓存"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:src="@drawable/service_icon_right_arrow" />
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/ll_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/tv_feedback"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:text="意见反馈"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:src="@drawable/service_icon_right_arrow" />
+
+      </LinearLayout>
+
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/antiquewhite" />
+
+      <LinearLayout
+        android:id="@+id/ll_about"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/tv_about"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:text="关于中国婚博会"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+          android:id="@+id/tv_version"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:src="@drawable/service_icon_right_arrow" />
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/ll_private"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/tv_private"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:text="隐私政策"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:src="@drawable/service_icon_right_arrow" />
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/ll_official_wechat"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/tv_official_wechat"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:text="官方微信"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:src="@drawable/service_icon_right_arrow" />
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/ll_service"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/tv_service"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:text="联系客服"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:ellipsize="end"
+          android:gravity="center_vertical"
+          android:maxLines="1"
+          android:textColor="@color/black"
+          android:textSize="14dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          android:src="@drawable/service_icon_right_arrow" />
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+  </ScrollView>
+
+  <TextView
+    android:id="@+id/tv_login_out"
+    android:layout_width="0dp"
+    android:layout_height="50dp"
+    android:ellipsize="end"
+    android:gravity="center"
+    android:visibility="gone"
+    android:maxLines="1"
+    android:text="退出登录"
+    android:textColor="@color/black"
+    android:textSize="15dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent" />
+
+
+  <FrameLayout
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/gray"
-        app:layout_constraintBottom_toTopOf="@+id/tv_login_out"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/ll_switch_environment"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_switch_environment"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="环境切换"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:src="@drawable/service_icon_right_arrow"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_data"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_data"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="我的资料"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:src="@drawable/service_icon_right_arrow"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/antiquewhite"/>
-
-            <LinearLayout
-                android:id="@+id/ll_association"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_association"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="关联微信"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:src="@drawable/service_icon_right_arrow"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/antiquewhite"/>
-
-            <LinearLayout
-                android:id="@+id/ll_push_switch"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_push_switch"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="推送开关"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <Switch
-                    android:id="@+id/sh_push_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_clear_cache"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_clear_cache"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="清除缓存"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:src="@drawable/service_icon_right_arrow"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_feedback"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="意见反馈"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:src="@drawable/service_icon_right_arrow"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/antiquewhite"/>
-
-            <LinearLayout
-                android:id="@+id/ll_about"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_about"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="关于中国婚博会"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:id="@+id/tv_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:src="@drawable/service_icon_right_arrow"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_private"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_private"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="隐私政策"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:src="@drawable/service_icon_right_arrow"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_official_wechat"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_official_wechat"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="官方微信"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:src="@drawable/service_icon_right_arrow"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_service"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_service"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="联系客服"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:src="@drawable/service_icon_right_arrow"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <TextView
-        android:id="@+id/tv_login_out"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="退出登录"
-        android:textColor="@color/black"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+    android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

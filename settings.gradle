@@ -13,6 +13,9 @@ try {
 def useMaven = properties.getProperty("useMaven") == "true"
 
 include ':lib-swipeback', ':lib-tracker', ':lib-zbar', ':lib-zxing', ':lib-map', ':lib-oss', ':lib-qrcodecore', ':lib-jni-test', ':lib-opengl', ':lib-record', ':lib-kodo', ':lib-jni-test2', ':lib-scrollable', ':lib-base-event'
+
+
+
 //include ':module-java'
 //include ':lib-player'
 
@@ -55,11 +58,35 @@ if (!useMaven) {
 
 }
 
+//setBinding(new Binding([gradle: this]))
+//evaluate(new File(
+//        settingsDir,
+//        'flutter_main/.android/include_flutter.groovy'
+//))
+//单独运行里面的dart，需要include
+//include ':flutter_main'
+
+//setBinding(new Binding([gradle: this]))
+//evaluate(new File(
+//        settingsDir,
+//        'flutter_ui/.android/include_flutter.groovy'
+//))
+//include ':flutter_ui'
+
 setBinding(new Binding([gradle: this]))
 evaluate(new File(
         settingsDir,
         'flutter_setting/.android/include_flutter.groovy'
 ))
+//include ':flutter_setting'
+
+//setBinding(new Binding([gradle: this]))
+//evaluate(new File(
+//        settingsDir,
+//        'flutter_module/.android/include_flutter.groovy'
+//))
+
+
 
 
 

@@ -2,19 +2,17 @@ package com.llj.setting.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
-
+import butterknife.BindViews;
+import butterknife.internal.DebouncingOnClickListener;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.component.service.arouter.CRouter;
+import com.llj.lib.utils.AFragmentUtils;
 import com.llj.setting.R;
 import com.llj.setting.R2;
 import com.llj.setting.SettingMvcBaseActivity;
-
-import org.jetbrains.annotations.Nullable;
-
+import io.flutter.facade.Flutter;
 import java.util.List;
-
-import butterknife.BindViews;
-import butterknife.internal.DebouncingOnClickListener;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * ArchitectureDemo. describe:设置界面
@@ -63,7 +61,8 @@ public class SettingActivity extends SettingMvcBaseActivity {
     for (View view : mViews) {
       view.setOnClickListener(onClickListener);
     }
-    //        AFragmentUtils.replaceFragment(getSupportFragmentManager(), R.id.container, Flutter.createFragment("/"));
+    AFragmentUtils
+        .replaceFragment(getSupportFragmentManager(), R.id.container, Flutter.createFragment("setting"));
   }
 
   @Override

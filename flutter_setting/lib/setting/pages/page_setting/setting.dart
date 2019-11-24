@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(_widgetForRoute(window.defaultRouteName));
+//void main() => runApp(Setting());
 
-class MyApp extends StatelessWidget {
+Widget _widgetForRoute(String route) {
+  switch (route) {
+    case 'setting':
+      return Setting();
+    case 'route2':
+      return Center(
+        child: Text('route: $route', textDirection: TextDirection.ltr),
+      );
+    default:
+      return Center(
+        child: Text('Unknown route: $route', textDirection: TextDirection.ltr),
+      );
+  }
+}
+
+class Setting extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Setting Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: SettingPage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

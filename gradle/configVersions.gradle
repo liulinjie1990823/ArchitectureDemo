@@ -4,7 +4,7 @@
 
 def versions = [
         //3.3.2，3.5.1
-        android_gradle_plugin: "3.3.2",
+        android_gradle_plugin: "3.2.1",
 //        android_gradle_plugin: "3.5.1",
         kotlin               : "1.3.50",
         bintray_release      : "0.8.1",
