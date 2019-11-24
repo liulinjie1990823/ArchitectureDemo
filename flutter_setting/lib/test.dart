@@ -36,17 +36,36 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  //toolbar
   Widget setToolbar() {
     return Container(
       margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-      height: 148,
+      height: 49,
       decoration: BoxDecoration(
         color: Colors.amber,
       ),
       child: Row(
         children: <Widget>[
-          Image(image: NetworkImage(imageUrl2, scale: 8.5)),
-          Expanded(child: Text("设置", textAlign: TextAlign.center)),
+//          Padding(
+//            padding: EdgeInsets.symmetric(horizontal: 8),
+//            child: Image(
+//              image: AssetImage("assets/images/service_icon_back.png"),
+//              fit: BoxFit.scaleDown,
+//            ),
+//          ),
+          Image(
+            image: AssetImage("assets/images/service_icon_back.png"),
+            fit: BoxFit.scaleDown,
+          ),
+          Expanded(
+              child: Text("设置",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis)),
           Image(image: NetworkImage(imageUrl2, scale: 8.5)),
         ],
       ),
@@ -107,28 +126,32 @@ class _MyHomePageState extends State<MyHomePage> {
       setDivider(),
       setItem("隐私政策", ""),
       setDivider(),
-      setItem("推荐给好友", ""),
-      setDivider(),
-      setItem("官方微信", ""),
-      setDivider(),
-      setItem("联系客服", "400-365-520"),
-      setDivider(),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text("hi"),
+          Text("world"),
+        ],
+      )
+//      setItem("推荐给好友", ""),
+//      setDivider(),
+//      setItem("官方微信", ""),
+//      setDivider(),
+//      setItem("联系客服", "400-365-520"),
+//      setDivider(),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: <Widget>[
-          setToolbar(),
-          Scrollbar(
-              child: SingleChildScrollView(
-                  child: Column(
-            children: getItems(),
-          ))),
-        ],
-      ),
-    );
+        child: Column(
+//      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text("hi"),
+        Text("world"),
+      ],
+    ));
   }
 }
