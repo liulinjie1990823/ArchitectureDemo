@@ -205,7 +205,7 @@ class Toolbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-      constraints: BoxConstraints.expand(width: double.infinity, height: 49),
+      constraints: BoxConstraints.expand(width: double.infinity, height: 89),
       decoration: BoxDecoration(
         color: Colors.amber,
       ),
@@ -237,14 +237,24 @@ class Toolbar extends StatelessWidget {
           Positioned(
             left: 0,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.centerLeft,
-              height: 89,
+//              padding: EdgeInsets.symmetric(horizontal: 16),
+//              alignment: Alignment.center,
+              height: 100,
               color: Colors.brown,
               child: Image(
-                image: AssetImage("assets/images/service_icon_back.png"),
+                image: AssetImage("assets/images/mv_ic_template_free.png"),
                 fit: BoxFit.scaleDown,
               ),
+//              child: FloatingActionButton(
+//                elevation: 2,
+//                highlightElevation: 5,
+//                backgroundColor: Color(0xff59c2ff),
+//                child: Icon(
+//                  Icons.add,
+//                  size: 38,
+//                ),
+//                onPressed: () {},
+//              ),
             ),
           ),
           Text(
