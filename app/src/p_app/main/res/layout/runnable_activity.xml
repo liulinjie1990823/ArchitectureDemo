@@ -17,20 +17,20 @@
     Flow, introduced in constraintlayout:2.0.0-alpha5
     Here we set the number of columns to one using `flow_maxElementsWrap`
     -->
-    <android.support.constraint.helper.Flow
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:constraint_referenced_ids="text1,text2,text3,text4"
-        app:flow_horizontalBias="0"
-        app:flow_maxElementsWrap="1"
-        app:flow_verticalBias="0"
-        app:flow_verticalGap="8dp"
-        app:flow_verticalStyle="packed"
-        app:flow_wrapMode="aligned"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+    <!--    <android.support.constraint.helper.Flow-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:padding="16dp"-->
+    <!--        app:constraint_referenced_ids="text1,text2,text3,text4"-->
+    <!--        app:flow_horizontalBias="0"-->
+    <!--        app:flow_maxElementsWrap="1"-->
+    <!--        app:flow_verticalBias="0"-->
+    <!--        app:flow_verticalGap="8dp"-->
+    <!--        app:flow_verticalStyle="packed"-->
+    <!--        app:flow_wrapMode="aligned"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/title" />-->
 
     <TextView
         android:id="@+id/text1"
