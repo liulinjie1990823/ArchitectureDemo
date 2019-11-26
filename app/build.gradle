@@ -98,8 +98,8 @@ android {
 
         resConfigs "zh", "xxhdpi"
 
-        //ndk { abiFilters "x86" }
-        ndk { abiFilters "armeabi-v7a" }
+        ndk { abiFilters "x86" }
+//        ndk { abiFilters "armeabi-v7a" }
 
         dataBinding { enabled = true }
 
@@ -263,11 +263,10 @@ repositories {
     maven { url '../flutter_ui/build/host/outputs/repo' }
     maven { url '../flutter_main/build/host/outputs/repo' }
     maven { url '../flutter_setting/build/host/outputs/repo' }
-    maven { url '../flutter_module/build/host/outputs/repo' }
 }
 
 dependencies {
-    implementation project(':flutter')
+//    implementation project(':flutter')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':lib-jni-test')
     api project(':lib-opengl')

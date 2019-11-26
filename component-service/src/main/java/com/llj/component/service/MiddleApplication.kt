@@ -25,7 +25,6 @@ import com.llj.component.service.preference.UserInfoPreference
 import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.BaseApplication
 import com.llj.lib.image.loader.FrescoImageLoader
-import com.squareup.leakcanary.LeakCanary
 import skin.support.SkinCompatManager
 import skin.support.app.SkinCardViewInflater
 import skin.support.constraint.app.SkinConstraintViewInflater
@@ -95,12 +94,10 @@ abstract class MiddleApplication : BaseApplication() {
     }
 
     override fun initImageLoader() {
-        super.initImageLoader()
         FrescoImageLoader.getInstance(this.applicationContext, mMiddleComponent.okHttpClient())
     }
 
     override fun initFlipper() {
-        super.initFlipper()
         if (!isDebug()) {
             return
         }
@@ -153,15 +150,6 @@ abstract class MiddleApplication : BaseApplication() {
     }
 
     override fun initLeakCanary() {
-        if (!isDebug()) {
-            return
-        }
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return
-        }
-        LeakCanary.install(this)
     }
 
     override fun initStrictMode() {

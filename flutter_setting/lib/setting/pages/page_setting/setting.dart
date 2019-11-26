@@ -1,22 +1,35 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:math' as math;
 
-void main() => runApp(_widgetForRoute(window.defaultRouteName));
+//void main() => runApp(_widgetForRoute(window.defaultRouteName));
 //void main() => runApp(Setting());
 
-Widget _widgetForRoute(String route) {
-  switch (route) {
-    case 'setting':
-      return Setting();
-    case 'route2':
-      return Center(
-        child: Text('route: $route', textDirection: TextDirection.ltr),
-      );
-    default:
-      return Center(
-        child: Text('Unknown route: $route', textDirection: TextDirection.ltr),
-      );
-  }
-}
+//void main() {
+//  runApp(Setting());
+////  if (Platform.isAndroid) {
+////    // 以下两行 设置android状态栏为透明的沉浸。写在组件渲染之后，是为了在渲染后进行set赋值，覆盖状态栏，写在渲染之前MaterialApp组件会覆盖掉这个值。
+////    SystemUiOverlayStyle systemUiOverlayStyle =
+////        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+////    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+////  }
+//}
+//
+//Widget _widgetForRoute(String route) {
+//  switch (route) {
+//    case 'setting':
+//      return Setting();
+//    case 'route2':
+//      return Center(
+//        child: Text('route: $route', textDirection: TextDirection.ltr),
+//      );
+//    default:
+//      return Center(
+//        child: Text('Unknown route: $route', textDirection: TextDirection.ltr),
+//      );
+//  }
+//}
 
 class Setting extends StatelessWidget {
   // This widget is the root of your application.
@@ -36,20 +49,27 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFFF6F6F6),
+//      color: Color(0xFFF6F6F6),
+      color: Color(0xFF000000),
       child: Column(
         children: <Widget>[
+          //Toolbar
           Toolbar(),
+          //中间模块
           Expanded(
-            child: SingleChildScrollView(
-              child: Item(),
+            child: Container(
+              color: Color(0xFFF6F6F6),
+              child: SingleChildScrollView(
+                child: Item(),
+              ),
             ),
           ),
+          //退出登录
           Container(
             color: Colors.white,
             alignment: Alignment.center,
             constraints:
-                BoxConstraints.expand(width: double.infinity, height: 49),
+            BoxConstraints.expand(width: double.infinity, height: 49),
             child: Text(
               "退出登录",
               style: TextStyle(
@@ -219,9 +239,15 @@ class Toolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //状态栏
+    EdgeInsets padding = MediaQuery
+        .of(context)
+        .padding;
+    double top = math.max(padding.top, EdgeInsets.zero.top);
+
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-      constraints: BoxConstraints.expand(width: double.infinity, height: 89),
+      margin: EdgeInsets.only(top: top),
+      constraints: BoxConstraints.expand(width: double.infinity, height: 50),
       decoration: BoxDecoration(
         color: Colors.amber,
       ),
@@ -252,25 +278,16 @@ class Toolbar extends StatelessWidget {
 
           Positioned(
             left: 0,
+            top: 0,
+            bottom: 0,
             child: Container(
-//              padding: EdgeInsets.symmetric(horizontal: 16),
-//              alignment: Alignment.center,
-              height: 100,
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              alignment: Alignment.center,
               color: Colors.brown,
               child: Image(
-                image: AssetImage("assets/images/mv_ic_template_free.png"),
+                image: AssetImage("assets/images/service_icon_back.png"),
                 fit: BoxFit.scaleDown,
               ),
-//              child: FloatingActionButton(
-//                elevation: 2,
-//                highlightElevation: 5,
-//                backgroundColor: Color(0xff59c2ff),
-//                child: Icon(
-//                  Icons.add,
-//                  size: 38,
-//                ),
-//                onPressed: () {},
-//              ),
             ),
           ),
           Text(
@@ -288,15 +305,15 @@ class Toolbar extends StatelessWidget {
           ),
           Positioned(
             right: 0,
+            top: 0,
+            bottom: 0,
             child: Container(
-              width: 49.0,
-              height: 49.0,
-              decoration: BoxDecoration(
-                color: Colors.blueGrey,
-                image: DecorationImage(
-                  image: NetworkImage(imageUrl2),
-                  fit: BoxFit.scaleDown,
-                ),
+              width: 50,
+              alignment: Alignment.center,
+              color: Colors.blueGrey,
+              child: Image(
+                image: NetworkImage(imageUrl2),
+                fit: BoxFit.scaleDown,
               ),
             ),
           )

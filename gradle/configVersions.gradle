@@ -39,7 +39,7 @@ def versions = [
         auto_value           : "1.6.2",
 
         stetho               : "1.5.1",
-        leakcanary           : "1.6.3",
+        leakcanary           : "2.0-beta-2",
         flipper              : "0.28.0",
 
         timber               : "4.7.1",
@@ -175,7 +175,7 @@ versionName      : "1.0.0",
 
             //监控内存泄露
             leakcanary_android                : "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary",
-            leakcanary_android_no_op          : "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leakcanary",
+            leakcanary_android_no_op          : "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3",
             //测试
             stetho                            : "com.facebook.stetho:stetho:$versions.stetho",
             stetho_okhttp3                    : "com.facebook.stetho:stetho-okhttp3:$versions.stetho",
