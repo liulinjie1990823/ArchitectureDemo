@@ -54,6 +54,8 @@ okbuck {
 //        transform = true
 //    }
 }
+
+//Aspectjx增加方法拦截
 if (useAspectjx) {
     apply plugin: 'android-aspectjx'
 
@@ -62,6 +64,7 @@ if (useAspectjx) {
         enabled true
     }
 }
+//ASM代码注入
 if (useCodeInject) {
     apply plugin: 'plugin-code-inject'
 
@@ -95,11 +98,6 @@ android {
 
         versionCode build_versions.versionCode
         versionName build_versions.versionName
-
-        resConfigs "zh", "xxhdpi"
-
-        ndk { abiFilters "x86" }
-//        ndk { abiFilters "armeabi-v7a" }
 
         dataBinding { enabled = true }
 

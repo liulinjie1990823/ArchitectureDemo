@@ -4,10 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
-import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
@@ -20,6 +16,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.ViewFlipper
+import androidx.constraintlayout.widget.ConstraintLayout
 import butterknife.BindView
 import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
@@ -37,16 +34,15 @@ import com.llj.architecturedemo.ui.model.HomeModelType
 import com.llj.architecturedemo.ui.presenter.ScrollableLayoutPresenter
 import com.llj.architecturedemo.ui.view.IScrollableLayoutView
 import com.llj.component.service.MiddleMvpBaseFragment
+import com.llj.component.service.imageLoader.FrescoImageLoader
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.OnMyClickListener
-import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.net.response.BaseResponse
 import com.llj.lib.scrollable.ScrollableHelper
 import com.llj.lib.scrollable.ScrollableLayout
-import com.llj.lib.utils.helper.Utils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import net.lucode.hackware.magicindicator.MagicIndicator
@@ -67,14 +63,20 @@ import kotlin.collections.ArrayList
  * date 2018/10/30
  */
 class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter>(), IScrollableLayoutView {
-    @BindView(R.id.cv_toolbar) lateinit var mCvToolbar: ConstraintLayout
-    @BindView(R.id.refreshLayout) lateinit var mRefreshLayout: JHSmartRefreshLayout
-    @BindView(R.id.scrollableLayout) lateinit var mScrollableLayout: ScrollableLayout
-    @BindView(R.id.ll_header) lateinit var mLiHeader: LinearLayout
-    @BindView(R.id.tab) lateinit var mTab: MagicIndicator
-    @BindView(R.id.viewpager) lateinit var mViewpager: androidx.viewpager.widget.ViewPager
+    @BindView(R.id.cv_toolbar)
+    lateinit var mCvToolbar: ConstraintLayout
+    @BindView(R.id.refreshLayout)
+    lateinit var mRefreshLayout: JHSmartRefreshLayout
+    @BindView(R.id.scrollableLayout)
+    lateinit var mScrollableLayout: ScrollableLayout
+    @BindView(R.id.ll_header)
+    lateinit var mLiHeader: LinearLayout
+    @BindView(R.id.tab)
+    lateinit var mTab: MagicIndicator
+    @BindView(R.id.viewpager)
+    lateinit var mViewpager: androidx.viewpager.widget.ViewPager
 
-    private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(Utils.getApp())
+    private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance()
 
 
     override fun layoutId(): Int {
@@ -386,7 +388,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
                 val svIcon = holder.getView<SimpleDraweeView>(R.id.sv_icon)
                 val tvTitle = holder.getView<TextView>(R.id.tv_title)
 
-                mImageLoad.loadImage(item.img_url, 90, 90, svIcon)
+                mImageLoad.loadImage(svIcon, item.img_url, 90, 90)
                 setText(tvTitle, item.title)
                 holder.itemView.setOnClickListener(object : OnMyClickListener() {
                     override fun onCanClick(v: View?) {
@@ -410,7 +412,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                 val data = item.data!![0]
                 if (data != null) {
-                    mImageLoad.loadImage(data.img_url, 90, 90, view)
+                    mImageLoad.loadImage(view, data.img_url, 90, 90)
                 }
             }
         }
@@ -482,7 +484,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
                 val svIcon = holder.getView<SimpleDraweeView>(R.id.sv_icon)
                 val tvTitle = holder.getView<TextView>(R.id.tv_title)
 
-                mImageLoad.loadImage(item.img_url, 90, 90, svIcon)
+                mImageLoad.loadImage(svIcon, item.img_url, 90, 90)
                 setText(tvTitle, item.title)
                 holder.itemView.setOnClickListener(object : OnMyClickListener() {
                     override fun onCanClick(v: View?) {
@@ -510,7 +512,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
             val data = mList[i]
             if (data != null) {
-                mImageLoad.loadImage(data.img_url, 750, 750, banner)
+                mImageLoad.loadImage(banner, data.img_url, 750, 750)
             }
 
             return inflate

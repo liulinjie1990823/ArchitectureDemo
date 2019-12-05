@@ -62,11 +62,6 @@ subprojects {
                     versionCode build_versions.versionCode
                     versionName build_versions.versionName
 
-                    resConfigs "en", "xxhdpi"
-
-//                    ndk { abiFilters "armeabi-v7a" }
-                    ndk { abiFilters "x86" }
-
                     manifestPlaceholders = [qq_id: "1103566659"]
                 }
 
@@ -93,6 +88,9 @@ subprojects {
                 }
             }
         }
+
+        android.defaultConfig.ndk { abiFilters "armeabi-v7a" }
+        android.defaultConfig.resConfigs "zh", "xxhdpi"
 
         dependencies {
             implementation fileTree(include: ['*.jar'], dir: 'libs')

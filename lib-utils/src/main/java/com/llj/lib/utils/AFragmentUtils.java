@@ -109,7 +109,7 @@ public class AFragmentUtils {
             return;
         }
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.remove(fragment).commitAllowingStateLoss();
+        ft.hide(fragment).commitAllowingStateLoss();
     }
 
     public static void hide(FragmentManager fragmentManager, String tag) {

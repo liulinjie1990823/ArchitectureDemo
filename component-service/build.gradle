@@ -100,6 +100,7 @@ dependencies {
     api deps.fresco_animated_webp
     api deps.fresco_webpsupport
     api deps.fresco_imagepipeline_okhttp3
+    api deps.PersistentCookieJar
 
     //ui
     api deps.SmartRefreshLayout
@@ -139,6 +140,5 @@ dependencies {
     api deps.logger
     //
     api 'com.blankj:utilcode:1.25.9'
-
 
 }

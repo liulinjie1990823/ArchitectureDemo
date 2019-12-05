@@ -9,7 +9,7 @@ dependencies {
     implementation deps.multidex
     implementation deps.multidex_instrumentation
 
-    implementation 'org.altbeacon:android-beacon-library:2.16.2'
+    implementation 'org.altbeacon:android-beacon-library:2.16.3'
 
     if (useMaven) {
     } else {

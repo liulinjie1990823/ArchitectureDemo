@@ -7,17 +7,17 @@ import android.widget.TextView
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.llj.lib.jump.annotation.Jump
 import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.llj.architecturedemo.R
 import com.llj.component.service.MiddleMvcBaseActivity
 import com.llj.component.service.arouter.CJump
 import com.llj.component.service.arouter.CRouter
+import com.llj.component.service.imageLoader.FrescoImageLoader
 import com.llj.component.service.permission.PermissionManager
 import com.llj.lib.base.help.DisplayHelper
-import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
+import com.llj.lib.jump.annotation.Jump
 import com.llj.lib.statusbar.StatusBarCompat
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -54,11 +54,11 @@ class LoadingActivity : MiddleMvcBaseActivity() {
         StatusBarCompat.translucentStatusBar(window, true)
 
         mUseAnim = false
-        mImageLoader = FrescoImageLoader.getInstance(this.applicationContext)
+        mImageLoader = FrescoImageLoader.getInstance()
 
 
         val dip2px = dip2px(this, 50f)
-        mImageLoader.loadImage(R.mipmap.ic_launcher, dip2px, dip2px, mSdvIcon)
+        mImageLoader.loadImage(mSdvIcon, R.mipmap.ic_launcher, dip2px, dip2px)
 
         mTvLeapfrog.setOnClickListener {
             mDisposable.dispose()
@@ -76,7 +76,7 @@ class LoadingActivity : MiddleMvcBaseActivity() {
                     override fun onGlobalLayout() {
                         mSdvAdd.viewTreeObserver.removeOnGlobalLayoutListener(this)
                         val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
-                        mImageLoader.loadImage(url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height, mSdvAdd)
+                        mImageLoader.loadImage(mSdvAdd, url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height)
                     }
                 })
 

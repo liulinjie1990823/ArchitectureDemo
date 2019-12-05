@@ -5,14 +5,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.viewpager.widget.ViewPager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.OnClick
 import com.alibaba.android.vlayout.DelegateAdapter
@@ -33,17 +32,16 @@ import com.llj.architecturedemo.ui.model.HomeModelType
 import com.llj.architecturedemo.ui.presenter.VLayoutPresenter
 import com.llj.architecturedemo.ui.view.IVLayoutView
 import com.llj.component.service.MiddleMvpBaseFragment
+import com.llj.component.service.imageLoader.FrescoImageLoader
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.OnMyClickListener
-import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.net.response.BaseResponse
 import com.llj.lib.utils.ATimeUtils
 import com.llj.lib.utils.ATimeUtils.countDownString
 import com.llj.lib.utils.ATimeUtils.stringToDate
-import com.llj.lib.utils.helper.Utils
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import net.lucode.hackware.magicindicator.MagicIndicator
@@ -130,7 +128,7 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
 
     private val mAdapters = ArrayList<DelegateAdapter.Adapter<ViewHolderHelper>>()
 
-    private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(Utils.getApp())
+    private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance()
 
 
     override fun layoutId(): Int {
@@ -236,7 +234,7 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
 
                 val data = list[position]
                 if (data != null) {
-                    mImageLoad.loadImage(data.img_url, 90, 90, svIcon)
+                    mImageLoad.loadImage(svIcon, data.img_url, 90, 90)
 
                     setText(tvTitle, data.title)
                     holder.itemView.setOnClickListener(object : OnMyClickListener() {
@@ -317,7 +315,7 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
 
                 val data = list[position]
                 if (data != null) {
-                    mImageLoad.loadImage(data.img_url, 110, 110, svImage)
+                    mImageLoad.loadImage(svImage, data.img_url, 110, 110)
 
                     setText(title, data.title)
                     setText(subTitle, data.title)
@@ -402,7 +400,7 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
                         //不显示的情况
                     }
 
-                    mImageLoad.loadImage(data.img_url, 220, 220, svImage)
+                    mImageLoad.loadImage(svImage, data.img_url, 220, 220)
 
                     setText(title, data.title)
                     setText(subTitle, data.title)
@@ -594,7 +592,7 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
 
                 val data = list[position]
                 if (data != null) {
-                    mImageLoad.loadImage(data.img_url, 750, 750, svImage)
+                    mImageLoad.loadImage(svImage, data.img_url, 750, 750)
 
                     setText(title, data.title)
                     holder.itemView.setOnClickListener(object : OnMyClickListener() {
@@ -724,7 +722,7 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
 
             val data = mList[i]
             if (data != null) {
-                mImageLoad.loadImage(data.img_url, 750, 750, banner)
+                mImageLoad.loadImage(banner, data.img_url, 750, 750)
             }
 
             return inflate
@@ -745,7 +743,7 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
             val data = mList[i]
             if (data != null) {
 
-                mImageLoad.loadImage(data.img_url, 750, 750, svAd)
+                mImageLoad.loadImage(svAd, data.img_url, 750, 750)
                 svAd.setOnClickListener(object : OnMyClickListener() {
                     override fun onCanClick(v: View?) {
                     }

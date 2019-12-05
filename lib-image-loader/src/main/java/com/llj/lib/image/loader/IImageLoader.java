@@ -1,32 +1,25 @@
 package com.llj.lib.image.loader;
 
-import android.content.Context;
+import android.view.View;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
-import android.view.View;
-
-import okhttp3.OkHttpClient;
 
 /**
- * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/5/4
+ *
+ * @author liulj
+ * @date 2018/5/4
  */
 public interface IImageLoader<T extends View> {
 
-    void init(Context context);
+  void loadImage(T view, @DrawableRes int resId, int width, int height);
 
-    void init(Context context, OkHttpClient okHttpClient);
+  void loadImage(T view, @Nullable CharSequence urlOrPath, int width, int height);
 
-    void loadImage(@DrawableRes int resId, int width, int height, T view);
+  void clearMemoryCaches();
 
-    void loadImage(@Nullable CharSequence  urlOrPath, int width, int height, T view);
+  void clearDiskCaches();
 
-    void clearMemoryCaches();
-
-    void clearDiskCaches();
-
-    void clearCaches();
+  void clearCaches();
 
 }

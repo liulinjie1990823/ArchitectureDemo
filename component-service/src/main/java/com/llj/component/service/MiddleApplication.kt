@@ -20,11 +20,12 @@ import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.flipper.plugins.sandbox.SandboxFlipperPlugin
 import com.facebook.flipper.plugins.sandbox.SandboxFlipperPluginStrategy
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
+import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher
 import com.facebook.imagepipeline.debug.FlipperImageTracker
+import com.llj.component.service.imageLoader.FrescoUtils
 import com.llj.component.service.preference.UserInfoPreference
 import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.BaseApplication
-import com.llj.lib.image.loader.FrescoImageLoader
 import skin.support.SkinCompatManager
 import skin.support.app.SkinCardViewInflater
 import skin.support.constraint.app.SkinConstraintViewInflater
@@ -94,7 +95,7 @@ abstract class MiddleApplication : BaseApplication() {
     }
 
     override fun initImageLoader() {
-        FrescoImageLoader.getInstance(this.applicationContext, mMiddleComponent.okHttpClient())
+        FrescoUtils.initFresco(this.applicationContext, OkHttpNetworkFetcher(mMiddleComponent.okHttpClient()));
     }
 
     override fun initFlipper() {

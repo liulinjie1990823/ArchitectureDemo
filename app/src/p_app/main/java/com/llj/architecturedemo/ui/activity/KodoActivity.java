@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
-
+import butterknife.BindView;
+import butterknife.internal.DebouncingOnClickListener;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.facebook.drawee.view.GenericDraweeView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.component.service.arouter.CRouter;
+import com.llj.component.service.imageLoader.FrescoImageLoader;
 import com.llj.lib.base.help.FilePathHelper;
-import com.llj.lib.image.loader.FrescoImageLoader;
 import com.llj.lib.image.loader.ICustomImageLoader;
 import com.llj.lib.kodo.KodoUploadManager;
 import com.qiniu.android.common.FixedZone;
@@ -25,15 +26,10 @@ import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
 import com.qiniu.android.storage.persistent.FileRecorder;
-
-import org.jetbrains.annotations.Nullable;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
-
-import butterknife.BindView;
-import butterknife.internal.DebouncingOnClickListener;
+import org.jetbrains.annotations.Nullable;
+import org.json.JSONObject;
 
 /**
  * ArchitectureDemo.
@@ -63,7 +59,7 @@ public class KodoActivity extends AppMvcBaseActivity {
 
     @Override
     public void initViews(@Nullable Bundle savedInstanceState) {
-        mImageLoader = FrescoImageLoader.getInstance(this);
+        mImageLoader = FrescoImageLoader.getInstance();
 
         mBtnUpload.setOnClickListener(new DebouncingOnClickListener() {
             @Override
@@ -98,7 +94,7 @@ public class KodoActivity extends AppMvcBaseActivity {
         mBtnShow.setOnClickListener(new DebouncingOnClickListener() {
             @Override
             public void doClick(View v) {
-                mImageLoader.loadImage(mUrl, 0, 0, mSdvShow);
+                mImageLoader.loadImage(mSdvShow, mUrl, 0, 0);
             }
         });
     }

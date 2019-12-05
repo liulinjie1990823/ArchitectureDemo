@@ -21,6 +21,7 @@
 - CamelCase 转换驼峰下划线
 - Git Commit Template git提交模板
 - Custom postfix templates 后缀模板
+- Statistic 代码统计
 
 # 扩展插件
 - Key Promoter X 快捷键提示

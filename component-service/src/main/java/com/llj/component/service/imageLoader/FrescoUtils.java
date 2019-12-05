@@ -1,13 +1,12 @@
-package com.llj.lib.image.loader;
+package com.llj.component.service.imageLoader;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
-import android.text.TextUtils;
-
 import com.facebook.common.internal.Supplier;
 import com.facebook.common.logging.FLog;
 import com.facebook.common.util.ByteConstants;
@@ -33,7 +32,6 @@ import com.facebook.imagepipeline.listener.RequestLoggingListener;
 import com.facebook.imagepipeline.producers.NetworkFetcher;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
-
 import java.util.HashSet;
 import java.util.Set;
 

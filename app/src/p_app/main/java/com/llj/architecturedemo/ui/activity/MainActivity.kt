@@ -1,7 +1,6 @@
 package com.llj.architecturedemo.ui.activity
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
@@ -20,10 +19,10 @@ import com.llj.architecturedemo.ui.model.TabVo
 import com.llj.architecturedemo.ui.presenter.MainPresenter
 import com.llj.architecturedemo.ui.view.MainContractView
 import com.llj.component.service.arouter.CRouter
+import com.llj.component.service.imageLoader.FrescoImageLoader
 import com.llj.component.service.preference.ConfigPreference
 import com.llj.lib.base.BaseTabActivity
 import com.llj.lib.base.IUiHandler
-import com.llj.lib.image.loader.FrescoImageLoader
 import com.llj.lib.image.loader.ICustomImageLoader
 import com.llj.lib.net.response.BaseResponse
 
@@ -89,7 +88,7 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
 
     private inner class TabAdapter(list: ArrayList<TabVo>?) : ListBasedAdapter<TabVo, ViewHolderHelper>(list), IUiHandler {
 
-        private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(mContext.applicationContext)
+        private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance()
 
         init {
             addItemLayout(R.layout.item_main_activity_tab)
@@ -105,10 +104,10 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
             //设置图片改变
             if (item.default_img_id != 0) {
                 val imageId: Int = if (mShowItem == item.type) item.hover_img_id else item.default_img_id
-                mImageLoad.loadImage(imageId, 120, 120, image)
+                mImageLoad.loadImage(image, imageId, 120, 120)
             } else {
                 val imageUrl: String? = if (mShowItem == item.type) item.hover_img else item.default_img
-                mImageLoad.loadImage(imageUrl, 120, 120, image)
+                mImageLoad.loadImage(image, imageUrl, 120, 120)
             }
 
             setText(text, item.title)

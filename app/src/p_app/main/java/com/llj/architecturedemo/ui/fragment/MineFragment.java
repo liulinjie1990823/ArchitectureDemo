@@ -4,13 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
-import androidx.cardview.widget.CardView;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +13,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.OnClick;
+import butterknife.internal.DebouncingOnClickListener;
 import com.facebook.drawee.view.GenericDraweeView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.llj.adapter.ListBasedAdapter;
@@ -39,16 +42,15 @@ import com.llj.architecturedemo.ui.view.IMineView;
 import com.llj.component.service.MiddleApplication;
 import com.llj.component.service.MiddleMvpBaseFragment;
 import com.llj.component.service.arouter.CRouter;
+import com.llj.component.service.imageLoader.FrescoImageLoader;
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout;
 import com.llj.component.service.vo.UserInfoVo;
 import com.llj.lib.base.help.DisplayHelper;
 import com.llj.lib.base.widget.LoadingDialog;
-import com.llj.lib.image.loader.FrescoImageLoader;
 import com.llj.lib.image.loader.ICustomImageLoader;
 import com.llj.lib.net.response.BaseResponse;
 import com.llj.lib.statusbar.LightStatusBarCompat;
 import com.llj.lib.utils.AViewUtils;
-import com.llj.lib.utils.helper.Utils;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -56,18 +58,11 @@ import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.AutoDisposeConverter;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.BindViews;
-import butterknife.OnClick;
-import butterknife.internal.DebouncingOnClickListener;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 
@@ -121,8 +116,7 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
   @BindView(R.id.parallax)       ImageView            mParallax;
   @BindView(R.id.iv_top_bg)      ImageView            mIvTopBg;
 
-  private ICustomImageLoader<GenericDraweeView> mImageLoad = FrescoImageLoader
-      .getInstance(Utils.getApp());
+  private ICustomImageLoader<GenericDraweeView> mImageLoad = FrescoImageLoader.getInstance();
 
 
   @Override
@@ -158,7 +152,7 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
       //已经登录
       //头像
       mImageLoad
-          .loadImage(userInfoVo.getAvatar(), dip2px(mContext, 65), dip2px(mContext, 65), mIvHeader);
+          .loadImage(mIvHeader, userInfoVo.getAvatar(), dip2px(mContext, 65), dip2px(mContext, 65));
       //昵称
       mTvLogin.setText(userInfoVo.getUname());
       //会员
@@ -179,7 +173,7 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
     } else {
       //未登录
       //头像
-      mImageLoad.loadImage(0, dip2px(mContext, 65), dip2px(mContext, 65), mIvHeader);
+      mImageLoad.loadImage(mIvHeader, 0, dip2px(mContext, 65), dip2px(mContext, 65));
       mTvLogin.setText(R.string.click_to_login);
       mIvMemberTag.setVisibility(View.GONE);
       mTvDiamondPoints.setVisibility(View.GONE);
@@ -524,8 +518,8 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
       if (PersonalCenterVo.AdVo.POSITION_TOP.equals(ad.getPosition()) && !isEmpty(ad.getImage())) {
         mCvImage1.setVisibility(View.VISIBLE);
 
-        mImageLoad.loadImage(ad.getImage(), DisplayHelper.SCREEN_WIDTH, DisplayHelper.SCREEN_WIDTH,
-            mIvAdd1);
+        mImageLoad.loadImage(mIvAdd1, ad.getImage(), DisplayHelper.SCREEN_WIDTH,
+            DisplayHelper.SCREEN_WIDTH);
         mCvImage1.setOnClickListener(new DebouncingOnClickListener() {
           @Override
           public void doClick(View v) {
@@ -975,7 +969,7 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
       viewHolder.setText(R.id.tv_sub_title, item.getSub_title());
       viewHolder.setText(R.id.tv_status, item.getStatus_name());
 
-      mImageLoad.loadImage(item.getImage(), 60, 60, icon);
+      mImageLoad.loadImage(icon, item.getImage(), 60, 60);
 
       viewHolder.itemView.setOnClickListener(new DebouncingOnClickListener() {
         @Override
@@ -1016,7 +1010,7 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
         final int position) {
       SimpleDraweeView simpleDraweeView = viewHolder.getView(R.id.sv_image);
 
-      mImageLoad.loadImage(item.getImage(), 1080, 1080, simpleDraweeView);
+      mImageLoad.loadImage(simpleDraweeView, item.getImage(), 1080, 1080);
     }
   }
 
