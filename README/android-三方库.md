@@ -36,6 +36,9 @@
 - MMKV：<https://github.com/Tencent/MMKV>
 - Treasure：<https://github.com/baoyongzhang/Treasure>
 
+##### 内存回收存储
+- SaveState：<https://github.com/PrototypeZ/SaveState>
+
 ##### json解析
 - gson：<https://github.com/google/gson> com.google.code.gson:gson:2.8.5
 - fastjson-android
@@ -61,10 +64,6 @@
 - walle：<https://github.com/Meituan-Dianping/walle>
 - VasDolly：<https://github.com/Tencent/VasDolly/>
 
-##### debug
-- flipper：<https://github.com/facebook/flipper> com.facebook.flipper:flipper:0.14.1
-- leakcanary：<https://github.com/square/leakcanary>
-
 ##### 应用启动框架
 - alpha：<https://github.com/alibaba/alpha>
 
@@ -84,6 +83,12 @@
 
 ##### 繁体和简体转换
 - opencc：<https://github.com/qichuan/android-opencc>
+
+##### 性能检测
+- flipper：<https://github.com/facebook/flipper> com.facebook.flipper:flipper:0.14.1
+- leakcanary：<https://github.com/square/leakcanary>
+- Matrix:<https://github.com/Tencent/matrix>
+- AndroidGodEye:<https://github.com/Kyson/AndroidGodEye>
 
 
 ##### ui库
@@ -108,7 +113,8 @@
 - 刮奖效果：<https://github.com/myinnos/AndroidScratchCard> com.github.myinnos:AndroidScratchCard:v1.0
 - 图文混排效果：<https://github.com/sendtion/XRichText> com.github.sendtion:XRichText:1.8
 - 布局回收优化：<https://github.com/facebook/litho>
-- 直尺效果：<https://github.com/kevalpatel2106/android-ruler-picker>
+- 直尺效果：<https://github.com/kevalpatel2106/android-ruler-picker> 
+- BasePopup：<https://github.com/razerdp/BasePopup> com.github.razerdp:BasePopup:2.2.1
 
 ## plugin选择
 

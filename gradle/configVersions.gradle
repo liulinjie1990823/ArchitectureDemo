@@ -40,7 +40,7 @@ def versions = [
 
         stetho               : "1.5.1",
         leakcanary           : "2.0-beta-2",
-        flipper              : "0.28.0",
+        flipper              : "0.30.0",
 
         timber               : "4.7.1",
 

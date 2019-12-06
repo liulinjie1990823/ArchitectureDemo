@@ -136,7 +136,6 @@ abstract class MiddleApplication : BaseApplication() {
                     return databaseFiles
                 }
             })))
-            //网络
             //文件操作
             val descriptors = ArrayList<SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor>()
             val listFilesInDir = FileUtils.listFilesInDir(cacheDir.parentFile.absolutePath + File.separator + "shared_prefs")

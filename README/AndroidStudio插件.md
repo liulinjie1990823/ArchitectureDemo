@@ -22,6 +22,8 @@
 - Git Commit Template git提交模板
 - Custom postfix templates 后缀模板
 - Statistic 代码统计
+- Rainbow Brackets 显示彩虹括号
+
 
 # 扩展插件
 - Key Promoter X 快捷键提示

@@ -9,7 +9,7 @@ buildscript {
     addRepos(repositories)
     dependencies {
         //方法数检测
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.0'
         //maven库更新检测
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.27.0'
         //android插件
@@ -40,10 +40,11 @@ buildscript {
         if (useCodeInject) {
             classpath 'com.llj:plugin-code-inject:0.0.1'
         }
-
+        //okbuck编译
         classpath 'com.uber:okbuck:0.49.0'
         //保存页面字段
         //classpath "io.github.prototypez:save-state:0.2.3"
+
     }
 }
 
