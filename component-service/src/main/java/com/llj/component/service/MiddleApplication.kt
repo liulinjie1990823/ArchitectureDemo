@@ -5,11 +5,8 @@ import android.content.pm.ApplicationInfo
 import androidx.annotation.CallSuper
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.FileUtils
-import com.facebook.common.memory.manager.NoOpDebugMemoryManager
-import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
-import com.facebook.flipper.perflogger.NoOpFlipperPerfLogger
 import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin
 import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
 import com.facebook.flipper.plugins.databases.impl.SqliteDatabaseDriver
@@ -21,7 +18,6 @@ import com.facebook.flipper.plugins.sandbox.SandboxFlipperPlugin
 import com.facebook.flipper.plugins.sandbox.SandboxFlipperPluginStrategy
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher
-import com.facebook.imagepipeline.debug.FlipperImageTracker
 import com.llj.component.service.imageLoader.FrescoUtils
 import com.llj.component.service.preference.UserInfoPreference
 import com.llj.component.service.vo.UserInfoVo
@@ -108,14 +104,15 @@ abstract class MiddleApplication : BaseApplication() {
             //布局查看
             client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
             //图片加载
-            client.addPlugin(FrescoFlipperPlugin(
-                    FlipperImageTracker(),
-                    Fresco.getImagePipelineFactory().platformBitmapFactory,
-                    null,
-                    NoOpDebugMemoryManager(),
-                    NoOpFlipperPerfLogger(),
-                    null,
-                    null))
+            client.addPlugin(FrescoFlipperPlugin())
+//            client.addPlugin(FrescoFlipperPlugin(
+//                    FlipperImageTracker(),
+//                    Fresco.getImagePipelineFactory().platformBitmapFactory,
+//                    null,
+//                    NoOpDebugMemoryManager(),
+//                    NoOpFlipperPerfLogger(),
+//                    null,
+//                    null))
             //沙盒
             client.addPlugin(SandboxFlipperPlugin(object : SandboxFlipperPluginStrategy {
                 override fun getKnownSandboxes(): MutableMap<String, String> {

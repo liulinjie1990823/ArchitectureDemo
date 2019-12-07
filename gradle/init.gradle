@@ -15,6 +15,7 @@ ext.useDexcount = properties.getProperty("useDexcount")=="true"
 ext.useAspectjx = properties.getProperty("useAspectjx")=="true"
 ext.useCodeInject = properties.getProperty("useCodeInject")=="true"
 ext.useApkUploadPlugin = properties.getProperty("useApkUploadPlugin")=="true"
+ext.useOld = properties.getProperty("useOld")=="true"
 
 ext.pgyDebugApiKey = properties.getProperty("pgyDebugApiKey")
 ext.pgyDebugUserKey = properties.getProperty("pgyDebugUserKey")

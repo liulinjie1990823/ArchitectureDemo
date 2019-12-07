@@ -9,9 +9,13 @@ dependencies {
     //gradle sdk
     implementation gradleApi()
     //groovy sdk
-    compile localGroovy()
-
-    implementation deps.android_gradle_plugin
+    implementation localGroovy()
+    //android插件
+    if (useOld) {
+        implementation deps.android_gradle_plugin_old
+    } else {
+        implementation deps.android_gradle_plugin
+    }
 
     implementation('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2') {
         exclude(module: 'groovy')

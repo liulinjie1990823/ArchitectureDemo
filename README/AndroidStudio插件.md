@@ -23,9 +23,13 @@
 - Custom postfix templates 后缀模板
 - Statistic 代码统计
 - Rainbow Brackets 显示彩虹括号
+- ok gradle 搜索依赖
 
 
 # 扩展插件
+- leetcode-editor
+- SQLScout 数据库查看
+- GradleDependenciesHelperPlugin gardle依赖自动补全
 - Key Promoter X 快捷键提示
 - Builder Generator 自动生成Builder模板
 - GLSL Support GLSL文件支持

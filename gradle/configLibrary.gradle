@@ -69,9 +69,11 @@ subprojects {
                 implementation deps.appcompat
             }
         }
-        //打包本地
-        apply from: rootProject.file('gradle/uploadArchives.gradle')
-        //上传bintray
-        apply from: rootProject.file('gradle/bintrayUpload.gradle')
+        if (useOld) {
+            //打包本地
+            apply from: rootProject.file('gradle/uploadArchives.gradle')
+            //上传bintray
+            apply from: rootProject.file('gradle/bintrayUpload.gradle')
+        }
     }
 }

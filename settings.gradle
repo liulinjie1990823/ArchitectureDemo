@@ -26,7 +26,7 @@ include 'app',
         ':app-mine'
 
 include ':plugin-code-inject'
-include ':plugin-upload'
+//include ':plugin-upload'
 
 include ':lib-base-compiler'
 include ':lib-jump-annotation'

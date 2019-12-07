@@ -93,7 +93,11 @@ class ApkUploadPlugin implements Plugin<Project> {
         if (project.hasProperty("desc")) {
             desc = project.properties.get("desc")
         } else {
-            desc = "no desc"
+            if (split.size() > 0) {
+                desc = buildType.toString() + " " + branch + " " + split[0]
+            } else {
+                desc = buildType.toString() + " " + branch
+            }
         }
         def http = new HTTPBuilder(PGY_URL)
         http.request(POST, ContentType.JSON) { req ->

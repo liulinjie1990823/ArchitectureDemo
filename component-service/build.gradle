@@ -123,8 +123,9 @@ dependencies {
     betaImplementation deps.flipper
     releaseImplementation deps.flipper_noop
 
-    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.28.0'
-    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.28.0'
+    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.25.0'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.27.0'
+    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.30.0'
     //内存检测
     debugImplementation deps.leakcanary_android
     betaImplementation deps.leakcanary_android
