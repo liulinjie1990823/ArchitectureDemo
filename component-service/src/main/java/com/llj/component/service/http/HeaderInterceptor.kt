@@ -96,11 +96,11 @@ class HeaderInterceptor : Interceptor {
             try {
                 userAgent = WebSettings.getDefaultUserAgent(context)
             } catch (e: Exception) {
-                userAgent = System.getProperty("http.agent")
+                userAgent = System.getProperty("http.agent") ?: ""
             }
 
         } else {
-            userAgent = System.getProperty("http.agent")
+            userAgent = System.getProperty("http.agent") ?: ""
         }
         val sb = StringBuffer()
         var i = 0

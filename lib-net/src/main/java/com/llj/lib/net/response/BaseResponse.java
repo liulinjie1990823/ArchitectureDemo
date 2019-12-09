@@ -1,15 +1,20 @@
 package com.llj.lib.net.response;
 
 import androidx.annotation.Nullable;
-
 import com.google.gson.annotations.SerializedName;
+import com.llj.lib.net.exception.ApiException;
 
 /**
- * ArchitectureDemo describe: author liulj date 2018/5/7
+ * ArchitectureDemo
+ *
+ * describe:
+ *
+ * @author liulj
+ * @date 2018/5/7
  */
 public class BaseResponse<Data> implements IResponse<Data> {
 
-  private int    code;
+  private int    code;//0是正常码
   @SerializedName("message")
   private String msg;
   private Data   data;
@@ -20,13 +25,14 @@ public class BaseResponse<Data> implements IResponse<Data> {
     this.data = data;
   }
 
+
   @Override
   public int getCode() {
-    return 0;
+    return code;
   }
 
   @Override
-  public String getMsg() {
+  public String getMessage() {
     return msg;
   }
 
@@ -35,6 +41,9 @@ public class BaseResponse<Data> implements IResponse<Data> {
     return data;
   }
 
+  public void setData(Data data) {
+    this.data = data;
+  }
 
   @Override
   public boolean isOk() {
@@ -44,5 +53,14 @@ public class BaseResponse<Data> implements IResponse<Data> {
 
   public static <Data> BaseResponse<Data> success(@Nullable Data data) {
     return new BaseResponse<>(0, "", data);
+  }
+
+  public static <Data> BaseResponse<Data> error(@Nullable Data data, Throwable throwable) {
+    if (throwable instanceof ApiException) {
+      ApiException apiException = (ApiException) throwable;
+      return new BaseResponse<>(apiException.getCode(), apiException.getDisplayMessage(), data);
+    }
+
+    return new BaseResponse<>(-10086, "未知错误", data);
   }
 }

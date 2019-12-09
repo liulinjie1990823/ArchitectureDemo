@@ -10,7 +10,7 @@ public interface IResponse<Data> {
 
     int getCode();
 
-    String getMsg();
+    String getMessage();
 
     Data getData();
 

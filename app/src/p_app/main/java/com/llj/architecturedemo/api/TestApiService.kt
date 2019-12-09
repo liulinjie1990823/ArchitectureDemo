@@ -17,14 +17,13 @@ import java.util.*
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/6/6
+ * @author liulj
+ * @date 2018/6/6
  */
 interface TestApiService {
 
     @GET("/api/mobile.php")
     fun getMobile(@Query("mobile") mobile: String): Single<Response<BaseResponse<MobileEntity>>>
-
 
     @POST("/common/tabbar/get-tabbar")
     fun getTabBar(@Body map: HashMap<String, Any>): Single<Response<BaseResponse<TabListVo?>>>

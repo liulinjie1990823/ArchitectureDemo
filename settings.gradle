@@ -73,12 +73,12 @@ if (!useMaven) {
 //))
 //include ':flutter_ui'
 
-setBinding(new Binding([gradle: this]))
-evaluate(new File(
-        settingsDir,
-        'flutter_setting/.android/include_flutter.groovy'
-))
-include ':flutter_setting'
+//setBinding(new Binding([gradle: this]))
+//evaluate(new File(
+//        settingsDir,
+//        'flutter_setting/.android/include_flutter.groovy'
+//))
+//include ':flutter_setting'
 
 //setBinding(new Binding([gradle: this]))
 //evaluate(new File(

@@ -51,7 +51,7 @@ ext {
 //            applicationId    : "com.china.hunbohui",
 applicationId    : "com.llj.architecturedemo",
 compileJdkVersion: 1.8,
-compileSdkVersion: 28,
+compileSdkVersion: 29,
 buildToolsVersion: "28.0.3",
 minSdkVersion    : 21,
 targetSdkVersion : 28,

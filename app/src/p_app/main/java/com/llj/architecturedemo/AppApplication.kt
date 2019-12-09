@@ -114,10 +114,7 @@ class AppApplication : MiddleApplication() {
         CrashReport.initCrashReport(applicationContext, "a0ed9c00ad", false)
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
-            override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-                if (activity == null) {
-                    return
-                }
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                 if (activity is MainActivity) {
                     //status和界面中的布局覆盖布局，界面中加了fitWindow,有padding效果，覆盖白字
                     StatusBarCompat.translucentStatusBar(activity.window, true)
@@ -130,8 +127,6 @@ class AppApplication : MiddleApplication() {
                 }
             }
         })
-
-
     }
 
     override fun attachBaseContext(base: Context?) {

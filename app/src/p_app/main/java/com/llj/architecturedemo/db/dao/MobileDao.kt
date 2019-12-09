@@ -10,9 +10,10 @@ import com.llj.architecturedemo.db.entity.MobileEntity
 
 /**
  * ArchitectureDemo
+ *
  * describe:
- * author liulj
- * date 2018/6/6
+ * @author liulj
+ * @date 2018/6/6
  */
 @Dao
 interface MobileDao {

@@ -22,16 +22,20 @@ class RequestPresenter @Inject constructor(repository: MobileRepository, view: I
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
 
-        PermissionManager.checkPhoneState(Utils.getApp(), PermissionManager.PermissionListener {
-            val mobileLivData = repository.getMobile("13188888888", view!!)
-            mobileLivData.removeObservers(view!!)
-            mobileLivData.observe(view!!, Observer { baseResponse ->
+        PermissionManager.checkPhoneState(Utils.getApp(), object : PermissionManager.PermissionListener {
 
-                if (baseResponse != null) {
-                    view?.toast(baseResponse.data)
-                }
+            override fun onGranted(permissions: MutableList<String>?) {
 
-            })
+                val mobileLivData = repository.getMobile("13188888888", view!!)
+                mobileLivData.removeObservers(view!!)
+                mobileLivData.observe(view!!, Observer { baseResponse ->
+
+                    if (baseResponse != null) {
+                        view?.toast(baseResponse.data)
+                    }
+
+                })
+            }
         })
     }
 
