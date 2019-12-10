@@ -6,12 +6,15 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.CallSuper
+import androidx.annotation.IdRes
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.llj.lib.base.event.BaseEvent
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITaskId
+import com.llj.lib.utils.AFragmentUtils
 import com.llj.lib.utils.AInputMethodManagerUtils
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.Disposable
@@ -48,9 +51,10 @@ import timber.log.Timber
  * 08-11 11:33:54.085    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ onResume()
  *
  * ArchitectureDemo.
- * describe:
- * author llj
- * date 2018/8/15
+ *
+ * describe:Fragment基类，兼容DialogFragment
+ * @author llj
+ * @date 2018/8/15
  */
 abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
         , IBaseFragment, ICommon, IUiHandler, IEvent, ITask, ILoadingDialogHandler {
@@ -67,33 +71,112 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
 
     var mUseSoftInput: Boolean = false //是否使用软键盘
 
+    //<editor-fold desc="对话框相关">
+    private var mOnDismissListener: DialogInterface.OnDismissListener? = null
+    private var mOnShowListener: DialogInterface.OnShowListener? = null
+
+    fun setOnDismissListener(onDismissListener: DialogInterface.OnDismissListener) {
+        mOnDismissListener = onDismissListener
+    }
+
+    fun setOnShowListener(onShowListener: DialogInterface.OnShowListener) {
+        mOnShowListener = onShowListener
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BaseDialogImpl(activity!!, theme)
-        if (mUseSoftInput) {
-            dialog.setOnShowListener(DialogInterface.OnShowListener {
-                dialog.window!!.decorView.post(Runnable {
-                    if (activity == null) {
-                        return@Runnable
-                    }
-                    AInputMethodManagerUtils.showOrHideInput(dialog, true)
-                })
-            })
-        }
         return dialog
     }
 
-    //如果有dialog，dialog的dismiss会回调该方法
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        if (activity == null) {
-            return
-        }
+    //如果是DialogFragment，会在该方法中显示dialog
+    override fun onStart() {
+        super.onStart()
+        Timber.tag(mTagLog).i("onStart：%s", mTagLog)
+
+        performOnShow()
+    }
+
+    private fun performOnShow() {
+        //设置回调方法
+        mOnShowListener?.onShow(dialog)
+        //是否显示输入法
         if (mUseSoftInput) {
-            AInputMethodManagerUtils.hideSoftInputFromWindow(getDialog())
+            dialog?.window?.decorView?.post(Runnable {
+                AInputMethodManagerUtils.showOrHideInput(dialog, true)
+            })
         }
     }
 
+    //如果有dialog，dialog的dismiss会回调该方法
+    //不要设置setOnDismissListener，因为DialogFragment中会覆盖
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+
+        performOnDismiss()
+    }
+
+    private fun performOnDismiss() {
+        //设置回调方法
+        mOnDismissListener?.onDismiss(dialog)
+
+        if (mUseSoftInput) {
+            AInputMethodManagerUtils.hideSoftInputFromWindow(getDialog())
+        }
+
+    }
+
+    fun smartDismiss() {
+        if (showsDialog) {
+            dismissAllowingStateLoss()
+        } else {
+            AFragmentUtils.removeFragment(fragmentManager, this)
+            performOnDismiss()
+        }
+    }
+
+
+    //region smartShow
+    fun smartShow(manager: FragmentManager, tag: String) {
+        smartShow(manager, tag, Window.ID_ANDROID_CONTENT)
+    }
+
+    fun smartShow(manager: FragmentManager, tag: String, @IdRes containerViewId: Int) {
+        if (showsDialog) {
+            try {
+                super.show(manager, tag)
+            } catch (ignore: IllegalStateException) {
+                //  容错处理,不做操作
+            }
+
+        } else {
+            //添加到ID_ANDROID_CONTENT里
+            AFragmentUtils.addFragment(manager, containerViewId, this, tag)
+        }
+    }
+    //endregion
+
+    //region smartShowNow
+    fun smartShowNow(manager: FragmentManager, tag: String) {
+        smartShowNow(manager, tag, Window.ID_ANDROID_CONTENT)
+    }
+
+    //1.先添加fragment
+    //2.在fragment的生命周期的onStart中显示dialog
+    fun smartShowNow(manager: FragmentManager, tag: String, @IdRes containerViewId: Int) {
+        if (showsDialog) {
+            try {
+                super.showNow(manager, tag)
+            } catch (ignore: IllegalStateException) {
+                //  容错处理,不做操作
+            }
+
+        } else {
+            //添加到ID_ANDROID_CONTENT里
+            AFragmentUtils.addFragment(manager, containerViewId, this, tag)
+        }
+    }
+    //endregion
+    //</editor-fold >
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
@@ -122,6 +205,7 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
         //如果要修改可以在Fragment的构造函数中修改
         showsDialog = false
 
+        //设置dialog的style
         setStyle(STYLE_NO_TITLE, R.style.no_dim_dialog)
 
         mContext = context!!
@@ -179,10 +263,6 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        Timber.tag(mTagLog).i("onStart：%s", mTagLog)
-    }
 
     override fun onResume() {
         super.onResume()

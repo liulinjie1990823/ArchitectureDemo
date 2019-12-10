@@ -2,34 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-//void main() => runApp(_widgetForRoute(window.defaultRouteName));
-//void main() => runApp(Setting());
-
-//void main() {
-//  runApp(Setting());
-////  if (Platform.isAndroid) {
-////    // 以下两行 设置android状态栏为透明的沉浸。写在组件渲染之后，是为了在渲染后进行set赋值，覆盖状态栏，写在渲染之前MaterialApp组件会覆盖掉这个值。
-////    SystemUiOverlayStyle systemUiOverlayStyle =
-////        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-////    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-////  }
-//}
-//
-//Widget _widgetForRoute(String route) {
-//  switch (route) {
-//    case 'setting':
-//      return Setting();
-//    case 'route2':
-//      return Center(
-//        child: Text('route: $route', textDirection: TextDirection.ltr),
-//      );
-//    default:
-//      return Center(
-//        child: Text('Unknown route: $route', textDirection: TextDirection.ltr),
-//      );
-//  }
-//}
-
 class Setting extends StatelessWidget {
   // This widget is the root of your application.
   @override

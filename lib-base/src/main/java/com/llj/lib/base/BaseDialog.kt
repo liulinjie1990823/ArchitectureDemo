@@ -2,9 +2,12 @@ package com.llj.lib.base
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
-import androidx.annotation.LayoutRes
+import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.annotation.LayoutRes
 import butterknife.ButterKnife
 import com.llj.lib.base.widget.LoadingDialog
 import com.llj.lib.net.observer.ITaskId
@@ -12,8 +15,8 @@ import com.llj.lib.net.observer.ITaskId
 /**
  * ArchitectureDemo
  * describe:
- * author llj
- * date 2018/5/24
+ * @author llj
+ * @date 2018/5/24
  */
 abstract class BaseDialog : Dialog, ILoadingDialogHandler {
 
@@ -131,5 +134,23 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
         return getLoadingDialog()?.getRequestId() ?: -1
     }
 
+    //设置dialog透明模式
+    override fun show() {
+        //Here's the magic..
+        //Set the dialog to not focusable (makes navigation ignore us adding the window)
+        window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
 
+        //Show the dialog!
+        super.show()
+
+        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window?.statusBarColor = Color.TRANSPARENT
+        window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+
+        //Clear the not focusable flag from the window
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+
+    }
 }
