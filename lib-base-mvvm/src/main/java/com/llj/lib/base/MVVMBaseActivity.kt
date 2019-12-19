@@ -1,17 +1,15 @@
 package com.llj.lib.base
 
 import android.app.Dialog
-import androidx.lifecycle.Lifecycle
 import android.content.Context
+import android.os.Bundle
+import android.view.MotionEvent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import android.os.Bundle
-import androidx.collection.ArrayMap
-import androidx.appcompat.app.AppCompatActivity
-import android.view.MotionEvent
+import androidx.lifecycle.Lifecycle
 import com.llj.lib.base.mvvm.BaseViewModel
 import com.llj.lib.base.widget.LoadingDialog
-import com.llj.lib.net.observer.ITaskId
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -19,17 +17,20 @@ import javax.inject.Inject
 /**
  * ArchitectureDemo
  * describe:
- * author llj
- * date 2018/6/30
+ *
+ * @author llj
+ *
+ * @date 2018/6/30
  */
 abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCompatActivity(),
-        IBaseActivity, ICommon, IUiHandler, IEventK, ILoadingDialogHandler, ITask {
+        IBaseActivity, ICommon, IUiHandler, IEventK, ILoadingDialogHandler<BaseDialog>, ITask {
     val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context
 
-    @Inject lateinit var mViewModel: VM
+    @Inject
+    lateinit var mViewModel: VM
     private lateinit var mDataBinding: B
-    private var mRequestDialog: ITaskId? = null
+    private var mRequestDialog: BaseDialog? = null
 
     private val mCancelableTask: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
 
@@ -148,12 +149,8 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
     //</editor-fold >
 
     //<editor-fold desc="ILoadingDialogHandler">
-    override fun getLoadingDialog(): ITaskId? {
+    override fun getLoadingDialog(): BaseDialog? {
         return mRequestDialog
-    }
-
-    override fun initLoadingDialog(): ITaskId? {
-        return null
     }
 
     private fun checkRequestDialog() {
@@ -165,6 +162,18 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
             }
         }
         setRequestId(hashCode())
+    }
+
+    override fun initLoadingDialog(): BaseDialog? {
+        return null
+    }
+
+    override fun showLoadingDialog() {
+        getLoadingDialog()?.show()
+    }
+
+    override fun dismissLoadingDialog() {
+        getLoadingDialog()?.dismiss()
     }
 
     //如果该RequestDialog和请求关联就设置tag

@@ -1,22 +1,8 @@
 package com.llj.component.service
 
-import android.content.Context
 import android.content.pm.ApplicationInfo
 import androidx.annotation.CallSuper
 import com.alibaba.android.arouter.launcher.ARouter
-import com.blankj.utilcode.util.FileUtils
-import com.facebook.flipper.android.AndroidFlipperClient
-import com.facebook.flipper.android.utils.FlipperUtils
-import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin
-import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
-import com.facebook.flipper.plugins.databases.impl.SqliteDatabaseDriver
-import com.facebook.flipper.plugins.databases.impl.SqliteDatabaseProvider
-import com.facebook.flipper.plugins.fresco.FrescoFlipperPlugin
-import com.facebook.flipper.plugins.inspector.DescriptorMapping
-import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
-import com.facebook.flipper.plugins.sandbox.SandboxFlipperPlugin
-import com.facebook.flipper.plugins.sandbox.SandboxFlipperPluginStrategy
-import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher
 import com.llj.component.service.imageLoader.FrescoUtils
 import com.llj.component.service.preference.UserInfoPreference
@@ -26,7 +12,6 @@ import skin.support.SkinCompatManager
 import skin.support.app.SkinCardViewInflater
 import skin.support.constraint.app.SkinConstraintViewInflater
 import skin.support.design.app.SkinMaterialViewInflater
-import java.io.File
 
 
 /**
@@ -99,12 +84,12 @@ abstract class MiddleApplication : BaseApplication() {
             return
         }
 
-        if (FlipperUtils.shouldEnableFlipper(this)) {
-            val client = AndroidFlipperClient.getInstance(this)
-            //布局查看
-            client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
-            //图片加载
-            client.addPlugin(FrescoFlipperPlugin())
+//        if (FlipperUtils.shouldEnableFlipper(this)) {
+//            val client = AndroidFlipperClient.getInstance(this)
+//            //布局查看
+//            client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
+//            //图片加载
+//            client.addPlugin(FrescoFlipperPlugin())
 //            client.addPlugin(FrescoFlipperPlugin(
 //                    FlipperImageTracker(),
 //                    Fresco.getImagePipelineFactory().platformBitmapFactory,
@@ -114,36 +99,36 @@ abstract class MiddleApplication : BaseApplication() {
 //                    null,
 //                    null))
             //沙盒
-            client.addPlugin(SandboxFlipperPlugin(object : SandboxFlipperPluginStrategy {
-                override fun getKnownSandboxes(): MutableMap<String, String> {
-                    return HashMap()
-                }
-
-                override fun setSandbox(sandbox: String?) {
-                }
-
-            }))
-            //数据库
-            client.addPlugin(DatabasesFlipperPlugin(SqliteDatabaseDriver(this, object : SqliteDatabaseProvider {
-                override fun getDatabaseFiles(): MutableList<File> {
-                    val databaseFiles = ArrayList<File>()
-                    for (item in applicationContext.databaseList()) {
-                        databaseFiles.add(applicationContext.getDatabasePath(item))
-                    }
-                    return databaseFiles
-                }
-            })))
-            //文件操作
-            val descriptors = ArrayList<SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor>()
-            val listFilesInDir = FileUtils.listFilesInDir(cacheDir.parentFile.absolutePath + File.separator + "shared_prefs")
-            for (file in listFilesInDir) {
-                descriptors.add(SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor(file.name.replace(".xml",""), Context.MODE_PRIVATE))
-            }
-            client.addPlugin(SharedPreferencesFlipperPlugin(this, descriptors))
-            //崩溃统计
-            client.addPlugin(CrashReporterPlugin.getInstance())
-            client.start()
-        }
+//            client.addPlugin(SandboxFlipperPlugin(object : SandboxFlipperPluginStrategy {
+//                override fun getKnownSandboxes(): MutableMap<String, String> {
+//                    return HashMap()
+//                }
+//
+//                override fun setSandbox(sandbox: String?) {
+//                }
+//
+//            }))
+//            //数据库
+//            client.addPlugin(DatabasesFlipperPlugin(SqliteDatabaseDriver(this, object : SqliteDatabaseProvider {
+//                override fun getDatabaseFiles(): MutableList<File> {
+//                    val databaseFiles = ArrayList<File>()
+//                    for (item in applicationContext.databaseList()) {
+//                        databaseFiles.add(applicationContext.getDatabasePath(item))
+//                    }
+//                    return databaseFiles
+//                }
+//            })))
+//            //文件操作
+//            val descriptors = ArrayList<SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor>()
+//            val listFilesInDir = FileUtils.listFilesInDir(cacheDir.parentFile.absolutePath + File.separator + "shared_prefs")
+//            for (file in listFilesInDir) {
+//                descriptors.add(SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor(file.name.replace(".xml",""), Context.MODE_PRIVATE))
+//            }
+//            client.addPlugin(SharedPreferencesFlipperPlugin(this, descriptors))
+//            //崩溃统计
+//            client.addPlugin(CrashReporterPlugin.getInstance())
+//            client.start()
+//        }
     }
 
     override fun initLeakCanary() {

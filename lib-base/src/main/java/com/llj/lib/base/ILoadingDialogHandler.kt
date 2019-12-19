@@ -8,19 +8,21 @@ import io.reactivex.functions.Consumer
 
 /**
  * ArchitectureDemo
+ *
  * describe: 供activity控制dialog
+ *
  * @author llj
  * @date 2018/5/24
  */
-interface ILoadingDialogHandler : Consumer<Disposable>, Action, ITaskId {
+interface ILoadingDialogHandler<T> : Consumer<Disposable>, Action, ITaskId {
 
-    fun getLoadingDialog(): ITaskId?
+    fun getLoadingDialog(): T?
 
-    fun initLoadingDialog(): ITaskId?
+    fun initLoadingDialog(): T?
 
-    fun showLoadingDialog() {}
+    fun showLoadingDialog()
 
-    fun dismissLoadingDialog() {}
+    fun dismissLoadingDialog()
 
     //显示
     override fun accept(disposable: Disposable?) {

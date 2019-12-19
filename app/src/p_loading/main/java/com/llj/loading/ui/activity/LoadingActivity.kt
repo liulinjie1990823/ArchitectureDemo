@@ -29,8 +29,8 @@ import java.util.concurrent.TimeUnit
 /**
  * ArchitectureDemo.
  * describe:
- * author llj
- * date 2018/9/20
+ * @author llj
+ * @date 2018/9/20
  */
 @Jump(outPath = CJump.JUMP_LOADING_ACTIVITY, inPath = CRouter.APP_LOADING_ACTIVITY, needLogin = true, desc = "LoadingActivity")
 @Route(path = CRouter.APP_LOADING_ACTIVITY)

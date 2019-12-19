@@ -1,20 +1,17 @@
 package com.llj.lib.base
 
 import android.app.Dialog
-import androidx.lifecycle.Lifecycle
 import android.content.Context
 import android.os.Bundle
-import androidx.annotation.CallSuper
-import androidx.collection.ArrayMap
-import androidx.collection.ArraySet
-import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
+import androidx.annotation.CallSuper
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.llj.lib.base.event.BaseEvent
 import com.llj.lib.base.mvp.IBaseActivityView
 import com.llj.lib.base.widget.LoadingDialog
-import com.llj.lib.net.observer.ITaskId
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
@@ -24,8 +21,9 @@ import timber.log.Timber
 /**
  * ArchitectureDemo.
  * describe:
- * author llj
- * date 2019/3/13
+ *
+ * @author llj
+ * @date 2019/3/13
  */
 abstract class MvcBaseActivity : AppCompatActivity()
         , IBaseActivity, ICommon, IUiHandler, IEvent, IBaseActivityView {
@@ -35,7 +33,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
     lateinit var mContext: Context
 
     private lateinit var mUnBinder: Unbinder
-    private var mRequestDialog: ITaskId? = null
+    private var mRequestDialog: BaseDialog? = null
 
     private val mCancelableTasks: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
     private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
@@ -148,29 +146,34 @@ abstract class MvcBaseActivity : AppCompatActivity()
     }
     //</editor-fold >
 
-    //<editor-fold desc="事件总线">
-
-    //限定界面
-    protected fun <T> inCurrentPage(event: BaseEvent<T>): Boolean {
-        return mTagLog == event.data
-    }
-
+    //<editor-fold desc="IEvent事件总线">
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun <T> onEvent(event: BaseEvent<T>) {
         if (!isEmpty(event.delayMessage)) {
             //延迟消息
             mDelayMessages.add(event.delayMessage)
         } else {
-            if ("refresh" == event.message && inCurrentPage(event)) {
-                //限定界面
+            //即时消息
+            onReceiveEvent(event)
+        }
+    }
+
+    @CallSuper
+    override fun <T : Any?> onReceiveEvent(event: BaseEvent<T>) {
+        val inCurrentPage = inCurrentPage(event)
+        if (inCurrentPage) {
+            if ("refresh" == event.message) {
+                //刷新页面
                 initData()
-            } else {
-                onReceiveEvent(event)
+            } else if ("close" == event.message) {
+                //关闭页面
+                onBackPressed()
             }
         }
     }
 
-    override fun <T : Any?> onReceiveEvent(event: BaseEvent<T>) {
+    override fun <T> inCurrentPage(event: BaseEvent<T>): Boolean {
+        return mTagLog == event.pageName
     }
     //</editor-fold >
 
@@ -188,14 +191,9 @@ abstract class MvcBaseActivity : AppCompatActivity()
     }
     //</editor-fold >
 
-    //<editor-fold desc="ILoadingDialogHandler">
-    override fun getLoadingDialog(): ITaskId? {
+    //<editor-fold desc="ILoadingDialogHandler加载框">
+    override fun getLoadingDialog(): BaseDialog? {
         return mRequestDialog
-    }
-
-    //自定义实现
-    override fun initLoadingDialog(): ITaskId? {
-        return null
     }
 
     private fun checkLoadingDialog() {
@@ -207,6 +205,19 @@ abstract class MvcBaseActivity : AppCompatActivity()
             }
         }
         setRequestId(hashCode())
+    }
+
+    //自定义实现
+    override fun initLoadingDialog(): BaseDialog? {
+        return null
+    }
+
+    override fun showLoadingDialog() {
+        getLoadingDialog()?.show()
+    }
+
+    override fun dismissLoadingDialog() {
+        getLoadingDialog()?.dismiss()
     }
 
     //如果该RequestDialog和请求关联就设置tag

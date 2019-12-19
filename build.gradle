@@ -30,7 +30,7 @@ buildscript {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         //组件化插件
-        classpath 'com.billy.android:cc-register:1.1.1'
+        classpath 'com.billy.android:cc-register:1.1.2'
 
         //上传apk
         if (useApkUploadPlugin) {

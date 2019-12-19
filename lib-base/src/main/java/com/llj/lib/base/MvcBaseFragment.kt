@@ -13,7 +13,6 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.llj.lib.base.event.BaseEvent
 import com.llj.lib.base.widget.LoadingDialog
-import com.llj.lib.net.observer.ITaskId
 import com.llj.lib.utils.AFragmentUtils
 import com.llj.lib.utils.AInputMethodManagerUtils
 import dagger.android.support.AndroidSupportInjection
@@ -57,7 +56,7 @@ import timber.log.Timber
  * @date 2018/8/15
  */
 abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
-        , IBaseFragment, ICommon, IUiHandler, IEvent, ITask, ILoadingDialogHandler {
+        , IBaseFragment, ICommon, IUiHandler, IEvent, ITask, ILoadingDialogHandler<BaseDialog> {
     val mTagLog: String = this.javaClass.simpleName
 
     lateinit var mContext: Context
@@ -65,7 +64,7 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     private var mInit: Boolean = false //是否已经初始化
 
     private lateinit var mUnBinder: Unbinder
-    private var mRequestDialog: ITaskId? = null
+    private var mRequestDialog: BaseDialog? = null
 
     private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
 
@@ -97,8 +96,13 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     }
 
     private fun performOnShow() {
+        if (dialog == null) {
+            return
+        }
         //设置回调方法
-        mOnShowListener?.onShow(dialog)
+        if (!(dialog?.isShowing!!)) {
+            mOnShowListener?.onShow(dialog)
+        }
         //是否显示输入法
         if (mUseSoftInput) {
             dialog?.window?.decorView?.post(Runnable {
@@ -116,11 +120,14 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     }
 
     private fun performOnDismiss() {
+        if (dialog == null) {
+            return
+        }
         //设置回调方法
         mOnDismissListener?.onDismiss(dialog)
 
         if (mUseSoftInput) {
-            AInputMethodManagerUtils.hideSoftInputFromWindow(getDialog())
+            AInputMethodManagerUtils.hideSoftInputFromWindow(dialog)
         }
 
     }
@@ -335,11 +342,6 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     //</editor-fold >
 
     //<editor-fold desc="事件总线">
-    //限定界面
-    protected fun <T> inCurrentPage(event: BaseEvent<T>): Boolean {
-        return mTagLog == event.pageName
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun <T> onEvent(event: BaseEvent<T>) {
         if (!isEmpty(event.delayMessage)) {
@@ -356,6 +358,10 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     }
 
     override fun <T : Any?> onReceiveEvent(event: BaseEvent<T>) {
+    }
+
+    override fun <T : Any?> inCurrentPage(event: BaseEvent<T>): Boolean {
+        return mTagLog == event.pageName
     }
     //</editor-fold >
 
@@ -376,14 +382,9 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     }
     //</editor-fold >
 
-    //<editor-fold desc="ILoadingDialogHandler">
-    override fun getLoadingDialog(): ITaskId? {
+    //<editor-fold desc="ILoadingDialogHandler加载框">
+    override fun getLoadingDialog(): BaseDialog? {
         return mRequestDialog
-    }
-
-    //自定义实现
-    override fun initLoadingDialog(): ITaskId? {
-        return null
     }
 
     private fun checkLoadingDialog() {
@@ -397,6 +398,18 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
         setRequestId(hashCode())
     }
 
+    //自定义实现
+    override fun initLoadingDialog(): BaseDialog? {
+        return null
+    }
+
+    override fun showLoadingDialog() {
+        getLoadingDialog()?.show()
+    }
+
+    override fun dismissLoadingDialog() {
+        getLoadingDialog()?.dismiss()
+    }
 
     override fun setRequestId(taskId: Int) {
         getLoadingDialog()?.setRequestId(taskId)

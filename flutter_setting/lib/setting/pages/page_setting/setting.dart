@@ -1,9 +1,11 @@
 import 'dart:math' as math;
 
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_setting/setting/application.dart';
+import 'package:flutter_setting/setting/route/routes.dart';
 
 class Setting extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,11 +22,9 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-//      color: Color(0xFFF6F6F6),
-      color: Color(0xFF000000),
+      color: Colors.deepOrangeAccent,
       child: Column(
         children: <Widget>[
-          //Toolbar
           Toolbar(),
           //中间模块
           Expanded(
@@ -65,7 +65,7 @@ class Item extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Column(
-        children: getItems(),
+        children: getItems(context),
       ),
     );
   }
@@ -135,19 +135,23 @@ class Item extends StatelessWidget {
     );
   }
 
-  Widget wrapItems() {}
-
-  List<Widget> getItems() {
+  List<Widget> getItems(BuildContext context) {
     int titleColor = 0xFF333333;
     int decColor = 0xFF666666;
     return [
 //      setItem("环境切换", "", 0xFF33333, 0xFF666666),
-      Container(
-        margin: EdgeInsets.only(top: 10),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-        child: setItem("我的资料", "", titleColor, decColor),
+      GestureDetector(
+        child: Container(
+          margin: EdgeInsets.only(top: 10),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          child: setItem("我的资料", "", titleColor, decColor),
+        ),
+        onTap: () {
+          Application.router.navigateTo(context, Routes.profilePage,
+              transition: TransitionType.inFromRight);
+        },
       ),
       Container(
         margin: EdgeInsets.only(top: 10),
@@ -217,6 +221,7 @@ class Toolbar extends StatelessWidget {
     double top = math.max(padding.top, EdgeInsets.zero.top);
 
     return Container(
+      alignment: Alignment.center,
       margin: EdgeInsets.only(top: top),
       constraints: BoxConstraints.expand(width: double.infinity, height: 50),
       decoration: BoxDecoration(
@@ -228,39 +233,18 @@ class Toolbar extends StatelessWidget {
         children: <Widget>[
 //          Positioned(
 //            left: 0,
+//            top: 0,
+//            bottom: 0,
 //            child: Container(
-//              padding: EdgeInsets.symmetric(horizontal: 8),
-//              alignment: Alignment.centerLeft,
-//              width: 100.0,
-//              height: 49.0,
-//              decoration: BoxDecoration(
-//                color: Colors.deepOrangeAccent,
-//                image: DecorationImage(
-//                  image: AssetImage("assets/images/service_icon_back.png"),
-//                  fit: BoxFit.scaleDown,
-//                ),
+//              padding: EdgeInsets.symmetric(horizontal: 16),
+//              alignment: Alignment.center,
+//              color: Colors.brown,
+//              child: Image(
+//                image: AssetImage("assets/images/service_icon_back.png"),
+//                fit: BoxFit.scaleDown,
 //              ),
-////              child: Image(
-////                image: AssetImage("assets/images/service_icon_back.png"),
-////                fit: BoxFit.scaleDown,
-////              ),
 //            ),
 //          ),
-
-          Positioned(
-            left: 0,
-            top: 0,
-            bottom: 0,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.center,
-              color: Colors.brown,
-              child: Image(
-                image: AssetImage("assets/images/service_icon_back.png"),
-                fit: BoxFit.scaleDown,
-              ),
-            ),
-          ),
           Text(
             "设置",
             style: TextStyle(
@@ -274,20 +258,20 @@ class Toolbar extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          Positioned(
-            right: 0,
-            top: 0,
-            bottom: 0,
-            child: Container(
-              width: 50,
-              alignment: Alignment.center,
-              color: Colors.blueGrey,
-              child: Image(
-                image: NetworkImage(imageUrl2),
-                fit: BoxFit.scaleDown,
-              ),
-            ),
-          )
+//          Positioned(
+//            right: 0,
+//            top: 0,
+//            bottom: 0,
+//            child: Container(
+//              width: 50,
+//              alignment: Alignment.center,
+//              color: Colors.blueGrey,
+//              child: Image(
+//                image: NetworkImage(imageUrl2),
+//                fit: BoxFit.scaleDown,
+//              ),
+//            ),
+//          )
         ],
       ),
     );

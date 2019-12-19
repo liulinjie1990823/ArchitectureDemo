@@ -21,6 +21,7 @@ class BottomBarState extends State<BottomBar> {
   @override
   void initState() {
     super.initState();
+    context.hashCode;
     _activeIndex = widget.activeIndex;
   }
 

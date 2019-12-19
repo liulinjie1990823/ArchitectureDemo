@@ -10,15 +10,15 @@ import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import butterknife.ButterKnife
 import com.llj.lib.base.widget.LoadingDialog
-import com.llj.lib.net.observer.ITaskId
 
 /**
  * ArchitectureDemo
- * describe:
+ *
+ * describe:对话框基类
  * @author llj
  * @date 2018/5/24
  */
-abstract class BaseDialog : Dialog, ILoadingDialogHandler {
+abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
 
     companion object {
         const val MATCH = ViewGroup.LayoutParams.MATCH_PARENT
@@ -39,11 +39,11 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
 
     val mTagLog: String = this.javaClass.simpleName
 
-    private var mRequestDialog: ITaskId? = null
+    private var mRequestDialog: BaseDialog? = null
+    private var mUseSoftInput: Boolean = false //是否使用软键盘
 
     init {
         bindViews()
-
         initViews()
     }
 
@@ -58,7 +58,7 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
     abstract fun initViews()
 
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 第一次show的时候会调用该方法
         setWindowParam()
@@ -68,7 +68,10 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
         performCreate(savedInstanceState)
     }
 
-    protected open fun performCreate(savedInstanceState: Bundle) {}
+    protected open fun performCreate(savedInstanceState: Bundle?) {}
+
+
+    //<editor-fold desc="设置dialog属性">
     protected abstract fun setWindowParam()
 
 
@@ -101,10 +104,16 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
         params.gravity = gravity
         window.attributes = params
     }
+    //</editor-fold>
 
-
+    //<editor-fold desc="ILoadingDialogHandler">
+    //大部分的dialog是需要加载框的，LoadingDialog自身不需要
     open fun needLoadingDialog(): Boolean {
         return true
+    }
+
+    override fun getLoadingDialog(): BaseDialog? {
+        return mRequestDialog
     }
 
     private fun checkRequestDialog() {
@@ -117,12 +126,16 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
         setRequestId(hashCode())
     }
 
-    override fun initLoadingDialog(): ITaskId? {
+    override fun initLoadingDialog(): BaseDialog? {
         return null
     }
 
-    override fun getLoadingDialog(): ITaskId? {
-        return mRequestDialog
+    override fun showLoadingDialog() {
+        getLoadingDialog()?.show()
+    }
+
+    override fun dismissLoadingDialog() {
+        getLoadingDialog()?.dismiss()
     }
 
     //如果该RequestDialog和请求关联就设置tag
@@ -133,6 +146,7 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler {
     override fun getRequestId(): Int {
         return getLoadingDialog()?.getRequestId() ?: -1
     }
+    //</editor-fold>
 
     //设置dialog透明模式
     override fun show() {

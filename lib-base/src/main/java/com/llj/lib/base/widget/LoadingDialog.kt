@@ -2,7 +2,6 @@ package com.llj.lib.base.widget
 
 import android.content.Context
 import android.content.DialogInterface
-import android.os.Bundle
 import android.view.Gravity
 import com.llj.lib.base.BaseDialog
 import com.llj.lib.base.ITask
@@ -12,9 +11,10 @@ import com.llj.lib.utils.LogUtil
 
 /**
  * ArchitectureDemo
- * describe:
- * author llj
- * date 2018/5/24
+ *
+ * describe:加载框
+ * @author llj
+ * @date 2018/5/24
  */
 class LoadingDialog(context: Context) : BaseDialog(context, R.style.no_dim_dialog) {
 
@@ -51,22 +51,12 @@ class LoadingDialog(context: Context) : BaseDialog(context, R.style.no_dim_dialo
         }
     }
 
-    override fun dismiss() {
-        super.dismiss()
-        setOnCancelListener(null)
-    }
-
-
     override fun setWindowParam() {
         val width = ADisplayUtils.dp2px(context, 120f)
         setWindowParams(width, width, Gravity.CENTER)
         setCanceledOnTouchOutside(false)
     }
 
-    override fun performCreate(savedInstanceState: Bundle) {
-        super.performCreate(savedInstanceState)
-
-    }
 
     override fun needLoadingDialog(): Boolean {
         return false
@@ -81,10 +71,12 @@ class LoadingDialog(context: Context) : BaseDialog(context, R.style.no_dim_dialo
         return mTaskId
     }
 
+    //需要重写
     override fun showLoadingDialog() {
         show()
     }
 
+    //需要重写
     override fun dismissLoadingDialog() {
         dismiss()
     }
