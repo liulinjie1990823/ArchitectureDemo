@@ -42,7 +42,7 @@ class SettingPage extends StatelessWidget {
             constraints:
             BoxConstraints.expand(width: double.infinity, height: 49),
             child: Text(
-              "退出登录",
+              "退出登录dadad",
               style: TextStyle(
                 fontSize: 15,
                 color: Color(0xFF666666),
