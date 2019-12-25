@@ -13,6 +13,7 @@ dependencies {
 
     if (useMaven) {
     } else {
+        kapt project(':lib-component-compiler')
         kapt project(':lib-jump-compiler')
         kapt project(':lib-mvp-compiler')
         implementation project(':lib-mvp-annotation')

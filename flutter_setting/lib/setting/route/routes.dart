@@ -4,7 +4,7 @@ import 'package:flutter_setting/setting/route/route_handlers.dart';
 
 class Routes {
   static String root = "/";
-  static String profilePage = "/setting/profile";
+  static String profilePage = "/setting/profilePage";
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(

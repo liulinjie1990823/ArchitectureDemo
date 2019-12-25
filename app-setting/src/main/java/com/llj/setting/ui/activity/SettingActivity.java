@@ -6,11 +6,9 @@ import butterknife.BindViews;
 import butterknife.internal.DebouncingOnClickListener;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.component.service.arouter.CRouter;
-import com.llj.lib.utils.AFragmentUtils;
 import com.llj.setting.R;
 import com.llj.setting.R2;
 import com.llj.setting.SettingMvcBaseActivity;
-import io.flutter.facade.Flutter;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,9 +59,9 @@ public class SettingActivity extends SettingMvcBaseActivity {
     for (View view : mViews) {
       view.setOnClickListener(onClickListener);
     }
-    AFragmentUtils
-        .replaceFragment(getSupportFragmentManager(), R.id.container,
-            Flutter.createFragment("setting"));
+    //AFragmentUtils
+    //    .replaceFragment(getSupportFragmentManager(), R.id.container,
+    //        Flutter.createFragment("setting"));
   }
 
   @Override

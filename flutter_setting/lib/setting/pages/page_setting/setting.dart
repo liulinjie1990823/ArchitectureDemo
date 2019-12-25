@@ -1,7 +1,6 @@
-import 'dart:math' as math;
-
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_setting/common/common_widget.dart';
 import 'package:flutter_setting/setting/application.dart';
 import 'package:flutter_setting/setting/route/routes.dart';
 
@@ -18,18 +17,20 @@ class Setting extends StatelessWidget {
   }
 }
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends CommonTitleWidgetPage {
+  SettingPage() {
+    commonTitle = "设置";
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget buildChild(BuildContext context) {
     return Container(
-      color: Colors.deepOrangeAccent,
+      //灰色背景
+      color: Color(0xFFF6F6F6),
       child: Column(
         children: <Widget>[
-          Toolbar(),
-          //中间模块
           Expanded(
             child: Container(
-              color: Color(0xFFF6F6F6),
               child: SingleChildScrollView(
                 child: Item(),
               ),
@@ -77,13 +78,6 @@ class Item extends StatelessWidget {
     );
   }
 
-  Widget setDivider2() {
-    return Container(
-      height: 10,
-      color: Color(0xffF5F8FA),
-    );
-  }
-
   Widget setItem(String title, String dec, int titleColor, int decColor) {
     return Container(
       height: 50,
@@ -101,7 +95,7 @@ class Item extends StatelessWidget {
                   fontSize: 15,
                   color: Color(titleColor),
                   fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.normal,
                   decoration: TextDecoration.none,
                 ),
                 textAlign: TextAlign.left,
@@ -150,7 +144,7 @@ class Item extends StatelessWidget {
         ),
         onTap: () {
           Application.router.navigateTo(context, Routes.profilePage,
-              transition: TransitionType.inFromRight);
+              transition: TransitionType.fadeIn);
         },
       ),
       Container(
@@ -205,75 +199,5 @@ class Item extends StatelessWidget {
         ],
       ),
     ];
-  }
-}
-
-class Toolbar extends StatelessWidget {
-  String imageUrl2 =
-      "http://n.sinaimg.cn/sports/2_img/upload/4f160954/107/w1024h683/20181128/Yrxn-hpinrya6814381.jpg";
-
-  @override
-  Widget build(BuildContext context) {
-    //状态栏
-    EdgeInsets padding = MediaQuery
-        .of(context)
-        .padding;
-    double top = math.max(padding.top, EdgeInsets.zero.top);
-
-    return Container(
-      alignment: Alignment.center,
-      margin: EdgeInsets.only(top: top),
-      constraints: BoxConstraints.expand(width: double.infinity, height: 50),
-      decoration: BoxDecoration(
-        color: Colors.amber,
-      ),
-      child: Stack(
-        fit: StackFit.loose,
-        alignment: Alignment.center,
-        children: <Widget>[
-//          Positioned(
-//            left: 0,
-//            top: 0,
-//            bottom: 0,
-//            child: Container(
-//              padding: EdgeInsets.symmetric(horizontal: 16),
-//              alignment: Alignment.center,
-//              color: Colors.brown,
-//              child: Image(
-//                image: AssetImage("assets/images/service_icon_back.png"),
-//                fit: BoxFit.scaleDown,
-//              ),
-//            ),
-//          ),
-          Text(
-            "设置",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontStyle: FontStyle.normal,
-              fontWeight: FontWeight.normal,
-              decoration: TextDecoration.none,
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-//          Positioned(
-//            right: 0,
-//            top: 0,
-//            bottom: 0,
-//            child: Container(
-//              width: 50,
-//              alignment: Alignment.center,
-//              color: Colors.blueGrey,
-//              child: Image(
-//                image: NetworkImage(imageUrl2),
-//                fit: BoxFit.scaleDown,
-//              ),
-//            ),
-//          )
-        ],
-      ),
-    );
   }
 }

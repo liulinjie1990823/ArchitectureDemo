@@ -9,7 +9,7 @@ buildscript {
     addRepos(repositories)
     dependencies {
         //方法数检测
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.0'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.2'
         //maven库更新检测
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.27.0'
         //android插件

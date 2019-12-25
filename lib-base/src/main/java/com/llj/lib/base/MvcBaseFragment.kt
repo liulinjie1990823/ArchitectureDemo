@@ -96,18 +96,25 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     }
 
     private fun performOnShow() {
-        if (dialog == null) {
-            return
-        }
         //设置回调方法
-        if (!(dialog?.isShowing!!)) {
-            mOnShowListener?.onShow(dialog)
+        if (dialog == null) {
+            mOnShowListener?.onShow(null)
+        } else {
+            if (!(dialog?.isShowing!!)) {
+                mOnShowListener?.onShow(dialog)
+            }
         }
         //是否显示输入法
         if (mUseSoftInput) {
-            dialog?.window?.decorView?.post(Runnable {
-                AInputMethodManagerUtils.showOrHideInput(dialog, true)
-            })
+            if (dialog == null) {
+                activity?.window?.decorView?.post(Runnable {
+                    AInputMethodManagerUtils.showOrHideInput(activity, true)
+                })
+            } else {
+                dialog?.window?.decorView?.post(Runnable {
+                    AInputMethodManagerUtils.showOrHideInput(dialog, true)
+                })
+            }
         }
     }
 
@@ -120,14 +127,15 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     }
 
     private fun performOnDismiss() {
-        if (dialog == null) {
-            return
-        }
         //设置回调方法
         mOnDismissListener?.onDismiss(dialog)
 
         if (mUseSoftInput) {
-            AInputMethodManagerUtils.hideSoftInputFromWindow(dialog)
+            if (dialog == null) {
+                AInputMethodManagerUtils.hideSoftInputFromWindow(activity)
+            } else {
+                AInputMethodManagerUtils.hideSoftInputFromWindow(dialog)
+            }
         }
 
     }

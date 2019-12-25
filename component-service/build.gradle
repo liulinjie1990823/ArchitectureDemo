@@ -38,10 +38,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.billy.android:cc:2.1.5'
+    implementation deps.walle
+
+    api 'com.billy.android:cc:2.1.6'
     api deps.arouter_api
     api deps.permission
-    implementation deps.walle
 
     api project(':lib-swipeback')
 
@@ -131,10 +132,11 @@ dependencies {
     betaImplementation deps.leakcanary_android
     releaseImplementation deps.leakcanary_android_no_op
 
-    kapt deps.butterknife_compiler
     kapt deps.dagger_compiler
     kapt deps.dagger_android_support_compiler
+    kapt deps.butterknife_compiler
 
+    //线程调度
     api deps.bolts
     //日志相关
     api deps.timber
