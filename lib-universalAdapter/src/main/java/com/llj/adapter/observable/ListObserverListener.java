@@ -1,16 +1,21 @@
 package com.llj.adapter.observable;
 
+import android.support.annotation.Nullable;
+
 /**
  * Interface which listens to {@link ListObserver} changes.
  *
  * @param <T> The type of items stored in the observed list.
  */
 public interface ListObserverListener<T> {
-    void onItemRangeChanged(ListObserver<T> observer, int startPosition, int itemCount);
 
-    void onItemRangeInserted(ListObserver<T> observer, int startPosition, int itemCount);
+  void onItemRangeChanged(ListObserver<T> observer, int start, int count, @Nullable Object payload);
 
-    void onItemRangeRemoved(ListObserver<T> observer, int startPosition, int itemCount);
+  void onItemRangeChanged(ListObserver<T> observer, int start, int count);
 
-    void onGenericChange(ListObserver<T> observer);
+  void onItemRangeInserted(ListObserver<T> observer, int start, int count);
+
+  void onItemRangeRemoved(ListObserver<T> observer, int start, int count);
+
+  void onGenericChange(ListObserver<T> observer);
 }

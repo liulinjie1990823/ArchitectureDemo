@@ -1,11 +1,10 @@
 package com.llj.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.ViewGroup;
-
 import com.llj.adapter.observable.ListObserver;
 import com.llj.adapter.observable.ListObserverListener;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -193,6 +192,13 @@ public class MergedUniversalAdapter extends UniversalAdapter {
      * changed.
      */
     private final ListObserverListener cascadingListObserver = new ListObserverListener() {
+
+        @Override
+        public void onItemRangeChanged(ListObserver observer, int start, int count,
+            @Nullable Object payload) {
+            MergedUniversalAdapter.this.onItemRangeChanged(start, count, payload);
+        }
+
         @Override
         public void onItemRangeChanged(ListObserver listObserver, int start, int count) {
             MergedUniversalAdapter.this.onItemRangeChanged(start, count);
@@ -314,27 +320,38 @@ public class MergedUniversalAdapter extends UniversalAdapter {
         }
 
         @Override
-        public void onItemRangeChanged(ListObserver listObserver, int start, int count) {
+        public void onItemRangeChanged(ListObserver observer, int start, int count,
+            @Nullable Object payload) {
             listPiece.initializeItemViewTypes();
-            listObserverListener.onItemRangeChanged(listObserver, listPiece.startPosition + start, count);
+            listObserverListener
+                .onItemRangeChanged(observer, listPiece.startPosition + start, count, payload);
         }
 
         @Override
-        public void onItemRangeInserted(ListObserver listObserver, int start, int count) {
+        public void onItemRangeChanged(ListObserver observer, int start, int count) {
             listPiece.initializeItemViewTypes();
-            listObserverListener.onItemRangeInserted(listObserver, listPiece.startPosition + start, count);
+            listObserverListener
+                .onItemRangeChanged(observer, listPiece.startPosition + start, count);
         }
 
         @Override
-        public void onItemRangeRemoved(ListObserver listObserver, int start, int count) {
+        public void onItemRangeInserted(ListObserver observer, int start, int count) {
             listPiece.initializeItemViewTypes();
-            listObserverListener.onItemRangeRemoved(listObserver, listPiece.startPosition + start, count);
+            listObserverListener
+                .onItemRangeInserted(observer, listPiece.startPosition + start, count);
         }
 
         @Override
-        public void onGenericChange(ListObserver listObserver) {
+        public void onItemRangeRemoved(ListObserver observer, int start, int count) {
             listPiece.initializeItemViewTypes();
-            listObserverListener.onGenericChange(listObserver);
+            listObserverListener
+                .onItemRangeRemoved(observer, listPiece.startPosition + start, count);
+        }
+
+        @Override
+        public void onGenericChange(ListObserver observer) {
+            listPiece.initializeItemViewTypes();
+            listObserverListener.onGenericChange(observer);
         }
     }
 
