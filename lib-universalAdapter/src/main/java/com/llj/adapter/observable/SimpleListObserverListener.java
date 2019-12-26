@@ -1,5 +1,7 @@
 package com.llj.adapter.observable;
 
+import androidx.annotation.Nullable;
+
 /**
  * PROJECT:CommonAdapter
  * DESCRIBE: 用于PagerAdapterConverter刷新，统一用onGenericChange处理
@@ -7,6 +9,12 @@ package com.llj.adapter.observable;
  */
 
 public abstract class SimpleListObserverListener<T> implements ListObserverListener<T> {
+
+    @Override
+    public void onItemRangeChanged(ListObserver<T> observer, int startPosition, int itemCount,
+        @Nullable Object payload) {
+        onGenericChange(observer);
+    }
 
     @Override
     public void onItemRangeChanged(ListObserver<T> observer, int startPosition, int itemCount) {

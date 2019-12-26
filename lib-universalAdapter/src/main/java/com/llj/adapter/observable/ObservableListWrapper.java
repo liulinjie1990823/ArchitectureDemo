@@ -1,5 +1,6 @@
 package com.llj.adapter.observable;
 
+import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -300,6 +301,12 @@ public class ObservableListWrapper<T> implements ObservableList<T> {
     protected void onItemRangeChanged(int startPosition, int itemCount) {
         if (tryTransactionModification()) {
             this.listObserver.notifyItemRangeChanged(startPosition, itemCount);
+        }
+    }
+
+    protected void onItemRangeChanged(int startPosition, int itemCount,@Nullable Object payload) {
+        if (tryTransactionModification()) {
+            this.listObserver.notifyItemRangeChanged(startPosition, itemCount,payload);
         }
     }
 

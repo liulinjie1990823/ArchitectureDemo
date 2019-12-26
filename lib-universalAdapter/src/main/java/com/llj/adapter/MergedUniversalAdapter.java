@@ -3,6 +3,7 @@ package com.llj.adapter;
 import androidx.annotation.NonNull;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import com.llj.adapter.observable.ListObserver;
 import com.llj.adapter.observable.ListObserverListener;
 
@@ -193,6 +194,13 @@ public class MergedUniversalAdapter extends UniversalAdapter {
      * changed.
      */
     private final ListObserverListener cascadingListObserver = new ListObserverListener() {
+
+        @Override
+        public void onItemRangeChanged(ListObserver observer, int startPosition, int itemCount,
+            @Nullable Object payload) {
+
+        }
+
         @Override
         public void onItemRangeChanged(ListObserver listObserver, int start, int count) {
             MergedUniversalAdapter.this.onItemRangeChanged(start, count);
@@ -311,6 +319,13 @@ public class MergedUniversalAdapter extends UniversalAdapter {
             this.listPiece = listPiece;
             this.listObserverListener = listObserverListener;
             listPiece.adapter.getListObserver().addListener(this);
+        }
+
+        @Override
+        public void onItemRangeChanged(ListObserver listObserver, int start, int count,
+            @Nullable Object payload) {
+            listPiece.initializeItemViewTypes();
+            listObserverListener.onItemRangeChanged(listObserver, listPiece.startPosition + start, count,payload);
         }
 
         @Override

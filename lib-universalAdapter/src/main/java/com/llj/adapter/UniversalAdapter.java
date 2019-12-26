@@ -506,6 +506,12 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder>
         }
     }
 
+    public void onItemRangeChanged(int startPosition, int itemCount,@Nullable Object payload) {
+        if (tryTransactionModification()) {
+            this.listObserver.notifyItemRangeChanged(startPosition, itemCount,payload);
+        }
+    }
+
     public void onItemRangeInserted(int startPosition, int itemCount) {
         if (tryTransactionModification()) {
             this.listObserver.notifyItemRangeInserted(startPosition, itemCount);
@@ -617,6 +623,13 @@ public abstract class UniversalAdapter<Item, Holder extends ViewHolder>
     //
     ///////////////////////////////////////////////////////////////////////////
     protected final ListObserverListener<Item> observableListener = new ListObserverListener<Item>() {
+
+        @Override
+        public void onItemRangeChanged(ListObserver<Item> observer, int startPosition,
+            int itemCount,
+            @Nullable Object payload) {
+            UniversalAdapter.this.onItemRangeChanged(startPosition, itemCount,payload);
+        }
 
         @Override
         public void onItemRangeChanged(ListObserver<Item> observer, int startPosition, int itemCount) {

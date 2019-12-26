@@ -18,7 +18,7 @@ class CommonWidget {
   static Widget getCommonDivider(double marginHorizontal) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: marginHorizontal),
-      height: 1 / DisplayUtils.pixelRatio,
+      height: 1 / DisplayUtil.pixelRatio,
       color: Color(0xffeeeeee),
     );
   }

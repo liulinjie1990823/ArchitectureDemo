@@ -367,7 +367,13 @@ class LoginPage extends StatelessWidget {
                                       Color(CommonColor.C_CCCCCC)
                                     ]),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(30.0))),
+                                  BorderRadius.all(Radius.circular(30.0)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color(0xffff0000),
+                                    blurRadius: 10.0,
+                                    offset: Offset(0, 5)),
+                              ]),
                           child: Text(
                             "登录",
                             style: TextStyle(
