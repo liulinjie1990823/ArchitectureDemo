@@ -1,6 +1,7 @@
 package com.llj.adapter.observable;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 /**
  * PROJECT:CommonAdapter

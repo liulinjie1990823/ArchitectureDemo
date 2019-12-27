@@ -207,7 +207,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                 val arrayListOf = arrayListOf<BabyHomeModuleVo?>()
                 arrayListOf.add(babyHomeModuleVo)
-                initBannerAdapter.itemsList = arrayListOf
+                initBannerAdapter.setItemsList(arrayListOf)
 
                 mAdapters.addAdapter(initBannerAdapter)
             }
@@ -218,7 +218,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                 val arrayListOf = arrayListOf<BabyHomeModuleVo?>()
                 arrayListOf.add(babyHomeModuleVo)
-                initAdAdapter.itemsList = arrayListOf
+                initAdAdapter.setItemsList(arrayListOf)
 
                 mAdapters.addAdapter(initAdAdapter)
             }
@@ -228,7 +228,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                 val arrayListOf = arrayListOf<BabyHomeModuleVo?>()
                 arrayListOf.add(babyHomeModuleVo)
-                initBroadcastAdapter.itemsList = arrayListOf
+                initBroadcastAdapter.setItemsList(arrayListOf)
 
                 mAdapters.addAdapter(initBroadcastAdapter)
             }
@@ -242,7 +242,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                     val arrayListOf = arrayListOf<BabyHomeModuleVo?>()
                     arrayListOf.add(babyHomeModuleVo)
-                    myDelegateAdapter.itemsList = arrayListOf
+                    myDelegateAdapter.setItemsList(arrayListOf)
 
                     mAdapters.addAdapter(myDelegateAdapter)
                 }
@@ -253,7 +253,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                 val arrayListOf = arrayListOf<BabyHomeModuleVo?>()
                 arrayListOf.add(babyHomeModuleVo)
-                initBannerAdapter.itemsList = arrayListOf
+                initBannerAdapter.setItemsList(arrayListOf)
 
                 mAdapters.addAdapter(initBannerAdapter)
             }
@@ -369,7 +369,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
                 val babyHomeModuleItemVos = item.data.subList(0, h * spanCount)
 
                 val initNavigationItemAdapter = initNavigationItemAdapter(babyHomeModuleItemVos)
-                initNavigationItemAdapter.itemsList = babyHomeModuleItemVos
+                initNavigationItemAdapter.setItemsList(babyHomeModuleItemVos)
                 UniversalBind.Builder(recyclerView, initNavigationItemAdapter)
                         .setGridLayoutManager(4)
                         .build()
@@ -465,7 +465,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                 setText(tvTitle, item.block_name)
                 val initJhToolsItemAdapter = initJhToolsItemAdapter(item.data!!)
-                initJhToolsItemAdapter.itemsList = item.data
+                initJhToolsItemAdapter.setItemsList(item.data)
                 UniversalBind.Builder(recyclerView, initJhToolsItemAdapter)
                         .setGridLayoutManager(4)
                         .build()
