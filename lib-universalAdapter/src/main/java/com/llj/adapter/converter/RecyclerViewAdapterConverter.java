@@ -1,13 +1,12 @@
 package com.llj.adapter.converter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.llj.adapter.UniversalAdapter;
 import com.llj.adapter.UniversalConverter;
 import com.llj.adapter.ViewHolder;
@@ -24,7 +23,6 @@ import com.llj.adapter.listener.ItemLongClickedListener;
 import com.llj.adapter.observable.ListObserver;
 import com.llj.adapter.observable.ListObserverListener;
 import com.llj.adapter.util.ThreadingUtils;
-
 import java.util.List;
 
 /**
@@ -223,36 +221,30 @@ public class RecyclerViewAdapterConverter<Item, Holder extends ViewHolder> exten
     }
 
     @Override
-    public void onItemRangeChanged(ListObserver<Item> observer, int startPosition,
-        int itemCount,
+    public void onItemRangeChanged(ListObserver<Item> observer, int start, int count,
         @Nullable Object payload) {
-      ThreadingUtils
-          .runOnUIThread(() -> adapter.notifyItemRangeChanged(startPosition, itemCount, payload));
+      ThreadingUtils.runOnUIThread(() -> adapter.notifyItemRangeChanged(start, count, payload));
     }
 
     @Override
-    public void onItemRangeChanged(ListObserver<Item> observer, final int startPosition,
-        final int itemCount) {
-      ThreadingUtils.runOnUIThread(() -> adapter.notifyItemRangeChanged(startPosition, itemCount));
+    public void onItemRangeChanged(ListObserver<Item> observer, final int start, final int count) {
+      ThreadingUtils.runOnUIThread(() -> adapter.notifyItemRangeChanged(start, count));
     }
 
     @Override
-    public void onItemRangeInserted(ListObserver<Item> observer, final int startPosition,
-        final int itemCount) {
-      ThreadingUtils.runOnUIThread(() -> adapter.notifyItemRangeInserted(startPosition, itemCount));
+    public void onItemRangeInserted(ListObserver<Item> observer, final int start, final int count) {
+      ThreadingUtils.runOnUIThread(() -> adapter.notifyItemRangeInserted(start, count));
     }
 
     @Override
-    public void onItemRangeRemoved(ListObserver<Item> observer, final int startPosition,
-        final int itemCount) {
-      ThreadingUtils.runOnUIThread(() -> adapter.notifyItemRangeRemoved(startPosition, itemCount));
+    public void onItemRangeRemoved(ListObserver<Item> observer, final int start, final int count) {
+      ThreadingUtils.runOnUIThread(() -> adapter.notifyItemRangeRemoved(start, count));
     }
 
     @Override
     public void onGenericChange(ListObserver<Item> observer) {
       ThreadingUtils.runOnUIThread(() -> adapter.notifyDataSetChanged());
     }
-
   }
 
 

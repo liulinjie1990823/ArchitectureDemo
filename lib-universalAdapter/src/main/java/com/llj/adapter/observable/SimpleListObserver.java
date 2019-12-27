@@ -1,6 +1,6 @@
 package com.llj.adapter.observable;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 import com.llj.adapter.Delegate;
 import com.llj.adapter.MappableSet;
 
