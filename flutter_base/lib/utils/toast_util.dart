@@ -1,0 +1,3 @@
+class ToastUtil {
+  void show() {}
+}

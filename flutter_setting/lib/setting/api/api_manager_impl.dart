@@ -1,4 +1,4 @@
-part of 'api_manager.dart';
+//part of 'api_manager.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -25,17 +25,17 @@ Map<String, dynamic> _$TaskToJson(Task instance) =>
 // RetrofitGenerator
 // **************************************************************************
 
-class _RestClient implements RestClient {
-  _RestClient(this._dio, {this.baseUrl}) {
-    ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://5d42a6e2bc64f90014a56ca0.mockapi.io/api/v1/';
-  }
-
-  final Dio _dio;
-  String baseUrl;
-
-  @override
-  Future<List<Task>> getTasks() {
-    return null;
-  }
-}
+//class _RestClient implements RestClient {
+//  _RestClient(this._dio, {this.baseUrl}) {
+//    ArgumentError.checkNotNull(_dio, '_dio');
+//    this.baseUrl ??= 'https://5d42a6e2bc64f90014a56ca0.mockapi.io/api/v1/';
+//  }
+//
+//  final Dio _dio;
+//  String baseUrl;
+//
+//  @override
+//  Future<List<Task>> getTasks() {
+//    return null;
+//  }
+//}

@@ -1,4 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login/login/api/api_manager.dart';
+import 'package:flutter_login/login/model/task.dart';
+import 'package:flutter_login/login/mvp/login_mvp_view.dart';
 import 'package:flutter_login/login/pages/page_login/counter_model.dart';
 import 'package:flutter_middle/configs/common_color.dart';
 import 'package:flutter_middle/utils/color_util.dart';
@@ -59,7 +63,7 @@ class Login extends StatelessWidget {
   }
 }
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatelessWidget implements IGetTaskView {
 //  final UserRepository userRepository;
 //
 //  LoginPage({Key key, @required this.userRepository})
@@ -69,6 +73,24 @@ class LoginPage extends StatelessWidget {
   TextEditingController _accountController = new TextEditingController();
   TextEditingController _pwdController = new TextEditingController();
   TextEditingController _codeController = new TextEditingController();
+
+  void _getTasks() {
+    final dio = Dio();
+
+    final client = new LoginApiServiceImpl(dio);
+
+    client.getTasks(this).then((tasks) {
+      List<Task> ta = tasks;
+    });
+  }
+
+  void create() {
+    _getTasks();
+  }
+
+  getData() async {
+    return "I love Android";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +151,7 @@ class LoginPage extends StatelessWidget {
                 //输入区域
                 Container(
                   margin:
-                      EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+                  EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
@@ -140,7 +162,7 @@ class LoginPage extends StatelessWidget {
                       //标题
                       Container(
                         padding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+                        EdgeInsets.symmetric(vertical: 20, horizontal: 0),
                         child: Row(
                           children: <Widget>[
                             Expanded(
@@ -151,20 +173,20 @@ class LoginPage extends StatelessWidget {
                                 },
                                 child: ScopedModelDescendant<CounterModel>(
                                     builder: (context, child, model) {
-                                  return Text(
-                                    "验证码登录",
-                                    style: TextStyle(
-                                      fontSize: 19,
-                                      color: counterModel.index == 0
-                                          ? Color(CommonColor.C_NORMAL_TEXT)
-                                          : Color(CommonColor.C_UN_ENABLE_TEXT),
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w600,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  );
-                                }),
+                                      return Text(
+                                        "验证码登录",
+                                        style: TextStyle(
+                                          fontSize: 19,
+                                          color: counterModel.index == 0
+                                              ? Color(CommonColor.C_NORMAL_TEXT)
+                                              : Color(CommonColor.C_UN_ENABLE_TEXT),
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.w600,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      );
+                                    }),
                               ),
                             ),
                             Container(
@@ -191,7 +213,7 @@ class LoginPage extends StatelessWidget {
                                         color: counterModel.index == 1
                                             ? Color(CommonColor.C_NORMAL_TEXT)
                                             : Color(
-                                                CommonColor.C_UN_ENABLE_TEXT),
+                                            CommonColor.C_UN_ENABLE_TEXT),
                                         fontStyle: FontStyle.normal,
                                         fontWeight: FontWeight.w600,
                                         decoration: TextDecoration.none,
@@ -206,7 +228,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
 
-                      //手机号
+                      //输入手机号
                       Container(
                         constraints: BoxConstraints.expand(
                             width: double.infinity, height: 50),
@@ -230,163 +252,168 @@ class LoginPage extends StatelessWidget {
 
                       Stack(
                         children: <Widget>[
-                          //短信验证码
+                          //输入短信验证码
                           ScopedModelDescendant<CounterModel>(
                               builder: (context, child, model) {
-                            return Visibility(
-                              visible: model.index == 0 ? true : false,
-                              child: Container(
-                                margin: EdgeInsets.only(top: 12),
-                                constraints: BoxConstraints.expand(
-                                    width: double.infinity, height: 50),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: TextField(
-                                        textAlign: TextAlign.start,
-                                        textAlignVertical:
+                                return Visibility(
+                                  visible: model.index == 0 ? true : false,
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 12),
+                                    constraints: BoxConstraints.expand(
+                                        width: double.infinity, height: 50),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: TextField(
+                                            textAlign: TextAlign.start,
+                                            textAlignVertical:
                                             TextAlignVertical.center,
-                                        controller: _pwdController,
-                                        keyboardType: TextInputType.text,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          textBaseline: TextBaseline.alphabetic,
+                                            controller: _pwdController,
+                                            keyboardType: TextInputType.text,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              textBaseline: TextBaseline.alphabetic,
+                                            ),
+                                            decoration: InputDecoration(
+                                              contentPadding: EdgeInsets.zero,
+                                              hintText: "请输入短信验证码",
+                                            ),
+                                          ),
                                         ),
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.zero,
-                                          hintText: "请输入短信验证码",
+                                        Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: Color(0xfffff1f1),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15)),
+                                          ),
+                                          constraints: BoxConstraints.expand(
+                                              width: 102, height: 28),
+                                          child: Text(
+                                            "获取验证码",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              height: 1,
+                                              color: Color(CommonColor.C_CCCCCC),
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.normal,
+                                              decoration: TextDecoration.none,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xfffff1f1),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(15)),
-                                      ),
-                                      constraints: BoxConstraints.expand(
-                                          width: 102, height: 28),
-                                      child: Text(
-                                        "获取验证码",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          height: 1,
-                                          color: Color(CommonColor.C_CCCCCC),
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
-                          //密码
+                                  ),
+                                );
+                              }),
+                          //输入密码
                           ScopedModelDescendant<CounterModel>(
                               builder: (context, child, model) {
-                            return Visibility(
-                              visible: model.index == 1 ? true : false,
-                              child: Container(
-                                margin: EdgeInsets.only(top: 12),
-                                constraints: BoxConstraints.expand(
-                                    width: double.infinity, height: 50),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: TextField(
-                                        textAlign: TextAlign.start,
-                                        textAlignVertical:
+                                return Visibility(
+                                  visible: model.index == 1 ? true : false,
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 12),
+                                    constraints: BoxConstraints.expand(
+                                        width: double.infinity, height: 50),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: TextField(
+                                            textAlign: TextAlign.start,
+                                            textAlignVertical:
                                             TextAlignVertical.center,
-                                        controller: _pwdController,
-                                        keyboardType: TextInputType.text,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          textBaseline: TextBaseline.alphabetic,
+                                            controller: _pwdController,
+                                            keyboardType: TextInputType.text,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              textBaseline: TextBaseline.alphabetic,
+                                            ),
+                                            decoration: InputDecoration(
+                                              contentPadding: EdgeInsets.zero,
+                                              hintText: "请输入密码",
+                                            ),
+                                          ),
                                         ),
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.zero,
-                                          hintText: "请输入密码",
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin:
+                                        Container(
+                                          margin:
                                           EdgeInsets.symmetric(horizontal: 12),
-                                      constraints: BoxConstraints.expand(
-                                          width: 1 / DisplayUtil.pixelRatio,
-                                          height: 12),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: Color(CommonColor.C_DIVIDE),
-                                      ),
-                                    ),
-                                    Container(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "忘记密码",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          height: 1,
-                                          color: Color(CommonColor.C_CCCCCC),
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
+                                          constraints: BoxConstraints.expand(
+                                              width: 1 / DisplayUtil.pixelRatio,
+                                              height: 12),
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: Color(CommonColor.C_DIVIDE),
+                                          ),
                                         ),
-                                        textAlign: TextAlign.center,
-                                      ),
+                                        Container(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "忘记密码",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              height: 1,
+                                              color: Color(CommonColor.C_CCCCCC),
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.normal,
+                                              decoration: TextDecoration.none,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
+                                  ),
+                                );
+                              }),
                         ],
                       ),
 
-                      //登录
-                      ScopedModelDescendant<CounterModel>(
-                          builder: (context, child, model) {
-                        return Container(
-                          margin: EdgeInsets.only(
-                              left: 0, top: 30, right: 0, bottom: 0),
-                          alignment: Alignment.center,
-                          constraints: BoxConstraints.expand(
-                              width: double.infinity, height: 60),
-                          decoration: BoxDecoration(
-                              gradient: model.ok
-                                  ? ColorUtil.getGradient([
+                      //登录按钮
+                      GestureDetector(
+                        onTap: () {
+                          create();
+                        },
+                        child: ScopedModelDescendant<CounterModel>(
+                            builder: (context, child, model) {
+                              return Container(
+                                margin: EdgeInsets.only(
+                                    left: 0, top: 30, right: 0, bottom: 0),
+                                alignment: Alignment.center,
+                                constraints: BoxConstraints.expand(
+                                    width: double.infinity, height: 60),
+                                decoration: BoxDecoration(
+                                    gradient: model.ok
+                                        ? ColorUtil.getGradient([
                                       Color(CommonColor.C_MAIN_COLOR),
                                       Color(CommonColor.C_FF5442)
                                     ])
-                                  : ColorUtil.getGradient([
+                                        : ColorUtil.getGradient([
                                       Color(CommonColor.C_EEEEEE),
                                       Color(CommonColor.C_CCCCCC)
                                     ]),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30.0)),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color(0xffff0000),
-                                    blurRadius: 10.0,
-                                    offset: Offset(0, 5)),
-                              ]),
-                          child: Text(
-                            "登录",
-                            style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.white,
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }),
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(30.0)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Color(0xffff0000),
+                                          blurRadius: 4.0,
+                                          offset: Offset(0, 2)),
+                                    ]),
+                                child: Text(
+                                  "登录",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    color: Colors.white,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            }),
+                      ),
 
                       //登录方式
                       Container(
@@ -431,7 +458,7 @@ class LoginPage extends StatelessWidget {
 
                       Container(
                         constraints:
-                            BoxConstraints.expand(width: 40, height: 40),
+                        BoxConstraints.expand(width: 40, height: 40),
                         margin: EdgeInsets.only(top: 12, bottom: 12),
                         alignment: Alignment.center,
                         child: Image(
@@ -464,4 +491,15 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Map<String, String> getParams1(int taskId) {
+    return null;
+  }
+
+  @override
+  void onDataError(int tag, Exception exception, int taskId) {}
+
+  @override
+  void onDataSuccess1(List<Task> result, int taskId) {}
 }
