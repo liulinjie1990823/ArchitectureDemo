@@ -32,6 +32,9 @@ public abstract class MiddleMvcBaseActivity extends MvcBaseActivity implements I
   private String mPageName;
   private String mPageId;
 
+  public MiddleMvcBaseActivity() {
+  }
+
   @Override
   public String getPageName() {
     if (mPageName == null) {

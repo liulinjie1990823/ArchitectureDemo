@@ -10,3 +10,5 @@ interface IBaseTaskView : IBaseActivityView {
 
     fun onDataError(tag: Int, e: Throwable, taskId: Int)
 }
+
+
