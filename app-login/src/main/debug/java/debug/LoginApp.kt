@@ -52,10 +52,8 @@ class LoginApp : MiddleApplication(), BootstrapNotifier {
         CC.enableRemoteCC(true)
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
-            override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-                if (activity == null) {
-                    return
-                }
+
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                 StatusBarCompat.setStatusBarColor(activity.window, ContextCompat.getColor(activity, com.llj.login.R.color.white))
                 LightStatusBarCompat.setLightStatusBar(activity.window, true)
             }

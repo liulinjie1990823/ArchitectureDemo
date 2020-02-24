@@ -6,6 +6,7 @@ import android.text.Spanned;
 
 /**
  * ArchitectureDemo.
+ *
  * describe:
  *
  * @author llj

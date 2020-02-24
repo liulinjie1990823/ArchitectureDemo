@@ -150,21 +150,29 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
 
     //设置dialog透明模式
     override fun show() {
-        //Here's the magic..
-        //Set the dialog to not focusable (makes navigation ignore us adding the window)
-        window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        if (!mUseSoftInput) {
+            //如果没有输入框，不需要弹出软键盘的可以使用TRANSPARENT模式，fitSystemWindow记得在布局中设置
+            //因为如果需要使用软键盘，且需要adjustResize，TRANSPARENT模式会使adjustResize失效，布局还是原来的大小
+            //需要自己根据输入法的是否显示来控制view的高度，所以一般情况下不弹软键盘的可以使用透明覆盖模式
+            //Here's the magic..
+            //Set the dialog to not focusable (makes navigation ignore us adding the window)
+            window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
 
-        //Show the dialog!
-        super.show()
+            //Show the dialog!
+            super.show()
 
-        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window?.statusBarColor = Color.TRANSPARENT
-        window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window?.statusBarColor = Color.TRANSPARENT
+            window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 
-        //Clear the not focusable flag from the window
-        window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+            //Clear the not focusable flag from the window
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        } else {
+            //如果有软键盘弹出的，会
+            super.show()
+        }
 
     }
 }

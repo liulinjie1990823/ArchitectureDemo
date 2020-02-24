@@ -9,7 +9,9 @@ dependencies {
     //gradle sdk
     implementation gradleApi()
     //groovy sdk
-    implementation localGroovy()
+//    implementation localGroovy()
+    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.15'
+
     //android插件
     if (useOld) {
         implementation deps.android_gradle_plugin_old

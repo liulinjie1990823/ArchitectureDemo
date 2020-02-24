@@ -69,7 +69,7 @@ if (useCodeInject) {
     apply plugin: 'plugin-code-inject'
 
     codeInjectConfig {
-        enableModify = false
+        enableModify = true
         showHelp = true
         keepQuiet = false
         watchTimeConsume = false
@@ -78,13 +78,10 @@ if (useCodeInject) {
                           'com.llj.component.service.MiddleMvpBaseFragment',
         ]
         superFragments = [
-//                'android/support/v4/app/Fragment',
-//                'androidx/fragment/app/Fragment',
-//                'android/support/v4/app/DialogFragment',
-'com.llj.lib.base.MvcBaseFragment',
-'com.llj.lib.base.MvpBaseFragment',
+                'com.llj.lib.base.MvcBaseFragment',
+                'com.llj.lib.base.MvpBaseFragment',
+                'com.llj.setting.SettingMvcBaseFragment',
         ]
-        //butterknife.internal.DebouncingOnClickListener
     }
 }
 android {

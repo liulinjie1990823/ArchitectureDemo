@@ -7,7 +7,7 @@ import android.widget.TextView
 import butterknife.BindView
 import com.llj.component.service.utils.CharInputFilter
 import com.llj.lib.base.MvcBaseFragment
-import com.llj.lib.base.listeners.MyTextWatcher
+import com.llj.lib.base.listeners.SimpleTextWatcher
 import com.llj.login.R
 import com.llj.login.R2
 
@@ -44,7 +44,7 @@ class CodeLoginFragmentMvc : MvcBaseFragment() {
         charInputFilter.setMaxInputLength(4)
         mEtCode.filters = arrayOf(charInputFilter)
 
-        val myTextWatcher = object : MyTextWatcher() {
+        val myTextWatcher = object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 mBtnLogin.isEnabled = mEtMobile.text.toString().length == 11 && mEtCode.text.toString().length == 4
             }

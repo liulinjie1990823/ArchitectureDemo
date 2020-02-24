@@ -120,17 +120,19 @@ dependencies {
     // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
 
     //应用调试
-    debugImplementation deps.flipper
-    betaImplementation deps.flipper
-    releaseImplementation deps.flipper_noop
+    debugImplementation 'com.facebook.soloader:soloader:0.8.0'
+    debugImplementation "com.facebook.flipper:flipper:0.31.1"
+    betaImplementation "com.facebook.flipper:flipper-noop:0.31.1"
+    releaseImplementation "com.facebook.flipper:flipper-noop:0.31.1"
 
-    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.25.0'
-    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.27.0'
-    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.30.0'
+    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.30.1'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.31.1'
+    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.31.1'
+
     //内存检测
-    debugImplementation deps.leakcanary_android
-    betaImplementation deps.leakcanary_android
-    releaseImplementation deps.leakcanary_android_no_op
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.3"
+    betaImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
 
     kapt deps.dagger_compiler
     kapt deps.dagger_android_support_compiler

@@ -83,19 +83,21 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = BaseDialogImpl(activity!!, theme)
-        return dialog
+        return BaseDialogImpl(activity!!, theme)
     }
 
+    //<editor-fold desc="onShow">
     //如果是DialogFragment，会在该方法中显示dialog
     override fun onStart() {
         super.onStart()
         Timber.tag(mTagLog).i("onStart：%s", mTagLog)
 
-        performOnShow()
+        dispatchShowListener()
+
+        showSoftInput()
     }
 
-    private fun performOnShow() {
+    private fun dispatchShowListener() {
         //设置回调方法
         if (dialog == null) {
             mOnShowListener?.onShow(null)
@@ -104,53 +106,72 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
                 mOnShowListener?.onShow(dialog)
             }
         }
-        //是否显示输入法
-        if (mUseSoftInput) {
-            if (dialog == null) {
-                activity?.window?.decorView?.post(Runnable {
-                    AInputMethodManagerUtils.showOrHideInput(activity, true)
-                })
-            } else {
-                dialog?.window?.decorView?.post(Runnable {
-                    AInputMethodManagerUtils.showOrHideInput(dialog, true)
-                })
-            }
-        }
     }
 
+    private fun showSoftInput() {
+        //是否显示输入法
+        if (!mUseSoftInput) {
+            return
+        }
+        if (dialog == null) {
+            activity?.window?.decorView?.post(Runnable {
+                AInputMethodManagerUtils.showOrHideInput(activity, true)
+            })
+        } else {
+            dialog?.window?.decorView?.post(Runnable {
+                AInputMethodManagerUtils.showOrHideInput(dialog, true)
+            })
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="onDismiss">
     //如果有dialog，dialog的dismiss会回调该方法
-    //不要设置setOnDismissListener，因为DialogFragment中会覆盖
+    //不要设置dialog的setOnDismissListener，因为DialogFragment中会覆盖
+    //在fragment中提供了mOnDismissListener的回调
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        performOnDismiss()
+        dispatchDismissListener()
     }
 
-    private fun performOnDismiss() {
+    private fun dispatchDismissListener() {
         //设置回调方法
         mOnDismissListener?.onDismiss(dialog)
+    }
 
-        if (mUseSoftInput) {
-            if (dialog == null) {
-                AInputMethodManagerUtils.hideSoftInputFromWindow(activity)
-            } else {
-                AInputMethodManagerUtils.hideSoftInputFromWindow(dialog)
-            }
+    override fun dismissAllowingStateLoss() {
+        hideSoftInput()
+        super.dismissAllowingStateLoss()
+    }
+
+    private fun hideSoftInput() {
+        if (!mUseSoftInput) {
+            return
+        }
+        if (dialog == null) {
+            AInputMethodManagerUtils.hideSoftInputFromWindow(activity)
+        } else {
+            AInputMethodManagerUtils.hideSoftInputFromWindow(dialog)
         }
 
     }
+    //</editor-fold>
 
+    //<editor-fold desc="smartDismiss">
     fun smartDismiss() {
         if (showsDialog) {
             dismissAllowingStateLoss()
         } else {
+            hideSoftInput()
             AFragmentUtils.removeFragment(fragmentManager, this)
-            performOnDismiss()
+            dispatchDismissListener()
         }
     }
+    //</editor-fold>
 
 
-    //region smartShow
+    //<editor-fold desc="smartShow">
     fun smartShow(manager: FragmentManager, tag: String) {
         smartShow(manager, tag, Window.ID_ANDROID_CONTENT)
     }
@@ -168,9 +189,9 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
             AFragmentUtils.addFragment(manager, containerViewId, this, tag)
         }
     }
-    //endregion
+    //</editor-fold>
 
-    //region smartShowNow
+    //<editor-fold desc="smartShowNow">
     fun smartShowNow(manager: FragmentManager, tag: String) {
         smartShowNow(manager, tag, Window.ID_ANDROID_CONTENT)
     }
@@ -190,7 +211,7 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
             AFragmentUtils.addFragment(manager, containerViewId, this, tag)
         }
     }
-    //endregion
+    //</editor-fold>
     //</editor-fold >
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -302,6 +323,10 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
         val requestDialog = getLoadingDialog() as Dialog?
         if (requestDialog != null && requestDialog.isShowing) {
             requestDialog.cancel()
+            requestDialog.setOnCancelListener(null)
+            dismissLoadingDialog()
+
+            mRequestDialog = null
         }
 
         unregister(this)

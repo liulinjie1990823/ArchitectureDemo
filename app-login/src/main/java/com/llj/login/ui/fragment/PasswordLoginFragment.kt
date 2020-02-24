@@ -8,8 +8,8 @@ import butterknife.BindView
 import com.llj.component.service.permission.PermissionManager
 import com.llj.component.service.utils.CharInputFilter
 import com.llj.component.service.vo.UserInfoVo
-import com.llj.lib.base.listeners.MyTextWatcher
 import com.llj.lib.base.listeners.OnMyClickListener
+import com.llj.lib.base.listeners.SimpleTextWatcher
 import com.llj.lib.utils.ARegexUtils
 import com.llj.lib.utils.AToastUtils
 import com.llj.login.LoginMvpBaseFragment
@@ -50,7 +50,7 @@ class PasswordLoginFragment : LoginMvpBaseFragment<PhoneLoginPresenter>(), Phone
         charInputFilter.setMaxInputLength(11)
         mEtMobile.filters = arrayOf(charInputFilter)
 
-        val myTextWatcher = object : MyTextWatcher() {
+        val myTextWatcher = object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 mBtnLogin.isEnabled = mEtMobile.text.toString().length == 11 && mEtPwd.text.toString().length == 6
             }

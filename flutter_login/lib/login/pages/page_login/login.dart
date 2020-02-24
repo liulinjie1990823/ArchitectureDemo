@@ -179,7 +179,8 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                                           fontSize: 19,
                                           color: counterModel.index == 0
                                               ? Color(CommonColor.C_NORMAL_TEXT)
-                                              : Color(CommonColor.C_UN_ENABLE_TEXT),
+                                              : Color(
+                                              CommonColor.C_UN_ENABLE_TEXT),
                                           fontStyle: FontStyle.normal,
                                           fontWeight: FontWeight.w600,
                                           decoration: TextDecoration.none,
@@ -272,7 +273,8 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                                             keyboardType: TextInputType.text,
                                             style: TextStyle(
                                               fontSize: 16,
-                                              textBaseline: TextBaseline.alphabetic,
+                                              textBaseline: TextBaseline
+                                                  .alphabetic,
                                             ),
                                             decoration: InputDecoration(
                                               contentPadding: EdgeInsets.zero,
@@ -294,7 +296,8 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                                             style: TextStyle(
                                               fontSize: 14,
                                               height: 1,
-                                              color: Color(CommonColor.C_CCCCCC),
+                                              color: Color(
+                                                  CommonColor.C_CCCCCC),
                                               fontStyle: FontStyle.normal,
                                               fontWeight: FontWeight.normal,
                                               decoration: TextDecoration.none,
@@ -327,7 +330,8 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                                             keyboardType: TextInputType.text,
                                             style: TextStyle(
                                               fontSize: 16,
-                                              textBaseline: TextBaseline.alphabetic,
+                                              textBaseline: TextBaseline
+                                                  .alphabetic,
                                             ),
                                             decoration: InputDecoration(
                                               contentPadding: EdgeInsets.zero,
@@ -353,7 +357,8 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                                             style: TextStyle(
                                               fontSize: 14,
                                               height: 1,
-                                              color: Color(CommonColor.C_CCCCCC),
+                                              color: Color(
+                                                  CommonColor.C_CCCCCC),
                                               fontStyle: FontStyle.normal,
                                               fontWeight: FontWeight.normal,
                                               decoration: TextDecoration.none,

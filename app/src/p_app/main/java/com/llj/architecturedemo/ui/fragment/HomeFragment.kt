@@ -2,7 +2,6 @@ package com.llj.architecturedemo.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -28,8 +27,10 @@ class HomeFragment : MiddleMvcBaseFragment(), ScrollableHelper.ScrollableContain
         return mRecyclerView
     }
 
-    @BindView(R.id.recyclerView) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
-    @BindView(R.id.tv_update) lateinit var mUpdate: TextView
+    @BindView(R.id.recyclerView)
+    lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
+    @BindView(R.id.tv_update)
+    lateinit var mUpdate: TextView
 
     companion object {
         fun getInstance(data: BabyHomeModuleItemVo, position: Int): HomeFragment {
@@ -51,9 +52,10 @@ class HomeFragment : MiddleMvcBaseFragment(), ScrollableHelper.ScrollableContain
         super.initViews(savedInstanceState)
 
         val arrayList = arrayListOf<Data>()
+        arrayList.add(Data("AdjustResizeActivity", CRouter.APP_ADJUST_RESIZE_ACTIVITY2))
         arrayList.add(Data("SvgActivity", CRouter.APP_SVG_ACTIVITY))
         arrayList.add(Data("RunnableActivity", CRouter.APP_RUNNABLE_ACTIVITY))
-        arrayList.add(Data("InjectActivity", "ciw://InjectActivity?needLogin=1&a=1&b=2&c=3"))
+        arrayList.add(Data("InjectActivity", CRouter.SETTING_INJECT_ACTIVITY))
         arrayList.add(Data("SecondActivity", CRouter.APP_FIRST_ACTIVITY))
         arrayList.add(Data("FirstActivity", CRouter.APP_FIRST_ACTIVITY))
         arrayList.add(Data("KodoActivity", CRouter.APP_KODO_ACTIVITY))

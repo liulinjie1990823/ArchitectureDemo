@@ -3,8 +3,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':lib-base-compiler')
     implementation project(':lib-jump-annotation')
-    compileOnly 'com.google.auto.service:auto-service:1.0-SNAPSHOT'
-    annotationProcessor 'com.google.auto.service:auto-service:1.0-SNAPSHOT'
+    compileOnly 'com.google.auto.service:auto-service:1.0-rc6'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
 }
 
 

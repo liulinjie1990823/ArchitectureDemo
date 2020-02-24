@@ -31,7 +31,9 @@ class InjectHookConfig {
      */
 
     /**
-     *
+     * 父类parent是class的类。
+     * 首先通过targetPackages可以将范围限定在摸个包或者某个类中
+     * 然后通过name+desc组合成map的key找到对应的InjectMethodCell，然后调用对应的sAgentClassName，agentName,agentDesc
      */
     public final static HashMap<String, InjectMethodCell> sSuperNameMethods = new HashMap<>()
     static {
@@ -46,7 +48,7 @@ class InjectHookConfig {
                 [Opcodes.ALOAD]))
     }
     /**
-     * interface中的方法
+     * parent是interface
      */
     public final static HashMap<String, InjectMethodCell> sInterfaceMethods = new HashMap<>()
     static {

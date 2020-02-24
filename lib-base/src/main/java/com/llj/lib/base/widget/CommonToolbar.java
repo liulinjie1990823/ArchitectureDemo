@@ -3,7 +3,6 @@ package com.llj.lib.base.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.DrawableRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -13,15 +12,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import androidx.annotation.DrawableRes;
 import com.llj.lib.base.R;
 import com.llj.lib.utils.ADisplayUtils;
 
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/5/24
+ * @author liulj
+ * @date 2018/5/24
  */
 public class CommonToolbar extends LinearLayout {
     private RelativeLayout mContainRl;

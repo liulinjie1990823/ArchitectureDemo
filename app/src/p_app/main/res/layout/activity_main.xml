@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.llj.component.service.widget.WindowInsetsFrameLayout
+  <com.llj.lib.base.widget.WindowInsetsFrameLayout
         android:id="@+id/fl_contain"
         android:layout_width="match_parent"
         android:layout_height="0dp"

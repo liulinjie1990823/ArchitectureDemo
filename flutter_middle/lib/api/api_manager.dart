@@ -27,8 +27,6 @@ class MiddleRestClient {
   MiddleRestClient.internal();
 
   MiddleRestClient();
-
-
 }
 
 class Logger {

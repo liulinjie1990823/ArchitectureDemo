@@ -3,7 +3,9 @@ package com.llj.lib.jump.annotation.callback;
 import java.util.Map;
 
 /**
- * ArchitectureDemo. describe:
+ * ArchitectureDemo.
+ *
+ * describe:
  *
  * @author llj
  * @date 2019-06-13

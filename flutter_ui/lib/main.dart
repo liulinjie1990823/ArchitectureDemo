@@ -3,8 +3,6 @@ import 'package:flutter_base/utils/status_bar_util.dart';
 
 void main() {
   runApp(MyApp());
-
-  StatusBarUtil.statusBarTransparent(true);
 }
 
 class MyApp extends StatelessWidget {
@@ -15,6 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    StatusBarUtil.statusBarTransparent(true);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

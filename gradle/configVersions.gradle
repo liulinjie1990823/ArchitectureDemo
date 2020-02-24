@@ -37,7 +37,6 @@ def versions = [
 
         stetho           : "1.5.1",
         leakcanary       : "2.0-beta-2",
-        flipper          : "0.30.0",
 
         timber           : "4.7.1",
 
@@ -178,8 +177,6 @@ versionName      : "1.0.0",
             stetho                            : "com.facebook.stetho:stetho:$versions.stetho",
             stetho_okhttp3                    : "com.facebook.stetho:stetho-okhttp3:$versions.stetho",
             stetho_urlconnection              : "com.facebook.stetho:stetho-urlconnection:$versions.stetho",
-            flipper                           : "com.facebook.flipper:flipper:$versions.flipper",
-            flipper_noop                      : "com.facebook.flipper:flipper-noop:0.28.0",
 
             //日志
             timber                            : "com.jakewharton.timber:timber:4.7.1",

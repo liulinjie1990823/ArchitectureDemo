@@ -5,14 +5,14 @@ import com.android.annotations.Nullable
 import com.android.build.api.transform.*
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
+import com.llj.inject.gradle.plugin.util.DataHelper
+import com.llj.inject.gradle.plugin.util.Log
+import com.llj.inject.gradle.plugin.util.ModifyClassUtil
 import groovy.io.FileType
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import org.gradle.api.Project
-import com.llj.inject.gradle.plugin.util.Log
-import com.llj.inject.gradle.plugin.util.DataHelper
-import com.llj.inject.gradle.plugin.util.ModifyClassUtil
 
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
@@ -285,6 +285,7 @@ class InjectTransform extends Transform {
         // 注意，闭包里的return语句相当于continue，不会跳出遍历，故用while或for
         while (iterator.hasNext()) {
             String packageName = iterator.next()
+            //判断类名中是否包含指定的包名，true表示是需要修改的类
             if (className.contains(packageName)) {
                 //在指定的包名mTargetPackages中，且不是R,BuildConfig文件
                 return (!className.contains("R\$") && !className.endsWith("R") && !className.endsWith("BuildConfig"))
@@ -314,6 +315,8 @@ class InjectTransform extends Transform {
                 if (!entryName.endsWith(".class")) {
                     continue
                 }
+                //entryName:com/billy/cc/core/component/BaseForwardInterceptor.class
+                //className:com.billy.cc.core.component.BaseForwardInterceptor
                 String className = pathToClassname(entryName)
                 if (classNeedModify(className)) {
                     modified = true
