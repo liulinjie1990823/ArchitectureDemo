@@ -23,7 +23,7 @@ def versions = [
         autodispose      : "1.0.0-RC2",
         arouter_api      : "1.5.0",
         arouter_compiler : "1.2.2",
-        butterknife      : "10.2.0",
+        butterknife      : "10.2.1",
 
         retrofit2        : "2.6.2",
         okhttp           : "4.2.2",
@@ -60,7 +60,7 @@ versionName      : "1.0.0",
     deps = [
             //插件
             android_gradle_plugin_old         : "com.android.tools.build:gradle:3.2.1",
-            android_gradle_plugin             : "com.android.tools.build:gradle:3.5.3",
+            android_gradle_plugin             : "com.android.tools.build:gradle:3.6.0",
             butterknife_gradle_plugin         : "com.jakewharton:butterknife-gradle-plugin:$versions.butterknife",
             kotlin_gradle_plugin              : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
             bintray_release_plugin            : "com.novoda:bintray-release:$versions.bintray_release",
@@ -236,7 +236,7 @@ versionName      : "1.0.0",
 
 
 def addRepos(RepositoryHandler handler) {
-
+    handler.mavenLocal()
     handler.maven { url "https://maven.aliyun.com/repository/jcenter" }
     handler.maven { url "https://maven.aliyun.com/repository/google" }
     handler.mavenCentral()
@@ -244,7 +244,6 @@ def addRepos(RepositoryHandler handler) {
     handler.maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
     //本地的maven仓库，需要maven格式的包
     handler.maven { url uri("./repo") }//插件
-    //handler.mavenLocal()
     //工程中的lib文件夹，依赖aar和jar文件
 
 //    handler.google()

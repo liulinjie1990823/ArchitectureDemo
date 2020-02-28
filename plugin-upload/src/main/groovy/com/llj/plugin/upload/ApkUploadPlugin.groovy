@@ -2,9 +2,9 @@ package com.llj.plugin.upload
 
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.api.BaseVariant
+import groovy.json.internal.LazyMap
 import groovyx.net.http.ContentType
 import groovyx.net.http.HTTPBuilder
-import groovy.json.internal.LazyMap
 import org.apache.commons.lang.StringUtils
 import org.apache.http.entity.mime.MultipartEntity
 import org.apache.http.entity.mime.content.FileBody
@@ -93,11 +93,7 @@ class ApkUploadPlugin implements Plugin<Project> {
         if (project.hasProperty("desc")) {
             desc = project.properties.get("desc")
         } else {
-            if (split.size() > 0) {
-                desc = buildType.toString() + " " + branch + " " + split[0]
-            } else {
-                desc = buildType.toString() + " " + branch
-            }
+            desc = "no desc"
         }
         def http = new HTTPBuilder(PGY_URL)
         http.request(POST, ContentType.JSON) { req ->
@@ -191,7 +187,7 @@ class ApkUploadPlugin implements Plugin<Project> {
                 body = "{\n" +
                         "    \"actionCard\": {\n" +
                         "        \"title\": \"Android：${data.buildName}\", \n" +
-                        "        \"text\": \"![screenshot](${data.buildQRCodeURL}) \\n #### **Android**：${data.buildName} \\n\\n - build版本：${variantName} \\n - git分支：${branch} \\n - commit记录：\\n ${commit}- 版本信息：${data.buildVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(data.buildFileSize == null ? 0 : Long.valueOf(data.buildFileSize))} \\n - 更新时间：${data.buildUpdated} \\n - 更新内容：${data.buildUpdateDescription}\", \n" +
+                        "        \"text\": \"![screenshot](${data.buildQRCodeURL}) \\n #### **Android**：${data.buildName} \\n\\n - build版本：${variantName} \\n - 蒲公英build版本：${data.buildBuildVersion} \\n - git分支：${branch} \\n - commit记录：\\n ${commit}- 版本信息：${data.buildVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(data.buildFileSize == null ? 0 : Long.valueOf(data.buildFileSize))} \\n - 更新时间：${data.buildUpdated} \\n - 更新内容：${data.buildUpdateDescription}\", \n" +
                         "        \"hideAvatar\": \"0\", \n" +
                         "        \"btnOrientation\": \"0\", \n" +
                         "        \"singleTitle\" : \"点击下载最新应用包\",\n" +

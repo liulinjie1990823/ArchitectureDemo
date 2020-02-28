@@ -34,7 +34,7 @@ buildscript {
 
         //上传apk
         if (useApkUploadPlugin) {
-            classpath 'com.llj:plugin-upload:0.0.10'
+            classpath 'com.llj:plugin-upload:0.0.11'
         }
         //aspectj
         if (useAspectjx) {
