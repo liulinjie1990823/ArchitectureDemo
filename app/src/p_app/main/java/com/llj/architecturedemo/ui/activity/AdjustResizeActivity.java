@@ -1,11 +1,13 @@
 package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
+import android.view.WindowManager.LayoutParams;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.component.service.arouter.CRouter;
-import com.llj.lib.base.widget.AndroidBug5497Workaround;
+import com.llj.lib.base.listeners.KeyboardStateObserver;
+import com.llj.lib.base.listeners.KeyboardStateObserver.OnKeyboardVisibilityListener;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -25,8 +27,20 @@ public class AdjustResizeActivity extends AppMvcBaseActivity {
 
   @Override
   public void initViews(@Nullable Bundle savedInstanceState) {
-    AndroidBug5497Workaround.assistActivity(this);
+    getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    //AndroidBug5497Workaround.assistActivity(this);
     setTranslucentStatusBar(getWindow(), true);
+
+    KeyboardStateObserver.getKeyboardStateObserver(getWindow()).setKeyboardVisibilityListener(
+        new OnKeyboardVisibilityListener() {
+          @Override
+          public void onKeyboardShow() {
+          }
+
+          @Override
+          public void onKeyboardHide() {
+          }
+        });
 
 
   }

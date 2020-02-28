@@ -153,7 +153,8 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
         if (!mUseSoftInput) {
             //如果没有输入框，不需要弹出软键盘的可以使用TRANSPARENT模式，fitSystemWindow记得在布局中设置
             //因为如果需要使用软键盘，且需要adjustResize，TRANSPARENT模式会使adjustResize失效，布局还是原来的大小
-            //需要自己根据输入法的是否显示来控制view的高度，所以一般情况下不弹软键盘的可以使用透明覆盖模式
+            //需要自己根据输入法的是否显示来控制view的高度，所以一般情况下不弹软键盘的可以使用透明覆盖模式，如果使用
+            //软键盘就使用非透明模式。不用自己计算布局的高度
             //Here's the magic..
             //Set the dialog to not focusable (makes navigation ignore us adding the window)
             window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,

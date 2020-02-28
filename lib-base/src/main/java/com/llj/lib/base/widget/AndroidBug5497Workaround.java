@@ -93,8 +93,11 @@ public class AndroidBug5497Workaround {
 
   /**
    * 计算mChildOfContent可见高度，不包括statusBar的高度
-   *
-   * 需要设置soft属性是SOFT_INPUT_ADJUST_RESIZE才生效， SOFT_INPUT_ADJUST_PAN会使软键盘弹出前后高度一样，都是无软键盘的时候的大小
+   * <p/>
+   * SOFT_INPUT_ADJUST_RESIZE属性，使用透明模式和非透明模式，都适用
+   * <p/>
+   * SOFT_INPUT_ADJUST_PAN属性，activity使用使用透明模式和非透明模式， 都适用，但是透明模式下computeUsableHeight也有效果，但是将mFrameLayoutParams.height重新设置高度后，系统还会自动增加一个y轴向上的偏移量，显示会有问题
+   * dialog使用两种模式computeUsableHeight的值相等，所以不适用
    *
    * @return
    */
