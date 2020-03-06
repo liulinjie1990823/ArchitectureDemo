@@ -84,9 +84,10 @@ public class KeyboardStateObserver {
   /**
    * 计算mChildOfContent可见高度，不包括statusBar的高度
    * <p/>
-   * SOFT_INPUT_ADJUST_RESIZE属性，使用透明模式和非透明模式，都适用
+   * SOFT_INPUT_ADJUST_RESIZE属性，在透明模式和非透明模式下，软键盘的显示和隐藏，computeUsableHeight会有不同的值
    * <p/>
-   * SOFT_INPUT_ADJUST_PAN属性，activity使用透明模式和非透明模式，都适用；dialog使用两种模式computeUsableHeight的值相等，所以不适用
+   * SOFT_INPUT_ADJUST_PAN属性，activity在透明模式和非透明模式下，软键盘的显示和隐藏，computeUsableHeight会有不同的值（在透明模式下computeUsableHeight也有效果，但是将mFrameLayoutParams.height重新设置高度后，系统还会自动增加一个y轴向上的偏移量，显示会有问题），
+   * dialog在透明模式和非透明模式下，软键盘的显示和隐藏，computeUsableHeight的值相等，所以不适用
    *
    * @return
    */
