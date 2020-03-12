@@ -24,6 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # lombok
+  lombok: ^0.0.5
   #  retrofit
   retrofit: any
   logger: any
@@ -34,12 +36,14 @@ dependencies:
   #  fish_redux
   fish_redux: "^0.3.1"
   #  bloc
-  flutter_bloc: "^2.1.0"
+  bloc: ^3.0.0
+  flutter_bloc: ^3.2.0
   meta: ^1.1.6
   equatable: ^0.6.0
   #  scoped_model
   scoped_model: ^1.0.1
 
+  # 依赖的
   flutter_middle:
     path: ../flutter_middle/
   flutter_base:
@@ -105,7 +109,7 @@ flutter:
   # They also do not have any bearing on your native host application's
   # identifiers, which may be completely independent or the same as these.
   module:
-    androidX: false
+    androidX: true
     androidPackage: com.llj.flutter.flutter_login
     iosBundleIdentifier: com.llj.flutter.flutterLogin
   assets:

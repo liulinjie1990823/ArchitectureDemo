@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_base/utils/status_bar_util.dart';
 import 'package:flutter_login/login/api/api_manager.dart';
 import 'package:flutter_login/login/model/task.dart';
 import 'package:flutter_login/login/mvp/login_mvp_view.dart';
@@ -13,6 +15,7 @@ import 'package:scoped_model/scoped_model.dart';
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    StatusBarUtil.statusBarTransparent(false);
     return MaterialApp(
       title: 'Login Demo',
       theme: ThemeData(
@@ -92,6 +95,32 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
     return "I love Android";
   }
 
+  _pwdValue(BuildContext context) {}
+
+  _accountValue(BuildContext context) {
+    print("_accountValue${_accountController.text})");
+    final model = CounterModel.of(context);
+    model.codeOk = _accountController.text.length == 11;
+  }
+
+  _checkEnableLogin(CounterModel model) {
+    if (model.index == 0) {
+      if (_codeController.text.length == 6 &&
+          _accountController.text.length == 11) {
+        model.ok = true;
+      } else {
+        model.ok = false;
+      }
+    } else {
+      if (_pwdController.text.length >= 6 &&
+          _accountController.text.length == 11) {
+        model.ok = true;
+      } else {
+        model.ok = false;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     TextFormField _account = TextFormField(
@@ -108,6 +137,7 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
       controller: _codeController,
       decoration: InputDecoration(labelText: "", hintText: "请输入短信验证码"),
     );
+
     CounterModel counterModel = CounterModel();
 
     return ScopedModel<CounterModel>(
@@ -116,19 +146,24 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
         fit: StackFit.loose,
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          //page
+          //轮播背景
           Swiper(
             itemBuilder: (BuildContext context, int index) {
               return Image(
-                fit: BoxFit.cover,
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.topCenter, //可以控制Image中图片的位置
                 image: AssetImage("assets/images/login_guide_img_one.png"),
               );
             },
             itemCount: 4,
             pagination: SwiperPagination(),
-            control: SwiperControl(),
+            control: SwiperControl(
+              iconPrevious: null,
+              iconNext: null,
+            ),
           ),
 
+          //关闭按钮
           Positioned(
             top: 0,
             right: 0,
@@ -142,16 +177,15 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
             ),
           ),
 
-          //
+          //输入区域,默认按Stack中的alignment居底部中间
           Container(
             margin: EdgeInsets.only(bottom: 50),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 //输入区域
                 Container(
-                  margin:
-                  EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
@@ -233,21 +267,43 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                       Container(
                         constraints: BoxConstraints.expand(
                             width: double.infinity, height: 50),
-                        child: TextField(
-                          textAlign: TextAlign.start,
-                          textAlignVertical: TextAlignVertical.center,
-                          controller: _accountController,
-                          keyboardType: TextInputType.number,
-                          //输入style
-                          style: TextStyle(
-                            fontSize: 16,
-                            textBaseline: TextBaseline.alphabetic,
-                          ),
-                          //输入装饰
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.zero,
-                            hintText: "请输入手机号",
-                          ),
+                        child: ScopedModelDescendant<CounterModel>(
+                          builder: (context, child, model) {
+//                            _accountController
+//                                .removeListener(_accountValue(context));
+//                            _accountController
+//                                .addListener(_accountValue(context));
+                            return TextField(
+                              expands: true,
+                              autofocus: true,
+                              maxLines: null,
+                              textAlign: TextAlign.start,
+                              textAlignVertical: TextAlignVertical.center,
+                              controller: _accountController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(11)
+                              ],
+                              //输入style
+                              style: TextStyle(
+                                fontSize: 16,
+                                textBaseline: TextBaseline.alphabetic,
+                              ),
+                              //输入装饰
+                              decoration: InputDecoration(
+                                contentPadding:
+                                EdgeInsets.only(top: 0, bottom: 0),
+                                hintText: "请输入手机号",
+                              ),
+                              onChanged: (text) {
+                                print("phone onChanged:$text");
+                                final model = CounterModel.of(context);
+                                model.codeOk = text.length == 11;
+
+                                _checkEnableLogin(model);
+                              },
+                            );
+                          },
                         ),
                       ),
 
@@ -269,8 +325,8 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                                             textAlign: TextAlign.start,
                                             textAlignVertical:
                                             TextAlignVertical.center,
-                                            controller: _pwdController,
-                                            keyboardType: TextInputType.text,
+                                            controller: _codeController,
+                                            keyboardType: TextInputType.number,
                                             style: TextStyle(
                                               fontSize: 16,
                                               textBaseline: TextBaseline
@@ -280,12 +336,19 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                                               contentPadding: EdgeInsets.zero,
                                               hintText: "请输入短信验证码",
                                             ),
+                                            onChanged: (text) {
+                                              print(
+                                                  "Verification code onChanged:$text");
+                                              _checkEnableLogin(model);
+                                            },
                                           ),
                                         ),
                                         Container(
                                           alignment: Alignment.center,
                                           decoration: BoxDecoration(
-                                            color: Color(0xfffff1f1),
+                                            color: model.codeOk
+                                                ? Color(CommonColor.C_fff1f1)
+                                                : Color(CommonColor.C_f8f8f8),
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(15)),
                                           ),
@@ -296,8 +359,10 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                                             style: TextStyle(
                                               fontSize: 14,
                                               height: 1,
-                                              color: Color(
-                                                  CommonColor.C_CCCCCC),
+                                              color: model.codeOk
+                                                  ? Color(
+                                                  CommonColor.C_MAIN_COLOR)
+                                                  : Color(CommonColor.C_CCCCCC),
                                               fontStyle: FontStyle.normal,
                                               fontWeight: FontWeight.normal,
                                               decoration: TextDecoration.none,
@@ -337,6 +402,10 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                                               contentPadding: EdgeInsets.zero,
                                               hintText: "请输入密码",
                                             ),
+                                            onChanged: (text) {
+                                              print("pwd onChanged:$text");
+                                              _checkEnableLogin(model);
+                                            },
                                           ),
                                         ),
                                         Container(
@@ -394,17 +463,19 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                                       Color(CommonColor.C_FF5442)
                                     ])
                                         : ColorUtil.getGradient([
-                                      Color(CommonColor.C_EEEEEE),
-                                      Color(CommonColor.C_CCCCCC)
+                                      Color(CommonColor.C_FF869C),
+                                      Color(CommonColor.C_FF869C)
                                     ]),
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(30.0)),
-                                    boxShadow: [
+                                    boxShadow: model.ok
+                                        ? [
                                       BoxShadow(
                                           color: Color(0xffff0000),
                                           blurRadius: 4.0,
                                           offset: Offset(0, 2)),
-                                    ]),
+                                    ]
+                                        : []),
                                 child: Text(
                                   "登录",
                                   style: TextStyle(
@@ -477,11 +548,13 @@ class LoginPage extends StatelessWidget implements IGetTaskView {
                 ),
                 //隐私政策
                 Container(
+                  margin:
+                  EdgeInsets.only(left: 0, top: 12, right: 20, bottom: 0),
                   child: Text(
                     "注册即代表同意《用户协议》和《隐私政策》",
                     style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
+                      fontSize: 12,
+                      color: Color(CommonColor.C_666666),
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
                       decoration: TextDecoration.none,
