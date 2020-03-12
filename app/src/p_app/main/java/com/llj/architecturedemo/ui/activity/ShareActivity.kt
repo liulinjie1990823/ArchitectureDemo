@@ -1,6 +1,7 @@
 package com.llj.architecturedemo.ui.activity
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -39,7 +40,7 @@ class ShareActivity : AppMvcBaseActivity() {
     override fun initData() {
     }
 
-    private class MyShareListener : ShareListener {
+    private inner class MyShareListener : ShareListener {
 
 
         constructor() : super() {
@@ -67,7 +68,8 @@ class ShareActivity : AppMvcBaseActivity() {
         }
 
         override fun getExceptionImage(): Bitmap? {
-            return null
+
+            return BitmapFactory.decodeResource(this@ShareActivity.resources, R.mipmap.ic_launcher)
         }
 
     }
@@ -196,7 +198,7 @@ class ShareActivity : AppMvcBaseActivity() {
                 ShareUtil.shareText(this, Platform.PlatformType.WECHAT, shareObject, mShareListener)
             }
             R.id.tv_wechat_image -> {
-                shareObject.imageUrlOrPath = "http://imgsrc.baidu.com/image/c0%3Dshijue1%2C0%2C0%2C294%2C40/sign=a33885321bdfa9ece9235e540ab99d76/8b13632762d0f703c06472f202fa513d2797c5ce.jpg"
+                shareObject.imageUrlOrPath = "https://img.hbhcdn.com/dmp/s/merchant/1583251200/jh-img-orig-ga_1235068280189886464_1563_1172_1802512.jpg@!90w"
                 shareObject.targetUrl = "https://www.baidu.com"
                 ShareUtil.shareImage(this, Platform.PlatformType.WECHAT, shareObject, mShareListener)
             }

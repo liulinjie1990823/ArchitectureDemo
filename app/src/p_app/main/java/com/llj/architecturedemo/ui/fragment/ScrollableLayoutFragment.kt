@@ -67,12 +67,23 @@ import kotlin.collections.ArrayList
  * date 2018/10/30
  */
 class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter>(), IScrollableLayoutView {
-    @BindView(R.id.cv_toolbar) lateinit var mCvToolbar: ConstraintLayout
-    @BindView(R.id.refreshLayout) lateinit var mRefreshLayout: JHSmartRefreshLayout
-    @BindView(R.id.scrollableLayout) lateinit var mScrollableLayout: ScrollableLayout
-    @BindView(R.id.ll_header) lateinit var mLiHeader: LinearLayout
-    @BindView(R.id.tab) lateinit var mTab: MagicIndicator
-    @BindView(R.id.viewpager) lateinit var mViewpager: ViewPager
+    @BindView(R.id.cv_toolbar)
+    lateinit var mCvToolbar: ConstraintLayout
+
+    @BindView(R.id.refreshLayout)
+    lateinit var mRefreshLayout: JHSmartRefreshLayout
+
+    @BindView(R.id.scrollableLayout)
+    lateinit var mScrollableLayout: ScrollableLayout
+
+    @BindView(R.id.ll_header)
+    lateinit var mLiHeader: LinearLayout
+
+    @BindView(R.id.tab)
+    lateinit var mTab: MagicIndicator
+
+    @BindView(R.id.viewpager)
+    lateinit var mViewpager: ViewPager
 
     private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance(Utils.getApp())
 
@@ -205,7 +216,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                 val arrayListOf = arrayListOf<BabyHomeModuleVo?>()
                 arrayListOf.add(babyHomeModuleVo)
-                initBannerAdapter.itemsList = arrayListOf
+                initBannerAdapter.setItemsList(arrayListOf)
 
                 mAdapters.addAdapter(initBannerAdapter)
             }
@@ -216,7 +227,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                 val arrayListOf = arrayListOf<BabyHomeModuleVo?>()
                 arrayListOf.add(babyHomeModuleVo)
-                initAdAdapter.itemsList = arrayListOf
+                initAdAdapter.setItemsList(arrayListOf)
 
                 mAdapters.addAdapter(initAdAdapter)
             }
@@ -226,7 +237,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                 val arrayListOf = arrayListOf<BabyHomeModuleVo?>()
                 arrayListOf.add(babyHomeModuleVo)
-                initBroadcastAdapter.itemsList = arrayListOf
+                initBroadcastAdapter.setItemsList(arrayListOf)
 
                 mAdapters.addAdapter(initBroadcastAdapter)
             }
@@ -240,7 +251,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                     val arrayListOf = arrayListOf<BabyHomeModuleVo?>()
                     arrayListOf.add(babyHomeModuleVo)
-                    myDelegateAdapter.itemsList = arrayListOf
+                    myDelegateAdapter.setItemsList(arrayListOf)
 
                     mAdapters.addAdapter(myDelegateAdapter)
                 }
@@ -251,7 +262,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                 val arrayListOf = arrayListOf<BabyHomeModuleVo?>()
                 arrayListOf.add(babyHomeModuleVo)
-                initBannerAdapter.itemsList = arrayListOf
+                initBannerAdapter.setItemsList(arrayListOf)
 
                 mAdapters.addAdapter(initBannerAdapter)
             }
@@ -367,7 +378,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
                 val babyHomeModuleItemVos = item.data.subList(0, h * spanCount)
 
                 val initNavigationItemAdapter = initNavigationItemAdapter(babyHomeModuleItemVos)
-                initNavigationItemAdapter.itemsList = babyHomeModuleItemVos
+                initNavigationItemAdapter.setItemsList(babyHomeModuleItemVos)
                 UniversalBind.Builder(recyclerView, initNavigationItemAdapter)
                         .setGridLayoutManager(4)
                         .build()
@@ -463,7 +474,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
 
                 setText(tvTitle, item.block_name)
                 val initJhToolsItemAdapter = initJhToolsItemAdapter(item.data!!)
-                initJhToolsItemAdapter.itemsList = item.data
+                initJhToolsItemAdapter.setItemsList(item.data)
                 UniversalBind.Builder(recyclerView, initJhToolsItemAdapter)
                         .setGridLayoutManager(4)
                         .build()
