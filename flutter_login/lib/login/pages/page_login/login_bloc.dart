@@ -19,35 +19,41 @@ class AuthenticationBloc
   @override
   Stream<AuthenticationState> mapEventToState(
       AuthenticationEvent event) async* {
-    if (event is AppStart) {
+    if (event is AppStartEvent) {
       final bool hasToken = await userRepository.hasToken();
       if (hasToken) {
         yield AuthenticationAuthenticated();
       } else {
         yield AuthenticationUnauthenticated();
       }
-    } else if (event is LoginIn) {
+    } else if (event is LoginEvent) {
       yield AuthenticationLoading();
       await userRepository.persistToken(event.token);
       yield AuthenticationAuthenticated();
-    } else if (event is LoggedOut) {
+    } else if (event is LogoutEvent) {
       yield AuthenticationLoading();
-      await userRepository.deleteToToken();
+      await userRepository.deleteToken();
       yield AuthenticationUnauthenticated();
     }
   }
 }
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  /// 认证Bloc
+  final AuthenticationBloc authenticationBloc;
+
+  /// 用户信息仓库
   final UserRepository userRepository;
 
-  LoginBloc({@required this.userRepository}) : assert(userRepository != null);
+  LoginBloc({@required this.authenticationBloc, @required this.userRepository})
+      : assert(authenticationBloc != null),
+        assert(userRepository != null);
 
   LoginState get initialState => LoginInitial();
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    if (event is LoginButtonPressed) {
+    if (event is LoginPressedEvent) {
       yield LoginLoading();
 
       try {
@@ -60,6 +66,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } catch (error) {
         yield LoginFailure(error: error.toString());
       }
-    } else if (event is LoginTitleSelect) {}
+    }
   }
 }

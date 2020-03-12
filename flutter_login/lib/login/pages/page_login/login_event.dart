@@ -9,35 +9,30 @@ abstract class AuthenticationEvent extends Equatable {
   List<Object> get props => [];
 }
 
-/// APP 登录事件
-class Login extends AuthenticationEvent {
+/// APP 启动事件
+class AppStartEvent extends AuthenticationEvent {}
+
+/// 登录事件
+class LoginEvent extends AuthenticationEvent {
   final String token;
 
-  const Login({@required this.token});
+  const LoginEvent({@required this.token});
 
   @override
   List<Object> get props => [token];
 
   @override
-  String toString() => "LoggedIn { token: $token }";
+  String toString() => "LoginEvent { token: $token }";
 }
-
-/// APP 启动事件
-class AppStart extends AuthenticationEvent {}
 
 /// APP 退出登录事件
-class Logout extends AuthenticationEvent {}
+class LogoutEvent extends AuthenticationEvent {}
 
-/// 登录事件
-abstract class LoginEvent extends Equatable {
-  const LoginEvent();
-}
-
-class LoginButtonPressed extends LoginEvent {
+class LoginPressedEvent extends LoginEvent {
   final String username;
   final String password;
 
-  const LoginButtonPressed({
+  const LoginPressedEvent({
     @required this.username,
     @required this.password,
   });
@@ -47,14 +42,5 @@ class LoginButtonPressed extends LoginEvent {
 
   @override
   String toString() =>
-      'LoginButtonPressed { username: $username, password: $password }';
-}
-
-class LoginTitleSelect extends LoginEvent {
-  final int index;
-
-  const LoginTitleSelect({@required this.index});
-
-  @override
-  List<Object> get props => [index];
+      'LoginPressedEvent { username: $username, password: $password }';
 }
