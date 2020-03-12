@@ -282,10 +282,11 @@ public class ImageDecoder {
     return file;
   }
 
-  public static Bitmap tryCompress2Byte(String imagePath) {
+  public static BitmapFactory.Options tryCompress2Byte(String imagePath) {
     BitmapFactory.Options options = new BitmapFactory.Options();
     options.inJustDecodeBounds = true;
-    return BitmapFactory.decodeFile(imagePath, options);
+    BitmapFactory.decodeFile(imagePath, options);
+    return options;
   }
 
   /**

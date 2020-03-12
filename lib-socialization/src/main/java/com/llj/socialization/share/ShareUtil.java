@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -273,15 +274,16 @@ public class ShareUtil {
       String imageLocalPath = ImageDecoder.decode(mContext, mShareObject);
 
       //尝试解析bitmap，看看是否可用
-      Bitmap bitmap = null;
+      BitmapFactory.Options options = null;
       try {
-        bitmap = ImageDecoder.tryCompress2Byte(imageLocalPath);
+        options = ImageDecoder.tryCompress2Byte(imageLocalPath);
       } catch (Exception e) {
         e.printStackTrace();
       }
 
       //使用备用的bitmap
-      if (TextUtils.isEmpty(imageLocalPath) || bitmap == null) {
+      if (TextUtils.isEmpty(imageLocalPath) || (options == null) || (options.outHeight == 0) || (
+          options.outWidth == 0)) {
         mShareObject.setImageUrlOrPath("");
         mShareObject.setImageBitmap(mShareListener.getExceptionImage());
         imageLocalPath = ImageDecoder.decode(mContext, mShareObject);
