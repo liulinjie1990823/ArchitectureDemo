@@ -7,7 +7,7 @@ abstract class AuthenticationState extends Equatable {
   List<Object> get props => [];
 }
 
-/// - uninitialized - 身份验证未初始化
+/// - uninitialized - 身份验证未初始化，跳闪屏页
 class AuthenticationUninitialized extends AuthenticationState {}
 
 /// - loading - 等待保存/删除Token
