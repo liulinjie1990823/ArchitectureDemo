@@ -25,10 +25,10 @@ def versions = [
         arouter_compiler : "1.2.2",
         butterknife      : "10.2.1",
 
-        retrofit2        : "2.6.2",
-        okhttp           : "4.2.2",
+        retrofit2        : "2.7.2",
+        okhttp           : "4.4.1",
 
-        fresco           : "2.0.0",
+        fresco           : "2.1.0",
 
         smartrefresh     : "1.1.0-alpha-16",
         skin             : "3.1.1",
@@ -41,7 +41,7 @@ def versions = [
         timber           : "4.7.1",
 
         mockwebserver    : "3.8.1",
-        glide            : "3.8.0",
+        glide            : "4.11.0",
         socialization    : "2.0.14",
 ]
 
