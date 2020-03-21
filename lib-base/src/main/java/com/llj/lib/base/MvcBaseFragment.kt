@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
-import androidx.annotation.CallSuper
+import android.view.animation.Animation
 import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -223,11 +223,15 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
 
         // 加载数据
         if (useLazyLoad() && hasInitAndVisible()) {
-            onLazyInitData()
+            initData()
         }
     }
 
     //<editor-fold desc="生命周期">
+
+    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
+        return super.onCreateAnimation(transit, enter, nextAnim)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -275,7 +279,7 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
 
         checkLoadingDialog()
 
-        register(this)
+        registerEventBus(this)
 
         initViews(savedInstanceState)
 
@@ -292,7 +296,8 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
         // 加载数据
         if (useLazyLoad()) {
             if (hasInitAndVisible()) {
-                onLazyInitData()
+                Timber.tag(mTagLog).i("mInit：%s ,mVisible：%s", mInit, userVisibleHint)
+                initData()
             }
         } else {
             initData()
@@ -329,7 +334,7 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
             mRequestDialog = null
         }
 
-        unregister(this)
+        unregisterEventBus(this)
 
         removeAllDisposable()
 
@@ -393,6 +398,7 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
     override fun <T : Any?> onReceiveEvent(event: BaseEvent<T>) {
     }
 
+    //一般用event.pageName和子Fragment中标记的pageName比对
     override fun <T : Any?> inCurrentPage(event: BaseEvent<T>): Boolean {
         return mTagLog == event.pageName
     }
@@ -409,10 +415,6 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
         return mInit && userVisibleHint
     }
 
-    @CallSuper
-    override fun onLazyInitData() {
-        Timber.tag(mTagLog).i("mInit：%s ,mVisible：%s", mInit, userVisibleHint)
-    }
     //</editor-fold >
 
     //<editor-fold desc="ILoadingDialogHandler加载框">

@@ -14,7 +14,4 @@ interface IBaseFragmentLazy {
 
     fun hasInitAndVisible(): Boolean
 
-    fun onLazyInitData() {
-
-    }
 }

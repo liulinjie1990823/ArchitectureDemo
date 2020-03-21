@@ -62,7 +62,7 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
 
         initLifecycleObserver(lifecycle)
 
-        register(this)
+        registerEventBus(this)
 
         initViews(savedInstanceState)
 
@@ -95,7 +95,7 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
         }
 
         //注销事件总线
-        unregister(this)
+        unregisterEventBus(this)
 
         //移除所有的任务
         removeAllDisposable()

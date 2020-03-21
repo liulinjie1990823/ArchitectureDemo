@@ -9,7 +9,7 @@ package com.llj.lib.tracker;
 public interface ITracker {
 
 
-    //如果是一个页面公用的情况使用该方法传递，否则用PageName中的name
+    //如果是一个页面公用的情况使用该方法传递，否则用@PageName中的name
     default String getPageName() {
         return "";
     }

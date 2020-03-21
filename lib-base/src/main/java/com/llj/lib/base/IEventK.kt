@@ -15,13 +15,13 @@ interface IEventK {
         EventBus.getDefault().post(`object`)
     }
 
-    fun register(`object`: Any) {
+    fun registerEventBus(`object`: Any) {
         if (!EventBus.getDefault().isRegistered(`object`)) {
             EventBus.getDefault().register(`object`)
         }
     }
 
-    fun unregister(`object`: Any) {
+    fun unregisterEventBus(`object`: Any) {
         if (EventBus.getDefault().isRegistered(`object`)) {
             EventBus.getDefault().unregister(`object`)
         }

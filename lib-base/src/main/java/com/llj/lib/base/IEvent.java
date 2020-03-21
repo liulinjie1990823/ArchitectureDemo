@@ -15,13 +15,13 @@ public interface IEvent {
     EventBus.getDefault().post(object);
   }
 
-  default void register(Object object) {
+  default void registerEventBus(Object object) {
     if (useEventBus() && !EventBus.getDefault().isRegistered(object)) {
       EventBus.getDefault().register(object);
     }
   }
 
-  default void unregister(Object object) {
+  default void unregisterEventBus(Object object) {
     if (useEventBus() && EventBus.getDefault().isRegistered(object)) {
       EventBus.getDefault().unregister(object);
     }
