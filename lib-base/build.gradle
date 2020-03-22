@@ -32,7 +32,6 @@ dependencies {
     api deps.lifecycle_runtime
     api deps.lifecycle_java8
     api deps.lifecycle_viewmodel_savedstate
-    api deps.lifecycle_extensions
     //db
     api deps.room_runtime
 
@@ -54,7 +53,6 @@ dependencies {
 
     //butterknife
     api deps.butterknife
-
 
     //网络
     api deps.retrofit2

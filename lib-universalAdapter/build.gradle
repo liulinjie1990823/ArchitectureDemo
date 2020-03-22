@@ -2,15 +2,15 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    debugImplementation deps.support_recyclerview_v7
+    debugImplementation deps.recyclerview
     debugImplementation deps.SmartRefreshLayout
     debugImplementation deps.kotlin_stdlib_jdk8
 
-    betaCompileOnly deps.support_recyclerview_v7
+    betaCompileOnly deps.recyclerview
     betaCompileOnly deps.SmartRefreshLayout
     betaCompileOnly deps.kotlin_stdlib_jdk8
 
-    releaseCompileOnly deps.support_recyclerview_v7
+    releaseCompileOnly deps.recyclerview
     releaseCompileOnly deps.SmartRefreshLayout
     releaseCompileOnly deps.kotlin_stdlib_jdk8
 }

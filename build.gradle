@@ -71,7 +71,6 @@ allprojects {
             force deps.appcompat
             force deps.lifecycle_runtime
             force deps.lifecycle_java8
-            force deps.lifecycle_extensions
             force deps.lifecycle_viewmodel
             force deps.lifecycle_viewmodel_savedstate
             force deps.lifecycle_livedata

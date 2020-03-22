@@ -5,6 +5,7 @@ import android.view.WindowManager.LayoutParams;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
+import com.llj.architecturedemo.databinding.ActivityAdjustResizeBinding;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.listeners.KeyboardStateObserver;
 import com.llj.lib.base.listeners.KeyboardStateObserver.OnKeyboardVisibilityListener;
@@ -20,6 +21,8 @@ import org.jetbrains.annotations.Nullable;
 @Route(path = CRouter.APP_ADJUST_RESIZE_ACTIVITY2)
 public class AdjustResizeActivity extends AppMvcBaseActivity {
 
+  private ActivityAdjustResizeBinding mBinding;
+
   @Override
   public int layoutId() {
     return R.layout.activity_adjust_resize;
@@ -27,6 +30,12 @@ public class AdjustResizeActivity extends AppMvcBaseActivity {
 
   @Override
   public void initViews(@Nullable Bundle savedInstanceState) {
+    mBinding = ActivityAdjustResizeBinding.inflate(getLayoutInflater());
+    mBinding.tvText.setText("dadadadadadadadadadada");
+
+
+
+
     getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_ADJUST_PAN);
     //AndroidBug5497Workaround.assistActivity(this);
     setTranslucentStatusBar(getWindow(), true);

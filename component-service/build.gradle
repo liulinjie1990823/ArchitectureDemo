@@ -109,7 +109,7 @@ dependencies {
     api deps.vlayout
     api deps.AutoScrollViewPager
     api deps.support_design
-    api deps.support_recyclerview_v7
+    api deps.recyclerview
     api deps.constraint_layout
 
     //skin

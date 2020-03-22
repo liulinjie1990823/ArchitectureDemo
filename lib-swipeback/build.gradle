@@ -1,5 +1,5 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.support_recyclerview_v7
+    implementation deps.recyclerview
 }
 

@@ -189,20 +189,23 @@ public class CWebView extends WebView {
     webSettings.setBuiltInZoomControls(true);
     //隐藏原生的缩放控件
     webSettings.setDisplayZoomControls(false);
-    // 允许访问文件
+    // 允许访问文件，比如加载本地的html文件
     webSettings.setAllowFileAccess(true);
     // WebView是否支持多个窗口。
     webSettings.setSupportMultipleWindows(false);
     // 排版适应屏幕,内容将自动缩放
     webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-    // 设置缓存模式
-    webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+    //设置播放器不用用户手势触发
+    webSettings.setMediaPlaybackRequiresUserGesture(false);
 
     //缓存https://www.jianshu.com/p/95d4d73be3d1
-    // 使用localStorage则必须打开
+    // 使用localStorage则必须打开,类似于sp
     webSettings.setDomStorageEnabled(true);
+
     //数据库缓存,有默认路径
     webSettings.setDatabaseEnabled(true);
+
     //Application Cache 存储机制,必须设置路径
     webSettings.setAppCacheEnabled(true);
     final String cachePath = getContext().getDir("appCache", Context.MODE_PRIVATE).getPath();
@@ -302,7 +305,7 @@ public class CWebView extends WebView {
         Timber.tag(TAG).i("onLoadResource -- %s", s);
       }
 
-      //可以拦截到所有的网页中资源请求，比如加载JS，图片以及Ajax请求等等
+      //可以拦截到所有的网页中资源请求，比如加载JS，图片以及Ajax请求，可以做相应的缓存
       @Override
       public WebResourceResponse shouldInterceptRequest(WebView webView, String s) {
         Timber.tag(TAG).i("shouldInterceptRequest -- %s", s);

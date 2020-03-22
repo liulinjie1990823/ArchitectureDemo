@@ -97,6 +97,7 @@ android {
         versionName build_versions.versionName
 
         dataBinding { enabled = true }
+        viewBinding { enabled = true }
 
         manifestPlaceholders = [qq_id: "1103566659"]
     }
@@ -265,8 +266,9 @@ dependencies {
     api project(':lib-kodo')
     //    api project(':lib-player')
     implementation deps.multidex
-    implementation deps.multidex_instrumentation
+//    implementation deps.multidex_instrumentation
     implementation deps.badgeview
+    implementation deps.viewpager2
     if (useComponent) {
         addComponent 'app-login'
         addComponent 'app-mine'

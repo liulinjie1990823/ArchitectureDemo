@@ -10,8 +10,6 @@ dependencies {
 
     implementation deps.kotlin_stdlib_jdk8
 
-    implementation deps.lifecycle_extensions
-
     implementation deps.rxjava2
     implementation deps.rxandroid
 
