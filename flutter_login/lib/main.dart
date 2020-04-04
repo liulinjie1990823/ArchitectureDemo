@@ -4,6 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/utils/status_bar_util.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_login/login/pages/page_home/home.dart';
 import 'package:flutter_login/login/pages/page_login/login_bloc.dart';
 import 'package:flutter_login/login/pages/page_login/login_event.dart';
 import 'package:flutter_login/login/pages/page_login/login_state.dart';
@@ -13,18 +14,39 @@ import 'package:flutter_login/login/route/routes.dart';
 import 'package:flutter_middle/application.dart';
 import 'package:flutter_middle/configs/common_color.dart';
 
-void main() => runApp(_widgetForRoute(window.defaultRouteName));
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  runApp(_widgetForRoute(window.defaultRouteName));
+}
 
 /// 登录测试页面
-class LoginTest extends StatelessWidget {
+//class LoginTest extends StatelessWidget {
+//  @override
+//  Widget build(BuildContext context) {
+//    return BlocProvider<AuthenticationBloc>(
+//      create: (context) => AuthenticationBloc()..add(AppStartEvent()),
+//      child: App(),
+//    );
+//  }
+//}
+
+class SimpleBlocDelegate extends BlocDelegate {
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider<AuthenticationBloc>(
-      create: (context) =>
-      AuthenticationBloc()
-        ..add(AppStartEvent()),
-      child: App(),
-    );
+  void onEvent(Bloc bloc, Object event) {
+    super.onEvent(bloc, event);
+    print(event);
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
+
+  @override
+  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
+    super.onError(bloc, error, stacktrace);
+    print(error);
   }
 }
 
@@ -83,6 +105,7 @@ class App extends StatelessWidget {
       create: (context) =>
       AuthenticationBloc(userRepository: _userRepository)
         ..add(AppStartEvent()),
+      //MaterialApp
       child: MaterialApp(
         title: 'Login Demo',
         theme: _themeData,
@@ -113,6 +136,7 @@ Widget _widgetForRoute(String route) {
 
   switch (route) {
     default:
+      return HomePage();
       return App();
   }
 }

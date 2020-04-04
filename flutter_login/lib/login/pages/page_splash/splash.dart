@@ -14,13 +14,14 @@ class SplashPage extends StatelessWidget {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (BuildContext context, AuthenticationState state) {
         if (state is AuthenticationUnauthenticated) {
+          //没有授权，跳转到登录页
           Application.router.navigateTo(context, Routes.loginPage,
-              clearStack: true, transition: TransitionType.inFromRight);
+              clearStack: true, transition: TransitionType.fadeIn);
         }
         if (state is AuthenticationAuthenticated) {
           //已经授权，跳首页
           Application.router.navigateTo(context, Routes.homePage,
-              clearStack: true, transition: TransitionType.inFromRight);
+              clearStack: true, transition: TransitionType.fadeIn);
         }
       },
       builder: (BuildContext context, AuthenticationState state) {

@@ -1,29 +1,118 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
-import 'package:flutter_login/main.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(App());
+  runApp(MyApp(
+    model: CounterModel(),
+  ));
+}
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+class MyApp extends StatelessWidget {
+  final CounterModel model;
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  const MyApp({Key key, @required this.model}) : super(key: key);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+  @override
+  Widget build(BuildContext context) {
+    // At the top level of our app, we'll, create a ScopedModel Widget. This
+    // will provide the CounterModel to all children in the app that request it
+    // using a ScopedModelDescendant.
+    return ScopedModel<CounterModel>(
+      model: model,
+      child: MaterialApp(
+        title: 'Scoped Model Demo',
+        home: CounterHome('Scoped Model Demo'),
+      ),
+    );
+    return MaterialApp(
+      title: 'Scoped Model Demo',
+      home: ScopedModel<CounterModel>(
+        model: model,
+        child: CounterHome('Scoped Model Demo'),
+      ),
+    );
+  }
+}
+
+// Start by creating a class that has a counter and a method to increment it.
+//
+// Note: It must extend from Model.
+class CounterModel extends Model {
+  int _counter = 0;
+
+  int get counter => _counter;
+
+  void increment() {
+    // First, increment the counter
+    _counter++;
+
+    // Then notify all the listeners.
+    notifyListeners();
+  }
+
+  static CounterModel of(context) =>
+      ScopedModel.of<CounterModel>(context, rebuildOnChange: true);
+}
+
+class CounterHome extends StatelessWidget {
+  final String title;
+
+  CounterHome(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    print("CounterHome build");
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('You have pushed the button this many times:'),
+            // Create a ScopedModelDescendant. This widget will get the
+            // CounterModel from the nearest parent ScopedModel<CounterModel>.
+            // It will hand that CounterModel to our builder method, and
+            // rebuild any time the CounterModel changes (i.e. after we
+            // `notifyListeners` in the Model).
+            ScopedModelDescendant<CounterModel>(
+              builder: (context, child, model) {
+                print("counter build");
+                return Text(
+                  model.counter.toString(),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .display1,
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      // Use the ScopedModelDescendant again in order to use the increment
+      // method from the CounterModel
+      floatingActionButton: ScopedModelDescendant<CounterModel>(
+        builder: (context, child, model) {
+          print("onPressed build");
+          return FloatingActionButton(
+            onPressed:
+            ScopedModel
+                .of<CounterModel>(context, rebuildOnChange: false)
+                .increment,
+            tooltip: 'Increment',
+            child: Icon(Icons.add),
+          );
+        },
+      ),
+//      floatingActionButton: FloatingActionButton(
+//        onPressed: ScopedModel.of<CounterModel>(context, rebuildOnChange: false)
+//            .increment,
+//        tooltip: 'Increment',
+//        child: Icon(Icons.add),
+//      ),
+    );
+  }
 }

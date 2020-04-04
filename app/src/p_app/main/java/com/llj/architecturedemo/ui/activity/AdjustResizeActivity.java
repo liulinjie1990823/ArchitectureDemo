@@ -33,9 +33,6 @@ public class AdjustResizeActivity extends AppMvcBaseActivity {
     mBinding = ActivityAdjustResizeBinding.inflate(getLayoutInflater());
     mBinding.tvText.setText("dadadadadadadadadadada");
 
-
-
-
     getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_ADJUST_PAN);
     //AndroidBug5497Workaround.assistActivity(this);
     setTranslucentStatusBar(getWindow(), true);

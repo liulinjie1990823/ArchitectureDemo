@@ -111,7 +111,6 @@ versionName      : "1.0.0",
             room_compiler                     : "androidx.room:room-compiler:$versions.room",
             room_rxjava2                      : "androidx.room:room-rxjava2:$versions.room",
 
-
             //dbflow
             dbflow                            : "com.github.Raizlabs.DBFlow:dbflow::$versions.dbflow",
             dbflow_processor                  : "com.github.Raizlabs.DBFlow:dbflow-processor::$versions.dbflow",
@@ -214,17 +213,22 @@ versionName      : "1.0.0",
             skin_support_constraint_layout    : "skin.support:skin-support-constraint-layout:$versions.skin",
 
             //ui
-            SmartRefreshLayout                : "com.scwang.smartrefresh:SmartRefreshLayout:$versions.smartrefresh",
+            SmartRefreshLayout                : "com.scwang.smartrefresh:SmartRefreshLayout:$versions.smartrefresh",//下拉刷新
             SmartRefreshHeader                : "com.scwang.smartrefresh:SmartRefreshHeader:$versions.smartrefresh",
+            vlayout                           : "com.alibaba.android:vlayout:1.2.31",//列表
+            ChipsLayoutManager                : "com.beloo.widget:ChipsLayoutManager:0.3.7@aar",//tags
             MagicIndicator                    : "com.github.hackware1993:MagicIndicator:1.6.0",//tab
-            badgeview                         : "q.rorbin:badgeview:1.1.3",//标签
-            vlayout                           : "com.alibaba.android:vlayout:1.2.31",
-            ExpandableTextView                : "cn.carbs.android:ExpandableTextView:1.0.3",//折叠TextView
+            AutoScrollViewPager               : "com.github.demoNo:AutoScrollViewPager:v1.0.2",//轮播
+            BasePopup                         : "com.github.razerdp:BasePopup:2.2.1",//window弹框
+            BasePopup_support                 : "com.github.razerdp:BasePopup-compat-support:2.2.1",//window弹框
+            circleprogressbar                 : "com.dinuscxj:circleprogressbar:1.3.0",//圆形进度
             pickerView                        : "com.contrarywind:Android-PickerView:3.2.7",//选择城市
+            blurry                            : "jp.wasabeef:blurry:3.0.0",
+            ExpandableTextView                : "cn.carbs.android:ExpandableTextView:1.0.3",//折叠TextView
+            badgeview                         : "q.rorbin:badgeview:1.1.3",//标签
             hyman_flowlayout                  : "com.hyman:flowlayout-lib:1.1.2",//流式布局
             lankton_flowlayout                : "cn.lankton:flowlayout:3.1.0",//支持单行流布局
             fillblankview                     : "com.xw.repo:fillblankview:2.1@aar",//密码输入
-            AutoScrollViewPager               : "com.github.demoNo:AutoScrollViewPager:v1.0.2",//轮播
             gpuimage                          : "jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1",//滤镜
             glide                             : "com.github.bumptech.glide:glide:$versions.glide",
     ]
