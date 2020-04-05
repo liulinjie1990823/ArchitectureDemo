@@ -89,7 +89,7 @@ subprojects {
             }
         }
 
-        android.defaultConfig.ndk { abiFilters "armeabi-v7a" }
+        android.defaultConfig.ndk { abiFilters "armeabi-v7a", "x86" }
 //        android.defaultConfig.ndk { abiFilters "x86" }
         android.defaultConfig.resConfigs "zh", "xxhdpi"
 

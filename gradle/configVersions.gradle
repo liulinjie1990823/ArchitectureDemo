@@ -54,7 +54,7 @@ versionName      : "1.0.0",
     deps = [
             //插件
             android_gradle_plugin_old         : "com.android.tools.build:gradle:3.2.1",
-            android_gradle_plugin             : "com.android.tools.build:gradle:3.6.0",
+            android_gradle_plugin             : "com.android.tools.build:gradle:3.6.2",
             butterknife_gradle_plugin         : "com.jakewharton:butterknife-gradle-plugin:$versions.butterknife",
             kotlin_gradle_plugin              : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
             bintray_release_plugin            : "com.novoda:bintray-release:$versions.bintray_release",

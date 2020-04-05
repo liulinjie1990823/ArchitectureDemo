@@ -35,16 +35,25 @@ import java.util.concurrent.TimeUnit
 @Jump(outPath = CJump.JUMP_LOADING_ACTIVITY, inPath = CRouter.APP_LOADING_ACTIVITY, needLogin = true, desc = "LoadingActivity")
 @Route(path = CRouter.APP_LOADING_ACTIVITY)
 class LoadingActivity : MiddleMvcBaseActivity() {
-    @BindView(R.id.sdv_add) lateinit var mSdvAdd: SimpleDraweeView
-    @BindView(R.id.sdv_icon) lateinit var mSdvIcon: SimpleDraweeView
-    @BindView(R.id.tv_leapfrog) lateinit var mTvLeapfrog: TextView
-    @BindView(R.id.tv_app_name) lateinit var mTvAppName: TextView
-    @BindView(R.id.tv_sub_title) lateinit var mTvSubTitle: TextView
+    @BindView(R.id.sdv_add)
+    lateinit var mSdvAdd: SimpleDraweeView
+
+    @BindView(R.id.sdv_icon)
+    lateinit var mSdvIcon: SimpleDraweeView
+
+    @BindView(R.id.tv_leapfrog)
+    lateinit var mTvLeapfrog: TextView
+
+    @BindView(R.id.tv_app_name)
+    lateinit var mTvAppName: TextView
+
+    @BindView(R.id.tv_sub_title)
+    lateinit var mTvSubTitle: TextView
 
 
     private lateinit var mImageLoader: ICustomImageLoader<GenericDraweeView>
 
-    private lateinit var mDisposable: Disposable
+    private var mDisposable: Disposable? = null
 
     override fun layoutId(): Int {
         return R.layout.activity_loading
@@ -61,7 +70,8 @@ class LoadingActivity : MiddleMvcBaseActivity() {
         mImageLoader.loadImage(mSdvIcon, R.mipmap.ic_launcher, dip2px, dip2px)
 
         mTvLeapfrog.setOnClickListener {
-            mDisposable.dispose()
+
+            mDisposable?.dispose()
 
             ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
                     .navigation(mContext)
