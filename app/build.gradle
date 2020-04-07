@@ -252,11 +252,12 @@ if (useApkUploadPlugin) {
     }
 }
 apply from: rootProject.file('gradle/git.gradle')
-repositories {
-    maven { url '../flutter_ui/build/host/outputs/repo' }
-    maven { url '../flutter_main/build/host/outputs/repo' }
-    maven { url '../flutter_setting/build/host/outputs/repo' }
-}
+
+//repositories {
+//    maven { url '../flutter_ui/build/host/outputs/repo' }
+//    maven { url '../flutter_main/build/host/outputs/repo' }
+//    maven { url '../flutter_setting/build/host/outputs/repo' }
+//}
 
 dependencies {
 //    implementation project(':flutter')

@@ -180,7 +180,7 @@ versionName      : "1.0.0",
             auto_value_annotations            : "com.google.auto.value:auto-value-annotations:$versions.auto_value",
             auto_value_compile                : "com.google.auto.value:auto-value:$versions.auto_value",
 
-            lombok                            : "org.projectlombok:lombok:1.16.18",
+            lombok                            : "org.projectlombok:lombok:1.18.22",
 
             //工具
             base                              : "com.llj:lib-base:0.0.11",

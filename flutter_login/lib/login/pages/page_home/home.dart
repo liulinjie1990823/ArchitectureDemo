@@ -2,6 +2,56 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_login/login/pages/page_coupon/coupon.dart';
+import 'package:flutter_login/login/pages/page_mine/mine.dart';
+import 'package:flutter_login/login/pages/page_strategy/strategy.dart';
+
+class TabPage extends StatelessWidget {
+  //页面
+  final _pageList = [
+    new HomePage(),
+    new CouponPage(),
+    new StrategyPage(),
+    new MinePage(),
+  ];
+  int _tabIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: _pageList[_tabIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _tabIndex,
+              type: BottomNavigationBarType.fixed,
+              onTap: (int index) {
+                setState(() => _tabIndex = index);
+              },
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.explore),
+                  title: Text("Explore"),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.history),
+                  title: Text("History"),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.list),
+                  title: Text("List"),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  title: Text("Person"),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+}
 
 class HomePage extends StatelessWidget {
 //  void main() {
@@ -75,12 +125,59 @@ class HomePage extends StatelessWidget {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-
-      ),
-      body:,
-    );
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+//        appBar: AppBar(
+//          leading: IconButton(
+//            icon: Icon(Icons.menu),
+//            onPressed: () => debugPrint("Navigation button is pressed"),
+//          ),
+//          title: Text("首页"),
+//          actions: <Widget>[
+//            IconButton(
+//              icon: Icon(Icons.search),
+//              onPressed: () => debugPrint("Search button is pressed"),
+//            ),
+//          ],
+//          bottom: TabBar(
+//            tabs: [
+//              Tab(icon: Icon(Icons.local_florist)),
+//              Tab(icon: Icon(Icons.change_history)),
+//              Tab(icon: Icon(Icons.directions_bike)),
+//            ],
+//            indicatorColor: Colors.white,
+//          ),
+//          backgroundColor: Color(0xffd43d3d),
+//          elevation: 0,
+//        ),
+//        body: TabBarView(children: [
+//          Icon(
+//            Icons.local_florist,
+//            size: 128,
+//            color: Colors.black12,
+//          ),
+//          Icon(
+//            Icons.change_history,
+//            size: 128,
+//            color: Colors.black12,
+//          ),
+//          Icon(
+//            Icons.directions_bike,
+//            size: 128,
+//            color: Colors.black12,
+//          ),
+//        ]),
+            body: Container(
+              color: Colors.blueGrey,
+              alignment: Alignment.center,
+              child: Text(
+                "HomePage",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          );
+        });
   }
 }

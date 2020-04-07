@@ -7,8 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_login/login/pages/page_home/home.dart';
 import 'package:flutter_login/login/pages/page_login/login_bloc.dart';
 import 'package:flutter_login/login/pages/page_login/login_event.dart';
-import 'package:flutter_login/login/pages/page_login/login_state.dart';
-import 'package:flutter_login/login/pages/page_splash/splash.dart';
 import 'package:flutter_login/login/repository/user_repository.dart';
 import 'package:flutter_login/login/route/routes.dart';
 import 'package:flutter_middle/application.dart';
@@ -52,6 +50,8 @@ class SimpleBlocDelegate extends BlocDelegate {
 
 class App extends StatelessWidget {
   final UserRepository _userRepository = UserRepository();
+
+  //设置主题
   final ThemeData _themeData = ThemeData(
     //TextFiled边框
     primaryColor: Color(CommonColor.C_MAIN_COLOR),
@@ -99,6 +99,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("app build");
+    //设置透明模式
     StatusBarUtil.statusBarTransparent(false);
 
     return BlocProvider<AuthenticationBloc>(
@@ -109,20 +110,22 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'Login Demo',
         theme: _themeData,
-        home: BlocConsumer<AuthenticationBloc, AuthenticationState>(
-          listener: (BuildContext context, AuthenticationState state) {
-            if (state is AuthenticationLoading) {
-              //正在授权
-            }
-          },
-          builder: (BuildContext context, AuthenticationState state) {
-            if (state is AuthenticationUninitialized) {
-              //未开始认证，跳闪屏页面
-              return SplashPage();
-            }
-            return SplashPage();
-          },
-        ),
+//        home: BlocConsumer<AuthenticationBloc, AuthenticationState>(
+//          listener: (BuildContext context, AuthenticationState state) {
+//            if (state is AuthenticationLoading) {
+//              //正在授权
+//            }
+//          },
+//          builder: (BuildContext context, AuthenticationState state) {
+//            if (state is AuthenticationUninitialized) {
+//              //未开始认证，跳闪屏页面
+//              return SplashPage();
+//            }
+//            return SplashPage();
+//          },
+//        ),
+        home: TabPage(),
+//        home: InvHomePage(),
       ),
     );
   }
@@ -136,7 +139,6 @@ Widget _widgetForRoute(String route) {
 
   switch (route) {
     default:
-      return HomePage();
       return App();
   }
 }
