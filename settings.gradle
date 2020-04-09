@@ -65,6 +65,7 @@ if (!useMaven) {
 //))
 //单独运行里面的dart，需要include
 include ':flutter_main'
+include ':flutter_inv'
 
 //setBinding(new Binding([gradle: this]))
 //evaluate(new File(

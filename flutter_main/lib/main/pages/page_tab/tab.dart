@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inv/inv/pages/page_inv/invitation.dart';
 import 'package:flutter_main/main/pages/page_coupon/coupon.dart';
 import 'package:flutter_main/main/pages/page_home/home.dart';
-import 'package:flutter_main/main/pages/page_inv/invitation.dart';
 import 'package:flutter_main/main/pages/page_mine/mine.dart';
 import 'package:flutter_main/main/pages/page_strategy/strategy.dart';
 

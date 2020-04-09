@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base/utils/status_bar_util.dart';
-import 'package:flutter_main/main/pages/page_inv/template.dart';
+import 'package:flutter_inv/inv/pages/page_template/template.dart';
 import 'package:flutter_middle/utils/color_util.dart';
 import 'package:flutter_middle/widgets/custom_sliver.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
