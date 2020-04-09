@@ -73,3 +73,7 @@ repo/
 .buckd
 .okbuck
 buck-out
+
+
+.flutter-plugins-dependencies
+pubspec.lock
