@@ -64,7 +64,7 @@ if (!useMaven) {
 //        'flutter_main/.android/include_flutter.groovy'
 //))
 //单独运行里面的dart，需要include
-//include ':flutter_main'
+include ':flutter_main'
 
 //setBinding(new Binding([gradle: this]))
 //evaluate(new File(
@@ -85,7 +85,7 @@ if (!useMaven) {
 //        settingsDir,
 //        'flutter_login/.android/include_flutter.groovy'
 //))
-include ':flutter_login'
+//include ':flutter_login'
 
 
 //setBinding(new Binding([gradle: this]))

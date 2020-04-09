@@ -24,9 +24,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  shared_preferences: ^0.5.6+3
   retrofit: any
   logger: any
-  fluro: "^1.5.1"
+  fluro: ^1.5.1
+  json_serializable: ^3.3.0
 
 
   # The following adds the Cupertino Icons font to your application.

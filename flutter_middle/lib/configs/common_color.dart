@@ -16,4 +16,6 @@ class CommonColor {
   static const int C_f8f8f8 = 0xfff8f8f8;
   static const int C_fff1f1 = 0xfffff1f1;
   static const int C_FF869C = 0xffFF869C;
+  static const int C_FC708A = 0xffFC708A;
+  static const int C_FEAC81 = 0xffFEAC81;
 }

@@ -1,110 +1,134 @@
+import 'dart:ui';
+
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/utils/status_bar_util.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_main/main/routers/router.dart';
+import 'package:flutter_middle/application.dart';
+import 'package:flutter_middle/configs/common_color.dart';
 
-void main() => runApp(MyApp());
+import 'main/pages/page_tab/tab.dart';
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or press Run > Flutter Hot Reload in a Flutter IDE). Notice that the
-        // counter didn't reset back to zero; the application is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  runApp(_widgetForRoute(window.defaultRouteName));
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+/// 登录测试页面
+//class LoginTest extends StatelessWidget {
+//  @override
+//  Widget build(BuildContext context) {
+//    return BlocProvider<AuthenticationBloc>(
+//      create: (context) => AuthenticationBloc()..add(AppStartEvent()),
+//      child: App(),
+//    );
+//  }
+//}
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class SimpleBlocDelegate extends BlocDelegate {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  void onEvent(Bloc bloc, Object event) {
+    super.onEvent(bloc, event);
+    print(event);
   }
 
   @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
+
+  @override
+  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
+    super.onError(bloc, error, stacktrace);
+    print(error);
+  }
+}
+
+class App extends StatelessWidget {
+  //设置主题
+  final ThemeData _themeData = ThemeData(
+    //TextFiled边框
+    primaryColor: Color(CommonColor.C_MAIN_COLOR),
+    //TextFiled边框
+    primarySwatch: Colors.blue,
     //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    accentColor: Colors.green,
+
+    //光标颜色
+    cursorColor: Color(CommonColor.C_MAIN_COLOR),
+    //
+    textTheme:
+    TextTheme(subhead: TextStyle(textBaseline: TextBaseline.alphabetic)),
+    //输入设置
+    inputDecorationTheme: InputDecorationTheme(
+//          fillColor: Colors.cyan,
+//          filled: true,
+      hintStyle: TextStyle(
+        fontSize: 16,
+        textBaseline: TextBaseline.alphabetic,
+        color: Color(CommonColor.C_HINT_TEXT),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+      labelStyle: TextStyle(
+        fontSize: 16,
+        textBaseline: TextBaseline.alphabetic,
+        color: Color(CommonColor.C_HINT_TEXT),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          style: BorderStyle.none,
+          color: Color(CommonColor.C_EEEEEE),
+          width: 1,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          style: BorderStyle.none,
+          color: Color(CommonColor.C_MAIN_COLOR),
+          width: 1,
+        ),
+      ),
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    print("app build");
+    //设置透明模式
+    StatusBarUtil.statusBarTransparent(false);
+
+    return MaterialApp(
+      title: 'Login Demo',
+      theme: _themeData,
+//        home: BlocConsumer<AuthenticationBloc, AuthenticationState>(
+//          listener: (BuildContext context, AuthenticationState state) {
+//            if (state is AuthenticationLoading) {
+//              //正在授权
+//            }
+//          },
+//          builder: (BuildContext context, AuthenticationState state) {
+//            if (state is AuthenticationUninitialized) {
+//              //未开始认证，跳闪屏页面
+//              return SplashPage();
+//            }
+//            return SplashPage();
+//          },
+//        ),
+      home: TabPage(),
+//        home: InvHomePage(),
     );
+  }
+}
+
+//页面跳转
+Widget _widgetForRoute(String route) {
+  final router = Router();
+  Routes.configureRoutes(router);
+  Application.router = router;
+
+  switch (route) {
+    default:
+      return App();
   }
 }

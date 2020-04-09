@@ -1,16 +1,26 @@
 import 'package:fluro/fluro.dart';
-import 'package:annotation_route/route.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_main/main/pages/page_home/home.dart';
 
-class MyPageOption {
-  String url;
-  Map<String, dynamic> query;
-  MyPageOption(this.url, this.query);
-}
-
-class Router {
+class Routes {
   static String root = "/";
-  static String home = "/home";
-  static String collectionPage = '/collection-page';
-  static String collectionFullPage = '/collection-full-page';
+  static String loginPage = "/login/loginPage";
+  static String splashPage = "/login/SplashPage";
+  static String homePage = "/login/HomePage";
+
+  static void configureRoutes(Router router) {
+    router.notFoundHandler = Handler(
+        handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+          print("ROUTE WAS NOT FOUND !!!");
+        });
+    router.define(homePage, handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+          return HomePage();
+        }));
+//    router.define(demoSimple, handler: demoRouteHandler);
+//    router.define(demoSimpleFixedTrans,
+//        handler: demoRouteHandler, transitionType: TransitionType.inFromLeft);
+//    router.define(demoFunc, handler: demoFunctionHandler);
+//    router.define(deepLink, handler: deepLinkHandler);
+  }
 }
