@@ -102,7 +102,9 @@ class ShareActivity : AppMvcBaseActivity() {
             R.id.tv_wechat_circle_text,
             R.id.tv_wechat_circle_image,
             R.id.tv_wechat_circle_webpage,
-            R.id.tv_sign,
+            R.id.tv_sign_text,
+            R.id.tv_sign_image,
+            R.id.tv_sign_web,
             R.id.tv_sms,
             R.id.tv_copy)
     fun onViewClicked(view: View) {
@@ -247,7 +249,25 @@ class ShareActivity : AppMvcBaseActivity() {
                 shareObject.targetUrl = "https://www.baidu.com"
                 ShareUtil.shareWeb(this, Platform.PlatformType.WECHAT_CIRCLE, shareObject, mShareListener)
             }
-            R.id.tv_sign -> {
+            R.id.tv_sign_text -> {
+                shareObject.title = "这是标题"
+                shareObject.description = "这是内容"
+                shareObject.imageUrlOrPath = "http://imgsrc.baidu.com/image/c0%3Dshijue1%2C0%2C0%2C294%2C40/sign=a33885321bdfa9ece9235e540ab99d76/8b13632762d0f703c06472f202fa513d2797c5ce.jpg"
+                shareObject.targetUrl = "https://www.baidu.com"
+                ShareUtil.shareText(this, Platform.PlatformType.SINA, shareObject, mShareListener)
+            }
+            R.id.tv_sign_image -> {
+                shareObject.title = "这是标题"
+                shareObject.description = "这是内容"
+                shareObject.imageUrlOrPath = "http://imgsrc.baidu.com/image/c0%3Dshijue1%2C0%2C0%2C294%2C40/sign=a33885321bdfa9ece9235e540ab99d76/8b13632762d0f703c06472f202fa513d2797c5ce.jpg"
+                shareObject.targetUrl = "https://www.baidu.com"
+                ShareUtil.shareImage(this, Platform.PlatformType.SINA, shareObject, mShareListener)
+            }
+            R.id.tv_sign_web -> {
+                shareObject.title = "这是标题"
+                shareObject.description = "这是内容"
+                shareObject.imageUrlOrPath = "http://imgsrc.baidu.com/image/c0%3Dshijue1%2C0%2C0%2C294%2C40/sign=a33885321bdfa9ece9235e540ab99d76/8b13632762d0f703c06472f202fa513d2797c5ce.jpg"
+                shareObject.targetUrl = "https://www.baidu.com"
                 ShareUtil.shareWeb(this, Platform.PlatformType.SINA, shareObject, mShareListener)
             }
             R.id.tv_sms -> {
