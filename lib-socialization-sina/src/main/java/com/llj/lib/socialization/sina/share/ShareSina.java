@@ -25,159 +25,199 @@ import bolts.Continuation;
 import bolts.Task;
 
 /**
- * PROJECT:babyphoto_app
- * DESCRIBE:
- * Created by llj on 2017/1/18.
+ * PROJECT:babyphoto_app DESCRIBE: Created by llj on 2017/1/18.
  */
 
 public class ShareSina implements IShareSinaCustom {
-    public static final String         TAG = ShareSina.class.getSimpleName();
-    /**
-     * 微博分享限制thumb image必须小于2097152，否则点击分享会没有反应
-     */
 
-    private             WbShareHandler mWbShareHandler;
+  public static final String         TAG = ShareSina.class.getSimpleName();
+  /**
+   * 微博分享限制thumb image必须小于2097152，否则点击分享会没有反应
+   */
 
-    private static final int TARGET_SIZE   = 1024;
-    private static final int TARGET_LENGTH = 256 * 1024;
+  private             WbShareHandler mWbShareHandler;
 
-    private ShareListener   mShareListener;
-    private WbShareCallback mWbShareCallback;
+  private static final int TARGET_SIZE   = 1024;
+  private static final int TARGET_LENGTH = 256 * 1024;
+
+  private ShareListener   mShareListener;
+  private WbShareCallback mWbShareCallback;
 
 
-    @Override
-    public void init(Context context, ShareListener listener) {
-        AuthInfo authInfo = new AuthInfo(context.getApplicationContext(), SocialManager.getConfig(context.getApplicationContext()).getSignId(),
-                SocialManager.getConfig(context.getApplicationContext()).getSignRedirectUrl(),
-                SocialManager.getConfig(context.getApplicationContext()).getSignScope());
-        WbSdk.install(context.getApplicationContext(), authInfo);
+  @Override
+  public void init(Context context, ShareListener listener) {
+    AuthInfo authInfo = new AuthInfo(context.getApplicationContext(),
+        SocialManager.getConfig(context.getApplicationContext()).getSignId(),
+        SocialManager.getConfig(context.getApplicationContext()).getSignRedirectUrl(),
+        SocialManager.getConfig(context.getApplicationContext()).getSignScope());
+    WbSdk.install(context.getApplicationContext(), authInfo);
 
-        mWbShareHandler = new WbShareHandler((Activity) context);
-        mWbShareHandler.registerApp();
+    mWbShareHandler = new WbShareHandler((Activity) context);
+    mWbShareHandler.registerApp();
 
-        mShareListener = listener;
+    mShareListener = listener;
 
-        mWbShareCallback = new WbShareCallback() {
-            @Override
-            public void onWbShareSuccess() {
-                mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
-            }
+    mWbShareCallback = new WbShareCallback() {
+      @Override
+      public void onWbShareSuccess() {
+        mShareListener.onShareResponse(
+            new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
+      }
 
-            @Override
-            public void onWbShareFail() {
-                finishActivity(context);
-                mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE));
-            }
+      @Override
+      public void onWbShareFail() {
+        finishActivity(context);
+        mShareListener.onShareResponse(
+            new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE));
+      }
 
-            @Override
-            public void onWbShareCancel() {
-                finishActivity(context);
-                mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
-            }
+      @Override
+      public void onWbShareCancel() {
+        finishActivity(context);
+        mShareListener.onShareResponse(
+            new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
+      }
 
-        };
-    }
+    };
+  }
 
-    @Override
-    public void shareTitle(Activity activity, int platform, @NonNull ShareObject shareObject) {
+  @Override
+  public void shareTitle(Activity activity, int platform, @NonNull ShareObject shareObject) {
 
-        TextObject textObject = new TextObject();
-        textObject.title = shareObject.getTitle();
-        WeiboMultiMessage message = new WeiboMultiMessage();
-        message.textObject = textObject;
+    TextObject textObject = new TextObject();
+    textObject.title = shareObject.getTitle();
+    WeiboMultiMessage message = new WeiboMultiMessage();
+    message.textObject = textObject;
 
-        sendRequest(activity, message);
-    }
+    sendRequest(activity, message);
+  }
 
-    @Override
-    public void shareDescription(Activity activity, int platform, @NonNull ShareObject shareObject) {
-        final String text = String.format("%s %s", shareObject.getDescription(), shareObject.getTargetUrl());
+  @Override
+  public void shareDescription(Activity activity, int platform, @NonNull ShareObject shareObject) {
+    final String text = String
+        .format("%s %s", shareObject.getDescription(), shareObject.getTargetUrl());
 
-        TextObject textObject = new TextObject();
-        textObject.description = text;
-        WeiboMultiMessage message = new WeiboMultiMessage();
-        message.textObject = textObject;
+    TextObject textObject = new TextObject();
+    textObject.description = text;
+    WeiboMultiMessage message = new WeiboMultiMessage();
+    message.textObject = textObject;
 
-        sendRequest(activity, message);
-    }
+    sendRequest(activity, message);
+  }
 
-    @Override
-    public void shareText(Activity activity, int platform, @NonNull ShareObject shareObject) {
-        final String text = String.format("%s %s %s", shareObject.getTitle(), shareObject.getDescription(), shareObject.getTargetUrl());
+  @Override
+  public void shareText(Activity activity, int platform, @NonNull ShareObject shareObject) {
+    final String text = String
+        .format("%s %s %s", shareObject.getTitle(), shareObject.getDescription(),
+            shareObject.getTargetUrl());
 
-        TextObject textObject = new TextObject();
-        textObject.text = text;
-        WeiboMultiMessage message = new WeiboMultiMessage();
-        message.textObject = textObject;
+    TextObject textObject = new TextObject();
+    textObject.text = text;
+    WeiboMultiMessage message = new WeiboMultiMessage();
+    message.textObject = textObject;
 
-        sendRequest(activity, message);
-    }
+    sendRequest(activity, message);
+  }
 
-    @Override
-    public void shareImage(Activity activity, int platform, @NonNull ShareObject shareObject) {
+  @Override
+  public void shareImage(Activity activity, int platform, @NonNull ShareObject shareObject) {
+    final ImageObject imageObject = new ImageObject();
+    Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+        .continueWith(task -> {
+          if (task.getError() != null) {
+            mShareListener.onShareResponse(
+                new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE,
+                    Log.getStackTraceString(task.getError())));
+            return null;
+          }
+          imageObject.imagePath = task.getResult();
+          return task.getResult();
+        })
+        .continueWith(new ShareUtil.ThumbDataContinuation(TARGET_SIZE, TARGET_LENGTH))
+        .continueWith((Continuation<byte[], Void>) task -> {
+          if (task.getError() != null) {
+            mShareListener.onShareResponse(
+                new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE,
+                    Log.getStackTraceString(task.getError())));
+            return null;
+          }
+          imageObject.imageData = task.getResult();
 
-    }
+          WeiboMultiMessage message = new WeiboMultiMessage();
+          message.imageObject = imageObject;
 
-    @Override
-    public void shareWeb(Activity activity, int platform, @NonNull ShareObject shareObject) {
+          sendRequest(activity, message);
 
-        final ImageObject imageObject = new ImageObject();
+          return null;
+        }, Task.UI_THREAD_EXECUTOR);
+  }
 
-        final String text = String.format("%s %s", shareObject.getDescription(), shareObject.getTargetUrl());
+  @Override
+  public void shareWeb(Activity activity, int platform, @NonNull ShareObject shareObject) {
 
-        Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
-                .continueWith(task -> {
-                    if (task.getError() != null) {
-                        mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, Log.getStackTraceString(task.getError())));
-                        return null;
-                    }
-                    imageObject.imagePath = task.getResult();
-                    return task.getResult();
-                })
-                .continueWith(new ShareUtil.ThumbDataContinuation(TARGET_SIZE, TARGET_LENGTH))
-                .continueWith((Continuation<byte[], Void>) task -> {
-                    if (task.getError() != null) {
-                        mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, Log.getStackTraceString(task.getError())));
-                        return null;
-                    }
-                    imageObject.imageData = task.getResult();
+    final ImageObject imageObject = new ImageObject();
 
-                    WeiboMultiMessage message = new WeiboMultiMessage();
-                    message.imageObject = imageObject;
+    final String text = String
+        .format("%s %s", shareObject.getDescription(), shareObject.getTargetUrl());
 
-                    if (!TextUtils.isEmpty(text)) {
-                        TextObject textObject = new TextObject();
-                        textObject.text = text;
-                        message.textObject = textObject;
-                    }
+    Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+        .continueWith(task -> {
+          if (task.getError() != null) {
+            mShareListener.onShareResponse(
+                new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE,
+                    Log.getStackTraceString(task.getError())));
+            return null;
+          }
+          imageObject.imagePath = task.getResult();
+          return task.getResult();
+        })
+        .continueWith(new ShareUtil.ThumbDataContinuation(TARGET_SIZE, TARGET_LENGTH))
+        .continueWith((Continuation<byte[], Void>) task -> {
+          if (task.getError() != null) {
+            mShareListener.onShareResponse(
+                new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE,
+                    Log.getStackTraceString(task.getError())));
+            return null;
+          }
+          imageObject.imageData = task.getResult();
 
-                    sendRequest(activity, message);
+          WeiboMultiMessage message = new WeiboMultiMessage();
+          message.imageObject = imageObject;
 
-                    return null;
-                }, Task.UI_THREAD_EXECUTOR);
-    }
+          if (!TextUtils.isEmpty(text)) {
+            TextObject textObject = new TextObject();
+            textObject.text = text;
+            message.textObject = textObject;
+          }
 
-    @Override
-    public void shareCustom(Activity activity, int platform, ShareObject shareObject, ShareListener listener) {
+          sendRequest(activity, message);
 
-    }
+          return null;
+        }, Task.UI_THREAD_EXECUTOR);
+  }
 
-    @Override
-    public void handleResult(int requestCode, int resultCode, Intent data) {
-        mWbShareHandler.doResultIntent(data, mWbShareCallback);
-    }
+  @Override
+  public void shareCustom(Activity activity, int platform, ShareObject shareObject,
+      ShareListener listener) {
 
-    @Override
-    public boolean isInstalled(Context context) {
-        return WbSdk.isWbInstall(context);
-    }
+  }
 
-    @Override
-    public void recycle() {
-        mWbShareHandler = null;
-    }
+  @Override
+  public void handleResult(int requestCode, int resultCode, Intent data) {
+    mWbShareHandler.doResultIntent(data, mWbShareCallback);
+  }
 
-    private void sendRequest(Activity activity, WeiboMultiMessage message) {
-        mWbShareHandler.shareMessage(message, false);
-    }
+  @Override
+  public boolean isInstalled(Context context) {
+    return WbSdk.isWbInstall(context);
+  }
+
+  @Override
+  public void recycle() {
+    mWbShareHandler = null;
+  }
+
+  private void sendRequest(Activity activity, WeiboMultiMessage message) {
+    mWbShareHandler.shareMessage(message, false);
+  }
 }
