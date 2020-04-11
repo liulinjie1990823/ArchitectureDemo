@@ -1,6 +1,6 @@
-package com.llj.lib.image.loader;
+package com.llj.lib.image.loader.core;
 
-import android.view.View;
+import android.widget.ImageView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 
@@ -10,7 +10,9 @@ import androidx.annotation.Nullable;
  * @author liulj
  * @date 2018/5/4
  */
-public interface IImageLoader<T extends View> {
+public interface IImageLoader<T extends ImageView> {
+
+  void loadImage(XImageView<T> imageView);
 
   void loadImage(T view, @DrawableRes int resId, int width, int height);
 

@@ -7,61 +7,62 @@ import com.llj.lib.base.config.UserInfoConfig;
 
 /**
  * ArchitectureDemo.
- * describe:
+ *
+ * describe:配置信息类
  *
  * @author llj
  * @date 2019-10-22
  */
 public class AppManager {
 
-    private static AppManager sInstance;
+  private static AppManager sInstance;
 
-    public static AppManager getInstance() {
+  public static AppManager getInstance() {
+    if (sInstance == null) {
+      synchronized (AppManager.class) {
         if (sInstance == null) {
-            synchronized (AppManager.class) {
-                if (sInstance == null) {
-                    sInstance = new AppManager();
-                }
-            }
+          sInstance = new AppManager();
         }
-        return sInstance;
+      }
     }
+    return sInstance;
+  }
 
 
-    private ToolbarConfig  mToolbarConfig;
-    private NetworkConfig  mNetworkConfig;
-    private JumpConfig     mJumpConfig;
-    private UserInfoConfig mUserInfoConfig;
+  private ToolbarConfig  mToolbarConfig;//
+  private NetworkConfig  mNetworkConfig;//
+  private JumpConfig     mJumpConfig;//
+  private UserInfoConfig mUserInfoConfig;//
 
-    public NetworkConfig getNetworkConfig() {
-        return mNetworkConfig;
-    }
+  public NetworkConfig getNetworkConfig() {
+    return mNetworkConfig;
+  }
 
-    public void setNetworkConfig(NetworkConfig networkConfig) {
-        mNetworkConfig = networkConfig;
-    }
+  public void setNetworkConfig(NetworkConfig networkConfig) {
+    mNetworkConfig = networkConfig;
+  }
 
-    public JumpConfig getJumpConfig() {
-        return mJumpConfig;
-    }
+  public JumpConfig getJumpConfig() {
+    return mJumpConfig;
+  }
 
-    public void setJumpConfig(JumpConfig jumpConfig) {
-        mJumpConfig = jumpConfig;
-    }
+  public void setJumpConfig(JumpConfig jumpConfig) {
+    mJumpConfig = jumpConfig;
+  }
 
-    public ToolbarConfig getToolbarConfig() {
-        return mToolbarConfig;
-    }
+  public ToolbarConfig getToolbarConfig() {
+    return mToolbarConfig;
+  }
 
-    public void setToolbarConfig(ToolbarConfig toolbarConfig) {
-        mToolbarConfig = toolbarConfig;
-    }
+  public void setToolbarConfig(ToolbarConfig toolbarConfig) {
+    mToolbarConfig = toolbarConfig;
+  }
 
-    public UserInfoConfig getUserInfoConfig() {
-        return mUserInfoConfig;
-    }
+  public UserInfoConfig getUserInfoConfig() {
+    return mUserInfoConfig;
+  }
 
-    public void setUserInfoConfig(UserInfoConfig userInfoConfig) {
-        mUserInfoConfig = userInfoConfig;
-    }
+  public void setUserInfoConfig(UserInfoConfig userInfoConfig) {
+    mUserInfoConfig = userInfoConfig;
+  }
 }

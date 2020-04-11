@@ -2,6 +2,8 @@ package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
 import android.view.WindowManager.LayoutParams;
+import android.widget.TextView;
+import butterknife.BindView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
@@ -21,6 +23,8 @@ import org.jetbrains.annotations.Nullable;
 @Route(path = CRouter.APP_ADJUST_RESIZE_ACTIVITY2)
 public class AdjustResizeActivity extends AppMvcBaseActivity {
 
+  @BindView(R.id.tv_text) TextView mTextView;
+
   private ActivityAdjustResizeBinding mBinding;
 
   @Override
@@ -30,8 +34,8 @@ public class AdjustResizeActivity extends AppMvcBaseActivity {
 
   @Override
   public void initViews(@Nullable Bundle savedInstanceState) {
-    mBinding = ActivityAdjustResizeBinding.inflate(getLayoutInflater());
-    mBinding.tvText.setText("dadadadadadadadadadada");
+    //mBinding = ActivityAdjustResizeBinding.inflate(getLayoutInflater());
+    mTextView.setText("dadadadadadadadadadada");
 
     getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_ADJUST_PAN);
     //AndroidBug5497Workaround.assistActivity(this);

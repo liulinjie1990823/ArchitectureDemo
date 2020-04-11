@@ -68,6 +68,9 @@ subprojects {
 
                     manifestPlaceholders = [qq_id: "1103566659"]
                 }
+                if (!useOld){
+                    viewBinding { enabled = true }
+                }
 
                 buildTypes {
                     debug {}

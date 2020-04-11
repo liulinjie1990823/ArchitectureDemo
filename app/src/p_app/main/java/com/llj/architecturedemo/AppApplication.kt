@@ -18,6 +18,8 @@ import com.llj.lib.base.config.JumpConfig
 import com.llj.lib.base.config.ToolbarConfig
 import com.llj.lib.base.config.UserInfoConfig
 import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
+import com.llj.lib.image.loader.ImageLoader
+import com.llj.lib.image.loader.engine.fresco.FrescoEngine
 import com.llj.lib.jump.api.JumpHelp
 import com.llj.lib.statusbar.LightStatusBarCompat
 import com.llj.lib.statusbar.StatusBarCompat
@@ -75,6 +77,9 @@ class AppApplication : MiddleApplication() {
         }
         WebViewManager.getInstance().webViewConfig = webViewConfig
         super.onCreate()
+
+        //图片加载引擎
+        ImageLoader.addImageLoadEngine(0, FrescoEngine())
     }
 
     override fun injectApp() {

@@ -20,7 +20,6 @@ import com.alibaba.android.vlayout.VirtualLayoutManager
 import com.alibaba.android.vlayout.layout.GridLayoutHelper
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper
 import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.github.demono.AutoScrollViewPager
 import com.github.demono.adapter.InfinitePagerAdapter
@@ -32,12 +31,11 @@ import com.llj.architecturedemo.ui.model.HomeModelType
 import com.llj.architecturedemo.ui.presenter.VLayoutPresenter
 import com.llj.architecturedemo.ui.view.IVLayoutView
 import com.llj.component.service.MiddleMvpBaseFragment
-import com.llj.component.service.imageLoader.FrescoImageLoader
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.OnMyClickListener
-import com.llj.lib.image.loader.ICustomImageLoader
+import com.llj.lib.image.loader.ImageLoader
 import com.llj.lib.net.response.BaseResponse
 import com.llj.lib.utils.ATimeUtils
 import com.llj.lib.utils.ATimeUtils.countDownString
@@ -128,7 +126,7 @@ class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView 
 
     private val mAdapters = ArrayList<DelegateAdapter.Adapter<ViewHolderHelper>>()
 
-    private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance()
+    private val mImageLoad: ImageLoader = ImageLoader.getInstance()
 
 
     override fun layoutId(): Int {

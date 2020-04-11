@@ -97,7 +97,6 @@ android {
         versionName build_versions.versionName
 
         dataBinding { enabled = true }
-        if (!useOld)
             viewBinding { enabled = true }
 
         manifestPlaceholders = [qq_id: "1103566659"]

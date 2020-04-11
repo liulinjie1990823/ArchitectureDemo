@@ -3,9 +3,9 @@ package com.llj.architecturedemo.ui.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.internal.DebouncingOnClickListener;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.llj.lib.jump.annotation.Jump;
 import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.vo.Cat;
@@ -13,12 +13,9 @@ import com.llj.component.service.arouter.CJump;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.base.event.BaseEvent;
 import com.llj.lib.jni.test.JniTest;
+import com.llj.lib.jump.annotation.Jump;
 import com.llj.lib.utils.LogUtil;
-
 import org.jetbrains.annotations.Nullable;
-
-import butterknife.BindView;
-import butterknife.internal.DebouncingOnClickListener;
 
 /**
  * ArchitectureDemo. describe: author llj date 2019/1/8
@@ -57,9 +54,9 @@ public class EventActivity extends AppMvcBaseActivity {
 
     LogUtil.DEBUGLLJ = true;
     jniTest.test2();
-    LogUtil.i(getMTagLog(), jniTest.test3() + "");
-    LogUtil.i(getMTagLog(), jniTest.test4() + "");
-    LogUtil.i(getMTagLog(), jniTest.stringFromJNI2());
+    LogUtil.i(mTagLog, jniTest.test3() + "");
+    LogUtil.i(mTagLog, jniTest.test4() + "");
+    LogUtil.i(mTagLog, jniTest.stringFromJNI2());
   }
 
   @Override

@@ -143,6 +143,7 @@
     <activity android:name=".ui.activity.KodoActivity" />
     <activity android:name=".ui.activity.RecordVideo2Activity" />
     <activity android:name=".ui.activity.AdjustResizeActivity" />
+    <activity android:name=".ui.activity.ViewPager2Activity" />
 
     <activity
       android:name=".ui.activity.FirstActivity"

@@ -28,6 +28,7 @@ import timber.log.Timber
 abstract class MvcBaseActivity : AppCompatActivity()
         , IBaseActivity, ICommon, IUiHandler, IEvent, IBaseActivityView {
 
+    @JvmField
     val mTagLog: String = this.javaClass.simpleName
 
     lateinit var mContext: Context
@@ -83,7 +84,6 @@ abstract class MvcBaseActivity : AppCompatActivity()
     override fun onResume() {
         super.onResume()
         Timber.tag(mTagLog).i("onResume：%s", mTagLog)
-        Timber.tag(mTagLog).i("mPageName：%s", mTagLog)
     }
 
     override fun onPause() {

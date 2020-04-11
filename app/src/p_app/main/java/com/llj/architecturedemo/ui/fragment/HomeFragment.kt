@@ -29,6 +29,7 @@ class HomeFragment : MiddleMvcBaseFragment(), ScrollableHelper.ScrollableContain
 
     @BindView(R.id.recyclerView)
     lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
+
     @BindView(R.id.tv_update)
     lateinit var mUpdate: TextView
 
@@ -53,6 +54,7 @@ class HomeFragment : MiddleMvcBaseFragment(), ScrollableHelper.ScrollableContain
 
         val arrayList = arrayListOf<Data>()
         arrayList.add(Data("AdjustResizeActivity", CRouter.APP_ADJUST_RESIZE_ACTIVITY2))
+        arrayList.add(Data("ViewPager2Activity", CRouter.APP_VIEWPAGER2_ACTIVITY))
         arrayList.add(Data("SvgActivity", CRouter.APP_SVG_ACTIVITY))
         arrayList.add(Data("RunnableActivity", CRouter.APP_RUNNABLE_ACTIVITY))
         arrayList.add(Data("InjectActivity", CRouter.SETTING_INJECT_ACTIVITY))

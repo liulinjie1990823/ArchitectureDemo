@@ -5,7 +5,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -19,11 +18,10 @@ import com.llj.architecturedemo.ui.model.TabVo
 import com.llj.architecturedemo.ui.presenter.MainPresenter
 import com.llj.architecturedemo.ui.view.MainContractView
 import com.llj.component.service.arouter.CRouter
-import com.llj.component.service.imageLoader.FrescoImageLoader
 import com.llj.component.service.preference.ConfigPreference
 import com.llj.lib.base.BaseTabActivity
 import com.llj.lib.base.IUiHandler
-import com.llj.lib.image.loader.ICustomImageLoader
+import com.llj.lib.image.loader.ImageLoader
 import com.llj.lib.net.response.BaseResponse
 
 @Route(path = CRouter.APP_MAIN_ACTIVITY)
@@ -88,7 +86,7 @@ class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
 
     private inner class TabAdapter(list: ArrayList<TabVo>?) : ListBasedAdapter<TabVo, ViewHolderHelper>(list), IUiHandler {
 
-        private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance()
+        private val mImageLoad: ImageLoader = ImageLoader.getInstance()
 
         init {
             addItemLayout(R.layout.item_main_activity_tab)

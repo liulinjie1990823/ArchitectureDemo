@@ -10,7 +10,7 @@ import butterknife.BindView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.llj.component.service.R;
 import com.llj.component.service.R2;
-import com.llj.component.service.imageLoader.FrescoUtils;
+import com.llj.lib.image.loader.engine.fresco.FrescoUtils;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshKernel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;

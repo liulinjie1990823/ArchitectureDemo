@@ -3,6 +3,8 @@ android {
         multiDexEnabled true
     }
     resourcePrefix "login_"
+
+    viewBinding { enabled = true }
 }
 
 dependencies {

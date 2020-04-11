@@ -1,6 +1,7 @@
-package com.llj.lib.image.loader;
+package com.llj.lib.image.loader.core;
 
-import android.view.View;
+import android.content.Context;
+import android.widget.ImageView;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
@@ -11,7 +12,11 @@ import androidx.annotation.Nullable;
  * @author llj
  * @date 2018/8/14
  */
-public interface ICustomImageLoader<T extends View> extends IImageLoader<T> {
+public interface ICustomImageLoader<T extends ImageView> extends IImageLoader<T> {
+
+  default ICustomImageLoader<T> init(Context context) {
+    return this;
+  }
 
   void loadImage(T view, @DrawableRes int resId, int width, int height,
       boolean isCircle);

@@ -1,8 +1,10 @@
-package com.llj.component.service.imageLoader;
+package com.llj.lib.image.loader.engine.fresco;
 
+import android.content.Context;
 import androidx.annotation.Nullable;
 import com.facebook.drawee.view.GenericDraweeView;
-import com.llj.lib.image.loader.ICustomImageLoader;
+import com.llj.lib.image.loader.core.ICustomImageLoader;
+import com.llj.lib.image.loader.core.XImageView;
 
 /**
  * describe:
@@ -10,24 +12,20 @@ import com.llj.lib.image.loader.ICustomImageLoader;
  * @author llj
  * @date 2018/8/14
  */
-public class FrescoImageLoader implements ICustomImageLoader<GenericDraweeView> {
+public class FrescoEngine implements ICustomImageLoader<GenericDraweeView> {
 
-  private static ICustomImageLoader<GenericDraweeView> sImageLoader;
-
-  private FrescoImageLoader() {
+  @Override
+  public ICustomImageLoader<GenericDraweeView> init(Context context) {
+    FrescoUtils.initFresco(context);
+    return this;
   }
 
-  public static ICustomImageLoader<GenericDraweeView> getInstance() {
-    synchronized (FrescoImageLoader.class) {
-      if (sImageLoader == null) {
-        sImageLoader = new FrescoImageLoader();
-      }
-    }
-    return sImageLoader;
+  @Override
+  public void loadImage(XImageView<GenericDraweeView> imageView) {
+
   }
 
   //<editor-fold desc="加载本地图片">
-
   @Override
   public void loadImage(GenericDraweeView view, int resId, int width, int height) {
     FrescoUtils.setController(resId, width, height, view);

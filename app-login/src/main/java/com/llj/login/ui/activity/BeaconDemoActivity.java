@@ -10,23 +10,20 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
-import androidx.core.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
-
+import androidx.core.app.ActivityCompat;
 import com.llj.login.LoginMvcBaseActivity;
 import com.llj.login.R;
 import com.llj.login.ui.service.JobIntentTestService;
 import com.llj.login.ui.service.JobTestService;
-
+import java.util.Collection;
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
 
 /**
  * ArchitectureDemo.
@@ -92,7 +89,9 @@ public class BeaconDemoActivity extends LoginMvcBaseActivity implements BeaconCo
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 if (beacons.size() > 0) {
-                    Log.i(getMTagLog(), "The first beacon I see is about " + beacons.iterator().next().getDistance() + " meters away.");
+                  Log.i(mTagLog,
+                      "The first beacon I see is about " + beacons.iterator().next().getDistance()
+                          + " meters away.");
                 }
             }
         });

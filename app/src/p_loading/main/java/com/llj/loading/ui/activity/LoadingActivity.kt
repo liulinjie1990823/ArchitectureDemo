@@ -7,16 +7,14 @@ import android.widget.TextView
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.llj.architecturedemo.R
 import com.llj.component.service.MiddleMvcBaseActivity
 import com.llj.component.service.arouter.CJump
 import com.llj.component.service.arouter.CRouter
-import com.llj.component.service.imageLoader.FrescoImageLoader
 import com.llj.component.service.permission.PermissionManager
 import com.llj.lib.base.help.DisplayHelper
-import com.llj.lib.image.loader.ICustomImageLoader
+import com.llj.lib.image.loader.ImageLoader
 import com.llj.lib.jump.annotation.Jump
 import com.llj.lib.statusbar.StatusBarCompat
 import io.reactivex.Observable
@@ -51,7 +49,7 @@ class LoadingActivity : MiddleMvcBaseActivity() {
     lateinit var mTvSubTitle: TextView
 
 
-    private lateinit var mImageLoader: ICustomImageLoader<GenericDraweeView>
+    private lateinit var mImageLoader: ImageLoader
 
     private var mDisposable: Disposable? = null
 
@@ -63,7 +61,7 @@ class LoadingActivity : MiddleMvcBaseActivity() {
         StatusBarCompat.translucentStatusBar(window, true)
 
         mUseAnim = false
-        mImageLoader = FrescoImageLoader.getInstance()
+        mImageLoader = ImageLoader.getInstance()
 
 
         val dip2px = dip2px(this, 50f)

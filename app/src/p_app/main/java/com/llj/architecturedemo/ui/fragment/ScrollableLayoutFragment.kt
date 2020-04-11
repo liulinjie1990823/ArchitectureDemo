@@ -18,7 +18,6 @@ import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.constraintlayout.widget.ConstraintLayout
 import butterknife.BindView
-import com.facebook.drawee.view.GenericDraweeView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.github.demono.AutoScrollViewPager
 import com.github.demono.adapter.InfinitePagerAdapter
@@ -34,12 +33,11 @@ import com.llj.architecturedemo.ui.model.HomeModelType
 import com.llj.architecturedemo.ui.presenter.ScrollableLayoutPresenter
 import com.llj.architecturedemo.ui.view.IScrollableLayoutView
 import com.llj.component.service.MiddleMvpBaseFragment
-import com.llj.component.service.imageLoader.FrescoImageLoader
 import com.llj.component.service.indicator.ScaleCircleNavigator
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout
 import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.OnMyClickListener
-import com.llj.lib.image.loader.ICustomImageLoader
+import com.llj.lib.image.loader.ImageLoader
 import com.llj.lib.net.response.BaseResponse
 import com.llj.lib.scrollable.ScrollableHelper
 import com.llj.lib.scrollable.ScrollableLayout
@@ -76,7 +74,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
     @BindView(R.id.viewpager)
     lateinit var mViewpager: androidx.viewpager.widget.ViewPager
 
-    private val mImageLoad: ICustomImageLoader<GenericDraweeView> = FrescoImageLoader.getInstance()
+    private val mImageLoad: ImageLoader = ImageLoader.getInstance()
 
 
     override fun layoutId(): Int {

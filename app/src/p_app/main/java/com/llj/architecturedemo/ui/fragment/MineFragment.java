@@ -24,7 +24,6 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
 import butterknife.internal.DebouncingOnClickListener;
-import com.facebook.drawee.view.GenericDraweeView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.llj.adapter.ListBasedAdapter;
 import com.llj.adapter.MergedUniversalAdapter;
@@ -42,12 +41,11 @@ import com.llj.architecturedemo.ui.view.IMineView;
 import com.llj.component.service.MiddleApplication;
 import com.llj.component.service.MiddleMvpBaseFragment;
 import com.llj.component.service.arouter.CRouter;
-import com.llj.component.service.imageLoader.FrescoImageLoader;
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout;
 import com.llj.component.service.vo.UserInfoVo;
 import com.llj.lib.base.help.DisplayHelper;
 import com.llj.lib.base.widget.LoadingDialog;
-import com.llj.lib.image.loader.ICustomImageLoader;
+import com.llj.lib.image.loader.ImageLoader;
 import com.llj.lib.net.response.BaseResponse;
 import com.llj.lib.statusbar.LightStatusBarCompat;
 import com.llj.lib.utils.AViewUtils;
@@ -116,7 +114,7 @@ public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter>
   @BindView(R.id.parallax)       ImageView            mParallax;
   @BindView(R.id.iv_top_bg)      ImageView            mIvTopBg;
 
-  private ICustomImageLoader<GenericDraweeView> mImageLoad = FrescoImageLoader.getInstance();
+  private ImageLoader mImageLoad = ImageLoader.getInstance();
 
 
   @Override
