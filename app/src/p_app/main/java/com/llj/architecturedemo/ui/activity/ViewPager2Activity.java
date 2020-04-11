@@ -1,7 +1,6 @@
 package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -9,7 +8,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.llj.adapter.ViewHolder;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.llj.adapter.util.ViewHolderHelper;
 import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.databinding.ActivityViewpager2Binding;
@@ -33,6 +33,8 @@ public class ViewPager2Activity extends AppMvcBaseActivity {
   private int mPicWidth;
   private int mPicHeight;
 
+  private ImageLoader mImageLoader;
+
   @Override
   public int layoutId() {
     return R.layout.activity_viewpager2;
@@ -48,7 +50,7 @@ public class ViewPager2Activity extends AppMvcBaseActivity {
   @Override
   public void initViews(@Nullable Bundle savedInstanceState) {
 
-    ImageLoader instance = ImageLoader.getInstance();
+    mImageLoader = ImageLoader.getInstance();
     ((ViewGroup) mBinding.vpPicture.getChildAt(0)).setClipToPadding(false);
     //画面的宽度，按比例计算
     mPicWidth = (int) (DisplayHelper.SCREEN_WIDTH * 348 / 750F);
@@ -83,10 +85,10 @@ public class ViewPager2Activity extends AppMvcBaseActivity {
 
         //View view = page.findViewById(R.id.v_cover);
 
-        //page.setScaleX(scaleFactor);
-        //page.setScaleY(scaleFactor);
+        page.setScaleX(scaleFactor);
+        page.setScaleY(scaleFactor);
 
-        //view.setAlpha(1 - alphaFactor);
+        //page.setAlpha(1 - alphaFactor);
 
         float offset = mMarginPx * position;
         page.setTranslationX(offset);
@@ -115,19 +117,19 @@ public class ViewPager2Activity extends AppMvcBaseActivity {
     //    Timber.tag(mTagLog).i("onDraw:");
     //  }
     //});
-    mBinding.vpPicture.setAdapter(new RecyclerView.Adapter<ViewHolder>() {
+    mBinding.vpPicture.setAdapter(new RecyclerView.Adapter<ViewHolderHelper>() {
 
       @NonNull
       @Override
-      public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater
-            .from(parent.getContext()).inflate(R.layout.mv_item_ae_make_pic, parent, false);
-        return new ViewHolder(view);
+      public ViewHolderHelper onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return ViewHolderHelper.createViewHolder(parent, R.layout.mv_item_ae_make_pic);
       }
 
       @Override
-      public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+      public void onBindViewHolder(@NonNull ViewHolderHelper holder, int position) {
+        SimpleDraweeView simpleDraweeView = holder.getView(R.id.sdv_image);
+        String url = "https://img.hbhcdn.com/dmp/other/1584979200/jh-img-orig-ga_1242381413835505664_1079_1918_225146.jpg";
+        mImageLoader.loadImage(simpleDraweeView, url, mPicWidth, mPicHeight);
       }
 
       @Override

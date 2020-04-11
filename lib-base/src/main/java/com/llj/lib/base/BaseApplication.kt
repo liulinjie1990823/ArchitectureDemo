@@ -34,19 +34,20 @@ abstract class BaseApplication : Application(),
         super.onCreate()
         Utils.init(this)
 
+        initDisplay() // 初始化屏幕宽高信息
+        initSavePath() // 初始化文件存储路径
+
+        initImageLoader() //图片加载器
+        initToast() //全局toast初始化
+
+        initCrashHandler() //异常捕捉
+
         if (AActivityManagerUtils.isRunningProcess(this)) {
-            initDisplay() // 初始化屏幕宽高信息
-            initSavePath() // 初始化文件存储路径
 
-            initImageLoader() //图片加载器
-            initToast() //全局toast初始化
-
-            initCrashHandler() //异常捕捉
             initLeakCanary() //监听内存溢出
             initFlipper() //设置okhttp请求调试
             initStrictMode() //设置严格模式
 
-            injectApp()
         }
     }
 
@@ -72,10 +73,9 @@ abstract class BaseApplication : Application(),
 
 
     protected open fun initCrashHandler() {
-        if (!isDebug()) {
-            return
+        if (isDebug()) {
+            CrashHelper.getInstance().init(this) { LogUtil.LLJe(it) }
         }
-        CrashHelper.getInstance().init(this) { LogUtil.LLJe(it) }
     }
 
     protected open fun initFlipper() {
@@ -85,16 +85,15 @@ abstract class BaseApplication : Application(),
     }
 
     protected open fun initStrictMode() {
-        if (!isDebug()) {
-            return
+        if (isDebug()) {
+            //设置线程策略
+            StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().detectAll().penaltyDialog().build())
+            //设置虚拟机策略
+            StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build())
         }
-        //设置线程策略
-        StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().detectAll().penaltyDialog().build())
-        //设置虚拟机策略
-        StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build())
+
     }
 
-    protected abstract fun injectApp()
 
     override fun androidInjector(): AndroidInjector<Any> {
         return mActivityInjector

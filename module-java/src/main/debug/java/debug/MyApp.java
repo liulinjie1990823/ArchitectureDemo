@@ -16,8 +16,4 @@ public class MyApp extends ComponentApplication {
         CC.enableRemoteCC(true);
     }
 
-    @Override
-    protected void injectApp() {
-
-    }
 }

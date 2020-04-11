@@ -58,8 +58,8 @@ allprojects {
     //强制使依赖版本
     configurations.all {
         resolutionStrategy {
-            force 'com.squareup.okhttp3:okhttp:4.2.2'
-            force 'com.google.code.gson:gson:2.8.5'
+            force deps.okhttp
+            force deps.gson
 
             force 'androidx.legacy:legacy-support-core-utils:1.0.0'
             force 'androidx.legacy:legacy-support-core-ui:1.0.0'

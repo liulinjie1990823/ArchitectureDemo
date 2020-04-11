@@ -47,6 +47,10 @@ class LoginApp : MiddleApplication(), BootstrapNotifier {
 
     override fun onCreate() {
         super.onCreate()
+        mLoginComponent = DaggerLoginComponent.builder()
+                .middleComponent(mMiddleComponent)
+                .build()
+
         CC.enableVerboseLog(true)
         CC.enableDebug(true)
         CC.enableRemoteCC(true)
@@ -74,11 +78,6 @@ class LoginApp : MiddleApplication(), BootstrapNotifier {
         MultiDex.install(this)
     }
 
-    override fun injectApp() {
-        mLoginComponent = DaggerLoginComponent.builder()
-                .middleComponent(mMiddleComponent)
-                .build()
-    }
 
 
     override fun androidInjector(): AndroidInjector<Any> {

@@ -31,8 +31,7 @@ class MiddleComponentModule {
         val okHttpClientBuilder = OkHttpClientUtils.okHttpClientBuilder()
 
         //拦截器
-        val urlHandlerInterceptor = InterceptorFactory.UrlHandlerInterceptor()
-        okHttpClientBuilder.addInterceptor(urlHandlerInterceptor) //多url域名拦截
+        okHttpClientBuilder.addInterceptor(InterceptorFactory.UrlHandlerInterceptor()) //多url域名拦截
         okHttpClientBuilder.addInterceptor(HeaderInterceptor()) //自定义header
         //okHttpClientBuilder.addInterceptor(InterceptorFactory.AGENT_INTERCEPTOR)//自定义ua
         //设置http请求header的缓存字段，可以控制返回数据的缓存，但是是在一条线程内，会导致页面显示变慢，应该先显示页面，再将数据进行缓存，所以不推荐

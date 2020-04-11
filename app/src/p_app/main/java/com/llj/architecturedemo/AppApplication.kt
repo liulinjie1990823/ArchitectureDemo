@@ -77,13 +77,6 @@ class AppApplication : MiddleApplication() {
         }
         WebViewManager.getInstance().webViewConfig = webViewConfig
         super.onCreate()
-
-        //图片加载引擎
-        ImageLoader.addImageLoadEngine(0, FrescoEngine())
-    }
-
-    override fun injectApp() {
-        DoraemonKit.install(this)
         //设置日志
         Timber.plant(object : Timber.DebugTree() {
             override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
@@ -96,8 +89,8 @@ class AppApplication : MiddleApplication() {
         Tracker.init(this, TrackerConfig.Builder().build())
         //页面跳转
         JumpHelp.init(this)
-
-
+        //图片加载引擎
+        ImageLoader.addImageLoadEngine(0, FrescoEngine())
 
         mAppComponent = DaggerAppComponent.builder()
                 .middleComponent(mMiddleComponent)
@@ -132,7 +125,10 @@ class AppApplication : MiddleApplication() {
                 }
             }
         })
+
+        DoraemonKit.install(this)
     }
+
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)

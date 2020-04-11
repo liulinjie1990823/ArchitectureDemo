@@ -20,7 +20,7 @@ def versions = [
         butterknife     : "10.2.1",
 
         retrofit2       : "2.7.2",
-        okhttp          : "4.4.1",
+        okhttp          : "4.5.0",
 
         fresco          : "2.1.0",
 
