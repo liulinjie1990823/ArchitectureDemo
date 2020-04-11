@@ -3,7 +3,7 @@
  */
 
 def versions = [
-        kotlin          : "1.3.61",
+        kotlin          : "1.3.71",
         bintray_release : "0.8.1",
         walle           : "1.1.6",
 
@@ -21,7 +21,6 @@ def versions = [
 
         retrofit2       : "2.7.2",
         okhttp          : "4.5.0",
-
         fresco          : "2.1.0",
 
         smartrefresh    : "1.1.0-alpha-16",

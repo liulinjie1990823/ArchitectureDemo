@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import timber.log.Timber;
 
 /**
- * describe 不写是傻逼
+ * describe ViewPager2
  *
  * @author liulinjie
  * @date 2020/3/22 1:39 PM
