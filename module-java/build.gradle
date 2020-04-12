@@ -18,7 +18,7 @@ android {
 
         resConfigs "en", "xxhdpi"
 
-        manifestPlaceholders = [qq_id: "1103566659"]
+        manifestPlaceholders = [qq_id: qqId]
     }
 
     buildTypes {

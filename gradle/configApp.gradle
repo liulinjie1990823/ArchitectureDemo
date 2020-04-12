@@ -48,7 +48,7 @@ subprojects {
             }
         }
         boolean isApplication = it.pluginManager.hasPlugin("com.android.application")
-        println("subproject:" + project.name + ",isApplication:" + isApplication)
+        println("subproject" +"("+ project.name +"):"+ "[isApplication:" + isApplication+"]")
 
         //除了app的其他module
         if (it.name != 'app') {
@@ -66,7 +66,7 @@ subprojects {
                     versionCode build_versions.versionCode
                     versionName build_versions.versionName
 
-                    manifestPlaceholders = [qq_id: "1103566659"]
+                    manifestPlaceholders = [qq_id: qqId]
                 }
                 if (!useOld){
                     viewBinding { enabled = true }

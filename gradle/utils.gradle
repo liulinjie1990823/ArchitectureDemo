@@ -22,9 +22,9 @@ ext.debugFile = "${projectDir.absolutePath}/build/outputs/apk/debug/${getApkName
 ext.betaFile = "${projectDir.absolutePath}/build/outputs/apk/beta/${getApkName(rootProject.ext.build_versions["versionName"], "beta")}"
 ext.releaseFile = "${projectDir.absolutePath}/build/outputs/apk/release/${getApkName(rootProject.ext.build_versions["versionName"], "release")}"
 
-println("debugFile:" + rootProject.ext.debugFile)
-println("betaFile:" + rootProject.ext.betaFile)
-println("releaseFile:" + rootProject.ext.releaseFile)
+//println("debugFile:" + rootProject.ext.debugFile)
+//println("betaFile:" + rootProject.ext.betaFile)
+//println("releaseFile:" + rootProject.ext.releaseFile)
 
 ext {
     releaseTime = this.&releaseTime
@@ -37,6 +37,5 @@ task syncAndroidIp(type: Exec) {
     description '设置android端ip代理'
     group 'syncAndroidIp'
     workingDir "$rootProject.projectDir/python"
-    println workingDir
     commandLine './sync_android_ip.py'
 }

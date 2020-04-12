@@ -102,14 +102,14 @@ class AppApplication : MiddleApplication() {
         CC.obtainBuilder("app-setting").setActionName(IModule.INIT).build().call()
 
         //分享
-        val config = SocialConfig.Builder(this, true).qqId("1103566659")
-                .wx("wx78b27fadc81b6df4", "022fa45d435d7845179b6ae8d1912690")
-                .sign("1476913513", "http://www.jiehun.com.cn/api/weibo/_grant", SocialConstants.SCOPE)
+        val config = SocialConfig.Builder(this, true).qqId(getString(R.string.qq_id))
+                .wx(getString(R.string.wx_id), getString(R.string.wx_secret))
+                .sign(getString(R.string.sina_id), getString(R.string.sina_url), SocialConstants.SCOPE)
                 .build()
         SocialManager.init(config)
 
         //Crash记录
-        CrashReport.initCrashReport(applicationContext, "a0ed9c00ad", false)
+        CrashReport.initCrashReport(applicationContext, getString(R.string.bugly_id), false)
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {

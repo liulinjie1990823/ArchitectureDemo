@@ -40,15 +40,14 @@ def versions = [
 
 ext {
     build_versions = [
-//            applicationId    : "com.china.hunbohui",
-applicationId    : "com.llj.architecturedemo",
-compileJdkVersion: 1.8,
-compileSdkVersion: 28,
-buildToolsVersion: "28.0.3",
-minSdkVersion    : 21,
-targetSdkVersion : 28,
-versionCode      : 100,
-versionName      : "1.0.0",
+            applicationId    : applicationId,
+            compileJdkVersion: 1.8,
+            compileSdkVersion: 28,
+            buildToolsVersion: "28.0.3",
+            minSdkVersion    : 21,
+            targetSdkVersion : 28,
+            versionCode      : 100,
+            versionName      : "1.0.0",
     ]
     deps = [
             //插件
@@ -122,7 +121,7 @@ versionName      : "1.0.0",
             dagger                            : "com.google.dagger:dagger:$versions.dagger",
             dagger_compiler                   : "com.google.dagger:dagger-compiler:$versions.dagger",
             dagger_android                    : "com.google.dagger:dagger-android:$versions.dagger",
-            dagger_android_compiler   : "com.google.dagger:dagger-android-processor:$versions.dagger",
+            dagger_android_compiler           : "com.google.dagger:dagger-android-processor:$versions.dagger",
             dagger_android_support            : "com.google.dagger:dagger-android-support:$versions.dagger",
 
 
@@ -231,7 +230,7 @@ versionName      : "1.0.0",
             fillblankview                     : "com.xw.repo:fillblankview:2.1@aar",//密码输入
             gpuimage                          : "jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1",//滤镜
             glide                             : "com.github.bumptech.glide:glide:$versions.glide",
-            glide_compiler                             : "com.github.bumptech.glide:compiler::$versions.glide",
+            glide_compiler                    : "com.github.bumptech.glide:compiler::$versions.glide",
     ]
 }
 

@@ -1,6 +1,8 @@
+
 //先加载local.properties文件
 Properties properties = new Properties()
 try {
+    //获取根目录下的local.properties文件
     def localFile = project.rootProject.file("local.properties")
     if (localFile != null && localFile.exists()) {
         properties.load(localFile.newDataInputStream())
@@ -9,14 +11,17 @@ try {
     println("local.properties not found")
 }
 
-ext.useComponent = properties.getProperty("useComponent")=="true"
-ext.useMaven = properties.getProperty("useMaven")=="true"
-ext.useDexcount = properties.getProperty("useDexcount")=="true"
-ext.useAspectjx = properties.getProperty("useAspectjx")=="true"
-ext.useCodeInject = properties.getProperty("useCodeInject")=="true"
-ext.useApkUploadPlugin = properties.getProperty("useApkUploadPlugin")=="true"
-ext.useOld = properties.getProperty("useOld")=="true"
+ext.applicationId = properties.getProperty("applicationId")
 
+ext.useComponent = properties.getProperty("useComponent") == "true"
+ext.useMaven = properties.getProperty("useMaven") == "true"
+ext.useDexcount = properties.getProperty("useDexcount") == "true"
+ext.useAspectjx = properties.getProperty("useAspectjx") == "true"
+ext.useCodeInject = properties.getProperty("useCodeInject") == "true"
+ext.useApkUploadPlugin = properties.getProperty("useApkUploadPlugin") == "true"
+ext.useOld = properties.getProperty("useOld") == "true"
+
+//蒲公英相关秘钥
 ext.pgyDebugApiKey = properties.getProperty("pgyDebugApiKey")
 ext.pgyDebugUserKey = properties.getProperty("pgyDebugUserKey")
 ext.pgyDebugAppKey = properties.getProperty("pgyDebugAppKey")
@@ -31,12 +36,20 @@ ext.pgyReleaseAppKey = properties.getProperty("pgyReleaseAppKey")
 
 ext.pgyUploadUrl = properties.getProperty("pgyUploadUrl")
 
+//钉钉token
 ext.dingTalkDebugAccessToken = properties.getProperty("dingTalkDebugAccessToken")
 
+//七牛秘钥
 ext.kodoAccessKey = properties.getProperty("kodoAccessKey")
 ext.kodoSecretKey = properties.getProperty("kodoSecretKey")
 
-println("ext----------")
-println(ext.toString())
+//分享相关
+ext.qqId = properties.getProperty("qqId")
+ext.wxId = properties.getProperty("wxId")
+ext.wxSecret = properties.getProperty("wxSecret")
+ext.sinaId = properties.getProperty("sinaId")
+ext.sinaUrl = properties.getProperty("sinaUrl")
+ext.buglyId = properties.getProperty("buglyId")
+
 
 

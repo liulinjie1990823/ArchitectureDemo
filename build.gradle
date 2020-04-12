@@ -2,10 +2,13 @@
 apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
-    apply from: rootProject.file('gradle/configVersions.gradle')
     //设置ext属性
     apply from: rootProject.file('gradle/init.gradle')
+    //依赖项
+    apply from: rootProject.file('gradle/configVersions.gradle')
+    //工具类
     apply from: rootProject.file('gradle/utils.gradle')
+    //
     addRepos(repositories)
     dependencies {
         //方法数检测
