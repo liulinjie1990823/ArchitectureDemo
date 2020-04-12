@@ -76,4 +76,4 @@ buck-out
 
 
 .flutter-plugins-dependencies
-pubspec.lock
+*pubspec.lock
