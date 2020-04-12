@@ -104,7 +104,7 @@ subprojects {
             } else {
                 //dagger
                 kapt deps.dagger_compiler
-                kapt deps.dagger_android_support_compiler
+                kapt deps.dagger_android_compiler
                 //lifecycle
                 kapt deps.lifecycle_compiler
                 //db

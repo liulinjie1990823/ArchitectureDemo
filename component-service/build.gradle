@@ -135,7 +135,7 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
 
     kapt deps.dagger_compiler
-    kapt deps.dagger_android_support_compiler
+    kapt deps.dagger_android_compiler
     kapt deps.butterknife_compiler
 
     //线程调度

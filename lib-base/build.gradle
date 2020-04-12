@@ -40,7 +40,7 @@ dependencies {
     api deps.dagger_android
     api deps.dagger_android_support
     kapt deps.dagger_compiler
-    kapt deps.dagger_android_support_compiler
+    kapt deps.dagger_android_compiler
 
     //rx
     api deps.rxjava2

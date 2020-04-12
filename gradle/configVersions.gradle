@@ -12,14 +12,14 @@ def versions = [
         lifecycle       : "2.2.0",
         room            : "2.2.3",
 
-        dagger          : "2.25.2",
+        dagger          : "2.27",
         autodispose     : "1.0.0-RC2",
 
         arouter_api     : "1.5.0",
         arouter_compiler: "1.2.2",
         butterknife     : "10.2.1",
 
-        retrofit2       : "2.7.2",
+        retrofit2       : "2.8.1",
         okhttp          : "4.5.0",
         fresco          : "2.1.0",
 
@@ -122,8 +122,9 @@ versionName      : "1.0.0",
             dagger                            : "com.google.dagger:dagger:$versions.dagger",
             dagger_compiler                   : "com.google.dagger:dagger-compiler:$versions.dagger",
             dagger_android                    : "com.google.dagger:dagger-android:$versions.dagger",
+            dagger_android_compiler   : "com.google.dagger:dagger-android-processor:$versions.dagger",
             dagger_android_support            : "com.google.dagger:dagger-android-support:$versions.dagger",
-            dagger_android_support_compiler   : "com.google.dagger:dagger-android-processor:$versions.dagger",
+
 
             rxjava2                           : "io.reactivex.rxjava2:rxjava:2.2.14",
             rxandroid                         : "io.reactivex.rxjava2:rxandroid:2.1.1",
@@ -230,6 +231,7 @@ versionName      : "1.0.0",
             fillblankview                     : "com.xw.repo:fillblankview:2.1@aar",//密码输入
             gpuimage                          : "jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1",//滤镜
             glide                             : "com.github.bumptech.glide:glide:$versions.glide",
+            glide_compiler                             : "com.github.bumptech.glide:compiler::$versions.glide",
     ]
 }
 
