@@ -31,6 +31,6 @@ interface IEventK {
         return false
     }
 
-    fun <T> onRecieveEvent(event: BaseEvent<T>)
+    fun onReceiveEvent(event: BaseEvent)
 
 }

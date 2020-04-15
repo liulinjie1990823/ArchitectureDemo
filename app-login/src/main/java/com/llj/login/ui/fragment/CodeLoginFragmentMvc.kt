@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import com.llj.component.service.utils.CharInputFilter
 import com.llj.lib.base.MvcBaseFragment
@@ -17,7 +18,7 @@ import com.llj.login.R2
  * author llj
  * date 2018/10/12
  */
-class CodeLoginFragmentMvc : MvcBaseFragment() {
+class CodeLoginFragmentMvc : MvcBaseFragment<ViewBinding>() {
     @BindView(R2.id.et_mobile) lateinit var mEtMobile: EditText
     @BindView(R2.id.et_code) lateinit var mEtCode: EditText
     @BindView(R2.id.tv_get_code) lateinit var mTvGetCode: TextView

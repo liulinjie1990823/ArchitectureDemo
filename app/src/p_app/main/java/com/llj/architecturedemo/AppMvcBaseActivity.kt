@@ -1,5 +1,6 @@
 package com.llj.architecturedemo
 
+import androidx.viewbinding.ViewBinding
 import com.llj.component.service.MiddleMvcBaseActivity
 
 /**
@@ -8,4 +9,4 @@ import com.llj.component.service.MiddleMvcBaseActivity
  * author llj
  * date 2019/3/14
  */
-abstract class AppMvcBaseActivity : MiddleMvcBaseActivity()
+abstract class AppMvcBaseActivity<V : ViewBinding> : MiddleMvcBaseActivity<V>()

@@ -1,7 +1,7 @@
 package com.llj.component.service
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.mvp.IBasePresenter
 import com.llj.lib.tracker.ITracker
@@ -18,7 +18,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/12/13
  */
-abstract class MiddleMvpBaseActivity<P : IBasePresenter> : MvpBaseActivity<P>(), HasAndroidInjector, ITracker {
+abstract class MiddleMvpBaseActivity<P : IBasePresenter, V : ViewBinding> : MvpBaseActivity<P, V>(), HasAndroidInjector, ITracker {
 
     //下面代码是为了在component-service中生成ComponentMvpBaseActivity_MembersInjector对象
     //否则会在多个module中生成多个ComponentMvpBaseActivity_MembersInjector对象

@@ -2,9 +2,9 @@ package com.llj.component.service
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.annotation.CallSuper
-import androidx.fragment.app.Fragment
 import android.text.TextUtils
+import androidx.annotation.CallSuper
+import androidx.viewbinding.ViewBinding
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.mvp.IBasePresenter
 import com.llj.lib.statusbar.LightStatusBarCompat
@@ -19,7 +19,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/11/5
  */
-abstract class MiddleMvpBaseFragment<P : IBasePresenter> : MvpBaseFragment<P>(), HasAndroidInjector {
+abstract class MiddleMvpBaseFragment<P : IBasePresenter, V : ViewBinding> : MvpBaseFragment<P, V>(), HasAndroidInjector {
 
     //下面代码是为了在component-service中生成ComponentMvpBaseFragment_MembersInjector对象
     //否则会在多个module中生成多个ComponentMvpBaseFragment_MembersInjector对象

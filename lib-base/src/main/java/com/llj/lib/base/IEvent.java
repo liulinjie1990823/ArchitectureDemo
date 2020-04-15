@@ -32,8 +32,8 @@ public interface IEvent {
   }
 
   //每个页面的Event事件分发
-  <T> void onReceiveEvent(BaseEvent<T> event);
+  void onReceiveEvent(BaseEvent event);
 
   //是否是当前页面，用来控制刷新，关闭等
-  <T> boolean inCurrentPage(BaseEvent<T> event);
+  boolean inCurrentPage(BaseEvent event);
 }

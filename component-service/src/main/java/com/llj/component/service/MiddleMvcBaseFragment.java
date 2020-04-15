@@ -3,24 +3,23 @@ package com.llj.component.service;
 import android.app.Activity;
 import android.os.Bundle;
 import androidx.annotation.CallSuper;
-
+import androidx.viewbinding.ViewBinding;
 import com.llj.lib.base.MvcBaseFragment;
 import com.llj.lib.statusbar.LightStatusBarCompat;
 import com.llj.lib.tracker.ITracker;
 import com.llj.lib.tracker.PageName;
-
+import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-
 /**
- * ArchitectureDemo.
- * describe:
+ * ArchitectureDemo. describe:
  *
  * @author llj
  * @date 2019-10-16
  */
-abstract public class MiddleMvcBaseFragment extends MvcBaseFragment implements ITracker {
+abstract public class MiddleMvcBaseFragment<V extends ViewBinding> extends
+    MvcBaseFragment<V> implements ITracker {
+
     private String mPageName;
     private String mPageId;
 
@@ -53,7 +52,8 @@ abstract public class MiddleMvcBaseFragment extends MvcBaseFragment implements I
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            LightStatusBarCompat.setLightStatusBar(((Activity) mContext).getWindow(), statusBarTextColorBlack());
+            LightStatusBarCompat
+                .setLightStatusBar(((Activity) mContext).getWindow(), statusBarTextColorBlack());
         }
     }
 
@@ -64,7 +64,8 @@ abstract public class MiddleMvcBaseFragment extends MvcBaseFragment implements I
     @CallSuper
     @Override
     public void initViews(@Nullable Bundle savedInstanceState) {
-        LightStatusBarCompat.setLightStatusBar(((Activity) mContext).getWindow(), statusBarTextColorBlack());
+        LightStatusBarCompat
+            .setLightStatusBar(((Activity) mContext).getWindow(), statusBarTextColorBlack());
     }
 
     @Override

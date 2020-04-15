@@ -2,6 +2,7 @@ package com.llj.component.service;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import androidx.viewbinding.ViewBinding;
 import com.alibaba.android.arouter.core.LogisticsCenter;
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -19,7 +20,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * ArchitectureDemo. describe: author llj date 2018/12/13
  */
-public abstract class MiddleMvcBaseActivity extends MvcBaseActivity implements ITracker {
+public abstract class MiddleMvcBaseActivity<V extends ViewBinding> extends
+    MvcBaseActivity<V> implements ITracker {
 
   protected int     mActivityOpenEnterAnimation;
   protected int     mActivityOpenExitAnimation;
@@ -31,9 +33,6 @@ public abstract class MiddleMvcBaseActivity extends MvcBaseActivity implements I
 
   private String mPageName;
   private String mPageId;
-
-  public MiddleMvcBaseActivity() {
-  }
 
   @Override
   public String getPageName() {
@@ -103,7 +102,7 @@ public abstract class MiddleMvcBaseActivity extends MvcBaseActivity implements I
   }
 
   @Override
-  public <T> boolean inCurrentPage(@NotNull BaseEvent<T> event) {
+  public boolean inCurrentPage(@NotNull BaseEvent event) {
     String pageName = event.getPageName();
     if (pageName != null && pageName.startsWith(CJump.SCHEME)) {
       JumpCallback jumpCallback = Warehouse.sMap.get(pageName);

@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.viewbinding.ViewBinding
 import butterknife.OnClick
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.AppMvcBaseActivity
@@ -25,7 +26,7 @@ import com.llj.socialization.share.model.ShareResult
  * date 2018/8/10
  */
 @Route(path = CRouter.APP_SHARE_ACTIVITY)
-class ShareActivity : AppMvcBaseActivity() {
+class ShareActivity : AppMvcBaseActivity<ViewBinding>() {
 
 
     override fun layoutId(): Int {

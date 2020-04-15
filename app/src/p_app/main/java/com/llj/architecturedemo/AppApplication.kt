@@ -139,7 +139,7 @@ class AppApplication : MiddleApplication() {
     override fun androidInjector(): AndroidInjector<Any> {
         return object : AndroidInjector<Any> {
             override fun inject(data: Any?) {
-                if (data is MvpBaseActivity<*>) {
+                if (data is MvpBaseActivity<*, *>) {
                     val mvpBaseActivity = data
 
                     //调用IModule中的对应action
@@ -149,7 +149,7 @@ class AppApplication : MiddleApplication() {
                             .build()
                             .call()
                 } else {
-                    val mvpBaseFragment = data as MvpBaseFragment<*>
+                    val mvpBaseFragment = data as MvpBaseFragment<*, *>
 
                     //调用IModule中的对应action
                     CC.obtainBuilder(mvpBaseFragment.getModuleName())

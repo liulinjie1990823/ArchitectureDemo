@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/utils/status_bar_util.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_login/login/pages/page_home/home.dart';
+import 'package:flutter_login/login/pages/page_login/login.dart';
 import 'package:flutter_login/login/pages/page_login/login_bloc.dart';
 import 'package:flutter_login/login/pages/page_login/login_event.dart';
 import 'package:flutter_login/login/repository/user_repository.dart';
@@ -124,7 +125,7 @@ class App extends StatelessWidget {
 //            return SplashPage();
 //          },
 //        ),
-        home: TabPage(),
+        home: LoginPage(),
 //        home: InvHomePage(),
       ),
     );

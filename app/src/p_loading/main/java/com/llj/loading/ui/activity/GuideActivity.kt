@@ -1,6 +1,7 @@
 package com.llj.loading.ui.activity
 
 import android.os.Bundle
+import androidx.viewbinding.ViewBinding
 import com.llj.architecturedemo.R
 import com.llj.component.service.MiddleMvcBaseActivity
 
@@ -10,7 +11,7 @@ import com.llj.component.service.MiddleMvcBaseActivity
  * author llj
  * date 2018/9/20
  */
-class GuideActivity : MiddleMvcBaseActivity() {
+class GuideActivity : MiddleMvcBaseActivity<ViewBinding>() {
 
     override fun layoutId(): Int {
         return R.layout.activity_guide

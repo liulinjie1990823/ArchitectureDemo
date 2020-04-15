@@ -1,5 +1,6 @@
 package com.llj.lib.base.di.component
 
+import androidx.viewbinding.ViewBinding
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.mvp.IBasePresenter
 
@@ -14,8 +15,8 @@ import dagger.android.AndroidInjector
  * date 2018/5/16
  */
 @Subcomponent(modules = [AndroidInjectionModule::class])
-interface BaseActivityComponent : AndroidInjector<MvpBaseActivity<IBasePresenter>> {
+interface BaseActivityComponent : AndroidInjector<MvpBaseActivity<IBasePresenter, ViewBinding>> {
 
     @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<MvpBaseActivity<IBasePresenter>>()
+    abstract class Builder : AndroidInjector.Builder<MvpBaseActivity<IBasePresenter, ViewBinding>>()
 }

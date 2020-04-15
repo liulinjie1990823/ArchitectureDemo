@@ -2,6 +2,7 @@ package com.llj.architecturedemo.ui.activity
 
 import android.os.Bundle
 import android.widget.TextView
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.AppMvcBaseActivity
@@ -20,10 +21,10 @@ import java.lang.reflect.Proxy
  * date 2018/8/28
  */
 @Route(path = CRouter.APP_PROXY_ACTIVITY)
-class ProxyActivity : AppMvcBaseActivity() {
-    @BindView(R.id.tv_click) lateinit var mTvClick: TextView
+class ProxyActivity : AppMvcBaseActivity<ViewBinding>() {
+    @BindView(R.id.tv_click)
+    lateinit var mTvClick: TextView
     override fun layoutId(): Int {
-
         return R.layout.activity_proxy
     }
 

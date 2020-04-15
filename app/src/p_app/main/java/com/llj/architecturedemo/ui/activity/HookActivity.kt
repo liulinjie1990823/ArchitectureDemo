@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.AppMvcBaseActivity
@@ -19,8 +20,9 @@ import com.llj.component.service.arouter.CRouter
  * date 2018/8/29
  */
 @Route(path = CRouter.APP_HOOK_ACTIVITY)
-class HookActivity : AppMvcBaseActivity() {
-    @BindView(R.id.tv_click) lateinit var mTvClick: TextView
+class HookActivity : AppMvcBaseActivity<ViewBinding>() {
+    @BindView(R.id.tv_click)
+    lateinit var mTvClick: TextView
 
 
     override fun layoutId(): Int {

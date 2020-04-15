@@ -7,6 +7,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import androidx.viewbinding.ViewBinding
 import androidx.viewpager.widget.ViewPager
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -33,7 +34,7 @@ import java.util.*
  * date 2018/8/16
  */
 @Route(path = CRouter.APP_RECYCLE_VIEW_ACTIVITY)
-class RecycleViewActivity : AppMvcBaseActivity() {
+class RecycleViewActivity : AppMvcBaseActivity<ViewBinding>() {
     @BindView(R.id.vp_container)
     lateinit var mVpContent: ViewPager
 

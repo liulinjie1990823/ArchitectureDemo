@@ -17,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.github.demono.AutoScrollViewPager
@@ -60,7 +61,7 @@ import kotlin.collections.ArrayList
  * author llj
  * date 2018/10/30
  */
-class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter>(), IScrollableLayoutView {
+class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter, ViewBinding>(), IScrollableLayoutView {
     @BindView(R.id.cv_toolbar)
     lateinit var mCvToolbar: ConstraintLayout
     @BindView(R.id.refreshLayout)

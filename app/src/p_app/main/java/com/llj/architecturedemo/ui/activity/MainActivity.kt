@@ -3,6 +3,7 @@ package com.llj.architecturedemo.ui.activity
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.facebook.drawee.view.SimpleDraweeView
@@ -25,7 +26,7 @@ import com.llj.lib.image.loader.ImageLoader
 import com.llj.lib.net.response.BaseResponse
 
 @Route(path = CRouter.APP_MAIN_ACTIVITY)
-class MainActivity : BaseTabActivity<MainPresenter>(), MainContractView {
+class MainActivity : BaseTabActivity<MainPresenter, ViewBinding>(), MainContractView {
 
 
     @BindView(R.id.ll_footer_bar) lateinit var mLlFooterBar: LinearLayout

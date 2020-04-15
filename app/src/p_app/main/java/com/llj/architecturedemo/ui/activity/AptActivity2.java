@@ -1,15 +1,12 @@
 package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.View;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.llj.lib.jump.annotation.Jump;
-import com.llj.lib.jump.annotation.JumpKey;
 import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.vo.Animal;
@@ -20,10 +17,10 @@ import com.llj.lib.base.event.BaseEvent;
 import com.llj.lib.component.annotation.BindView;
 import com.llj.lib.component.annotation.IntentKey;
 import com.llj.lib.component.annotation.OnClick;
+import com.llj.lib.jump.annotation.Jump;
+import com.llj.lib.jump.annotation.JumpKey;
 import com.llj.lib.tracker.PageName;
-
 import org.jetbrains.annotations.Nullable;
-
 import timber.log.Timber;
 
 /**
@@ -81,7 +78,7 @@ public class AptActivity2 extends AppMvcBaseActivity {
       @Override
       public void onClick(View v) {
         Timber.e("onClick text1");
-        BaseEvent<String> baseEvent = new BaseEvent<>();
+        BaseEvent baseEvent = new BaseEvent();
         baseEvent.setCode(1);
         baseEvent.setData("cadadada");
         post(baseEvent);
@@ -92,7 +89,7 @@ public class AptActivity2 extends AppMvcBaseActivity {
       @Override
       public void onClick(View v) {
         Timber.e("onClick text1");
-        BaseEvent<Integer> baseEvent = new BaseEvent<>();
+        BaseEvent baseEvent = new BaseEvent();
         baseEvent.setCode(1);
         baseEvent.setData(10086);
         post(baseEvent);
@@ -106,7 +103,7 @@ public class AptActivity2 extends AppMvcBaseActivity {
   }
 
   @Override
-  public <T> void onReceiveEvent(@NonNull BaseEvent<T> event) {
+  public void onReceiveEvent(@NonNull BaseEvent event) {
     super.onReceiveEvent(event);
   }
 

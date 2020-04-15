@@ -9,6 +9,7 @@ import android.view.animation.Animation
 import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
+import androidx.viewbinding.ViewBinding
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.llj.lib.base.event.BaseEvent
@@ -55,15 +56,19 @@ import timber.log.Timber
  * @author llj
  * @date 2018/8/15
  */
-abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
-        , IBaseFragment, ICommon, IUiHandler, IEvent, ITask, ILoadingDialogHandler<BaseDialog> {
+abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFragment()
+        , IBaseFragment, ICommon<V>, IUiHandler, IEvent, ITask, ILoadingDialogHandler<BaseDialog> {
+    @JvmField
     val mTagLog: String = this.javaClass.simpleName
 
     lateinit var mContext: Context
 
     private var mInit: Boolean = false //是否已经初始化
 
-    private lateinit var mUnBinder: Unbinder
+    @JvmField
+    var mViewBinder: V? = null//ViewBinding
+    private var mUnBinder: Unbinder? = null
+
     private var mRequestDialog: BaseDialog? = null
 
     private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
@@ -272,10 +277,17 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Timber.tag(mTagLog).i("onCreateView：%s", mTagLog)
-        val layoutView = layoutView()
-        val view = layoutView ?: inflater.inflate(layoutId(), null)
 
-        mUnBinder = ButterKnife.bind(this, view)
+        var view: View? = null
+
+        mViewBinder = layoutViewBinding()
+        if (mViewBinder != null) {
+            view = mViewBinder?.root;
+        } else {
+            val layoutView = layoutView()
+            view = layoutView ?: inflater.inflate(layoutId(), null)
+            mUnBinder = ButterKnife.bind(this, view!!)
+        }
 
         checkLoadingDialog()
 
@@ -338,7 +350,7 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
 
         removeAllDisposable()
 
-        mUnBinder.unbind()
+        mUnBinder?.unbind()
     }
 
     override fun onDestroy() {
@@ -381,7 +393,7 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
 
     //<editor-fold desc="事件总线">
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun <T> onEvent(event: BaseEvent<T>) {
+    fun onEvent(event: BaseEvent) {
         if (!isEmpty(event.delayMessage)) {
             //延迟消息
             mDelayMessages.add(event.delayMessage)
@@ -395,11 +407,11 @@ abstract class MvcBaseFragment : androidx.fragment.app.DialogFragment()
         }
     }
 
-    override fun <T : Any?> onReceiveEvent(event: BaseEvent<T>) {
+    override fun onReceiveEvent(event: BaseEvent) {
     }
 
     //一般用event.pageName和子Fragment中标记的pageName比对
-    override fun <T : Any?> inCurrentPage(event: BaseEvent<T>): Boolean {
+    override fun inCurrentPage(event: BaseEvent): Boolean {
         return mTagLog == event.pageName
     }
     //</editor-fold >

@@ -2,8 +2,6 @@ package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
 import android.view.WindowManager.LayoutParams;
-import android.widget.TextView;
-import butterknife.BindView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
@@ -20,12 +18,15 @@ import org.jetbrains.annotations.Nullable;
  * @date 2020-02-13 15:39
  */
 
+@SuppressWarnings("ConstantConditions")
 @Route(path = CRouter.APP_ADJUST_RESIZE_ACTIVITY2)
-public class AdjustResizeActivity extends AppMvcBaseActivity {
+public class AdjustResizeActivity extends AppMvcBaseActivity<ActivityAdjustResizeBinding> {
 
-  @BindView(R.id.tv_text) TextView mTextView;
-
-  private ActivityAdjustResizeBinding mBinding;
+  @Nullable
+  @Override
+  public ActivityAdjustResizeBinding layoutViewBinding() {
+    return ActivityAdjustResizeBinding.inflate(getLayoutInflater());
+  }
 
   @Override
   public int layoutId() {
@@ -35,7 +36,7 @@ public class AdjustResizeActivity extends AppMvcBaseActivity {
   @Override
   public void initViews(@Nullable Bundle savedInstanceState) {
     //mBinding = ActivityAdjustResizeBinding.inflate(getLayoutInflater());
-    mTextView.setText("dadadadadadadadadadada");
+    mViewBinder.tvText.setText("dadadadadadadadadadada");
 
     getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_ADJUST_PAN);
     //AndroidBug5497Workaround.assistActivity(this);

@@ -2,11 +2,11 @@ package com.llj.architecturedemo.ui.activity
 
 import android.graphics.Typeface
 import android.os.Bundle
-import androidx.annotation.Keep
-import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.Keep
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.adapter.ListBasedAdapter
@@ -38,8 +38,10 @@ import java.util.concurrent.TimeUnit
  */
 @Keep
 @Route(path = CRouter.APP_RXJAVA2_ACTIVITY)
-class RxJava2Activity : AppMvcBaseActivity() {
-    @BindView(R.id.recyclerView) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
+class RxJava2Activity : AppMvcBaseActivity<ViewBinding>() {
+    @BindView(R.id.recyclerView)
+    lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
+
     override fun initData() {
     }
 

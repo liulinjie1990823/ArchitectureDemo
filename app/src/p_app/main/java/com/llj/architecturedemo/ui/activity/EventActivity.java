@@ -36,9 +36,9 @@ public class EventActivity extends AppMvcBaseActivity {
     mTextView.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View v) {
-        BaseEvent<String> baseEvent = new BaseEvent<>(100);
-        BaseEvent<String> baseEvent2 = new BaseEvent<>(100, "", null);
-        post(new BaseEvent<String>(100));
+        BaseEvent baseEvent = new BaseEvent(100);
+        BaseEvent baseEvent2 = new BaseEvent(100, "", null);
+        post(new BaseEvent(100));
 
         Cat cat = new Cat(1);
         Cat cat2 = new Cat(1, "");

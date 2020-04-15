@@ -1,6 +1,7 @@
 package com.llj.architecturedemo.ui.activity
 
 import android.os.Bundle
+import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.architecturedemo.AppMvcBaseActivity
 import com.llj.architecturedemo.R
@@ -13,7 +14,7 @@ import com.llj.component.service.arouter.CRouter
  * date 2018/11/9
  */
 @Route(path = CRouter.APP_JAVA_TYPE_ACTIVITY)
-class KotlinTypeActivity : AppMvcBaseActivity() {
+class KotlinTypeActivity : AppMvcBaseActivity<ViewBinding>() {
     override fun layoutId(): Int {
         return R.layout.activity_java_type
     }

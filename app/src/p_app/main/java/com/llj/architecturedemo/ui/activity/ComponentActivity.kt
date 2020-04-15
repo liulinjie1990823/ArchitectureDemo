@@ -1,8 +1,8 @@
 package com.llj.architecturedemo.ui.activity
 
 import android.os.Bundle
-import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.billy.cc.core.component.CC
@@ -20,7 +20,7 @@ import com.llj.component.service.arouter.CRouter
  * date 2018/8/24
  */
 @Route(path = CRouter.APP_COMPONENT_ACTIVITY)
-class ComponentActivity : AppMvcBaseActivity() {
+class ComponentActivity : AppMvcBaseActivity<ViewBinding>() {
     @BindView(R.id.recyclerView) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
 
     override fun layoutId(): Int {

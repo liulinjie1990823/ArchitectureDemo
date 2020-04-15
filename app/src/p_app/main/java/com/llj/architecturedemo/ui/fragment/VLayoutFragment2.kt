@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import butterknife.OnClick
 import com.alibaba.android.vlayout.DelegateAdapter
@@ -54,7 +55,7 @@ import kotlin.collections.ArrayList
  * author llj
  * date 2018/10/24
  */
-class VLayoutFragment2 : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView {
+class VLayoutFragment2 : MiddleMvpBaseFragment<VLayoutPresenter, ViewBinding>(), IVLayoutView {
 
     override fun getParams1(taskId: Int): HashMap<String, Any>? {
         return HashMap()
@@ -105,12 +106,23 @@ class VLayoutFragment2 : MiddleMvpBaseFragment<VLayoutPresenter>(), IVLayoutView
     }
 
 
-    @BindView(R.id.tv_city) lateinit var mTvCity: TextView
-    @BindView(R.id.v_search_bg) lateinit var mVSearchBg: View
-    @BindView(R.id.tv_search) lateinit var mTvSearch: TextView
-    @BindView(R.id.cv_header) lateinit var mCvHeader: ConstraintLayout
-    @BindView(R.id.recyclerView) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
-    @BindView(R.id.refresh_layout) lateinit var mRefreshLayout: JHSmartRefreshLayout
+    @BindView(R.id.tv_city)
+    lateinit var mTvCity: TextView
+
+    @BindView(R.id.v_search_bg)
+    lateinit var mVSearchBg: View
+
+    @BindView(R.id.tv_search)
+    lateinit var mTvSearch: TextView
+
+    @BindView(R.id.cv_header)
+    lateinit var mCvHeader: ConstraintLayout
+
+    @BindView(R.id.recyclerView)
+    lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
+
+    @BindView(R.id.refresh_layout)
+    lateinit var mRefreshLayout: JHSmartRefreshLayout
 
     private val mAdapters = ArrayList<DelegateAdapter.Adapter<ViewHolderHelper>>()
 

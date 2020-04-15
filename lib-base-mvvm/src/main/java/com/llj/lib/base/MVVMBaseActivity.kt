@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
+import androidx.viewbinding.ViewBinding
 import com.llj.lib.base.mvvm.BaseViewModel
 import com.llj.lib.base.widget.LoadingDialog
 import dagger.android.AndroidInjection
@@ -23,7 +24,7 @@ import javax.inject.Inject
  * @date 2018/6/30
  */
 abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCompatActivity(),
-        IBaseActivity, ICommon, IUiHandler, IEventK, ILoadingDialogHandler<BaseDialog>, ITask {
+        IBaseActivity, ICommon<ViewBinding>, IUiHandler, IEventK, ILoadingDialogHandler<BaseDialog>, ITask {
     val mTagLog: String = this.javaClass.simpleName
     lateinit var mContext: Context
 

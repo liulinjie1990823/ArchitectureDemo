@@ -10,8 +10,7 @@ import com.llj.component.service.arouter.CRouter;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * ArchitectureDemo.
- * describe:
+ * ArchitectureDemo. describe:
  *
  * @author llj
  * @date 2019-10-17
@@ -19,18 +18,19 @@ import org.jetbrains.annotations.Nullable;
 @Route(path = CRouter.APP_SVG_ACTIVITY)
 public class SvgActivity extends AppMvcBaseActivity {
 
-    @BindView(R.id.view) View mView;
-    @Override
-    public int layoutId() {
-        return R.layout.svg_activity;
-    }
+  @BindView(R.id.view) View mView;
 
-    @Override
-    public void initViews(@Nullable Bundle savedInstanceState) {
-    }
+  @Override
+  public int layoutId() {
+    return R.layout.svg_activity;
+  }
 
-    @Override
-    public void initData() {
+  @Override
+  public void initViews(@Nullable Bundle savedInstanceState) {
+  }
 
-    }
+  @Override
+  public void initData() {
+
+  }
 }

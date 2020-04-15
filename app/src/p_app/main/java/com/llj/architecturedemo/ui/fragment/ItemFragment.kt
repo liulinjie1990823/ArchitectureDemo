@@ -1,10 +1,9 @@
 package com.llj.architecturedemo.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
@@ -19,7 +18,7 @@ import com.llj.lib.scrollable.ScrollableHelper
  * author llj
  * date 2018/8/16
  */
-class ItemFragment : MiddleMvcBaseFragment(), ScrollableHelper.ScrollableContainer {
+class ItemFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.ScrollableContainer {
     override fun getScrollableView(): View {
         return mRecyclerView
     }
@@ -30,7 +29,8 @@ class ItemFragment : MiddleMvcBaseFragment(), ScrollableHelper.ScrollableContain
         }
     }
 
-    @BindView(R.id.recyclerView) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
+    @BindView(R.id.recyclerView)
+    lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
 
     override fun layoutId(): Int {
         return R.layout.fragment_item

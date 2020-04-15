@@ -20,6 +20,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
@@ -67,7 +68,8 @@ import q.rorbin.badgeview.QBadgeView;
 /**
  * ArchitectureDemo. describe: author llj date 2018/11/5
  */
-public class MineFragment extends MiddleMvpBaseFragment<PersonalCenterPresenter> implements
+public class MineFragment extends
+    MiddleMvpBaseFragment<PersonalCenterPresenter, ViewBinding> implements
     IMineView {
 
   @NotNull

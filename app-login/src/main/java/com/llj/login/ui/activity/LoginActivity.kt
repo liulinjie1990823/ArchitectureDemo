@@ -7,7 +7,6 @@ import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -20,10 +19,10 @@ import com.llj.lib.base.AppManager
 import com.llj.lib.jump.annotation.Jump
 import com.llj.login.LoginMvcBaseActivity
 import com.llj.login.R
+import com.llj.login.databinding.LoginActivityLoginBinding
 import com.llj.login.ui.fragment.CodeLoginFragmentMvc
 import com.llj.login.ui.fragment.PasswordLoginFragment
 import com.llj.socialization.login.LoginPlatformType
-import net.lucode.hackware.magicindicator.MagicIndicator
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
@@ -40,15 +39,7 @@ import java.util.*
  */
 @Jump(outPath = CJump.JUMP_LOGIN_ACTIVITY, inPath = CRouter.LOGIN_LOGIN_ACTIVITY, needLogin = true, desc = "LoginActivity")
 @Route(path = CRouter.LOGIN_LOGIN_ACTIVITY)
-class LoginActivity : LoginMvcBaseActivity() {
-
-    @BindView(com.llj.login.R2.id.login_tabs)
-    lateinit var mTabs: MagicIndicator
-    @BindView(com.llj.login.R2.id.login_viewpager)
-    lateinit var mViewPager: androidx.viewpager.widget.ViewPager
-    @BindView(com.llj.login.R2.id.rv_login)
-    lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
-
+class LoginActivity : LoginMvcBaseActivity<LoginActivityLoginBinding>() {
 
     @Autowired(name = CRouter.AROUTER_FORWARD_PATH)
     lateinit var mForwardPath: String
@@ -72,7 +63,7 @@ class LoginActivity : LoginMvcBaseActivity() {
         arrayList.add(Data(R.drawable.def_user_header, "weixin", LoginPlatformType.WECHAT))
         arrayList.add(Data(R.drawable.def_user_header, "sina", LoginPlatformType.SINA))
 
-        UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
+        UniversalBind.Builder(mViewBinder!!.rvLogin, MyAdapter(arrayList))
                 .setLinearLayoutManager(androidx.recyclerview.widget.RecyclerView.HORIZONTAL)
                 .build()
                 .getAdapter()
@@ -133,7 +124,7 @@ class LoginActivity : LoginMvcBaseActivity() {
                 simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17f)
                 simplePagerTitleView.setTypeface(simplePagerTitleView.typeface, Typeface.BOLD)
                 simplePagerTitleView.setOnClickListener {
-                    mViewPager.currentItem = index
+                    mViewBinder!!.loginViewpager.currentItem = index
                 }
                 return simplePagerTitleView
             }
@@ -142,10 +133,10 @@ class LoginActivity : LoginMvcBaseActivity() {
                 return null
             }
         }
-        mTabs.navigator = commonNavigator
+        mViewBinder!!.loginTabs.navigator = commonNavigator
 
-        mViewPager.offscreenPageLimit = 2
-        mViewPager.adapter = object : androidx.fragment.app.FragmentPagerAdapter(supportFragmentManager) {
+        mViewBinder!!.loginViewpager.offscreenPageLimit = 2
+        mViewBinder!!.loginViewpager.adapter = object : androidx.fragment.app.FragmentPagerAdapter(supportFragmentManager) {
             override fun getCount(): Int {
                 return titles.size
             }
@@ -159,8 +150,8 @@ class LoginActivity : LoginMvcBaseActivity() {
                 return CodeLoginFragmentMvc.getInstance()
             }
         }
-        ViewPagerHelper.bind(mTabs, mViewPager)
+        ViewPagerHelper.bind(mViewBinder!!.loginTabs, mViewBinder!!.loginViewpager)
 
-        mViewPager.currentItem = 0
+        mViewBinder!!.loginViewpager.currentItem = 0
     }
 }

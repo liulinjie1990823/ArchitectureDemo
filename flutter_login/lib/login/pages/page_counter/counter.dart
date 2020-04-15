@@ -1,139 +1,132 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
-class SimpleBlocDelegate extends BlocDelegate {
-  @override
-  void onEvent(Bloc bloc, Object event) {
-    super.onEvent(bloc, event);
-    print(event);
-  }
+void main() => runApp(MyApp());
 
+class MyApp extends StatefulWidget {
   @override
-  void onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
-    print(transition);
-  }
-
-  @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    super.onError(bloc, error, stacktrace);
-    print(error);
-  }
+  _MyAppState createState() => _MyAppState();
 }
 
-void main() {
-  BlocSupervisor.delegate = SimpleBlocDelegate();
-  runApp(App());
-}
-
-class App extends StatelessWidget {
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ThemeBloc(),
-      child: BlocBuilder<ThemeBloc, ThemeData>(
-        builder: (_, theme) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            home: BlocProvider(
-              create: (_) => CounterBloc(),
-              child: CounterPage(),
-            ),
-            theme: theme,
-          );
-        },
-      ),
+    return MaterialApp(
+      title: "provider",
+      home: HomePage(),
     );
   }
 }
 
-class CounterPage extends StatelessWidget {
+class LoginModel extends ChangeNotifier {
+  ValueNotifier<int> count = ValueNotifier(0);
+}
+
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Counter')),
-      body: BlocListener<CounterBloc, int>(
-        child: BlocBuilder<CounterBloc, int>(
-          builder: (BuildContext context, count) {
-            print("BlocBuilder:$count");
-            return Center(
-              child: Text(
-                '$count',
-                style: TextStyle(fontSize: 24.0),
-              ),
-            );
-          },
+    var model = LoginModel();
+    ValueNotifier<int> count = model.count;
+    //在HomePage里面写状态，它的作用域只在HomePage中
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LoginModel>(create: (_) => model),
+        ValueListenableProvider.value(
+          value: count,
+//            child: Row(
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              children: <Widget>[LeftView(), CenterView(), RightView()],
+//            ),
+        )
+      ],
+      child: Scaffold(
+        appBar: AppBar(title: Text("home")),
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[LeftView(), CenterView(), RightView()],
         ),
-        listener: (BuildContext context, int count) {
-          print("BlocListener:$count");
-        },
-      ),
-      floatingActionButton: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-            child: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () =>
-                  context.bloc<CounterBloc>().add(CounterEvent.increment),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-            child: FloatingActionButton(
-              child: Icon(Icons.remove),
-              onPressed: () =>
-                  context.bloc<CounterBloc>().add(CounterEvent.decrement),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-            child: FloatingActionButton(
-              child: Icon(Icons.update),
-              onPressed: () => context.bloc<ThemeBloc>().add(ThemeEvent.toggle),
-            ),
-          ),
-        ],
+        floatingActionButton: Builder(builder: (context) {
+          print(
+              "floatingActionButton:build${Provider
+                  .of<LoginModel>(context, listen: true)
+                  .count
+                  .value}");
+          return FloatingActionButton(
+//            onPressed: () => count.value += 1,
+            onPressed: () =>
+            Provider
+                .of<LoginModel>(context, listen: true)
+                .count
+                .value += 1,
+            child: Icon(Icons.add),
+          );
+        }),
       ),
     );
   }
 }
 
-enum CounterEvent { increment, decrement }
-
-class CounterBloc extends Bloc<CounterEvent, int> {
+class LeftView extends StatelessWidget {
   @override
-  int get initialState => 0;
-
-  @override
-  Stream<int> mapEventToState(CounterEvent event) async* {
-    switch (event) {
-      case CounterEvent.decrement:
-        yield state - 1;
-        break;
-      case CounterEvent.increment:
-        yield state + 1;
-        break;
-    }
+  Widget build(BuildContext context) {
+    return Consumer<int>(
+        child: MyText(),
+        builder: (context, value, child) {
+          print("LeftView:build");
+          return Container(
+              width: 100,
+              height: 100,
+              color: Colors.blue,
+              alignment: Alignment.center,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    child,
+                    Text("${Provider.of<int>(context, listen: false)})")
+                  ]));
+        });
   }
 }
 
-enum ThemeEvent { toggle }
-
-class ThemeBloc extends Bloc<ThemeEvent, ThemeData> {
+class MyText extends StatelessWidget {
   @override
-  ThemeData get initialState => ThemeData.light();
+  Widget build(BuildContext context) {
+    print("MyText:build");
+    return Text("数量");
+  }
+}
 
+class CenterView extends StatelessWidget {
   @override
-  Stream<ThemeData> mapEventToState(ThemeEvent event) async* {
-    switch (event) {
-      case ThemeEvent.toggle:
-        yield state == ThemeData.dark() ? ThemeData.light() : ThemeData.dark();
-        break;
-    }
+  Widget build(BuildContext context) {
+    print("CenterView:build");
+    return Container(
+      width: 100,
+      height: 100,
+      color: Colors.pink,
+      alignment: Alignment.center,
+      child: Text(
+        //listen: false 不监听状态改变
+        "数量\n",
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+}
+
+class RightView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    print("RightView:build");
+    return Container(
+      width: 100,
+      height: 100,
+      color: Colors.green,
+      alignment: Alignment.center,
+      child: Text(
+        "数量\n${Provider.of<int>(context)}",
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 }

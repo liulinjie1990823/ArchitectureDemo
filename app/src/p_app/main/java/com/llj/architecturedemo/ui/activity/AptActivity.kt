@@ -2,13 +2,14 @@ package com.llj.architecturedemo.ui.activity
 
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.llj.lib.jump.annotation.Jump
+import androidx.viewbinding.ViewBinding
 import com.llj.architecturedemo.AppMvcBaseActivity
 import com.llj.architecturedemo.R
 import com.llj.component.service.arouter.CJump
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.component.annotation.BindView
 import com.llj.lib.component.api.finder.NeacyFinder
+import com.llj.lib.jump.annotation.Jump
 
 /**
  * ArchitectureDemo.
@@ -18,7 +19,7 @@ import com.llj.lib.component.api.finder.NeacyFinder
  */
 //@Route(outPath = CRouter.APP_APT_ACTIVITY)
 @Jump(outPath = CJump.CIW_APT_ACTIVITY, inPath = CRouter.APP_APT_ACTIVITY, desc = "AptActivity")
-class AptActivity : AppMvcBaseActivity() {
+class AptActivity : AppMvcBaseActivity<ViewBinding>() {
     @BindView(R.id.root) lateinit var mRecyclerView: ConstraintLayout
 
     override fun layoutId(): Int {

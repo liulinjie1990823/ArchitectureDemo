@@ -1,7 +1,8 @@
 package com.llj.lib.base
 
-import androidx.lifecycle.Lifecycle
 import androidx.annotation.CallSuper
+import androidx.lifecycle.Lifecycle
+import androidx.viewbinding.ViewBinding
 import com.llj.lib.base.mvp.IBasePresenter
 import javax.inject.Inject
 
@@ -11,7 +12,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/5/24
  */
-abstract class MvpBaseFragment<P : IBasePresenter> : MvcBaseFragment() {
+abstract class MvpBaseFragment<P : IBasePresenter, V : ViewBinding> : MvcBaseFragment<V>() {
     @Inject lateinit var mPresenter: P
 
     @CallSuper

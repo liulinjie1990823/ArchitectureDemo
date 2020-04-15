@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
@@ -22,7 +23,7 @@ import com.llj.lib.webview.CWebViewActivity
  * author llj
  * date 2018/8/15
  */
-class HomeFragment : MiddleMvcBaseFragment(), ScrollableHelper.ScrollableContainer {
+class HomeFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.ScrollableContainer {
     override fun getScrollableView(): View {
         return mRecyclerView
     }

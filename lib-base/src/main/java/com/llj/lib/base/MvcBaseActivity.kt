@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
+import androidx.viewbinding.ViewBinding
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.llj.lib.base.event.BaseEvent
@@ -25,15 +26,19 @@ import timber.log.Timber
  * @author llj
  * @date 2019/3/13
  */
-abstract class MvcBaseActivity : AppCompatActivity()
-        , IBaseActivity, ICommon, IUiHandler, IEvent, IBaseActivityView {
+abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
+        , IBaseActivity, ICommon<V>, IUiHandler, IEvent, IBaseActivityView {
 
     @JvmField
     val mTagLog: String = this.javaClass.simpleName
 
     lateinit var mContext: Context
 
-    private lateinit var mUnBinder: Unbinder
+    private var mUnBinder: Unbinder? = null
+
+    @JvmField
+    var mViewBinder: V? = null//ViewBinding
+
     private var mRequestDialog: BaseDialog? = null
 
     private val mCancelableTasks: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
@@ -60,10 +65,19 @@ abstract class MvcBaseActivity : AppCompatActivity()
 
         getIntentData(intent)
 
-        val layoutView = layoutView()
-        if (layoutView == null) setContentView(layoutId()) else setContentView(layoutView)
+        mViewBinder = layoutViewBinding()
 
-        mUnBinder = ButterKnife.bind(this)
+        if (mViewBinder != null) {
+            setContentView(mViewBinder?.root)
+        } else {
+            val layoutView = layoutView()
+            if (layoutView == null) {
+                setContentView(layoutId())
+            } else {
+                setContentView(layoutView)
+            }
+            mUnBinder = ButterKnife.bind(this)
+        }
 
         checkLoadingDialog()
 
@@ -114,7 +128,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
         //移除所有的任务
         removeAllDisposable()
 
-        mUnBinder.unbind()
+        mUnBinder?.unbind()
 
         //移除列表中的activity
         removeCurrentActivity(this)
@@ -148,7 +162,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
 
     //<editor-fold desc="IEvent事件总线">
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun <T> onEvent(event: BaseEvent<T>) {
+    fun onEvent(event: BaseEvent) {
         if (!isEmpty(event.delayMessage)) {
             //延迟消息
             mDelayMessages.add(event.delayMessage)
@@ -159,7 +173,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
     }
 
     @CallSuper
-    override fun <T : Any?> onReceiveEvent(event: BaseEvent<T>) {
+    override fun onReceiveEvent(event: BaseEvent) {
         val inCurrentPage = inCurrentPage(event)
         if (inCurrentPage) {
             if ("refresh" == event.message) {
@@ -172,7 +186,7 @@ abstract class MvcBaseActivity : AppCompatActivity()
         }
     }
 
-    override fun <T> inCurrentPage(event: BaseEvent<T>): Boolean {
+    override fun inCurrentPage(event: BaseEvent): Boolean {
         return mTagLog == event.pageName
     }
     //</editor-fold >

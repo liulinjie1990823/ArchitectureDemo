@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.ViewTreeObserver
 import android.widget.TextView
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -32,7 +33,7 @@ import java.util.concurrent.TimeUnit
  */
 @Jump(outPath = CJump.JUMP_LOADING_ACTIVITY, inPath = CRouter.APP_LOADING_ACTIVITY, needLogin = true, desc = "LoadingActivity")
 @Route(path = CRouter.APP_LOADING_ACTIVITY)
-class LoadingActivity : MiddleMvcBaseActivity() {
+class LoadingActivity : MiddleMvcBaseActivity<ViewBinding>() {
     @BindView(R.id.sdv_add)
     lateinit var mSdvAdd: SimpleDraweeView
 

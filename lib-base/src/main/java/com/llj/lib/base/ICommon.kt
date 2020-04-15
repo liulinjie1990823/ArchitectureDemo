@@ -2,8 +2,9 @@ package com.llj.lib.base
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.LayoutRes
 import android.view.View
+import androidx.annotation.LayoutRes
+import androidx.viewbinding.ViewBinding
 
 /**
  * ArchitectureDemo
@@ -11,12 +12,16 @@ import android.view.View
  * @author llj
  * @date 2018/5/24
  */
-interface ICommon {
+interface ICommon<V : ViewBinding> {
     fun getIntentData(intent: Intent) {}
 
     fun getArgumentsData(bundle: Bundle) {}
 
     fun layoutView(): View? {
+        return null
+    }
+
+    fun layoutViewBinding(): V? {
         return null
     }
 

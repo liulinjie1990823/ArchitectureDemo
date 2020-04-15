@@ -130,7 +130,7 @@ include ':flutter_inv'
 //        settingsDir,
 //        'flutter_login/.android/include_flutter.groovy'
 //))
-//include ':flutter_login'
+include ':flutter_login'
 
 
 //setBinding(new Binding([gradle: this]))

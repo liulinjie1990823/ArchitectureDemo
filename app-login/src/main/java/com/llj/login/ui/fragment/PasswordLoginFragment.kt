@@ -43,6 +43,7 @@ class PasswordLoginFragment : LoginMvpBaseFragment<PhoneLoginPresenter>(), Phone
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         mBtnLogin.isEnabled = false
 
         val charInputFilter = CharInputFilter()
