@@ -48,7 +48,7 @@ subprojects {
             }
         }
         boolean isApplication = it.pluginManager.hasPlugin("com.android.application")
-        println("subproject" +"("+ project.name +"):"+ "[isApplication:" + isApplication+"]")
+        println("subproject" + "(" + project.name + "):" + "[isApplication:" + isApplication + "]")
 
         //除了app的其他module
         if (it.name != 'app') {
@@ -65,11 +65,6 @@ subprojects {
 
                     versionCode build_versions.versionCode
                     versionName build_versions.versionName
-
-                    manifestPlaceholders = [qq_id: qqId]
-                }
-                if (!useOld){
-                    viewBinding { enabled = true }
                 }
 
                 buildTypes {
@@ -91,10 +86,24 @@ subprojects {
                 }
             }
         }
+        //app模块公用的配置参数
+        android {
+            defaultConfig {
+                ndk { abiFilters "armeabi-v7a", "x86" }
+                resConfigs "zh", "xxhdpi"
 
-        android.defaultConfig.ndk { abiFilters "armeabi-v7a", "x86" }
+                manifestPlaceholders = [qq_id: qqId]
+
+                if (!useOld) {
+                    viewBinding { enabled = true }
+                }
+            }
+
+        }
+
+//        android.defaultConfig.ndk { abiFilters "armeabi-v7a", "x86" }
 //        android.defaultConfig.ndk { abiFilters "x86" }
-        android.defaultConfig.resConfigs "zh", "xxhdpi"
+//        android.defaultConfig.resConfigs "zh", "xxhdpi"
 
         dependencies {
             implementation fileTree(include: ['*.jar'], dir: 'libs')

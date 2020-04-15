@@ -3,13 +3,10 @@ android {
         multiDexEnabled true
     }
     resourcePrefix "login_"
-
-    viewBinding { enabled = true }
 }
 
 dependencies {
     implementation deps.multidex
-//    implementation deps.multidex_instrumentation
 
     implementation 'org.altbeacon:android-beacon-library:2.16.3'
 

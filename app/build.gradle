@@ -97,13 +97,10 @@ android {
         versionName build_versions.versionName
 
         dataBinding { enabled = true }
-            viewBinding { enabled = true }
-
-        manifestPlaceholders = [qq_id: qqId]
 
         resValue("string", "qq_id", qqId)
         resValue("string", "wx_id", wxId)
-        resValue("string", "wx_secret",wxSecret)
+        resValue("string", "wx_secret", wxSecret)
         resValue("string", "sina_id", sinaId)
         resValue("string", "sina_url", sinaUrl)
         resValue("string", "bugly_id", buglyId)
