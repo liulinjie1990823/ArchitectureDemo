@@ -38,7 +38,7 @@ class ItemFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scro
 
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
-        val arrayList = arrayListOf<Data>()
+        val arrayList = arrayListOf<Data?>()
 
         for (i in 0 until 100) {
             arrayList.add(Data("text$i"))
@@ -53,7 +53,7 @@ class ItemFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scro
     }
 
 
-    private inner class MyAdapter(list: MutableList<Data>?) : ListBasedAdapter<Data, ViewHolderHelper>(list) {
+    private inner class MyAdapter(list: MutableList<Data?>?) : ListBasedAdapter<Data, ViewHolderHelper>(list) {
         init {
             addItemLayout(R.layout.item_home_fragment)
         }

@@ -302,4 +302,6 @@ dependencies {
     //    implementation 'com.llj.flutter.flutter_ui:flutter_release:1.0@aar'
     //    implementation 'com.llj.flutter.flutter_setting2:flutter_release:1.0@aar'
 //    implementation 'com.llj.flutter.flutter_module:flutter_release:1.0@aar'
+
+    implementation 'com.github.florent37:shapeofview:1.4.5'
 }

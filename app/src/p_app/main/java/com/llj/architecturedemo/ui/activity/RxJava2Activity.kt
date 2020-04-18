@@ -50,7 +50,7 @@ class RxJava2Activity : AppMvcBaseActivity<ViewBinding>() {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
 
 
-        val arrayList = arrayListOf<Data>()
+        val arrayList = arrayListOf<Data?>()
         arrayList.add(Data("map", "map"))
         arrayList.add(Data("zip", "zip"))
         arrayList.add(Data("concat", "concat"))
@@ -79,7 +79,7 @@ class RxJava2Activity : AppMvcBaseActivity<ViewBinding>() {
         arrayList.add(Data("filter", "filter"))
         arrayList.add(Data("ofType", "ofType"))
 
-        UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
+        var adapter = UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
                 .setLinearLayoutManager()
                 .build()
                 .getAdapter()
@@ -90,10 +90,13 @@ class RxJava2Activity : AppMvcBaseActivity<ViewBinding>() {
     }
 
 
-    private inner class MyAdapter(list: MutableList<Data>?) : ListBasedAdapter<Data, ViewHolderHelper>(list), IUiHandler {
-        init {
+    private inner class MyAdapter : ListBasedAdapter<Data, ViewHolderHelper>, IUiHandler {
+
+
+        constructor(list: MutableList<Data?>?) : super(list) {
             addItemLayout(R.layout.item_home_fragment)
         }
+
 
         override fun onBindViewHolder(viewHolder: ViewHolderHelper, item: Data?, position: Int) {
             if (item == null) {

@@ -3,12 +3,12 @@ package com.llj.lib.base
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.view.View
+import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import android.view.View
-import android.widget.TextView
 import com.llj.lib.utils.ACollectionUtils
 import com.llj.lib.utils.ADisplayUtils
 import com.llj.lib.utils.ATextUtils
@@ -27,19 +27,19 @@ interface IUiHandler {
     // ui相关操作
     ///////////////////////////////////////////////////////////////////////////
 
-    fun getTextStr(textView: TextView): String {
+    fun getTextStr(textView: TextView?): String {
         return ATextUtils.getText(textView)
     }
 
-    fun setText(textView: TextView, destination: CharSequence?) {
+    fun setText(textView: TextView?, destination: CharSequence?) {
         ATextUtils.setText(textView, destination)
     }
 
-    fun setText(textView: TextView, destination: CharSequence?, defaultStr: CharSequence) {
+    fun setText(textView: TextView?, destination: CharSequence?, defaultStr: CharSequence) {
         ATextUtils.setText(textView, destination, defaultStr)
     }
 
-    fun setTextWithVisibility(textView: TextView, destination: CharSequence?) {
+    fun setTextWithVisibility(textView: TextView?, destination: CharSequence?) {
         ATextUtils.setTextWithVisibility(textView, destination)
     }
 

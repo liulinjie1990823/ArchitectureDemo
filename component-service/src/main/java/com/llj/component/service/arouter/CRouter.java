@@ -39,6 +39,8 @@ public class CRouter {
   public static final String APP_MEMORY_LEAK_ACTIVITY       = "/app/MemoryLeakActivity";
   public static final String APP_APT_ACTIVITY               = "/app/AptActivity";
   public static final String APP_ADJUST_RESIZE_ACTIVITY2    = "/app/AdjustResizeActivity";
+  public static final String APP_CANVAS_ACTIVITY            = "/app/CanvasActivity";
+  public static final String APP_OUTLINE_PROVIDER_ACTIVITY  = "/app/OutlineProviderActivity";
   public static final String APP_VIEWPAGER2_ACTIVITY        = "/app/ViewPager2Activity";
   public static final String APP_APT_ACTIVITY2              = "/app/AptActivity2";
   public static final String APP_HOOK_ACTIVITY              = "/app/HookActivity";

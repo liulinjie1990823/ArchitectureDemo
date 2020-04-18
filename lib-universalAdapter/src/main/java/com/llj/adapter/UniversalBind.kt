@@ -1,31 +1,31 @@
 package com.llj.adapter
 
-import androidx.appcompat.widget.*
 import android.view.ViewGroup
 import com.llj.adapter.converter.UniversalConverterFactory
 
 /**
- * MerchantCenter
- * describe:
- * author llj
- * date 2018/7/16
+ * describe 绑定adapter和view
+ *
+ * @author liulinjie
+ * @date 2020/4/18 12:21 AM
  */
-class UniversalBind<Item, Holder : ViewHolder, T : ListBasedAdapter<Item, Holder>>(builder: UniversalBind.Builder<Item, Holder, T>) {
-    private val adapter: T
-    private val viewGroup: ViewGroup
+class UniversalBind<Item, Holder : XViewHolder, T : ListBasedAdapter<Item, Holder>> {
 
-    init {
+    constructor(builder: Builder<Item, Holder, T>) {
         adapter = builder.mAdapter
         viewGroup = builder.mViewGroup
         UniversalConverterFactory.createGeneric(adapter, viewGroup)
     }
 
-    fun getAdapter():T{
+    private val adapter: T
+    private val viewGroup: ViewGroup
+
+    fun getAdapter(): T {
         return adapter
     }
 
 
-    class Builder<Item, Holder : ViewHolder, T : ListBasedAdapter<Item, Holder>> {
+    class Builder<Item, Holder : XViewHolder, T : ListBasedAdapter<Item, Holder>> {
 
         val mViewGroup: ViewGroup
         val mAdapter: T

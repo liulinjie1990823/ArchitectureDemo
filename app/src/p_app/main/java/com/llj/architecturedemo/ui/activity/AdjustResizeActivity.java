@@ -1,5 +1,12 @@
 package com.llj.architecturedemo.ui.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.view.WindowManager.LayoutParams;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -53,7 +60,20 @@ public class AdjustResizeActivity extends AppMvcBaseActivity<ActivityAdjustResiz
           }
         });
 
+    mViewBinder.ivClose
+        .setImageBitmap(tintImage(BitmapFactory.decodeResource(getResources(), R.drawable.test1),
+            getCompatColor(mContext, R.color.darkslateblue)));
 
+  }
+
+  public Bitmap tintImage(Bitmap bitmap, int color) {
+    Paint paint = new Paint();
+    paint.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+    Bitmap bitmapResult = Bitmap
+        .createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
+    Canvas canvas = new Canvas(bitmapResult);
+    canvas.drawBitmap(bitmap, 0, 0, paint);
+    return bitmapResult;
   }
 
   @Override

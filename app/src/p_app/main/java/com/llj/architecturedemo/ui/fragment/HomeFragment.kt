@@ -53,7 +53,9 @@ class HomeFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scro
     override fun initViews(savedInstanceState: Bundle?) {
         super.initViews(savedInstanceState)
 
-        val arrayList = arrayListOf<Data>()
+        val arrayList = arrayListOf<Data?>()
+        arrayList.add(Data(CRouter.APP_CANVAS_ACTIVITY))
+        arrayList.add(Data("OutlineProviderActivity", CRouter.APP_OUTLINE_PROVIDER_ACTIVITY))
         arrayList.add(Data("AdjustResizeActivity", CRouter.APP_ADJUST_RESIZE_ACTIVITY2))
         arrayList.add(Data("ViewPager2Activity", CRouter.APP_VIEWPAGER2_ACTIVITY))
         arrayList.add(Data("SvgActivity", CRouter.APP_SVG_ACTIVITY))
@@ -107,8 +109,9 @@ class HomeFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scro
 
     }
 
-    private inner class MyAdapter(list: MutableList<Data>?) : ListBasedAdapter<Data, ViewHolderHelper>(list) {
-        init {
+    private inner class MyAdapter : ListBasedAdapter<Data, ViewHolderHelper> {
+
+        constructor(list: MutableList<Data?>?) : super(list) {
             addItemLayout(R.layout.item_home_fragment)
         }
 
@@ -143,5 +146,20 @@ class HomeFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scro
         }
     }
 
-    private inner class Data(var text: String, var path: String)
+    private inner class Data() {
+        var text: String? = null;
+        var path: String? = null;
+
+        constructor(path: String) : this() {
+            this.path = path
+            if (!isEmpty(path)) {
+                this.text = path.substring(path.lastIndexOf("/") + 1)
+            }
+        }
+
+        constructor(text: String, path: String) : this(path) {
+            this.text = text
+        }
+
+    }
 }

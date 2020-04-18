@@ -1,7 +1,7 @@
 package com.llj.adapter.refresh
 
 import com.llj.adapter.ListBasedAdapter
-import com.llj.adapter.ViewHolder
+import com.llj.adapter.XViewHolder
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 
 /**
@@ -10,7 +10,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
  * author liulj
  * date 2018/7/20
  */
-class RefreshHelper<Item, Holder : ViewHolder> : IRefresh<Item, Holder> {
+class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item, Holder> {
 
     private lateinit var mPagerHelper: PagerHelper
 

@@ -58,7 +58,7 @@ class LoginActivity : LoginMvcBaseActivity<LoginActivityLoginBinding>() {
     }
 
     private fun initList() {
-        val arrayList = arrayListOf<Data>()
+        val arrayList = arrayListOf<Data?>()
         arrayList.add(Data(R.drawable.def_user_header, "qq", LoginPlatformType.QQ))
         arrayList.add(Data(R.drawable.def_user_header, "weixin", LoginPlatformType.WECHAT))
         arrayList.add(Data(R.drawable.def_user_header, "sina", LoginPlatformType.SINA))
@@ -70,7 +70,7 @@ class LoginActivity : LoginMvcBaseActivity<LoginActivityLoginBinding>() {
     }
 
 
-    private inner class MyAdapter(list: MutableList<Data>?) : ListBasedAdapter<Data, ViewHolderHelper>(list) {
+    private inner class MyAdapter(list: MutableList<Data?>?) : ListBasedAdapter<Data, ViewHolderHelper>(list) {
         init {
             addItemLayout(R.layout.login_item_third_login)
         }
@@ -82,7 +82,7 @@ class LoginActivity : LoginMvcBaseActivity<LoginActivityLoginBinding>() {
 
             val imageView = viewHolder.getView<ImageView>(R.id.iv_login)
             val textView = viewHolder.getView<TextView>(R.id.tv_login)
-            imageView.setImageResource(item.resId)
+            imageView?.setImageResource(item.resId)
             setText(textView, position.toString() + "  " + item.text)
 
             viewHolder.itemView.setOnClickListener {

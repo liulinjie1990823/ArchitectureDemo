@@ -29,7 +29,7 @@ class ComponentActivity : AppMvcBaseActivity<ViewBinding>() {
 
     override fun initViews(savedInstanceState: Bundle?) {
 
-        val arrayList = arrayListOf<Data>()
+        val arrayList = arrayListOf<Data?>()
 
         arrayList.add(Data("LoginComponent", "LoginComponent", "login"))
         UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
@@ -42,7 +42,7 @@ class ComponentActivity : AppMvcBaseActivity<ViewBinding>() {
     }
 
 
-    private inner class MyAdapter(list: MutableList<Data>?) : ListBasedAdapter<Data, ViewHolderHelper>(list) {
+    private inner class MyAdapter(list: MutableList<Data?>?) : ListBasedAdapter<Data, ViewHolderHelper>(list) {
         init {
             addItemLayout(R.layout.item_home_fragment)
         }

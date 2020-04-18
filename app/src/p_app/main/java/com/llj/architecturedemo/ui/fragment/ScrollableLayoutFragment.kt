@@ -518,9 +518,16 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter
         }
     }
 
-    open class MyDelegateAdapter<Item>(private val mLayoutId: Int,
-                                       private val mViewTypeItem: Int) : ListBasedAdapter<Item, ViewHolderHelper>() {
+    open class MyDelegateAdapter<Item> : ListBasedAdapter<Item, ViewHolderHelper> {
 
+
+        private val mLayoutId: Int
+        private val mViewTypeItem: Int
+
+        constructor(mLayoutId: Int, mViewTypeItem: Int) : super() {
+            this.mLayoutId = mLayoutId
+            this.mViewTypeItem = mViewTypeItem
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderHelper {
             return ViewHolderHelper(inflateView(parent, mLayoutId))

@@ -85,13 +85,14 @@ class MainActivity : BaseTabActivity<MainPresenter, ViewBinding>(), MainContract
     }
 
 
-    private inner class TabAdapter(list: ArrayList<TabVo>?) : ListBasedAdapter<TabVo, ViewHolderHelper>(list), IUiHandler {
+    private inner class TabAdapter : ListBasedAdapter<TabVo, ViewHolderHelper>, IUiHandler {
 
-        private val mImageLoad: ImageLoader = ImageLoader.getInstance()
-
-        init {
+        constructor(list: ArrayList<TabVo?>?) : super(list) {
+            this.mImageLoad = ImageLoader.getInstance()
             addItemLayout(R.layout.item_main_activity_tab)
         }
+
+        private val mImageLoad: ImageLoader
 
         override fun onBindViewHolder(viewHolder: ViewHolderHelper, item: TabVo?, position: Int) {
             if (item == null) {
