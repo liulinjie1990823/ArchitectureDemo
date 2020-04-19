@@ -15,9 +15,11 @@ import javax.inject.Inject
  * author llj
  * date 2018/9/20
  */
-class RequestPresenter @Inject constructor(repository: MobileRepository, view: IRequestView)
-    : BaseActivityPresenter<MobileRepository, IRequestView>(repository, view) {
+class RequestPresenter : BaseActivityPresenter<MobileRepository, IRequestView> {
 
+
+    @Inject
+    constructor(repository: MobileRepository, view: IRequestView) : super(repository, view)
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)

@@ -14,19 +14,18 @@ import javax.inject.Inject
  */
 abstract class MvpBaseActivity<P : IBasePresenter, V : ViewBinding> : MvcBaseActivity<V>() {
 
-    @Inject
-    lateinit var mPresenter: P
+  @Inject lateinit var mPresenter: P
 
-    @CallSuper
-    override fun onDestroy() {
-        mPresenter.destroy()
+  @CallSuper
+  override fun onDestroy() {
+    mPresenter.destroy()
 
-        super.onDestroy()
-    }
+    super.onDestroy()
+  }
 
-    override fun initLifecycleObserver(lifecycle: Lifecycle) {
-        //将mPresenter作为生命周期观察者添加到lifecycle中
-        lifecycle.addObserver(mPresenter)
-    }
+  override fun initLifecycleObserver(lifecycle: Lifecycle) {
+    //将mPresenter作为生命周期观察者添加到lifecycle中
+    lifecycle.addObserver(mPresenter)
+  }
 
 }

@@ -4,7 +4,6 @@ import com.llj.login.api.LoginApiService
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
-import javax.inject.Singleton
 
 /**
  * ArchitectureDemo
@@ -15,7 +14,7 @@ import javax.inject.Singleton
 @Module
 internal class LoginComponentModule {
 
-    @Singleton
+    @LoginScope
     @Provides
     fun provideLoginApiService(retrofit: Retrofit): LoginApiService {
         return retrofit.create(LoginApiService::class.java)
