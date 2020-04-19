@@ -27,228 +27,233 @@ import timber.log.Timber
  * @date 2019/3/13
  */
 abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
-        , IBaseActivity, ICommon<V>, IUiHandler, IEvent, IBaseActivityView {
+    , IBaseActivity, ICommon<V>, IUiHandler, IEvent, IBaseActivityView {
 
-    @JvmField
-    val mTagLog: String = this.javaClass.simpleName
+  @JvmField
+  val mTagLog: String = this.javaClass.simpleName
 
-    lateinit var mContext: Context
+  lateinit var mContext: Context
 
-    private var mUnBinder: Unbinder? = null
+  private var mUnBinder: Unbinder? = null
 
-    @JvmField
-    var mViewBinder: V? = null//ViewBinding
+  @JvmField
+  var mViewBinder: V? = null//ViewBinding
 
-    private var mRequestDialog: BaseDialog? = null
+  private var mRequestDialog: BaseDialog? = null
 
-    private val mCancelableTasks: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
-    private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
+  private val mCancelableTasks: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
+  private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
 
 
-    override fun useEventBus(): Boolean {
-        return true
+  override fun useEventBus(): Boolean {
+    return true
+  }
+
+  //<editor-fold desc="生命周期">
+  override fun onCreate(savedInstanceState: Bundle?) {
+    Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d", mTagLog, hashCode())
+    mContext = this
+
+    try {
+      AndroidInjection.inject(this)
+    } catch (e: Exception) {
+      Timber.tag(mTagLog).i("AndroidSupportInjection.inject failed：%s", e.message)
     }
 
-    //<editor-fold desc="生命周期">
-    override fun onCreate(savedInstanceState: Bundle?) {
-        mContext = this
+    super.onCreate(savedInstanceState)
 
-        try {
-            AndroidInjection.inject(this)
-        } catch (e: Exception) {
-        }
+    addCurrentActivity(this)
 
-        super.onCreate(savedInstanceState)
-        Timber.tag(mTagLog).i("onCreate：%s", mTagLog)
+    getIntentData(intent)
 
-        addCurrentActivity(this)
+    mViewBinder = layoutViewBinding()
 
-        getIntentData(intent)
+    if (mViewBinder != null) {
+      setContentView(mViewBinder?.root)
+      Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding：%d", mTagLog, hashCode())
+    } else {
+      val layoutView = layoutView()
+      if (layoutView == null) {
+        setContentView(layoutId())
+        Timber.tag(mTagLog).i("Lifecycle %s layoutId：%d", mTagLog, hashCode())
+      } else {
+        setContentView(layoutView)
+        Timber.tag(mTagLog).i("Lifecycle %s layoutView：%d", mTagLog, hashCode())
+      }
+      mUnBinder = ButterKnife.bind(this)
+    }
 
-        mViewBinder = layoutViewBinding()
+    checkLoadingDialog()
 
-        if (mViewBinder != null) {
-            setContentView(mViewBinder?.root)
-        } else {
-            val layoutView = layoutView()
-            if (layoutView == null) {
-                setContentView(layoutId())
-            } else {
-                setContentView(layoutView)
-            }
-            mUnBinder = ButterKnife.bind(this)
-        }
+    initLifecycleObserver(lifecycle)
 
-        checkLoadingDialog()
+    registerEventBus(this)
 
-        initLifecycleObserver(lifecycle)
+    initViews(savedInstanceState)
 
-        registerEventBus(this)
+    initData()
+  }
 
-        initViews(savedInstanceState)
+  override fun onStart() {
+    super.onStart()
+    Timber.tag(mTagLog).i("Lifecycle %s onStart：%d", mTagLog, hashCode())
+  }
 
+  override fun onResume() {
+    super.onResume()
+    Timber.tag(mTagLog).i("Lifecycle %s onResume：%d", mTagLog, hashCode())
+  }
+
+  override fun onPause() {
+    super.onPause()
+    Timber.tag(mTagLog).i("Lifecycle %s onPause：%d", mTagLog, hashCode())
+  }
+
+  override fun onStop() {
+    super.onStop()
+    Timber.tag(mTagLog).i("Lifecycle %s onStop：%d", mTagLog, hashCode())
+  }
+
+  @CallSuper
+  override fun onDestroy() {
+    super.onDestroy()
+    Timber.tag(mTagLog).i("Lifecycle %s onDestroy：%d", mTagLog, hashCode())
+
+    //防止窗口泄漏，关闭dialog同时结束相关请求
+    val requestDialog = getLoadingDialog() as Dialog?
+    if (requestDialog != null && requestDialog.isShowing) {
+      requestDialog.cancel()
+    }
+    mRequestDialog = null
+
+    //注销事件总线
+    unregisterEventBus(this)
+
+    //移除所有的任务
+    removeAllDisposable()
+
+    mUnBinder?.unbind()
+
+    //移除列表中的activity
+    removeCurrentActivity(this)
+  }
+  //</editor-fold >
+
+  //<editor-fold desc="任务处理">
+  override fun addDisposable(taskId: Int, disposable: Disposable) {
+    mCancelableTasks[taskId] = disposable
+  }
+
+  override fun removeDisposable(taskId: Int?) {
+    val disposable = mCancelableTasks[taskId] ?: return
+
+    if (!disposable.isDisposed) {
+      disposable.dispose()
+      mCancelableTasks.remove(taskId)
+    }
+  }
+
+  override fun removeAllDisposable() {
+    if (mCancelableTasks.isEmpty) {
+      return
+    }
+    val keys = mCancelableTasks.keys
+    for (apiKey in keys) {
+      removeDisposable(apiKey)
+    }
+  }
+  //</editor-fold >
+
+  //<editor-fold desc="IEvent事件总线">
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  fun onEvent(event: BaseEvent) {
+    if (!isEmpty(event.delayMessage)) {
+      //延迟消息
+      mDelayMessages.add(event.delayMessage)
+    } else {
+      //即时消息
+      onReceiveEvent(event)
+    }
+  }
+
+  @CallSuper
+  override fun onReceiveEvent(event: BaseEvent) {
+    val inCurrentPage = inCurrentPage(event)
+    if (inCurrentPage) {
+      if ("refresh" == event.message) {
+        //刷新页面
         initData()
+      } else if ("close" == event.message) {
+        //关闭页面
+        onBackPressed()
+      }
     }
+  }
 
-    override fun onStart() {
-        super.onStart()
-        Timber.tag(mTagLog).i("onStart：%s", mTagLog)
+  override fun inCurrentPage(event: BaseEvent): Boolean {
+    return mTagLog == event.pageName
+  }
+  //</editor-fold >
+
+  //<editor-fold desc="IBaseActivity">
+  override fun initLifecycleObserver(lifecycle: Lifecycle) {
+    //将mPresenter作为生命周期观察者添加到lifecycle中
+  }
+
+  override fun superOnBackPressed() {
+    super.onBackPressed()
+  }
+
+  override fun backToLauncher(nonRoot: Boolean) {
+    moveTaskToBack(nonRoot)
+  }
+  //</editor-fold >
+
+  //<editor-fold desc="ILoadingDialogHandler加载框">
+  override fun getLoadingDialog(): BaseDialog? {
+    return mRequestDialog
+  }
+
+  private fun checkLoadingDialog() {
+    if (mRequestDialog == null) {
+      mRequestDialog = initLoadingDialog()
+
+      if (mRequestDialog == null) {
+        mRequestDialog = LoadingDialog(this)
+      }
     }
+    setRequestId(hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s initLoadingDialog %s ：%d", mTagLog, mRequestDialog!!.javaClass.simpleName, hashCode())
+  }
 
-    override fun onResume() {
-        super.onResume()
-        Timber.tag(mTagLog).i("onResume：%s", mTagLog)
-    }
+  //自定义实现
+  override fun initLoadingDialog(): BaseDialog? {
+    return null
+  }
 
-    override fun onPause() {
-        super.onPause()
-        Timber.tag(mTagLog).i("onPause：%s", mTagLog)
-    }
+  override fun showLoadingDialog() {
+    getLoadingDialog()?.show()
+  }
 
-    override fun onStop() {
-        super.onStop()
-        Timber.tag(mTagLog).i("onStop：%s", mTagLog)
-    }
+  override fun dismissLoadingDialog() {
+    getLoadingDialog()?.dismiss()
+  }
 
-    @CallSuper
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.tag(mTagLog).i("onDestroy：%s", mTagLog)
+  //如果该RequestDialog和请求关联就设置tag
+  override fun setRequestId(taskId: Int) {
+    getLoadingDialog()?.setRequestId(taskId)
+  }
 
-        //防止窗口泄漏，关闭dialog同时结束相关请求
-        val requestDialog = getLoadingDialog() as Dialog?
-        if (requestDialog != null && requestDialog.isShowing) {
-            requestDialog.cancel()
-        }
-        mRequestDialog = null
+  override fun getRequestId(): Int {
+    return getLoadingDialog()?.getRequestId() ?: -1
+  }
+  //</editor-fold >
 
-        //注销事件总线
-        unregisterEventBus(this)
-
-        //移除所有的任务
-        removeAllDisposable()
-
-        mUnBinder?.unbind()
-
-        //移除列表中的activity
-        removeCurrentActivity(this)
-    }
-    //</editor-fold >
-
-    //<editor-fold desc="任务处理">
-    override fun addDisposable(taskId: Int, disposable: Disposable) {
-        mCancelableTasks[taskId] = disposable
-    }
-
-    override fun removeDisposable(taskId: Int?) {
-        val disposable = mCancelableTasks[taskId] ?: return
-
-        if (!disposable.isDisposed) {
-            disposable.dispose()
-            mCancelableTasks.remove(taskId)
-        }
-    }
-
-    override fun removeAllDisposable() {
-        if (mCancelableTasks.isEmpty) {
-            return
-        }
-        val keys = mCancelableTasks.keys
-        for (apiKey in keys) {
-            removeDisposable(apiKey)
-        }
-    }
-    //</editor-fold >
-
-    //<editor-fold desc="IEvent事件总线">
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: BaseEvent) {
-        if (!isEmpty(event.delayMessage)) {
-            //延迟消息
-            mDelayMessages.add(event.delayMessage)
-        } else {
-            //即时消息
-            onReceiveEvent(event)
-        }
-    }
-
-    @CallSuper
-    override fun onReceiveEvent(event: BaseEvent) {
-        val inCurrentPage = inCurrentPage(event)
-        if (inCurrentPage) {
-            if ("refresh" == event.message) {
-                //刷新页面
-                initData()
-            } else if ("close" == event.message) {
-                //关闭页面
-                onBackPressed()
-            }
-        }
-    }
-
-    override fun inCurrentPage(event: BaseEvent): Boolean {
-        return mTagLog == event.pageName
-    }
-    //</editor-fold >
-
-    //<editor-fold desc="IBaseActivity">
-    override fun initLifecycleObserver(lifecycle: Lifecycle) {
-        //将mPresenter作为生命周期观察者添加到lifecycle中
-    }
-
-    override fun superOnBackPressed() {
-        super.onBackPressed()
-    }
-
-    override fun backToLauncher(nonRoot: Boolean) {
-        moveTaskToBack(nonRoot)
-    }
-    //</editor-fold >
-
-    //<editor-fold desc="ILoadingDialogHandler加载框">
-    override fun getLoadingDialog(): BaseDialog? {
-        return mRequestDialog
-    }
-
-    private fun checkLoadingDialog() {
-        if (mRequestDialog == null) {
-            mRequestDialog = initLoadingDialog()
-
-            if (mRequestDialog == null) {
-                mRequestDialog = LoadingDialog(this)
-            }
-        }
-        setRequestId(hashCode())
-    }
-
-    //自定义实现
-    override fun initLoadingDialog(): BaseDialog? {
-        return null
-    }
-
-    override fun showLoadingDialog() {
-        getLoadingDialog()?.show()
-    }
-
-    override fun dismissLoadingDialog() {
-        getLoadingDialog()?.dismiss()
-    }
-
-    //如果该RequestDialog和请求关联就设置tag
-    override fun setRequestId(taskId: Int) {
-        getLoadingDialog()?.setRequestId(taskId)
-    }
-
-    override fun getRequestId(): Int {
-        return getLoadingDialog()?.getRequestId() ?: -1
-    }
-    //</editor-fold >
-
-    //<editor-fold desc="处理点击外部影藏输入法">
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        onTouchEvent(this, event)
-        return super<AppCompatActivity>.onTouchEvent(event)
-    }
-    //</editor-fold >
+  //<editor-fold desc="处理点击外部影藏输入法">
+  override fun onTouchEvent(event: MotionEvent): Boolean {
+    onTouchEvent(this, event)
+    return super<AppCompatActivity>.onTouchEvent(event)
+  }
+  //</editor-fold >
 
 }

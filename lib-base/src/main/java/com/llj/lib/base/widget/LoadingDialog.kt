@@ -16,10 +16,13 @@ import com.llj.lib.utils.LogUtil
  * @author llj
  * @date 2018/5/24
  */
-class LoadingDialog(context: Context) : BaseDialog(context, R.style.no_dim_dialog) {
+class LoadingDialog : BaseDialog {
 
-    private var mTaskId: Int = -1
+  constructor(context: Context) : super(context, R.style.no_dim_dialog) {
+    this.mTaskId = -1
+  }
 
+  private var mTaskId: Int
     private var mOnCustomerCancelListener: OnCustomerCancelListener? = null
 
     interface OnCustomerCancelListener {
@@ -51,7 +54,8 @@ class LoadingDialog(context: Context) : BaseDialog(context, R.style.no_dim_dialo
         }
     }
 
-    override fun setWindowParam() {
+
+  override fun setWindowParam() {
         val width = ADisplayUtils.dp2px(context, 120f)
         setWindowParams(width, width, Gravity.CENTER)
         setCanceledOnTouchOutside(false)

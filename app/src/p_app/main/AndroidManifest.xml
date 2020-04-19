@@ -156,6 +156,7 @@
       android:exported="true"
       android:taskAffinity="com.llj.task2" />
     <activity android:name=".ui.activity.CanvasActivity" />
+    <activity android:name=".ui.activity.KeyboardStateActivity" />
 
 
     <!--<activity android:name=".ui.activity.ThirdActivity"/>-->

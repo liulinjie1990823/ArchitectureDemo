@@ -33,10 +33,10 @@ public class KeyboardStateObserver {
     return new KeyboardStateObserver(window);
   }
 
-  private int mUsableHeightSansKeyboard;//无键盘下DecorView的高度
+  private int mDecorViewHeight;//无键盘下DecorView的高度
 
-  private View mChildOfContent;//布局中的rootView
-  private int  mUsableHeightPrevious;//布局中的rootView的高度
+  private View mUserRootView;//contentView
+  private int  mUserRootViewHeightPrevious;//布局中的rootView的高度
 
   private OnKeyboardVisibilityListener mListener;
 
@@ -47,12 +47,12 @@ public class KeyboardStateObserver {
 
   private KeyboardStateObserver(Window window) {
     FrameLayout content = window.findViewById(android.R.id.content);
-    mChildOfContent = content.getChildAt(0);
-    mChildOfContent.getViewTreeObserver()
+    mUserRootView = content.getChildAt(0);
+    mUserRootView.getViewTreeObserver()
         .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
           public void onGlobalLayout() {
-            if (mUsableHeightSansKeyboard == 0) {
-              mUsableHeightSansKeyboard = mChildOfContent.getRootView().getHeight();
+            if (mDecorViewHeight == 0) {
+              mDecorViewHeight = mUserRootView.getRootView().getHeight();
             }
             possiblyResizeChildOfContent();
           }
@@ -60,23 +60,25 @@ public class KeyboardStateObserver {
   }
 
   private void possiblyResizeChildOfContent() {
-    int usableHeightNow = computeUsableHeight();
+    int userRootViewHeight = computeUsableHeight();
     //对比当前布局中的rootView的可见高度
-    if (usableHeightNow != mUsableHeightPrevious) {
-      int heightDifference = mUsableHeightSansKeyboard - usableHeightNow;
-      if (heightDifference > (mUsableHeightSansKeyboard / 4)) {
+    if (userRootViewHeight != mUserRootViewHeightPrevious) {
+
+      if (mDecorViewHeight - userRootViewHeight > (mDecorViewHeight / 4)) {
+        //说明软键盘弹起
         if (mListener != null) {
-          mListener.onKeyboardShow();
+          mListener.onKeyboardShow(userRootViewHeight);
         }
       } else {
+        //软键盘隐藏
         if (mListener != null) {
-          mListener.onKeyboardHide();
+          mListener.onKeyboardHide(userRootViewHeight);
         }
       }
-      mUsableHeightPrevious = usableHeightNow;
+      mUserRootViewHeightPrevious = userRootViewHeight;
 
-      Timber.tag(TAG).d("usableHeightNow: " + usableHeightNow + " | usableHeightSansKeyboard:"
-          + mUsableHeightSansKeyboard + " | heightDifference:" + heightDifference);
+      //Timber.tag(TAG).d("usableHeightNow: " + userRootViewHeight + " | usableHeightSansKeyboard:"
+      //    + mDecorViewHeight + " | heightDifference:" + heightDifference);
     }
   }
 
@@ -93,7 +95,7 @@ public class KeyboardStateObserver {
    */
   private int computeUsableHeight() {
     Rect r = new Rect();
-    mChildOfContent.getWindowVisibleDisplayFrame(r);
+    mUserRootView.getWindowVisibleDisplayFrame(r);
     Timber.tag(TAG).d("rec bottom>" + r.bottom + " | rec top>" + r.top);
     return r.height();
   }
@@ -113,8 +115,8 @@ public class KeyboardStateObserver {
 
   public interface OnKeyboardVisibilityListener {
 
-    void onKeyboardShow();
+    void onKeyboardShow(int resizeHeight);
 
-    void onKeyboardHide();
+    void onKeyboardHide(int resizeHeight);
   }
 }

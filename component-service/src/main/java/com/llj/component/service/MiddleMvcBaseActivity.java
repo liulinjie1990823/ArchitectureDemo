@@ -35,6 +35,11 @@ public abstract class MiddleMvcBaseActivity<V extends ViewBinding> extends
   private String mPageId;
 
   @Override
+  public int layoutId() {
+    return 0;
+  }
+
+  @Override
   public String getPageName() {
     if (mPageName == null) {
       PageName annotation = getClass().getAnnotation(PageName.class);
