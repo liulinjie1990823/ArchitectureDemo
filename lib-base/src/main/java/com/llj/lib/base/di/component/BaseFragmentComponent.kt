@@ -14,8 +14,8 @@ import dagger.android.support.AndroidSupportInjectionModule
  * date 2018/5/16
  */
 @Subcomponent(modules = [AndroidSupportInjectionModule::class])
-interface BaseFragmentComponent : AndroidInjector<MvpBaseFragment<IBasePresenter, ViewBinding>> {
+interface BaseFragmentComponent : AndroidInjector<MvpBaseFragment<ViewBinding, IBasePresenter>> {
 
-    @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<MvpBaseFragment<IBasePresenter, ViewBinding>>()
+  @Subcomponent.Builder
+  abstract class Builder : AndroidInjector.Builder<MvpBaseFragment<ViewBinding, IBasePresenter>>()
 }

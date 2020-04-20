@@ -9,8 +9,8 @@ import com.llj.lib.base.widget.CommonToolbar;
 /**
  * ArchitectureDemo describe: author liulj date 2018/5/24
  */
-public abstract class BaseToolbarActivity<P extends IBasePresenter, V extends ViewBinding> extends
-    MvpBaseActivity<P, V> {
+public abstract class BaseToolbarActivity<V extends ViewBinding, P extends IBasePresenter> extends
+    MvpBaseActivity<V, P> {
 
   public CommonToolbar mCommonToolbar;
 

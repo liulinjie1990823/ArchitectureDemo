@@ -69,7 +69,7 @@ import q.rorbin.badgeview.QBadgeView;
  * ArchitectureDemo. describe: author llj date 2018/11/5
  */
 public class MineFragment extends
-    MiddleMvpBaseFragment<PersonalCenterPresenter, ViewBinding> implements
+    MiddleMvpBaseFragment<ViewBinding, PersonalCenterPresenter> implements
     IMineView {
 
   @NotNull

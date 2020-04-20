@@ -20,11 +20,6 @@ import com.llj.architecturedemo.vo.DataVo
 
 abstract class DataListActivity : AppMvcBaseActivity<ActivityDataListBinding>() {
 
-
-  override fun layoutViewBinding(): ActivityDataListBinding? {
-    return ActivityDataListBinding.inflate(layoutInflater)
-  }
-
   private lateinit var mAdapter: ItemAdapter
 
   override fun initViews(savedInstanceState: Bundle?) {

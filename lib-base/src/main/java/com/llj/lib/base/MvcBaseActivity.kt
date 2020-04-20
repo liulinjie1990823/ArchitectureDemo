@@ -3,6 +3,7 @@ package com.llj.lib.base
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
+import java.lang.reflect.ParameterizedType
 
 /**
  * ArchitectureDemo.
@@ -68,6 +70,11 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
 
     mViewBinder = layoutViewBinding()
 
+    if (mViewBinder == null) {
+      //如果忘记设置则使用反射设置
+      reflectViewBinder()
+    }
+
     if (mViewBinder != null) {
       setContentView(mViewBinder?.root)
       Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding：%d", mTagLog, hashCode())
@@ -93,6 +100,40 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
 
     initData()
   }
+
+  private fun reflectViewBinder() {
+    val currentTimeMillis = System.currentTimeMillis()
+    var classType: Class<*> = javaClass
+    for (i in 0..4) {
+      if (classType.genericSuperclass is ParameterizedType) {
+        //父类是泛型类型就反射一次
+        Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect class %s：%d",
+            mTagLog, classType.genericSuperclass!!.toString(), hashCode())
+        mViewBinder = reflectOnce(classType.genericSuperclass as ParameterizedType)
+        if (mViewBinder != null) {
+          break
+        }
+      }
+      classType = classType.superclass
+    }
+    val diffTimeMillis = System.currentTimeMillis() - currentTimeMillis
+    Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect %d ms：%d", mTagLog, diffTimeMillis, hashCode())
+  }
+
+  private fun reflectOnce(type: ParameterizedType): V? {
+    var viewBinder: V? = null
+    try {
+      val clazz = type.actualTypeArguments[0] as Class<V>
+      Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect generic type %s：%d",
+          mTagLog, clazz, hashCode())
+      val method = clazz.getMethod("inflate", LayoutInflater::class.java)
+      viewBinder = method.invoke(null, layoutInflater) as V
+    } catch (e: Exception) {
+      Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect failed：%s", mTagLog, e.message)
+    }
+    return viewBinder
+  }
+
 
   override fun onStart() {
     super.onStart()

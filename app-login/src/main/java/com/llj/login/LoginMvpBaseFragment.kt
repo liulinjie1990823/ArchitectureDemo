@@ -10,7 +10,7 @@ import com.llj.lib.base.mvp.IBasePresenter
  * author llj
  * date 2018/9/20
  */
-abstract class LoginMvpBaseFragment<P : IBasePresenter> : MiddleMvpBaseFragment<P, ViewBinding>() {
+abstract class LoginMvpBaseFragment<P : IBasePresenter> : MiddleMvpBaseFragment<ViewBinding, P>() {
 
     override fun getModuleName(): String {
         return "app-login"

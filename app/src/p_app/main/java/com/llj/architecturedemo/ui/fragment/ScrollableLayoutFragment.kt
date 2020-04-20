@@ -61,7 +61,7 @@ import kotlin.collections.ArrayList
  * author llj
  * date 2018/10/30
  */
-class ScrollableLayoutFragment : MiddleMvpBaseFragment<ScrollableLayoutPresenter, ViewBinding>(), IScrollableLayoutView {
+class ScrollableLayoutFragment : MiddleMvpBaseFragment<ViewBinding, ScrollableLayoutPresenter>(), IScrollableLayoutView {
     @BindView(R.id.cv_toolbar)
     lateinit var mCvToolbar: ConstraintLayout
     @BindView(R.id.refreshLayout)

@@ -64,6 +64,9 @@ public class AptActivity2 extends AppMvcBaseActivity {
   public void initViews(@Nullable Bundle savedInstanceState) {
     //NeacyFinder.inject(this);
 
+    for (int i = 0; i < 5; i++) {
+
+    }
     findViewById(R.id.text1).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {

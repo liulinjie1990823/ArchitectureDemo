@@ -83,11 +83,11 @@ class LoginApp : MiddleApplication(), BootstrapNotifier {
     override fun androidInjector(): AndroidInjector<Any> {
         return AndroidInjector { data ->
 
-            if (data is MvpBaseActivity<*>) {
+          if (data is MvpBaseActivity<*, *>) {
                 val mvpBaseActivity = data
                 mLoginComponent.activityInjector().inject(mvpBaseActivity)
             } else {
-                val mvpBaseFragment = data as MvpBaseFragment<*>
+            val mvpBaseFragment = data as MvpBaseFragment<*, *>
                 mLoginComponent.supportFragmentInjector().inject(mvpBaseFragment)
             }
         }

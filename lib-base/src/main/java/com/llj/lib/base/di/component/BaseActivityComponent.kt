@@ -10,13 +10,13 @@ import dagger.android.AndroidInjector
 
 /**
  * ArchitectureDemo
- * describe:用于生成各个activity的Subcomponent，避免重复写
+ * describe:用于生成各个activity的Subcomponent，避免重复写，如MainActivitySubcomponent
  * author llj
  * date 2018/5/16
  */
 @Subcomponent(modules = [AndroidInjectionModule::class])
-interface BaseActivityComponent : AndroidInjector<MvpBaseActivity<IBasePresenter, ViewBinding>> {
+interface BaseActivityComponent : AndroidInjector<MvpBaseActivity<ViewBinding, IBasePresenter>> {
 
-    @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<MvpBaseActivity<IBasePresenter, ViewBinding>>()
+  @Subcomponent.Builder
+  abstract class Builder : AndroidInjector.Builder<MvpBaseActivity<ViewBinding, IBasePresenter>>()
 }

@@ -12,7 +12,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/5/15
  */
-abstract class MvpBaseActivity<P : IBasePresenter, V : ViewBinding> : MvcBaseActivity<V>() {
+abstract class MvpBaseActivity<V : ViewBinding, P : IBasePresenter> : MvcBaseActivity<V>() {
 
   @Inject lateinit var mPresenter: P
 

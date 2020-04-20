@@ -26,36 +26,62 @@ import dagger.android.ContributesAndroidInjector
 @Module(subcomponents = [BaseActivityComponent::class, BaseFragmentComponent::class])
 internal abstract class AppComponentBuilder {
 
-    @ActivityScope
-    @ContributesAndroidInjector(modules = [MainActivityModule::class])
-    internal abstract fun contributeMainActivityInjector(): MainActivity
+  //    private final class MainActivitySubcomponentImpl implements AppComponentBuilder_ContributeMainActivityInjector$app_debug.MainActivitySubcomponent {
+//        private final MainActivity arg0;
+//
+//        private final MainActivityModule mainActivityModule;
+//
+//        private MainActivitySubcomponentImpl(MainActivityModule mainActivityModuleParam,
+//        MainActivity arg0Param) {
+//            this.arg0 = arg0Param;
+//            this.mainActivityModule = mainActivityModuleParam;
+//        }
+//
+//        private MainContractView getMainContractView() {
+//            return MainActivityModule_ProvideView$app_debugFactory.provideView$app_debug(mainActivityModule, arg0);}
+//
+//        private MainPresenter getMainPresenter() {
+//            return new MainPresenter(DaggerAppComponent.this.homeRepositoryProvider.get(), getMainContractView());}
+//
+//        @Override
+//        public void inject(MainActivity arg0) {
+//            injectMainActivity(arg0);}
+//
+//        private MainActivity injectMainActivity(MainActivity instance) {
+//            MvpBaseActivity_MembersInjector.injectMPresenter(instance, getMainPresenter());
+//            return instance;
+//        }
+//    }
+  @ActivityScope
+  @ContributesAndroidInjector(modules = [MainActivityModule::class])
+  internal abstract fun contributeMainActivityInjector(): MainActivity
 
-    @ActivityScope
-    @ContributesAndroidInjector(modules = [SecondActivityModule::class])
-    internal abstract fun contributeSecondActivityInjector(): SecondActivity
+  @ActivityScope
+  @ContributesAndroidInjector(modules = [SecondActivityModule::class])
+  internal abstract fun contributeSecondActivityInjector(): SecondActivity
 
-    @ActivityScope
-    @ContributesAndroidInjector(modules = [CircleViewActivityModule::class])
-    internal abstract fun contributeCircleViewActivityInjector(): CircleViewActivity
+  @ActivityScope
+  @ContributesAndroidInjector(modules = [CircleViewActivityModule::class])
+  internal abstract fun contributeCircleViewActivityInjector(): CircleViewActivity
 
-    @ActivityScope
-    @ContributesAndroidInjector(modules = [RequestActivityModule::class])
-    internal abstract fun contributeRequestActivityInjector(): RequestActivity
+  @ActivityScope
+  @ContributesAndroidInjector(modules = [RequestActivityModule::class])
+  internal abstract fun contributeRequestActivityInjector(): RequestActivity
 
-    @FragmentScope
-    @ContributesAndroidInjector(modules = [VLayoutFragmentModule::class])
-    internal abstract fun contributeVlayoutFragmentInjector(): VLayoutFragment
+  @FragmentScope
+  @ContributesAndroidInjector(modules = [VLayoutFragmentModule::class])
+  internal abstract fun contributeVlayoutFragmentInjector(): VLayoutFragment
 
 
-    @FragmentScope
-    @ContributesAndroidInjector(modules = [VLayoutFragment2Module::class])
-    internal abstract fun contributeVlayoutFragment2Injector(): VLayoutFragment2
+  @FragmentScope
+  @ContributesAndroidInjector(modules = [VLayoutFragment2Module::class])
+  internal abstract fun contributeVlayoutFragment2Injector(): VLayoutFragment2
 
-    @FragmentScope
-    @ContributesAndroidInjector(modules = [ScrollableLayoutFragmentModule::class])
-    internal abstract fun contributeScrollableLayoutFragmentInjector(): ScrollableLayoutFragment
+  @FragmentScope
+  @ContributesAndroidInjector(modules = [ScrollableLayoutFragmentModule::class])
+  internal abstract fun contributeScrollableLayoutFragmentInjector(): ScrollableLayoutFragment
 
-    @FragmentScope
-    @ContributesAndroidInjector(modules = [MineFragmentModule::class])
-    internal abstract fun contributeMineFragmentInjector(): MineFragment
+  @FragmentScope
+  @ContributesAndroidInjector(modules = [MineFragmentModule::class])
+  internal abstract fun contributeMineFragmentInjector(): MineFragment
 }

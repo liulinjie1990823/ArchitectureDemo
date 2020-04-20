@@ -54,7 +54,7 @@ import kotlin.collections.ArrayList
  * author llj
  * date 2018/10/24
  */
-class VLayoutFragment : MiddleMvpBaseFragment<VLayoutPresenter, ViewBinding>(), IVLayoutView {
+class VLayoutFragment : MiddleMvpBaseFragment<ViewBinding, VLayoutPresenter>(), IVLayoutView {
 
     override fun getParams1(taskId: Int): HashMap<String, Any>? {
         return HashMap()

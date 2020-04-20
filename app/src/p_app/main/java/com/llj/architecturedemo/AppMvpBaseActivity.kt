@@ -10,8 +10,8 @@ import com.llj.lib.base.mvp.IBasePresenter
  * author liulj
  * date 2018/5/24
  */
-abstract class AppMvpBaseActivity<P : IBasePresenter> : MiddleMvpBaseActivity<P, ViewBinding>() {
-    override fun getModuleName(): String {
-        return "app"
-    }
+abstract class AppMvpBaseActivity<P : IBasePresenter> : MiddleMvpBaseActivity<ViewBinding, P>() {
+  override fun getModuleName(): String {
+    return "app"
+  }
 }

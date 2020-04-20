@@ -16,8 +16,8 @@ import com.llj.lib.utils.AFragmentUtils;
 /**
  * ArchitectureDemo describe: author llj date 2018/5/24
  */
-public abstract class BaseTabActivity<P extends IBasePresenter, V extends ViewBinding> extends
-    MvpBaseActivity<P, V> {
+public abstract class BaseTabActivity<V extends ViewBinding, P extends IBasePresenter> extends
+    MvpBaseActivity<V, P> {
 
   public static final String TAB_INDEX = "index";
 

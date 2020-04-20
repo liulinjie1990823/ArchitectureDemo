@@ -112,14 +112,14 @@ apply from: rootProject.file('gradle/configApp.gradle')
 
 afterEvaluate {
 
-    tasks.matching {
-        it.name.startsWith('dex')
-    }.each { dx ->
-        if (dx.additionalParameters == null) {
-            dx.additionalParameters = []
-        }
-        dx.additionalParameters += '--set-max-idx-number=48000'
-    }
+//    tasks.matching {
+//        it.name.startsWith('dex')
+//    }.each { dx ->
+//        if (dx.additionalParameters == null) {
+//            dx.additionalParameters = []
+//        }
+//        dx.additionalParameters += '--set-max-idx-number=48000'
+//    }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

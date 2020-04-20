@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * ArchitectureDemo. describe: author llj date 2019/3/25
  */
 public abstract class SettingMvpBaseActivity<P extends IBasePresenter> extends
-    MiddleMvpBaseActivity<P, ViewBinding> {
+    MiddleMvpBaseActivity<ViewBinding, P> {
 
   @NotNull
   @Override

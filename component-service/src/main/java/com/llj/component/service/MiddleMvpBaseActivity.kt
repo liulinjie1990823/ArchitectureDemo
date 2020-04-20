@@ -18,7 +18,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/12/13
  */
-abstract class MiddleMvpBaseActivity<P : IBasePresenter, V : ViewBinding> : MvpBaseActivity<P, V>(), HasAndroidInjector, ITracker {
+abstract class MiddleMvpBaseActivity<V : ViewBinding, P : IBasePresenter> : MvpBaseActivity<V, P>(), HasAndroidInjector, ITracker {
 
   //下面代码是为了在component-service中生成MiddleMvpBaseActivity_MembersInjector对象
   //否则会在多个module中生成多个MiddleMvpBaseActivity_MembersInjector对象

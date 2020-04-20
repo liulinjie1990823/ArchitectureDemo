@@ -19,71 +19,71 @@ import javax.inject.Inject
  * author llj
  * date 2018/11/5
  */
-abstract class MiddleMvpBaseFragment<P : IBasePresenter, V : ViewBinding> : MvpBaseFragment<P, V>(), HasAndroidInjector {
+abstract class MiddleMvpBaseFragment<V : ViewBinding, P : IBasePresenter> : MvpBaseFragment<V, P>(), HasAndroidInjector {
 
-    //下面代码是为了在component-service中生成ComponentMvpBaseFragment_MembersInjector对象
-    //否则会在多个module中生成多个ComponentMvpBaseFragment_MembersInjector对象
-    @Inject
-    lateinit var mSupportFragmentInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
+  //下面代码是为了在component-service中生成ComponentMvpBaseFragment_MembersInjector对象
+  //否则会在多个module中生成多个ComponentMvpBaseFragment_MembersInjector对象
+  @Inject
+  lateinit var mSupportFragmentInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
 
-    override fun androidInjector(): AndroidInjector<Any> {
-        return AndroidInjector { }
+  override fun androidInjector(): AndroidInjector<Any> {
+    return AndroidInjector { }
+  }
+
+
+  override fun onHiddenChanged(hidden: Boolean) {
+    super.onHiddenChanged(hidden)
+    if (!hidden) {
+      LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, statusBarTextColorBlack())
     }
+  }
 
+  @CallSuper
+  override fun initViews(savedInstanceState: Bundle?) {
+    LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, statusBarTextColorBlack())
+  }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden) {
-            LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, statusBarTextColorBlack())
-        }
-    }
+  override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+    super.setUserVisibleHint(isVisibleToUser)
+  }
 
-    @CallSuper
-    override fun initViews(savedInstanceState: Bundle?) {
-        LightStatusBarCompat.setLightStatusBar((mContext as Activity).window, statusBarTextColorBlack())
-    }
+  override fun onResume() {
+    super.onResume()
+  }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-    }
+  override fun onStart() {
+    super.onStart()
+  }
 
-    override fun onResume() {
-        super.onResume()
-    }
+  override fun onPause() {
+    super.onPause()
+  }
 
-    override fun onStart() {
-        super.onStart()
-    }
+  override fun onStop() {
+    super.onStop()
+  }
 
-    override fun onPause() {
-        super.onPause()
-    }
+  override fun onDestroyView() {
+    super.onDestroyView()
+  }
 
-    override fun onStop() {
-        super.onStop()
-    }
+  override fun onDestroy() {
+    super.onDestroy()
+  }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
+  fun checkLogin(): Boolean {
+    return if (TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)) {
+      //            CRouter.start(CRouter.LOGIN_PHONE_LOGIN);
+      false
+    } else true
+  }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
+  // true 黑色字体  false 白色
+  protected open fun statusBarTextColorBlack(): Boolean {
+    return true
+  }
 
-    fun checkLogin(): Boolean {
-        return if (TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)) {
-            //            CRouter.start(CRouter.LOGIN_PHONE_LOGIN);
-            false
-        } else true
-    }
-
-    // true 黑色字体  false 白色
-    protected open fun statusBarTextColorBlack(): Boolean {
-        return true
-    }
-
-    fun isLogin(): Boolean {
-        return !TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)
-    }
+  fun isLogin(): Boolean {
+    return !TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)
+  }
 }

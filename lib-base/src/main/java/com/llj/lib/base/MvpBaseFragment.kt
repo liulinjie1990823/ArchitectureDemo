@@ -12,17 +12,18 @@ import javax.inject.Inject
  * author llj
  * date 2018/5/24
  */
-abstract class MvpBaseFragment<P : IBasePresenter, V : ViewBinding> : MvcBaseFragment<V>() {
-    @Inject lateinit var mPresenter: P
+abstract class MvpBaseFragment<V : ViewBinding, P : IBasePresenter> : MvcBaseFragment<V>() {
+  @Inject lateinit var mPresenter: P
 
-    @CallSuper
-    override fun onDestroy() {
-        mPresenter.destroy()
-        super.onDestroy()
+  @CallSuper
+  override fun onDestroy() {
+    mPresenter.destroy()
+    super.onDestroy()
 
-    }
-    override fun initLifecycleObserver(lifecycle: Lifecycle) {
-        //将mPresenter作为生命周期观察者添加到lifecycle中
-        lifecycle.addObserver(mPresenter)
-    }
+  }
+
+  override fun initLifecycleObserver(lifecycle: Lifecycle) {
+    //将mPresenter作为生命周期观察者添加到lifecycle中
+    lifecycle.addObserver(mPresenter)
+  }
 }
