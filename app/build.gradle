@@ -1,8 +1,13 @@
+
 if (useDexcount) {
     apply plugin: 'com.getkeepsafe.dexcount'
 }
 apply plugin: 'walle'
+
 apply plugin: 'com.uber.okbuck'
+
+apply plugin: 'com.didi.dokit'
+
 okbuck {
     buildToolVersion = "28.0.3"
     target = "android-28"
@@ -296,9 +301,9 @@ dependencies {
     //svg
 //    implementation 'com.pixplicity.sharp:library:1.1.3@aar'
     //doraemonkit
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.8'
-    betaImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.8'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.8'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.4'
+    betaImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.4'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.4'
     //    implementation 'com.llj.flutter.flutter_ui:flutter_release:1.0@aar'
     //    implementation 'com.llj.flutter.flutter_setting2:flutter_release:1.0@aar'
 //    implementation 'com.llj.flutter.flutter_module:flutter_release:1.0@aar'

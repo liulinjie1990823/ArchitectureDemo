@@ -1,19 +1,60 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.novoda:bintray-release:0.9.1'
-    }
-}
-
 apply plugin: 'com.novoda.bintray-release'
 
+// load properties
+Properties localProperties = new Properties()
+Properties properties = new Properties()
+
+File localPropertiesFile = project.parent.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.newDataInputStream())
+} else {
+    println("local.properties not found")
+}
+
+File projectPropertiesFile = project.file("project.properties")
+if (projectPropertiesFile.exists()) {
+    properties.load(projectPropertiesFile.newDataInputStream())
+} else {
+    println("project.properties not found")
+}
+
+// read properties
+def projectUserOrg = properties.getProperty("project.userOrg")
+def projectRepo = properties.getProperty("project.repo")
+
+def projectGroupId = properties.getProperty("project.groupId")
+def projectArtifactId = properties.getProperty("project.artifactId")
+def projectVersionName = properties.getProperty("project.versionName")
+
+def projectName = properties.getProperty("project.name")
+def projectPackaging = properties.getProperty("project.packaging")
+def projectDescription = properties.getProperty("project.description")
+def webSiteUrl = properties.getProperty("project.webSiteUrl")
+def issueUrl = properties.getProperty("project.issueTrackerUrl")
+def vscUrl = properties.getProperty("project.vscUrl")
+def projectLicense = properties.getProperty("project.license")
+
+def developerId = properties.getProperty("developer.id")
+def developerName = properties.getProperty("developer.name")
+def developerEmail = properties.getProperty("developer.email")
+
+def bintrayApiUser = localProperties.getProperty("bintray.user")
+def bintrayApikey = localProperties.getProperty("bintray.apikey")
+
+def javadocName = properties.getProperty("javadoc.name")
+def isDryRun = properties.getProperty("dryRun") == "true"
+
 publish {
-    userOrg = 'novoda'
-    groupId = 'com.novoda'
-    artifactId = 'bintray-release'
-    publishVersion = '0.6.1'
-    desc = 'Oh hi, this is a nice description for a project, right?'
-    website = 'https://github.com/novoda/bintray-release'
+    userOrg = projectUserOrg
+    repoName = projectRepo
+    groupId = projectGroupId
+    artifactId = projectArtifactId
+    publishVersion = projectVersionName
+    desc = projectDescription
+    website = webSiteUrl
+    repository = vscUrl
+    issueTracker = issueUrl
+    bintrayUser = bintrayApiUser
+    bintrayKey = bintrayApikey
+    dryRun = isDryRun
 }

@@ -111,28 +111,28 @@ class ObservableListWrapper<T> : ObservableList<T> {
         listObserver.notifyGenericChange()
     }
 
-    override fun add(`object`: T): Boolean {
+  override fun add(element: T): Boolean {
         val position = underlyingList!!.size
-        val result = underlyingList!!.add(`object`)
+    val result = underlyingList!!.add(element)
         if (result) {
             onItemRangeChanged(position, 1)
         }
         return result
     }
 
-    override fun add(location: Int, `object`: T) {
-        underlyingList!!.add(location, `object`)
-        onItemRangeInserted(location, 1)
+  override fun add(index: Int, element: T) {
+    underlyingList!!.add(index, element)
+    onItemRangeInserted(index, 1)
     }
 
-    override fun addAll(collection: Collection<T>): Boolean {
+  override fun addAll(elements: Collection<T>): Boolean {
         var result = false
         val position = underlyingList!!.size
-        if (collection != null) {
-            result = underlyingList!!.addAll(collection)
+    if (elements != null) {
+      result = underlyingList!!.addAll(elements)
         }
         if (result) {
-            onItemRangeInserted(position, collection.size)
+          onItemRangeInserted(position, elements.size)
         }
         return result
     }

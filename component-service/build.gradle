@@ -120,14 +120,15 @@ dependencies {
     // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
 
     //应用调试
-    debugImplementation 'com.facebook.soloader:soloader:0.8.0'
-    debugImplementation "com.facebook.flipper:flipper:0.31.1"
-    betaImplementation "com.facebook.flipper:flipper-noop:0.31.1"
-    releaseImplementation "com.facebook.flipper:flipper-noop:0.31.1"
+    debugImplementation 'com.facebook.soloader:soloader:0.9.0'
 
-    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.30.1'
-    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.31.1'
-    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.31.1'
+    debugImplementation "com.facebook.flipper:flipper:0.39.0"
+    betaImplementation "com.facebook.flipper:flipper-noop:0.39.0"
+    releaseImplementation "com.facebook.flipper:flipper-noop:0.39.0"
+
+    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.39.0'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.39.0'
+    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.39.0'
 
     //内存检测
     debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.3"
@@ -144,6 +145,6 @@ dependencies {
     api deps.timber
     api deps.logger
     //
-    api 'com.blankj:utilcode:1.25.9'
+//    api 'com.blankj:utilcode:1.28.0'
 
 }

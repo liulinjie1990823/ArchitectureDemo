@@ -10,6 +10,10 @@ dependencies {
     //groovy sdk
     implementation localGroovy()
 
-    implementation deps.android_gradle_plugin
+    if (useOld) {
+        implementation deps.android_gradle_plugin_old
+    } else {
+        implementation deps.android_gradle_plugin
+    }
 }
 

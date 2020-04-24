@@ -165,4 +165,8 @@ class MainActivity : BaseTabActivity<ViewBinding, MainPresenter>(), MainContract
 
   override fun onDataError(tag: Int, e: Throwable, taskId: Int) {
   }
+
+  override fun onPause() {
+    super.onPause()
+  }
 }

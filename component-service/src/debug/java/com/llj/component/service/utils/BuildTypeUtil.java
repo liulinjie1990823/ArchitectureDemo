@@ -13,9 +13,7 @@
 package com.llj.component.service.utils;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import com.blankj.utilcode.util.FileUtils;
 import com.facebook.flipper.android.AndroidFlipperClient;
 import com.facebook.flipper.android.utils.FlipperUtils;
 import com.facebook.flipper.core.FlipperClient;
@@ -29,7 +27,6 @@ import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin;
 import com.facebook.flipper.plugins.leakcanary.LeakCanaryFlipperPlugin;
 import com.facebook.flipper.plugins.leakcanary.RecordLeakService;
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin;
-import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin;
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor;
 import com.facebook.soloader.SoLoader;
 import com.squareup.leakcanary.LeakCanary;
@@ -81,16 +78,16 @@ public class BuildTypeUtil {
             })));
         //SharedPreferences操作
         ArrayList<SharedPreferencesDescriptor> descriptors = new ArrayList<>();
-        List<File> files = FileUtils
-            .listFilesInDir(
-                application.getCacheDir().getParentFile().getAbsolutePath() + File.separator
-                    + "shared_prefs");
-        for (File file : files) {
-          descriptors.add(new SharedPreferencesFlipperPlugin
-              .SharedPreferencesDescriptor(file.getName().replace(".xml", ""),
-              Context.MODE_PRIVATE));
-        }
-        client.addPlugin(new SharedPreferencesFlipperPlugin(application, descriptors));
+        //List<File> files = FileUtils
+        //    .listFilesInDir(
+        //        application.getCacheDir().getParentFile().getAbsolutePath() + File.separator
+        //            + "shared_prefs");
+        //for (File file : files) {
+        //  descriptors.add(new SharedPreferencesFlipperPlugin
+        //      .SharedPreferencesDescriptor(file.getName().replace(".xml", ""),
+        //      Context.MODE_PRIVATE));
+        //}
+        //client.addPlugin(new SharedPreferencesFlipperPlugin(application, descriptors));
         //内存溢出检测
         client.addPlugin(new LeakCanaryFlipperPlugin());
         //崩溃统计

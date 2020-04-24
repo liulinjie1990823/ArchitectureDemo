@@ -2,7 +2,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt' // kapt 插件
 
 android {
-    viewBinding { enabled = true }
+    if (!useOld) {
+        viewBinding { enabled = true }
+    }
 }
 
 dependencies {
