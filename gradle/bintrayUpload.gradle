@@ -84,6 +84,7 @@ install {
         }
     }
 }
+
 //定义文档task
 if (project.getPlugins().hasPlugin('com.android.application') ||
         project.getPlugins().hasPlugin('com.android.library')) {
@@ -134,6 +135,7 @@ artifacts {
 
         archives androidJavadocsJar
         archives androidSourcesJar
+
     } else {
 
         archives javadocJar

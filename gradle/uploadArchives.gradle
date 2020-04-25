@@ -1,4 +1,4 @@
-//apply plugin: 'maven'
+//就是对老版本的apply plugin: 'maven'的封装
 apply plugin: 'com.github.dcendents.android-maven'
 
 // load properties

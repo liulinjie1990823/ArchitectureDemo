@@ -2,6 +2,14 @@
  * 工程类库共用相关配置
  */
 
+//限制在跟目录导入
+if (project.name != project.rootProject.name) {
+    return
+}
+
+println("Custome Configure configApp.gradle")
+
+
 subprojects {
     if (it.name == 'app'
             || it.name.startsWith('module-')
@@ -89,7 +97,8 @@ subprojects {
         //app模块公用的配置参数
         android {
             defaultConfig {
-                ndk { abiFilters "armeabi-v7a", "x86" }
+                ndk { abiFilters "armeabi-v7a" }
+//                ndk { abiFilters "armeabi-v7a", "x86" }
                 resConfigs "zh", "xxhdpi"
 
                 manifestPlaceholders = [qq_id: qqId]

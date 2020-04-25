@@ -10,7 +10,7 @@ dependencies {
     implementation gradleApi()
     //groovy sdk
 //    implementation localGroovy()
-    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.15'
+    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.5.10'
 
     //android插件
     if (useOld) {
@@ -19,8 +19,11 @@ dependencies {
         implementation deps.android_gradle_plugin
     }
 
-    implementation('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2') {
-        exclude(module: 'groovy')
-    }
+    //https://http-builder-ng.github.io/http-builder-ng/asciidoc/html5/#_introduction
+    implementation 'io.github.http-builder-ng:http-builder-ng-okhttp:1.0.4'
+
+//    implementation('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2') {
+//        exclude(module: 'groovy')
+//    }
 }
 

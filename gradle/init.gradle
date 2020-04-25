@@ -1,5 +1,11 @@
+//限制在跟目录导入
+if (project.name != project.rootProject.name) {
+    return
+}
 
-//先加载local.properties文件
+println("Custome Configure init.gradle")
+
+//先加载根目录下的local.properties文件
 Properties properties = new Properties()
 try {
     //获取根目录下的local.properties文件
@@ -11,6 +17,7 @@ try {
     println("local.properties not found")
 }
 
+//将根目录下的local.properties文件的属性赋值给根project的ext属性
 ext.applicationId = properties.getProperty("applicationId")
 
 ext.useComponent = properties.getProperty("useComponent") == "true"
@@ -19,6 +26,7 @@ ext.useDexcount = properties.getProperty("useDexcount") == "true"
 ext.useAspectjx = properties.getProperty("useAspectjx") == "true"
 ext.useCodeInject = properties.getProperty("useCodeInject") == "true"
 ext.useApkUploadPlugin = properties.getProperty("useApkUploadPlugin") == "true"
+ext.useDoraemonkit = properties.getProperty("useDoraemonkit") == "true"
 ext.useOld = properties.getProperty("useOld") == "true"
 
 //蒲公英相关秘钥
@@ -35,9 +43,11 @@ ext.pgyReleaseUserKey = properties.getProperty("pgyReleaseUserKey")
 ext.pgyReleaseAppKey = properties.getProperty("pgyReleaseAppKey")
 
 ext.pgyUploadUrl = properties.getProperty("pgyUploadUrl")
+ext.pgyBuildDesc = properties.getProperty("pgyLocalBuildDesc")
 
 //钉钉token
 ext.dingTalkDebugAccessToken = properties.getProperty("dingTalkDebugAccessToken")
+
 
 //七牛秘钥
 ext.kodoAccessKey = properties.getProperty("kodoAccessKey")

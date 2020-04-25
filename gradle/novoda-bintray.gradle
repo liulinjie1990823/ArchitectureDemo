@@ -38,11 +38,12 @@ def developerId = properties.getProperty("developer.id")
 def developerName = properties.getProperty("developer.name")
 def developerEmail = properties.getProperty("developer.email")
 
-def bintrayApiUser = localProperties.getProperty("bintray.user")
-def bintrayApikey = localProperties.getProperty("bintray.apikey")
 
 def javadocName = properties.getProperty("javadoc.name")
 def isDryRun = properties.getProperty("dryRun") == "true"
+
+def bintrayApiUser = localProperties.getProperty("bintray.user")
+def bintrayApikey = localProperties.getProperty("bintray.apikey")
 
 publish {
     userOrg = projectUserOrg

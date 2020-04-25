@@ -1,3 +1,5 @@
+//gradle1.3版本的发布
+//https://docs.gradle.org/current/userguide/publishing_maven.html
 apply plugin: 'maven-publish'
 
 // load properties
@@ -75,29 +77,25 @@ if (project.getPlugins().hasPlugin('com.android.application') ||
     }
 }
 
-//略过Javadoc中的编码问题
-if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-        tasks.withType(Javadoc) {
-            excludes = ['**/*.kt']
-            options.addStringOption('Xdoclint:none', '-quiet')
-            options.addStringOption('encoding', 'UTF-8')
-            options.addStringOption('charSet', 'UTF-8')
-        }
-    }
-}
 
 publishing {
+    //设置发布内容
     publications {
         mavenJava(MavenPublication) {
 
+            //Standard metadata
             groupId = projectGroupId
             artifactId = projectArtifactId
             version = projectVersionName
 
+            //components
+            from components.java
+
+            //Custom artifacts
             artifact javadocJar
             artifact sourcesJar
 
+            //设置pom文件
             pom {
                 name = projectName
                 packaging = projectPackaging
@@ -127,10 +125,21 @@ publishing {
         }
     }
 
+    //设置发布仓库
     repositories {
         maven {
-            // change to point to your repo, e.g. http://my.org/repo
+            //可以使本地路径，也可以是远程仓库
             url = "../repo"
+            //指定要上传的maven私服仓库
+//            url = "http://jenkins.maxrocky.com:8080/maven/content/repositories/thirdparty/"
+            //远程的仓库名称，一般url就指定了仓库名称
+//            name = "test"
+
+            //认证用户和密码
+//            credentials {
+//                username 'admin'
+//                password 'maxrocky5721'
+//            }
         }
     }
 }

@@ -1,4 +1,3 @@
-
 if (useDexcount) {
     apply plugin: 'com.getkeepsafe.dexcount'
 }
@@ -6,7 +5,10 @@ apply plugin: 'walle'
 
 apply plugin: 'com.uber.okbuck'
 
-apply plugin: 'com.didi.dokit'
+if (useDoraemonkit) {
+    apply plugin: 'com.didi.dokit'
+}
+
 
 okbuck {
     buildToolVersion = "28.0.3"
@@ -309,4 +311,5 @@ dependencies {
 //    implementation 'com.llj.flutter.flutter_module:flutter_release:1.0@aar'
 
     implementation 'com.github.florent37:shapeofview:1.4.5'
+
 }

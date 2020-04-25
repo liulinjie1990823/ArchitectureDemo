@@ -2,6 +2,14 @@
  * 工程类库共用相关配置
  */
 
+//限制在跟目录导入
+if (project.name != project.rootProject.name) {
+    return
+}
+
+println("Custome Configure configLibrary.gradle")
+
+
 subprojects {
     //配置类库公用的配置
     if (it.name.startsWith('lib-') || (it.name.startsWith('lib_')) || (it.name.startsWith('plugin-'))) {
@@ -10,6 +18,7 @@ subprojects {
         ) {
             apply plugin: 'groovy'
             apply from: rootProject.file('gradle/novoda-bintray.gradle')
+//            apply from: rootProject.file('gradle/maven-publish.gradle')
 
         } else if (it.name.startsWith('lib-component-annotation')
                 || it.name.startsWith('lib-component-compiler')

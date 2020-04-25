@@ -2,6 +2,7 @@
 apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
+    println("rootProject.file:"+rootProject.file('gradle/init.gradle').path)
     //设置ext属性
     apply from: rootProject.file('gradle/init.gradle')
     //依赖项
@@ -35,7 +36,7 @@ buildscript {
 
         //上传apk
         if (useApkUploadPlugin) {
-            classpath 'com.llj:plugin-upload:0.0.11'
+            classpath 'com.llj:plugin-upload:0.0.13'
         }
         //aspectj
         if (useAspectjx) {
@@ -58,6 +59,7 @@ buildscript {
 }
 
 allprojects {
+    //设置所有工程的依赖仓库
     addRepos(repositories)
 
     //强制使依赖版本
@@ -87,20 +89,30 @@ allprojects {
 
     //过滤每个工程任务表中无用的任务
     gradle.taskGraph.whenReady { taskGraph ->
-
         taskGraph.allTasks.each { task ->
-
             if (task.name.contains("Test")
                     || task.name.contains("test")//测试相关
                     || task.name.contains("mockableAndroidJar")//测试相关
                     || task.name.contains("Lint")//lint检测
                     || task.name.contains("lint")
-                    || task.name.contains("Aidl")//编译Aidl文件
-                    || task.name.contains("aidl")
+//                    || task.name.contains("Aidl")//编译Aidl文件
+//                    || task.name.contains("aidl")
                     || task.name.contains("Ndk")//使用ndk编译c++代码
                     || task.name.contains("ndk")
             ) {
                 task.enabled = false
+            }
+        }
+    }
+
+    //略过Javadoc中的编码问题
+    if (JavaVersion.current().isJava8Compatible()) {
+        allprojects {
+            tasks.withType(Javadoc) {
+                excludes = ['**/*.kt']
+                options.addStringOption('Xdoclint:none', '-quiet')
+                options.addStringOption('encoding', 'UTF-8')
+                options.addStringOption('charSet', 'UTF-8')
             }
         }
     }
