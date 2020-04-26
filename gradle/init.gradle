@@ -28,6 +28,7 @@ ext.useCodeInject = properties.getProperty("useCodeInject") == "true"
 ext.useApkUploadPlugin = properties.getProperty("useApkUploadPlugin") == "true"
 ext.useDoraemonkit = properties.getProperty("useDoraemonkit") == "true"
 ext.useOld = properties.getProperty("useOld") == "true"
+ext.useNew = properties.getProperty("useNew") == "true"
 
 //蒲公英相关秘钥
 ext.pgyDebugApiKey = properties.getProperty("pgyDebugApiKey")

@@ -36,6 +36,9 @@ class TimeListener implements TaskExecutionListener, BuildListener {
 
     @Override
     void buildFinished(BuildResult result) {
+        times.sort { a, b ->
+            return a[0] - b[0]
+        }
         println "Task spend time:"
         for (time in times) {
             if (time[0] >= 50) {

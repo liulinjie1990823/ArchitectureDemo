@@ -2,7 +2,6 @@
 apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
-    println("rootProject.file:"+rootProject.file('gradle/init.gradle').path)
     //设置ext属性
     apply from: rootProject.file('gradle/init.gradle')
     //依赖项
@@ -17,10 +16,14 @@ buildscript {
         //maven库更新检测
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.28.0'
         //android插件
-        if (useOld) {
-            classpath deps.android_gradle_plugin_old
+        if (useNew) {
+            classpath deps.android_gradle_plugin_new
         } else {
-            classpath deps.android_gradle_plugin
+            if (useOld) {
+                classpath deps.android_gradle_plugin_old
+            } else {
+                classpath deps.android_gradle_plugin
+            }
         }
         //kotlin插件
         classpath deps.kotlin_gradle_plugin
@@ -30,7 +33,7 @@ buildscript {
         classpath 'com.meituan.android.walle:plugin:1.1.6'
         //上传bintray插件
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         //组件化插件
         classpath 'com.billy.android:cc-register:1.1.2'
 

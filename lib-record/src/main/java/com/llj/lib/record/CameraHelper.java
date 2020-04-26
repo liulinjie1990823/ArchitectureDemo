@@ -5,11 +5,10 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.os.Environment;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Surface;
-
+import androidx.annotation.NonNull;
 import java.io.File;
 import java.util.List;
 
@@ -266,7 +265,7 @@ public class CameraHelper {
         }
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), BuildConfig.APPLICATION_ID);
+            Environment.DIRECTORY_PICTURES), BuildConfig.LIBRARY_PACKAGE_NAME);
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 

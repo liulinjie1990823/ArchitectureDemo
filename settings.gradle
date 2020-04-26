@@ -32,7 +32,7 @@ include 'app',
 
 include ':plugin-code-inject'
 include ':plugin-upload'
-//include ':time-gradle-plugin'
+//include ':plugin-task-time'
 
 include ':lib-base-compiler'
 include ':lib-jump-annotation'
