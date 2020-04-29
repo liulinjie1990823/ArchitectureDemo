@@ -1,7 +1,8 @@
 package com.llj.component.service
 
 import android.app.Activity
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
+import android.util.ArrayMap
 import com.billy.cc.core.component.CC
 
 /**
@@ -29,10 +30,12 @@ interface IModule {
         return component
     }
 
+    //cc实现
     fun innerCall(cc: CC): Boolean {
         if (INIT == cc.actionName) {
-            val componentApplication = cc.context as MiddleApplication
-            initComponent(componentApplication)
+            if (cc.context is MiddleApplication) {
+                initComponent(cc.context as MiddleApplication)
+            }
         } else if (INJECT_ACTIVITY == cc.actionName) {
             val activity = cc.context as Activity
             getComponent().activityInjector().inject(activity)
@@ -40,6 +43,28 @@ interface IModule {
             val activity = cc.context as androidx.fragment.app.FragmentActivity
             val tag = cc.getParamItem<String>("fragment")
 
+            if (tag != null) {
+                val findFragmentByTag = activity.supportFragmentManager.findFragmentByTag(tag)
+                if (findFragmentByTag != null) {
+                    getComponent().supportFragmentInjector().inject(findFragmentByTag)
+                }
+            }
+        }
+        return false
+    }
+
+    //ARouter实现
+    fun innerCall(context: Context, action: String, map: ArrayMap<String, String>): Boolean {
+        if (INIT == action) {
+            if (context is MiddleApplication) {
+                initComponent(context)
+            }
+        } else if (INJECT_ACTIVITY == action) {
+            val activity = context as Activity
+            getComponent().activityInjector().inject(activity)
+        } else if (INJECT_FRAGMENT == action) {
+            val activity = context as androidx.fragment.app.FragmentActivity
+            val tag = map["fragment"]
             if (tag != null) {
                 val findFragmentByTag = activity.supportFragmentManager.findFragmentByTag(tag)
                 if (findFragmentByTag != null) {

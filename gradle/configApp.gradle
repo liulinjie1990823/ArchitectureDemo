@@ -41,6 +41,15 @@ subprojects {
         apply plugin: 'kotlin-kapt'
         //保存页面字段
         //apply plugin: 'save.state'
+//        //方法耗时统计
+//        if (useMethodTrace) {
+//            apply plugin: "cn.cxzheng.asmtraceman"
+//            traceMan {
+//                open = true //这里如果设置为false,则会关闭插桩
+//                logTraceInfo = false //这里设置为true时可以在log日志里看到所有被插桩的类和方法
+//                traceConfigFile = "${project.projectDir}/traceconfig.txt"
+//            }
+//        }
 
         android.compileOptions {
             targetCompatibility build_versions.compileJdkVersion
@@ -110,12 +119,10 @@ subprojects {
 
         }
 
-//        android.defaultConfig.ndk { abiFilters "armeabi-v7a", "x86" }
-//        android.defaultConfig.ndk { abiFilters "x86" }
-//        android.defaultConfig.resConfigs "zh", "xxhdpi"
 
         dependencies {
             implementation fileTree(include: ['*.jar'], dir: 'libs')
+            implementation project(':application')
             api project(':component-service')
 
             if (useMaven) {

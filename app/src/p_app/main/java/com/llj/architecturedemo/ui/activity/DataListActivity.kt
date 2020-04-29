@@ -29,11 +29,14 @@ abstract class DataListActivity : AppMvcBaseActivity<ActivityDataListBinding>() 
   }
 
   override fun initData() {
-    mViewBinder!!.recyclerView.post(Runnable {
-      val data = ArrayList<DataVo?>()
-      getData(data)
-      mAdapter.addAll(data)
-    })
+    val data = ArrayList<DataVo?>()
+    getData(data)
+    mAdapter.addAll(data)
+//    mViewBinder!!.recyclerView.postDelayed(Runnable {
+//      val data = ArrayList<DataVo?>()
+//      getData(data)
+//      mAdapter.addAll(data)
+//    },0)
   }
 
   abstract fun getData(data: ArrayList<DataVo?>)

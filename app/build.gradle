@@ -1,96 +1,89 @@
+//打渠道包
+apply plugin: 'walle'
+
+walle {
+    // 指定渠道包的输出路径
+    apkOutputFolder = new File("${project.buildDir}/outputs/channels")
+    // 定制渠道包的APK的文件名称
+    apkFileNameFormat = '${appName}_${channel}_${flavorName}${buildType}_v${versionName}_${versionCode}-${buildTime}.apk'
+    // 渠道配置文件
+    channelFile = new File("${project.getProjectDir()}/channel")
+}
+
+//方法耗时统计
+if (useMethodTrace) {
+    apply plugin: "cn.cxzheng.asmtraceman"
+    traceMan {
+        open = true //这里如果设置为false,则会关闭插桩
+        logTraceInfo = false //这里设置为true时可以在log日志里看到所有被插桩的类和方法
+        traceConfigFile = "${project.projectDir}/traceconfig.txt"
+    }
+}
+
+//统计方法数
 if (useDexcount) {
     apply plugin: 'com.getkeepsafe.dexcount'
 }
-apply plugin: 'walle'
 
-apply plugin: 'com.uber.okbuck'
+//使用okbuck编译
+if (useoOkbuck) {
+    apply plugin: 'com.uber.okbuck'
 
-if (useDoraemonkit) {
-    apply plugin: 'com.didi.dokit'
-}
+    okbuck {
+        buildToolVersion = "28.0.3"
+        target = "android-28"
+        linearAllocHardLimit = [
+                app: 16 * 1024 * 1024
+        ]
+        primaryDexPatterns = [
+                app: [
+                        '^com/uber/okbuck/example/AppShell^',
+                        '^com/uber/okbuck/example/BuildConfig^',
+                        '^android/support/multidex/',
+                        '^com/facebook/buck/android/support/exopackage/',
+                        '^com/github/promeg/xlog_android/lib/XLogConfig^',
+                        '^com/squareup/leakcanary/LeakCanary^',
+                ]
+        ]
+        exopackage = [
+                appDebug: true
+        ]
+        appLibDependencies = [
+                'appProd': [
+                        'buck-android-support',
+                        'com.android.support:multidex',
+                        'libraries/javalibrary:main',
+                        'libraries/common:paidRelease',
+                ],
+                'appDev' : [
+                        'buck-android-support',
+                        'com.android.support:multidex',
+                        'libraries/javalibrary:main',
+                        'libraries/common:freeDebug',
+                ]
+        ]
+        annotationProcessors = [
+                "local-apt-dependency": ['com.okbuck.apt.ExampleProcessor']
+        ]
+        buckProjects = project.subprojects
+        extraBuckOpts = [
+                'appDebug': [
+                        "android_binary": ["trim_resource_ids = True"]
+                ]
+        ]
 
-
-okbuck {
-    buildToolVersion = "28.0.3"
-    target = "android-28"
-    linearAllocHardLimit = [
-            app: 16 * 1024 * 1024
-    ]
-    primaryDexPatterns = [
-            app: [
-                    '^com/uber/okbuck/example/AppShell^',
-                    '^com/uber/okbuck/example/BuildConfig^',
-                    '^android/support/multidex/',
-                    '^com/facebook/buck/android/support/exopackage/',
-                    '^com/github/promeg/xlog_android/lib/XLogConfig^',
-                    '^com/squareup/leakcanary/LeakCanary^',
-            ]
-    ]
-    exopackage = [
-            appDebug: true
-    ]
-    appLibDependencies = [
-            'appProd': [
-                    'buck-android-support',
-                    'com.android.support:multidex',
-                    'libraries/javalibrary:main',
-                    'libraries/common:paidRelease',
-            ],
-            'appDev' : [
-                    'buck-android-support',
-                    'com.android.support:multidex',
-                    'libraries/javalibrary:main',
-                    'libraries/common:freeDebug',
-            ]
-    ]
-    annotationProcessors = [
-            "local-apt-dependency": ['com.okbuck.apt.ExampleProcessor']
-    ]
-    buckProjects = project.subprojects
-    extraBuckOpts = [
-            'appDebug': [
-                    "android_binary": ["trim_resource_ids = True"]
-            ]
-    ]
-
-    wrapper {
-        repo = 'https://github.com/facebook/buck.git'
-    }
+        wrapper {
+            repo = 'https://github.com/facebook/buck.git'
+        }
 
 //    experimental {
 //        transform = true
 //    }
-}
-
-//Aspectjx增加方法拦截
-if (useAspectjx) {
-    apply plugin: 'android-aspectjx'
-
-    aspectjx {
-        //AspectJX功能开关
-        enabled true
     }
 }
-//ASM代码注入
-if (useCodeInject) {
-    apply plugin: 'plugin-code-inject'
 
-    codeInjectConfig {
-        enableModify = true
-        showHelp = true
-        keepQuiet = false
-        watchTimeConsume = false
-        targetPackages = ['com.llj.setting.ui.fragment',
-                          'com.llj.component.service.MiddleMvcBaseFragment',
-                          'com.llj.component.service.MiddleMvpBaseFragment',
-        ]
-        superFragments = [
-                'com.llj.lib.base.MvcBaseFragment',
-                'com.llj.lib.base.MvpBaseFragment',
-                'com.llj.setting.SettingMvcBaseFragment',
-        ]
-    }
-}
+
+
 android {
     compileSdkVersion build_versions.compileSdkVersion
     buildToolsVersion build_versions.buildToolsVersion
@@ -105,12 +98,6 @@ android {
 
         dataBinding { enabled = true }
 
-        resValue("string", "qq_id", qqId)
-        resValue("string", "wx_id", wxId)
-        resValue("string", "wx_secret", wxSecret)
-        resValue("string", "sina_id", sinaId)
-        resValue("string", "sina_url", sinaUrl)
-        resValue("string", "bugly_id", buglyId)
     }
     signingConfigs {
         release {
@@ -215,18 +202,14 @@ android {
         exclude 'META-INF/androidx.versionedparcelable_versionedparcelable.version'
     }
 }
-walle {
-    // 指定渠道包的输出路径
-    apkOutputFolder = new File("${project.buildDir}/outputs/channels")
-    // 定制渠道包的APK的文件名称
-    apkFileNameFormat = '${appName}_${channel}_${flavorName}${buildType}_v${versionName}_${versionCode}-${buildTime}.apk'
-    // 渠道配置文件
-    channelFile = new File("${project.getProjectDir()}/channel")
-}
+
 //测试
 //apply from: rootProject.file('gradle/test.gradle')
 //打包任务
 apply from: rootProject.file('gradle/zipChannel.gradle')
+apply from: rootProject.file('gradle/git.gradle')
+
+//打包上传pgy
 if (useApkUploadPlugin) {
     //使用插件
     apply plugin: 'com.llj.plugin.upload.apkUploadPlugin'
@@ -261,7 +244,7 @@ if (useApkUploadPlugin) {
         }
     }
 }
-apply from: rootProject.file('gradle/git.gradle')
+
 
 //repositories {
 //    maven { url '../flutter_ui/build/host/outputs/repo' }
@@ -297,15 +280,10 @@ dependencies {
         kapt project(':lib-jump-compiler')
     }
     implementation 'com.github.Yuphee:RewardLayout:1.0.5.8'
-    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
-    implementation 'com.tencent.bugly:crashreport:3.1.0'
-    implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
+
     //svg
 //    implementation 'com.pixplicity.sharp:library:1.1.3@aar'
-    //doraemonkit
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.4'
-    betaImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.4'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.4'
+
     //    implementation 'com.llj.flutter.flutter_ui:flutter_release:1.0@aar'
     //    implementation 'com.llj.flutter.flutter_setting2:flutter_release:1.0@aar'
 //    implementation 'com.llj.flutter.flutter_module:flutter_release:1.0@aar'

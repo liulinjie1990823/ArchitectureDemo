@@ -39,15 +39,11 @@ abstract class BaseApplication : Application(),
 
         initImageLoader() //图片加载器
         initToast() //全局toast初始化
-
         initCrashHandler() //异常捕捉
 
         if (AActivityManagerUtils.isRunningProcess(this)) {
-
-            initLeakCanary() //监听内存溢出
             initFlipper() //设置okhttp请求调试
             initStrictMode() //设置严格模式
-
         }
     }
 
@@ -72,18 +68,16 @@ abstract class BaseApplication : Application(),
     }
 
 
+    //崩溃日志记录
     protected open fun initCrashHandler() {
-        if (isDebug()) {
-            CrashHelper.getInstance().init(this) { LogUtil.LLJe(it) }
-        }
+        CrashHelper.getInstance().init(this) { LogUtil.LLJe(it) }
     }
 
+    //debug下启用
     protected open fun initFlipper() {
     }
 
-    protected open fun initLeakCanary() {
-    }
-
+    //debug下启用
     protected open fun initStrictMode() {
         if (isDebug()) {
             //设置线程策略

@@ -18,7 +18,7 @@ import com.llj.component.service.MiddleApplication
  * author llj
  * date 2018/8/23
  */
-class AppModule : IComponent,IModule {
+class AppModule : IComponent, IModule {
     private lateinit var mComponent: IInject
 
     override fun getName(): String {
@@ -31,14 +31,16 @@ class AppModule : IComponent,IModule {
                 .build()
     }
 
-    override fun getComponent(): IInject {
-        return checkComponent(mComponent)
-    }
-
     override fun onCall(cc: CC?): Boolean {
         if (cc == null) {
             return false
         }
         return innerCall(cc)
     }
+
+    override fun getComponent(): IInject {
+        return checkComponent(mComponent)
+    }
+
+
 }

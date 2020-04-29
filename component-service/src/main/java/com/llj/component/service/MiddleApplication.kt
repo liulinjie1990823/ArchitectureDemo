@@ -48,6 +48,7 @@ abstract class MiddleApplication : BaseApplication() {
                 .application(this)
                 .build()
 
+        //页面路由
         if (isDebug()) {   // These two lines must be written before init, otherwise these configurations will be invalid in the init process
             ARouter.openLog()     // Print log
             ARouter.openDebug()   // Turn on debugging mode (If you are running in InstantRun mode, you must turn on debug mode! Online version needs to be closed, otherwise there is a security risk)
@@ -80,16 +81,8 @@ abstract class MiddleApplication : BaseApplication() {
         FrescoUtils.initFresco(this.applicationContext, OkHttpNetworkFetcher(mMiddleComponent.okHttpClient()));
     }
 
-    override fun initCrashHandler() {
-    }
-
     override fun initFlipper() {
         BuildTypeUtil.initFlipper(this)
     }
 
-    override fun initLeakCanary() {
-    }
-
-    override fun initStrictMode() {
-    }
 }

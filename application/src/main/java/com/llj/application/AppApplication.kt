@@ -1,12 +1,9 @@
-package com.llj.architecturedemo
+package com.llj.application
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
-import androidx.multidex.MultiDex
 import com.billy.cc.core.component.CC
 import com.didichuxing.doraemonkit.DoraemonKit
-import com.llj.architecturedemo.ui.activity.MainActivity
 import com.llj.component.service.IModule
 import com.llj.component.service.MiddleApplication
 import com.llj.component.service.arouter.CJump
@@ -43,21 +40,24 @@ import timber.log.Timber
  * author llj
  * date 2018/5/18
  */
-class AppApplication : MiddleApplication() {
-    private lateinit var mAppComponent: AppComponent
+open class AppApplication : MiddleApplication() {
 
+    override fun initStrictMode() {
+    }
 
     override fun onCreate() {
         //设置共用的toolbar
         val toolbarConfig = ToolbarConfig()
         toolbarConfig.leftImageRes = R.drawable.service_icon_back
         AppManager.getInstance().toolbarConfig = toolbarConfig
+
         //跳转配置
         val jumpConfig = JumpConfig()
         jumpConfig.nativeScheme = CJump.SCHEME
         jumpConfig.loadingPath = CRouter.APP_LOADING_ACTIVITY
         jumpConfig.loginPath = CRouter.LOGIN_LOGIN_ACTIVITY
         AppManager.getInstance().jumpConfig = jumpConfig
+
         //用户信息配置
         val userInfoConfig = UserInfoConfig()
         userInfoConfig.isLogin = false
@@ -76,11 +76,12 @@ class AppApplication : MiddleApplication() {
             }
         }
         WebViewManager.getInstance().webViewConfig = webViewConfig
+
         super.onCreate()
         //设置日志
         Timber.plant(object : Timber.DebugTree() {
             override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-                if (BuildConfig.DEBUG) {
+                if (isDebug()) {
                     super.log(priority, tag, message, t)
                 }
             }
@@ -89,17 +90,11 @@ class AppApplication : MiddleApplication() {
         Tracker.init(this, TrackerConfig.Builder().build())
         //页面跳转
         JumpHelp.init(this)
-        //图片加载引擎
-        ImageLoader.addImageLoadEngine(0, FrescoEngine())
-
-        mAppComponent = DaggerAppComponent.builder()
-                .middleComponent(mMiddleComponent)
-                .build()
 
         //调用LoginComponent中的dagger组件
-        CC.obtainBuilder("app").setActionName(IModule.INIT).build().call()
-        CC.obtainBuilder("app-login").setActionName(IModule.INIT).build().call()
-        CC.obtainBuilder("app-setting").setActionName(IModule.INIT).build().call()
+        CC.obtainBuilder("app").setActionName(IModule.INIT).build().callAsync()
+        CC.obtainBuilder("app-login").setActionName(IModule.INIT).build().callAsync()
+        CC.obtainBuilder("app-setting").setActionName(IModule.INIT).build().callAsync()
 
         //分享
         val config = SocialConfig.Builder(this, true).qqId(getString(R.string.qq_id))
@@ -108,18 +103,19 @@ class AppApplication : MiddleApplication() {
                 .build()
         SocialManager.init(config)
 
-        //Crash记录
+        //bugly的Crash记录
         CrashReport.initCrashReport(applicationContext, getString(R.string.bugly_id), false)
 
+        //设置状态栏监听
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                if (activity is MainActivity) {
+                val simpleName = activity.javaClass.simpleName
+                if ("MainActivity" == simpleName) {
                     //status和界面中的布局覆盖布局，界面中加了fitWindow,有padding效果，覆盖白字
                     StatusBarCompat.translucentStatusBar(activity.window, true)
                     LightStatusBarCompat.setLightStatusBar(activity.window, false)
                 } else {
                     //status和界面中的布局线性布局，白低黑字
-//                    StatusBarCompat.setStatusBarColor(activity.window, ContextCompat.getColor(activity, R.color.white))
                     StatusBarCompat.translucentStatusBar(activity.window, true)
                     LightStatusBarCompat.setLightStatusBar(activity.window, true)
                 }
@@ -129,12 +125,12 @@ class AppApplication : MiddleApplication() {
         DoraemonKit.install(this)
     }
 
-
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
-
+    override fun initImageLoader() {
+        super.initImageLoader()
+        //图片加载引擎
+        ImageLoader.addImageLoadEngine(0, FrescoEngine())
     }
+
 
     override fun androidInjector(): AndroidInjector<Any> {
         return object : AndroidInjector<Any> {

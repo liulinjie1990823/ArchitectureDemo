@@ -12,7 +12,10 @@ println("Custome Configure configLibrary.gradle")
 
 subprojects {
     //配置类库公用的配置
-    if (it.name.startsWith('lib-') || (it.name.startsWith('lib_')) || (it.name.startsWith('plugin-'))) {
+    if ((it.name.startsWith('application'))
+            || it.name.startsWith('lib-')
+            || (it.name.startsWith('lib_'))
+            || (it.name.startsWith('plugin-'))) {
         if (it.name.startsWith('plugin-code-inject')
                 || it.name.startsWith('plugin-upload')
         ) {

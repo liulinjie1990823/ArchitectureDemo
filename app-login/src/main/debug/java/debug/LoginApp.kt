@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.multidex.MultiDex
 import com.billy.cc.core.component.CC
-import com.llj.component.service.MiddleApplication
+import com.llj.application.AppApplication
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
@@ -27,7 +27,7 @@ import org.altbeacon.beacon.startup.RegionBootstrap
  * @author billy.qi
  * @since 17/11/20 20:02
  */
-class LoginApp : MiddleApplication(), BootstrapNotifier {
+class LoginApp : AppApplication(), BootstrapNotifier {
     private lateinit var backgroundPowerSaver: BackgroundPowerSaver
     override fun didDetermineStateForRegion(p0: Int, p1: Region?) {
     }
