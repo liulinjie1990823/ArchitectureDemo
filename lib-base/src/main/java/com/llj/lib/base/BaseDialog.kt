@@ -1,6 +1,5 @@
 package com.llj.lib.base
 
-import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
@@ -8,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatDialog
 import butterknife.ButterKnife
 import com.llj.lib.base.widget.LoadingDialog
+import com.llj.lib.statusbar.LightStatusBarCompat
 import timber.log.Timber
+
 
 /**
  * ArchitectureDemo
@@ -19,7 +21,7 @@ import timber.log.Timber
  * @author llj
  * @date 2018/5/24
  */
-abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
+abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
 
   companion object {
     const val MATCH = ViewGroup.LayoutParams.MATCH_PARENT
@@ -32,6 +34,9 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
 
   private var mRequestDialog: BaseDialog? = null
   var mUseSoftInput: Boolean = false //是否使用软键盘
+  var mUseTranslucent: Boolean = false //是否使用透明模式
+  var mTextColorBlack: Boolean = true //是否黑色字体
+
   private var mLazyInit: Boolean = false //是否延迟加载，在show的时候[onCreate]中加载
 
   constructor(context: Context) : this(context, R.style.dim_dialog, false)
@@ -48,6 +53,12 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
 
 
   private fun allInit() {
+    Timber.tag(mTagLog).i("Lifecycle %s init with %s ：%d", mTagLog, mContext.javaClass.simpleName, hashCode())
+
+    if (needLoadingDialog()) {
+      checkRequestDialog()
+    }
+
     if (!mLazyInit) {
       bindViews()
       initViews()
@@ -59,7 +70,7 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
     if (layoutId != 0) {
       setContentView(layoutId())
       ButterKnife.bind(this)
-      Timber.tag(mTagLog).i("Lifecycle %s bindViews by %s ：%d", mTagLog, mContext.javaClass.simpleName, hashCode())
+      Timber.tag(mTagLog).i("Lifecycle %s bindViews with %s ：%d", mTagLog, mContext.javaClass.simpleName, hashCode())
     }
   }
 
@@ -70,7 +81,7 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
 
 
   override fun onCreate(savedInstanceState: Bundle?) {
-    Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d", mTagLog, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s onCreate with %s ：%d", mTagLog, mContext.javaClass.simpleName, hashCode())
     super.onCreate(savedInstanceState)
 
     if (mLazyInit) {
@@ -80,9 +91,6 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
 
     // 第一次show的时候会调用该方法
     setWindowParam()
-    if (needLoadingDialog()) {
-      checkRequestDialog()
-    }
     performCreate(savedInstanceState)
   }
 
@@ -109,8 +117,8 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
    * @param gravity 设置match后，此属性无用
    */
   fun setWindowParams(width: Int, height: Int, gravity: Int) {
-    //         setCancelable(cancelable);
-    //         setCanceledOnTouchOutside(cancel);
+//             setCancelable(cancelable);
+//             setCanceledOnTouchOutside(cancel);
     val window = window
     val params = window!!.attributes
     // setContentView设置布局的透明度，0为透明，1为实际颜色,该透明度会使layout里的所有空间都有透明度，不仅仅是布局最底层的view
@@ -138,7 +146,7 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
     if (mRequestDialog == null) {
       mRequestDialog = initLoadingDialog()
       if (mRequestDialog == null) {
-        mRequestDialog = LoadingDialog(context)
+        mRequestDialog = LoadingDialog(mContext)
       }
     }
     setRequestId(hashCode())
@@ -168,32 +176,44 @@ abstract class BaseDialog : Dialog, ILoadingDialogHandler<BaseDialog> {
 
   //  设置dialog透明模式
   override fun show() {
-    if (!mUseSoftInput) {
-      Timber.tag(mTagLog).i("%s show with Translucent", mTagLog)
-      //Immersive Mode
-      //如果没有输入框，不需要弹出软键盘的可以使用TRANSPARENT模式，fitSystemWindow记得在布局中设置
-      //因为如果需要使用软键盘，且需要adjustResize，TRANSPARENT模式会使adjustResize失效，布局还是原来的大小
-      //需要自己根据输入法的是否显示来控制view的高度，所以一般情况下不弹软键盘的可以使用透明覆盖模式，如果使用
-      //软键盘就使用非透明模式。不用自己计算布局的高度
-      //Here's the magic..
-      //Set the dialog to not focusable (makes navigation ignore us adding the window)
-      window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-          WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-
-      //Show the dialog!
-      super.show()
-
-      window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-      window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-      window?.statusBarColor = Color.TRANSPARENT
-      window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-
-      //Clear the not focusable flag from the window
-      window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-    } else {
+    if (mUseSoftInput) {
       Timber.tag(mTagLog).i("%s show with normal", mTagLog)
       //如果有软键盘弹出的，会
       super.show()
+    } else {
+      if (mUseTranslucent) {
+        Timber.tag(mTagLog).i("%s show with Translucent", mTagLog)
+        //Immersive Mode
+        //如果没有输入框，不需要弹出软键盘的可以使用TRANSPARENT模式，fitSystemWindow记得在布局中设置
+        //因为如果需要使用软键盘，且需要adjustResize，TRANSPARENT模式会使adjustResize失效，布局还是原来的大小
+        //需要自己根据输入法的是否显示来控制view的高度，所以一般情况下不弹软键盘的可以使用透明覆盖模式，如果使用
+        //软键盘就使用非透明模式。不用自己计算布局的高度
+        //Here's the magic..
+        //Set the dialog to not focusable (makes navigation ignore us adding the window)
+        window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+
+        //Show the dialog!
+        super.show()
+
+        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window?.statusBarColor = Color.TRANSPARENT
+
+        val visibility: Int = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        window?.decorView?.systemUiVisibility = visibility
+
+        LightStatusBarCompat
+            .setLightStatusBar(window, mTextColorBlack)
+
+        //Clear the not focusable flag from the window
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+      } else {
+        super.show()
+      }
     }
+
   }
 }

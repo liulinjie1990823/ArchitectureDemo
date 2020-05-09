@@ -78,10 +78,6 @@ abstract class MiddleMvpBaseFragment<V : ViewBinding, P : IBasePresenter> : MvpB
     } else true
   }
 
-  // true 黑色字体  false 白色
-  protected open fun statusBarTextColorBlack(): Boolean {
-    return true
-  }
 
   fun isLogin(): Boolean {
     return !TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)

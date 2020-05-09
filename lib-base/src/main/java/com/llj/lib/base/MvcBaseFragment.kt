@@ -20,6 +20,8 @@ import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
+import java.lang.reflect.ParameterizedType
+
 
 /**
  * Fragment在 ViewPager中的表现
@@ -73,6 +75,10 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
   private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
 
   var mUseSoftInput: Boolean = false //是否使用软键盘
+  var mUseTranslucent: Boolean = false //是否使用透明模式
+  var mTextColorBlack: Boolean? = null //是否使用黑色字体，在mUseSoftInput=false,mUseTranslucent=true的前提下起作用
+
+  var mCurrentMill: Long? = null//记录初始化时间用
 
   init {
     showsDialog = false
@@ -90,10 +96,29 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     mOnShowListener = onShowListener
   }
 
+  open fun statusBarTextColorBlack(): Boolean {
+    return true
+  }
+
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     Timber.tag(mTagLog).i("Lifecycle %s onCreateDialog：%d", mTagLog, hashCode())
+
     val baseDialogImpl = BaseDialogImpl(activity!!, theme)
-    baseDialogImpl.mUseSoftInput = false
+    baseDialogImpl.mUseSoftInput = mUseSoftInput
+    baseDialogImpl.mUseTranslucent = mUseTranslucent
+
+    if (mTextColorBlack == null) {
+      baseDialogImpl.mTextColorBlack = statusBarTextColorBlack()
+    } else {
+      baseDialogImpl.mTextColorBlack = mTextColorBlack!!
+    }
+
+//    if (mUseTranslucent) {
+//      StatusBarCompat.translucentStatusBar(baseDialogImpl.window!!, true)
+//    }
+//    LightStatusBarCompat
+//        .setLightStatusBar(baseDialogImpl.window, statusBarTextColorBlack())
+
     return baseDialogImpl
   }
 
@@ -104,9 +129,8 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     if (dialog == null) {
       mOnShowListener?.onShow(null)
     } else {
-      if (!(dialog?.isShowing!!)) {
-        mOnShowListener?.onShow(dialog)
-      }
+      Timber.tag(mTagLog).i("Lifecycle %s BaseDialogImpl show：%d", mTagLog, dialog.hashCode())
+      mOnShowListener?.onShow(dialog)
     }
   }
 
@@ -139,6 +163,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
 
   private fun dispatchDismissListener() {
     //设置回调方法
+    Timber.tag(mTagLog).i("Lifecycle %s BaseDialogImpl dismiss：%d", mTagLog, dialog.hashCode())
     mOnDismissListener?.onDismiss(dialog)
   }
 
@@ -163,6 +188,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
   //<editor-fold desc="smartDismiss">
   fun smartDismiss() {
     if (showsDialog) {
+      //后续会调用hideSoftInput，onDismiss，走dispatchDismissListener
       dismissAllowingStateLoss()
     } else {
       hideSoftInput()
@@ -247,7 +273,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d", mTagLog, hashCode())
 
     //设置dialog的style
-//    setStyle(STYLE_NO_TITLE, R.style.no_dim_dialog)
+    setStyle(STYLE_NO_TITLE, R.style.no_dim_dialog)
 
     mContext = context!!
 
@@ -265,19 +291,27 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
     Timber.tag(mTagLog).i("Lifecycle %s onActivityCreated：%d", mTagLog, hashCode())
-    if (dialog == null || dialog?.window == null) {
+    if (dialog == null || dialog!!.window == null) {
       return
     }
-    setWindowParams(dialog?.window!!, -1, -1, Gravity.CENTER)
+    setWindowParams(dialog!!.window!!, -1, -1, Gravity.CENTER)
   }
 
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    mCurrentMill = System.currentTimeMillis()
+
     Timber.tag(mTagLog).i("Lifecycle %s onCreateView：%d", mTagLog, hashCode())
 
     var view: View? = null
 
     mViewBinder = layoutViewBinding()
+
+    if (mViewBinder == null) {
+      //如果忘记设置则使用反射设置
+      reflectViewBinder()
+    }
+
     if (mViewBinder != null) {
       view = mViewBinder?.root;
     } else {
@@ -292,7 +326,41 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
 
     initViews(savedInstanceState)
 
+    Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d cost %d ms", mTagLog, hashCode(), (System.currentTimeMillis() - mCurrentMill!!))
     return view
+  }
+
+  private fun reflectViewBinder() {
+    val currentTimeMillis = System.currentTimeMillis()
+    var classType: Class<*> = javaClass
+    for (i in 0..4) {
+      if (classType.genericSuperclass is ParameterizedType) {
+        //父类是泛型类型就反射一次
+        Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect class %s：%d",
+            mTagLog, classType.genericSuperclass!!.toString(), hashCode())
+        mViewBinder = reflectOnce(classType.genericSuperclass as ParameterizedType)
+        if (mViewBinder != null) {
+          break
+        }
+      }
+      classType = classType.superclass
+    }
+    val diffTimeMillis = System.currentTimeMillis() - currentTimeMillis
+    Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect %d ms：%d", mTagLog, diffTimeMillis, hashCode())
+  }
+
+  private fun reflectOnce(type: ParameterizedType): V? {
+    var viewBinder: V? = null
+    try {
+      val clazz = type.actualTypeArguments[0] as Class<V>
+      Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect generic type %s：%d",
+          mTagLog, clazz, hashCode())
+      val method = clazz.getMethod("inflate", LayoutInflater::class.java)
+      viewBinder = method.invoke(null, layoutInflater) as V
+    } catch (e: Exception) {
+      Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect failed：%s", mTagLog, e.message)
+    }
+    return viewBinder
   }
 
 

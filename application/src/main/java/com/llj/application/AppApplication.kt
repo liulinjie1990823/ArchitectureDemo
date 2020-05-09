@@ -113,7 +113,7 @@ open class AppApplication : MiddleApplication() {
         if ("MainActivity" == simpleName) {
           //status和界面中的布局覆盖布局，界面中加了fitWindow,有padding效果，覆盖白字
           StatusBarCompat.translucentStatusBar(activity.window, true)
-          LightStatusBarCompat.setLightStatusBar(activity.window, false)
+          LightStatusBarCompat.setLightStatusBar(activity.window, true)
         } else if (simpleName != "KeyboardStateActivity") {
           //status和界面中的布局线性布局，白低黑字
           StatusBarCompat.translucentStatusBar(activity.window, true)

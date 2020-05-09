@@ -190,7 +190,7 @@ public class MineFragment extends
   private boolean mIsStatusTextBlack;
 
   @Override
-  protected boolean statusBarTextColorBlack() {
+  public boolean statusBarTextColorBlack() {
     return false;
   }
 

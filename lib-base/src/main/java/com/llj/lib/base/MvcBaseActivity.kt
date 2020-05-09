@@ -46,6 +46,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
   private val mCancelableTasks: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
   private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
 
+  var mCurrentMill: Long? = null//记录初始化时间用
 
   override fun useEventBus(): Boolean {
     return true
@@ -53,6 +54,8 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
 
   //<editor-fold desc="生命周期">
   override fun onCreate(savedInstanceState: Bundle?) {
+    mCurrentMill = System.currentTimeMillis()
+
     Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d", mTagLog, hashCode())
     mContext = this
 
@@ -99,10 +102,12 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
     initViews(savedInstanceState)
 
     initData()
+
+    Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d cost %d ms", mTagLog, hashCode(), (System.currentTimeMillis() - mCurrentMill!!))
   }
 
   private fun reflectViewBinder() {
-    val currentTimeMillis = System.currentTimeMillis()
+    val currentTimeMillis: Long = System.currentTimeMillis()
     var classType: Class<*> = javaClass
     for (i in 0..4) {
       if (classType.genericSuperclass is ParameterizedType) {

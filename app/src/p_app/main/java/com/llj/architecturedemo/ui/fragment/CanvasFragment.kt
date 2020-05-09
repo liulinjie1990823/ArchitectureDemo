@@ -5,17 +5,16 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.llj.architecturedemo.AppMvcBaseFragment
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.databinding.FragmentCanvasBinding
 import com.llj.architecturedemo.ui.activity.CanvasActivity
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.MvcBaseFragment
 import com.llj.lib.base.help.DisplayHelper
 import timber.log.Timber
 
@@ -27,7 +26,7 @@ import timber.log.Timber
  * @date 2020/4/18 8:55 PM
  */
 @Route(path = CRouter.APP_CANVAS_FRAGMENT)
-class CanvasFragment : MvcBaseFragment<FragmentCanvasBinding>() {
+class CanvasFragment : AppMvcBaseFragment<FragmentCanvasBinding>() {
 
   @Autowired(name = CRouter.KEY_TYPE) @JvmField var mType: Int = 0
 
@@ -36,20 +35,8 @@ class CanvasFragment : MvcBaseFragment<FragmentCanvasBinding>() {
     setStyle(STYLE_NO_TITLE, R.style.no_dim_dialog)
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-    setWindowParams(dialog?.window!!, -1, -1, Gravity.CENTER)
-  }
-
-  override fun layoutViewBinding(): FragmentCanvasBinding? {
-    return FragmentCanvasBinding.inflate(layoutInflater)
-  }
-
-  override fun layoutId(): Int {
-    return R.layout.fragment_canvas
-  }
-
   override fun initViews(savedInstanceState: Bundle?) {
+    super.initViews(savedInstanceState)
     ARouter.getInstance().inject(this);
     val layoutParams = ConstraintLayout.LayoutParams(DisplayHelper.SCREEN_WIDTH, DisplayHelper.SCREEN_HEIGHT)
     mViewBinder!!.root.addView(CanvasView(mContext), layoutParams)
