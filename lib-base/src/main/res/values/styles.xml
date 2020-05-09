@@ -1,184 +1,160 @@
 <resources>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+  <!--
+      Base application theme, dependent on API level. This theme is replaced
+      by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
 
 
-    -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+  -->
+  <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-    </style>
-    <!--<style name="AppBaseTheme" parent="android:Theme.Holo.Light">-->
+  </style>
+  <!--<style name="AppBaseTheme" parent="android:Theme.Holo.Light">-->
 
-    <!--&lt;!&ndash; API 11 theme customizations can go here. &ndash;&gt;-->
-    <!--<item name="android:windowActionBar">false</item>-->
-    <!--<item name="android:windowNoTitle">true</item>-->
-    <!--</style>-->
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme"> <!-- toolbar（actionbar）颜色 -->
-    </style>
-    <!-- 使用默认的黑暗程度0.6 -->
-    <style name="dim_dialog" parent="Theme.AppCompat.Light.Dialog">
-        //修改了progressbar的颜色
-        <item name="colorControlActivated">@color/dialog_color</item>
-        //背景波纹颜色
-        <!--<item name="colorControlHighlight">@color/dialog_color</item>-->
-        <item name="android:windowNoTitle">true</item>
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <!-- 无标题，设置的是decorview的背景色 -->
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <!-- 默认是有阴影背景的,加以下属性可以改变阴影度阴影 -->
+  <!--&lt;!&ndash; API 11 theme customizations can go here. &ndash;&gt;-->
+  <!--<item name="android:windowActionBar">false</item>-->
+  <!--<item name="android:windowNoTitle">true</item>-->
+  <!--</style>-->
+  <!-- Application theme. -->
+  <style name="AppTheme" parent="AppBaseTheme" /> <!-- toolbar（actionbar）颜色 -->
 
-    </style>
-    <!-- 使用默认的黑暗程度0.6 -->
-    <style name="dim08_dialog" parent="dim_dialog">
-        //修改了progressbar的颜色
-        <item name="colorControlActivated">@color/dialog_color</item>
-        //背景波纹颜色
-        <!--<item name="colorControlHighlight">@color/dialog_color</item>-->
-        <item name="android:windowNoTitle">true</item>
-        <!-- 无标题，设置的是decorview的背景色 -->
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <!-- 默认是有阴影背景的,加以下属性可以改变阴影度阴影 -->
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:backgroundDimAmount">0.8</item>
-    </style>
+  <!-- 使用默认的黑暗程度0.6 -->
+  <style name="dim_dialog" parent="Theme.AppCompat.Light.Dialog">
+    //修改了progressbar的颜色
+    <item name="colorControlActivated">@color/dialog_color</item>
+    //背景波纹颜色
+    <!--<item name="colorControlHighlight">@color/dialog_color</item>-->
+    <item name="android:windowNoTitle">true</item>
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <!-- 无标题，设置的是decorview的背景色 -->
+    <item name="android:windowBackground">@android:color/transparent</item>
+  </style>
 
-    <style name="dim03_dialog" parent="dim_dialog">
-        <!--/修改了progressbar的颜色-->
-        <item name="colorControlActivated">@color/dialog_color</item>
-        <!--<item name="colorControlHighlight">@color/dialog_color</item>-->
-        <item name="android:windowNoTitle">true</item>
-        <!-- 无标题，设置的是decorview的背景色 -->
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <!-- 默认是有阴影背景的,加以下属性可以改变阴影度阴影 -->
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:backgroundDimAmount">0.3</item>
-    </style>
-    <!-- 使用默认的黑暗程度0.6 -->
-    <style name="dim_up_down_anim_dialog" parent="dim_dialog">
-        <item name="android:windowAnimationStyle">@style/dialog_anim_bottom_to_center</item>
-        <!-- 无标题，设置的是decorview的背景色 -->
-    </style>
-    <!-- 没有阴影-->
-    <style name="no_dim_up_down_anim_dialog" parent="no_dim_dialog">
-        <item name="android:windowAnimationStyle">@style/dialog_anim_bottom_to_center</item>
-        <!-- 无标题，设置的是decorview的背景色 -->
-    </style>
-    <!-- 可以自己调整阴影度 -->
-    <style name="no_dim_dialog" parent="@style/dim_dialog">
-        <item name="android:windowNoTitle">true</item>
-        <!-- 无标题 -->
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <!-- 默认是有阴影背景的,加以下属性可以改变阴影度阴影 -->
-        <item name="android:backgroundDimEnabled">false</item>
+  <style name="dim03_dialog" parent="dim_dialog">
+    <item name="android:backgroundDimAmount">0.3</item>
+  </style>
 
-        <item name="android:backgroundDimAmount">0</item>
-        <item name="android:windowFullscreen">true</item>
+  <style name="dim08_dialog" parent="dim_dialog">
+    <item name="android:backgroundDimAmount">0.8</item>
+  </style>
 
-    </style>
-    <!-- 普通的横线 -->
-    <style name="common_line_f3f3f3">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/grayf3f3f3</item>
-    </style>
+  <!-- 可以自己调整阴影度 -->
+  <style name="no_dim_dialog" parent="@style/dim_dialog">
+    <!-- 默认是有阴影背景的,加以下属性可以改变阴影度阴影 -->
+    <item name="android:backgroundDimEnabled">false</item>
+    <item name="android:backgroundDimAmount">0</item>
+  </style>
 
-    <!-- 普通的横线 -->
-    <style name="common_line">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1px</item>
-        <item name="android:background">@color/gray</item>
-    </style>  <!-- 普通的横线 -->
-    <!-- 普通的竖线 -->
-    <style name="common_line_v">
-        <item name="android:layout_width">1px</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/divide_color</item>
-    </style>
+  <style name="dim_up_down_anim_dialog" parent="dim_dialog">
+    <item name="android:windowAnimationStyle">@style/dialog_anim_bottom_to_center</item>
+  </style>
 
-    <style name="dialog_anim_bottom_to_center" parent="android:Animation">
-        <!-- 进入时的动画 -->
-        <item name="android:windowEnterAnimation">@anim/bottom_to_center</item>
-        <!-- 退出时的动画 -->
-        <item name="android:windowExitAnimation">@anim/center_to_bottom</item>
-    </style>
-
-    //界面动画使用渐隐渐现效果
-
-    <style name="activity_anim_fade" parent="@android:style/Animation.Activity">
-        <!-- 打开 -->
-        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
-        <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
-        <!-- 关闭 -->
-        <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
-        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
-    </style>
-
-    //进出界面使用上下动画
-
-    <style name="activity_anim_slide_up_and_down" parent="@android:style/Animation.Activity">
-        <!-- 打开,新界面从底部进入,老界面不变 -->
-        <item name="android:activityOpenEnterAnimation">@anim/bottom_to_center</item>
-        <item name="android:activityOpenExitAnimation">@anim/no_fade</item>
-        <!-- 关闭,要关闭的界面从底部出去,老界面不变 -->
-        <item name="android:activityCloseEnterAnimation">@anim/no_fade</item>
-        <item name="android:activityCloseExitAnimation">@anim/center_to_bottom</item>
-    </style>
-
-    //进出界面使用左右动画
-
-    <style name="activity_anim_slide_left_and_right" parent="@android:style/Animation.Activity">
-
-        <!-- 打开,新界面从右边进入,老界面不变 -->
-        <item name="android:activityOpenEnterAnimation">@anim/pull_in_right</item>
-        <item name="android:activityOpenExitAnimation">@anim/no_fade</item>
-        <!-- 关闭,要关闭的界面从右边出去,老界面不变 -->
-        <item name="android:activityCloseEnterAnimation">@anim/no_fade</item>
-        <item name="android:activityCloseExitAnimation">@anim/push_out_right</item>
-    </style>
-
-    <style name="PopupAnimation" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
-        <item name="android:windowExitAnimation">@anim/popup_exit</item>
-    </style>
-
-    //共通toolbar的左边按钮
-
-    <style name="common_toolbar_left_menu">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:textColor">@color/common_toolbar_left_text_color</item>
-        <item name="android:drawablePadding">@dimen/common_toolbar_left_drawable_padding</item>
-        <item name="android:paddingLeft">@dimen/common_toolbar_left_padding</item>
-        <item name="android:paddingRight">@dimen/common_toolbar_left_padding</item>
-        <item name="android:gravity">center_vertical|left</item>
-        <item name="android:textSize">@dimen/common_toolbar_left_text_size</item>
-    </style>
-    //共通toolbar的左边按钮
-
-    <style name="common_toolbar_center_menu">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:textColor">@color/common_toolbar_center_text_color</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/common_toolbar_center_text_size</item>
-    </style>
+  <style name="no_dim_up_down_anim_dialog" parent="no_dim_dialog">
+    <item name="android:windowAnimationStyle">@style/dialog_anim_bottom_to_center</item>
+  </style>
 
 
-    //共通toolbar的右边按钮
+  <!-- 普通的横线 -->
+  <style name="common_line_f3f3f3">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">1dp</item>
+    <item name="android:background">@color/grayf3f3f3</item>
+  </style>
 
-    <style name="common_toolbar_right_menu">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:textColor">@color/common_toolbar_right_text_color</item>
-        <item name="android:drawablePadding">@dimen/common_toolbar_right_drawable_padding</item>
-        <item name="android:paddingLeft">@dimen/common_toolbar_right_padding</item>
-        <item name="android:paddingRight">@dimen/common_toolbar_right_padding</item>
-        <item name="android:gravity">center_vertical|right</item>
-        <item name="android:textSize">@dimen/common_toolbar_right_text_size</item>
-    </style>
+  <!-- 普通的横线 -->
+  <style name="common_line">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">1px</item>
+    <item name="android:background">@color/gray</item>
+  </style>  <!-- 普通的横线 -->
+  <!-- 普通的竖线 -->
+  <style name="common_line_v">
+    <item name="android:layout_width">1px</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:background">@color/divide_color</item>
+  </style>
+
+  <style name="dialog_anim_bottom_to_center" parent="android:Animation">
+    <!-- 进入时的动画 -->
+    <item name="android:windowEnterAnimation">@anim/bottom_to_center</item>
+    <!-- 退出时的动画 -->
+    <item name="android:windowExitAnimation">@anim/center_to_bottom</item>
+  </style>
+
+  //界面动画使用渐隐渐现效果
+
+  <style name="activity_anim_fade" parent="@android:style/Animation.Activity">
+    <!-- 打开 -->
+    <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+    <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
+    <!-- 关闭 -->
+    <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
+    <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+  </style>
+
+  //进出界面使用上下动画
+
+  <style name="activity_anim_slide_up_and_down" parent="@android:style/Animation.Activity">
+    <!-- 打开,新界面从底部进入,老界面不变 -->
+    <item name="android:activityOpenEnterAnimation">@anim/bottom_to_center</item>
+    <item name="android:activityOpenExitAnimation">@anim/no_fade</item>
+    <!-- 关闭,要关闭的界面从底部出去,老界面不变 -->
+    <item name="android:activityCloseEnterAnimation">@anim/no_fade</item>
+    <item name="android:activityCloseExitAnimation">@anim/center_to_bottom</item>
+  </style>
+
+  //进出界面使用左右动画
+
+  <style name="activity_anim_slide_left_and_right" parent="@android:style/Animation.Activity">
+
+    <!-- 打开,新界面从右边进入,老界面不变 -->
+    <item name="android:activityOpenEnterAnimation">@anim/pull_in_right</item>
+    <item name="android:activityOpenExitAnimation">@anim/no_fade</item>
+    <!-- 关闭,要关闭的界面从右边出去,老界面不变 -->
+    <item name="android:activityCloseEnterAnimation">@anim/no_fade</item>
+    <item name="android:activityCloseExitAnimation">@anim/push_out_right</item>
+  </style>
+
+  <style name="PopupAnimation" parent="android:Animation">
+    <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+    <item name="android:windowExitAnimation">@anim/popup_exit</item>
+  </style>
+
+  //共通toolbar的左边按钮
+
+  <style name="common_toolbar_left_menu">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:textColor">@color/common_toolbar_left_text_color</item>
+    <item name="android:drawablePadding">@dimen/common_toolbar_left_drawable_padding</item>
+    <item name="android:paddingLeft">@dimen/common_toolbar_left_padding</item>
+    <item name="android:paddingRight">@dimen/common_toolbar_left_padding</item>
+    <item name="android:gravity">center_vertical|left</item>
+    <item name="android:textSize">@dimen/common_toolbar_left_text_size</item>
+  </style>
+  //共通toolbar的左边按钮
+
+  <style name="common_toolbar_center_menu">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:textColor">@color/common_toolbar_center_text_color</item>
+    <item name="android:gravity">center</item>
+    <item name="android:textSize">@dimen/common_toolbar_center_text_size</item>
+  </style>
+
+
+  //共通toolbar的右边按钮
+
+  <style name="common_toolbar_right_menu">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:textColor">@color/common_toolbar_right_text_color</item>
+    <item name="android:drawablePadding">@dimen/common_toolbar_right_drawable_padding</item>
+    <item name="android:paddingLeft">@dimen/common_toolbar_right_padding</item>
+    <item name="android:paddingRight">@dimen/common_toolbar_right_padding</item>
+    <item name="android:gravity">center_vertical|right</item>
+    <item name="android:textSize">@dimen/common_toolbar_right_text_size</item>
+  </style>
 
 </resources>

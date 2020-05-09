@@ -8,11 +8,13 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.llj.architecturedemo.AppMvcBaseActivity
 import com.llj.architecturedemo.databinding.ActivityKeyboardStateBinding
 import com.llj.component.service.arouter.CRouter
+import com.llj.lib.base.help.DisplayHelper
 import com.llj.lib.base.listeners.KeyboardStateObserver
 import com.llj.lib.base.listeners.KeyboardStateObserver.OnKeyboardVisibilityListener
+import com.llj.lib.statusbar.LightStatusBarCompat
 
 /**
- * describe 不写是傻逼
+ * describe Keyboard
  *
  * @author liulinjie
  * @date 2020/4/19 2:14 PM
@@ -20,9 +22,6 @@ import com.llj.lib.base.listeners.KeyboardStateObserver.OnKeyboardVisibilityList
 @Route(path = CRouter.APP_KEYBOARD_STATE_ACTIVITY)
 class KeyboardStateActivity : AppMvcBaseActivity<ActivityKeyboardStateBinding>() {
 
-  override fun layoutViewBinding(): ActivityKeyboardStateBinding? {
-    return ActivityKeyboardStateBinding.inflate(layoutInflater)
-  }
 
   @Autowired(name = CRouter.KEY_TYPE) @JvmField var mType: Int = 0
 
@@ -31,25 +30,44 @@ class KeyboardStateActivity : AppMvcBaseActivity<ActivityKeyboardStateBinding>()
     ARouter.getInstance().inject(this);
     if (mType == 0) {
       window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+      setTranslucentStatusBar(window, true)
     } else if (mType == 1) {
+      window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+      LightStatusBarCompat.setLightStatusBar(window, true)
+    } else if (mType == 2) {
+      //SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN下RESIZE会失效，需要自己设置布局高度
       window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+      setTranslucentStatusBar(window, true)
+    } else if (mType == 3) {
+      window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+      LightStatusBarCompat.setLightStatusBar(window, true)
     }
-    setTranslucentStatusBar(window, true)
 
     KeyboardStateObserver.getKeyboardStateObserver(window).setKeyboardVisibilityListener(
         object : OnKeyboardVisibilityListener {
           override fun onKeyboardShow(resizeHeight: Int) {
-            mViewBinder!!.tvText.text = "contentView height:$resizeHeight"
+            mViewBinder!!.tvText.text = "rootView getWindowVisibleDisplayFrame height:$resizeHeight"
+            mViewBinder!!.tvText2.text = "rootView height:" + mViewBinder!!.vRoot.measuredHeight
+            if (mType == 2) {
+              mViewBinder!!.vRoot.layoutParams.height = resizeHeight + DisplayHelper.STATUS_BAR_HEIGHT
+              mViewBinder!!.vRoot.requestLayout()
+            }
           }
 
           override fun onKeyboardHide(resizeHeight: Int) {
-            mViewBinder!!.tvText.text = "contentView height:$resizeHeight"
+            mViewBinder!!.tvText.text = "rootView getWindowVisibleDisplayFrame height:$resizeHeight"
+            mViewBinder!!.tvText2.text = "rootView height:" + mViewBinder!!.vRoot.measuredHeight
+            if (mType == 2) {
+              mViewBinder!!.vRoot.layoutParams.height = resizeHeight + DisplayHelper.STATUS_BAR_HEIGHT
+              mViewBinder!!.vRoot.requestLayout()
+            }
           }
 
         })
   }
 
   override fun initData() {
+
   }
 
 }

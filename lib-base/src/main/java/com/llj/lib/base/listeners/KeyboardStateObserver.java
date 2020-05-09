@@ -35,8 +35,9 @@ public class KeyboardStateObserver {
 
   private int mDecorViewHeight;//无键盘下DecorView的高度
 
-  private View mUserRootView;//contentView
-  private int  mUserRootViewHeightPrevious;//布局中的rootView的高度
+  private View mUserRootView;//contentView的子布局，即是用户的布局
+
+  private int mUserRootViewHeightPrevious;//布局中的rootView的高度
 
   private OnKeyboardVisibilityListener mListener;
 
@@ -64,6 +65,7 @@ public class KeyboardStateObserver {
     //对比当前布局中的rootView的可见高度
     if (userRootViewHeight != mUserRootViewHeightPrevious) {
 
+      //mDecorViewHeight - userRootViewHeight就是软键盘弹起状态下然键盘的高度
       if (mDecorViewHeight - userRootViewHeight > (mDecorViewHeight / 4)) {
         //说明软键盘弹起
         if (mListener != null) {
@@ -84,7 +86,7 @@ public class KeyboardStateObserver {
 
 
   /**
-   * 计算mChildOfContent可见高度，不包括statusBar的高度
+   * 计算mUserRootView可见高度，不包括statusBar的高度
    * <p/>
    * SOFT_INPUT_ADJUST_RESIZE属性，在透明模式和非透明模式下，软键盘的显示和隐藏，computeUsableHeight会有不同的值
    * <p/>

@@ -29,7 +29,7 @@ import java.lang.reflect.ParameterizedType
  * @date 2019/3/13
  */
 abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
-    , IBaseActivity, ICommon<V>, IUiHandler, IEvent, IBaseActivityView {
+    , IBaseActivity, ICommon<V>, IUiHandler, IEvent, IBaseActivityView, IFragmentHandle {
 
   @JvmField
   val mTagLog: String = this.javaClass.simpleName

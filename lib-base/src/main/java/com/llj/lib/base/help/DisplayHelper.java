@@ -1,6 +1,8 @@
 package com.llj.lib.base.help;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 import com.llj.lib.utils.ADisplayUtils;
 
 /**
@@ -28,8 +30,11 @@ public class DisplayHelper {
     }
     sInitialed = true;
 
-    SCREEN_WIDTH = context.getResources().getDisplayMetrics().widthPixels;
-    SCREEN_HEIGHT = context.getResources().getDisplayMetrics().heightPixels;
+    WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+    wm.getDefaultDisplay().getRealMetrics(displayMetrics);
+    SCREEN_WIDTH = displayMetrics.widthPixels;
+    SCREEN_HEIGHT = displayMetrics.heightPixels;
 
     STATUS_BAR_HEIGHT = ADisplayUtils.getStatusBarHeight(context.getApplicationContext());
     NAVIGATION_BAR_HEIGHT = ADisplayUtils.getNavigationBarOffset(context.getApplicationContext());

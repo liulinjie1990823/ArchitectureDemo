@@ -4,14 +4,32 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:background="@color/slategray"
+  android:id="@+id/v_root"
   android:fitsSystemWindows="true"
   android:gravity="bottom"
   android:orientation="vertical">
 
-  <FrameLayout
+  <EditText
+    android:id="@+id/et_name"
+    android:layout_width="0dp"
+    android:layout_height="50dp"
+    android:background="@color/white"
+    android:hint="请点击"
+    android:textColor="@color/black"
+    android:textColorHint="@color/black"
+    android:textSize="24dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent" />
+
+
+  <LinearLayout
     android:id="@+id/fl_contain"
     android:layout_width="0dp"
     android:layout_height="0dp"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
     app:layout_constraintBottom_toTopOf="@+id/et_name"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
@@ -19,16 +37,15 @@
 
     <TextView
       android:id="@+id/tv_text"
-      android:layout_width="wrap_content"
+      android:textStyle="normal"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:ellipsize="end"
-      android:gravity="center"
+      android:gravity="center_vertical"
       android:includeFontPadding="false"
-      android:maxLines="1"
       android:textColor="@color/black"
       android:textSize="20dp"
-      android:textStyle="normal"
       android:visibility="visible"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
@@ -36,20 +53,24 @@
       tools:background="#FFAD26"
       tools:text="周大福时尚大表盘情侣手表周大福大表盘情侣手表敌法表周大福大表盘情侣手表" />
 
-  </FrameLayout>
+    <TextView
+      android:id="@+id/tv_text2"
+      android:textStyle="normal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:ellipsize="end"
+      android:gravity="center_vertical"
+      android:includeFontPadding="false"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:visibility="visible"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:background="#FFAD26"
+      tools:text="周大福时尚大表盘情侣手表周大福大表盘情侣手表敌法表周大福大表盘情侣手表" />
 
-
-  <EditText
-    android:id="@+id/et_name"
-    android:layout_width="0dp"
-    android:layout_height="50dp"
-    android:background="@null"
-    android:hint="请点击"
-    android:textColor="@color/black"
-    android:textColorHint="@color/cl_999999"
-    android:textSize="24dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent" />
+  </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

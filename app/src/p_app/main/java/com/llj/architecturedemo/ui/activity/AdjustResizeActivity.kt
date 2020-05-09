@@ -16,8 +16,10 @@ import com.llj.component.service.arouter.CRouter
 class AdjustResizeActivity : DataListActivity() {
 
   override fun getData(data: ArrayList<DataVo?>) {
-    data.add(DataVo("adjustPan", 0))
-    data.add(DataVo("adjustResize", 1))
+    data.add(DataVo("adjustPan Translucent true", 0))
+    data.add(DataVo("adjustResize Translucent false", 1))
+    data.add(DataVo("adjustResize Translucent true", 2))
+    data.add(DataVo("adjustResize Translucent false", 3))
   }
 
   override fun onClick(view: View, item: DataVo) {

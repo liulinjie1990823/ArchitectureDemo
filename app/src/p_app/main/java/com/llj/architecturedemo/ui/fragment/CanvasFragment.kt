@@ -17,6 +17,7 @@ import com.llj.architecturedemo.ui.activity.CanvasActivity
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.MvcBaseFragment
 import com.llj.lib.base.help.DisplayHelper
+import timber.log.Timber
 
 
 /**
@@ -32,7 +33,7 @@ class CanvasFragment : MvcBaseFragment<FragmentCanvasBinding>() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setStyle(STYLE_NO_TITLE, R.style.dim_dialog)
+    setStyle(STYLE_NO_TITLE, R.style.no_dim_dialog)
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -51,12 +52,11 @@ class CanvasFragment : MvcBaseFragment<FragmentCanvasBinding>() {
   override fun initViews(savedInstanceState: Bundle?) {
     ARouter.getInstance().inject(this);
     val layoutParams = ConstraintLayout.LayoutParams(DisplayHelper.SCREEN_WIDTH, DisplayHelper.SCREEN_HEIGHT)
-    (mViewBinder!!.root as ConstraintLayout).addView(CanvasView(mContext), layoutParams)
+    mViewBinder!!.root.addView(CanvasView(mContext), layoutParams)
   }
 
   override fun initData() {
-
-
+    Timber.tag(mTagLog).i("DisplayHelper.SCREEN_HEIGHT：%d", DisplayHelper.SCREEN_HEIGHT)
   }
 
   inner class CanvasView : View {

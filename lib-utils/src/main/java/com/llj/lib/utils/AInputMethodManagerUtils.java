@@ -9,14 +9,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 /**
- * InputMethodManager.HIDE_NOT_ALWAYS:表示软键盘窗口总是隐藏，除非开始时以SHOW_FORCED显示
- * InputMethodManager.HIDE_IMPLICIT_ONLY:表示如果用户未显式地显示软键盘窗口，则隐藏窗口
- * InputMethodManager.SHOW_FORCED:表示用户强制打开输入法（如长按菜单键），一直保持打开直至只有显式关闭
- * InputMethodManager.SHOW_IMPLICIT:表示隐式显示输入窗口，非用户直接要求。窗口可能不显示。
+ * InputMethodManager.SHOW_IMPLICIT:表示隐式显示输入窗口，非用户直接要求。窗口可能不显示。 InputMethodManager.SHOW_FORCED:表示用户强制打开输入法（如长按菜单键），一直保持打开直至只有显式关闭
+ * InputMethodManager.HIDE_IMPLICIT_ONLY:表示如果用户未显式地显示软键盘窗口，则隐藏窗口 InputMethodManager.HIDE_NOT_ALWAYS:表示软键盘窗口总是会隐藏，除非开始是以SHOW_FORCED显示
  * <p>
  * <p>
- * imm.hideSoftInputFromInputMethod(passwdEdit.getWindowToken(), 0); android4.2会无效
- * Created by llj on 16/1/25.
+ * imm.hideSoftInputFromInputMethod(passwdEdit.getWindowToken(), 0); android4.2会无效 Created by llj on
+ * 16/1/25.
  */
 public class AInputMethodManagerUtils {
 

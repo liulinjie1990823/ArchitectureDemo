@@ -23,10 +23,10 @@ import org.jetbrains.annotations.Nullable;
 public abstract class MiddleMvcBaseActivity<V extends ViewBinding> extends
     MvcBaseActivity<V> implements ITracker {
 
-  protected int     mActivityOpenEnterAnimation;
-  protected int     mActivityOpenExitAnimation;
-  protected int     mActivityCloseEnterAnimation;
-  protected int     mActivityCloseExitAnimation;
+  protected int mActivityOpenEnterAnimation;
+  protected int mActivityOpenExitAnimation;
+  protected int mActivityCloseEnterAnimation;
+  protected int mActivityCloseExitAnimation;
   protected boolean mIsWindowIsTranslucent;
 
   protected boolean mUseAnim;

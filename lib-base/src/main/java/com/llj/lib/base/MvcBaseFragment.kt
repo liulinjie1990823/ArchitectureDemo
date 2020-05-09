@@ -56,7 +56,7 @@ import timber.log.Timber
  * @date 2018/8/15
  */
 abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFragment()
-    , IBaseFragment, ICommon<V>, IUiHandler, IEvent, ITask, ILoadingDialogHandler<BaseDialog> {
+    , IBaseFragment, ICommon<V>, IUiHandler, IEvent, ITask, ILoadingDialogHandler<BaseDialog>, IFragmentHandle {
   @JvmField
   val mTagLog: String = this.javaClass.simpleName
 
