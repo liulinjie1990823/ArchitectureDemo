@@ -20,13 +20,18 @@
 
   <!-- 使用默认的黑暗程度0.6 -->
   <style name="dim_dialog" parent="Theme.AppCompat.Light.Dialog">
-    //修改了progressbar的颜色
+    <!--在21上设置了该属性后dialog底部有间隙-->
+    <item name="android:windowElevation">0dp</item>
+    <!--    修改了progressbar的颜色-->
     <item name="colorControlActivated">@color/dialog_color</item>
-    //背景波纹颜色
-    <!--<item name="colorControlHighlight">@color/dialog_color</item>-->
+    <!--    背景波纹颜色-->
+    <item name="colorControlHighlight">@color/dialog_color</item>
+
+    <!--    去标题和actionbar-->
     <item name="android:windowNoTitle">true</item>
     <item name="windowNoTitle">true</item>
     <item name="windowActionBar">false</item>
+
     <!-- 无标题，设置的是decorview的背景色 -->
     <item name="android:windowBackground">@android:color/transparent</item>
   </style>

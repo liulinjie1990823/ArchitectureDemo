@@ -41,7 +41,7 @@ class CanvasActivity : DataListActivity() {
     fragment.showsDialog = true
     fragment.mUseSoftInput = false
     fragment.mUseTranslucent = true
-    fragment.mTextColorBlack = false
+    fragment.mTextColorBlack = true
     fragment.smartShowNow(supportFragmentManager, CRouter.APP_CANVAS_FRAGMENT)
   }
 
@@ -54,29 +54,39 @@ class CanvasActivity : DataListActivity() {
 
     const val drawRect = 110
     val drawRoundRect = 1
+
     @JvmField
     val drawCircle = 2
+
     @JvmStatic
     val drawOval = 3
 
     var drawArc = 4
+
     @JvmField
     var drawLine = 5
+
     @JvmStatic
     var drawLines = 6
 
     @JvmStatic
     val drawPath = 7
+
     @JvmStatic
     val drawBitmap1 = 8
+
     @JvmStatic
     val drawBitmap2 = 9
+
     @JvmStatic
     val drawBitmap3 = 10
+
     @JvmStatic
     val translate = 11
+
     @JvmStatic
     val scale = 12
+
     @JvmStatic
     val rotate = 13
   }

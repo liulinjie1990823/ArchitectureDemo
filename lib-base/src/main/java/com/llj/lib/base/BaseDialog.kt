@@ -2,6 +2,7 @@ package com.llj.lib.base
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -33,8 +34,7 @@ abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
   val mTagLog: String = this.javaClass.simpleName
 
   private var mRequestDialog: BaseDialog? = null
-  var mUseSoftInput: Boolean = false //是否使用软键盘
-  var mUseTranslucent: Boolean = false //是否使用透明模式
+  var mUseTranslucent: Boolean = false //是否使用透明全屏模式，如果窗口使用输入法使用的是resize,则在透明全屏模式下会失效，需要自己手动resize布局
   var mTextColorBlack: Boolean = true //是否黑色字体
 
   private var mLazyInit: Boolean = false //是否延迟加载，在show的时候[onCreate]中加载
@@ -54,6 +54,16 @@ abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
 
   private fun allInit() {
     Timber.tag(mTagLog).i("Lifecycle %s init with %s ：%d", mTagLog, mContext.javaClass.simpleName, hashCode())
+
+    //28中增加了layoutInDisplayCutoutMode，dialog需要设置LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES模式并配置相关decorView的systemUiVisibility参数才能全屏
+    //但是activity在LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT模式下并配置相关decorView的systemUiVisibility参数就能全屏了
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+      window?.attributes?.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+    }
+    //22中增加了Z轴的高度，会使全屏的dialog在底部留出空隙，需要设置为0
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+      window?.setElevation(0f)
+    }
 
     if (needLoadingDialog()) {
       checkRequestDialog()
@@ -128,6 +138,7 @@ abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
     params.width = width
     params.height = height
     params.gravity = gravity
+
     window.attributes = params
   }
   //</editor-fold>
@@ -176,44 +187,38 @@ abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
 
   //  设置dialog透明模式
   override fun show() {
-    if (mUseSoftInput) {
-      Timber.tag(mTagLog).i("%s show with normal", mTagLog)
-      //如果有软键盘弹出的，会
+
+    if (mUseTranslucent) {
+      Timber.tag(mTagLog).i("%s show with Translucent", mTagLog)
+      //Immersive Mode
+      //如果没有输入框，不需要弹出软键盘的可以使用TRANSPARENT模式，fitSystemWindow记得在布局中设置
+      //因为如果需要使用软键盘，且需要adjustResize，TRANSPARENT模式会使adjustResize失效，布局还是原来的大小
+      //需要自己根据输入法的是否显示来控制view的高度，所以一般情况下不弹软键盘的可以使用透明覆盖模式，如果使用
+      //软键盘就使用非透明模式。不用自己计算布局的高度
+      //Here's the magic..
+      //Set the dialog to not focusable (makes navigation ignore us adding the window)
+      window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+          WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+
+      //Show the dialog!
       super.show()
+
+      window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+      window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+      window?.statusBarColor = Color.TRANSPARENT
+
+      val visibility: Int = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+          View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+          View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+      window?.decorView?.systemUiVisibility = visibility
+
+      //设置状态栏字体颜色
+      LightStatusBarCompat.setLightStatusBar(window, mTextColorBlack)
+
+      //Clear the not focusable flag from the window
+      window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
     } else {
-      if (mUseTranslucent) {
-        Timber.tag(mTagLog).i("%s show with Translucent", mTagLog)
-        //Immersive Mode
-        //如果没有输入框，不需要弹出软键盘的可以使用TRANSPARENT模式，fitSystemWindow记得在布局中设置
-        //因为如果需要使用软键盘，且需要adjustResize，TRANSPARENT模式会使adjustResize失效，布局还是原来的大小
-        //需要自己根据输入法的是否显示来控制view的高度，所以一般情况下不弹软键盘的可以使用透明覆盖模式，如果使用
-        //软键盘就使用非透明模式。不用自己计算布局的高度
-        //Here's the magic..
-        //Set the dialog to not focusable (makes navigation ignore us adding the window)
-        window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-
-        //Show the dialog!
-        super.show()
-
-        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window?.statusBarColor = Color.TRANSPARENT
-
-        val visibility: Int = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-        window?.decorView?.systemUiVisibility = visibility
-
-        LightStatusBarCompat
-            .setLightStatusBar(window, mTextColorBlack)
-
-        //Clear the not focusable flag from the window
-        window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-      } else {
-        super.show()
-      }
+      super.show()
     }
-
   }
 }

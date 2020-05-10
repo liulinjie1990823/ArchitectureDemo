@@ -3,6 +3,7 @@ package com.llj.lib.base
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.view.animation.Animation
@@ -74,9 +75,9 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
 
   private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
 
-  var mUseSoftInput: Boolean = false //是否使用软键盘
+  var mUseSoftInput: Boolean = false //是否使用软键盘，用来自动显示输入法
   var mUseTranslucent: Boolean = false //是否使用透明模式
-  var mTextColorBlack: Boolean? = null //是否使用黑色字体，在mUseSoftInput=false,mUseTranslucent=true的前提下起作用
+  var mTextColorBlack: Boolean? = null //是否使用黑色字体，mUseTranslucent=true的前提下起作用
 
   var mCurrentMill: Long? = null//记录初始化时间用
 
@@ -96,6 +97,9 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     mOnShowListener = onShowListener
   }
 
+  /**
+   * 设置状态栏字体颜色
+   */
   open fun statusBarTextColorBlack(): Boolean {
     return true
   }
@@ -104,7 +108,6 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     Timber.tag(mTagLog).i("Lifecycle %s onCreateDialog：%d", mTagLog, hashCode())
 
     val baseDialogImpl = BaseDialogImpl(activity!!, theme)
-    baseDialogImpl.mUseSoftInput = mUseSoftInput
     baseDialogImpl.mUseTranslucent = mUseTranslucent
 
     if (mTextColorBlack == null) {
@@ -112,12 +115,6 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     } else {
       baseDialogImpl.mTextColorBlack = mTextColorBlack!!
     }
-
-//    if (mUseTranslucent) {
-//      StatusBarCompat.translucentStatusBar(baseDialogImpl.window!!, true)
-//    }
-//    LightStatusBarCompat
-//        .setLightStatusBar(baseDialogImpl.window, statusBarTextColorBlack())
 
     return baseDialogImpl
   }
@@ -545,6 +542,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     //        StatusBarCompat.translucentStatusBar(getWindow(), true);
     //         setCancelable(cancelable);
     //         setCanceledOnTouchOutside(cancel);
+    dialog?.window?.setBackgroundDrawable(ColorDrawable(0x00000000));
     val params = window.attributes
     // setContentView设置布局的透明度，0为透明，1为实际颜色,该透明度会使layout里的所有空间都有透明度，不仅仅是布局最底层的view
     // params.alpha = 1f;
