@@ -1,10 +1,7 @@
 package com.llj.lib.jni.test;
 
 /**
- * ArchitectureDemo.
- * describe:
- * author llj
- * date 2019/3/27
+ * ArchitectureDemo. describe: author llj date 2019/3/27
  */
 public class JniTest {
 

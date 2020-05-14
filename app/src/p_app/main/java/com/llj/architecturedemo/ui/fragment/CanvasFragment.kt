@@ -6,6 +6,7 @@ import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -30,6 +31,11 @@ class CanvasFragment : AppMvcBaseFragment<FragmentCanvasBinding>() {
 
   @Autowired(name = CRouter.KEY_TYPE) @JvmField var mType: Int = 0
 
+  override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
+    return super.onCreateAnimation(transit, enter, nextAnim)
+
+  }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setStyle(STYLE_NO_TITLE, R.style.no_dim_dialog)
@@ -38,6 +44,15 @@ class CanvasFragment : AppMvcBaseFragment<FragmentCanvasBinding>() {
   override fun initViews(savedInstanceState: Bundle?) {
     super.initViews(savedInstanceState)
     ARouter.getInstance().inject(this);
+
+    mViewBinder!!.root.setOnClickListener(View.OnClickListener {
+      if (parentFragmentManager.backStackEntryCount > 0) {
+        parentFragmentManager.popBackStack();
+      } else {
+        removeFragmentNow(parentFragmentManager, this)
+      }
+
+    })
     val layoutParams = ConstraintLayout.LayoutParams(DisplayHelper.SCREEN_WIDTH, DisplayHelper.SCREEN_HEIGHT)
     mViewBinder!!.root.addView(CanvasView(mContext), layoutParams)
   }

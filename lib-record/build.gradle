@@ -1,7 +1,7 @@
 ext {
     versions = [
-            'javacv': '1.4.2',
-            'ffmpeg': '4.0.1'
+            'javacv': '1.5.3',
+            'ffmpeg': '4.2.1'
 
     ]
 }
@@ -9,10 +9,20 @@ ext {
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
 
-    api(group: 'org.bytedeco', name: 'javacv-platform', version: versions.javacv) {
-        exclude group: 'org.bytedeco.javacpp-presets'
+    //包含了javacv（java代码接口）和各个javacpp-presets库
+//    api(group: 'org.bytedeco', name: 'javacv-platform', version: versions.javacv) {
+//        exclude group: 'org.bytedeco.javacpp-presets'
+//    }
+//    api group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}"
+//    api group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}", classifier: 'android-arm'
+
+//    api group: 'org.bytedeco', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}"
+//    api group: 'org.bytedeco', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}"
+
+    api(group: 'org.bytedeco', name: 'javacv', version: '1.5.3') {
+        exclude group: 'org.bytedeco'
     }
-    api group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}"
-    api group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}", classifier: 'android-arm'
+    api group: 'org.bytedeco', name: 'ffmpeg', version: '4.2.2-1.5.3'
+//    api group: 'org.bytedeco', name: 'ffmpeg', version: '4.2.2-1.5.3', classifier: 'android-arm'
 }
 

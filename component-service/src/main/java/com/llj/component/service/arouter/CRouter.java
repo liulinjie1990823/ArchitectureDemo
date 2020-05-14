@@ -41,6 +41,8 @@ public class CRouter {
   public static final String APP_ADJUST_RESIZE_ACTIVITY2   = "/app/AdjustResizeActivity";
   public static final String APP_KEYBOARD_STATE_ACTIVITY   = "/app/KeyboardStateActivity";
   public static final String APP_CANVAS_ACTIVITY           = "/app/CanvasActivity";
+  public static final String APP_FFMPEG_SWSCALE_ACTIVITY   = "/app/FfmpegSwscaleActivity";
+  public static final String APP_FRAGMENT_ANIM_ACTIVITY    = "/app/FragmentAnimActivity";
   public static final String APP_CANVAS_FRAGMENT           = "/app/CanvasFragment";
   public static final String APP_OUTLINE_PROVIDER_ACTIVITY = "/app/OutlineProviderActivity";
   public static final String APP_VIEWPAGER2_ACTIVITY       = "/app/ViewPager2Activity";

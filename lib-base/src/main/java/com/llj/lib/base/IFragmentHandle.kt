@@ -1,8 +1,10 @@
 package com.llj.lib.base
 
+import android.view.Window
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager.widget.ViewPager
 
 /**
@@ -14,78 +16,131 @@ import androidx.viewpager.widget.ViewPager
 interface IFragmentHandle {
 
   //region addFragment
-  fun addFragment(fragmentManager: FragmentManager,
+
+  fun addFragment(fragmentTransaction: FragmentTransaction,
+                  fragment: Fragment) {
+    addFragment(fragmentTransaction, Window.ID_ANDROID_CONTENT, fragment, null, true, false)
+  }
+
+  fun addFragment(fragmentTransaction: FragmentTransaction,
+                  fragment: Fragment,
+                  allowingStateLoss: Boolean) {
+    addFragment(fragmentTransaction, Window.ID_ANDROID_CONTENT, fragment, null, allowingStateLoss, false)
+  }
+
+  fun addFragment(fragmentTransaction: FragmentTransaction,
                   @IdRes containerViewId: Int,
                   fragment: Fragment) {
-    addFragment(fragmentManager, containerViewId, fragment, null, false)
+    addFragment(fragmentTransaction, containerViewId, fragment, null, true, false)
   }
 
-  fun addFragment(fragmentManager: FragmentManager,
-                  @IdRes containerViewId: Int,
-                  fragment: Fragment
-                  , tag: String?) {
-    addFragment(fragmentManager, containerViewId, fragment, tag, false)
-  }
-
-  fun addFragment(fragmentManager: FragmentManager,
+  fun addFragment(fragmentTransaction: FragmentTransaction,
                   @IdRes containerViewId: Int,
                   fragment: Fragment,
-                  hide: Boolean) {
-    addFragment(fragmentManager, containerViewId, fragment, null, hide)
+                  allowingStateLoss: Boolean) {
+    addFragment(fragmentTransaction, containerViewId, fragment, null, allowingStateLoss, false)
   }
 
-  fun addFragment(fragmentManager: FragmentManager,
+  fun addFragment(fragmentTransaction: FragmentTransaction,
                   @IdRes containerViewId: Int,
-                  fragment: Fragment, tag: String?, hide: Boolean) {
-    val ft = fragmentManager.beginTransaction()
+                  fragment: Fragment,
+                  tag: String?,
+                  allowingStateLoss: Boolean) {
+    addFragment(fragmentTransaction, containerViewId, fragment, tag, allowingStateLoss, false)
+  }
+
+  fun addFragment(fragmentTransaction: FragmentTransaction,
+                  @IdRes containerViewId: Int,
+                  fragment: Fragment,
+                  allowingStateLoss: Boolean,
+                  hide: Boolean) {
+    addFragment(fragmentTransaction, containerViewId, fragment, null, allowingStateLoss, hide)
+  }
+
+  fun addFragment(fragmentTransaction: FragmentTransaction,
+                  @IdRes containerViewId: Int,
+                  fragment: Fragment, tag: String?,
+                  allowingStateLoss: Boolean,
+                  hide: Boolean) {
+
     if (tag != null && tag.isNotEmpty()) {
-      ft.add(containerViewId, fragment, tag)
+      fragmentTransaction.add(containerViewId, fragment, tag)
     } else {
-      ft.add(containerViewId, fragment)
+      fragmentTransaction.add(containerViewId, fragment)
     }
     if (hide) {
-      ft.hide(fragment)
+      fragmentTransaction.hide(fragment)
     }
-    ft.commitAllowingStateLoss()
+    if (allowingStateLoss) {
+      fragmentTransaction.commitAllowingStateLoss()
+    } else {
+      fragmentTransaction.commit()
+    }
   }
   //endregion
 
 
   //region addFragmentNow
-  fun addFragmentNow(fragmentManager: FragmentManager,
+  fun addFragmentNow(fragmentTransaction: FragmentTransaction,
+                     fragment: Fragment) {
+    addFragmentNow(fragmentTransaction, Window.ID_ANDROID_CONTENT, fragment, null, true, false)
+  }
+
+  fun addFragmentNow(fragmentTransaction: FragmentTransaction,
+                     fragment: Fragment,
+                     allowingStateLoss: Boolean) {
+    addFragmentNow(fragmentTransaction, Window.ID_ANDROID_CONTENT, fragment, null, allowingStateLoss, false)
+  }
+
+  fun addFragmentNow(fragmentTransaction: FragmentTransaction,
                      @IdRes containerViewId: Int,
                      fragment: Fragment) {
-    addFragmentNow(fragmentManager, containerViewId, fragment, null, false)
+    addFragmentNow(fragmentTransaction, containerViewId, fragment, null, false, false)
   }
 
-  fun addFragmentNow(fragmentManager: FragmentManager,
+  fun addFragmentNow(fragmentTransaction: FragmentTransaction,
+                     @IdRes containerViewId: Int,
+                     allowingStateLoss: Boolean,
+                     fragment: Fragment) {
+    addFragmentNow(fragmentTransaction, containerViewId, fragment, null, allowingStateLoss, false)
+  }
+
+  fun addFragmentNow(fragmentTransaction: FragmentTransaction,
                      @IdRes containerViewId: Int,
                      fragment: Fragment
-                     , tag: String?) {
-    addFragmentNow(fragmentManager, containerViewId, fragment, tag, false)
+                     , tag: String?,
+                     allowingStateLoss: Boolean) {
+    addFragmentNow(fragmentTransaction, containerViewId, fragment, tag, allowingStateLoss, false)
   }
 
-  fun addFragmentNow(fragmentManager: FragmentManager,
+  fun addFragmentNow(fragmentTransaction: FragmentTransaction,
                      @IdRes containerViewId: Int,
                      fragment: Fragment,
+                     allowingStateLoss: Boolean,
                      hide: Boolean) {
-    addFragmentNow(fragmentManager, containerViewId, fragment, null, hide)
+    addFragmentNow(fragmentTransaction, containerViewId, fragment, null, allowingStateLoss, hide)
   }
 
-  fun addFragmentNow(fragmentManager: FragmentManager,
+  fun addFragmentNow(fragmentTransaction: FragmentTransaction,
                      @IdRes containerViewId: Int,
-                     fragment: Fragment, tag: String?, hide: Boolean) {
-    val ft = fragmentManager.beginTransaction()
+                     fragment: Fragment, tag: String?,
+                     allowingStateLoss: Boolean,
+                     hide: Boolean) {
     if (tag != null && tag.isNotEmpty()) {
-      ft.add(containerViewId, fragment, tag)
+      fragmentTransaction.add(containerViewId, fragment, tag)
     } else {
-      ft.add(containerViewId, fragment)
+      fragmentTransaction.add(containerViewId, fragment)
     }
     if (hide) {
-      ft.hide(fragment)
+      fragmentTransaction.hide(fragment)
     }
-    ft.commitNowAllowingStateLoss()
+    if (allowingStateLoss) {
+      fragmentTransaction.commitNowAllowingStateLoss()
+    } else {
+      fragmentTransaction.commitNow()
+    }
   }
+
   //endregion
 
 
@@ -117,22 +172,21 @@ interface IFragmentHandle {
 
 
   //region replaceFragment
-  fun replaceFragment(fragmentManager: FragmentManager,
+  fun replaceFragment(fragmentTransaction: FragmentTransaction,
                       @IdRes containerViewId: Int,
                       fragment: Fragment) {
-    replaceFragment(fragmentManager, containerViewId, fragment, null)
+    replaceFragment(fragmentTransaction, containerViewId, fragment, null)
   }
 
-  fun replaceFragment(fragmentManager: FragmentManager,
+  fun replaceFragment(fragmentTransaction: FragmentTransaction,
                       @IdRes containerViewId: Int,
                       fragment: Fragment, tag: String?) {
-    val ft = fragmentManager.beginTransaction()
     if (tag != null && tag.isNotEmpty()) {
-      ft.replace(containerViewId, fragment, tag)
+      fragmentTransaction.replace(containerViewId, fragment, tag)
     } else {
-      ft.replace(containerViewId, fragment)
+      fragmentTransaction.replace(containerViewId, fragment)
     }
-    ft.commitAllowingStateLoss()
+    fragmentTransaction.commitAllowingStateLoss()
   }
   //endregion
 

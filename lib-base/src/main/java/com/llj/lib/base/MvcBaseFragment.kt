@@ -212,7 +212,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
 
     } else {
       //添加到ID_ANDROID_CONTENT里
-      addFragment(manager, containerViewId, this, tag)
+      addFragment(manager.beginTransaction(), containerViewId, this, tag, true)
     }
   }
   //</editor-fold>
@@ -235,7 +235,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
 
     } else {
       //添加到ID_ANDROID_CONTENT里
-      addFragmentNow(manager, containerViewId, this, tag)
+      addFragmentNow(manager.beginTransaction(), containerViewId, this, tag, true)
     }
   }
   //</editor-fold>

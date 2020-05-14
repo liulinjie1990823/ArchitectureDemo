@@ -7,7 +7,7 @@
     android:glEsVersion="0x00020000"
     android:required="true" />
 
-  <uses-sdk tools:overrideLibrary="com.llj.adapter,com.facebook.flipper" />
+  <uses-sdk tools:overrideLibrary="com.llj.adapter,com.facebook.flipper,com.arthenica.mobileffmpeg" />
 
   <!--日历-->
   <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -160,6 +160,8 @@
       android:taskAffinity="com.llj.task2" />
     <activity android:name=".ui.activity.CanvasActivity" />
     <activity android:name=".ui.activity.KeyboardStateActivity" />
+    <activity android:name=".ui.activity.FragmentAnimActivity" />
+    <activity android:name=".ui.activity.FfmpegSwscaleActivity" />
 
 
     <!--<activity android:name=".ui.activity.ThirdActivity"/>-->

@@ -34,101 +34,92 @@ import java.util.concurrent.TimeUnit
 @Jump(outPath = CJump.JUMP_LOADING_ACTIVITY, inPath = CRouter.APP_LOADING_ACTIVITY, needLogin = true, desc = "LoadingActivity")
 @Route(path = CRouter.APP_LOADING_ACTIVITY)
 class LoadingActivity : MiddleMvcBaseActivity<ViewBinding>() {
-    @BindView(R.id.sdv_add)
-    lateinit var mSdvAdd: SimpleDraweeView
-
-    @BindView(R.id.sdv_icon)
-    lateinit var mSdvIcon: SimpleDraweeView
-
-    @BindView(R.id.tv_leapfrog)
-    lateinit var mTvLeapfrog: TextView
-
-    @BindView(R.id.tv_app_name)
-    lateinit var mTvAppName: TextView
-
-    @BindView(R.id.tv_sub_title)
-    lateinit var mTvSubTitle: TextView
+  @BindView(R.id.sdv_add) lateinit var mSdvAdd: SimpleDraweeView
+  @BindView(R.id.sdv_icon) lateinit var mSdvIcon: SimpleDraweeView
+  @BindView(R.id.tv_leapfrog) lateinit var mTvLeapfrog: TextView
+  @BindView(R.id.tv_app_name) lateinit var mTvAppName: TextView
+  @BindView(R.id.tv_sub_title) lateinit var mTvSubTitle: TextView
 
 
-    private lateinit var mImageLoader: ImageLoader
+  private lateinit var mImageLoader: ImageLoader
 
-    private var mDisposable: Disposable? = null
+  private var mDisposable: Disposable? = null
 
-    override fun layoutId(): Int {
-        return R.layout.activity_loading
+  override fun layoutId(): Int {
+    return R.layout.activity_loading
+  }
+
+  override fun initViews(savedInstanceState: Bundle?) {
+    StatusBarCompat.translucentStatusBar(window, true)
+
+    mUseAnim = false
+    mImageLoader = ImageLoader.getInstance()
+
+
+    val dip2px = dip2px(this, 50f)
+    mImageLoader.loadImage(mSdvIcon, R.mipmap.ic_launcher, dip2px, dip2px)
+
+    mTvLeapfrog.setOnClickListener {
+
+      mDisposable?.dispose()
+
+      ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
+          .navigation(mContext)
+
+      finish()
     }
 
-    override fun initViews(savedInstanceState: Bundle?) {
-        StatusBarCompat.translucentStatusBar(window, true)
+    PermissionManager.checkPhoneStateAndStorage(this, object : PermissionManager.PermissionListener {
+      override fun onGranted(permissions: MutableList<String>?) {
 
-        mUseAnim = false
-        mImageLoader = ImageLoader.getInstance()
-
-
-        val dip2px = dip2px(this, 50f)
-        mImageLoader.loadImage(mSdvIcon, R.mipmap.ic_launcher, dip2px, dip2px)
-
-        mTvLeapfrog.setOnClickListener {
-
-            mDisposable?.dispose()
-
-            ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
-                    .navigation(mContext)
-
-            finish()
-        }
-
-        PermissionManager.checkPhoneStateAndStorage(this, object : PermissionManager.PermissionListener {
-            override fun onGranted(permissions: MutableList<String>?) {
-
-                mSdvAdd.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                    override fun onGlobalLayout() {
-                        mSdvAdd.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
-                        mImageLoader.loadImage(mSdvAdd, url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height)
-                    }
-                })
-
-                countDown()
-            }
+        mSdvAdd.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+          override fun onGlobalLayout() {
+            mSdvAdd.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            val url = "http://pic34.photophoto.cn/20150112/0034034439579927_b.jpg"
+            mImageLoader.loadImage(mSdvAdd, url, DisplayHelper.SCREEN_WIDTH, mSdvAdd.height)
+          }
         })
-        //        countDown()
-    }
 
-    override fun initData() {
-    }
+        countDown()
+      }
+    })
+    //        countDown()
+  }
 
-    fun countDown() {
-        val count: Long = 3 //倒计时10秒
-        Observable.interval(0, 1, TimeUnit.SECONDS)
-                .take(count + 1)
-                .map(object : Function<Long, Long> {
-                    override fun apply(t: Long): Long {
-                        return count - t
-                    }
+  override fun initData() {
+  }
 
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<Long> {
+  fun countDown() {
+    val count: Long = 3 //倒计时10秒
+    Observable.interval(0, 1, TimeUnit.SECONDS)
+        .take(count + 1)
+        .map(object : Function<Long, Long> {
+          override fun apply(t: Long): Long {
+            return count - t
+          }
 
-                    override fun onSubscribe(d: Disposable) {
-                        mDisposable = d
-                    }
+        })
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(object : Observer<Long> {
 
-                    override fun onNext(s: Long) {
-                        mTvLeapfrog.text = "跳过${s}s"
-                    }
+          override fun onSubscribe(d: Disposable) {
+            mDisposable = d
+          }
 
-                    override fun onError(e: Throwable) {
-                        Log.e(mTagLog, "onError:" + e.message)
-                    }
+          override fun onNext(s: Long) {
+            mTvLeapfrog.text = "跳过${s}s"
+          }
 
-                    override fun onComplete() {
-                        ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
-                                .withTransition(R.anim.fade_in, R.anim.no_fade)
-                                .navigation(mContext)
-                        finish()
-                    }
-                })
-    }
+          override fun onError(e: Throwable) {
+            Log.e(mTagLog, "onError:" + e.message)
+          }
+
+          override fun onComplete() {
+            ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
+                .withTransition(R.anim.fade_in, R.anim.no_fade)
+                .navigation(mContext)
+            finish()
+          }
+        })
+  }
 }

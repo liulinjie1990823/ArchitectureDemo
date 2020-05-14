@@ -1,8 +1,8 @@
 include ':application'
 //
 
-apply from: './gradle/gradleLifecycle.gradle'
-apply from: './gradle/taskTimeTracker.gradle'
+//apply from: './gradle/gradleLifecycle.gradle'
+//apply from: './gradle/taskTimeTracker.gradle'
 
 //先加载local.properties文件
 Properties properties = new Properties()
@@ -18,8 +18,9 @@ try {
 //这里的useMaven只是该文件下使用，没有设置到ext中；如需要在init.gradle中设置
 def useMaven = properties.getProperty("useMaven") == "true"
 
-include ':lib-swipeback', ':lib-tracker', ':lib-zbar', ':lib-zxing', ':lib-map', ':lib-oss', ':lib-qrcodecore', ':lib-jni-test', ':lib-opengl', ':lib-record', ':lib-kodo', ':lib-jni-test2', ':lib-scrollable', ':lib-base-event', ':lib_album_core', ':lib_album', ':lib_calendar', ':lib_pickerview', ':lib_update', ':lib_push', ':lib_crop'
+include ':lib-swipeback', ':lib-tracker', ':lib-zbar', ':lib-zxing', ':lib-map', ':lib-oss', ':lib-qrcodecore',  ':lib-opengl', ':lib-record', ':lib-kodo',  ':lib-scrollable', ':lib-base-event', ':lib_album_core', ':lib_album', ':lib_calendar', ':lib_pickerview', ':lib_update', ':lib_push', ':lib_crop'
 
+include ':lib-jni-test'
 
 //include ':module-java'
 //include ':lib-player'
@@ -109,6 +110,4 @@ include ':flutter_login'
 //        'flutter_base/.android/include_flutter.groovy'
 //))
 //include ':flutter_base'
-
-
-
+include ':lib-jpeg-turbo'

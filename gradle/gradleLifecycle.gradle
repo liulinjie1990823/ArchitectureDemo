@@ -1,6 +1,5 @@
 //限制在跟目录导入
 
-
 println("Custome Configure gradleLifecycle.gradle")
 
 gradle.addBuildListener(new BuildListener() {

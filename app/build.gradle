@@ -255,7 +255,7 @@ if (useApkUploadPlugin) {
 dependencies {
 //    implementation project(':flutter')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':lib-jni-test')
+//    api project(':lib-jni-test')
     api project(':lib-opengl')
     api project(':lib-record')
     api project(':lib-kodo')
@@ -289,5 +289,6 @@ dependencies {
 //    implementation 'com.llj.flutter.flutter_module:flutter_release:1.0@aar'
 
     implementation 'com.github.florent37:shapeofview:1.4.5'
+    implementation 'com.arthenica:mobile-ffmpeg-full:4.3.2'
 
 }

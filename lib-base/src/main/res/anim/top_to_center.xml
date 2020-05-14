@@ -2,7 +2,7 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
   android:fillAfter="true">
 
-  <!-- 从底部到屏幕中间 -->
+  <!-- 从顶部到屏幕中间 -->
   <translate
     android:duration="300"
     android:fromYDelta="-100%p"
