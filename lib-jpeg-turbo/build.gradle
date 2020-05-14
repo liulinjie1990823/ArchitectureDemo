@@ -1,0 +1,30 @@
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+}
+
+android {
+    defaultConfig {
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+                abiFilters 'armeabi-v7a'
+            }
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path file('src/main/jni/libjpeg-turbo/CMakeLists.txt')
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
+    }
+    packagingOptions {
+        pickFirst 'lib/armeabi-v7a/libhelloworld.so'
+    }
+
+    ndkVersion "21.1.6352462"
+
+}
