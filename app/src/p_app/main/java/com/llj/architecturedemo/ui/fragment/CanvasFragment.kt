@@ -6,6 +6,7 @@ import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -33,7 +34,6 @@ class CanvasFragment : AppMvcBaseFragment<FragmentCanvasBinding>() {
 
   override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
     return super.onCreateAnimation(transit, enter, nextAnim)
-
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +54,8 @@ class CanvasFragment : AppMvcBaseFragment<FragmentCanvasBinding>() {
 
     })
     val layoutParams = ConstraintLayout.LayoutParams(DisplayHelper.SCREEN_WIDTH, DisplayHelper.SCREEN_HEIGHT)
-    mViewBinder!!.root.addView(CanvasView(mContext), layoutParams)
+    val viewGroup = mViewBinder!!.root as ViewGroup
+    viewGroup.addView(CanvasView(mContext), layoutParams)
   }
 
   override fun initData() {

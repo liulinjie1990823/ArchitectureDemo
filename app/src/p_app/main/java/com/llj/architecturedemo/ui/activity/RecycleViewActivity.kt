@@ -1,161 +1,136 @@
 package com.llj.architecturedemo.ui.activity
 
-import android.content.Context
-import android.graphics.Typeface
 import android.os.Bundle
-import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import androidx.viewpager.widget.ViewPager
-import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.llj.adapter.ListBasedAdapter
+import com.llj.adapter.UniversalBind
+import com.llj.adapter.XViewHolder
+import com.llj.adapter.util.ViewHolderHelperWrap
 import com.llj.architecturedemo.AppMvcBaseActivity
 import com.llj.architecturedemo.R
-import com.llj.architecturedemo.ui.fragment.ItemFragment
-import com.llj.architecturedemo.widget.tab.ITab
-import com.llj.architecturedemo.widget.tab.ITabs
-import com.llj.component.service.arouter.CRouter
-import net.lucode.hackware.magicindicator.MagicIndicator
-import net.lucode.hackware.magicindicator.ViewPagerHelper
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView
-import java.util.*
+import com.llj.architecturedemo.databinding.ActivityRecycleViewBinding
+import com.llj.architecturedemo.databinding.ItemRecycleViewBinding
+import com.llj.architecturedemo.vo.DataVo
+import com.llj.component.service.arouter.CRouterClassName
+import timber.log.Timber
+
 
 /**
- * ArchitectureDemo.
- * describe:
- * author llj
- * date 2018/8/16
+ * describe 不写是傻逼
+ *
+ * @author liulinjie
+ * @date 2020/5/16 7:24 PM
  */
-@Route(path = CRouter.APP_RECYCLE_VIEW_ACTIVITY)
-class RecycleViewActivity : AppMvcBaseActivity<ViewBinding>() {
-    @BindView(R.id.vp_container)
-    lateinit var mVpContent: ViewPager
+@Route(path = CRouterClassName.APP_RECYCLE_VIEW_ACTIVITY)
+class RecycleViewActivity : AppMvcBaseActivity<ActivityRecycleViewBinding>() {
 
-    @BindView(R.id.tabs)
-    lateinit var mTabs: MagicIndicator
+  override fun initViews(savedInstanceState: Bundle?) {
+    mViewBinder.recyclerView.layoutManager = LinearLayoutManager(mContext)
+    mViewBinder.recyclerView.adapter = ItemAdapter()
 
-    override fun layoutId(): Int {
-        return R.layout.activity_recycle_view
+    val adapter = UniversalBind.Builder(mViewBinder.recyclerView2, ItemAdapter2())
+        .setLinearLayoutManager()
+        .build().getAdapter()
+  }
+
+  override fun initData() {
+  }
+
+  inner class ItemAdapter2 : ListBasedAdapter<DataVo?, ViewHolderHelperWrap<ItemRecycleViewBinding>> {
+
+    constructor() : super() {
     }
 
-    override fun initViews(savedInstanceState: Bundle?) {
+    override fun onCreateViewBinding(viewType: Int): ViewBinding? {
+      return ItemRecycleViewBinding.inflate(layoutInflater, mViewBinder.recyclerView2, false)
     }
 
-    private fun initTabData(result: ITabs) {
-        if (isEmpty(result.getTables())) {
-            mTabs.visibility = View.GONE
-            mVpContent.visibility = View.GONE
-            return
-        }
-
-        mTabs.visibility = View.VISIBLE
-        mVpContent.visibility = View.VISIBLE
-
-        val types = ArrayList<String?>()
-        val titles = ArrayList<String?>()
-
-        val tables = result.getTables()
-
-        tables.forEach {
-            if (it != null && !isEmpty(it.name)) {
-                types.add(it.type)
-                titles.add(it.name)
-            }
-        }
-
-        val commonNavigator = CommonNavigator(this)
-        commonNavigator.isAdjustMode = true
-        commonNavigator.adapter = object : CommonNavigatorAdapter() {
-
-            override fun getCount(): Int {
-                return titles.size
-            }
-
-            override fun getTitleView(context: Context, index: Int): IPagerTitleView {
-                val simplePagerTitleView = ColorTransitionPagerTitleView(context)
-                simplePagerTitleView.setPadding(dip2px(mContext, 15f), 0, dip2px(mContext, 15f), 0)
-                simplePagerTitleView.normalColor = getCompatColor(context, R.color.black)
-                simplePagerTitleView.selectedColor = getCompatColor(context, R.color.royalblue)
-                simplePagerTitleView.text = titles[index]
-                simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17f)
-                simplePagerTitleView.setTypeface(simplePagerTitleView.typeface, Typeface.BOLD)
-                simplePagerTitleView.setOnClickListener {
-                    mVpContent.post {
-                        mVpContent.currentItem = index
-                    }
-                }
-                return simplePagerTitleView
-            }
-
-            override fun getIndicator(context: Context): IPagerIndicator {
-                val indicator = LinePagerIndicator(context)
-                indicator.mode = LinePagerIndicator.MODE_WRAP_CONTENT
-                indicator.lineHeight = dip2px(context, 3f).toFloat()
-                indicator.roundRadius = dip2px(context, 1f).toFloat()
-                indicator.startInterpolator = AccelerateInterpolator()
-                indicator.endInterpolator = DecelerateInterpolator(2.0f)
-                indicator.setColors(getCompatColor(context, R.color.royalblue))
-                return indicator
-            }
-        }
-        mTabs.navigator = commonNavigator
-
-        mVpContent.offscreenPageLimit = tables.size
-        mVpContent.adapter = object : androidx.fragment.app.FragmentPagerAdapter(supportFragmentManager) {
-            override fun getCount(): Int {
-                return types.size
-            }
-
-            override fun getItem(position: Int): androidx.fragment.app.Fragment {
-                return switchFragment(types[position])
-            }
-        }
-        ViewPagerHelper.bind(mTabs, mVpContent)
-
-        //设置显示的页面
-        mVpContent.currentItem = types.indexOf(result.getShowType())
+    override fun getCount(): Int {
+      return 100
     }
 
-
-    override fun initData() {
-        initTabData(MyTabs())
+    private var currentTimeMillis: Long? = null
+    override fun bindViewHolder(holder: XViewHolder, position: Int) {
+      Timber.tag(mTagLog).i("ItemAdapter2 onBindViewHolder:%s,view:%s,position:%d", holder.hashCode(), holder.itemView.hashCode(), position)
+      currentTimeMillis = System.currentTimeMillis()
+      super.bindViewHolder(holder, position)
     }
 
+    override fun onBindViewHolder(holder: ViewHolderHelperWrap<ItemRecycleViewBinding>, item: DataVo?, position: Int) {
+      val viewBinder = holder.mViewBinder
 
-    private fun switchFragment(type: String?): androidx.fragment.app.Fragment {
-        if (isEmpty(type)) {
-            return ItemFragment.getInstance()
-        }
-        return when (type) {
-            ITab.SHOW_TYPE_ALBUM -> ItemFragment.getInstance()
-            ITab.SHOW_TYPE_PRODUCT -> ItemFragment.getInstance()
-            ITab.SHOW_TYPE_STORE -> ItemFragment.getInstance()
-            else -> ItemFragment.getInstance()
-        }
+      viewBinder.ivHeader.setBackgroundColor(getCompatColor(mContext, R.color.darkorange))
+      viewBinder.tvNumber.text = "$position"
+      viewBinder.tvTitle.text = "主标题"
+      viewBinder.tvSubTitle.text = "子标题"
+
+      holder.itemView.setOnClickListener(View.OnClickListener {
+      })
+      val spend = System.currentTimeMillis() - currentTimeMillis!!
+
+      Timber.tag(mTagLog).i("ItemAdapter2 onBindViewHolder:%s,view:%s,position:%d,spend:%d",
+          holder.hashCode(), holder.itemView.hashCode(), position, spend)
+    }
+  }
+
+  inner class ItemAdapter : RecyclerView.Adapter<ItemViewHolder>() {
+    private var currentTimeMillis: Long? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+      val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_recycle_view, parent, false)
+      val itemViewHolder = ItemViewHolder(view)
+
+      itemViewHolder.itemView.setOnClickListener(View.OnClickListener {
+
+        Timber.tag(mTagLog).i("ItemAdapter setOnClickListener:%s,view:%s", itemViewHolder.hashCode(), it.hashCode())
+        Timber.tag(mTagLog).i("ItemAdapter position:%s", itemViewHolder.adapterPosition)
+
+      })
+
+      Timber.tag(mTagLog).i("ItemAdapter onCreateViewHolder:%s,view:%s", itemViewHolder.hashCode(), view.hashCode())
+      return itemViewHolder
     }
 
-    inner class MyTabs : ITabs {
-        override fun getTables(): List<ITab> {
-            val arrayList = arrayListOf<ITab>()
-
-            arrayList.add(MyTab("客照", "album"))
-            arrayList.add(MyTab("商品", "product"))
-            arrayList.add(MyTab("商家", "store"))
-
-            return arrayList
-        }
-
-        override fun getShowType(): String {
-            return "album"
-        }
+    override fun getItemCount(): Int {
+      return 100
     }
 
-    inner class MyTab(override var name: String?, override var type: String?) : ITab
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+      Timber.tag(mTagLog).i("ItemAdapter onBindViewHolder:%s,view:%s,position:%d", holder.hashCode(), holder.itemView.hashCode(), position)
+
+      currentTimeMillis = System.currentTimeMillis()
+      holder.image.setBackgroundColor(getCompatColor(mContext, R.color.darkorange))
+      holder.number.text = "$position"
+      holder.title.text = "主标题"
+      holder.subTitle.text = "子标题"
+      val spend = System.currentTimeMillis() - currentTimeMillis!!
+
+      Timber.tag(mTagLog).i("ItemAdapter onBindViewHolder:%s,view:%s,position:%d,spend:%d",
+          holder.hashCode(), holder.itemView.hashCode(), position, spend)
+    }
+  }
+
+  class ItemViewHolder : RecyclerView.ViewHolder {
+    val image: ImageView
+    val number: TextView
+    val title: TextView
+    val subTitle: TextView
+
+    constructor(itemView: View) : super(itemView) {
+      image = itemView.findViewById(R.id.iv_header)
+      number = itemView.findViewById(R.id.tv_number)
+      title = itemView.findViewById(R.id.tv_title)
+      subTitle = itemView.findViewById(R.id.tv_sub_title)
+
+    }
+  }
+
 }

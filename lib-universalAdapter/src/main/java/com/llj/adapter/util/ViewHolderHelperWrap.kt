@@ -4,21 +4,28 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnLongClickListener
-import android.view.ViewGroup
 import androidx.annotation.*
 import androidx.viewbinding.ViewBinding
+import com.llj.adapter.XViewHolder
 
 
-class ViewHolderHelper : ViewHolderHelperWrap<ViewBinding> {
+open class ViewHolderHelperWrap<T : ViewBinding> : XViewHolder, IHolder {
 
-  private val mHolderHelper: HolderHelper
+  private var mHolderHelper: HolderHelper
+  lateinit var mViewBinder: T
+
+
+  constructor(viewBinder: T) : super(viewBinder.root) {
+    this.mHolderHelper = HolderHelper(viewBinder.root)
+    this.mViewBinder = viewBinder
+  }
 
   constructor(itemView: View) : super(itemView) {
     this.mHolderHelper = HolderHelper(itemView)
   }
+
 
   override val context: Context
     get() = mHolderHelper.context
@@ -171,14 +178,10 @@ class ViewHolderHelper : ViewHolderHelperWrap<ViewBinding> {
   }
 
   companion object {
-    fun createViewHolder(itemView: View): ViewHolderHelper {
-      return ViewHolderHelper(itemView)
-    }
 
     @JvmStatic
-    fun createViewHolder(parent: ViewGroup, layoutId: Int): ViewHolderHelper {
-      val itemView = LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
-      return ViewHolderHelper(itemView)
+    fun <T : ViewBinding> createViewHolder(viewBinder: T): ViewHolderHelperWrap<T> {
+      return ViewHolderHelperWrap(viewBinder)
     }
   }
 

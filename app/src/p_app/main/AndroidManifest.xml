@@ -95,7 +95,7 @@
     <activity android:name="com.llj.widget.ui.activity.CircleViewActivity" />
     <activity android:name=".ui.activity.TouchEventActivity" />
     <activity android:name=".ui.activity.NestedScrollViewActivity" />
-    <activity android:name=".ui.activity.RecycleViewActivity" />
+    <activity android:name=".ui.activity.CoordinatorLayoutActivity" />
     <activity android:name=".ui.activity.LinearLayoutActivity" />
     <activity android:name=".ui.activity.ComponentActivity" />
     <activity android:name=".ui.activity.ProxyActivity" />
@@ -162,6 +162,8 @@
     <activity android:name=".ui.activity.KeyboardStateActivity" />
     <activity android:name=".ui.activity.FragmentAnimActivity" />
     <activity android:name=".ui.activity.FfmpegSwscaleActivity" />
+    <activity android:name=".ui.activity.JniTestActivity" />
+    <activity android:name=".ui.activity.RecycleViewActivity" />
 
 
     <!--<activity android:name=".ui.activity.ThirdActivity"/>-->

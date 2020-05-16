@@ -15,7 +15,7 @@ import com.llj.adapter.observable.ObservableList
  */
 abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<Item?, Holder>, ObservableList<Item?> {
 
-  private var mList: MutableList<Item?>? = null
+  private lateinit var mList: MutableList<Item?>
 
   private var clickPosition = 0
 
@@ -23,7 +23,7 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
     setItemsList(null)
   }
 
-  constructor(list: MutableList<Item?>?) {
+  constructor(list: MutableList<Item?>) {
     setItemsList(list)
   }
 
@@ -36,19 +36,21 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
 
   fun setItemsList(list: ObservableList<Item?>) {
     list.getListObserver().addListener(observableListener)
-    setItemsList(list as MutableList<Item?>?)
+    setItemsList(list as MutableList<Item?>)
   }
 
 
   fun unbindList() {
-    if (mList is ObservableList<Item?>) {
-      (mList as ObservableList<Item?>).getListObserver().removeListener(observableListener)
+    if (mList != null) {
+      if (mList is ObservableList<Item?>) {
+        (mList as ObservableList<Item?>).getListObserver().removeListener(observableListener)
+      }
     }
   }
 
   fun setItemsList(list: MutableList<Item?>?) {
     var listNew = list
-    unbindList()
+//    unbindList()
     if (listNew == null) {
       listNew = ArrayList()
     }
@@ -56,7 +58,7 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
     notifyDataSetChanged()
   }
 
-  fun getList(): MutableList<Item?>? {
+  fun getList(): MutableList<Item?> {
     return mList
   }
 
@@ -68,17 +70,18 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
   //
   ///////////////////////////////////////////////////////////////////////////
 
-
+  //List
   override val size: Int
-    get() = mList!!.size
+    get() = mList.size
 
 
   override fun getCount(): Int {
-    return mList!!.size
+    return mList.size
   }
 
+  //List
   override fun isEmpty(): Boolean {
-    return mList!!.isEmpty()
+    return mList.isEmpty()
   }
 
   private fun isCollectionEmpty(list: Collection<Item?>?): Boolean {
@@ -87,13 +90,13 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
 
   //region  ObservableList<Item?>
   override fun add(index: Int, element: Item?) {
-    mList!!.add(index, element)
+    mList.add(index, element)
     onItemRangeInserted(index, 1)
   }
 
   override fun add(element: Item?): Boolean {
-    val location = mList!!.size
-    val result = mList!!.add(element)
+    val location = mList.size
+    val result = mList.add(element)
     onItemRangeInserted(location, 1)
     return result
   }
@@ -102,8 +105,8 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
     if (isCollectionEmpty(elements)) {
       return false
     }
-    val location = mList!!.size
-    if (mList!!.addAll(elements)) {
+    val location = mList.size
+    if (mList.addAll(elements)) {
       onItemRangeInserted(location, elements.size)
       return true
     }
@@ -114,7 +117,7 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
     if (isCollectionEmpty(elements)) {
       return false
     }
-    if (mList!!.addAll(index, elements)) {
+    if (mList.addAll(index, elements)) {
       onItemRangeInserted(index, elements.size)
       return true
     }
@@ -122,13 +125,13 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
   }
 
   override fun removeAt(index: Int): Item? {
-    val result = mList!!.removeAt(index)
+    val result = mList.removeAt(index)
     onItemRangeRemoved(index, 1)
     return result
   }
 
   override fun remove(element: Item?): Boolean {
-    val location = mList!!.indexOf(element)
+    val location = mList.indexOf(element)
     if (location >= 0) {
       removeAt(location)
       return true
@@ -137,7 +140,7 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
   }
 
   override fun removeAll(elements: Collection<Item?>): Boolean {
-    val result = mList!!.removeAll(elements)
+    val result = mList.removeAll(elements)
     if (result) {
       onGenericChange()
     }
@@ -145,7 +148,7 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
   }
 
   override fun retainAll(elements: Collection<Item?>): Boolean {
-    val result = mList!!.retainAll(elements)
+    val result = mList.retainAll(elements)
     if (result) {
       onGenericChange()
     }
@@ -154,12 +157,12 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
 
   override fun clear() {
     val count = size
-    mList!!.clear()
+    mList.clear()
     onItemRangeRemoved(0, count)
   }
 
   override fun set(index: Int, element: Item?): Item? {
-    val result = mList!!.set(index, element)
+    val result = mList.set(index, element)
     if (result != element) {
       onItemRangeChanged(index, 1)
     }
@@ -169,40 +172,43 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
 
 
   //region List<Item?>
-  override fun get(index: Int): Item? {
-    return mList!![index]
+  override fun get(position: Int): Item? {
+    if (position >= mList.size) {
+      return null
+    }
+    return mList[position]
   }
 
   override operator fun contains(element: Item?): Boolean {
-    return mList!!.contains(element)
+    return mList.contains(element)
   }
 
   override fun containsAll(elements: Collection<Item?>): Boolean {
-    return mList!!.containsAll(elements)
+    return mList.containsAll(elements)
   }
 
   override fun indexOf(element: Item?): Int {
-    return mList!!.indexOf(element)
+    return mList.indexOf(element)
   }
 
   override fun lastIndexOf(element: Item?): Int {
-    return mList!!.lastIndexOf(element)
+    return mList.lastIndexOf(element)
   }
 
   override fun iterator(): MutableIterator<Item?> {
-    return mList!!.iterator()
+    return mList.iterator()
   }
 
   override fun listIterator(): MutableListIterator<Item?> {
-    return mList!!.listIterator()
+    return mList.listIterator()
   }
 
   override fun listIterator(index: Int): MutableListIterator<Item?> {
-    return mList!!.listIterator()
+    return mList.listIterator()
   }
 
   override fun subList(fromIndex: Int, toIndex: Int): MutableList<Item?> {
-    return mList!!.subList(fromIndex, toIndex)
+    return mList.subList(fromIndex, toIndex)
   }
   //endregion
 
@@ -216,19 +222,19 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
 
   //获取最后一个item
   fun getLast(): Item? {
-    if (getList() == null || getList()!!.isEmpty()) {
+    if (getList().isEmpty()) {
       return null
     }
-    return getList()!![size - 1]
+    return getList()[size - 1]
 
   }
 
   //移除最后一个item
   fun removeLast() {
-    if (getList() == null || getList()!!.isEmpty()) {
+    if (getList().isEmpty()) {
       return
     }
-    getList()!!.removeAt(size - 1)
+    getList().removeAt(size - 1)
   }
 
   //获取选中项
@@ -238,7 +244,7 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
       if (isCollectionEmpty(itemsList)) {
         return null
       }
-      for (item in itemsList!!) {
+      for (item in itemsList) {
         if (item == null) {
           continue
         }

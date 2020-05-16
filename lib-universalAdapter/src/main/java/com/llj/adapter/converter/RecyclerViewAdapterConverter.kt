@@ -233,8 +233,8 @@ class RecyclerViewAdapterConverter<Item, Holder : XViewHolder> : RecyclerView.Ad
             if (gestureDetector!!.onTouchEvent(e)) {
                 val childView = view.findChildViewUnder(e.x, e.y)
                 if (childView != null) {
-                    val position = view.getChildAdapterPosition(childView)
                     val holder = view.getChildViewHolder(childView) as Holder
+                    val position = view.getChildAdapterPosition(childView)
                     onItemClick(holder, view, position, e.x, e.y)
                 }
             }

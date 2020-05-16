@@ -93,7 +93,7 @@ class RxJava2Activity : AppMvcBaseActivity<ViewBinding>() {
     private inner class MyAdapter : ListBasedAdapter<Data, ViewHolderHelper>, IUiHandler {
 
 
-        constructor(list: MutableList<Data?>?) : super(list) {
+      constructor(list: MutableList<Data?>) : super(list) {
             addItemLayout(R.layout.item_home_fragment)
         }
 

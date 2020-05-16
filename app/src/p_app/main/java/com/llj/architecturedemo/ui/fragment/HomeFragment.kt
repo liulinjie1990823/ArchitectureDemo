@@ -54,46 +54,14 @@ class HomeFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scro
     super.initViews(savedInstanceState)
 
     val arrayList = arrayListOf<Data?>()
-    arrayList.add(Data(CRouter.APP_FFMPEG_SWSCALE_ACTIVITY))
-    arrayList.add(Data(CRouter.APP_FRAGMENT_ANIM_ACTIVITY))
-    arrayList.add(Data(CRouter.APP_CANVAS_ACTIVITY))
-    arrayList.add(Data("OutlineProviderActivity", CRouter.APP_OUTLINE_PROVIDER_ACTIVITY))
-    arrayList.add(Data("AdjustResizeActivity", CRouter.APP_ADJUST_RESIZE_ACTIVITY2))
-    arrayList.add(Data("ViewPager2Activity", CRouter.APP_VIEWPAGER2_ACTIVITY))
-    arrayList.add(Data("SvgActivity", CRouter.APP_SVG_ACTIVITY))
-    arrayList.add(Data("RunnableActivity", CRouter.APP_RUNNABLE_ACTIVITY))
-    arrayList.add(Data("InjectActivity", CRouter.SETTING_INJECT_ACTIVITY))
-    arrayList.add(Data("SecondActivity", CRouter.APP_FIRST_ACTIVITY))
-    arrayList.add(Data("FirstActivity", CRouter.APP_FIRST_ACTIVITY))
-    arrayList.add(Data("KodoActivity", CRouter.APP_KODO_ACTIVITY))
-    arrayList.add(Data("RecordVideoActivity", CRouter.APP_RECORD_VIDEO_ACTIVITY))
-    arrayList.add(Data("RecordVideo2Activity", CRouter.APP_RECORD_VIDEO2_ACTIVITY))
-    arrayList.add(Data("GLSurfaceViewActivity", CRouter.APP_GLSURFACE_VIEW_ACTIVITY))
-    arrayList.add(Data("LoginActivity", CRouter.LOGIN_LOGIN_ACTIVITY))
-    arrayList.add(Data("QrCodeActivity", CRouter.SETTING_QRCODE_ACTIVITY))
-    arrayList.add(Data("PermissionActivity", CRouter.APP_PERMISSION_ACTIVITY))
-    arrayList.add(Data("EventActivity", CRouter.APP_EVENT_ACTIVITY))
-    arrayList.add(Data("RewardLayoutActivity", CRouter.APP_REWARD_LAYOUT_ACTIVITY))
-    arrayList.add(Data("SwipeBackLayoutActivity", CRouter.APP_SWIPE_BACK_LAYOUT_ACTIVITY))
-    arrayList.add(Data("JavaTypeActivity", CRouter.APP_JAVA_TYPE_ACTIVITY))
-    arrayList.add(Data("RequestActivity", CRouter.APP_REQUEST_ACTIVITY))
-    arrayList.add(Data("RxJava2Activity", CRouter.APP_RXJAVA2_ACTIVITY))
-    arrayList.add(Data("ShareActivity", CRouter.APP_SHARE_ACTIVITY))
-    arrayList.add(Data("MemoryLeakActivity", CRouter.APP_MEMORY_LEAK_ACTIVITY))
-    arrayList.add(Data("AptActivity", CRouter.APP_APT_ACTIVITY))
-    arrayList.add(Data("AptActivity2", CRouter.APP_APT_ACTIVITY2))
-    arrayList.add(Data("ConstraintActivity", CRouter.WIDGET_CONSTRAINT_ACTIVITY))
-    arrayList.add(Data("SecondActivity", CRouter.APP_SECOND_ACTIVITY))
-    arrayList.add(Data("TouchEventActivity", CRouter.APP_TOUCH_EVENT_ACTIVITY))
-    arrayList.add(Data("RecycleViewActivity", CRouter.APP_RECYCLE_VIEW_ACTIVITY))
-    arrayList.add(Data("NestedScrollViewActivity", CRouter.APP_RECYCLE_VIEW_ACTIVITY))
-    arrayList.add(Data("LinearLayoutActivity", CRouter.APP_LINEAR_LAYOUT_ACTIVITY))
-    arrayList.add(Data("ComponentActivity", CRouter.APP_COMPONENT_ACTIVITY))
-    arrayList.add(Data("RegisterActivity", CRouter.LOGIN_REGISTER_ACTIVITY))
-    arrayList.add(Data("HookActivity", CRouter.APP_HOOK_ACTIVITY))
-    arrayList.add(Data("ProxyActivity", CRouter.APP_PROXY_ACTIVITY))
+
+    val cRouterClassName = Class.forName("com.llj.component.service.arouter.CRouterClassName")
+    val declaredFields = cRouterClassName.declaredFields
+
+    for (field in declaredFields) {
+      arrayList.add(Data(field.get(null) as String))
+    }
     arrayList.add(Data("CWebViewActivity", "CWebViewActivity"))
-    arrayList.add(Data("PhoneLoginActivity", CRouter.LOGIN_PHONE_LOGIN_ACTIVITY))
 
     UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
         .setLinearLayoutManager()
@@ -113,7 +81,7 @@ class HomeFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scro
 
   private inner class MyAdapter : ListBasedAdapter<Data, ViewHolderHelper> {
 
-    constructor(list: MutableList<Data?>?) : super(list) {
+    constructor(list: MutableList<Data?>) : super(list) {
       addItemLayout(R.layout.item_home_fragment)
     }
 

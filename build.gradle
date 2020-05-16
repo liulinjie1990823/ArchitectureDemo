@@ -15,7 +15,7 @@ buildscript {
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.2'
         //maven库更新检测
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.28.0'
-        //android插件
+        //android-plugin插件
         if (useNew) {
             classpath deps.android_gradle_plugin_new
         } else {
@@ -36,33 +36,34 @@ buildscript {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         //组件化插件
         classpath 'com.billy.android:cc-register:1.1.2'
-
-        //上传apk
+        //上传apk插件
         if (useApkUploadPlugin) {
             classpath 'com.llj:plugin-upload:0.0.13'
         }
-        //aspectj
+        //aspectj插件
         if (useAspectjx) {
             classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
         }
-        //代码注入
+        //asm代码注入插件
         if (useCodeInject) {
             classpath 'com.llj:plugin-code-inject:0.0.1'
         }
-        classpath deps.novoda_bintray_release_plugin
+        //arr打包上传jcenter插件
+        classpath "com.novoda:bintray-release:0.9.2"
         //okbuck编译
         classpath 'com.uber:okbuck:0.49.0'
         //保存页面字段
         //classpath "io.github.prototypez:save-state:0.2.3"
-
-        //doraemonkit手机调试
+        //doraemonkit手机调试插件
         classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.4'
-
         //方法耗时统计
         if (useMethodTrace) {
             classpath "gradle.plugin.cn.cxzheng.methodTracePlugin:tracemanplugin:1.0.4"
         }
-
+        //排除jar中某个类插件
+        classpath "com.github.nekocode:JarFilterPlugin:2.4"
+        classpath 'com.github.yanbober:android-build-filter-gradle-plugin:1.0.1'
+        classpath 'coder.siy:exclude-dependencies-plugin:1.0.0'
     }
 }
 
@@ -75,6 +76,7 @@ allprojects {
         resolutionStrategy {
             force deps.okhttp
             force deps.gson
+            force 'com.blankj:utilcodex:1.28.4'
 
             force 'androidx.legacy:legacy-support-core-utils:1.0.0'
             force 'androidx.legacy:legacy-support-core-ui:1.0.0'
@@ -85,13 +87,18 @@ allprojects {
             force deps.arch_runtime
             force deps.appcompat
             force deps.lifecycle_runtime
+            force deps.lifecycle_service
             force deps.lifecycle_java8
             force deps.lifecycle_viewmodel
             force deps.lifecycle_viewmodel_savedstate
             force deps.lifecycle_livedata
             force deps.activity
             force deps.fragment
+            force deps.constraint_layout
+            force deps.recyclerview
             force deps.viewpager
+            force deps.viewpager2
+            force deps.transition
         }
     }
 

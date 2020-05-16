@@ -8,68 +8,15 @@ import com.alibaba.android.arouter.launcher.ARouter;
 /**
  * ArchitectureDemo describe: author llj date 2018/7/3
  */
-public class CRouter {
+public class CRouter extends CRouterClassName {
 
   public static final String AROUTER_NEED_LOGIN   = "needLogin";
   public static final String AROUTER_FORWARD_PATH = "AROUTER_FORWARD_PATH";
 
 
-  //app
-  public static final String APP_LOADING_ACTIVITY = "/app/LoadingActivity";
-
-  public static final String APP_SVG_ACTIVITY               = "/app/SvgActivity";
-  public static final String APP_KODO_ACTIVITY              = "/app/KodoActivity";
-  public static final String APP_RECORD_VIDEO_ACTIVITY      = "/app/RecordVideoActivity";
-  public static final String APP_RECORD_VIDEO2_ACTIVITY     = "/app/RecordVideo2Activity";
-  public static final String APP_GLSURFACE_VIEW_ACTIVITY    = "/app/GLSurfaceViewActivity";
-  public static final String APP_PERMISSION_ACTIVITY        = "/app/PermissionActivity";
-  public static final String APP_EVENT_ACTIVITY             = "/app/EventActivity";
-  public static final String APP_MAIN_ACTIVITY              = "/app/MainActivity";
-  public static final String APP_SECOND_ACTIVITY            = "/app/SecondActivity";
-  public static final String APP_TOUCH_EVENT_ACTIVITY       = "/app/TouchEventActivity";
-  public static final String APP_RECYCLE_VIEW_ACTIVITY      = "/app/RecycleViewActivity";
-  public static final String APP_RXJAVA2_ACTIVITY           = "/app/RxJava2Activity";
-  public static final String APP_REQUEST_ACTIVITY           = "/app/RequestActivity";
-  public static final String APP_JAVA_TYPE_ACTIVITY         = "/app/JavaTypeActivity";
-  public static final String APP_PROXY_ACTIVITY             = "/app/ProxyActivity";
-  public static final String APP_NESTED_SCROLLVIEW_ACTIVITY = "/app/NestedScrollViewActivity";
-  public static final String APP_LINEAR_LAYOUT_ACTIVITY    = "/app/LinearLayoutActivity";
-  public static final String APP_COMPONENT_ACTIVITY        = "/app/ComponentActivity";
-  public static final String APP_SHARE_ACTIVITY            = "/app/ShareActivity";
-  public static final String APP_MEMORY_LEAK_ACTIVITY      = "/app/MemoryLeakActivity";
-  public static final String APP_APT_ACTIVITY              = "/app/AptActivity";
-  public static final String APP_ADJUST_RESIZE_ACTIVITY2   = "/app/AdjustResizeActivity";
-  public static final String APP_KEYBOARD_STATE_ACTIVITY   = "/app/KeyboardStateActivity";
-  public static final String APP_CANVAS_ACTIVITY           = "/app/CanvasActivity";
-  public static final String APP_FFMPEG_SWSCALE_ACTIVITY   = "/app/FfmpegSwscaleActivity";
-  public static final String APP_FRAGMENT_ANIM_ACTIVITY    = "/app/FragmentAnimActivity";
-  public static final String APP_CANVAS_FRAGMENT           = "/app/CanvasFragment";
-  public static final String APP_OUTLINE_PROVIDER_ACTIVITY = "/app/OutlineProviderActivity";
-  public static final String APP_VIEWPAGER2_ACTIVITY       = "/app/ViewPager2Activity";
-  public static final String APP_APT_ACTIVITY2             = "/app/AptActivity2";
-  public static final String APP_HOOK_ACTIVITY             = "/app/HookActivity";
-  public static final String APP_REWARD_LAYOUT_ACTIVITY    = "/app/RewardLayoutActivity";
-  public static final String APP_RUNNABLE_ACTIVITY         = "/app/RunnableActivity";
-  public static final String APP_SWIPE_BACK_LAYOUT_ACTIVITY = "/app/SwipeBackLayoutActivity";
-  public static final String APP_FIRST_ACTIVITY             = "/app/FirstActivity";
-  public static final String WIDGET_CONSTRAINT_ACTIVITY     = "/app/widget/ConstraintActivity";
-  public static final String CIRCLE_VIEW_ACTIVITY           = "/app/widget/CircleViewActivity";
-
-  //needLogin
-  public static final String LOGIN_LOGIN_ACTIVITY       = "/login/LoginActivity";
-  public static final String LOGIN_PHONE_LOGIN_ACTIVITY = "/login/PhoneLoginActivity";
-  public static final String LOGIN_REGISTER_ACTIVITY    = "/login/RegisterActivity";
-
-  //setting
-  public static final String SETTING_QRCODE_ACTIVITY  = "/setting/QrCodeActivity";
-  public static final String SETTING_SETTING_ACTIVITY = "/setting/SettingActivity";
-  public static final String SETTING_INJECT_ACTIVITY  = "/setting/InjectActivity";
-  public static final String SETTING_INJECT_FRAGMENT  = "/setting/InjectFragment";
 
 
   public static final String QRCODE_CAPTUREACTIVITY                  = "/qrcode/CaptureActivity";
-  public static final String APP_ADV_ACTIVITY                        = "/app/AdvertisingActivity";                 //广告页
-  public static final String APP_MAIN_TAB_ACTIVITY                   = "/app/MainTabActivity";                 //跳转到首页
   public static final String KEY_TAB_INDEX                           = "KEY_TAB_INDEX";                        //跳转到首页
   public static final String APP_NEW_CHANNEL_ACTIVITY                = "/app/channel/ChannelViewActivity";
   public static final String APP_CHANNEL_TRAVEL_DESTINATION_ACTIVITY = "/app/channel/travel/TravelDestinationActivity";
@@ -126,41 +73,6 @@ public class CRouter {
   public static final int    VALUE_TRAVEL_ALBUM                    = 2;
   public static final int    VALUE_TRAVEL_STRORE_ALBUM             = 3;
 
-  public static final String APP_MINE_MEMBER_CENTER_ACTIVITY                  = "/app/mine/MemberCentreActivity";
-  public static final String APP_MINE_MY_PROFILE_ACTIVITY                     = "/app/mine/MyProfileActivity";
-  public static final String APP_MINE_MODIFY_NICKNAME_ACTIVITY                = "/app/mine/ModifyNicknameActivity";
-  public static final String APP_MINE_BIND_PHONE_ACTIVITY                     = "/app/mine/BindPhoneActivity";
-  public static final String APP_MINE_SET_PASSWORD_ACTIVITY                   = "/app/mine/SetPasswordActivity";
-  public static final String APP_MINE_SETTING_ACTIVITY                        = "/app/mine/SettingActivity";
-  public static final String APP_MINE_ABOUT_US_ACTIVITY                       = "/app/mine/AboutUsActivity";
-  public static final String APP_MINE_COUPON_QR_CODE_ACTIVITY                 = "/app/mine/CouponQrCodeActivity";
-  public static final String APP_MINE_FEEDBACK_ACTIVITY                       = "/app/mine/FeedbackActivity";
-  public static final String APP_MINE_MY_INTEGRAL_ACTIVITY                    = "/app/mine/MyIntegralActivity";
-  public static final String APP_MINE_OFFICIAL_WECHAT_ACTIVITY                = "/app/mine/OfficialWeChatActivity";
-  public static final String APP_MINE_HELP_ACTIVITY                           = "/app/mine/HelpActivity";
-  public static final String APP_MINE_MY_COUPON_ACTIVITY                      = "/app/mine/MyCouponActivity";
-  public static final String APP_MINE_MY_COUPON_FRAGMENT                      = "/app/mine/MyCouponFragment";
-  public static final String APP_MINE_BALANCE_ACTIVITY                        = "/app/mine/BalanceActivity";
-  public static final String APP_MINE_INCOME_AND_EXPENDITURE_DETAILS_ACTIVITY = "/app/mine/IncomeAndExpenditureDetailsActivity";
-  public static final String APP_MINE_WITHDRAW_ACTIVITY                       = "/app/mine/WithdrawActivity";
-  public static final String APP_MINE_WITHDRAW_SUCCESS_ACTIVITY               = "/app/mine/WithdrawSuccessActivity";
-  public static final String APP_MINE_WITHDRAW_FAILURE_ACTIVITY               = "/app/mine/WithdrawFailureActivity";
-  public static final String APP_MINE_WITHDRAWING_ACTIVITY                    = "/app/mine/WithdrawingActivity";
-  public static final String APP_MINE_NO_BIND_ALIPAY_ACTIVITY                 = "/app/mine/NoBindAlipayActivity";
-  public static final String APP_MINE_BIND_ALIPAY_ACTIVITY                    = "/app/mine/BindAlipayActivity";
-  public static final String APP_MINE_ALIPAY_INFO_ACTIVITY                    = "/app/mine/AlipayInfoActivity";
-  public static final String APP_MINE_BIND_ALIPAY_FAILURE_ACTIVITY            = "/app/mine/BindAlipayFailureActivity";
-  public static final String APP_MINE_BIND_ALIPAY_SUBMIT_ACTIVITY             = "/app/mine/BindAlipaySubmitActivity";
-  public static final String APP_MINE_MY_CARD_PACKAGE_ACTIVITY                = "/app/mine/MyCardPackageActivity";
-  public static final String APP_MINE_CARD_PACKAGE_DETAIL_ACTIVITY            = "/app/mine/CardPackageDetailActivity";
-  public static final String APP_MINE_MY_SHOPPING_ALLOWANCE_ACTIVITY          = "/app/mine/MyShoppingAllowanceActivity";
-  public static final String APP_MINE_MY_ACTIVITY                             = "/app/mine/myActivity";                               //我的活动
-  public static final String APP_MINE_MY_ACT_ACTIVITY                         = "/app/mine/MyActActivity";                               //我的活动
-  public static final String APP_MINE_SHIPPING_ADDRESS_ACTIVITY               = "/app/mine/ShippingAddressActivity";
-  public static final String APP_MINE_SHIPPING_ADDRESS_EDIT_ACTIVITY          = "/app/mine/ShippingAddressEditActivity";
-  public static final String APP_MINE_SCANNING_RESULT_ACTIVITY                = "/app/mine/ScanningResultActivity";
-  public static final String APP_MINE_MY_REMARK_GIFT_ACTIVITY                 = "/app/mine/APP_MINE_MY_REMARK_GIFT_ACTIVITY";
-  public static final String APP_MINE_MY_WALLET_ACTIVITY                      = "/app/mine/APP_MINE_MY_WALLET_ACTIVITY";
 
   public static final String APP_STORE_LIST_NO_FILTER_STORE_LIST_ACTIVITY = "/app/storelist/nofilterlist/NoFilterStoreListActivity";
   public static final String APP_COMMON_SEARCH_RESULT_ACTIVITY            = "/app/common/SearchResultActivity";

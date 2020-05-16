@@ -20,8 +20,7 @@ subprojects {
                 || it.name.startsWith('plugin-upload')
         ) {
             apply plugin: 'groovy'
-            apply from: rootProject.file('gradle/novoda-bintray.gradle')
-//            apply from: rootProject.file('gradle/maven-publish.gradle')
+            //apply from: rootProject.file('gradle/maven-publish.gradle')
 
         } else if (it.name.startsWith('lib-component-annotation')
                 || it.name.startsWith('lib-component-compiler')
@@ -31,14 +30,11 @@ subprojects {
                 || it.name.startsWith('lib-mvp-compiler')
                 || it.name.startsWith('lib-mvp-annotation')
         ) {
-
             apply plugin: 'java-library'
-
             sourceCompatibility = "1.8"
             targetCompatibility = "1.8"
 
         } else {
-            //
             apply plugin: 'com.android.library'
 
             android.compileOptions {
@@ -82,6 +78,8 @@ subprojects {
                 implementation deps.appcompat
             }
         }
+        //android-plugin升级后统一使用novoda-bintray来打包，之前的和插件有冲突
+//        apply from: rootProject.file('gradle/novoda-bintray.gradle')
         if (useOld) {
             //打包本地
             apply from: rootProject.file('gradle/uploadArchives.gradle')

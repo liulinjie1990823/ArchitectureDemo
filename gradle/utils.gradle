@@ -39,9 +39,9 @@ ext {
 }
 
 //同步android机代理任务
-task syncAndroidIp(type: Exec) {
-    description '设置android端ip代理'
-    group 'syncAndroidIp'
-    workingDir "$rootProject.projectDir/python"
-    commandLine './sync_android_ip.py'
-}
+//task syncAndroidIp(type: Exec) {
+//    description '设置android端ip代理'
+//    group 'syncAndroidIp'
+//    workingDir "$rootProject.projectDir/python"
+//    commandLine './sync_android_ip.py'
+//}

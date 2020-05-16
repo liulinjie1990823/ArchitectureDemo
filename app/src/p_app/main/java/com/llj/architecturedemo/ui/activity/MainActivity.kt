@@ -43,7 +43,7 @@ class MainActivity : BaseTabActivity<ViewBinding, MainPresenter>(), MainContract
 
   override fun initViews(savedInstanceState: Bundle?) {
 
-    mTabAdapter = UniversalBind.Builder(mLlFooterBar, TabAdapter(null))
+    mTabAdapter = UniversalBind.Builder(mLlFooterBar, TabAdapter())
         .build()
         .getAdapter()
 
@@ -87,12 +87,14 @@ class MainActivity : BaseTabActivity<ViewBinding, MainPresenter>(), MainContract
 
   private inner class TabAdapter : ListBasedAdapter<TabVo, ViewHolderHelper>, IUiHandler {
 
-    constructor(list: ArrayList<TabVo?>?) : super(list) {
+
+    private val mImageLoad: ImageLoader
+
+    constructor() : super() {
       this.mImageLoad = ImageLoader.getInstance()
       addItemLayout(R.layout.item_main_activity_tab)
     }
 
-    private val mImageLoad: ImageLoader
 
     override fun onBindViewHolder(viewHolder: ViewHolderHelper, item: TabVo?, position: Int) {
       if (item == null) {

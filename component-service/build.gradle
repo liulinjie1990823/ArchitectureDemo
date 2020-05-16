@@ -122,13 +122,13 @@ dependencies {
     //应用调试
     debugImplementation 'com.facebook.soloader:soloader:0.9.0'
 
-    debugImplementation "com.facebook.flipper:flipper:0.39.0"
-    betaImplementation "com.facebook.flipper:flipper-noop:0.39.0"
-    releaseImplementation "com.facebook.flipper:flipper-noop:0.39.0"
+    debugImplementation "com.facebook.flipper:flipper:0.42.0"
+    betaImplementation "com.facebook.flipper:flipper-noop:0.42.0"
+    releaseImplementation "com.facebook.flipper:flipper-noop:0.42.0"
 
-    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.39.0'
-    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.39.0'
-    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.39.0'
+    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.42.0'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.42.0'
+    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.42.0'
 
     //内存检测
     debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.3"
@@ -145,6 +145,6 @@ dependencies {
     api deps.timber
     api deps.logger
     //
-//    api 'com.blankj:utilcode:1.28.0'
+    api 'com.blankj:utilcodex:1.28.4'
 
 }

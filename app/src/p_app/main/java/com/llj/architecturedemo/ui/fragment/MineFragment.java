@@ -30,6 +30,7 @@ import com.llj.adapter.ListBasedAdapter;
 import com.llj.adapter.MergedUniversalAdapter;
 import com.llj.adapter.UniversalAdapter;
 import com.llj.adapter.UniversalBind;
+import com.llj.adapter.UniversalBind.Builder;
 import com.llj.adapter.converter.UniversalConverterFactory;
 import com.llj.adapter.util.ViewHolderHelper;
 import com.llj.architecturedemo.R;
@@ -37,6 +38,7 @@ import com.llj.architecturedemo.analysis.AppAction;
 import com.llj.architecturedemo.ui.model.ExpoInfoVo;
 import com.llj.architecturedemo.ui.model.PersonalCenterCountVo;
 import com.llj.architecturedemo.ui.model.PersonalCenterVo;
+import com.llj.architecturedemo.ui.model.PersonalCenterVo.ToolsMenuVo;
 import com.llj.architecturedemo.ui.presenter.PersonalCenterPresenter;
 import com.llj.architecturedemo.ui.view.IMineView;
 import com.llj.component.service.MiddleApplication;
@@ -935,7 +937,7 @@ public class MineFragment extends
       recyclerView.setFocusableInTouchMode(false);
 
       if ("user_expo".equals(item.getMenu_type())) {
-        new UniversalBind.Builder<PersonalCenterVo.ToolsMenuVo, ViewHolderHelper, ToolsItemAdapter>(
+        UniversalBind<ToolsMenuVo, ViewHolderHelper, ToolsItemAdapter> build = new Builder<ToolsMenuVo, ViewHolderHelper, ToolsItemAdapter>(
             recyclerView,
             new ToolsItemAdapter(item.getLists()))
             .setGridLayoutManager(3)

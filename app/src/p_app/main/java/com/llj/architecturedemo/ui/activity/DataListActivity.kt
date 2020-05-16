@@ -23,7 +23,7 @@ abstract class DataListActivity : AppMvcBaseActivity<ActivityDataListBinding>() 
   private lateinit var mAdapter: ItemAdapter
 
   override fun initViews(savedInstanceState: Bundle?) {
-    mAdapter = UniversalBind.Builder(mViewBinder!!.recyclerView, ItemAdapter(null))
+    mAdapter = UniversalBind.Builder(mViewBinder!!.recyclerView, ItemAdapter())
         .setLinearLayoutManager()
         .build().getAdapter()
   }
@@ -44,7 +44,8 @@ abstract class DataListActivity : AppMvcBaseActivity<ActivityDataListBinding>() 
   abstract fun onClick(view: View, item: DataVo)
 
   inner class ItemAdapter : ListBasedAdapter<DataVo?, ViewHolderHelper> {
-    constructor(list: MutableList<DataVo?>?) : super(list) {
+
+    constructor() : super() {
       addItemLayout(R.layout.item_canvas)
     }
 

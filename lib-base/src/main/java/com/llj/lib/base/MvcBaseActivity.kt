@@ -38,8 +38,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
 
   private var mUnBinder: Unbinder? = null
 
-  @JvmField
-  var mViewBinder: V? = null//ViewBinding
+  lateinit var mViewBinder: V//ViewBinding
 
   private var mRequestDialog: BaseDialog? = null
 
@@ -71,15 +70,16 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
 
     getIntentData(intent)
 
-    mViewBinder = layoutViewBinding()
+    var layoutViewBinding = layoutViewBinding()
 
-    if (mViewBinder == null) {
+    if (layoutViewBinding == null) {
       //如果忘记设置则使用反射设置
-      reflectViewBinder()
+      layoutViewBinding = reflectViewBinder()
     }
 
-    if (mViewBinder != null) {
-      setContentView(mViewBinder?.root)
+    if (layoutViewBinding != null) {
+      mViewBinder = layoutViewBinding
+      setContentView(mViewBinder.root)
       Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding：%d", mTagLog, hashCode())
     } else {
       val layoutView = layoutView()
@@ -106,7 +106,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
     Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d cost %d ms", mTagLog, hashCode(), (System.currentTimeMillis() - mCurrentMill!!))
   }
 
-  private fun reflectViewBinder() {
+  private fun reflectViewBinder(): V? {
     val currentTimeMillis: Long = System.currentTimeMillis()
     var classType: Class<*> = javaClass
     for (i in 0..4) {
@@ -114,15 +114,16 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
         //父类是泛型类型就反射一次
         Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect class %s：%d",
             mTagLog, classType.genericSuperclass!!.toString(), hashCode())
-        mViewBinder = reflectOnce(classType.genericSuperclass as ParameterizedType)
-        if (mViewBinder != null) {
-          break
+        val reflectOnce = reflectOnce(classType.genericSuperclass as ParameterizedType)
+        if (reflectOnce != null) {
+          return reflectOnce
         }
       }
       classType = classType.superclass
     }
     val diffTimeMillis = System.currentTimeMillis() - currentTimeMillis
     Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect %d ms：%d", mTagLog, diffTimeMillis, hashCode())
+    return null
   }
 
   private fun reflectOnce(type: ParameterizedType): V? {
