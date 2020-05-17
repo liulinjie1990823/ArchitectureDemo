@@ -1,20 +1,23 @@
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-android{
+android {
     dataBinding { enabled = true }
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    debugImplementation deps.viewpager2
     debugImplementation deps.recyclerview
     debugImplementation deps.SmartRefreshLayout
     debugImplementation deps.kotlin_stdlib_jdk8
 
+    betaCompileOnly deps.viewpager2
     betaCompileOnly deps.recyclerview
     betaCompileOnly deps.SmartRefreshLayout
     betaCompileOnly deps.kotlin_stdlib_jdk8
 
+    releaseCompileOnly deps.viewpager2
     releaseCompileOnly deps.recyclerview
     releaseCompileOnly deps.SmartRefreshLayout
     releaseCompileOnly deps.kotlin_stdlib_jdk8
