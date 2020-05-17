@@ -21,6 +21,7 @@ import com.llj.architecturedemo.databinding.ItemRecycleViewBinding
 import com.llj.architecturedemo.vo.DataVo
 import com.llj.component.service.arouter.CRouterClassName
 import timber.log.Timber
+import java.util.*
 
 
 /**
@@ -32,14 +33,43 @@ import timber.log.Timber
 @Route(path = CRouterClassName.APP_RECYCLE_VIEW_ACTIVITY)
 class RecycleViewActivity : AppMvcBaseActivity<ActivityRecycleViewBinding>() {
 
+  lateinit var arrayList: ArrayList<RecyclerView.ViewHolder>
   override fun initViews(savedInstanceState: Bundle?) {
+    val recyclerViewClass = RecyclerView::class.java
+    val field = recyclerViewClass.getDeclaredField("mRecycler")
+    field.isAccessible = true
+
+    val mRecycler = field.get(mViewBinder.recyclerView2) as RecyclerView.Recycler
+
+//    val modifiers = Field::class.java.getDeclaredField("modifiers")
+//    modifiers.isAccessible = true
+//    modifiers.set(field, field.modifiers and Modifier.FINAL)
+//    field.set(null, true)
+
+    val recyclerClass = RecyclerView.Recycler::class.java
+    val mCachedViewsField = recyclerClass.getDeclaredField("mCachedViews")
+    mCachedViewsField.isAccessible = true
+
+    arrayList = mCachedViewsField.get(mRecycler) as ArrayList<RecyclerView.ViewHolder>
+
+
     mViewBinder.recyclerView.layoutManager = LinearLayoutManager(mContext)
     mViewBinder.recyclerView.adapter = ItemAdapter()
 
-    val adapter = UniversalBind.Builder(mViewBinder.recyclerView2, ItemAdapter2())
+    mViewBinder.recyclerView2.setItemViewCacheSize(3)
+    val recycledViewPool = RecyclerView.RecycledViewPool()
+    recycledViewPool.setMaxRecycledViews(0, 5)
+    mViewBinder.recyclerView2.setRecycledViewPool(recycledViewPool)
+    mViewBinder.recyclerView2.setRecyclerListener(RecyclerView.RecyclerListener {
+      val recycledViewCount = mViewBinder.recyclerView2.recycledViewPool.getRecycledViewCount(0)
+//      Timber.tag(mTagLog).i("ItemAdapter2 recycledViewPoolCount:%s", recycledViewCount)
+      Timber.tag(mTagLog).i("ItemAdapter2 Recycler:%s,view:%s,position:%d", it.hashCode(), it.itemView.hashCode(), it.adapterPosition)
+    })
+    UniversalBind.Builder(mViewBinder.recyclerView2, ItemAdapter2())
         .setLinearLayoutManager()
         .build().getAdapter()
   }
+
 
   override fun initData() {
   }
@@ -59,6 +89,11 @@ class RecycleViewActivity : AppMvcBaseActivity<ActivityRecycleViewBinding>() {
 
     private var currentTimeMillis: Long? = null
     override fun bindViewHolder(holder: XViewHolder, position: Int) {
+      Timber.tag(mTagLog).i("------begin------")
+      for (viewHolder in arrayList) {
+        Timber.tag(mTagLog).i("ItemAdapter2 mCachedViews:%s,view:%s,position:%d", viewHolder.hashCode(), viewHolder.itemView.hashCode(), viewHolder.adapterPosition)
+      }
+      Timber.tag(mTagLog).i("------end------")
       Timber.tag(mTagLog).i("ItemAdapter2 onBindViewHolder:%s,view:%s,position:%d", holder.hashCode(), holder.itemView.hashCode(), position)
       currentTimeMillis = System.currentTimeMillis()
       super.bindViewHolder(holder, position)
@@ -76,10 +111,11 @@ class RecycleViewActivity : AppMvcBaseActivity<ActivityRecycleViewBinding>() {
       })
       val spend = System.currentTimeMillis() - currentTimeMillis!!
 
-      Timber.tag(mTagLog).i("ItemAdapter2 onBindViewHolder:%s,view:%s,position:%d,spend:%d",
-          holder.hashCode(), holder.itemView.hashCode(), position, spend)
+//      Timber.tag(mTagLog).i("ItemAdapter2 onBindViewHolder:%s,view:%s,position:%d,spend:%d",
+//          holder.hashCode(), holder.itemView.hashCode(), position, spend)
     }
   }
+
 
   inner class ItemAdapter : RecyclerView.Adapter<ItemViewHolder>() {
     private var currentTimeMillis: Long? = null

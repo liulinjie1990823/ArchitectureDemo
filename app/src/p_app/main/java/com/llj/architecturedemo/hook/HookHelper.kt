@@ -17,9 +17,11 @@ class HookHelper {
         fun attachContext() {
             // 先获取到当前的ActivityThread对象
             val activityThreadClass = Class.forName("android.app.ActivityThread")
+
             val currentActivityThreadMethod = activityThreadClass.getDeclaredMethod("currentActivityThread")
             currentActivityThreadMethod.isAccessible = true
             //currentActivityThread是一个static函数所以可以直接invoke，不需要带实例参数
+            //拿到sCurrentActivityThread
             val currentActivityThread = currentActivityThreadMethod.invoke(null)
 
             // 拿到原始的 mInstrumentation字段

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
+import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.adapter.ListBasedAdapter
@@ -34,6 +35,13 @@ class ViewPager2Activity : AppMvcBaseActivity<ActivityViewpager2Binding>() {
   override fun initViews(savedInstanceState: Bundle?) {
     mImageLoader = ImageLoader.getInstance()
 
+    mViewBinder.vpPicture1.tag = "vpPicture1"
+    mViewBinder.vpPicture2.tag = "vpPicture2"
+    mViewBinder.vpPicture3.tag = "vpPicture3"
+
+    mViewBinder.vpPicture1.setPadding(dip2px(mContext, 40f), 0, dip2px(mContext, 40f), 0)
+    mViewBinder.vpPicture1.offscreenPageLimit = 1
+    mViewBinder.vpPicture1.pageMargin = dip2px(mContext, 20f)
 
     //画面的宽度，按比例计算
     mPicWidth = (DisplayHelper.SCREEN_WIDTH * 348 / 750f).toInt()
@@ -54,13 +62,13 @@ class ViewPager2Activity : AppMvcBaseActivity<ActivityViewpager2Binding>() {
 //    layoutParams.height = mPicHeight + mViewBinder.vpPicture.paddingTop + mViewBinder.vpPicture
 //        .paddingBottom
 
-    mViewBinder!!.vpPicture2.offscreenPageLimit = 3
+    mViewBinder.vpPicture2.offscreenPageLimit = 3
     val pageTransformer = object : ViewPager2.PageTransformer {
       val MIN_SCALE = 0.9f
       val MIN_ALPHA = 0.65f
 
       //final float transformPos = (float) (child.getLeft() - scrollX) / getClientWidth();
-      private val mCenterPosition = mViewBinder!!.vpPicture2.paddingLeft / (mPicWidth * 1f)
+      private val mCenterPosition = mViewBinder.vpPicture2.paddingLeft / (mPicWidth * 1f)
       private val mMarginPx = 60
       override fun transformPage(page: View, position: Float) {
         Timber.tag(mTagLog).e("position:$position")
@@ -77,13 +85,21 @@ class ViewPager2Activity : AppMvcBaseActivity<ActivityViewpager2Binding>() {
       }
     }
 
-    //mBinding.vpPicture.setPageTransformer(new MarginPageTransformer(dip2px(mContext, 23)));
     //mViewBinder.vpPicture.setPageTransformer(pageTransformer)
+
+
+    mViewBinder.vpPicture3.setPadding(dip2px(mContext, 40f), 0, dip2px(mContext, 40f), 0)
+    (mViewBinder.vpPicture3.getChildAt(0) as ViewGroup).clipToPadding = false
+    mViewBinder.vpPicture3.offscreenPageLimit = 1
+    mViewBinder.vpPicture3.setPageTransformer(MarginPageTransformer(dip2px(mContext, 20f)))
 
     UniversalBind.Builder(mViewBinder.vpPicture1, ItemAdapter(mViewBinder.vpPicture1))
         .build().getAdapter()
 
     UniversalBind.Builder(mViewBinder.vpPicture2, ItemAdapter(mViewBinder.vpPicture2))
+        .build().getAdapter()
+
+    UniversalBind.Builder(mViewBinder.vpPicture3, ItemAdapter(mViewBinder.vpPicture3))
         .build().getAdapter()
   }
 
@@ -98,7 +114,7 @@ class ViewPager2Activity : AppMvcBaseActivity<ActivityViewpager2Binding>() {
     }
 
     override fun getCount(): Int {
-      return 3
+      return 10
     }
 
     override fun onCreateViewBinding(viewType: Int): ViewBinding? {
@@ -107,6 +123,10 @@ class ViewPager2Activity : AppMvcBaseActivity<ActivityViewpager2Binding>() {
 
 
     override fun onBindViewHolder(holder: ViewHolderHelperWrap<MvItemAeMakePicBinding>, item: String?, position: Int) {
+
+      Timber.tag(mTagLog).i(" onBindViewHolder:%s,view:%s,position:%d",
+          holder.hashCode(), viewGroup.tag, position)
+
       val viewBinder = holder.mViewBinder
       val url = "https://img.hbhcdn.com/dmp/other/1584979200/jh-img-orig-ga_1242381413835505664_1079_1918_225146.jpg"
       mImageLoader.loadImage(viewBinder.sdvImage, url, mPicWidth, mPicHeight)
