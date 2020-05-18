@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.adapter.ListBasedAdapter
+import com.llj.adapter.UniversalAdapter
 import com.llj.adapter.UniversalBind
-import com.llj.adapter.XViewHolder
 import com.llj.adapter.util.ViewHolderHelperWrap
 import com.llj.architecturedemo.AppMvcBaseActivity
 import com.llj.architecturedemo.R
@@ -35,16 +35,15 @@ class RecycleViewActivity : AppMvcBaseActivity<ActivityRecycleViewBinding>() {
 
   lateinit var arrayList: ArrayList<RecyclerView.ViewHolder>
   override fun initViews(savedInstanceState: Bundle?) {
+
+    UniversalAdapter.DEBUG = true
+
     val recyclerViewClass = RecyclerView::class.java
     val field = recyclerViewClass.getDeclaredField("mRecycler")
     field.isAccessible = true
 
     val mRecycler = field.get(mViewBinder.recyclerView2) as RecyclerView.Recycler
 
-//    val modifiers = Field::class.java.getDeclaredField("modifiers")
-//    modifiers.isAccessible = true
-//    modifiers.set(field, field.modifiers and Modifier.FINAL)
-//    field.set(null, true)
 
     val recyclerClass = RecyclerView.Recycler::class.java
     val mCachedViewsField = recyclerClass.getDeclaredField("mCachedViews")
@@ -61,15 +60,12 @@ class RecycleViewActivity : AppMvcBaseActivity<ActivityRecycleViewBinding>() {
     recycledViewPool.setMaxRecycledViews(0, 5)
     mViewBinder.recyclerView2.setRecycledViewPool(recycledViewPool)
     mViewBinder.recyclerView2.setRecyclerListener(RecyclerView.RecyclerListener {
-      val recycledViewCount = mViewBinder.recyclerView2.recycledViewPool.getRecycledViewCount(0)
-//      Timber.tag(mTagLog).i("ItemAdapter2 recycledViewPoolCount:%s", recycledViewCount)
       Timber.tag(mTagLog).i("ItemAdapter2 Recycler:%s,view:%s,position:%d", it.hashCode(), it.itemView.hashCode(), it.adapterPosition)
     })
     UniversalBind.Builder(mViewBinder.recyclerView2, ItemAdapter2())
         .setLinearLayoutManager()
         .build().getAdapter()
   }
-
 
   override fun initData() {
   }
@@ -87,17 +83,10 @@ class RecycleViewActivity : AppMvcBaseActivity<ActivityRecycleViewBinding>() {
       return 100
     }
 
-    private var currentTimeMillis: Long? = null
-    override fun bindViewHolder(holder: XViewHolder, position: Int) {
-      Timber.tag(mTagLog).i("------begin------")
-      for (viewHolder in arrayList) {
-        Timber.tag(mTagLog).i("ItemAdapter2 mCachedViews:%s,view:%s,position:%d", viewHolder.hashCode(), viewHolder.itemView.hashCode(), viewHolder.adapterPosition)
-      }
-      Timber.tag(mTagLog).i("------end------")
-      Timber.tag(mTagLog).i("ItemAdapter2 onBindViewHolder:%s,view:%s,position:%d", holder.hashCode(), holder.itemView.hashCode(), position)
-      currentTimeMillis = System.currentTimeMillis()
-      super.bindViewHolder(holder, position)
+    override fun getRecyclerView(): RecyclerView? {
+      return mViewBinder.recyclerView2
     }
+
 
     override fun onBindViewHolder(holder: ViewHolderHelperWrap<ItemRecycleViewBinding>, item: DataVo?, position: Int) {
       val viewBinder = holder.mViewBinder
@@ -109,10 +98,6 @@ class RecycleViewActivity : AppMvcBaseActivity<ActivityRecycleViewBinding>() {
 
       holder.itemView.setOnClickListener(View.OnClickListener {
       })
-      val spend = System.currentTimeMillis() - currentTimeMillis!!
-
-//      Timber.tag(mTagLog).i("ItemAdapter2 onBindViewHolder:%s,view:%s,position:%d,spend:%d",
-//          holder.hashCode(), holder.itemView.hashCode(), position, spend)
     }
   }
 
@@ -140,7 +125,6 @@ class RecycleViewActivity : AppMvcBaseActivity<ActivityRecycleViewBinding>() {
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-      Timber.tag(mTagLog).i("ItemAdapter onBindViewHolder:%s,view:%s,position:%d", holder.hashCode(), holder.itemView.hashCode(), position)
 
       currentTimeMillis = System.currentTimeMillis()
       holder.image.setBackgroundColor(getCompatColor(mContext, R.color.darkorange))

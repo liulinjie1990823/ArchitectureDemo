@@ -4,49 +4,40 @@ println("Custome Configure gradleLifecycle.gradle")
 
 gradle.addBuildListener(new BuildListener() {
 
-    @Override
     void beforeSettings(Settings settings) {
         super.beforeSettings(settings)
         //这里是在settings.gradle文件中加的监听，已经迟了，所以这个方法不会监听到
         println("-----------------------------------------" + "beforeSettings" + "-----------------------------------------")
     }
 
-    @Override
     void settingsEvaluated(Settings settings) {
         println("-----------------------------------------" + "settingsEvaluated" + "-----------------------------------------")
     }
 
-    @Override
     void projectsLoaded(Gradle gradle) {
         println("-----------------------------------------" + "projectsLoaded" + "-----------------------------------------")
     }
 
-    @Override
     void projectsEvaluated(Gradle gradle) {
         //所有子工程都Evaluated
         println("-----------------------------------------" + "projectsEvaluated" + "-----------------------------------------")
     }
 
-    @Deprecated
-    @Override
     void buildStarted(Gradle gradle) {
         println("-----------------------------------------" + "buildStarted" + "-----------------------------------------")
     }
 
-    @Override
     void buildFinished(BuildResult result) {
         println("-----------------------------------------" + "buildFinished" + "-----------------------------------------")
     }
 })
 
 gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
-    @Override
     void beforeEvaluate(Project project) {
         println("-----------------------------------------" + "beforeEvaluate:" + project.name + "-----------------------------------------")
 
     }
 
-    @Override
     void afterEvaluate(Project project, ProjectState state) {
         println("-----------------------------------------" + "afterEvaluate:" + project.name + "-----------------------------------------")
 

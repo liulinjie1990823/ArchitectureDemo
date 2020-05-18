@@ -27,6 +27,7 @@ subprojects {
 //            ext.alwaysLib = true
             }
             apply from: rootProject.file('gradle/cc-settings-2.gradle')
+//            apply from: rootProject.file('gradle/cc-settings-3.gradle')
         } else {
             //不使用组件
             if (it.name == 'app') {
@@ -145,6 +146,9 @@ subprojects {
                 //本地mvp映射表
                 kapt project(':lib-mvp-compiler')
                 implementation project(':lib-mvp-annotation')
+
+                api "com.billy.android:cc:2.1.5"
+
             }
 
         }

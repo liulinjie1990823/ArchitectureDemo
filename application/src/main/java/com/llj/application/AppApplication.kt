@@ -131,7 +131,6 @@ open class AppApplication : MiddleApplication() {
     ImageLoader.addImageLoadEngine(0, FrescoEngine())
   }
 
-
   override fun androidInjector(): AndroidInjector<Any> {
     return object : AndroidInjector<Any> {
       override fun inject(data: Any?) {

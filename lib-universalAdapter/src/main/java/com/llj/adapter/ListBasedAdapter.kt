@@ -19,11 +19,11 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
 
   private var clickPosition = 0
 
-  constructor() {
+  constructor() : super() {
     setItemsList(null)
   }
 
-  constructor(list: MutableList<Item?>) {
+  constructor(list: MutableList<Item?>) : super() {
     setItemsList(list)
   }
 

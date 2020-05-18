@@ -1,8 +1,8 @@
 include ':application'
 //
 
-//apply from: './gradle/gradleLifecycle.gradle'
-//apply from: './gradle/taskTimeTracker.gradle'
+apply from: './gradle/gradleLifecycle.gradle'
+apply from: './gradle/taskTimeTracker.gradle'
 
 //先加载local.properties文件
 Properties properties = new Properties()

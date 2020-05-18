@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import androidx.viewpager.widget.PagerAdapter
 import com.llj.adapter.listener.*
@@ -13,6 +14,8 @@ import com.llj.adapter.observable.ListObserverListener
 import com.llj.adapter.observable.SimpleListObserver
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.adapter.util.ViewHolderHelperWrap
+import timber.log.Timber
+import java.util.*
 
 /**
  * PROJECT:UniversalAdapter DESCRIBE: Created by llj on 2017/1/14.
@@ -28,6 +31,8 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
   companion object {
     //基本item类型
+    var TAG = "UniversalAdapter"
+    var DEBUG = false
     const val COMMON_ITEM_TYPE = 0
   }
 
@@ -72,6 +77,32 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
   var isSupportDoubleClick = false
   var isSupportLongClick = false
+
+  private var mCachedViews: ArrayList<RecyclerView.ViewHolder>? = null
+
+  fun initCachedView() {
+    if (DEBUG) {
+      TAG = this.javaClass.simpleName
+      val recyclerView = getRecyclerView()
+      if (recyclerView != null) {
+        //拿到mRecycler字段
+        val recyclerViewClass = RecyclerView::class.java
+        val field = recyclerViewClass.getDeclaredField("mRecycler")
+        field.isAccessible = true
+        val mRecycler = field.get(recyclerView) as RecyclerView.Recycler
+
+        //拿到mRecycler中的mCachedViews字段
+        val recyclerClass = RecyclerView.Recycler::class.java
+        val mCachedViewsField = recyclerClass.getDeclaredField("mCachedViews")
+        mCachedViewsField.isAccessible = true
+        mCachedViews = mCachedViewsField.get(mRecycler) as ArrayList<RecyclerView.ViewHolder>
+      }
+    }
+  }
+
+  open fun getRecyclerView(): RecyclerView? {
+    return null
+  }
 
 
   override fun addListener(listener: ListObserverListener<Any?>) {
@@ -172,6 +203,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
 
   fun hasStableIds(): Boolean {
+    initCachedView()
     return false
   }
   //</editor-fold >
@@ -248,30 +280,36 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   }
   //</editor-fold >
 
+  private var mCreateCurrentTimeMillis: Long? = null
+  private var mCurrentTimeMillis: Long? = null
 
   //<editor-fold desc=" adapter实现方法">
   fun createViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
-    val viewHolder: XViewHolder
+    mCreateCurrentTimeMillis = System.currentTimeMillis()
 
+    val holder: XViewHolder
     if (mItemLayouts.indexOfKey(viewType) >= 0) {
       //createViewHolder中会进行inflate操作
-      viewHolder = ViewHolderHelper.createViewHolder(parent, mItemLayouts[viewType].layoutId)
+      holder = ViewHolderHelper.createViewHolder(parent, mItemLayouts[viewType].layoutId)
     } else if (mHeaderHolders.indexOfKey(viewType) >= 0) {
-      viewHolder = mHeaderHolders[viewType]
+      holder = mHeaderHolders[viewType]
     } else if (mFooterHolders.indexOfKey(viewType) >= 0) {
-      viewHolder = mFooterHolders[viewType]
+      holder = mFooterHolders[viewType]
     } else {
       //ViewBinding可以提前在外部inflate
       //viewHolder = ViewHolderHelperWrap.createViewHolder(mViewBindings[viewType].viewBinding)
       val viewBinding = onCreateViewBinding(viewType)
       if (viewBinding != null) {
-        viewHolder = ViewHolderHelperWrap.createViewHolder(viewBinding)
+        holder = ViewHolderHelperWrap.createViewHolder(viewBinding)
       } else {
-        viewHolder = onCreateViewHolder(parent, viewType)
+        holder = onCreateViewHolder(parent, viewType)
       }
     }
-    viewHolder.itemView.setTag(R.id.com_viewholderTagID, viewHolder)
-    return viewHolder
+    holder.itemView.setTag(R.id.com_viewholderTagID, holder)
+
+    logonCreateViewHolderTime("createViewHolder", holder)
+
+    return holder
   }
 
   open fun onCreateViewBinding(viewType: Int): ViewBinding? {
@@ -279,6 +317,8 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   }
 
   fun createDropDownViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
+    mCreateCurrentTimeMillis = System.currentTimeMillis()
+
     val holder: XViewHolder = when {
       mItemLayouts.indexOfKey(viewType) >= 0 -> {
         ViewHolderHelper.createViewHolder(parent, mItemLayouts[viewType].layoutId)
@@ -299,10 +339,52 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
       }
     }
     holder.itemView.setTag(R.id.com_viewholderTagID, holder)
+
+    logonCreateViewHolderTime("createDropDownViewHolder", holder)
     return holder
   }
 
+  private fun logCachedViews() {
+    if (DEBUG && mCachedViews != null) {
+      for (i in 0 until mCachedViews!!.size) {
+        var extra = ""
+        val viewHolder = mCachedViews!![i]
+
+        if (i == 0) {
+          extra = ""
+        } else if (i == mCachedViews!!.size - 1) {
+          extra = ""
+        } else {
+          extra = ""
+        }
+        Timber.tag(TAG).i("%s%s mCachedViews:%s,view:%s,position:%d",
+            extra, TAG, viewHolder.hashCode(), viewHolder.itemView.hashCode(), viewHolder.adapterPosition)
+      }
+    }
+
+  }
+
+  private fun logOnBindViewHolderTime(method: String, holder: XViewHolder, position: Int) {
+    if (DEBUG) {
+      val spend = System.currentTimeMillis() - mCurrentTimeMillis!!
+      Timber.tag(TAG).i("%s %s:%s,view:%s,position:%d,spend:%d",
+          TAG, method, holder.hashCode(), holder.itemView.hashCode(), position, spend)
+    }
+  }
+
+  private fun logonCreateViewHolderTime(method: String, holder: XViewHolder) {
+    if (DEBUG) {
+      val spend = System.currentTimeMillis() - mCreateCurrentTimeMillis!!
+      Timber.tag(TAG).i("%s %s:%s,view:%s",
+          TAG, method, holder.hashCode(), holder.itemView.hashCode())
+    }
+  }
+
+
   open fun bindViewHolder(holder: XViewHolder, position: Int) {
+    logCachedViews()
+    mCurrentTimeMillis = System.currentTimeMillis()
+
     if (headersCount == 0 && footersCount == 0) {
       //没有头部和底部
       val adjustedPosition = getAdjustedPosition(position)
@@ -322,9 +404,15 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
         onBindViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition)
       }
     }
+
+    //record onBindViewHolder spend time
+    logOnBindViewHolderTime("bindViewHolder", holder, position)
   }
 
   fun bindViewHolder(holder: XViewHolder, position: Int, payloads: List<*>) {
+    logCachedViews()
+    mCurrentTimeMillis = System.currentTimeMillis()
+
     if (headersCount == 0 && footersCount == 0) {
       //没有头部和底部
       val adjustedPosition = getAdjustedPosition(position)
@@ -344,9 +432,14 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
         onBindViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition, payloads)
       }
     }
+    //record onBindViewHolder spend time
+    logOnBindViewHolderTime("bindViewHolderPayloads", holder, position)
   }
 
   fun bindDropDownViewHolder(holder: XViewHolder, position: Int) {
+    logCachedViews()
+    mCurrentTimeMillis = System.currentTimeMillis()
+
     if (headersCount == 0 && footersCount == 0) {
       val adjustedPosition = getAdjustedPosition(position)
       holder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition)
@@ -362,6 +455,8 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
         onBindDropDownViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition)
       }
     }
+    //record onBindViewHolder spend time
+    logOnBindViewHolderTime("bindDropDownViewHolder", holder, position)
   }
 
   fun getInternalItemViewType(position: Int): Int {

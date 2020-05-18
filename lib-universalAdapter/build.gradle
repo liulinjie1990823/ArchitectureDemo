@@ -7,6 +7,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation "com.jakewharton.timber:timber:4.7.1"
+
     debugImplementation deps.viewpager2
     debugImplementation deps.recyclerview
     debugImplementation deps.SmartRefreshLayout
