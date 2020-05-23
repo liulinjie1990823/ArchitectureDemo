@@ -30,7 +30,7 @@ abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
   }
 
 
-  var mContext: Context
+  val mContext: Context
   val mTagLog: String = this.javaClass.simpleName
 
   private var mRequestDialog: BaseDialog? = null

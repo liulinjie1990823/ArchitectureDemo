@@ -128,12 +128,11 @@ dependencies {
 
     debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.42.0'
     debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.42.0'
-    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.42.0'
 
     //内存检测
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.3"
-    betaImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
+    debugImplementation deps.leakcanary_android
+    //betaImplementation deps.leakcanary_android_no_op
+    //releaseImplementation deps.leakcanary_android_no_op
 
     kapt deps.dagger_compiler
     kapt deps.dagger_android_compiler

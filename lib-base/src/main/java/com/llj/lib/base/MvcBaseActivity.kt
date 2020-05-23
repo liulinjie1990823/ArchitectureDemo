@@ -170,8 +170,13 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
     val requestDialog = getLoadingDialog() as Dialog?
     if (requestDialog != null && requestDialog.isShowing) {
       requestDialog.cancel()
+      requestDialog.setOnCancelListener(null)
+      requestDialog.setOnDismissListener(null)
+      dismissLoadingDialog()
+
+      mRequestDialog = null
     }
-    mRequestDialog = null
+
 
     //注销事件总线
     unregisterEventBus(this)

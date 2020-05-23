@@ -58,7 +58,7 @@ import java.lang.reflect.ParameterizedType
  * @author llj
  * @date 2018/8/15
  */
-abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFragment()
+abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDialogFragment()
     , IBaseFragment, ICommon<V>, IUiHandler, IEvent, ITask, ILoadingDialogHandler<BaseDialog>, IFragmentHandle {
   @JvmField
   val mTagLog: String = this.javaClass.simpleName
@@ -73,13 +73,14 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
 
   private var mRequestDialog: BaseDialog? = null
 
+  private val mCancelableTasks: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
   private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
 
   var mUseSoftInput: Boolean = false //是否使用软键盘，用来自动显示输入法
   var mUseTranslucent: Boolean = false //是否使用透明模式
   var mTextColorBlack: Boolean? = null //是否使用黑色字体，mUseTranslucent=true的前提下起作用
 
-  var mCurrentMill: Long? = null//记录初始化时间用
+  private var mCurrentMill: Long? = null//记录初始化时间用
 
   init {
     showsDialog = false
@@ -107,7 +108,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     Timber.tag(mTagLog).i("Lifecycle %s onCreateDialog：%d", mTagLog, hashCode())
 
-    val baseDialogImpl = BaseDialogImpl(activity!!, theme)
+    val baseDialogImpl = BaseDialogImpl(requireActivity(), theme)
     baseDialogImpl.mUseTranslucent = mUseTranslucent
 
     if (mTextColorBlack == null) {
@@ -272,10 +273,10 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     //设置dialog的style
     setStyle(STYLE_NO_TITLE, R.style.no_dim_dialog)
 
-    mContext = context!!
+    mContext = requireContext()
 
     if (arguments !== null) {
-      getArgumentsData(arguments!!)
+      getArgumentsData(requireArguments())
     }
 
     try {
@@ -294,13 +295,15 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     setWindowParams(dialog!!.window!!, -1, -1, Gravity.CENTER)
   }
 
+  private var mRootView: View? = null
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     mCurrentMill = System.currentTimeMillis()
-
     Timber.tag(mTagLog).i("Lifecycle %s onCreateView：%d", mTagLog, hashCode())
 
-    var view: View? = null
+    if (mRootView != null) {
+      return mRootView
+    }
 
     mViewBinder = layoutViewBinding()
 
@@ -310,11 +313,11 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     }
 
     if (mViewBinder != null) {
-      view = mViewBinder?.root;
+      mRootView = mViewBinder?.root;
     } else {
       val layoutView = layoutView()
-      view = layoutView ?: inflater.inflate(layoutId(), null)
-      mUnBinder = ButterKnife.bind(this, view!!)
+      mRootView = layoutView ?: inflater.inflate(layoutId(), null)
+      mUnBinder = ButterKnife.bind(this, mRootView!!)
     }
 
     checkLoadingDialog()
@@ -324,7 +327,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     initViews(savedInstanceState)
 
     Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d cost %d ms", mTagLog, hashCode(), (System.currentTimeMillis() - mCurrentMill!!))
-    return view
+    return mRootView
   }
 
   private fun reflectViewBinder() {
@@ -406,26 +409,37 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
     super.onDestroyView()
     Timber.tag(mTagLog).i("Lifecycle %s onDestroyView：%d", mTagLog, hashCode())
 
-    //防止窗口泄漏
-    val requestDialog = getLoadingDialog() as Dialog?
-    if (requestDialog != null && requestDialog.isShowing) {
-      requestDialog.cancel()
-      requestDialog.setOnCancelListener(null)
-      dismissLoadingDialog()
-
-      mRequestDialog = null
+    //将mRootView在parent中移除绑定，便于在重新attach的时候可以重用mRootView
+    if (mRootView?.parent is ViewGroup) {
+      (mRootView?.parent as ViewGroup).removeView(mRootView)
     }
-
-    unregisterEventBus(this)
-
-    removeAllDisposable()
-
-    mUnBinder?.unbind()
   }
 
   override fun onDestroy() {
     super.onDestroy()
     Timber.tag(mTagLog).i("Lifecycle %s onDestroy：%d", mTagLog, hashCode())
+
+    //防止窗口泄漏，移除监听，并移除mRequestDialog
+    val requestDialog = getLoadingDialog() as Dialog?
+    if (requestDialog != null && requestDialog.isShowing) {
+      requestDialog.cancel()
+      requestDialog.setOnCancelListener(null)
+      requestDialog.setOnDismissListener(null)
+      dismissLoadingDialog()
+
+      mRequestDialog = null
+    }
+
+    //取消事件监听
+    unregisterEventBus(this)
+
+    //移除所有的任务
+    removeAllDisposable()
+
+    //移除view绑定
+    mUnBinder?.unbind()
+
+    mRootView = null
   }
 
   override fun onDetach() {
@@ -437,18 +451,15 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
 
   //<editor-fold desc="任务处理">
   override fun addDisposable(taskId: Int, disposable: Disposable) {
-    mContext.let {
-      if (it is ITask) {
-        it.addDisposable(taskId, disposable)
-      }
-    }
+    mCancelableTasks[taskId] = disposable
   }
 
   override fun removeDisposable(taskId: Int?) {
-    mContext.let {
-      if (it is ITask) {
-        it.removeDisposable(taskId)
-      }
+    val disposable = mCancelableTasks[taskId] ?: return
+
+    if (!disposable.isDisposed) {
+      disposable.dispose()
+      mCancelableTasks.remove(taskId)
     }
   }
 
@@ -511,8 +522,8 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.DialogFr
       if (mRequestDialog == null) {
         mRequestDialog = LoadingDialog(mContext)
       }
+      setRequestId(hashCode())
     }
-    setRequestId(hashCode())
   }
 
   //自定义实现

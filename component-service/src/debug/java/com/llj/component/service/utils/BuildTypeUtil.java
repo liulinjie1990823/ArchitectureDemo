@@ -21,13 +21,9 @@ import com.facebook.flipper.android.utils.FlipperUtils;
 import com.facebook.flipper.core.FlipperClient;
 import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin;
 import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin;
-import com.facebook.flipper.plugins.databases.impl.SqliteDatabaseDriver;
-import com.facebook.flipper.plugins.databases.impl.SqliteDatabaseProvider;
 import com.facebook.flipper.plugins.fresco.FrescoFlipperPlugin;
 import com.facebook.flipper.plugins.inspector.DescriptorMapping;
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin;
-import com.facebook.flipper.plugins.leakcanary.LeakCanaryFlipperPlugin;
-import com.facebook.flipper.plugins.leakcanary.RecordLeakService;
 import com.facebook.flipper.plugins.navigation.NavigationFlipperPlugin;
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin;
 import com.facebook.flipper.plugins.sandbox.SandboxFlipperPlugin;
@@ -35,8 +31,6 @@ import com.facebook.flipper.plugins.sandbox.SandboxFlipperPluginStrategy;
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin;
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin.SharedPreferencesDescriptor;
 import com.facebook.soloader.SoLoader;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,17 +61,7 @@ public class BuildTypeUtil {
         //Network
         client.addPlugin(new NetworkFlipperPlugin());
         //Databases
-        client.addPlugin(new DatabasesFlipperPlugin(
-            new SqliteDatabaseDriver(application, new SqliteDatabaseProvider() {
-              @Override
-              public List<File> getDatabaseFiles() {
-                List<File> databaseFiles = new ArrayList<>();
-                for (String databaseName : application.databaseList()) {
-                  databaseFiles.add(application.getDatabasePath(databaseName));
-                }
-                return databaseFiles;
-              }
-            })));
+        client.addPlugin(new DatabasesFlipperPlugin(application));
         //Images Fresco
         client.addPlugin(new FrescoFlipperPlugin());
         //Sandbox
@@ -105,10 +89,10 @@ public class BuildTypeUtil {
         }
         client.addPlugin(new SharedPreferencesFlipperPlugin(application, descriptors));
         //LeakCanary
-        RefWatcher refWatcher = LeakCanary.refWatcher(application)
-            .listenerServiceClass(RecordLeakService.class)
-            .buildAndInstall();
-        client.addPlugin(new LeakCanaryFlipperPlugin());
+        //RefWatcher refWatcher = LeakCanary.refWatcher(application)
+        //    .listenerServiceClass(RecordLeakService.class)
+        //    .buildAndInstall();
+        //client.addPlugin(new LeakCanaryFlipperPlugin());
         //Crash Reporter
         client.addPlugin(CrashReporterPlugin.getInstance());
         client.start();

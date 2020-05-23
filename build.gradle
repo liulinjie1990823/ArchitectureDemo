@@ -76,6 +76,7 @@ allprojects {
         resolutionStrategy {
             force deps.okhttp
             force deps.gson
+            force deps.fresco
             force 'com.blankj:utilcodex:1.28.4'
 
             force 'androidx.legacy:legacy-support-core-utils:1.0.0'

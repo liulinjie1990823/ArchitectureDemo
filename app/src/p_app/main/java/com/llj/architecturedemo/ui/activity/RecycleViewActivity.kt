@@ -21,7 +21,6 @@ import com.llj.architecturedemo.databinding.ItemRecycleViewBinding
 import com.llj.architecturedemo.vo.DataVo
 import com.llj.component.service.arouter.CRouterClassName
 import timber.log.Timber
-import java.util.*
 
 
 /**
@@ -33,23 +32,9 @@ import java.util.*
 @Route(path = CRouterClassName.APP_RECYCLE_VIEW_ACTIVITY)
 class RecycleViewActivity : AppMvcBaseActivity<ActivityRecycleViewBinding>() {
 
-  lateinit var arrayList: ArrayList<RecyclerView.ViewHolder>
   override fun initViews(savedInstanceState: Bundle?) {
 
     UniversalAdapter.DEBUG = true
-
-    val recyclerViewClass = RecyclerView::class.java
-    val field = recyclerViewClass.getDeclaredField("mRecycler")
-    field.isAccessible = true
-
-    val mRecycler = field.get(mViewBinder.recyclerView2) as RecyclerView.Recycler
-
-
-    val recyclerClass = RecyclerView.Recycler::class.java
-    val mCachedViewsField = recyclerClass.getDeclaredField("mCachedViews")
-    mCachedViewsField.isAccessible = true
-
-    arrayList = mCachedViewsField.get(mRecycler) as ArrayList<RecyclerView.ViewHolder>
 
 
     mViewBinder.recyclerView.layoutManager = LinearLayoutManager(mContext)
@@ -86,7 +71,6 @@ class RecycleViewActivity : AppMvcBaseActivity<ActivityRecycleViewBinding>() {
     override fun getRecyclerView(): RecyclerView? {
       return mViewBinder.recyclerView2
     }
-
 
     override fun onBindViewHolder(holder: ViewHolderHelperWrap<ItemRecycleViewBinding>, item: DataVo?, position: Int) {
       val viewBinder = holder.mViewBinder
