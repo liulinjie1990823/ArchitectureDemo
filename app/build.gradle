@@ -256,6 +256,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':lib-jni-test')
     api project(':lib-opengl')
+    api project(':lib-opencv')
     api project(':lib-record')
     api project(':lib-kodo')
     //    api project(':lib-player')

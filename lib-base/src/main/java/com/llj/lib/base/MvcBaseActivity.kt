@@ -109,7 +109,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
   private fun reflectViewBinder(): V? {
     val currentTimeMillis: Long = System.currentTimeMillis()
     var classType: Class<*> = javaClass
-    for (i in 0..4) {
+    for (i in 0..10) {
       if (classType.genericSuperclass is ParameterizedType) {
         //父类是泛型类型就反射一次
         Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect class %s：%d",
@@ -135,6 +135,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
       val method = clazz.getMethod("inflate", LayoutInflater::class.java)
       viewBinder = method.invoke(null, layoutInflater) as V
     } catch (e: Exception) {
+      e.printStackTrace()
       Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect failed：%s", mTagLog, e.message)
     }
     return viewBinder

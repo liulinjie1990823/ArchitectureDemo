@@ -1,3 +1,4 @@
+include ':lib-opencv'
 include ':application'
 //
 
@@ -112,3 +113,4 @@ include ':flutter_login'
 //include ':flutter_base'
 //include ':lib-jpeg-turbo'
 //include ':lib-jpeg-turbo-utils'
+include ':lib_swscale'

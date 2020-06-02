@@ -1,8 +1,12 @@
 package com.llj.architecturedemo.ui.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.AppMvcBaseActivity;
+import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.databinding.ActivityFfmpegSwscale2Binding;
 import com.llj.component.service.arouter.CRouter;
 import org.jetbrains.annotations.Nullable;
@@ -34,6 +38,11 @@ public class FfmpegSwscale2Activity extends AppMvcBaseActivity<ActivityFfmpegSws
   @Override
   public void initViews(@Nullable Bundle savedInstanceState) {
 
+    Options opts = new Options();
+    opts.inSampleSize = 4;
+    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test_10087, opts);
+
+    mViewBinder.ivImage.setImageBitmap(bitmap);
   }
 
   @Override

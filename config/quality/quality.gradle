@@ -1,0 +1,24 @@
+apply plugin: 'checkstyle'
+check.dependsOn 'checkstyle'
+checkstyle {
+    toolVersion = '8.0'
+}
+task checkstyle(type: Checkstyle) {
+    configFile = file("$configDir/checkstyle/checkstyle.xml")
+    configProperties.checkstyleSuppressionsPath = file("$configDir/checkstyle/suppressions.xml").absolutePath
+    source 'src'
+    Iterator<String> iterator = project.getParent().getChildProjects().keySet().iterator()
+    while (iterator.hasNext()) {
+        source "${project.rootDir}/${iterator.next()}/src/main/java"
+    }  //这里的主要操作是：将项目的app和子module中的java目录下的代码全部添加到findbugs需要查找源文件中。
+
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/db/**'
+    exclude '**/bean/**'
+    exclude '**/test/**'
+    exclude '**/androidTest/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+    classpath = files()
+}

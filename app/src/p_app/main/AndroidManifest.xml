@@ -164,6 +164,7 @@
     <activity android:name=".ui.activity.FfmpegSwscaleActivity" />
     <activity android:name=".ui.activity.JniTestActivity" />
     <activity android:name=".ui.activity.RecycleViewActivity" />
+    <activity android:name=".ui.activity.OpenCvImageActivity" />
 
 
     <!--<activity android:name=".ui.activity.ThirdActivity"/>-->

@@ -38,7 +38,7 @@ class CanvasFragment : AppMvcBaseFragment<FragmentCanvasBinding>() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setStyle(STYLE_NO_TITLE, R.style.no_dim_dialog)
+    setStyle(STYLE_NO_TITLE, R.style.dim_dialog)
   }
 
   override fun initViews(savedInstanceState: Bundle?) {
@@ -53,9 +53,9 @@ class CanvasFragment : AppMvcBaseFragment<FragmentCanvasBinding>() {
       }
 
     })
-    val layoutParams = ConstraintLayout.LayoutParams(DisplayHelper.SCREEN_WIDTH, DisplayHelper.SCREEN_HEIGHT)
-    val viewGroup = mViewBinder!!.root as ViewGroup
-    viewGroup.addView(CanvasView(mContext), layoutParams)
+//    val layoutParams = ConstraintLayout.LayoutParams(DisplayHelper.SCREEN_WIDTH, DisplayHelper.SCREEN_HEIGHT)
+//    val viewGroup = mViewBinder!!.root as ViewGroup
+//    viewGroup.addView(CanvasView(mContext), layoutParams)
   }
 
   override fun initData() {
