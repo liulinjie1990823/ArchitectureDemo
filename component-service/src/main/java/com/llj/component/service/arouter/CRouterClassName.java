@@ -43,6 +43,7 @@ public class CRouterClassName {
   public static final String APP_FFMPEG_SWSCALE_ACTIVITY    = "/app/FfmpegSwscaleActivity";
   public static final String APP_FFMPEG_SWSCALE2_ACTIVITY   = "/app/FfmpegSwscale2Activity";
   public static final String APP_OPENCV_IMAGE_ACTIVITY      = "/app/OpenCvImageActivity";
+  public static final String APP_JPEG_TURBO_ACTIVITY      = "/app/JpegTurboActivity";
   public static final String APP_FRAGMENT_ANIM_ACTIVITY     = "/app/FragmentAnimActivity";
   public static final String APP_CANVAS_FRAGMENT            = "/app/CanvasFragment";
   public static final String APP_OUTLINE_PROVIDER_ACTIVITY  = "/app/OutlineProviderActivity";

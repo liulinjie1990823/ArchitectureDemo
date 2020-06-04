@@ -23,7 +23,9 @@ android {
         }
     }
     packagingOptions {
-        pickFirst 'lib/armeabi-v7a/libhelloworld.so'
+        pickFirst 'lib/armeabi-v7a/libjpeg.so'
+        pickFirst 'lib/armeabi-v7a/libturbojpeg-utils.so'
+        pickFirst 'lib/armeabi-v7a/libturbojpeg.so'
     }
 
     ndkVersion "21.1.6352462"

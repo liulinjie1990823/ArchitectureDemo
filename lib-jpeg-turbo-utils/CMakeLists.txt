@@ -31,11 +31,11 @@ find_library(bitmap-lib jnigraphics)
 #设置生成的so动态库最后输出的路径
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI})
 
-add_library(native-lib
+add_library(turbojpeg-utils
         SHARED
         src/main/jni/native-lib.cc)
 
-target_link_libraries(native-lib
+target_link_libraries(turbojpeg-utils
         ${log-lib}
         ${android-lib}
         ${bitmap-lib}

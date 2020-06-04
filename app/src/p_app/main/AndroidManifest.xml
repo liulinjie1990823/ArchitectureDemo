@@ -77,12 +77,12 @@
     android:allowBackup="false"
     android:appComponentFactory="whateverString"
     android:icon="@mipmap/ic_launcher"
-    android:networkSecurityConfig="@xml/network_security_config"
     android:label="@string/app_name"
     android:largeHeap="true"
-    android:testOnly="false"
+    android:networkSecurityConfig="@xml/network_security_config"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
+    android:testOnly="false"
     android:theme="@style/MyAppTheme.NoActionBar"
     tools:replace="android:appComponentFactory">
 
@@ -165,6 +165,7 @@
     <activity android:name=".ui.activity.JniTestActivity" />
     <activity android:name=".ui.activity.RecycleViewActivity" />
     <activity android:name=".ui.activity.OpenCvImageActivity" />
+    <activity android:name=".ui.activity.JpegTurboActivity" />
 
 
     <!--<activity android:name=".ui.activity.ThirdActivity"/>-->

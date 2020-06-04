@@ -10,6 +10,7 @@ import com.llj.architecturedemo.AppMvcBaseActivity
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.databinding.ActivityOpencvImageBinding
 import com.llj.component.service.arouter.CRouter
+import com.llj.component.service.arouter.CRouterClassName
 import com.llj.lib.base.help.FilePathHelper
 import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.Utils
@@ -25,7 +26,7 @@ import java.io.File
  * @author liulinjie
  * @date 2020/5/20 9:25 AM
  */
-@Route(path = CRouter.APP_OPENCV_IMAGE_ACTIVITY)
+@Route(path = CRouterClassName.APP_OPENCV_IMAGE_ACTIVITY)
 class OpenCvImageActivity : AppMvcBaseActivity<ActivityOpencvImageBinding>() {
 
   private lateinit var mBitmap: Bitmap
