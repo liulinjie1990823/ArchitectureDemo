@@ -1,8 +1,26 @@
 # https://developer.android.com/studio/projects/configure-cmake
 
 cmake_minimum_required(VERSION 3.4.1)
-include_directories(./src/main/jni/include)
-link_directories(./src/main/jni/lib/${ANDROID_ABI})
+include_directories(src/main/jni/include)
+
+set(distribution_DIR src/main/jniLibs/armeabi-v7a)
+
+#引入libjpeg
+add_library(libjpeg
+        SHARED
+        IMPORTED)
+set_target_properties(libjpeg
+        PROPERTIES IMPORTED_LOCATION
+        ${distribution_DIR}/libjpeg.so)
+
+#引入libturbojpeg
+add_library(libturbojpeg
+        SHARED
+        IMPORTED)
+set_target_properties(libturbojpeg
+        PROPERTIES IMPORTED_LOCATION
+        ${distribution_DIR}/libturbojpeg.so)
+
 
 find_library(log-lib log)
 find_library(android-lib android)
@@ -19,4 +37,5 @@ target_link_libraries(native-lib
         ${log-lib}
         ${android-lib}
         ${bitmap-lib}
-        turbojpeg)
+        libjpeg
+        libturbojpeg)

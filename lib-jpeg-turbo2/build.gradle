@@ -1,0 +1,29 @@
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+}
+
+
+android {
+    defaultConfig {
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+                abiFilters 'armeabi-v7a'
+//                abiFilters 'armeabi-v7a','x86'
+            }
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
+    }
+    packagingOptions {
+    }
+
+}
