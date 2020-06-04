@@ -80,7 +80,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
     if (layoutViewBinding != null) {
       mViewBinder = layoutViewBinding
       setContentView(mViewBinder.root)
-      Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding：%d", mTagLog, hashCode())
+      Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding success：%d", mTagLog, hashCode())
     } else {
       val layoutView = layoutView()
       if (layoutView == null) {
@@ -116,13 +116,15 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
             mTagLog, classType.genericSuperclass!!.toString(), hashCode())
         val reflectOnce = reflectOnce(classType.genericSuperclass as ParameterizedType)
         if (reflectOnce != null) {
+          val diffTimeMillis = System.currentTimeMillis() - currentTimeMillis
+          Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect cost：%d ms %d", mTagLog, diffTimeMillis, hashCode())
           return reflectOnce
         }
       }
       classType = classType.superclass
     }
     val diffTimeMillis = System.currentTimeMillis() - currentTimeMillis
-    Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect %d ms：%d", mTagLog, diffTimeMillis, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding reflect %d cost：%d ms", mTagLog, diffTimeMillis, hashCode())
     return null
   }
 

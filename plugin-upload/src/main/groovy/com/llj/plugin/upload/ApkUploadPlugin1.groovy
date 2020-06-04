@@ -80,6 +80,7 @@ class ApkUploadPlugin1 implements Plugin<Project> {
         println("gitLog:" + upload.gitLog)
         String branch = getGitBranch(project)
         String commit = getGitCommit(project, upload.gitLog)
+        String commitAuthor = getGitCommitAuthor(project,)
         String[] split = commit.split("\\n")
 
         StringBuilder builder = new StringBuilder();
@@ -97,7 +98,7 @@ class ApkUploadPlugin1 implements Plugin<Project> {
         println("desc:" + desc)
 
         if (upload.testDingDing) {
-            noticeDingTalk(project, upload, branch, commit, variantName, new PgyVo.DataVo())
+            noticeDingTalk(project, upload,commitAuthor, branch, commit, variantName, new PgyVo.DataVo())
             return
         }
 
@@ -135,7 +136,7 @@ class ApkUploadPlugin1 implements Plugin<Project> {
                 if (json.code == 0) {
                     println "pgy upload success"
                     try {
-                        noticeDingTalk(project, upload, branch, commit, variantName, json.data)
+                        noticeDingTalk(project, upload, commitAuthor,branch, commit, variantName, json.data)
                     } catch (Exception e) {
                         println e.toString()
                     }
@@ -247,6 +248,22 @@ class ApkUploadPlugin1 implements Plugin<Project> {
         return result
     }
 
+    private String getGitCommitAuthor(Project project) {
+        def gitDir = new File("${new File("${project.getRootDir()}").getAbsolutePath()}/.git")
+
+        if (!gitDir.isDirectory()) {
+            return 'non-git-build'
+        }
+
+        def cmd = "git config user.name"
+        if (cmd == null || cmd.length() == 0) {
+            return ""
+        }
+        String result = cmd.execute().text.trim()
+        println "getGitCommitAuthor:" + result
+        return result
+    }
+
 
     public class DingDingVo {
         public int errcode;
@@ -263,7 +280,7 @@ class ApkUploadPlugin1 implements Plugin<Project> {
      * @param variantName
      * @param data
      */
-    private void noticeDingTalk(Project project, ApkUploadExtensions1 upload, String branch, String commit, String variantName, PgyVo.DataVo data) {
+    private void noticeDingTalk(Project project, ApkUploadExtensions1 upload, String commitAuthor, String branch, String commit, String variantName, PgyVo.DataVo data) {
         println "----------------------------------" + "noticeDingTalk begin" + "----------------------------------"
         try {
             HttpBuilder http = OkHttpBuilder.configure {
@@ -275,7 +292,7 @@ class ApkUploadPlugin1 implements Plugin<Project> {
                 request.body = "{\n" +
                         "    \"actionCard\": {\n" +
                         "        \"title\": \"Android：${data.buildName}\", \n" +
-                        "        \"text\": \"![screenshot](${data.buildQRCodeURL}) \\n #### **Android**：${data.buildName} \\n\\n - buildType：${variantName} \\n - pgyBuildVersion：${data.buildBuildVersion} \\n - git分支：${branch} \\n - commit记录：\\n ${commit}- 版本信息：${data.buildVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(data.buildFileSize == null ? 0 : Long.valueOf(data.buildFileSize))} \\n - 更新时间：${data.buildUpdated} \\n - 更新内容：${data.buildUpdateDescription}\", \n" +
+                        "        \"text\": \"![screenshot](${data.buildQRCodeURL}) \\n #### **Android**：${data.buildName} \\n\\n - buildAuthor：${commitAuthor} \\n - buildType：${variantName} \\n - pgyBuildVersion：${data.buildBuildVersion} \\n - git分支：${branch} \\n - commit记录：\\n ${commit}- 版本信息：${data.buildVersion} \\n - 应用大小：${FileSizeUtil.getPrintSize(data.buildFileSize == null ? 0 : Long.valueOf(data.buildFileSize))} \\n - 更新时间：${data.buildUpdated} \\n - 更新内容：${data.buildUpdateDescription}\", \n" +
                         "        \"hideAvatar\": \"0\", \n" +
                         "        \"btnOrientation\": \"0\", \n" +
                         "        \"singleTitle\" : \"点击下载最新应用包\",\n" +

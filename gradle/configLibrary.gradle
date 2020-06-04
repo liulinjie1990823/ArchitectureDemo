@@ -49,6 +49,7 @@ subprojects {
                 defaultConfig {
                     minSdkVersion build_versions.minSdkVersion
                     targetSdkVersion build_versions.targetSdkVersion
+                    ndk { abiFilters "armeabi-v7a" }
                 }
 
                 buildTypes {

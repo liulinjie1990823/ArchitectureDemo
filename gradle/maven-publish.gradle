@@ -81,7 +81,7 @@ if (project.getPlugins().hasPlugin('com.android.application') ||
 publishing {
     //设置发布内容
     publications {
-        mavenJava(MavenPublication) {
+        mavenJava1(MavenPublication) {
 
             //Standard metadata
             groupId = projectGroupId
@@ -133,7 +133,7 @@ publishing {
             //指定要上传的maven私服仓库
 //            url = "http://jenkins.maxrocky.com:8080/maven/content/repositories/thirdparty/"
             //远程的仓库名称，一般url就指定了仓库名称
-//            name = "test"
+            name = "repo"
 
             //认证用户和密码
 //            credentials {
