@@ -18,7 +18,7 @@ typedef struct my_error_mgr *my_error_ptr;
 
 
 extern "C" JNIEXPORT jstring JNICALL
-Java_com_lin_libjpeg_MainActivity_stringFromJNI(
+Java_com_llj_lib_jpeg_turbo_utils_JpegUtils_stringFromJNI(
     JNIEnv *env,
     jobject /* this */, jstring name) {
   std::string hello = "Hello from C++";
@@ -98,9 +98,9 @@ const char *jstringToString(JNIEnv *env, jstring jstr) {
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_lin_libjpeg_MainActivity_nativeCompressBitmap(JNIEnv *env, jobject,
-                                                       jobject bitmap, jint optimize,
-                                                       jstring destFile_) {
+Java_com_llj_lib_jpeg_turbo_utils_JpegUtils_nativeCompressBitmap(JNIEnv *env, jobject,
+                                                                 jobject bitmap, jint optimize,
+                                                                 jstring destFile_) {
   AndroidBitmapInfo androidBitmapInfo;
   BYTE *pixelsColor;
   int ret;

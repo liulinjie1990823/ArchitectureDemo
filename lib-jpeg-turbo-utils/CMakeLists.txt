@@ -3,15 +3,17 @@
 cmake_minimum_required(VERSION 3.4.1)
 include_directories(src/main/jni/include)
 
-set(distribution_DIR src/main/jniLibs/armeabi-v7a)
+set(distribution_DIR ${CMAKE_SOURCE_DIR}/src/main/jniLibs)
 
+message(DEBUG ${distribution_DIR})
+message(DEBUG "dadadadadada")
 #引入libjpeg
 add_library(libjpeg
         SHARED
         IMPORTED)
 set_target_properties(libjpeg
         PROPERTIES IMPORTED_LOCATION
-        ${distribution_DIR}/libjpeg.so)
+        ${distribution_DIR}/${ANDROID_ABI}/libjpeg.so)
 
 #引入libturbojpeg
 add_library(libturbojpeg
@@ -19,7 +21,7 @@ add_library(libturbojpeg
         IMPORTED)
 set_target_properties(libturbojpeg
         PROPERTIES IMPORTED_LOCATION
-        ${distribution_DIR}/libturbojpeg.so)
+        ${distribution_DIR}/${ANDROID_ABI}/libturbojpeg.so)
 
 
 find_library(log-lib log)
