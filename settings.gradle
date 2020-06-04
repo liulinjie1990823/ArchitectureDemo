@@ -111,6 +111,6 @@ include ':flutter_login'
 //        'flutter_base/.android/include_flutter.groovy'
 //))
 //include ':flutter_base'
-include ':lib-jpeg-turbo2'
+include ':lib-jpeg-turbo'
 include ':lib-jpeg-turbo-utils'
 include ':lib_swscale'
