@@ -6,9 +6,11 @@ import com.android.build.gradle.api.ApplicationVariant
 import com.google.gson.Gson
 import groovyx.net.http.*
 import groovyx.net.http.util.SslUtils
+import okhttp3.OkHttpClient
 import org.gradle.api.*
 
 import java.util.function.BiConsumer
+import java.util.function.Consumer
 
 /**
  * ArchitectureDemo.
@@ -98,11 +100,18 @@ class ApkUploadPlugin1 implements Plugin<Project> {
         println("desc:" + desc)
 
         if (upload.testDingDing) {
-            noticeDingTalk(project, upload,commitAuthor, branch, commit, variantName, new PgyVo.DataVo())
+            noticeDingTalk(project, upload, commitAuthor, branch, commit, variantName, new PgyVo.DataVo())
             return
         }
 
         HttpBuilder http = OkHttpBuilder.configure {
+            client.clientCustomizer(new Consumer<OkHttpClient.Builder>() {
+                @Override
+                void accept(OkHttpClient.Builder builder1) {
+                    builder1.readTimeout(60000, java.util.concurrent.TimeUnit.MILLISECONDS)
+                    builder1.writeTimeout(60000, java.util.concurrent.TimeUnit.MILLISECONDS)
+                }
+            })
             SslUtils.ignoreSslIssues(execution)
             request.uri = PGY_URL
             request.uri.path = PGY_UPLOAD_PATH
@@ -136,7 +145,7 @@ class ApkUploadPlugin1 implements Plugin<Project> {
                 if (json.code == 0) {
                     println "pgy upload success"
                     try {
-                        noticeDingTalk(project, upload, commitAuthor,branch, commit, variantName, json.data)
+                        noticeDingTalk(project, upload, commitAuthor, branch, commit, variantName, json.data)
                     } catch (Exception e) {
                         println e.toString()
                     }
