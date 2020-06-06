@@ -25,8 +25,6 @@ public class SwipeBackLayoutActivity extends AppMvcBaseActivity {
 
   @Override
   public void initViews(@Nullable Bundle bundle) {
-    StatusBarCompat.translucentStatusBar(getWindow(), true);
-    LightStatusBarCompat.setLightStatusBar(getWindow(), false);
   }
 
   @Override
@@ -34,8 +32,4 @@ public class SwipeBackLayoutActivity extends AppMvcBaseActivity {
     return R.layout.activity_swipe_back_layout;
   }
 
-  @Override
-  protected void onStop() {
-    super.onStop();
-  }
 }

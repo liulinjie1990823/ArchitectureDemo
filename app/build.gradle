@@ -207,6 +207,7 @@ android {
 //打包任务
 apply from: rootProject.file('gradle/zipChannel.gradle')
 apply from: rootProject.file('gradle/git.gradle')
+apply plugin: 'kotlin-android'
 
 //打包上传pgy
 if (useApkUploadPlugin) {
@@ -290,6 +291,8 @@ dependencies {
 
     implementation 'com.github.florent37:shapeofview:1.4.7'
     implementation 'com.arthenica:mobile-ffmpeg-full:4.3.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
 }
 

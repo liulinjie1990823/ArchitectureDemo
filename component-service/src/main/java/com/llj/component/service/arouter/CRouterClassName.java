@@ -40,6 +40,14 @@ public class CRouterClassName {
   public static final String APP_JNI_TEST_ACTIVITY          = "/app/JniTestActivity";
   public static final String APP_KEYBOARD_STATE_ACTIVITY    = "/app/KeyboardStateActivity";
   public static final String APP_CANVAS_ACTIVITY            = "/app/CanvasActivity";
+  public static final String APP_ACTIVITY_ANIM_ACTIVITY          = "/app/ActivityAnimActivity";
+  public static final String APP_ACTIVITY_ANIM_FADE_ACTIVITY           = "/app/ActivityAnimFadeActivity";
+  public static final String APP_ACTIVITY_ANIM_SLIDE_ACTIVITY           = "/app/ActivityAnimSlideActivity";
+  public static final String APP_TRANSITION_ACTIVITY            = "/app/TransitionActivity";
+  public static final String APP_TRANSITION_SHARE_ACTIVITY           = "/app/TransitionShareActivity";
+  public static final String APP_TRANSITION_SLIDE_ACTIVITY           = "/app/TransitionSlideActivity";
+  public static final String APP_TRANSITION_FADE_ACTIVITY           = "/app/TransitionFadeActivity";
+  public static final String APP_TRANSITION_EXPLODE_ACTIVITY           = "/app/TransitionExplodeActivity";
   public static final String APP_FFMPEG_SWSCALE_ACTIVITY    = "/app/FfmpegSwscaleActivity";
   public static final String APP_FFMPEG_SWSCALE2_ACTIVITY   = "/app/FfmpegSwscale2Activity";
   public static final String APP_OPENCV_IMAGE_ACTIVITY      = "/app/OpenCvImageActivity";

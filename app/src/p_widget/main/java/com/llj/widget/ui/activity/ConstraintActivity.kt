@@ -23,8 +23,6 @@ class ConstraintActivity : MiddleMvcBaseActivity<ViewBinding>() {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
-        StatusBarCompat.translucentStatusBar(window, true)
-        LightStatusBarCompat.setLightStatusBar(window, false)
     }
 
     override fun initData() {

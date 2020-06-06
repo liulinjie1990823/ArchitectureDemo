@@ -92,9 +92,9 @@
   <style name="activity_anim_fade" parent="@android:style/Animation.Activity">
     <!-- 打开 -->
     <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
-    <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
+    <item name="android:activityOpenExitAnimation">@anim/no_fade</item>
     <!-- 关闭 -->
-    <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
+    <item name="android:activityCloseEnterAnimation">@anim/no_fade</item>
     <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
   </style>
 
