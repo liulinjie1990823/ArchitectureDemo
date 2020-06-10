@@ -90,4 +90,52 @@ class CanvasActivity : DataListActivity() {
     @JvmStatic
     val rotate = 13
   }
+
+  fun getStringLength(obj: Any): Int? {
+    if (obj is String) {
+      // 做过类型判断以后，obj会被系统自动转换为String类型
+      return obj.length
+    }
+
+    //在这里还有一种方法，与Java中instanceof不同，使用!is
+    // if (obj !is String){
+    //   // XXX
+    // }
+
+    // 这里的obj仍然是Any类型的引用
+    return null
+  }
+
+  fun getStringLength1(obj: Any): Int? {
+    if (obj !is String)
+      return null
+    // 在这个分支中, `obj` 的类型会被自动转换为 `String`
+    return obj.length
+  }
+
+  fun getStringLength2(obj: Any): Int? {
+    // 在 `&&` 运算符的右侧, `obj` 的类型会被自动转换为 `String`
+    if (obj is String && obj.length > 0)
+      return obj.length
+    return null
+  }
+
+  fun getStringLength3(str: String) {
+    val x: IntArray = intArrayOf(1, 2, 3)
+    for (c in str) {
+      println(c)
+    }
+  }
+
+  fun decimalDigitValue(c: Char): Int {
+    if (c !in '0'..'9')
+      throw IllegalArgumentException("Out of range")
+    return c.toInt() - '0'.toInt() // 显式转换为数字
+  }
+
+  fun decimalDigitValue2(c: Char): Int {
+    if (c in '0'..'9')
+      return c.toInt() - '0'.toInt() // 显式转换为数字
+    throw IllegalArgumentException("Out of range")
+  }
 }

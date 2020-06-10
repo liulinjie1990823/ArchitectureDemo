@@ -87,8 +87,7 @@
     <item name="android:windowExitAnimation">@anim/center_to_bottom</item>
   </style>
 
-  //界面动画使用渐隐渐现效果
-
+  <!--  界面动画使用渐隐渐现效果-->
   <style name="activity_anim_fade" parent="@android:style/Animation.Activity">
     <!-- 打开 -->
     <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
@@ -98,8 +97,7 @@
     <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
   </style>
 
-  //进出界面使用上下动画
-
+  <!--  进出界面使用上下动画-->
   <style name="activity_anim_slide_up_and_down" parent="@android:style/Animation.Activity">
     <!-- 打开,新界面从底部进入,老界面不变 -->
     <item name="android:activityOpenEnterAnimation">@anim/bottom_to_center</item>
@@ -109,8 +107,7 @@
     <item name="android:activityCloseExitAnimation">@anim/center_to_bottom</item>
   </style>
 
-  //进出界面使用左右动画
-
+  <!--  进出界面使用左右动画-->
   <style name="activity_anim_slide_left_and_right" parent="@android:style/Animation.Activity">
 
     <!-- 打开,新界面从右边进入,老界面不变 -->
@@ -126,8 +123,7 @@
     <item name="android:windowExitAnimation">@anim/popup_exit</item>
   </style>
 
-  //共通toolbar的左边按钮
-
+  <!--  共通toolbar的左边按钮-->
   <style name="common_toolbar_left_menu">
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">match_parent</item>
@@ -138,8 +134,9 @@
     <item name="android:gravity">center_vertical|left</item>
     <item name="android:textSize">@dimen/common_toolbar_left_text_size</item>
   </style>
-  //共通toolbar的左边按钮
 
+
+  <!--  共通toolbar的左边按钮-->
   <style name="common_toolbar_center_menu">
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">match_parent</item>
@@ -149,8 +146,7 @@
   </style>
 
 
-  //共通toolbar的右边按钮
-
+  <!--  共通toolbar的右边按钮-->
   <style name="common_toolbar_right_menu">
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">match_parent</item>

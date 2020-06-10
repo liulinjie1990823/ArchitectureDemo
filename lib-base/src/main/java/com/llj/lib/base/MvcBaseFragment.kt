@@ -406,6 +406,8 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   }
 
   override fun onDestroyView() {
+    //移除所有的任务,有可能任务里面引用了RefreshLayout，导致无法回收引起内存泄露
+    removeAllDisposable()
     super.onDestroyView()
     Timber.tag(mTagLog).i("Lifecycle %s onDestroyView：%d", mTagLog, hashCode())
 
@@ -432,9 +434,6 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
 
     //取消事件监听
     unregisterEventBus(this)
-
-    //移除所有的任务
-    removeAllDisposable()
 
     //移除view绑定
     mUnBinder?.unbind()
@@ -464,10 +463,12 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   }
 
   override fun removeAllDisposable() {
-    mContext.let {
-      if (it is ITask) {
-        it.removeAllDisposable()
-      }
+    if (mCancelableTasks.isEmpty) {
+      return
+    }
+    val keys = mCancelableTasks.keys
+    for (apiKey in keys) {
+      removeDisposable(apiKey)
     }
   }
   //</editor-fold >

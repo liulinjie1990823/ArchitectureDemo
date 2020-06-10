@@ -33,7 +33,7 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
     private lateinit var mDataBinding: B
     private var mRequestDialog: BaseDialog? = null
 
-    private val mCancelableTask: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
+    private val mCancelableTasks: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
 
     //<editor-fold desc="生命周期">
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,23 +108,23 @@ abstract class MVVMBaseActivity<VM : BaseViewModel, B : ViewDataBinding> : AppCo
 
     //<editor-fold desc="任务处理">
     override fun addDisposable(taskId: Int, disposable: Disposable) {
-        mCancelableTask[taskId] = disposable
+        mCancelableTasks[taskId] = disposable
     }
 
     override fun removeDisposable(taskId: Int?) {
-        val disposable = mCancelableTask[taskId] ?: return
+        val disposable = mCancelableTasks[taskId] ?: return
 
         if (!disposable.isDisposed) {
             disposable.dispose()
-            mCancelableTask.remove(taskId)
+            mCancelableTasks.remove(taskId)
         }
     }
 
     override fun removeAllDisposable() {
-        if (mCancelableTask.isEmpty) {
+        if (mCancelableTasks.isEmpty) {
             return
         }
-        val keys = mCancelableTask.keys
+        val keys = mCancelableTasks.keys
         for (apiKey in keys) {
             removeDisposable(apiKey)
         }
