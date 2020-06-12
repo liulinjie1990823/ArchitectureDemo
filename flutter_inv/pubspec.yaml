@@ -113,3 +113,10 @@ flutter:
     iosBundleIdentifier: com.example.flutterInv
   assets:
     - assets/images/
+    - packages/flutter_inv/images/mv_ic_invitation_list_blessing.png
+    - packages/flutter_inv/images/mv_ic_invitation_list_guests.png
+    - packages/flutter_inv/images/mv_ic_invitation_list_mv.png
+    - packages/flutter_inv/images/mv_ic_invitation_list_template_card.png
+    - packages/flutter_inv/images/mv_ic_template_list_gift.png
+    - packages/flutter_inv/images/mv_ic_template_list_guests.png
+    - packages/flutter_inv/images/mv_ic_template_list_setting.png

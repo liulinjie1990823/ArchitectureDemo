@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inv/inv/pages/page_inv/invitation.dart';
+import 'package:flutter_inv/inv/pages/page_template/template.dart';
 import 'package:flutter_main/main/pages/page_coupon/coupon.dart';
 import 'package:flutter_main/main/pages/page_home/home.dart';
 import 'package:flutter_main/main/pages/page_mine/mine.dart';
@@ -10,9 +11,9 @@ class TabPage extends StatelessWidget {
   final _pageList = [
     HomePage(),
     CouponPage(),
-    StrategyPage(),
     MinePage(),
-    InvHomePage(),
+    TemplateHomePage(),
+    MyInvListPage(),
   ];
   int _tabIndex = 4;
 

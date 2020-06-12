@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+
+  static String FLUTTER_INV="flutter_inv";
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

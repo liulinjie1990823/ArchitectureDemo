@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inv/main.dart';
 import 'package:flutter_middle/configs/common_color.dart';
 import 'package:flutter_middle/utils/color_util.dart';
 
@@ -79,7 +80,7 @@ class MinePage extends StatelessWidget {
             color: Colors.black,
             child: Image(
               fit: BoxFit.scaleDown,
-              image: AssetImage("assets/images/login_guide_img_two.png"),
+              image: AssetImage("assets/images/login_guide_img_one.png"),
             ),
           );
         },
@@ -95,7 +96,7 @@ class MinePage extends StatelessWidget {
         height: 200,
         child: Image(
           fit: BoxFit.cover,
-          image: AssetImage("assets/images/login_guide_img_three.png"),
+          image: AssetImage("images/mv_ic_invitation_list_template_card.png",package: MyApp.FLUTTER_INV),
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class CommonColor {
   //
   static const int C_MAIN_COLOR = 0xffff3b50;
@@ -8,6 +10,7 @@ class CommonColor {
   static const int C_DIVIDE = 0xffeeeeee;
 
   //
+  static const int C_WHITE = 0xffFFFFFF;
   static const int C_EEEEEE = 0xffeeeeee;
   static const int C_CCCCCC = 0xffcccccc;
   static const int C_333333 = 0xff333333;
@@ -18,4 +21,17 @@ class CommonColor {
   static const int C_FF869C = 0xffFF869C;
   static const int C_FC708A = 0xffFC708A;
   static const int C_FEAC81 = 0xffFEAC81;
+
+
+  static Color WHITE() {
+    return Color(C_WHITE);
+  }
+
+  static Color FEAC81() {
+    return Color(C_FEAC81);
+  }
+
+  static Color MAIN_COLOR() {
+    return Color(C_MAIN_COLOR);
+  }
 }

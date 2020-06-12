@@ -16,8 +16,8 @@ class ColorUtil {
         begin: Alignment.centerLeft,
         end: Alignment.centerRight,
         colors: [
+          Color(CommonColor.C_FF5442),
           Color(CommonColor.C_MAIN_COLOR),
-          Color(CommonColor.C_FF5442)
         ]);
   }
 }
