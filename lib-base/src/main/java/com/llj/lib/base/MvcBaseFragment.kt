@@ -21,6 +21,7 @@ import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
+import java.lang.ref.WeakReference
 import java.lang.reflect.ParameterizedType
 
 
@@ -301,6 +302,9 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     mCurrentMill = System.currentTimeMillis()
     Timber.tag(mTagLog).i("Lifecycle %s onCreateView：%d", mTagLog, hashCode())
 
+    //为避免view泄露，onDestroyView里面会注销，所以这里需要重新注册
+    registerEventBus(this)
+
     if (mRootView != null) {
       return mRootView
     }
@@ -321,8 +325,6 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     }
 
     checkLoadingDialog()
-
-    registerEventBus(this)
 
     initViews(savedInstanceState)
 
@@ -408,6 +410,8 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   override fun onDestroyView() {
     //移除所有的任务,有可能任务里面引用了RefreshLayout，导致无法回收引起内存泄露
     removeAllDisposable()
+    //取消事件监听,EventBus事件中有可能调用接口，会对RefreshLayout引用，导致无法回收引起内存泄露
+    unregisterEventBus(this)
     super.onDestroyView()
     Timber.tag(mTagLog).i("Lifecycle %s onDestroyView：%d", mTagLog, hashCode())
 
@@ -432,8 +436,6 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
       mRequestDialog = null
     }
 
-    //取消事件监听
-    unregisterEventBus(this)
 
     //移除view绑定
     mUnBinder?.unbind()
@@ -522,9 +524,66 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
 
       if (mRequestDialog == null) {
         mRequestDialog = LoadingDialog(mContext)
+        mRequestDialog!!.setOnCancelListener(MyOnCancelListener(this as ITask, getRequestId()))
+        mRequestDialog!!.setOnDismissListener(MyOnDismissListener(this as ITask, getRequestId()))
       }
       setRequestId(hashCode())
+      Timber.tag(mTagLog).i("Lifecycle %s initLoadingDialog %s ：%d", mTagLog, mRequestDialog!!.javaClass.simpleName, hashCode())
     }
+  }
+
+  private class MyOnCancelListener : DialogInterface.OnCancelListener {
+    val mFragment: WeakReference<ITask>
+    val mRequestId: Int
+
+    constructor(fragment: ITask, requestId: Int) {
+      this.mFragment = WeakReference<ITask>(fragment)
+      this.mRequestId = requestId
+    }
+
+    override fun onCancel(dialog: DialogInterface?) {
+      if (mFragment.get() == null) {
+        return
+      }
+      //移除任务
+      mFragment.get()!!.removeDisposable(mRequestId)
+
+      //回调监听
+      if (mFragment.get() is ILoadingDialogHandler<*>) {
+        val iLoadingDialogHandler = mFragment.get() as ILoadingDialogHandler<*>
+        iLoadingDialogHandler.onLoadingDialogCancel(dialog)
+      }
+    }
+  }
+
+  private class MyOnDismissListener : DialogInterface.OnDismissListener {
+    val mFragment: WeakReference<ITask>
+    val mRequestId: Int
+
+    constructor(fragment: ITask, requestId: Int) {
+      this.mFragment = WeakReference<ITask>(fragment)
+      this.mRequestId = requestId
+    }
+
+    override fun onDismiss(dialog: DialogInterface?) {
+      if (mFragment.get() == null) {
+        return
+      }
+      //移除任务
+      mFragment.get()!!.removeDisposable(mRequestId)
+
+      //回调监听
+      if (mFragment.get() is ILoadingDialogHandler<*>) {
+        val iLoadingDialogHandler = mFragment.get() as ILoadingDialogHandler<*>
+        iLoadingDialogHandler.onLoadingDialogDismiss(dialog)
+      }
+    }
+  }
+
+  override fun onLoadingDialogCancel(dialog: DialogInterface?) {
+  }
+
+  override fun onLoadingDialogDismiss(dialog: DialogInterface?) {
   }
 
   //自定义实现

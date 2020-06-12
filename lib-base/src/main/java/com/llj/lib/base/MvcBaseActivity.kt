@@ -2,6 +2,7 @@ package com.llj.lib.base
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -19,6 +20,7 @@ import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
+import java.lang.ref.WeakReference
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -275,10 +277,66 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
 
       if (mRequestDialog == null) {
         mRequestDialog = LoadingDialog(this)
+        mRequestDialog!!.setOnCancelListener(MyOnCancelListener(this as ITask, getRequestId()))
+        mRequestDialog!!.setOnDismissListener(MyOnDismissListener(this as ITask, getRequestId()))
       }
     }
     setRequestId(hashCode())
     Timber.tag(mTagLog).i("Lifecycle %s initLoadingDialog %s ：%d", mTagLog, mRequestDialog!!.javaClass.simpleName, hashCode())
+  }
+
+  private class MyOnCancelListener : DialogInterface.OnCancelListener {
+    val mFragment: WeakReference<ITask>
+    val mRequestId: Int
+
+    constructor(fragment: ITask, requestId: Int) {
+      this.mFragment = WeakReference<ITask>(fragment)
+      this.mRequestId = requestId
+    }
+
+    override fun onCancel(dialog: DialogInterface?) {
+      if (mFragment.get() == null) {
+        return
+      }
+      //移除任务
+      mFragment.get()!!.removeDisposable(mRequestId)
+
+      //回调监听
+      if (mFragment.get() is ILoadingDialogHandler<*>) {
+        val iLoadingDialogHandler = mFragment.get() as ILoadingDialogHandler<*>
+        iLoadingDialogHandler.onLoadingDialogCancel(dialog)
+      }
+    }
+  }
+
+  private class MyOnDismissListener : DialogInterface.OnDismissListener {
+    val mFragment: WeakReference<ITask>
+    val mRequestId: Int
+
+    constructor(fragment: ITask, requestId: Int) {
+      this.mFragment = WeakReference<ITask>(fragment)
+      this.mRequestId = requestId
+    }
+
+    override fun onDismiss(dialog: DialogInterface?) {
+      if (mFragment.get() == null) {
+        return
+      }
+      //移除任务
+      mFragment.get()!!.removeDisposable(mRequestId)
+
+      //回调监听
+      if (mFragment.get() is ILoadingDialogHandler<*>) {
+        val iLoadingDialogHandler = mFragment.get() as ILoadingDialogHandler<*>
+        iLoadingDialogHandler.onLoadingDialogDismiss(dialog)
+      }
+    }
+  }
+
+  override fun onLoadingDialogCancel(dialog: DialogInterface?) {
+  }
+
+  override fun onLoadingDialogDismiss(dialog: DialogInterface?) {
   }
 
   //自定义实现

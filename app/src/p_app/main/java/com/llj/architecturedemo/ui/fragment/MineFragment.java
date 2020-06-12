@@ -206,10 +206,6 @@ public class MineFragment extends
 
     mIsLoadingMushUp = true;
     mIsLoadingMushUpNum = true;
-    ((LoadingDialog) getLoadingDialog()).setOnCustomerCancelListener(dialog -> {
-      mIsLoadingMushUp = false;
-      mIsLoadingMushUpNum = false;
-    });
     showLoadingDialog();
 
     mPresenter.getPersonalCenterInfo(false);

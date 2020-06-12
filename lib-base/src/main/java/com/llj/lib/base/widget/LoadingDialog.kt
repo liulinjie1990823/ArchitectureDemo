@@ -23,33 +23,6 @@ class LoadingDialog : BaseDialog {
   }
 
   private var mTaskId: Int
-  private var mOnCustomerCancelListener: OnCustomerCancelListener? = null
-
-  interface OnCustomerCancelListener {
-    fun onCancel(dialog: DialogInterface?)
-  }
-
-  fun setOnCustomerCancelListener(onCustomerCancelListener: OnCustomerCancelListener) {
-    mOnCustomerCancelListener = onCustomerCancelListener
-  }
-
-  private class MyOnCancelListener : DialogInterface.OnCancelListener {
-    val mActivity: WeakReference<ITask>
-    val mRequestId: Int
-    val mOnCustomerCancelListener: OnCustomerCancelListener?
-
-    constructor(activity: ITask, requestId: Int, onCustomerCancelListener: OnCustomerCancelListener?) {
-      this.mActivity = WeakReference<ITask>(activity)
-      this.mRequestId = requestId
-      this.mOnCustomerCancelListener = onCustomerCancelListener
-    }
-
-    override fun onCancel(dialog: DialogInterface?) {
-      mActivity.get()?.removeDisposable(mRequestId)
-      //回调监听
-      mOnCustomerCancelListener?.onCancel(dialog)
-    }
-  }
 
 
   override fun layoutId(): Int {
@@ -57,23 +30,6 @@ class LoadingDialog : BaseDialog {
   }
 
   override fun initViews() {
-    if (mContext is ITask) {
-      setOnCancelListener(MyOnCancelListener(mContext as ITask, getRequestId(), mOnCustomerCancelListener))
-    }
-
-//    setOnCancelListener { dialogInterface ->
-//      LogUtil.i(mTagLog, "cancelTask:" + getRequestId())
-//
-//      //移除任务
-//      mContext.let {
-//        if (it is ITask) {
-//          it.removeDisposable(getRequestId())
-//        }
-//      }
-//
-//      //回调监听
-//      mOnCustomerCancelListener?.onCancel(dialogInterface)
-//    }
   }
 
 
@@ -97,6 +53,12 @@ class LoadingDialog : BaseDialog {
     return mTaskId
   }
 
+  override fun onLoadingDialogCancel(dialog: DialogInterface?) {
+  }
+
+  override fun onLoadingDialogDismiss(dialog: DialogInterface?) {
+  }
+
   //需要重写
   override fun showLoadingDialog() {
     show()
@@ -106,4 +68,6 @@ class LoadingDialog : BaseDialog {
   override fun dismissLoadingDialog() {
     dismiss()
   }
+
+
 }

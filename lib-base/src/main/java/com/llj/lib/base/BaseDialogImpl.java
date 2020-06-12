@@ -1,7 +1,9 @@
 package com.llj.lib.base;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * ArchitectureDemo. describe:
@@ -31,6 +33,16 @@ public class BaseDialogImpl extends BaseDialog {
 
   @Override
   protected void setWindowParam() {
+
+  }
+
+  @Override
+  public void onLoadingDialogCancel(@Nullable DialogInterface dialog) {
+
+  }
+
+  @Override
+  public void onLoadingDialogDismiss(@Nullable DialogInterface dialog) {
 
   }
 }
