@@ -8,6 +8,7 @@ class CommonColor {
   static const int C_UN_ENABLE_TEXT = 0xffcccccc;
   static const int C_HINT_TEXT = 0xffcccccc;
   static const int C_DIVIDE = 0xffeeeeee;
+  static const int C_00c160 = 0xff00c160;
 
   //
   static const int C_WHITE = 0xffFFFFFF;
@@ -22,16 +23,8 @@ class CommonColor {
   static const int C_FC708A = 0xffFC708A;
   static const int C_FEAC81 = 0xffFEAC81;
 
-
-  static Color WHITE() {
-    return Color(C_WHITE);
-  }
-
-  static Color FEAC81() {
-    return Color(C_FEAC81);
-  }
-
-  static Color MAIN_COLOR() {
-    return Color(C_MAIN_COLOR);
-  }
+  static const Color COMMON_00c160 = Color(C_00c160);
+  static const Color COMMON_WHITE = Color(C_WHITE);
+  static const Color COMMON_FEAC81 = Color(C_FEAC81);
+  static const Color COMMON_MAIN_COLOR = Color(C_MAIN_COLOR);
 }

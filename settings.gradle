@@ -72,7 +72,9 @@ if (!useMaven) {
 //        'flutter_main/.android/include_flutter.groovy'
 //))
 //单独运行里面的dart，需要include
+include ':flutter_base'
 include ':flutter_middle'
+include ':flutter_login'
 include ':flutter_main'
 include ':flutter_inv'
 

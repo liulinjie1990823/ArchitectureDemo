@@ -8,6 +8,8 @@ import 'package:flutter_login/login/pages/page_home/home.dart';
 import 'package:flutter_login/login/pages/page_login/login.dart';
 import 'package:flutter_login/login/pages/page_login/login_bloc.dart';
 import 'package:flutter_login/login/pages/page_login/login_event.dart';
+import 'package:flutter_login/login/pages/page_login/login_state.dart';
+import 'package:flutter_login/login/pages/page_splash/splash.dart';
 import 'package:flutter_login/login/repository/user_repository.dart';
 import 'package:flutter_login/login/route/routes.dart';
 import 'package:flutter_middle/application.dart';
@@ -65,7 +67,7 @@ class App extends StatelessWidget {
     cursorColor: Color(CommonColor.C_MAIN_COLOR),
     //
     textTheme:
-    TextTheme(subhead: TextStyle(textBaseline: TextBaseline.alphabetic)),
+        TextTheme(subhead: TextStyle(textBaseline: TextBaseline.alphabetic)),
     //输入设置
     inputDecorationTheme: InputDecorationTheme(
 //          fillColor: Colors.cyan,
@@ -100,33 +102,28 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("app build");
-    //设置透明模式
-    StatusBarUtil.statusBarTransparent(false);
 
     return BlocProvider<AuthenticationBloc>(
-      create: (context) =>
-      AuthenticationBloc(userRepository: _userRepository)
+      create: (context) => AuthenticationBloc(userRepository: _userRepository)
         ..add(AppStartEvent()),
       //MaterialApp
       child: MaterialApp(
         title: 'Login Demo',
         theme: _themeData,
-//        home: BlocConsumer<AuthenticationBloc, AuthenticationState>(
-//          listener: (BuildContext context, AuthenticationState state) {
-//            if (state is AuthenticationLoading) {
-//              //正在授权
-//            }
-//          },
-//          builder: (BuildContext context, AuthenticationState state) {
-//            if (state is AuthenticationUninitialized) {
-//              //未开始认证，跳闪屏页面
-//              return SplashPage();
-//            }
-//            return SplashPage();
-//          },
-//        ),
-        home: LoginPage(),
-//        home: InvHomePage(),
+        home: BlocConsumer<AuthenticationBloc, AuthenticationState>(
+          listener: (BuildContext context, AuthenticationState state) {
+            if (state is AuthenticationLoading) {
+              //正在授权,显示加载框
+            }
+          },
+          builder: (BuildContext context, AuthenticationState state) {
+            if (state is AuthenticationUninitialized) {
+              //未开始认证，跳闪屏页面
+              return SplashPage();
+            }
+            return SplashPage();
+          },
+        ),
       ),
     );
   }

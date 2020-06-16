@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base/utils/status_bar_util.dart';
-import 'package:flutter_inv/inv/pages/page_inv/invitation.dart';
 import 'package:flutter_middle/configs/common_color.dart';
-import 'package:flutter_middle/utils/color_util.dart';
 import 'package:flutter_middle/widgets/custom_sliver.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+
+
 
 class TemplateHomePage extends StatefulWidget {
   final String title;
@@ -18,15 +18,20 @@ class TemplateHomePage extends StatefulWidget {
 class _TemplateHomePageState extends State<TemplateHomePage>
     with SingleTickerProviderStateMixin {
   TabController tabController;
+  TabController subTabController;
 
   @override
   void initState() {
     super.initState();
     this.tabController = TabController(length: 2, vsync: this);
+    this.subTabController = TabController(length: 2, vsync: this);
   }
+
+
 
   Widget _title({double height}) {
     return Container(
+      decoration: BoxDecoration(color: CommonColor.COMMON_MAIN_COLOR),
       constraints:
       BoxConstraints.expand(width: double.infinity, height: height),
       child: Stack(
@@ -86,7 +91,7 @@ class _TemplateHomePageState extends State<TemplateHomePage>
             );
           },
           itemCount: 4,
-          pagination: SwiperPagination(),
+          pagination: null,
           autoplay: false,
           control: SwiperControl(
             iconPrevious: null,
@@ -131,19 +136,67 @@ class _TemplateHomePageState extends State<TemplateHomePage>
       body: TabBarView(
         controller: this.tabController,
         children: <Widget>[
-          ReTemplateList(),
-          Center(child: Text('Content of Profile')),
+          _listView(),
+          _gridView(),
         ],
+      ),
+    );
+  }
+
+  Widget _gridView() {
+    String _imageUrl =
+        "https://img.hbhcdn.com/dmp/s/merchant/1583251200/jh-img-orig-ga_1235068280189886464_1563_1172_1802512.jpg";
+    return Container(
+      color: Colors.white,
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 1,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 20,
+        ),
+        itemCount: 20,
+        itemBuilder: (context, index) {
+          return Container(
+            color: Colors.black,
+            child: Image(
+              fit: BoxFit.scaleDown,
+              image: NetworkImage(_imageUrl),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _listView() {
+    String _imageUrl =
+        "https://img.hbhcdn.com/dmp/s/merchant/1583251200/jh-img-orig-ga_1235068280189886464_1563_1172_1802512.jpg";
+    return Container(
+      color: Colors.white,
+      child: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (context, index) {
+          print("itemBuilder"+index.toString());
+          return Container(
+            color: Colors.black,
+            child: Image(
+              fit: BoxFit.scaleDown,
+              image: NetworkImage(_imageUrl),
+            ),
+          );
+        },
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    print("TemplateHomePage");
     StatusBarUtil.statusBarTransparent(true);
     return Scaffold(
       body: DecoratedBox(
-        decoration: BoxDecoration(color: CommonColor.MAIN_COLOR()),
+        decoration: BoxDecoration(color: CommonColor.COMMON_MAIN_COLOR),
         child: SafeArea(
           child: _content(),
         ),

@@ -4,12 +4,12 @@ import 'package:flutter_login/login/model/task.dart';
 import 'package:flutter_login/login/mvp/login_mvp_view.dart';
 import 'package:flutter_login/login/pages/page_login/counter_model.dart';
 import 'package:flutter_login/login/repository/user_repository.dart';
-import 'package:flutter_login/login/store/store.dart';
 import 'package:flutter_middle/configs/common_color.dart';
 import 'package:flutter_middle/utils/color_util.dart';
 import 'package:flutter_middle/utils/display_util.dart';
+import 'package:flutter_middle/widgets/common_widget.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_middle/store/store.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,59 +23,99 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Scoped Model Demo',
       home: LoginPage(),
     );
   }
 }
 
-class LoginPage extends StatelessWidget {
+class LoginViewModel extends ChangeNotifier {
   final UserRepository userRepository = UserRepository();
+
+  int _tabIndex = 0;
+  int _getCodeStatus = 0; //1可用状态，2倒计时状态
+  int _forgetPwdStatus = 0;
+  bool _canLogin = false;
+
+  int get getCodeStatus => _getCodeStatus;
+
+  set getCodeStatus(int value) {
+    _getCodeStatus = value;
+    notifyListeners();
+  }
+
+  int get tabIndex => _tabIndex;
+
+  set tabIndex(int value) {
+    _tabIndex = value;
+    notifyListeners();
+  }
+
+  bool get canLogin => _canLogin;
+
+  set canLogin(bool value) {
+    _canLogin = value;
+    notifyListeners();
+  }
+
+  int get forgetPwdStatus => _forgetPwdStatus;
+
+  set forgetPwdStatus(int value) {
+    _forgetPwdStatus = value;
+    notifyListeners();
+  }
+}
+
+class LoginPage extends StatelessWidget {
+  LoginViewModel _model;
 
   @override
   Widget build(BuildContext context) {
     print("LoginPage build");
-    return Store.init(
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Login(userRepository: userRepository)),
-    );
+    _model = new LoginViewModel();
+    return Store.init(_model, child: _LoginPage());
   }
 }
 
-class Login extends StatelessWidget implements IGetTaskView {
+class _LoginPage extends CommonPage implements IGetTaskView {
   final TextEditingController _accountController = new TextEditingController();
   final TextEditingController _pwdController = new TextEditingController();
   final TextEditingController _codeController = new TextEditingController();
 
-  _checkEnableLogin(LoginModel model) {
-    if (model.index.value == 0) {
-      //验证码登录
-      model.canGetCode.value = _accountController.text.length == 11;
+  @override
+  bool statusBarTextWhite() {
+    return false;
+  }
 
+  _checkEnableLogin(LoginViewModel model) {
+    if (_accountController.text.length == 11) {
+      if (model.getCodeStatus == 0) {
+        model.getCodeStatus = 1;
+      }
+      if (model.forgetPwdStatus == 0) {
+        model.forgetPwdStatus = 1;
+      }
+    } else {
+      model.getCodeStatus = 0;
+      model.forgetPwdStatus = 0;
+    }
+    if (model.tabIndex == 0) {
+      //验证码登录
       if (_codeController.text.length == 4 &&
           _accountController.text.length == 11) {
-        model.canLogin.value = true;
+        model.canLogin = true;
       } else {
-        model.canLogin.value = false;
+        model.canLogin = false;
       }
     } else {
       //密码登录
       if (_pwdController.text.length >= 6 &&
           _accountController.text.length == 11) {
-        model.canLogin.value = true;
+        model.canLogin = true;
       } else {
-        model.canLogin.value = false;
+        model.canLogin = false;
       }
     }
-//    print("model.index.value:" + model.index.toString());
-//    print("model.canGetCode.value:" + model.canGetCode.toString());
-//    print("model.canLogin.value:" + model.canLogin.toString());
   }
-
-  final UserRepository userRepository;
-
-  Login({Key key, @required this.userRepository}) : super(key: key);
 
   // 轮播
   Widget _banner() {
@@ -109,31 +149,36 @@ class Login extends StatelessWidget implements IGetTaskView {
                 flex: 1,
                 child: GestureDetector(
                   onTap: () {
-                    Store
-                        .value<LoginModel>(context)
-                        .index
-                        .value = 0;
+                    LoginViewModel model = Store.read<LoginViewModel>(context);
+                    model.tabIndex = 0;
                   },
-                  child:
-                  Store.connect<int>(builder: (context, int model, child) {
-                    print("验证码登录tab build");
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Text(
-                        "验证码登录",
-                        style: TextStyle(
-                          fontSize: 19,
-                          color: model == 0
-                              ? Color(CommonColor.C_NORMAL_TEXT)
-                              : Color(CommonColor.C_UN_ENABLE_TEXT),
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w600,
-                          decoration: TextDecoration.none,
+                  child: Store.selector<LoginViewModel, int>(
+                    shouldRebuild: (previous, next) {
+                      return previous != next;
+                    },
+                    selector: (_, LoginViewModel model) {
+                      return model.tabIndex;
+                    },
+                    builder: (context, int value, child) {
+                      print("验证码登录tab build");
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Text(
+                          "验证码登录",
+                          style: TextStyle(
+                            fontSize: 19,
+                            color: value == 0
+                                ? Color(CommonColor.C_NORMAL_TEXT)
+                                : Color(CommonColor.C_UN_ENABLE_TEXT),
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w600,
+                            decoration: TextDecoration.none,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    );
-                  }),
+                      );
+                    },
+                  ),
                 ),
               ),
               Container(
@@ -148,13 +193,17 @@ class Login extends StatelessWidget implements IGetTaskView {
                 flex: 1,
                 child: GestureDetector(
                   onTap: () {
-                    Store
-                        .value<LoginModel>(context)
-                        .index
-                        .value = 1;
+                    LoginViewModel model = Store.read<LoginViewModel>(context);
+                    model.tabIndex = 1;
                   },
-                  child: Store.connect<int>(
-                    builder: (context, int model, child) {
+                  child: Store.selector<LoginViewModel, int>(
+                    shouldRebuild: (previous, next) {
+                      return previous != next;
+                    },
+                    selector: (_, LoginViewModel model) {
+                      return model.tabIndex;
+                    },
+                    builder: (context, int value, child) {
                       print("密码登录tab build");
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -162,7 +211,7 @@ class Login extends StatelessWidget implements IGetTaskView {
                           "密码登录",
                           style: TextStyle(
                             fontSize: 19,
-                            color: model == 1
+                            color: value == 1
                                 ? Color(CommonColor.C_NORMAL_TEXT)
                                 : Color(CommonColor.C_UN_ENABLE_TEXT),
                             fontStyle: FontStyle.normal,
@@ -189,7 +238,7 @@ class Login extends StatelessWidget implements IGetTaskView {
       builder: (BuildContext context) {
         return Container(
           constraints:
-          BoxConstraints.expand(width: double.infinity, height: 50),
+              BoxConstraints.expand(width: double.infinity, height: 50),
           child: TextField(
             expands: true,
             autofocus: false,
@@ -211,7 +260,7 @@ class Login extends StatelessWidget implements IGetTaskView {
             ),
             onChanged: (text) {
               print("account onChanged:$text");
-              _checkEnableLogin(Store.value<LoginModel>(context));
+              _checkEnableLogin(Store.read<LoginViewModel>(context));
             },
           ),
         );
@@ -220,61 +269,75 @@ class Login extends StatelessWidget implements IGetTaskView {
   }
 
   //输入验证码
-  Widget _codeInput() {
-    return Store.connect<LoginModel>(
-        builder: (context, LoginModel loginModel, child) {
-          print("请输入短信验证码LoginModel");
-          return Store.connect<int>(
-            builder: (context, int model, child) {
-              print("请输入短信验证码layout build");
-          return Visibility(
-            visible: model == 0 ? true : false,
-            child: Container(
-              margin: EdgeInsets.only(top: 12),
-              constraints:
-              BoxConstraints.expand(width: double.infinity, height: 50),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      textAlign: TextAlign.start,
-                      textAlignVertical: TextAlignVertical.center,
-                      controller: _codeController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [LengthLimitingTextInputFormatter(4)],
-                      style: TextStyle(
-                        fontSize: 16,
-                        textBaseline: TextBaseline.alphabetic,
-                      ),
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.zero,
-                        hintText: "请输入短信验证码",
-                      ),
-                      onChanged: (text) {
-                        print("Verification code onChanged:$text");
-                        _checkEnableLogin(Store.value<LoginModel>(context));
-                      },
+  Widget _codeInputLayout() {
+    return Store.selector<LoginViewModel, int>(
+      shouldRebuild: (previous, next) {
+        return previous != next;
+      },
+      selector: (_, LoginViewModel model) {
+        return model.tabIndex;
+      },
+      builder: (context, int value, child) {
+        print("请输入短信验证码layout build");
+        return Visibility(
+          visible: value == 0 ? true : false,
+          child: Container(
+            margin: EdgeInsets.only(top: 12),
+            constraints:
+                BoxConstraints.expand(width: double.infinity, height: 50),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    textAlign: TextAlign.start,
+                    textAlignVertical: TextAlignVertical.center,
+                    controller: _codeController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [LengthLimitingTextInputFormatter(4)],
+                    style: TextStyle(
+                      fontSize: 16,
+                      textBaseline: TextBaseline.alphabetic,
                     ),
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.zero,
+                      hintText: "请输入短信验证码",
+                    ),
+                    onChanged: (text) {
+                      print("Verification code onChanged:$text");
+                      _checkEnableLogin(Store.read<LoginViewModel>(context));
+                    },
                   ),
-                  Store.connect<bool>(
-                    builder: (context, bool canGetCode, child) {
+                ),
+                GestureDetector(
+                  onTap: () {
+                    LoginViewModel model = Store.read<LoginViewModel>(context);
+                    model.getCodeStatus = 2;
+                  },
+                  child: Store.selector<LoginViewModel, int>(
+                    shouldRebuild: (previous, next) {
+                      return previous != next;
+                    },
+                    selector: (_, LoginViewModel model) {
+                      return model.getCodeStatus;
+                    },
+                    builder: (context, int value, child) {
                       print("获取验证码btn build");
                       return Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: loginModel.canGetCode.value
+                          color: value == 1
                               ? Color(CommonColor.C_fff1f1)
                               : Color(CommonColor.C_f8f8f8),
                           borderRadius: BorderRadius.all(Radius.circular(15)),
                         ),
                         constraints:
-                        BoxConstraints.expand(width: 102, height: 28),
+                            BoxConstraints.expand(width: 102, height: 28),
                         child: Text(
                           "获取验证码",
                           style: TextStyle(
                             fontSize: 14,
                             height: 1,
-                            color: loginModel.canGetCode.value
+                            color: value == 1
                                 ? Color(CommonColor.C_MAIN_COLOR)
                                 : Color(CommonColor.C_CCCCCC),
                             fontStyle: FontStyle.normal,
@@ -286,26 +349,32 @@ class Login extends StatelessWidget implements IGetTaskView {
                       );
                     },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-            },
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   //输入密码
-  Widget _passwordInput() {
-    return Store.connect<int>(
-      builder: (context, model, child) {
+  Widget _passwordInputLayout() {
+    return Store.selector<LoginViewModel, int>(
+      shouldRebuild: (previous, next) {
+        return previous != next;
+      },
+      selector: (_, LoginViewModel model) {
+        return model.tabIndex;
+      },
+      builder: (context, int value, child) {
         print("请输入密码layout build");
         return Visibility(
-          visible: model == 1 ? true : false,
+          visible: value == 1 ? true : false,
           child: Container(
             margin: EdgeInsets.only(top: 12),
             constraints:
-            BoxConstraints.expand(width: double.infinity, height: 50),
+                BoxConstraints.expand(width: double.infinity, height: 50),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -324,7 +393,7 @@ class Login extends StatelessWidget implements IGetTaskView {
                     ),
                     onChanged: (text) {
                       print("pwd onChanged:$text");
-                      _checkEnableLogin(Store.value<LoginModel>(context));
+                      _checkEnableLogin(Store.read<LoginViewModel>(context));
                     },
                   ),
                 ),
@@ -337,24 +406,39 @@ class Login extends StatelessWidget implements IGetTaskView {
                     color: Color(CommonColor.C_DIVIDE),
                   ),
                 ),
-                Store.connect<bool>(
-                  builder: (context, bool canGetCode, child) {
-                    return Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "忘记密码",
-                        style: TextStyle(
-                          fontSize: 14,
-                          height: 1,
-                          color: Color(CommonColor.C_CCCCCC),
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    );
+                GestureDetector(
+                  onTap: () {
+                    LoginViewModel model = Store.read<LoginViewModel>(context);
+                    model.forgetPwdStatus = 2;
                   },
+                  child: Store.selector<LoginViewModel, int>(
+                    shouldRebuild: (previous, next) {
+                      return previous != next;
+                    },
+                    selector: (_, LoginViewModel model) {
+                      return model.forgetPwdStatus;
+                    },
+                    builder: (context, int value, child) {
+                      print("忘记密码btn build");
+                      return Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "忘记密码",
+                          style: TextStyle(
+                            fontSize: 14,
+                            height: 1,
+                            color: value == 1
+                                ? CommonColor.COMMON_MAIN_COLOR
+                                : Color(CommonColor.C_CCCCCC),
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
@@ -368,38 +452,38 @@ class Login extends StatelessWidget implements IGetTaskView {
   Widget _loginWidget() {
     return GestureDetector(
       onTap: () {},
-      child: Store.connect<bool>(
-        builder: (context, model, child) {
+      child: Store.selector<LoginViewModel, bool>(
+        shouldRebuild: (previous, next) {
+          return previous != next;
+        },
+        selector: (_, LoginViewModel model) {
+          return model.canLogin;
+        },
+        builder: (context, bool value, child) {
           print("登录按钮btn build");
           return Container(
             margin: EdgeInsets.only(left: 0, top: 30, right: 0, bottom: 0),
             alignment: Alignment.center,
             constraints:
-            BoxConstraints.expand(width: double.infinity, height: 60),
+                BoxConstraints.expand(width: double.infinity, height: 60),
             decoration: BoxDecoration(
-                gradient: Store
-                    .value<LoginModel>(context, listen: true)
-                    .canLogin
-                    .value
+                gradient: value
                     ? ColorUtil.getGradient([
-                  Color(CommonColor.C_MAIN_COLOR),
-                  Color(CommonColor.C_FF5442)
-                ])
+                        Color(CommonColor.C_MAIN_COLOR),
+                        Color(CommonColor.C_FF5442)
+                      ])
                     : ColorUtil.getGradient([
-                  Color(CommonColor.C_FF869C),
-                  Color(CommonColor.C_FF869C)
-                ]),
+                        Color(CommonColor.C_FF869C),
+                        Color(CommonColor.C_FF869C)
+                      ]),
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                boxShadow: Store
-                    .value<LoginModel>(context, listen: true)
-                    .canLogin
-                    .value
+                boxShadow: value
                     ? [
-                  BoxShadow(
-                      color: Color(0xffff0000),
-                      blurRadius: 4.0,
-                      offset: Offset(0, 2)),
-                ]
+                        BoxShadow(
+                            color: Color(0xffff0000),
+                            blurRadius: 4.0,
+                            offset: Offset(0, 2)),
+                      ]
                     : []),
             child: Text(
               "登录",
@@ -436,9 +520,7 @@ class Login extends StatelessWidget implements IGetTaskView {
   }
 
   @override
-  Widget build(BuildContext context) {
-    print("Login build");
-
+  Widget buildChild(BuildContext context) {
     return Stack(
       fit: StackFit.loose,
       alignment: Alignment.bottomCenter,
@@ -484,9 +566,9 @@ class Login extends StatelessWidget implements IGetTaskView {
                     Stack(
                       children: <Widget>[
                         //输入短信验证码
-                        _codeInput(),
+                        _codeInputLayout(),
                         //输入密码
-                        _passwordInput(),
+                        _passwordInputLayout(),
                       ],
                     ),
                     //登录按钮
@@ -537,7 +619,7 @@ class Login extends StatelessWidget implements IGetTaskView {
                       child: Image(
                         fit: BoxFit.cover,
                         image:
-                        AssetImage("assets/images/mv_ic_share_wechat.png"),
+                            AssetImage("assets/images/mv_ic_share_wechat.png"),
                       ),
                     ),
                   ],

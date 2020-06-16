@@ -102,8 +102,7 @@
     <activity android:name=".ui.activity.MemoryLeakActivity" />
     <activity android:name="com.llj.loading.ui.activity.GuideActivity" />
     <activity android:name=".ui.activity.JavaTypeActivity" />
-    <activity
-      android:name=".ui.activity.SwipeBackLayoutActivity" />
+    <activity android:name=".ui.activity.SwipeBackLayoutActivity" />
     <activity android:name=".ui.activity.RewardLayoutActivity" />
     <activity android:name=".ui.activity.EventActivity" />
     <activity android:name=".ui.activity.PermissionActivity" />

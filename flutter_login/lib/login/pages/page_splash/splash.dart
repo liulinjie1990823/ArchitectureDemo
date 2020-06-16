@@ -5,11 +5,12 @@ import 'package:flutter_login/login/pages/page_login/login_bloc.dart';
 import 'package:flutter_login/login/pages/page_login/login_state.dart';
 import 'package:flutter_login/login/route/routes.dart';
 import 'package:flutter_middle/application.dart';
+import 'package:flutter_middle/configs/common_color.dart';
+import 'package:flutter_middle/widgets/common_widget.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends CommonPage {
   @override
-  Widget build(BuildContext context) {
-    print("SplashPage build");
+  Widget buildChild(BuildContext context) {
 
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (BuildContext context, AuthenticationState state) {
@@ -29,12 +30,15 @@ class SplashPage extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           body: GestureDetector(
             onTap: () {
-              Application.router.navigateTo(context, Routes.loginPage);
             },
-            child: Image(
-              fit: BoxFit.fitWidth,
-              alignment: Alignment.topCenter, //可以控制Image中图片的位置
-              image: AssetImage("assets/images/login_bg_loading.png"),
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: CommonColor.COMMON_00c160,
+              child: Image(
+                fit: BoxFit.cover,
+                image: AssetImage("assets/images/login_bg_loading.png"),
+              ),
             ),
           ),
         );

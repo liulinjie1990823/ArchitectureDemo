@@ -5,7 +5,7 @@ class CouponPage extends StatelessWidget {
   Widget _title({double height}) {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(color: CommonColor.MAIN_COLOR()),
+      decoration: BoxDecoration(color: CommonColor.COMMON_MAIN_COLOR),
       child: Stack(
         children: <Widget>[
           Positioned(
@@ -42,7 +42,7 @@ class CouponPage extends StatelessWidget {
     return Container(
       constraints:
           BoxConstraints.expand(width: double.infinity, height: height),
-      decoration: BoxDecoration(color: CommonColor.MAIN_COLOR()),
+      decoration: BoxDecoration(color: CommonColor.COMMON_MAIN_COLOR),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
