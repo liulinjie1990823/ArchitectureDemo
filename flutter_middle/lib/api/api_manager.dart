@@ -1,9 +1,60 @@
+import 'dart:io';
+
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+
+import 'package:flutter/foundation.dart';
 
 class ApiManager {
   static final Map<String, MiddleRestClient> sCache =
-  <String, MiddleRestClient>{}; // 缓存保存对象
+      <String, MiddleRestClient>{}; // 缓存保存对象
 
+  static Dio _sDio;
+
+  static Dio dio() {
+    if (_sDio == null) {
+      _sDio = new Dio();
+      _sDio.options.connectTimeout = 20000;
+      _sDio.options.receiveTimeout = 10000;
+
+      (_sDio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (client) {
+        //release去掉代理
+        if (!kReleaseMode) {
+          client.findProxy = (uri) {
+            return "PROXY 192.168.88.173:8888";
+          };
+        }
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) {
+          return true;
+        };
+      };
+    }
+
+    _sDio.options.headers["device-name"] = "demo header";
+    _sDio.options.headers["device-id"] = "demo header";
+    _sDio.options.headers["os-name"] = "Android";
+    _sDio.options.headers["os-version"] = "demo header";
+    _sDio.options.headers["client-id"] = "demo header";
+    _sDio.options.headers["app-key"] = "demo header";
+    _sDio.options.headers["app-version"] = "demo header";
+    _sDio.options.headers["app-channel"] = "demo header";
+
+    _sDio.options.headers["User-Agent"] = "demo header";
+    _sDio.options.headers["Authorization"] = "demo header";
+
+    _sDio.options.headers["resolution"] = "demo header";
+
+    _sDio.options.headers["site-city-name"] = "demo header";
+    _sDio.options.headers["city-id"] = "demo header";
+    _sDio.options.headers["visit-city-name"] = "demo header";
+
+    _sDio.options.headers["page-id"] = "demo header";
+    _sDio.options.headers["view-id"] = "demo header";
+
+    return _sDio;
+  }
 }
 
 class MiddleRestClient {

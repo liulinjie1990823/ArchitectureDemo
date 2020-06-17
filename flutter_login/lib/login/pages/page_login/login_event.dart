@@ -13,34 +13,11 @@ abstract class AuthenticationEvent extends Equatable {
 class AppStartEvent extends AuthenticationEvent {}
 
 /// 登录事件
-class LoginEvent extends AuthenticationEvent {
-  final String token;
+class LoginPressedEvent extends AuthenticationEvent {
+  final Map<String, dynamic> map;
 
-  const LoginEvent({@required this.token});
-
-  @override
-  List<Object> get props => [token];
-
-  @override
-  String toString() => "LoginEvent { token: $token }";
+  const LoginPressedEvent(this.map);
 }
 
 /// APP 退出登录事件
 class LogoutEvent extends AuthenticationEvent {}
-
-class LoginPressedEvent extends LoginEvent {
-  final String username;
-  final String password;
-
-  const LoginPressedEvent({
-    @required this.username,
-    @required this.password,
-  });
-
-  @override
-  List<Object> get props => [username, password];
-
-  @override
-  String toString() =>
-      'LoginPressedEvent { username: $username, password: $password }';
-}

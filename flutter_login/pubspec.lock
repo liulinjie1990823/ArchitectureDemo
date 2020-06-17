@@ -15,6 +15,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.39.4"
+  annotation_route:
+    dependency: transitive
+    description:
+      name: annotation_route
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.2"
   archive:
     dependency: transitive
     description:
@@ -223,6 +230,27 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.1"
+  flutter_easyrefresh:
+    dependency: transitive
+    description:
+      name: flutter_easyrefresh
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.1"
+  flutter_inv:
+    dependency: transitive
+    description:
+      path: "../flutter_inv"
+      relative: true
+    source: path
+    version: "1.0.0+1"
+  flutter_main:
+    dependency: "direct main"
+    description:
+      path: "../flutter_main"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   flutter_middle:
     dependency: "direct main"
     description:
@@ -491,7 +519,7 @@ packages:
       name: reflectable
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.2.1+2"
+    version: "2.2.3"
   retrofit:
     dependency: "direct main"
     description:

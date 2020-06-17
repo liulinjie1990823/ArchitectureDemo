@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_login/login/pages/page_login/login_bloc.dart';
 import 'package:flutter_login/login/pages/page_login/login_state.dart';
 import 'package:flutter_login/login/route/routes.dart';
+import 'package:flutter_main/main/pages/page_tab/tab.dart';
 import 'package:flutter_middle/application.dart';
 import 'package:flutter_middle/configs/common_color.dart';
 import 'package:flutter_middle/widgets/common_widget.dart';
@@ -19,10 +20,12 @@ class SplashPage extends CommonPage {
           Application.router.navigateTo(context, Routes.loginPage,
               clearStack: true, transition: TransitionType.fadeIn);
         }
+
         if (state is AuthenticationAuthenticated) {
           //已经授权，跳首页
-          Application.router.navigateTo(context, Routes.homePage,
-              clearStack: true, transition: TransitionType.fadeIn);
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return TabPage();
+          }));
         }
       },
       builder: (BuildContext context, AuthenticationState state) {

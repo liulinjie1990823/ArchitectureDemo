@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inv/inv/api/api_manager.dart';
 import 'package:flutter_inv/inv/pages/page_inv/vo/inv_list_vo.dart';
 import 'package:flutter_inv/main.dart';
+import 'package:flutter_middle/api/api_manager.dart';
 import 'package:flutter_middle/configs/common_color.dart';
 import 'package:flutter_middle/utils/display_util.dart';
 import 'package:flutter_middle/store/store.dart';
@@ -26,42 +27,6 @@ class InvitationViewModel extends ChangeNotifier {
     _invListVo = value;
     notifyListeners();
   }
-
-  void getInvitationList() async {
-    Dio dio=Dio();
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
-      // config the http client
-      client.findProxy = (uri) {
-        //proxy all request to localhost:8888
-        return "PROXY 192.168.31.58:8888";
-      };
-      // you can also create a HttpClient to dio
-      // return HttpClient();
-    };
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate  = (client) {
-      client.badCertificateCallback=(X509Certificate cert, String host, int port){
-        return true;
-      };
-    };
-    final client = RestClient(dio);
-    client.getTasks().then((value) {
-      if (value != null && value.code == 0) {
-        if (value.data != null &&
-            value.data.invitationList != null &&
-            value.data.invitationList.list != null &&
-            value.data.invitationList.list.length != 0) {
-          invListVo = value;
-        } else {
-          print("invListVo empty");
-        }
-      }
-    });
-  }
-
-  void loadData() {
-    print("loadData");
-    getInvitationList();
-  }
 }
 
 class MyInvListPage extends StatelessWidget {
@@ -69,7 +34,6 @@ class MyInvListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("MyInvListPage build");
     _model = new InvitationViewModel();
     return Store.init(_model, child: _MyInvListPage());
   }
@@ -353,25 +317,8 @@ class _MyInvListPage extends CommonTitleBarPage {
     );
   }
 
-  final logger = Logger();
-
   Future<InvListVo> getInvitationListFuture() {
-    Dio dio=Dio();
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
-      // config the http client
-      client.findProxy = (uri) {
-        //proxy all request to localhost:8888
-        return "PROXY 192.168.31.58:8888";
-      };
-      // you can also create a HttpClient to dio
-      // return HttpClient();
-    };
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate  = (client) {
-      client.badCertificateCallback=(X509Certificate cert, String host, int port){
-        return true;
-      };
-    };
-    final client = RestClient(dio);
+    final client = RestClient(ApiManager.dio());
     return client.getTasks();
   }
 

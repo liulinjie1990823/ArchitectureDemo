@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_login/login/model/task.dart';
-import 'package:flutter_login/login/mvp/login_mvp_view.dart';
+import 'package:flutter_login/login/mvp/login_presenter.dart';
+import 'package:flutter_login/login/mvp/login_view.dart';
 import 'package:flutter_login/login/pages/page_login/counter_model.dart';
+import 'package:flutter_login/login/pages/page_login/login_bloc.dart';
+import 'package:flutter_login/login/pages/page_login/login_event.dart';
+import 'package:flutter_login/login/pages/page_login/login_state.dart';
+import 'package:flutter_login/login/pages/page_login/vo/login_vo.dart';
 import 'package:flutter_login/login/repository/user_repository.dart';
 import 'package:flutter_middle/configs/common_color.dart';
 import 'package:flutter_middle/utils/color_util.dart';
@@ -10,26 +15,20 @@ import 'package:flutter_middle/utils/display_util.dart';
 import 'package:flutter_middle/widgets/common_widget.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_middle/store/store.dart';
+import 'package:flutter_main/main/pages/page_tab/tab.dart';
 
 void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  final LoginModel model;
-
-  const MyApp({Key key, @required this.model}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: LoginPage(),
-    );
-  }
+  runApp(MaterialApp(
+    home: LoginPage(),
+  ));
 }
 
 class LoginViewModel extends ChangeNotifier {
-  final UserRepository userRepository = UserRepository();
+  final LoginPresenter _presenter = LoginPresenter();
+
+  void login(ILoginView view) {
+    _presenter.login(view);
+  }
 
   int _tabIndex = 0;
   int _getCodeStatus = 0; //1可用状态，2倒计时状态
@@ -76,7 +75,7 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class _LoginPage extends CommonPage implements IGetTaskView {
+class _LoginPage extends CommonPage implements ILoginView {
   final TextEditingController _accountController = new TextEditingController();
   final TextEditingController _pwdController = new TextEditingController();
   final TextEditingController _codeController = new TextEditingController();
@@ -461,40 +460,48 @@ class _LoginPage extends CommonPage implements IGetTaskView {
         },
         builder: (context, bool value, child) {
           print("登录按钮btn build");
-          return Container(
-            margin: EdgeInsets.only(left: 0, top: 30, right: 0, bottom: 0),
-            alignment: Alignment.center,
-            constraints:
-                BoxConstraints.expand(width: double.infinity, height: 60),
-            decoration: BoxDecoration(
-                gradient: value
-                    ? ColorUtil.getGradient([
-                        Color(CommonColor.C_MAIN_COLOR),
-                        Color(CommonColor.C_FF5442)
-                      ])
-                    : ColorUtil.getGradient([
-                        Color(CommonColor.C_FF869C),
-                        Color(CommonColor.C_FF869C)
-                      ]),
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                boxShadow: value
-                    ? [
-                        BoxShadow(
-                            color: Color(0xffff0000),
-                            blurRadius: 4.0,
-                            offset: Offset(0, 2)),
-                      ]
-                    : []),
-            child: Text(
-              "登录",
-              style: TextStyle(
-                fontSize: 17,
-                color: Colors.white,
-                fontStyle: FontStyle.normal,
-                fontWeight: FontWeight.normal,
-                decoration: TextDecoration.none,
+          return FlatButton(
+            onPressed: () {
+              //登录
+
+              BlocStore.read<AuthenticationBloc>(context)
+                  .add(new LoginPressedEvent(getParams1(1)));
+            },
+            child: Container(
+              margin: EdgeInsets.only(left: 0, top: 30, right: 0, bottom: 0),
+              alignment: Alignment.center,
+              constraints:
+                  BoxConstraints.expand(width: double.infinity, height: 60),
+              decoration: BoxDecoration(
+                  gradient: value
+                      ? ColorUtil.getGradient([
+                          Color(CommonColor.C_MAIN_COLOR),
+                          Color(CommonColor.C_FF5442)
+                        ])
+                      : ColorUtil.getGradient([
+                          Color(CommonColor.C_FF869C),
+                          Color(CommonColor.C_FF869C)
+                        ]),
+                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  boxShadow: value
+                      ? [
+                          BoxShadow(
+                              color: Color(0xffff0000),
+                              blurRadius: 4.0,
+                              offset: Offset(0, 2)),
+                        ]
+                      : []),
+              child: Text(
+                "登录",
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.white,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.normal,
+                  decoration: TextDecoration.none,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           );
         },
@@ -519,9 +526,13 @@ class _LoginPage extends CommonPage implements IGetTaskView {
     );
   }
 
+  LoginViewModel _model;
+
   @override
   Widget buildChild(BuildContext context) {
-    return Stack(
+    _model = Store.read<LoginViewModel>(context);
+
+    Widget child = Stack(
       fit: StackFit.loose,
       alignment: Alignment.bottomCenter,
       children: <Widget>[
@@ -632,16 +643,33 @@ class _LoginPage extends CommonPage implements IGetTaskView {
         ),
       ],
     );
+    return BlocStore.consumer<AuthenticationBloc, AuthenticationState>(
+      listener: (BuildContext context, AuthenticationState state) {
+        if (state is AuthenticationAuthenticated) {
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return TabPage();
+          }));
+        }
+
+      },
+      builder: (BuildContext context, AuthenticationState state) {
+        print("login child");
+        return child;
+      },
+    );
   }
 
   @override
   Map<String, String> getParams1(int taskId) {
-    return null;
+    Map<String, String> map = {};
+    map["username"] = _accountController.text;
+    map["password"] = _pwdController.text;
+    return map;
   }
 
   @override
   void onDataError(int tag, Exception exception, int taskId) {}
 
   @override
-  void onDataSuccess1(List<Task> result, int taskId) {}
+  void onDataSuccess1(LoginVo result, int taskId) {}
 }

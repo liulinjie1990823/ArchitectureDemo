@@ -1,40 +1,17 @@
-import 'package:dio/dio.dart' hide Headers;
-import 'package:flutter_login/login/model/task.dart';
-import 'package:flutter_login/login/mvp/login_mvp_view.dart';
-import 'package:flutter_middle/api/api_manager.dart';
+import 'package:flutter_login/login/pages/page_login/vo/login_vo.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:dio/dio.dart';
 
-@RestApi(baseUrl: "https://5d42a6e2bc64f90014a56ca0.mockapi.io/api/v1/")
-abstract class LoginApiService extends MiddleRestClient {
-  @GET("/tasks")
-  Future<List<Task>> getTasks(IGetTaskView view);
+part 'api_manager.g.dart';
 
-  @GET("/tasks/{id}")
-  Future<Task> getTask(@Path("id") String id);
+@RestApi(baseUrl: "http://open.test.jiehun.com.cn")
+abstract class RestClient {
+  factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
+
+  @POST("/user/account/get-login")
+  Future<LoginVo> login(@Body() Map<String, dynamic> map);
+
+
+
 }
 
-class LoginApiServiceImpl extends LoginApiService {
-  Dio dio;
-  String baseUrl = "https://5d42a6e2bc64f90014a56ca0.mockapi.io/api/v1/";
-
-  LoginApiServiceImpl(this.dio,
-      {this.baseUrl = "https://5d42a6e2bc64f90014a56ca0.mockapi.io/api/v1/"}) {
-    print(this.baseUrl);
-  }
-
-  @override
-  Future<Task> getTask(String id) async {
-    return null;
-  }
-
-  @override
-  Future<List<Task>> getTasks(IGetTaskView view) async {
-    final Response<List<dynamic>> _result = await dio.request("/tasks",
-        queryParameters: view.getParams1(view.hashCode),
-        options: RequestOptions(baseUrl: baseUrl));
-    var value = _result.data
-        .map((dynamic i) => Task.fromJson(i as Map<String, dynamic>))
-        .toList();
-    return value;
-  }
-}

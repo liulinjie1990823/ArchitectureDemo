@@ -1,3 +1,0 @@
-class LoginVo {
-  String uid;
-}

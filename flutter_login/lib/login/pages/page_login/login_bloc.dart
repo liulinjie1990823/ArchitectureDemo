@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_login/login/pages/page_login/vo/login_vo.dart';
 import 'package:flutter_login/login/repository/user_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -29,9 +30,12 @@ class AuthenticationBloc
       } else {
         yield AuthenticationUnauthenticated();
       }
-    } else if (event is LoginEvent) {
+    } else if (event is LoginPressedEvent) {
       yield AuthenticationLoading();
-      await userRepository.persistToken(event.token);
+      LoginVo loginVo = await userRepository.login(event.map);
+      if (loginVo != null && loginVo.code == 0 && loginVo.data != null) {
+        await userRepository.saveToken(loginVo.data.accessToken);
+      }
       yield AuthenticationAuthenticated();
     } else if (event is LogoutEvent) {
       yield AuthenticationLoading();
@@ -41,34 +45,34 @@ class AuthenticationBloc
   }
 }
 
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  /// 认证Bloc
-  final AuthenticationBloc authenticationBloc;
-
-  /// 用户信息仓库
-  final UserRepository userRepository;
-
-  LoginBloc({@required this.authenticationBloc, @required this.userRepository})
-      : assert(authenticationBloc != null),
-        assert(userRepository != null);
-
-  LoginState get initialState => LoginInitial();
-
-  @override
-  Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    if (event is LoginPressedEvent) {
-      yield LoginLoading();
-
-      try {
-        final token = await userRepository.authenticate(
-          username: event.username,
-          password: event.password,
-        );
-
-        yield LoginInitial();
-      } catch (error) {
-        yield LoginFailure(error: error.toString());
-      }
-    }
-  }
-}
+//class LoginBloc extends Bloc<LoginEvent, LoginState> {
+//  /// 认证Bloc
+//  final AuthenticationBloc authenticationBloc;
+//
+//  /// 用户信息仓库
+//  final UserRepository userRepository;
+//
+//  LoginBloc({@required this.authenticationBloc, @required this.userRepository})
+//      : assert(authenticationBloc != null),
+//        assert(userRepository != null);
+//
+//  LoginState get initialState => LoginInitial();
+//
+//  @override
+//  Stream<LoginState> mapEventToState(LoginEvent event) async* {
+//    if (event is LoginPressedEvent) {
+//      yield LoginLoading();
+//
+//      try {
+//        final token = await userRepository.authenticate(
+//          username: event.username,
+//          password: event.password,
+//        );
+//
+//        yield LoginInitial();
+//      } catch (error) {
+//        yield LoginFailure(error: error.toString());
+//      }
+//    }
+//  }
+//}

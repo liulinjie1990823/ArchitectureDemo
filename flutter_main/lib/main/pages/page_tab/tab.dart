@@ -15,7 +15,7 @@ class TabPage extends StatelessWidget {
     TemplateHomePage(),
     MyInvListPage(),
   ];
-  int _tabIndex = 4;
+  int _tabIndex = 3;
 
   @override
   Widget build(BuildContext context) {

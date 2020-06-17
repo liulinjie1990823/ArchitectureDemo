@@ -52,7 +52,6 @@ class SimpleBlocDelegate extends BlocDelegate {
 }
 
 class App extends StatelessWidget {
-  final UserRepository _userRepository = UserRepository();
 
   //设置主题
   final ThemeData _themeData = ThemeData(
@@ -104,7 +103,7 @@ class App extends StatelessWidget {
     print("app build");
 
     return BlocProvider<AuthenticationBloc>(
-      create: (context) => AuthenticationBloc(userRepository: _userRepository)
+      create: (context) => AuthenticationBloc(userRepository: UserRepository())
         ..add(AppStartEvent()),
       //MaterialApp
       child: MaterialApp(
