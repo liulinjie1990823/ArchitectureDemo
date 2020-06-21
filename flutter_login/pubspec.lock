@@ -630,6 +630,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.5"
+  system_proxy:
+    dependency: "direct main"
+    description:
+      name: system_proxy
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1"
   term_glyph:
     dependency: transitive
     description:

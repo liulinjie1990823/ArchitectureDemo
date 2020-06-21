@@ -93,24 +93,28 @@ abstract class CommonPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LogUtil.cPrint(this.runtimeType.toString() + " build");
+    LogUtil.cPrint("init " + this.runtimeType.toString() + " build");
     StatusBarUtil.statusBarTransparent(statusBarTextWhite());
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: DecoratedBox(
-        decoration: BoxDecoration(color: pageColor()),
-        child: Builder(
-          builder: (BuildContext context) {
-            bool safe = useSafeArea(context);
-            if (safe) {
-              return SafeArea(
-                child: buildChild(context),
-              );
-            }
-            return buildChild(context);
-          },
-        ),
-      ),
+    return KeepAliveStatefulBuilder(
+      builder: (context, setState) {
+        return Scaffold(
+          resizeToAvoidBottomInset: true,
+          body: DecoratedBox(
+            decoration: BoxDecoration(color: pageColor()),
+            child: Builder(
+              builder: (BuildContext context) {
+                bool safe = useSafeArea(context);
+                if (safe) {
+                  return SafeArea(
+                    child: buildChild(context),
+                  );
+                }
+                return buildChild(context);
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -160,9 +164,10 @@ abstract class CommonTitleBarPage extends StatelessWidget {
 
   //endregion
 
-
   //region 标题栏文案设置
-  String centerWidgetText(BuildContext context);
+  String centerWidgetText(BuildContext context) {
+    return this.runtimeType.toString();
+  }
 
   String leftWidgetText(BuildContext context) {
     return "";
@@ -171,6 +176,7 @@ abstract class CommonTitleBarPage extends StatelessWidget {
   String rightWidgetText(BuildContext context) {
     return "";
   }
+
   //endregion
 
   double titleBarHeight() {
@@ -261,20 +267,85 @@ abstract class CommonTitleBarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LogUtil.cPrint(this.runtimeType.toString() + " build");
+    LogUtil.cPrint("init " + this.runtimeType.toString() + " build");
     StatusBarUtil.statusBarTransparent(statusBarTextWhite());
-    return Scaffold(
-      body: DecoratedBox(
-        decoration: BoxDecoration(color: mainColor()),
-        child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              _title(height: titleBarHeight()),
-              Expanded(child: buildChild(context)),
-            ],
+    return KeepAliveStatefulBuilder(
+      builder: (context, setState) {
+        return Scaffold(
+          body: DecoratedBox(
+            decoration: BoxDecoration(color: mainColor()),
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  _title(height: titleBarHeight()),
+                  Expanded(child: buildChild(context)),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
+}
+
+enum VisibilityFlag {
+  visible,
+  invisible,
+  offscreen,
+  gone,
+}
+
+class CustomVisibility extends StatelessWidget {
+  final Visibility visibility;
+  final Widget child;
+  final Widget removeChild;
+
+  CustomVisibility({
+    @required this.child,
+    @required this.visibility,
+  }) : this.removeChild = Container();
+
+  @override
+  Widget build(BuildContext context) {
+    if (visibility == VisibilityFlag.visible) {
+      return child;
+    } else if (visibility == VisibilityFlag.invisible) {
+      return new IgnorePointer(
+          ignoring: true, child: new Opacity(opacity: 0.0, child: child));
+    } else if (visibility == VisibilityFlag.offscreen) {
+      return new Offstage(offstage: true, child: child);
+    } else {
+      return removeChild;
+    }
+  }
+}
+
+//tab切换保存页面状态
+class KeepAliveStatefulBuilder extends StatefulWidget {
+  /// Creates a widget that both has state and delegates its build to a callback.
+  ///
+  /// The [builder] argument must not be null.
+  const KeepAliveStatefulBuilder({
+    Key key,
+    @required this.builder,
+  })  : assert(builder != null),
+        super(key: key);
+
+  final StatefulWidgetBuilder builder;
+
+  @override
+  _StatefulBuilderState createState() => _StatefulBuilderState();
+}
+
+class _StatefulBuilderState extends State<KeepAliveStatefulBuilder>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.builder(context, setState);
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -18,13 +18,11 @@ class TemplateHomePage extends StatefulWidget {
 class _TemplateHomePageState extends State<TemplateHomePage>
     with SingleTickerProviderStateMixin {
   TabController tabController;
-  TabController subTabController;
 
   @override
   void initState() {
     super.initState();
     this.tabController = TabController(length: 2, vsync: this);
-    this.subTabController = TabController(length: 2, vsync: this);
   }
 
 

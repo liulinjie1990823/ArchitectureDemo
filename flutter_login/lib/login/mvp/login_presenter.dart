@@ -20,7 +20,7 @@ class LoginPresenter {
 
   RestClient _client;
 
-  LoginPresenter() {
-    _client = RestClient(ApiManager.dio());
+  LoginPresenter()  {
+    _client = RestClient(  ApiManager.dio());
   }
 }

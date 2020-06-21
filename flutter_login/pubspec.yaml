@@ -40,6 +40,9 @@ dependencies:
   #  scoped_model
   scoped_model: ^1.0.1
 
+  # 获取手机系统代理
+  system_proxy: ^0.0.1
+
   # 依赖的
   flutter_middle:
     path: ../flutter_middle/

@@ -2,15 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_login/login/pages/page_demo/button.dart';
+import 'package:flutter_login/login/pages/page_demo/dialog.dart';
 import 'package:flutter_login/login/pages/page_demo/image.dart';
 import 'package:flutter_login/login/pages/page_demo/layout.dart';
+import 'package:flutter_login/login/pages/page_demo/offstage.dart';
 import 'package:flutter_login/login/pages/page_demo/text.dart';
 import 'package:flutter_middle/configs/common_color.dart';
 import 'package:flutter_middle/widgets/common_widget.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: Demo(),
+    home: DemoPage(),
   ));
 }
 
@@ -21,7 +23,7 @@ class JumpVo {
   JumpVo(this._string, this._widget);
 }
 
-class Demo extends CommonPage {
+class DemoPage extends CommonPage {
   List<JumpVo> demos = [];
 
   @override
@@ -34,11 +36,13 @@ class Demo extends CommonPage {
     return true;
   }
 
-  Demo() {
+  DemoPage() {
     demos.add(JumpVo("text", TextPage()));
     demos.add(JumpVo("layout", LayoutPage()));
     demos.add(JumpVo("button", ButtonPage()));
     demos.add(JumpVo("image", ImagePage()));
+    demos.add(JumpVo("dialog", DialogPage()));
+    demos.add(JumpVo("offstage", OffstagePage()));
   }
 
   @override

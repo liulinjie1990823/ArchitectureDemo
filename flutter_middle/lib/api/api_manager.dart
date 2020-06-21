@@ -4,6 +4,7 @@ import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/foundation.dart';
+import 'package:system_proxy/system_proxy.dart';
 
 class ApiManager {
   static final Map<String, MiddleRestClient> sCache =
@@ -11,25 +12,46 @@ class ApiManager {
 
   static Dio _sDio;
 
+  static Future<Map<String, String>> getProxy() async {
+    Map<String, String> proxy = await SystemProxy.getProxySettings();
+    return proxy;
+  }
+
   static Dio dio() {
     if (_sDio == null) {
       _sDio = new Dio();
       _sDio.options.connectTimeout = 20000;
       _sDio.options.receiveTimeout = 10000;
 
-      (_sDio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-          (client) {
-        //release去掉代理
-        if (!kReleaseMode) {
-          client.findProxy = (uri) {
-            return "PROXY 192.168.88.173:8888";
+      if (!kReleaseMode) {
+        getProxy().then((value) {
+          (_sDio.httpClientAdapter as DefaultHttpClientAdapter)
+              .onHttpClientCreate = (client) {
+            //release去掉代理
+            if (!kReleaseMode) {
+              client.findProxy = (uri) {
+                String host = value['host'];
+                String port = value['port'];
+                var proxy = "PROXY " + host + ":" + port;
+                print("proxy:" + proxy);
+                return proxy;
+              };
+            }
+            client.badCertificateCallback =
+                (X509Certificate cert, String host, int port) {
+              return true;
+            };
           };
-        }
-        client.badCertificateCallback =
-            (X509Certificate cert, String host, int port) {
-          return true;
+        });
+      } else {
+        (_sDio.httpClientAdapter as DefaultHttpClientAdapter)
+            .onHttpClientCreate = (client) {
+          client.badCertificateCallback =
+              (X509Certificate cert, String host, int port) {
+            return true;
+          };
         };
-      };
+      }
     }
 
     _sDio.options.headers["device-name"] = "demo header";

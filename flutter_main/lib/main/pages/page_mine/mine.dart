@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inv/main.dart';
 import 'package:flutter_middle/configs/common_color.dart';
 import 'package:flutter_middle/utils/color_util.dart';
+import 'package:flutter_middle/widgets/common_widget.dart';
 
-class MinePage extends StatelessWidget {
+class MinePage extends CommonPage {
   Widget _sliverAppBar() {
     return SliverAppBar(
       stretch: true,
@@ -52,16 +53,17 @@ class MinePage extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
+          print("_sliverList itemBuilder $index");
           return Container(
             height: 100,
-//            child: Image(
-//              fit: BoxFit.scaleDown,
-//              image: NetworkImage(
-//                  "https://img.hbhcdn.com/dmp/s/merchant/1583251200/jh-img-orig-ga_1235068280189886464_1563_1172_1802512.jpg"),
-//            ),
+            child: Image(
+              fit: BoxFit.scaleDown,
+              image: NetworkImage(
+                  "https://img.hbhcdn.com/dmp/s/merchant/1583251200/jh-img-orig-ga_1235068280189886464_1563_1172_1802512.jpg"),
+            ),
           );
         },
-        childCount: 3,
+        childCount: 20,
       ),
     );
   }
@@ -76,6 +78,7 @@ class MinePage extends StatelessWidget {
       ),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
+          print("_sliverGrid itemBuilder $index");
           return Container(
             color: Colors.black,
             child: Image(
@@ -103,7 +106,7 @@ class MinePage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildChild(BuildContext context) {
     return Scaffold(
       body: DecoratedBox(
         decoration: BoxDecoration(

@@ -28,6 +28,7 @@ dependencies:
   # http
   retrofit: ^1.3.4
   dio: 3.0.9
+  system_proxy: ^0.0.1
   logger: any
 
   # router
