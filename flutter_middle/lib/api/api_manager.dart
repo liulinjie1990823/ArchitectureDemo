@@ -11,38 +11,37 @@ class ApiManager {
       <String, MiddleRestClient>{}; // 缓存保存对象
 
   static Dio _sDio;
+  static String sProxy;
 
   static Future<Map<String, String>> getProxy() async {
     Map<String, String> proxy = await SystemProxy.getProxySettings();
+    sProxy = "PROXY " + proxy['host'] + ":" + proxy['port'];
+    print("sProxy:$sProxy");
     return proxy;
   }
 
   static Dio dio() {
     if (_sDio == null) {
+      print("_sDio=null");
       _sDio = new Dio();
       _sDio.options.connectTimeout = 20000;
       _sDio.options.receiveTimeout = 10000;
 
+      print("kReleaseMode:$kReleaseMode");
       if (!kReleaseMode) {
-        getProxy().then((value) {
-          (_sDio.httpClientAdapter as DefaultHttpClientAdapter)
-              .onHttpClientCreate = (client) {
-            //release去掉代理
-            if (!kReleaseMode) {
-              client.findProxy = (uri) {
-                String host = value['host'];
-                String port = value['port'];
-                var proxy = "PROXY " + host + ":" + port;
-                print("proxy:" + proxy);
-                return proxy;
-              };
-            }
-            client.badCertificateCallback =
-                (X509Certificate cert, String host, int port) {
-              return true;
+        (_sDio.httpClientAdapter as DefaultHttpClientAdapter)
+            .onHttpClientCreate = (client) {
+          //release去掉代理
+          if (!kReleaseMode) {
+            client.findProxy = (uri) {
+              return sProxy;
             };
+          }
+          client.badCertificateCallback =
+              (X509Certificate cert, String host, int port) {
+            return true;
           };
-        });
+        };
       } else {
         (_sDio.httpClientAdapter as DefaultHttpClientAdapter)
             .onHttpClientCreate = (client) {

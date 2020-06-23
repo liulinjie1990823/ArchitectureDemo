@@ -155,6 +155,41 @@
       android:name=".ui.activity.TransitionSlideActivity"
       android:theme="@style/MyAppTheme.NoActionBar.Transition" />
     <activity android:name=".ui.activity.JpegTurboActivity" /> <!-- <activity android:name=".ui.activity.ThirdActivity"/> -->
+
+
+
+
+
+    <activity
+      android:name="com.idlefish.flutterboost.containers.BoostFlutterActivity"
+      android:theme="@style/Theme.AppCompat"
+      android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
+      android:hardwareAccelerated="true"
+      android:windowSoftInputMode="adjustResize" >
+      <meta-data android:name="io.flutter.embedding.android.SplashScreenDrawable" android:resource="@drawable/page_loading"/>
+
+    </activity>
+
+    <activity
+      android:name="com.idlefish.flutterboost.containers.CustomBoostFlutterActivity"
+      android:theme="@style/Theme.AppCompat"
+      android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
+      android:hardwareAccelerated="true"
+      android:windowSoftInputMode="adjustResize" >
+      <meta-data android:name="io.flutter.embedding.android.SplashScreenDrawable" android:resource="@drawable/page_loading"/>
+
+    </activity>
+
+
+    <activity
+      android:name=".flutter.NativePageActivity"
+      android:theme="@style/Theme.AppCompat"
+      android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
+      android:windowSoftInputMode="adjustResize"/>
+
+    <meta-data android:name="flutterEmbedding"
+      android:value="2">
+    </meta-data>
     <!-- <activity -->
     <!-- android:name=".ui.activity.FourthActivity" -->
     <!-- android:launchMode="singleTask" -->

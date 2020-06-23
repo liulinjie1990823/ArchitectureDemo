@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_boost/container/boost_container.dart';
+import 'package:flutter_boost/flutter_boost.dart';
 import 'package:flutter_inv/inv/api/api_manager.dart';
 import 'package:flutter_inv/inv/pages/page_inv/vo/inv_list_vo.dart';
 import 'package:flutter_inv/main.dart';
@@ -28,6 +30,10 @@ class InvitationViewModel extends ChangeNotifier {
 }
 
 class MyInvListPage extends StatelessWidget {
+  final Map<String, dynamic> params;
+
+  MyInvListPage({this.params});
+
   InvitationViewModel _model;
 
   @override
@@ -145,16 +151,19 @@ class _MyInvListPage extends CommonTitleBarPage {
   }
 
   Widget _sliverHeaderBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        _sliverHeaderOne("images/mv_ic_invitation_list_guests.png", "宾客", 0),
-        _sliverHeaderOne(
-            "images/mv_ic_invitation_list_blessing.png", "礼物·祝福", 1),
-        _sliverHeaderOne(
-            "images/mv_ic_invitation_list_template_card.png", "模板卡", 2),
-        _sliverHeaderOne("images/mv_ic_invitation_list_mv.png", "婚礼MV", 3),
-      ],
+    return Container(
+      color: CommonColor.COMMON_MAIN_COLOR,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          _sliverHeaderOne("images/mv_ic_invitation_list_guests.png", "宾客", 0),
+          _sliverHeaderOne(
+              "images/mv_ic_invitation_list_blessing.png", "礼物·祝福", 1),
+          _sliverHeaderOne(
+              "images/mv_ic_invitation_list_template_card.png", "模板卡", 2),
+          _sliverHeaderOne("images/mv_ic_invitation_list_mv.png", "婚礼MV", 3),
+        ],
+      ),
     );
   }
 
@@ -217,125 +226,130 @@ class _MyInvListPage extends CommonTitleBarPage {
 
     print(item.cover);
     return IntrinsicHeight(
-      child: Container(
-        padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(right: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: <Widget>[
-                  Text(
-                    "09",
-                    style: TextStyle(
-                        fontSize: 28, color: Color(CommonColor.C_333333)),
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: <Widget>[
+                      Text("09",
+                          style: TextStyle(
+                              fontSize: 28,
+                              color: Color(CommonColor.C_333333))),
+                      Text("6月",
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Color(CommonColor.C_333333))),
+                    ],
                   ),
-                  Text(
-                    "6月",
-                    style: TextStyle(
-                        fontSize: 12, color: Color(CommonColor.C_333333)),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: _imageWidth,
-                    height: _imageWidth *
-                        item.coverShowHeight /
-                        (item.coverShowWidth.toDouble()),
-                    child: Image(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(item.cover),
-                    ),
-                  ),
-                  Row(
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                          width: _imageWidth,
-                          child: Text(
-                            item.coverShowWidth.toString(),
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Color(CommonColor.C_999999)),
-                          )),
-                      Expanded(
-                        child: Builder(
-                          builder: (context) {
-                            return Container(
-                              height: 30,
-                              child: FlatButton(
-                                onPressed: () {
-                                  _showModalBottomSheet(context);
-                                },
-                                child: Image(
-                                  width: 20,
-                                  height: 20,
-                                  fit: BoxFit.scaleDown,
-                                  image: AssetImage(
-                                      "images/mv_ic_template_list_setting.png",
-                                      package: MyApp.FLUTTER_INV),
-                                ),
-                              ),
-                            );
-                          },
+                        width: _imageWidth,
+                        height: _imageWidth *
+                            item.coverShowHeight /
+                            (item.coverShowWidth.toDouble()),
+                        child: Image(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(item.cover),
                         ),
                       ),
-                      Expanded(
-                        child: Builder(
-                          builder: (context) {
-                            return Container(
-                              height: 30,
-                              child: FlatButton(
-                                onPressed: () {
-                                  _showPersistentBottomSheet(context);
-                                },
-                                child: Image(
-                                  width: 20,
-                                  height: 20,
-                                  fit: BoxFit.scaleDown,
-                                  image: AssetImage(
-                                      "images/mv_ic_template_list_guests.png",
-                                      package: MyApp.FLUTTER_INV),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: Builder(
-                          builder: (context) {
-                            return Container(
-                              height: 30,
-                              child: FlatButton(
-                                onPressed: () {},
-                                child: Image(
-                                  width: 20,
-                                  height: 20,
-                                  fit: BoxFit.scaleDown,
-                                  image: AssetImage(
-                                      "images/mv_ic_template_list_gift.png",
-                                      package: MyApp.FLUTTER_INV),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                              width: _imageWidth,
+                              child: Text(
+                                item.coverShowWidth.toString(),
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color(CommonColor.C_999999)),
+                              )),
+                          Expanded(
+                            child: Builder(
+                              builder: (context) {
+                                return Container(
+                                  height: 30,
+                                  child: FlatButton(
+                                    onPressed: () {
+                                      _showModalBottomSheet(context);
+                                    },
+                                    child: Image(
+                                      width: 20,
+                                      height: 20,
+                                      fit: BoxFit.scaleDown,
+                                      image: AssetImage(
+                                          "images/mv_ic_template_list_setting.png",
+                                          package: MyApp.FLUTTER_INV),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: Builder(
+                              builder: (context) {
+                                return Container(
+                                  height: 30,
+                                  child: FlatButton(
+                                    onPressed: () {
+                                      _showPersistentBottomSheet(context);
+                                    },
+                                    child: Image(
+                                      width: 20,
+                                      height: 20,
+                                      fit: BoxFit.scaleDown,
+                                      image: AssetImage(
+                                          "images/mv_ic_template_list_guests.png",
+                                          package: MyApp.FLUTTER_INV),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: Builder(
+                              builder: (context) {
+                                return Container(
+                                  height: 30,
+                                  child: FlatButton(
+                                    onPressed: () {},
+                                    child: Image(
+                                      width: 20,
+                                      height: 20,
+                                      fit: BoxFit.scaleDown,
+                                      image: AssetImage(
+                                          "images/mv_ic_template_list_gift.png",
+                                          package: MyApp.FLUTTER_INV),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Divider(
+            height: 1,
+          ),
+        ],
       ),
     );
   }
@@ -377,11 +391,15 @@ class _MyInvListPage extends CommonTitleBarPage {
   Widget _content(BuildContext context) {
 //    return Column(
 //      children: <Widget>[
-//        _sliverHeaderBar(),
+////        _sliverHeaderBar(),
 //        Expanded(
 //          child: NestedScrollView(
 //            headerSliverBuilder: (context, bool) {
-//              return [];
+//              return [
+//                SliverToBoxAdapter(
+//                  child: _sliverHeaderBar(),
+//                ),
+//              ];
 //            },
 //            body: _listView(context),
 //          ),
@@ -390,12 +408,51 @@ class _MyInvListPage extends CommonTitleBarPage {
 //    );
     return Column(
       children: <Widget>[
-        _sliverHeaderBar(),
+        Expanded(
+          child: Container(
+            color: CommonColor.COMMON_WHITE,
+            child: EasyRefresh.builder(
+              builder: (context, physics, header, footer) {
+                return CustomScrollView(
+                  physics: physics,
+                  slivers: <Widget>[
+                    SliverPersistentHeader(
+                      pinned: false,
+                      delegate: StickyTitleBarDelegate(
+                        height: 110,
+                        child: _sliverHeaderBar(),
+                      ),
+                    ),
+                    header,
+                    _listView3(context),
+                    footer,
+                  ],
+                );
+              },
+              onRefresh: () async {
+                getInvitationListFuture().then((value) {
+                  InvitationViewModel model =
+                      Store.read<InvitationViewModel>(context);
+                  model.invListVoAndNotify = value;
+                });
+              },
+              onLoad: () async {},
+            ),
+          ),
+        ),
+      ],
+    );
+    return Column(
+      children: <Widget>[
+//        _sliverHeaderBar(),
         Expanded(
           child: Container(
             color: CommonColor.COMMON_WHITE,
             child: EasyRefresh.custom(
               slivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: _sliverHeaderBar(),
+                ),
                 _listView3(context),
               ],
               onRefresh: () async {
@@ -448,9 +505,9 @@ class _MyInvListPage extends CommonTitleBarPage {
 
   @override
   void onLeftTap(BuildContext context) {
-    InvitationViewModel model = Store.read<InvitationViewModel>(context);
-    model.invListVo.data.gusetCount++;
-    model.notifyListeners();
+    final BoostContainerSettings settings = BoostContainer.of(context).settings;
+    FlutterBoost.singleton.close(settings.uniqueId,
+        result: <String, dynamic>{'result': 'data from inv'});
   }
 
   @override
@@ -463,5 +520,10 @@ class _MyInvListPage extends CommonTitleBarPage {
   @override
   String centerWidgetText(BuildContext context) {
     return "我的请柬";
+  }
+
+  @override
+  String leftWidgetText(BuildContext context) {
+    return "返回";
   }
 }

@@ -190,6 +190,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.1"
+  extended_nested_scroll_view:
+    dependency: transitive
+    description:
+      name: extended_nested_scroll_view
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
   fish_redux:
     dependency: "direct main"
     description:
@@ -230,6 +237,15 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.1"
+  flutter_boost:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "1.12.13+3"
+      resolved-ref: d151649e151226d4e3768fc89e3a487ebb443a8e
+      url: "https://github.com/alibaba/flutter_boost.git"
+    source: git
+    version: "1.12.13+3"
   flutter_easyrefresh:
     dependency: transitive
     description:
@@ -716,4 +732,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.7.0 <3.0.0"
-  flutter: ">=1.16.0 <2.0.0"
+  flutter: ">=1.17.0 <2.0.0"

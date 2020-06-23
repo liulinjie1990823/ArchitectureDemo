@@ -11,6 +11,7 @@ import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.architecturedemo.R
+import com.llj.architecturedemo.flutter.PageRouter
 import com.llj.architecturedemo.ui.model.BabyHomeModuleItemVo
 import com.llj.component.service.MiddleMvcBaseFragment
 import com.llj.component.service.arouter.CRouter
@@ -62,6 +63,7 @@ class HomeFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scro
       arrayList.add(Data(field.get(null) as String))
     }
     arrayList.add(Data("CWebViewActivity", "CWebViewActivity"))
+    arrayList.add(Data("NativePageActivity", PageRouter.NATIVE_PAGE_URL))
 
     UniversalBind.Builder(mRecyclerView, MyAdapter(arrayList))
         .setLinearLayoutManager()
@@ -108,6 +110,9 @@ class HomeFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scro
               intent.setClassName("com.llj.architecturedemo", "com.llj.architecturedemo.ui.activity.SecondActivity")
               intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
               mContext.startActivity(intent)
+            }
+            "NativePageActivity" -> {
+              PageRouter.openPageByUrl(mContext, PageRouter.NATIVE_PAGE_URL, null)
             }
             else -> CRouter.start(item.path)
           }

@@ -289,6 +289,12 @@ dependencies {
     //    implementation 'com.llj.flutter.flutter_setting2:flutter_release:1.0@aar'
 //    implementation 'com.llj.flutter.flutter_module:flutter_release:1.0@aar'
 
+    if (useFlutterSrc) {
+        implementation project(':flutter')
+        implementation project(':flutter_boost')
+    } else {
+    }
+
     implementation 'com.github.florent37:shapeofview:1.4.7'
     implementation 'com.arthenica:mobile-ffmpeg-full:4.3.2'
     implementation 'androidx.appcompat:appcompat:1.1.0'

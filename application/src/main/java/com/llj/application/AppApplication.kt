@@ -1,7 +1,9 @@
 package com.llj.application
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import androidx.multidex.MultiDex
 import com.billy.cc.core.component.CC
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.llj.component.service.IModule
@@ -43,6 +45,11 @@ import timber.log.Timber
 open class AppApplication : MiddleApplication() {
 
   override fun initStrictMode() {
+  }
+
+  override fun attachBaseContext(base: Context?) {
+    super.attachBaseContext(base)
+    MultiDex.install(this)
   }
 
   override fun onCreate() {
@@ -105,6 +112,7 @@ open class AppApplication : MiddleApplication() {
 
     //bugly的Crash记录
     CrashReport.initCrashReport(applicationContext, getString(R.string.bugly_id), false)
+
 
     //设置状态栏监听
     registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {

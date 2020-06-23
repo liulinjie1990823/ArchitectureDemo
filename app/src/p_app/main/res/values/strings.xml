@@ -300,4 +300,10 @@
     <string name="weight">android:layout_width="0dp" \n 设置了该属性后chain_style的属性就失效了，设置了该属性后，该控件占用了除去右控件后的最大宽度
     </string>
     <string name="barrier">Barrier使用</string>
+
+
+    <string name="open_native">open native page</string>
+    <string name="open_flutter">open flutter page</string>
+    <string name="open_flutter_fragment">open flutter fragment page</string>
+    <string name="native_info">This is a native activity</string>
 </resources>

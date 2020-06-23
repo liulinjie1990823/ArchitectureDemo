@@ -18,6 +18,7 @@ try {
 
 //这里的useMaven只是该文件下使用，没有设置到ext中；如需要在init.gradle中设置
 def useMaven = properties.getProperty("useMaven") == "true"
+def useFlutterSrc = properties.getProperty("useFlutterSrc") == "true"
 
 include ':lib-swipeback', ':lib-tracker', ':lib-zbar', ':lib-zxing', ':lib-map', ':lib-oss', ':lib-qrcodecore',  ':lib-opengl', ':lib-record', ':lib-kodo',  ':lib-scrollable', ':lib-base-event', ':lib_album_core', ':lib_album', ':lib_calendar', ':lib_pickerview', ':lib_update', ':lib_push', ':lib_crop'
 
@@ -76,14 +77,15 @@ include ':flutter_base'
 include ':flutter_middle'
 include ':flutter_login'
 include ':flutter_main'
-include ':flutter_inv'
 
-//setBinding(new Binding([gradle: this]))
-//evaluate(new File(
-//        settingsDir,
-//        'flutter_ui/.android/include_flutter.groovy'
-//))
-//include ':flutter_ui'
+if(useFlutterSrc){
+    setBinding(new Binding([gradle: this]))
+    evaluate(new File(
+            settingsDir,
+            'flutter_inv/.android/include_flutter.groovy'
+    ))
+}
+include ':flutter_inv'
 
 //setBinding(new Binding([gradle: this]))
 //evaluate(new File(

@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide NestedScrollView;
+
 import 'package:flutter_base/utils/status_bar_util.dart';
 import 'package:flutter_middle/configs/common_color.dart';
 import 'package:flutter_middle/widgets/custom_sliver.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
-
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 
 class TemplateHomePage extends StatefulWidget {
   final String title;
@@ -17,21 +19,30 @@ class TemplateHomePage extends StatefulWidget {
 
 class _TemplateHomePageState extends State<TemplateHomePage>
     with SingleTickerProviderStateMixin {
-  TabController tabController;
+  TabController _tabController;
+
+  // 滚动控制器
+  ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    this.tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
+    _scrollController = ScrollController();
   }
 
-
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
+    _scrollController.dispose();
+  }
 
   Widget _title({double height}) {
     return Container(
       decoration: BoxDecoration(color: CommonColor.COMMON_MAIN_COLOR),
       constraints:
-      BoxConstraints.expand(width: double.infinity, height: height),
+          BoxConstraints.expand(width: double.infinity, height: height),
       child: Stack(
         children: <Widget>[
           Positioned(
@@ -102,6 +113,16 @@ class _TemplateHomePageState extends State<TemplateHomePage>
 
   Widget _content() {
     return NestedScrollView(
+      pinnedHeaderSliverHeightBuilder: () {
+        return MediaQuery.of(context).padding.top + 44;
+      },
+      innerScrollPositionKeyBuilder: () {
+        if (_tabController.index == 0) {
+          return Key('Tab0');
+        } else {
+          return Key('Tab1');
+        }
+      },
       headerSliverBuilder: (context, bool) {
         return [
           SliverPersistentHeader(
@@ -120,7 +141,7 @@ class _TemplateHomePageState extends State<TemplateHomePage>
             delegate: StickyTabBarDelegate(
               child: TabBar(
                 labelColor: Colors.black,
-                controller: this.tabController,
+                controller: this._tabController,
                 isScrollable: true,
                 tabs: <Widget>[
                   Tab(text: 'Home'),
@@ -132,10 +153,16 @@ class _TemplateHomePageState extends State<TemplateHomePage>
         ];
       },
       body: TabBarView(
-        controller: this.tabController,
+        controller: this._tabController,
         children: <Widget>[
-          _listView(),
-          _gridView(),
+          NestedScrollViewInnerScrollPositionKeyWidget(
+            Key('Tab0'),
+            _listView(),
+          ),
+          NestedScrollViewInnerScrollPositionKeyWidget(
+            Key('Tab1'),
+            _gridView(),
+          ),
         ],
       ),
     );
@@ -175,7 +202,7 @@ class _TemplateHomePageState extends State<TemplateHomePage>
       child: ListView.builder(
         itemCount: 20,
         itemBuilder: (context, index) {
-          print("itemBuilder"+index.toString());
+          print("itemBuilder" + index.toString());
           return Container(
             color: Colors.black,
             child: Image(
@@ -202,4 +229,3 @@ class _TemplateHomePageState extends State<TemplateHomePage>
     );
   }
 }
-
