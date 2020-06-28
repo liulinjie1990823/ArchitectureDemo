@@ -4,7 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/utils/status_bar_util.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_main/main/routers/router.dart';
+import 'package:flutter_main/main/router/router.dart';
 import 'package:flutter_middle/application.dart';
 import 'package:flutter_middle/configs/common_color.dart';
 
@@ -124,7 +124,7 @@ class App extends StatelessWidget {
 //页面跳转
 Widget _widgetForRoute(String route) {
   final router = Router();
-  Routes.configureRoutes(router);
+  MainRouter.configureRoutes(router);
   Application.router = router;
 
   switch (route) {

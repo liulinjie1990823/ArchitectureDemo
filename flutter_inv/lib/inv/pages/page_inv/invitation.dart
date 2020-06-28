@@ -76,7 +76,7 @@ class _MyInvListPage extends CommonTitleBarPage {
                       width: 40,
                       height: 40,
                       fit: BoxFit.scaleDown,
-                      image: AssetImage(image, package: MyApp.FLUTTER_INV),
+                      image: AssetImage(image, package: InvApp.FLUTTER_INV),
                     ),
                   ),
                   Store.selector<InvitationViewModel, int>(
@@ -289,7 +289,7 @@ class _MyInvListPage extends CommonTitleBarPage {
                                       fit: BoxFit.scaleDown,
                                       image: AssetImage(
                                           "images/mv_ic_template_list_setting.png",
-                                          package: MyApp.FLUTTER_INV),
+                                          package: InvApp.FLUTTER_INV),
                                     ),
                                   ),
                                 );
@@ -311,7 +311,7 @@ class _MyInvListPage extends CommonTitleBarPage {
                                       fit: BoxFit.scaleDown,
                                       image: AssetImage(
                                           "images/mv_ic_template_list_guests.png",
-                                          package: MyApp.FLUTTER_INV),
+                                          package: InvApp.FLUTTER_INV),
                                     ),
                                   ),
                                 );
@@ -331,7 +331,7 @@ class _MyInvListPage extends CommonTitleBarPage {
                                       fit: BoxFit.scaleDown,
                                       image: AssetImage(
                                           "images/mv_ic_template_list_gift.png",
-                                          package: MyApp.FLUTTER_INV),
+                                          package: InvApp.FLUTTER_INV),
                                     ),
                                   ),
                                 );

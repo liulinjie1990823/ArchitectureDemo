@@ -14,6 +14,8 @@ class PageRouter {
     val NATIVE_PAGE_URL = "sample://nativePage"
     val FLUTTER_PAGE_URL = "sample://flutterPage"
     val FLUTTER_MY_INV_PAGE_URL = "sample://flutter/myInvPage"
+    val FLUTTER_MY_LOGIN_PAGE_URL = "sample://flutter/loginPage"
+    val FLUTTER_MY_MAIN_PAGE_URL = "sample://flutter/mainPage"
     val FLUTTER_FRAGMENT_PAGE_URL = "sample://flutterFragmentPage"
 
     val pageName: Map<String, String> = object : HashMap<String, String>() {
@@ -23,6 +25,8 @@ class PageRouter {
         put("tab", "tab")
         put("sample://flutterPage", "flutterPage")
         put(FLUTTER_MY_INV_PAGE_URL, "myInvPage")
+        put(FLUTTER_MY_LOGIN_PAGE_URL, "loginPage")
+        put(FLUTTER_MY_MAIN_PAGE_URL, "mainPage")
       }
     }
 

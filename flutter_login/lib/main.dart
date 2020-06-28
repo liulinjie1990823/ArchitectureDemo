@@ -11,9 +11,10 @@ import 'package:flutter_login/login/pages/page_login/login_event.dart';
 import 'package:flutter_login/login/pages/page_login/login_state.dart';
 import 'package:flutter_login/login/pages/page_splash/splash.dart';
 import 'package:flutter_login/login/repository/user_repository.dart';
-import 'package:flutter_login/login/route/routes.dart';
 import 'package:flutter_middle/application.dart';
 import 'package:flutter_middle/configs/common_color.dart';
+
+import 'login/router/router.dart';
 
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
@@ -131,7 +132,7 @@ class App extends StatelessWidget {
 //页面跳转
 Widget _widgetForRoute(String route) {
   final router = Router();
-  Routes.configureRoutes(router);
+  LoginRouter.configureRoutes(router);
   Application.router = router;
 
   switch (route) {

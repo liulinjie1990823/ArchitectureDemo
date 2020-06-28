@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_setting/setting/application.dart';
-import 'package:flutter_setting/setting/route/routes.dart';
+import 'package:flutter_setting/setting/route/router.dart';
 import 'package:flutter_setting/utils/display_utils.dart';
 
 class CommonWidget {

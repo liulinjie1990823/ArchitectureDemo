@@ -2,7 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_setting/common/common_widget.dart';
 import 'package:flutter_setting/setting/application.dart';
-import 'package:flutter_setting/setting/route/routes.dart';
+import 'package:flutter_setting/setting/route/router.dart';
 
 class Setting extends StatelessWidget {
   @override

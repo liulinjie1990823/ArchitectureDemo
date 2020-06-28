@@ -4,7 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_setting/setting/application.dart';
 import 'package:flutter_setting/setting/pages/page_setting/setting.dart';
-import 'package:flutter_setting/setting/route/routes.dart';
+import 'package:flutter_setting/setting/route/router.dart';
 
 void main() => runApp(_widgetForRoute(window.defaultRouteName));
 

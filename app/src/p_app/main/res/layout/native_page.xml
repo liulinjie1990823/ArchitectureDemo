@@ -42,7 +42,31 @@
     android:textSize="16sp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/open_flutter" />
+    android:text="open inv flutter page" />
+
+  <TextView
+    android:background="@android:color/holo_orange_dark"
+    android:layout_margin="8.0dp"
+    android:padding="8.0dp"
+    android:textColor="@android:color/black"
+    android:id="@+id/open_flutter_login"
+    android:textAllCaps="false"
+    android:textSize="16sp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="open login flutter page" />
+
+  <TextView
+    android:background="@android:color/holo_orange_dark"
+    android:layout_margin="8.0dp"
+    android:padding="8.0dp"
+    android:textColor="@android:color/black"
+    android:id="@+id/open_flutter_main"
+    android:textAllCaps="false"
+    android:textSize="16sp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="open main flutter page" />
 
   <TextView
     android:background="@android:color/holo_orange_dark"

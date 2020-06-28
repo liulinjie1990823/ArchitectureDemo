@@ -99,7 +99,7 @@ class MinePage extends CommonPage {
         height: 200,
         child: Image(
           fit: BoxFit.cover,
-          image: AssetImage("images/mv_ic_invitation_list_template_card.png",package: MyApp.FLUTTER_INV),
+          image: AssetImage("images/mv_ic_invitation_list_template_card.png",package: InvApp.FLUTTER_INV),
         ),
       ),
     );

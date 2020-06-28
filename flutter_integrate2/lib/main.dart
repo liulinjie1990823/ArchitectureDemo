@@ -1,52 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boost/flutter_boost.dart';
-import 'package:flutter_inv/inv/pages/page_inv/invitation.dart';
 import 'package:flutter_inv/inv/router/router.dart';
+import 'package:flutter_login/login/router/router.dart';
+import 'package:flutter_main/main/router/router.dart';
 import 'package:flutter_middle/api/api_manager.dart';
-import 'simple_page_widgets.dart';
 
 void main() {
-  runApp(InvApp());
+  runApp(MyApp());
 }
 
-class InvApp extends StatefulWidget {
-  static String FLUTTER_INV = "flutter_inv";
-
+class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<InvApp> {
+class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
 
-    Map<String, PageBuilder> builders = {
-      'embeded': (String pageName, Map<String, dynamic> params, String _) =>
-          EmbeddedFirstRouteWidget(),
-      'first': (String pageName, params, String _) => FirstRouteWidget(),
-      'firstFirst': (String pageName, Map<String, dynamic> params, String _) =>
-          FirstFirstRouteWidget(),
-      'second': (String pageName, params, String _) => SecondRouteWidget(),
-      'secondStateful':
-          (String pageName, Map<String, dynamic> params, String _) =>
-              SecondStatefulRouteWidget(),
-      'tab': (String pageName, params, String _) => TabRouteWidget(),
-      'platformView':
-          (String pageName, Map<String, dynamic> params, String _) =>
-              PlatformRouteWidget(),
-      'flutterFragment':
-          (String pageName, Map<String, dynamic> params, String _) =>
-              FragmentRouteWidget(params),
-
-      ///可以在native层通过 getContainerParams 来传递参数
-      'flutterPage': (String pageName, Map<String, dynamic> params, String _) {
-        print('flutterPage params:$params');
-
-        return FlutterRouteWidget(params: params);
-      },
-    };
+    Map<String, PageBuilder> builders = {};
     builders.addAll(InvRouter.router);
+    builders.addAll(LoginRouter.router);
+    builders.addAll(MainRouter.router);
 
     FlutterBoost.singleton.registerPageBuilders(builders);
     FlutterBoost.singleton
