@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_boost/flutter_boost.dart';
 
 class HomePage extends StatelessWidget {
 //  void main() {
@@ -78,17 +79,12 @@ class Home extends StatelessWidget {
   }
 
   void main() async {
-    print("main start at ${DateTime.now()}");
-    //添加监听回调，相当是给异步操作添加了listener
-    Future.sync(() async {
-      print("download start at ${DateTime.now()}");
-      await new Future.delayed(const Duration(seconds: 5)); //当前线程休眠5秒
-      print("download end at ${DateTime.now()}");
-      return "download return";
-    }).then((string) {
-      print("result[${DateTime.now()}]: $string"); //异步操作完成时执行
+    FlutterBoost.singleton
+        .open('sample://flutter/myInvPage')
+        .then((Map<dynamic, dynamic> value) {
+      print(
+          'call me when page is finished. did recieve second route result $value');
     });
-    print("main end at ${DateTime.now()}");
   }
 
   /// 模拟异步加载用户信息

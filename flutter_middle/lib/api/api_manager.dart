@@ -45,6 +45,9 @@ class ApiManager {
       } else {
         (_sDio.httpClientAdapter as DefaultHttpClientAdapter)
             .onHttpClientCreate = (client) {
+          client.findProxy = (uri) {
+            return sProxy;
+          };
           client.badCertificateCallback =
               (X509Certificate cert, String host, int port) {
             return true;
