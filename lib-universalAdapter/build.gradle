@@ -24,3 +24,4 @@ dependencies {
     releaseCompileOnly deps.SmartRefreshLayout
     releaseCompileOnly deps.kotlin_stdlib_jdk8
 }
+

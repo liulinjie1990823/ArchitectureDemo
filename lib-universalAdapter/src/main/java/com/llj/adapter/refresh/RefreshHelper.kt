@@ -12,93 +12,97 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
  */
 class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item, Holder> {
 
-    private lateinit var mPagerHelper: PagerHelper
+  private lateinit var mPagerHelper: PagerHelper
 
-    private var mSmartRefreshLayout: SmartRefreshLayout
-    private var mAdapter: ListBasedAdapter<Item, Holder>? = null
+  private var mSmartRefreshLayout: SmartRefreshLayout
+  private var mAdapter: ListBasedAdapter<Item, Holder>? = null
 
-    constructor(mSmartRefreshLayout: SmartRefreshLayout) {
-        this.mSmartRefreshLayout = mSmartRefreshLayout
+  constructor(mSmartRefreshLayout: SmartRefreshLayout) {
+    this.mSmartRefreshLayout = mSmartRefreshLayout
+  }
+
+  constructor(mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item, Holder>) {
+    this.mSmartRefreshLayout = mSmartRefreshLayout
+    this.mAdapter = mAdapter
+    mPagerHelper = PagerHelper()
+  }
+
+  constructor(pageSize: Int, mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item, Holder>) {
+    this.mSmartRefreshLayout = mSmartRefreshLayout
+    this.mAdapter = mAdapter
+    mPagerHelper = PagerHelper(pageSize)
+  }
+
+  override fun getAdapter(): ListBasedAdapter<Item, Holder>? {
+    return mAdapter
+  }
+
+  override fun size(): Int {
+    return mAdapter?.size ?: 0
+  }
+
+  override fun finishRefreshOrLoadMore(success: Boolean) {
+    finishRefreshOrLoadMore(success, false)
+  }
+
+  override fun finishRefreshOrLoadMore(success: Boolean, hasNextPage: Boolean) {
+    if (isFirstPage()) {
+      mSmartRefreshLayout.finishRefresh(0, success, hasNextPage)
+      mAdapter?.clear()
+    } else {
+      mSmartRefreshLayout.finishLoadMore(0, success, hasNextPage)
     }
+  }
 
-    constructor(mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item, Holder>) {
-        this.mSmartRefreshLayout = mSmartRefreshLayout
-        this.mAdapter = mAdapter
-        mPagerHelper = PagerHelper()
+  override fun handleData(hasNextPage: Boolean, list: Collection<Item>?) {
+    checkHasMoreData(hasNextPage)
+    if (isEmpty(list)) {
+      return
     }
+    mAdapter?.addAll(list!!)
+  }
 
-    constructor(pageSize: Int, mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item, Holder>) {
-        this.mSmartRefreshLayout = mSmartRefreshLayout
-        this.mAdapter = mAdapter
-        mPagerHelper = PagerHelper(pageSize)
-    }
+  private fun <T> isEmpty(list: Collection<T>?): Boolean {
+    return list == null || list.isEmpty()
+  }
 
-    override fun getAdapter(): ListBasedAdapter<Item, Holder>? {
-        return mAdapter
-    }
+  //刷新完data不为null调用
+  private fun checkHasMoreData(hasNextPage: Boolean) {
+    mPagerHelper.addPageNum(hasNextPage)
+    //在finishRefreshOrLoadMore(success: Boolean, hasNextPage: Boolean)中已经设置了是否有更多数据
+    mSmartRefreshLayout.setNoMoreData(!hasNextPage)
+  }
 
-    override fun size(): Int {
-        return mAdapter?.size ?: 0
-    }
+  override fun getInitPageNum(): Int {
+    return mPagerHelper.getInitPageNum()
+  }
 
-    override fun finishRefreshOrLoadMore(success: Boolean) {
-        if (isFirstPage()) {
-            mSmartRefreshLayout.finishRefresh()
-            mAdapter?.clear()
-        } else {
-            mSmartRefreshLayout.finishLoadMore(success)
-        }
-    }
+  override fun getCurrentPageNum(): Int {
+    return mPagerHelper.getCurrentPageNum()
+  }
 
-    override fun handleData(hasNextPage: Boolean, list: Collection<Item>?) {
-        checkHasMoreData(hasNextPage)
-        if (isEmpty(list)) {
-            return
-        }
-        mAdapter?.addAll(list!!)
-    }
+  override fun getPageSize(): Int {
+    return mPagerHelper.getPageSize()
+  }
 
-    private fun <T> isEmpty(list: Collection<T>?): Boolean {
-        return list == null || list.isEmpty()
-    }
+  override fun isFirstPage(): Boolean {
+    return mPagerHelper.isFirstPage()
+  }
 
-    //刷新完data不为null调用
-    private fun checkHasMoreData(hasNextPage: Boolean) {
-        mPagerHelper.addPageNum(hasNextPage)
-        mSmartRefreshLayout.setNoMoreData(!hasNextPage)
-        mSmartRefreshLayout.setEnableLoadMore(hasNextPage)
-    }
+  override fun addPageNum() {
+    mPagerHelper.addPageNum()
+  }
 
-    override fun getInitPageNum(): Int {
-        return mPagerHelper.getInitPageNum()
-    }
+  override fun addPageNum(dataSize: Int) {
+    mPagerHelper.addPageNum(dataSize)
+  }
 
-    override fun getCurrentPageNum(): Int {
-        return mPagerHelper.getCurrentPageNum()
-    }
+  override fun addPageNum(hasNextPage: Boolean) {
+    mPagerHelper.addPageNum(hasNextPage)
+  }
 
-    override fun getPageSize(): Int {
-        return mPagerHelper.getPageSize()
-    }
-
-    override fun isFirstPage(): Boolean {
-        return mPagerHelper.isFirstPage()
-    }
-
-    override fun addPageNum() {
-        mPagerHelper.addPageNum()
-    }
-
-    override fun addPageNum(dataSize: Int) {
-        mPagerHelper.addPageNum(dataSize)
-    }
-
-    override fun addPageNum(hasNextPage: Boolean) {
-        mPagerHelper.addPageNum(hasNextPage)
-    }
-
-    override fun resetPageNum() {
-        mPagerHelper.resetPageNum()
-    }
+  override fun resetPageNum() {
+    mPagerHelper.resetPageNum()
+  }
 
 }
