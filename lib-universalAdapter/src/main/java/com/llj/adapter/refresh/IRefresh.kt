@@ -15,6 +15,7 @@ interface IRefresh<Item, Holder : XViewHolder> : IPager {
     fun finishRefreshOrLoadMore(success: Boolean,hasNextPage: Boolean)
 
     fun handleData(hasNextPage: Boolean, list: Collection<Item>?)
+    fun handleData(shouldSetEnableLoadMore: Boolean,hasNextPage: Boolean, list: Collection<Item>?)
 
     fun size(): Int
 

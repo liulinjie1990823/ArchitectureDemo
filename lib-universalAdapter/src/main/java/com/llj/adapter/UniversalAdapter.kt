@@ -132,7 +132,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
 
   //<editor-fold desc="基本方法">
-  fun getItemPosition(`object`: Any?): Int {
+  open fun getItemPosition(`object`: Any): Int {
     return PagerAdapter.POSITION_UNCHANGED
   }
 
@@ -229,14 +229,14 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     onItemRangeInserted(footerStartIndex - 1 + footersCount, 1)
   }
 
-  private fun addItemLayout(layoutConfig: LayoutConfig) {
+  fun addItemLayout(layoutConfig: LayoutConfig) {
     tryThrowAlreadyBoundException(
         "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
     check(mItemLayouts.indexOfKey(layoutConfig.type) < 0) { "type exits" }
     mItemLayouts.put(layoutConfig.type, layoutConfig)
   }
 
-  private fun addItemLayout(@LayoutRes layoutId: Int) {
+  fun addItemLayout(@LayoutRes layoutId: Int) {
     tryThrowAlreadyBoundException(
         "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
     val layoutConfig = LayoutConfig(layoutId)
@@ -244,7 +244,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     mItemLayouts.put(layoutConfig.type, layoutConfig)
   }
 
-  private fun addItemLayout(@LayoutRes layoutId: Int, type: Int) {
+  fun addItemLayout(@LayoutRes layoutId: Int, type: Int) {
     tryThrowAlreadyBoundException(
         "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
     val layoutConfig = LayoutConfig(layoutId, type)
@@ -253,14 +253,14 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   }
 
 
-  private fun addViewBinding(viewBindingConfig: ViewBindingConfig) {
+  fun addViewBinding(viewBindingConfig: ViewBindingConfig) {
     tryThrowAlreadyBoundException(
         "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
     check(mViewBindings.indexOfKey(viewBindingConfig.type) < 0) { "type exits" }
     mViewBindings.put(viewBindingConfig.type, viewBindingConfig)
   }
 
-  private fun addViewBinding(viewBinding: ViewBinding) {
+  fun addViewBinding(viewBinding: ViewBinding) {
     tryThrowAlreadyBoundException(
         "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
     val viewBindingConfig = ViewBindingConfig(viewBinding)
@@ -268,7 +268,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     mViewBindings.put(viewBindingConfig.type, viewBindingConfig)
   }
 
-  private fun addViewBinding(viewBinding: ViewBinding, type: Int) {
+  fun addViewBinding(viewBinding: ViewBinding, type: Int) {
     tryThrowAlreadyBoundException(
         "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
     val viewBindingConfig = ViewBindingConfig(viewBinding, type)
@@ -285,7 +285,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   private var mCurrentTimeMillis: Long? = null
 
   //<editor-fold desc=" adapter实现方法">
-  private fun createViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
+  internal fun createViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
     mCreateCurrentTimeMillis = System.currentTimeMillis()
 
     val holder: XViewHolder
@@ -317,7 +317,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     return null
   }
 
-  private fun createDropDownViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
+  internal fun createDropDownViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
     mCreateCurrentTimeMillis = System.currentTimeMillis()
 
     val holder: XViewHolder = when {

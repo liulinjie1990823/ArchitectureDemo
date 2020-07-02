@@ -55,7 +55,11 @@ class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item, Holder> {
   }
 
   override fun handleData(hasNextPage: Boolean, list: Collection<Item>?) {
-    checkHasMoreData(hasNextPage)
+    handleData(true, hasNextPage, list)
+  }
+
+  override fun handleData(shouldSetEnableLoadMore: Boolean, hasNextPage: Boolean, list: Collection<Item>?) {
+    checkHasMoreData(shouldSetEnableLoadMore, hasNextPage)
     if (isEmpty(list)) {
       return
     }
@@ -67,10 +71,12 @@ class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item, Holder> {
   }
 
   //刷新完data不为null调用
-  private fun checkHasMoreData(hasNextPage: Boolean) {
+  private fun checkHasMoreData(shouldSetEnableLoadMore: Boolean, hasNextPage: Boolean) {
     mPagerHelper.addPageNum(hasNextPage)
     //在finishRefreshOrLoadMore(success: Boolean, hasNextPage: Boolean)中已经设置了是否有更多数据
     mSmartRefreshLayout.setNoMoreData(!hasNextPage)
+    if (shouldSetEnableLoadMore)
+      mSmartRefreshLayout.setEnableLoadMore(hasNextPage)
   }
 
   override fun getInitPageNum(): Int {

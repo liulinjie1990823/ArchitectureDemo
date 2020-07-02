@@ -17,7 +17,7 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
 
   private lateinit var mList: MutableList<Item?>
 
-  private var clickPosition = 0
+  var clickPosition = 0
 
   constructor() : super() {
     setItemsList(null)
