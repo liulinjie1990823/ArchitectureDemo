@@ -29,9 +29,10 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   private val mItemLayouts = SparseArray<LayoutConfig>()
   private val mViewBindings = SparseArray<ViewBindingConfig>()
 
+  private var TAG: String = this.javaClass.simpleName
+
   companion object {
     //基本item类型
-    var TAG = "UniversalAdapter"
     var DEBUG = false
     const val COMMON_ITEM_TYPE = 0
   }
@@ -52,7 +53,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   }
 
   class ViewBindingConfig {
-    val viewBinding: ViewBinding
+    private val viewBinding: ViewBinding
     var type = COMMON_ITEM_TYPE
 
     constructor(viewBinding: ViewBinding, type: Int) {
@@ -80,11 +81,14 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
   private var mCachedViews: ArrayList<RecyclerView.ViewHolder>? = null
 
-  fun initCachedView() {
+  open fun initCachedView() {
     if (DEBUG) {
-      TAG = this.javaClass.simpleName
       val recyclerView = getRecyclerView()
       if (recyclerView != null) {
+        recyclerView.setRecyclerListener(RecyclerView.RecyclerListener {
+          Timber.tag(TAG).i("%s Recycler:%s,view:%s,position:%d", TAG, it.hashCode(), it.itemView.hashCode(), it.adapterPosition)
+        })
+
         //拿到mRecycler字段
         val recyclerViewClass = RecyclerView::class.java
         val field = recyclerViewClass.getDeclaredField("mRecycler")

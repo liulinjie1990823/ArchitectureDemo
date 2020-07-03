@@ -15,7 +15,7 @@ class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item, Holder> {
   private lateinit var mPagerHelper: PagerHelper
 
   private var mSmartRefreshLayout: SmartRefreshLayout
-  private var mAdapter: ListBasedAdapter<Item, Holder>? = null
+  protected var mAdapter: ListBasedAdapter<Item, Holder>? = null
 
   constructor(mSmartRefreshLayout: SmartRefreshLayout) {
     this.mSmartRefreshLayout = mSmartRefreshLayout
@@ -48,7 +48,6 @@ class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item, Holder> {
   override fun finishRefreshOrLoadMore(success: Boolean, hasNextPage: Boolean) {
     if (isFirstPage()) {
       mSmartRefreshLayout.finishRefresh(0, success, hasNextPage)
-      mAdapter?.clear()
     } else {
       mSmartRefreshLayout.finishLoadMore(0, success, hasNextPage)
     }
@@ -59,11 +58,20 @@ class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item, Holder> {
   }
 
   override fun handleData(shouldSetEnableLoadMore: Boolean, hasNextPage: Boolean, list: Collection<Item>?) {
-    checkHasMoreData(shouldSetEnableLoadMore, hasNextPage)
-    if (isEmpty(list)) {
-      return
+    if (isFirstPage()) {
+      mAdapter?.getList()?.clear()
+      mAdapter?.getList()?.addAll(list!!)
+      mAdapter?.notifyDataSetChanged()
+//      mAdapter?.clear()
+//      mAdapter?.addAll(list!!)
+    } else {
+      if (isEmpty(list)) {
+        return
+      }
+      mAdapter?.addAll(list!!)
     }
-    mAdapter?.addAll(list!!)
+
+    checkHasMoreData(shouldSetEnableLoadMore, hasNextPage)
   }
 
   private fun <T> isEmpty(list: Collection<T>?): Boolean {
@@ -74,7 +82,7 @@ class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item, Holder> {
   private fun checkHasMoreData(shouldSetEnableLoadMore: Boolean, hasNextPage: Boolean) {
     mPagerHelper.addPageNum(hasNextPage)
     //在finishRefreshOrLoadMore(success: Boolean, hasNextPage: Boolean)中已经设置了是否有更多数据
-    mSmartRefreshLayout.setNoMoreData(!hasNextPage)
+//    mSmartRefreshLayout.setNoMoreData(!hasNextPage)
     if (shouldSetEnableLoadMore)
       mSmartRefreshLayout.setEnableLoadMore(hasNextPage)
   }
