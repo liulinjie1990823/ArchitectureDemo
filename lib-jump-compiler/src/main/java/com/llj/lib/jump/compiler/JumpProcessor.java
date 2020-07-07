@@ -86,7 +86,7 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
     //处理注解
     try {
       processJumpClass(roundEnv);
-      processInnerKey(roundEnv);
+      processJumpKey(roundEnv);
     } catch (IllegalArgumentException e) {
       logger.error(e.getMessage());
       return true; // stop process
@@ -102,7 +102,8 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
     return true;
   }
 
-  private void processInnerKey(RoundEnvironment roundEnv) throws IllegalArgumentException {
+  private void processJumpKey(RoundEnvironment roundEnv) throws IllegalArgumentException {
+    //拿到被JumpKey注解的字段
     Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(JumpKey.class);
     for (Element element : elements) {
       JumpAnnotateClass annotatedClass = getAnnotatedClass(element);
@@ -111,7 +112,7 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
   }
 
   private void processJumpClass(RoundEnvironment roundEnv) {
-    //拿到被InnerJump注解的元素集合，可能是类，方法，变量
+    //拿到被Jump注解的类
     Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(Jump.class);
     for (Element element : elements) {
       JumpAnnotateClass annotatedClass = getAnnotatedClass(element);
@@ -120,6 +121,7 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
   }
 
 
+  //通过类元素或者字段元素获取对应的JumpAnnotateClass，避免多个方法注释生成多个JumpAnnotateClass
   protected JumpAnnotateClass getAnnotatedClass(Element element) {
     TypeElement classElement;
 
@@ -172,7 +174,12 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
 
     for (JumpAnnotateClass annotatedClass : mAnnotatedClassMap.values()) {
 
+      //如果类注释没有则返回
       JumpClass jumpClass = annotatedClass.getJumpClass();
+      if (jumpClass == null) {
+        continue;
+      }
+
       List<JumpKeyField> jumpKeyFields = annotatedClass.getJumpKeyFields();
 
       MethodSpec.Builder getInPathMethod = MethodSpec.methodBuilder("getInPath")
@@ -197,8 +204,8 @@ public class JumpProcessor extends BaseProcessor<JumpAnnotateClass> {
         if (jumpKeyField.isRequired()) {
           method.beginControlFlow("if(map == null || map.get($S) == null)",
               jumpKeyField.getOutKey());//if(map != null) {
-          method.addStatement("return");//
-          method.endControlFlow();//
+          method.addStatement("return");
+          method.endControlFlow();
         }
       }
       //Postcard postcard = ARouter.getInstance().build("/app/AptActivity2");

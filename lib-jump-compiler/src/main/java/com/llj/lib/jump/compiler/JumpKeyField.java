@@ -13,9 +13,9 @@ import javax.lang.model.element.Element;
  * @date 2019-06-13
  */
 public class JumpKeyField extends BaseField {
-    private String outKey;//
-    private String inKey;//
-    private boolean required;//
+    private String outKey;
+    private String inKey;
+    private boolean required;
 
     public JumpKeyField(Element element) {
         super(element);

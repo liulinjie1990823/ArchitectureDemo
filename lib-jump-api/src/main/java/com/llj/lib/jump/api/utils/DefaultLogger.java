@@ -21,10 +21,12 @@ public class DefaultLogger implements ILogger {
 
     private String defaultTag = "ARouter";
 
+    @Override
     public void showLog(boolean showLog) {
         isShowLog = showLog;
     }
 
+    @Override
     public void showStackTrace(boolean showStackTrace) {
         isShowStackTrace = showStackTrace;
     }

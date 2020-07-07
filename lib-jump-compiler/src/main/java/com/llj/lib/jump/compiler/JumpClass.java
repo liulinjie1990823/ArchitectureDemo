@@ -8,7 +8,7 @@ import javax.lang.model.element.Element;
 /**
  * ArchitectureDemo.
  *
- * describe :
+ * describe  类注释信息
  *
  * @author llj
  * @date 2019-06-11
