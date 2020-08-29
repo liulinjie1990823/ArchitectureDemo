@@ -1,4 +1,4 @@
-package com.llj.component.service
+package com.llj.lib.base.di
 
 import android.app.Activity
 import androidx.fragment.app.Fragment

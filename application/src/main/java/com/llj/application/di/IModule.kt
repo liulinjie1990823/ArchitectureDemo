@@ -5,7 +5,7 @@ import android.content.Context
 import android.util.ArrayMap
 import com.billy.cc.core.component.CC
 import com.llj.application.AppApplication
-import com.llj.component.service.IInject
+import com.llj.lib.base.di.IInject
 
 /**
  * ArchitectureDemo.

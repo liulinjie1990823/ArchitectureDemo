@@ -209,5 +209,10 @@ internal class AppComponentModule {
     return builder.build()
   }
 
+  @Singleton
+  @Provides
+  fun appExecutors(): AppExecutors {
+    return AppExecutors()
+  }
 
 }

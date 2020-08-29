@@ -18,12 +18,11 @@ import skin.support.design.app.SkinMaterialViewInflater
 /**
  * ArchitectureDemo
  * describe:
- * author llj
- * date 2018/7/3
+ * @author llj
+ * @date 2018/7/3
  */
 abstract class MiddleApplication : BaseApplication() {
 
-//  lateinit var mMiddleComponent: MiddleComponent
 
   companion object {
     lateinit var mUserInfoVo: UserInfoVo //用户信息

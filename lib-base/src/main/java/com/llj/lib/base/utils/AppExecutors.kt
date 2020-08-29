@@ -13,7 +13,6 @@ import javax.inject.Singleton
  * @author
  * @date
  */
-@Singleton
 open class AppExecutors(
     private val diskIO: Executor,
     private val networkIO: Executor,

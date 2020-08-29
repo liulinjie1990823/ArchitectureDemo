@@ -175,7 +175,14 @@ open class AppApplication : MiddleApplication() {
             //调用IModule中的对应action
             CC.obtainBuilder(data.getModuleName())
                 .setContext(data.context)
-                .setActionName(IModule.INJECT_ACTIVITY)
+                .setActionName(IModule.INJECT_FRAGMENT)
+                .build()
+                .call()
+
+            CC.obtainBuilder(data.getModuleName())
+                .setContext(data.context)
+                .addParam("fragment", data.tag)
+                .setActionName(IModule.INJECT_FRAGMENT)
                 .build()
                 .call()
           }

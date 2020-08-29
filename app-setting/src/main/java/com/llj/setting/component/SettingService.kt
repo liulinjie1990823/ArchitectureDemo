@@ -3,9 +3,8 @@ package com.llj.setting.component
 import android.content.Context
 import com.llj.application.AppApplication
 import com.llj.application.di.IModule
-import com.llj.component.service.IInject
 import com.llj.component.service.IService
-import com.llj.component.service.MiddleApplication
+import com.llj.lib.base.di.IInject
 import com.llj.setting.di.DaggerSettingComponent
 
 /**

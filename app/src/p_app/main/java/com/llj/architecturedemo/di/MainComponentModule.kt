@@ -38,10 +38,5 @@ internal class MainComponentModule {
     return appDb.mobileDao()
   }
 
-  @MainScope
-  @Provides
-  fun appExecutors(): AppExecutors {
-    return AppExecutors()
-  }
 
 }

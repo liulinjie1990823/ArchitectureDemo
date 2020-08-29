@@ -1,8 +1,6 @@
 package com.llj.application.di
 
 import android.app.Application
-import com.llj.component.service.IInject
-import com.llj.lib.base.di.ViewModelBuilder
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
