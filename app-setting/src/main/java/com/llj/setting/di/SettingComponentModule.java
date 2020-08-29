@@ -1,4 +1,4 @@
-package com.llj.setting;
+package com.llj.setting.di;
 
 import com.llj.setting.api.SettingApiService;
 import dagger.Module;

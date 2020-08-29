@@ -26,14 +26,17 @@ dependencies {
     api deps.kotlin_stdlib_jdk8
 
     //support
+    api deps.annotations
     api deps.appcompat
     api deps.activity
+    api deps.fragment
     api deps.constraint_layout
 
     //Architecture components
     api deps.lifecycle_runtime
     api deps.lifecycle_java8
     api deps.lifecycle_viewmodel_savedstate
+
     //db
     api deps.room_runtime
 
@@ -43,6 +46,8 @@ dependencies {
     api deps.dagger_android_support
     kapt deps.dagger_compiler
     kapt deps.dagger_android_compiler
+//    api deps.dagger_hilt
+//    kapt deps.dagger_hilt_compiler
 
     //rx
     api deps.rxjava2

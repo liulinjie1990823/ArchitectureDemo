@@ -1,4 +1,4 @@
-package com.llj.login;
+package com.llj.architecturedemo.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -12,6 +12,6 @@ import javax.inject.Scope;
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LoginScope {
+public @interface MainScope {
 
 }

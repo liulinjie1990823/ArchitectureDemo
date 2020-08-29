@@ -28,7 +28,7 @@ class RequestPresenter : BaseActivityPresenter<MobileRepository, IRequestView> {
 
             override fun onGranted(permissions: MutableList<String>?) {
 
-                val mobileLivData = repository.getMobile("13188888888", view!!)
+                val mobileLivData = repository.getMobile("13188888888", view!!.hashCode())
                 mobileLivData.removeObservers(view!!)
                 mobileLivData.observe(view!!, Observer { baseResponse ->
 

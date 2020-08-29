@@ -82,10 +82,10 @@ if(useFlutterSrc){
     setBinding(new Binding([gradle: this]))
     evaluate(new File(
             settingsDir,
-            'flutter_integrate2/.android/include_flutter.groovy'
+            'flutter_integrate/.android/include_flutter.groovy'
     ))
 }
-include ':flutter_integrate2'
+include ':flutter_integrate'
 include ':flutter_inv'
 
 //setBinding(new Binding([gradle: this]))

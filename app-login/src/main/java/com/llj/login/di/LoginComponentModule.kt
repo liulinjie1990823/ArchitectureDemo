@@ -1,4 +1,4 @@
-package com.llj.login
+package com.llj.login.di
 
 import com.llj.login.api.LoginApiService
 import dagger.Module

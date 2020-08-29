@@ -81,6 +81,12 @@ public class RxApiManager implements RxActionManager<Object> {
     }
   }
 
+  public <Data> void subscribeApi(Single<Response<BaseResponse<Data>>> single,
+      BaseApiObserver<Data> observer) {
+    subscribeApi(single, new HttpResponseFunction<>(), new ExceptionFunction<>(),
+        null, observer);
+  }
+
   /**
    * @param single
    * @param autoDisposeConverter

@@ -1,11 +1,12 @@
 package com.llj.login.component
 
 import android.content.Context
+import com.llj.application.AppApplication
+import com.llj.application.di.IModule
 import com.llj.component.service.IInject
-import com.llj.component.service.IModule
 import com.llj.component.service.IService
 import com.llj.component.service.MiddleApplication
-import com.llj.login.DaggerLoginComponent
+import com.llj.login.di.DaggerLoginComponent
 
 /**
  * ArchitectureDemo.
@@ -17,7 +18,7 @@ class LoginService : IService, IModule {
     private lateinit var mComponent: IInject
 
     override fun init(context: Context) {
-        if (context is MiddleApplication) {
+        if (context is AppApplication) {
             initComponent(context)
         }
     }
@@ -26,9 +27,9 @@ class LoginService : IService, IModule {
         innerCall(context, action, IService.sMap)
     }
 
-    override fun initComponent(application: MiddleApplication) {
+    override fun initComponent(application: AppApplication) {
         mComponent = DaggerLoginComponent.builder()
-                .middleComponent(application.mMiddleComponent)
+                .appComponent(application.mAppComponent)
                 .build()
     }
 

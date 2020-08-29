@@ -21,7 +21,7 @@ public class PermissionManager {
     public static void checkCalendar(Context context, PermissionListener listener) {
         AndPermission.with(context)
                 .runtime()
-                .permission(Permission.Group.CALENDAR)
+                .permission(Permission.READ_CALENDAR, Permission.WRITE_CALENDAR)
                 .rationale(new RuntimeRationale())
                 .onGranted(permissions -> {
                     if (listener != null) {
@@ -41,7 +41,7 @@ public class PermissionManager {
     public static void checkCamera(Context context, PermissionListener listener) {
         AndPermission.with(context)
                 .runtime()
-                .permission(Permission.Group.CAMERA)
+                .permission(Permission.CAMERA)
                 .rationale(new RuntimeRationale())
                 .onGranted(permissions -> {
                     if (PermissionUtils.hasCameraPermissions(context)) {
@@ -65,7 +65,7 @@ public class PermissionManager {
     public static void checkStorage(Context context, PermissionListener listener) {
         AndPermission.with(context)
                 .runtime()
-                .permission(Permission.Group.STORAGE)
+                .permission(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
                 .rationale(new RuntimeRationale())
                 .onGranted(permissions -> {
                     if (listener != null) {
@@ -109,7 +109,7 @@ public class PermissionManager {
     public static void checkContacts(Context context, PermissionListener listener) {
         AndPermission.with(context)
                 .runtime()
-                .permission(Permission.Group.CONTACTS)
+                .permission(Permission.READ_CONTACTS, Permission.WRITE_CONTACTS, Permission.GET_ACCOUNTS)
                 .rationale(new RuntimeRationale())
                 .onGranted(permissions -> {
                     if (listener != null) {
@@ -129,7 +129,8 @@ public class PermissionManager {
     public static void checkLocation(Context context, PermissionListener listener) {
         AndPermission.with(context)
                 .runtime()
-                .permission(Permission.Group.LOCATION)
+                .permission(Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION,
+                    Permission.ACCESS_BACKGROUND_LOCATION)
                 .rationale(new RuntimeRationale())
                 .onGranted(permissions -> {
                     if (listener != null) {
@@ -149,7 +150,7 @@ public class PermissionManager {
     public static void checkRecordAudio(Context context, PermissionListener listener) {
         AndPermission.with(context)
                 .runtime()
-                .permission(Permission.Group.MICROPHONE)
+                .permission(Permission.RECORD_AUDIO)
                 .rationale(new RuntimeRationale())
                 .onGranted(permissions -> {
                     if (listener != null) {
@@ -169,7 +170,12 @@ public class PermissionManager {
     public static void checkPhoneState(Context context, PermissionListener listener) {
         AndPermission.with(context)
                 .runtime()
-                .permission(Permission.Group.PHONE)
+                .permission(Permission.READ_PHONE_STATE,
+                    Permission.CALL_PHONE,
+                    Permission.USE_SIP,
+                    Permission.READ_PHONE_NUMBERS,
+                    Permission.ANSWER_PHONE_CALLS,
+                    Permission.ADD_VOICEMAIL)
                 .rationale(new RuntimeRationale())
                 .onGranted(permissions -> {
                     if (listener != null) {
@@ -208,7 +214,7 @@ public class PermissionManager {
     public static void checkSensors(Context context, PermissionListener listener) {
         AndPermission.with(context)
                 .runtime()
-                .permission(Permission.Group.SENSORS)
+                .permission(Permission.BODY_SENSORS)
                 .rationale(new RuntimeRationale())
                 .onGranted(permissions -> {
                     if (listener != null) {

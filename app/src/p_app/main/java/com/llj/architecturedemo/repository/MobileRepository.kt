@@ -3,13 +3,13 @@ package com.llj.architecturedemo.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.llj.architecturedemo.AppScope
 import com.llj.architecturedemo.api.TestApiService
 import com.llj.architecturedemo.db.dao.MobileDao
 import com.llj.architecturedemo.db.entity.MobileEntity
+import com.llj.architecturedemo.di.MainScope
 import com.llj.lib.base.mvp.BaseRepository
-import com.llj.lib.base.mvp.IBaseActivityView
 import com.llj.lib.base.net.NetworkBoundResource
+import com.llj.lib.base.utils.AppExecutors
 import com.llj.lib.net.response.BaseResponse
 import com.llj.lib.net.response.IResponse
 import io.reactivex.Single
@@ -19,19 +19,20 @@ import javax.inject.Inject
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/6/6
+ * @author liulj
+ * @date 2018/6/6
  */
-@AppScope
-class MobileRepository : BaseRepository {
+@MainScope
+class MobileRepository @Inject constructor(
+    private val mMobileDao: MobileDao,
+    private val mApiService: TestApiService,
+    private val mAppExecutors: AppExecutors,
+) : BaseRepository() {
 
-  private val mMobileDao: MobileDao
-  private val mApiService: TestApiService
+  private val result: MediatorLiveData<String>
+  private val testLive: MutableLiveData<String>
 
-  @Inject
-  constructor(mMobileDao: MobileDao, mApiService: TestApiService) : super() {
-    this.mMobileDao = mMobileDao
-    this.mApiService = mApiService
+  init {
     this.result = MediatorLiveData<String>()
     this.testLive = MutableLiveData<String>()
   }
@@ -47,43 +48,31 @@ class MobileRepository : BaseRepository {
     return mMobileMutableLiveData
   }
 
-  fun getMobile(phone: String, view: IBaseActivityView): LiveData<IResponse<MobileEntity>> {
-
-    return object : NetworkBoundResource<MobileEntity>() {
-
-      override fun loadFromDb(): LiveData<MobileEntity> {
+  fun getMobile(phone: String, requestId: Int): LiveData<IResponse<MobileEntity?>?> {
+    return object : NetworkBoundResource<MobileEntity>(mAppExecutors) {
+      override fun loadFromDb(): LiveData<MobileEntity?> {
         return mMobileDao.selectMobileByPhone("1318888")
       }
 
       //一般是用activity里设置的hashcode，也可以单独设置
-      override fun tag(): Any {
-        return view.getRequestId()
+      override fun requestId(): Int {
+        return requestId
       }
 
-      override fun shouldFetch(mobileEntity: MobileEntity?): Boolean {
-        return mobileEntity == null
+      override fun shouldFetch(dbResult: MobileEntity?): Boolean {
+        return dbResult == null
       }
 
-      override fun view(): IBaseActivityView {
-        return view
-      }
-
-      override fun createCall(): Single<Response<BaseResponse<MobileEntity>>> {
+      override fun createCall(): Single<Response<BaseResponse<MobileEntity?>?>> {
         return mApiService.getMobile(phone)
       }
 
-      override fun saveCallResult(item: MobileEntity) {
-        mMobileDao.insert(item)
+      override fun saveCallResult(netResult: MobileEntity) {
+        mMobileDao.insert(netResult)
       }
-
-      override fun onFetchFailed() {
-        super.onFetchFailed()
-      }
-
     }.asLiveData()
   }
 
-  private val result: MediatorLiveData<String>
 
   fun setQuery(originalInput: String) {
     result.removeSource(testLive)
@@ -98,7 +87,6 @@ class MobileRepository : BaseRepository {
     testLive.value = "test1" //注意这里和remove就是使用双层嵌套的原因
   }
 
-  private val testLive: MutableLiveData<String>
 
   fun getResult(): LiveData<String> {
     return result

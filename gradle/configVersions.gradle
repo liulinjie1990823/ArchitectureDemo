@@ -10,36 +10,32 @@ if (project.name != project.rootProject.name) {
 println("Custome Configure configVersions.gradle")
 
 def versions = [
-        kotlin          : "1.3.72",
-        walle           : "1.1.6",
+        kotlin       : "1.4.0",
+        walle        : "1.1.7",
 
-        lifecycle       : "2.2.0",
-        room            : "2.2.5",
+        lifecycle    : "2.2.0",
+        room         : "2.2.5",
 
-        dagger          : "2.27",
-        autodispose     : "1.0.0-RC2",
+        dagger       : "2.28.3",
+        dagger_hilt       : "2.28-alpha",
+        autodispose  : "1.4.0",
 
-        arouter_api     : "1.5.0",
-        arouter_compiler: "1.2.2",
-        butterknife     : "10.2.1",
+        butterknife  : "10.2.3",
 
-        retrofit2       : "2.8.1",
-        okhttp          : "4.7.2",
-        fresco          : "2.2.0",
+        retrofit2    : "2.9.0",
+        okhttp       : "4.8.1",
+        fresco       : "2.3.0",
 
-        smartrefresh    : "1.1.0-alpha-16",
-        skin            : "4.0.4",
+        smartrefresh : "1.1.3",
+        skin         : "4.0.5",
 
-        auto_value      : "1.6.2",
+        auto_value   : "1.6.2",
 
-        stetho          : "1.5.1",
-        leakcanary      : "2.3",
+        stetho       : "1.5.1",
+        leakcanary   : "2.4",
 
-        timber          : "4.7.1",
-
-        mockwebserver   : "3.8.1",
-        glide           : "4.11.0",
-        socialization   : "2.0.14",
+        glide        : "4.11.0",
+        socialization: "2.0.14",
 ]
 
 ext {
@@ -73,27 +69,38 @@ ext {
 
             //支持库
             //https://developer.android.com/jetpack/androidx/releases/activity
-            activity                          : "androidx.activity:activity:1.1.0",
             annotations                       : "androidx.annotation:annotation:1.1.0",
             appcompat                         : "androidx.appcompat:appcompat:1.1.0",
+            activity                          : "androidx.activity:activity:1.1.0",
+            fragment                          : "androidx.fragment:fragment:1.2.5",
             arch_common                       : "androidx.arch.core:core-common:2.1.0",
             arch_runtime                      : "androidx.arch.core:core-runtime:2.1.0",
-            androidx_core                     : "androidx.core:core:1.2.0",
-            fragment                          : "androidx.fragment:fragment:1.2.4",
+            androidx_core                     : "androidx.core:core:1.3.0",
 
-            //lifecycle
+            // lifecycle
             lifecycle_common                  : "androidx.lifecycle:lifecycle-common:$versions.lifecycle",
-            lifecycle_runtime                 : "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle",
-            lifecycle_service                 : "androidx.lifecycle:lifecycle-service:$versions.lifecycle",
-            lifecycle_java8                   : "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle",
-            lifecycle_compiler                : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
+            // ViewModel
             lifecycle_viewmodel               : "androidx.lifecycle:lifecycle-viewmodel:$versions.lifecycle",
+            // Saved state module for ViewModel
             lifecycle_viewmodel_savedstate    : "androidx.lifecycle:lifecycle-viewmodel-savedstate:$versions.lifecycle",
+            // LiveData
             lifecycle_livedata                : "androidx.lifecycle:lifecycle-livedata:$versions.lifecycle",
+            // Lifecycles only (without ViewModel or LiveData)
+            lifecycle_runtime                 : "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle",
+            // Annotation processor
+            lifecycle_compiler                : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
+            // alternately - if using Java8, use the following instead of lifecycle-compiler
+            lifecycle_java8                   : "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle",
+            // optional - helpers for implementing LifecycleOwner in a Service
+            lifecycle_service                 : "androidx.lifecycle:lifecycle-service:$versions.lifecycle",
+            // optional - ReactiveStreams support for LiveData
+            lifecycle_reactivestreams         : "androidx.lifecycle:lifecycle-reactivestreams:$versions.lifecycle",
+            // optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
             lifecycle_process                 : "androidx.lifecycle:lifecycle-process:$versions.lifecycle",
             legacy_support_v4                 : "androidx.legacy:legacy-support-v4:1.0.0",
 
             work_runtime                      : "androidx.work:work-runtime:2.3.4",
+            work_runtime_ktx                  : "androidx.work:work-runtime-ktx:2.3.4",
             localbroadcastmanager             : "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0",
             //分包
             multidex                          : "androidx.multidex:multidex:2.0.1",
@@ -101,15 +108,15 @@ ext {
 
 
             //ui
-            constraint_layout                 : "androidx.constraintlayout:constraintlayout:2.0.0-beta6",//约束布局
+            constraint_layout                 : "androidx.constraintlayout:constraintlayout:2.0.1",//约束布局
             recyclerview                      : "androidx.recyclerview:recyclerview:1.1.0",
             recyclerview_selection            : "androidx.recyclerview:recyclerview-selection:1.1.0",
             viewpager                         : "androidx.viewpager:viewpager:1.0.0",
             viewpager2                        : "androidx.viewpager2:viewpager2:1.0.0",
             cardview                          : "androidx.cardview:cardview:1.0.0",
             coordinatorlayout                 : "androidx.coordinatorlayout:coordinatorlayout:1.1.0",
-            drawerlayout                      : "androidx.drawerlayout:drawerlayout:1.0.0",
-            slidingpanelayout                 : "androidx.slidingpanelayout:slidingpanelayout:1.0.0",
+            drawerlayout                      : "androidx.drawerlayout:drawerlayout:1.1.0",
+            slidingpanelayout                 : "androidx.slidingpanelayout:slidingpanelayout:1.1.0",
             transition                        : "androidx.transition:transition:1.3.1",
 
             //room
@@ -123,17 +130,21 @@ ext {
             dbflow_core                       : "com.github.Raizlabs.DBFlow:dbflow-core::$versions.dbflow",
 
             //权限
-            permission                        : "com.yanzhenjie.permission:support:2.0.1",
+            permission                        : "com.yanzhenjie:permission:2.0.3",
 
             //框架
+            //https://github.com/google/dagger
             dagger                            : "com.google.dagger:dagger:$versions.dagger",
             dagger_compiler                   : "com.google.dagger:dagger-compiler:$versions.dagger",
             dagger_android                    : "com.google.dagger:dagger-android:$versions.dagger",
-            dagger_android_compiler           : "com.google.dagger:dagger-android-processor:$versions.dagger",
             dagger_android_support            : "com.google.dagger:dagger-android-support:$versions.dagger",
+            dagger_android_compiler           : "com.google.dagger:dagger-android-processor:$versions.dagger",
+            dagger_hilt                       : "com.google.dagger:hilt-android:$versions.dagger_hilt",
+            dagger_hilt_compiler             : "com.google.dagger:hilt-android-compiler:$versions.dagger_hilt",
 
 
-            rxjava2                           : "io.reactivex.rxjava2:rxjava:2.2.14",
+            //https://github.com/ReactiveX/RxJava
+            rxjava2                           : "io.reactivex.rxjava2:rxjava:2.2.19",
             rxandroid                         : "io.reactivex.rxjava2:rxandroid:2.1.1",
 
             autodispose                       : "com.uber.autodispose:autodispose:$versions.autodispose",
@@ -141,31 +152,37 @@ ext {
             autodispose_android_archcomponents: "com.uber.autodispose:autodispose-android-archcomponents:$versions.autodispose",
 
             //页面路由
-            arouter_api                       : "com.alibaba:arouter-api:$versions.arouter_api",
-            arouter_compiler                  : "com.alibaba:arouter-compiler:$versions.arouter_compiler",
+            //https://github.com/alibaba/ARouter
+            arouter_api                       : "com.alibaba:arouter-api:1.5.0",
+            arouter_compiler                  : "com.alibaba:arouter-compiler:1.2.2",
 
             //注解
+            //https://github.com/JakeWharton/butterknife
             butterknife                       : "com.jakewharton:butterknife:$versions.butterknife",
             butterknife_compiler              : "com.jakewharton:butterknife-compiler:$versions.butterknife",
 
             //事件
+            //https://github.com/greenrobot/EventBus
             eventbus                          : "org.greenrobot:eventbus:3.2.0",
 
             //网络
+            //https://github.com/square/retrofit
             retrofit2                         : "com.squareup.retrofit2:retrofit:$versions.retrofit2",
             retrofit2_gson                    : "com.squareup.retrofit2:converter-gson:$versions.retrofit2",
             retrofit2_adapter_rxjava2         : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit2",
             retrofit2_adapter_rxjava          : "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit2",
+            //https://github.com/square/okhttp
             okhttp                            : "com.squareup.okhttp3:okhttp:$versions.okhttp",
             okhttp_logging_interceptor        : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
-            okhttp_mock_web_server            : "com.squareup.okhttp3:mockwebserver:$versions.mockwebserver",
 
-            gson                              : "com.google.code.gson:gson:2.8.5",
+            //https://github.com/google/gson
+            gson                              : "com.google.code.gson:gson:2.8.6",
             fastjson                          : "com.alibaba:fastjson:1.1.70.android",
             bolts                             : "com.parse.bolts:bolts-tasks:1.4.0",
             PersistentCookieJar               : "com.github.franmontiel:PersistentCookieJar:v1.0.1",
 
             //图片加载
+            //https://github.com/facebook/fresco
             fresco                            : "com.facebook.fresco:fresco:$versions.fresco",
             fresco_animated_gif               : "com.facebook.fresco:animated-gif:$versions.fresco",
             fresco_animated_webp              : "com.facebook.fresco:animated-webp:$versions.fresco",
@@ -173,6 +190,7 @@ ext {
             fresco_imagepipeline_okhttp3      : "com.facebook.fresco:imagepipeline-okhttp3:$versions.fresco",
 
             //监控内存泄露
+            //https://github.com/square/leakcanary
             leakcanary_android                : "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary",
             leakcanary_android_no_op          : "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3",
             //测试
@@ -222,7 +240,7 @@ ext {
             //ui
             SmartRefreshLayout                : "com.scwang.smartrefresh:SmartRefreshLayout:$versions.smartrefresh",//下拉刷新
             SmartRefreshHeader                : "com.scwang.smartrefresh:SmartRefreshHeader:$versions.smartrefresh",
-            vlayout                           : "com.alibaba.android:vlayout:1.2.31",//列表
+            vlayout                           : "com.alibaba.android:vlayout:1.2.36",//列表
             ChipsLayoutManager                : "com.beloo.widget:ChipsLayoutManager:0.3.7@aar",//tags
             MagicIndicator                    : "com.github.hackware1993:MagicIndicator:1.6.0",//tab
             AutoScrollViewPager               : "com.github.demoNo:AutoScrollViewPager:v1.0.2",//轮播

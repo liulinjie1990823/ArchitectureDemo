@@ -1,11 +1,13 @@
 package com.llj.architecturedemo.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.internal.DebouncingOnClickListener;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.vo.Cat;
@@ -20,7 +22,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * ArchitectureDemo. describe: author llj date 2019/1/8
  */
-@Jump(outPath = CJump.CIW_EVENT_ACTIVITY, inPath = CRouter.APP_EVENT_ACTIVITY, desc = "EventActivity")
+@Jump(outPath = CJump.CIW_EVENT_ACTIVITY, inPath = CRouter.APP_EVENT_ACTIVITY, desc =
+    "EventActivity")
 @Route(path = CRouter.APP_EVENT_ACTIVITY)
 public class EventActivity extends AppMvcBaseActivity {
 
@@ -47,6 +50,10 @@ public class EventActivity extends AppMvcBaseActivity {
     });
 
     JniTest jniTest = new JniTest();
+    ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
+        .withTransition(R.anim.fade_in, R.anim.no_fade)
+        .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        .navigation(mContext);
 
     mTextView.setText(jniTest.stringFromJNI());
 

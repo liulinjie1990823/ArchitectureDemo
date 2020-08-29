@@ -6,11 +6,15 @@ import android.os.Bundle
 import androidx.multidex.MultiDex
 import com.billy.cc.core.component.CC
 import com.didichuxing.doraemonkit.DoraemonKit
-import com.llj.component.service.IModule
+import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher
+import com.llj.application.di.AppComponent
+import com.llj.application.di.DaggerAppComponent
+import com.llj.application.di.IModule
 import com.llj.component.service.MiddleApplication
 import com.llj.component.service.arouter.CJump
 import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.AppManager
+import com.llj.lib.base.MvcBaseActivity
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.base.config.JumpConfig
@@ -19,6 +23,7 @@ import com.llj.lib.base.config.UserInfoConfig
 import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
 import com.llj.lib.image.loader.ImageLoader
 import com.llj.lib.image.loader.engine.fresco.FrescoEngine
+import com.llj.lib.image.loader.engine.fresco.FrescoUtils
 import com.llj.lib.jump.api.JumpHelp
 import com.llj.lib.statusbar.LightStatusBarCompat
 import com.llj.lib.statusbar.StatusBarCompat
@@ -39,10 +44,12 @@ import timber.log.Timber
 /**
  * ArchitectureDemo
  * describe:
- * author llj
- * date 2018/5/18
+ * @author llj
+ * @date 2018/5/18
  */
 open class AppApplication : MiddleApplication() {
+
+  lateinit var mAppComponent: AppComponent
 
   override fun initStrictMode() {
   }
@@ -53,6 +60,10 @@ open class AppApplication : MiddleApplication() {
   }
 
   override fun onCreate() {
+    mAppComponent = DaggerAppComponent.builder()
+        .application(this)
+        .build()
+
     //设置共用的toolbar
     val toolbarConfig = ToolbarConfig()
     toolbarConfig.leftImageRes = R.drawable.service_icon_back
@@ -78,7 +89,6 @@ open class AppApplication : MiddleApplication() {
         if (s != null && s.startsWith(webViewConfig.scheme)) {
 
         }
-
         return false
       }
     }
@@ -121,11 +131,12 @@ open class AppApplication : MiddleApplication() {
         if ("MainActivity" == simpleName) {
           //status和界面中的布局覆盖布局，界面中加了fitWindow,有padding效果，覆盖白字
           StatusBarCompat.translucentStatusBar(activity.window, true)
-          LightStatusBarCompat.setLightStatusBar(activity.window, true)
+          LightStatusBarCompat.setLightStatusBar(activity.window, false)
         } else if (simpleName != "KeyboardStateActivity") {
           //status和界面中的布局线性布局，白低黑字
           StatusBarCompat.translucentStatusBar(activity.window, true)
           LightStatusBarCompat.setLightStatusBar(activity.window, true)
+
         }
       }
     })
@@ -135,6 +146,7 @@ open class AppApplication : MiddleApplication() {
 
   override fun initImageLoader() {
     super.initImageLoader()
+    FrescoUtils.initFresco(this.applicationContext, OkHttpNetworkFetcher(mAppComponent.okHttpClient()));
     //图片加载引擎
     ImageLoader.addImageLoadEngine(0, FrescoEngine())
   }
@@ -142,25 +154,31 @@ open class AppApplication : MiddleApplication() {
   override fun androidInjector(): AndroidInjector<Any> {
     return object : AndroidInjector<Any> {
       override fun inject(data: Any?) {
-        if (data is MvpBaseActivity<*, *>) {
-          val mvpBaseActivity = data
-
-          //调用IModule中的对应action
-          CC.obtainBuilder(mvpBaseActivity.getModuleName())
-              .setContext(mvpBaseActivity)
-              .setActionName(IModule.INJECT_ACTIVITY)
-              .build()
-              .call()
-        } else {
-          val mvpBaseFragment = data as MvpBaseFragment<*, *>
-
-          //调用IModule中的对应action
-          CC.obtainBuilder(mvpBaseFragment.getModuleName())
-              .setContext(mvpBaseFragment.context)
-              .addParam("fragment", mvpBaseFragment.tag)
-              .setActionName(IModule.INJECT_FRAGMENT)
-              .build()
-              .call()
+        when (data) {
+          is MvpBaseActivity<*, *> -> {
+            //调用IModule中的对应action
+            CC.obtainBuilder(data.getModuleName())
+                .setContext(data)
+                .setActionName(IModule.INJECT_ACTIVITY)
+                .build()
+                .call()
+          }
+          is MvcBaseActivity<*> -> {
+            //调用IModule中的对应action
+            CC.obtainBuilder(data.getModuleName())
+                .setContext(data)
+                .setActionName(IModule.INJECT_ACTIVITY)
+                .build()
+                .call()
+          }
+          is MvpBaseFragment<*, *> -> {
+            //调用IModule中的对应action
+            CC.obtainBuilder(data.getModuleName())
+                .setContext(data.context)
+                .setActionName(IModule.INJECT_ACTIVITY)
+                .build()
+                .call()
+          }
         }
       }
     }

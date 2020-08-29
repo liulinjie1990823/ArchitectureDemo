@@ -1,9 +1,11 @@
-package com.llj.component.service
+package com.llj.application.di
 
 import android.app.Activity
 import android.content.Context
 import android.util.ArrayMap
 import com.billy.cc.core.component.CC
+import com.llj.application.AppApplication
+import com.llj.component.service.IInject
 
 /**
  * ArchitectureDemo.
@@ -19,7 +21,7 @@ interface IModule {
         const val INJECT_FRAGMENT = "injectFragment"
     }
 
-    fun initComponent(application: MiddleApplication)
+    fun initComponent(application: AppApplication)
 
     fun getComponent(): IInject
 
@@ -33,8 +35,8 @@ interface IModule {
     //cc实现
     fun innerCall(cc: CC): Boolean {
         if (INIT == cc.actionName) {
-            if (cc.context is MiddleApplication) {
-                initComponent(cc.context as MiddleApplication)
+            if (cc.context is AppApplication) {
+                initComponent(cc.context as AppApplication)
             }
         } else if (INJECT_ACTIVITY == cc.actionName) {
             val activity = cc.context as Activity
@@ -56,7 +58,7 @@ interface IModule {
     //ARouter实现
     fun innerCall(context: Context, action: String, map: ArrayMap<String, String>): Boolean {
         if (INIT == action) {
-            if (context is MiddleApplication) {
+            if (context is AppApplication) {
                 initComponent(context)
             }
         } else if (INJECT_ACTIVITY == action) {

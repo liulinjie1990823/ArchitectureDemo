@@ -80,12 +80,14 @@ subprojects {
             }
         }
         //android-plugin升级后统一使用novoda-bintray来打包，之前的和插件有冲突
-//        apply from: rootProject.file('gradle/novoda-bintray.gradle')
-        if (useOld) {
-            //打包本地
-            apply from: rootProject.file('gradle/uploadArchives.gradle')
-            //上传bintray
-            apply from: rootProject.file('gradle/bintrayUpload.gradle')
+        if (!useNew && !useOld) {
+            apply from: rootProject.file('gradle/novoda-bintray.gradle')
         }
+//        if (useOld) {
+//            //打包本地
+//            apply from: rootProject.file('gradle/uploadArchives.gradle')
+//            //上传bintray
+//            apply from: rootProject.file('gradle/bintrayUpload.gradle')
+//        }
     }
 }

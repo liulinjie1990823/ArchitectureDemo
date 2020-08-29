@@ -37,7 +37,7 @@ public class LoginPresenter extends BaseActivityPresenter<LoginRepository, IBase
     //mLoginPresenter = new LoginPresenter_Helper(repository);
   }
 
-  @Presenter(object = UserInfoVo.class, showLoading = true, exceptionId = 1)
+  //@Presenter(object = UserInfoVo.class, showLoading = true, exceptionId = 1)
   public void accountLogin(boolean showLoading, int requestId, ILoginView.PhoneLogin view) {
     if (view == null) {
       return;
@@ -58,7 +58,7 @@ public class LoginPresenter extends BaseActivityPresenter<LoginRepository, IBase
       single = single.doOnSubscribe(view).doFinally(view);
     }
     //Observer
-    BaseApiObserver<UserInfoVo> baseApiObserver = new BaseApiObserver<UserInfoVo>(view) {
+    BaseApiObserver<UserInfoVo> baseApiObserver = new BaseApiObserver<UserInfoVo>(view.hashCode()) {
 
       @Override
       public void onSubscribe(@NotNull Disposable d) {
@@ -121,7 +121,7 @@ public class LoginPresenter extends BaseActivityPresenter<LoginRepository, IBase
     Single<Response<BaseResponse<UserInfoVo>>> single = getRepository().phoneLogin(param);
 
     //Observer
-    BaseApiObserver<UserInfoVo> baseApiObserver = new BaseApiObserver<UserInfoVo>(view) {
+    BaseApiObserver<UserInfoVo> baseApiObserver = new BaseApiObserver<UserInfoVo>(view.hashCode()) {
 
       @Override
       public void onSubscribe(@NotNull Disposable d) {

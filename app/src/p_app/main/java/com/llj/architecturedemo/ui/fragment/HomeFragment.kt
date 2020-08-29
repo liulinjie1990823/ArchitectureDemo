@@ -94,7 +94,9 @@ class HomeFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scro
       Log.e("onBindViewHolder", position.toString())
 
       val textView = viewHolder.getView<TextView>(R.id.tv_text)
-      setText(textView, position.toString() + "  " + item.text)
+      val num = viewHolder.getView<TextView>(R.id.tv_num)
+      setText(num, position.toString())
+      setText(textView, item.text)
 
       viewHolder.itemView.setOnClickListener(object : View.OnClickListener {
         override fun onClick(v: View?) {

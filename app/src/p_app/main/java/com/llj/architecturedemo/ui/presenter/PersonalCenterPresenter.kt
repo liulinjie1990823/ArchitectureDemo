@@ -34,7 +34,7 @@ class PersonalCenterPresenter @Inject constructor(repository: HomeRepository, vi
         if (isShowDialog) single = single.doOnSubscribe(view).doFinally(view)
 
         //Observer
-        val baseApiObserver = object : BaseApiObserver<String?>(view?.getLoadingDialog()) {
+        val baseApiObserver = object : BaseApiObserver<String?>(view!!.hashCode()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
@@ -66,7 +66,7 @@ class PersonalCenterPresenter @Inject constructor(repository: HomeRepository, vi
         if (isShowDialog) single = single.doOnSubscribe(view).doFinally(view)
 
         //Observer
-        val baseApiObserver = object : BaseApiObserver<PersonalCenterVo?>(view?.getLoadingDialog()) {
+        val baseApiObserver = object : BaseApiObserver<PersonalCenterVo?>(view!!.hashCode()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
@@ -98,7 +98,7 @@ class PersonalCenterPresenter @Inject constructor(repository: HomeRepository, vi
         if (isShowDialog) single = single.doOnSubscribe(view).doFinally(view)
 
         //Observer
-        val baseApiObserver = object : BaseApiObserver<PersonalCenterCountVo?>(view?.getLoadingDialog()) {
+        val baseApiObserver = object : BaseApiObserver<PersonalCenterCountVo?>(view!!.hashCode()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)

@@ -87,7 +87,7 @@ public class SettingPresenter extends BaseActivityPresenter<SettingRepository, I
             getMobileInfo = getMobileInfo.doOnSubscribe(view).doFinally(view);
         }
         //Observer
-        BaseApiObserver<MobileInfoVo> baseApiObserver = new BaseApiObserver<MobileInfoVo>(getView()) {
+        BaseApiObserver<MobileInfoVo> baseApiObserver = new BaseApiObserver<MobileInfoVo>(getView().hashCode()) {
 
             @Override
             public void onSubscribe(@NotNull Disposable d) {

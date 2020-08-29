@@ -34,7 +34,7 @@ abstract class BaseApiObserver<Data> : SingleObserver<BaseResponse<Data>>, IObse
 
     }
 
-    override fun onError(t: Throwable) {}
+    override fun onError(throwable: Throwable) {}
 
 
     override fun setRequestId(taskId: Int) {

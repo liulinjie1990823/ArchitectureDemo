@@ -9,7 +9,6 @@ android {
 dependencies {
 //    implementation project(':flutter')
     implementation deps.multidex
-//    implementation deps.multidex_instrumentation
 
     if (useMaven) {
     } else {

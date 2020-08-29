@@ -8,6 +8,7 @@ import com.idlefish.flutterboost.Platform
 import com.idlefish.flutterboost.Utils
 import com.idlefish.flutterboost.interfaces.INativeRouter
 import com.llj.application.AppApplication
+import com.llj.architecturedemo.di.MainComponent
 import com.llj.architecturedemo.flutter.PageRouter
 import com.llj.architecturedemo.flutter.TextPlatformViewFactory
 import io.flutter.embedding.android.FlutterView
@@ -28,13 +29,14 @@ class MainApp : AppApplication() {
         var TAG="MainApp"
     }
 
-    private lateinit var mAppComponent: AppComponent
+    private lateinit var mMainComponent: MainComponent
     override fun onCreate() {
         super.onCreate()
 
-        mAppComponent = DaggerAppComponent.builder()
-                .middleComponent(mMiddleComponent)
-                .build()
+
+//        mMainComponent = DaggerMainComponent.builder()
+//                .middleComponent(mMiddleComponent)
+//                .build()
 
         //路由,Flutter 启动Native页面的时候回调这里
         val router = INativeRouter { context, url, urlParams, requestCode, exts ->

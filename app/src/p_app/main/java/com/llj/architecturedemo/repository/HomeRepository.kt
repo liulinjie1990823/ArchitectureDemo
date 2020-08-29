@@ -1,7 +1,7 @@
 package com.llj.architecturedemo.repository
 
-import com.llj.architecturedemo.AppScope
 import com.llj.architecturedemo.api.TestApiService
+import com.llj.architecturedemo.di.MainScope
 import com.llj.architecturedemo.ui.model.BabyHomeModuleVo
 import com.llj.architecturedemo.ui.model.PersonalCenterCountVo
 import com.llj.architecturedemo.ui.model.PersonalCenterVo
@@ -19,7 +19,7 @@ import javax.inject.Inject
  * author llj
  * date 2018/10/24
  */
-@AppScope
+@MainScope
 class HomeRepository @Inject constructor(private val mApiService: TestApiService)
   : BaseRepository() {
 

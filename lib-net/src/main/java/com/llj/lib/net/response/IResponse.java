@@ -1,18 +1,27 @@
 package com.llj.lib.net.response;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
- * ArchitectureDemo
- * describe:
- * author liulj
- * date 2018/5/7
+ * describe
+ *
+ * @author liulinjie
+ * @date 2020/8/29 1:44 PM
  */
 public interface IResponse<Data> {
 
-    int getCode();
 
-    String getMessage();
+  @NonNull
+  Status getStatus();
 
-    Data getData();
+  int getCode();
 
-    boolean isOk();
+  @Nullable
+  String getMessage();
+
+  @Nullable
+  Data getData();
+
+  boolean isOk();
 }

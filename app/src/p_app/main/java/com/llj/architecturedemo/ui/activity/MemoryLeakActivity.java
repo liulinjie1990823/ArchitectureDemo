@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.architecturedemo.AppMvcBaseActivity;
 import com.llj.architecturedemo.R;
+import com.llj.architecturedemo.databinding.ActivityMemoryLeakBinding;
 import com.llj.architecturedemo.vo.Animal;
 import com.llj.component.service.arouter.CRouter;
 import com.llj.lib.utils.LogUtil;
@@ -18,7 +19,7 @@ import java.lang.reflect.Method;
  * ArchitectureDemo. describe: author liulj date 2018/7/2
  */
 @Route(path = CRouter.APP_MEMORY_LEAK_ACTIVITY)
-public class MemoryLeakActivity extends AppMvcBaseActivity {
+public class MemoryLeakActivity extends AppMvcBaseActivity<ActivityMemoryLeakBinding> {
 
   public static final String TAG = MemoryLeakActivity.class.getSimpleName();
 
@@ -26,10 +27,6 @@ public class MemoryLeakActivity extends AppMvcBaseActivity {
 
   private Animal mAnimal = new Animal();
 
-  @Override
-  public int layoutId() {
-    return R.layout.activity_memory_leak;
-  }
 
   @Override
   public void initViews(Bundle savedInstanceState) {
@@ -39,7 +36,8 @@ public class MemoryLeakActivity extends AppMvcBaseActivity {
     mHandler.sendEmptyMessageDelayed(1, 100);
 
     //        DynamicProxyHandler dynamicProxyHandler = new DynamicProxyHandler(new RealSubject1());
-    //        Proxy.newProxyInstance(dynamicProxyHandler.getClass().getClassLoader(), dynamicProxyHandler.getClass().getInterfaces(), dynamicProxyHandler);
+    //        Proxy.newProxyInstance(dynamicProxyHandler.getClass().getClassLoader(),
+    //        dynamicProxyHandler.getClass().getInterfaces(), dynamicProxyHandler);
 
   }
 

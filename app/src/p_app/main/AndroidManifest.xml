@@ -77,6 +77,7 @@
     <activity android:name=".ui.activity.AptActivity2" />
     <activity android:name=".ui.activity.RxJava2Activity" />
     <activity android:name=".ui.activity.RequestActivity" />
+    <activity android:name=".ui.activity.MvvmRequestActivity" />
     <activity android:name=".ui.activity.SvgActivity" />
     <activity
       android:name="com.llj.loading.ui.activity.LoadingActivity"
@@ -99,6 +100,7 @@
       android:name=".ui.activity.MainActivity"
       android:launchMode="singleTask"
       android:theme="@style/MyAppTheme.NoActionBar.Tab" />
+
     <activity android:name=".ui.activity.MemoryLeakActivity" />
     <activity android:name="com.llj.loading.ui.activity.GuideActivity" />
     <activity android:name=".ui.activity.JavaTypeActivity" />

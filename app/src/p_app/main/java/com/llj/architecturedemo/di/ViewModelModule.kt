@@ -1,4 +1,4 @@
-package com.llj.architecturedemo
+package com.llj.architecturedemo.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

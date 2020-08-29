@@ -2,10 +2,10 @@ package com.llj.login.component
 
 import com.billy.cc.core.component.CC
 import com.billy.cc.core.component.IComponent
+import com.llj.application.AppApplication
+import com.llj.application.di.IModule
 import com.llj.component.service.IInject
-import com.llj.component.service.IModule
-import com.llj.component.service.MiddleApplication
-import com.llj.login.DaggerLoginComponent
+import com.llj.login.di.DaggerLoginComponent
 
 /**
  * ArchitectureDemo.
@@ -20,10 +20,10 @@ class LoginModule : IComponent, IModule {
         return "app-login"
     }
 
-    override fun initComponent(application: MiddleApplication) {
+    override fun initComponent(application: AppApplication) {
         mComponent = DaggerLoginComponent.builder()
-                .middleComponent(application.mMiddleComponent)
-                .build()
+            .appComponent(application.mAppComponent)
+            .build()
     }
 
     override fun onCall(cc: CC?): Boolean {

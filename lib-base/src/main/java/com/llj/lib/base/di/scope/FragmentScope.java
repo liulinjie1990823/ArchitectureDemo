@@ -7,10 +7,14 @@ import java.lang.annotation.RetentionPolicy;
 import javax.inject.Scope;
 
 /**
- * Created by GLooory on 17/5/15.
+ * describe
+ *
+ * @author liulinjie
+ * @date 2020/8/29 12:12 PM
  */
 @Scope
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FragmentScope {
+
 }

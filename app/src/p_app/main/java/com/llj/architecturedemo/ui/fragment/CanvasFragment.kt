@@ -45,7 +45,7 @@ class CanvasFragment : AppMvcBaseFragment<FragmentCanvasBinding>() {
     super.initViews(savedInstanceState)
     ARouter.getInstance().inject(this);
 
-    mViewBinder!!.root.setOnClickListener(View.OnClickListener {
+    mViewBinder.root.setOnClickListener(View.OnClickListener {
       if (parentFragmentManager.backStackEntryCount > 0) {
         parentFragmentManager.popBackStack();
       } else {

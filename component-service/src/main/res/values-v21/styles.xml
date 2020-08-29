@@ -33,7 +33,7 @@
     <!--loading页面的主题,设置了默认的背景色-->
     <style name="MyAppTheme.NoActionBar.Loading">
         <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/color_F7412D</item>
         <item name="android:windowAnimationStyle">@style/activity_loading</item>
     </style>
 

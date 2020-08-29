@@ -1,5 +1,6 @@
-package com.llj.login
+package com.llj.login.di
 
+import com.llj.application.di.AppComponent
 import com.llj.component.service.IInject
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -14,7 +15,7 @@ import dagger.android.support.AndroidSupportInjectionModule
 @LoginScope
 @Component(
     dependencies = [
-      com.llj.component.service.MiddleComponent::class //依赖库中的Component，可以获得一些字段
+      AppComponent::class //依赖库中的Component，可以获得一些字段
     ],
     modules = [
       AndroidInjectionModule::class,
@@ -24,14 +25,5 @@ import dagger.android.support.AndroidSupportInjectionModule
     ])
 internal interface LoginComponent : IInject {
 
-//    @Component.Builder
-//    interface Builder {
-//
-//        //提供给AppModule中方法中的Application入参用
-//        @BindsInstance
-//        fun application(application: Application): Builder
-//
-//        fun build(): LoginComponent
-//    }
 
 }

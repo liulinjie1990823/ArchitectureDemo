@@ -31,7 +31,7 @@ class MainPresenter @Inject constructor(repository: HomeRepository, view: MainCo
         if (isShowDialog) single = single.doOnSubscribe(view).doFinally(view)
 
         //Observer
-        val baseApiObserver = object : BaseApiObserver<TabListVo?>(view?.getLoadingDialog()) {
+        val baseApiObserver = object : BaseApiObserver<TabListVo?>(view!!.hashCode()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)

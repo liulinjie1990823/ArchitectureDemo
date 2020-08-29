@@ -1,4 +1,4 @@
-package com.llj.setting;
+package com.llj.setting.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

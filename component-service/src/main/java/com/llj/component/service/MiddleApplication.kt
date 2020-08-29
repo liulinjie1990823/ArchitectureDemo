@@ -23,7 +23,7 @@ import skin.support.design.app.SkinMaterialViewInflater
  */
 abstract class MiddleApplication : BaseApplication() {
 
-  lateinit var mMiddleComponent: MiddleComponent
+//  lateinit var mMiddleComponent: MiddleComponent
 
   companion object {
     lateinit var mUserInfoVo: UserInfoVo //用户信息
@@ -44,9 +44,9 @@ abstract class MiddleApplication : BaseApplication() {
         .setSkinWindowBackgroundEnable(false)                   // 关闭windowBackground换肤，默认打开[可选]
         .loadSkin()
 
-    mMiddleComponent = DaggerMiddleComponent.builder()
-        .application(this)
-        .build()
+//    mMiddleComponent = DaggerMiddleComponent.builder()
+//        .application(this)
+//        .build()
 
     //页面路由
     if (isDebug()) {   // These two lines must be written before init, otherwise these configurations will be invalid in the init process
@@ -78,7 +78,7 @@ abstract class MiddleApplication : BaseApplication() {
   }
 
   override fun initImageLoader() {
-    FrescoUtils.initFresco(this.applicationContext, OkHttpNetworkFetcher(mMiddleComponent.okHttpClient()));
+
   }
 
   override fun initCrashHandler() {

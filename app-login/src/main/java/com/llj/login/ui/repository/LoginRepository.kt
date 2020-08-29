@@ -3,8 +3,8 @@ package com.llj.login.ui.repository
 import com.llj.component.service.vo.UserInfoVo
 import com.llj.lib.base.mvp.BaseRepository
 import com.llj.lib.net.response.BaseResponse
-import com.llj.login.LoginScope
 import com.llj.login.api.LoginApiService
+import com.llj.login.di.LoginScope
 import com.llj.login.ui.model.MobileInfoVo
 import io.reactivex.Single
 import retrofit2.Response
@@ -14,14 +14,12 @@ import javax.inject.Inject
 /**
  * ArchitectureDemo.
  * describe:
- * author llj
- * date 2018/9/18
+ * @author llj
+ * @date 2018/9/18
  */
 @LoginScope
 class LoginRepository : BaseRepository {
-
   val mApiService: LoginApiService
-
   @Inject
   constructor(mApiService: LoginApiService) : super() {
     this.mApiService = mApiService

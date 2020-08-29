@@ -52,7 +52,7 @@ class PhoneLoginPresenter @Inject constructor(mRepository: LoginRepository, mVie
             getMobileInfo = getMobileInfo.doOnSubscribe(view).doFinally(view)
         }
         //Observer
-        val baseApiObserver = object : BaseApiObserver<MobileInfoVo>(view?.getLoadingDialog()) {
+        val baseApiObserver = object : BaseApiObserver<MobileInfoVo>(view!!.hashCode()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
@@ -79,7 +79,7 @@ class PhoneLoginPresenter @Inject constructor(mRepository: LoginRepository, mVie
 
     private fun subscribeLogin(single: Single<Response<BaseResponse<UserInfoVo>>>) {
         //Observer
-        val baseApiObserver = object : BaseApiObserver<UserInfoVo>(view?.getLoadingDialog()) {
+        val baseApiObserver = object : BaseApiObserver<UserInfoVo>(view!!.hashCode()) {
 
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)

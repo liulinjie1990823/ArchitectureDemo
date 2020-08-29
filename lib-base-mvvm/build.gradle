@@ -9,6 +9,8 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation 'androidx.fragment:fragment-ktx:1.2.5'
     if (useMaven) {
         api deps.base
         implementation deps.net

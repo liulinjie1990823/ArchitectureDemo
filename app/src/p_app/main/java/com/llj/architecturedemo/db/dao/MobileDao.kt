@@ -24,5 +24,5 @@ interface MobileDao {
     fun selectMobile(id: String): LiveData<MobileEntity>
 
     @Query("SELECT * FROM mobile WHERE phone=:phone")
-    fun selectMobileByPhone(phone: String): LiveData<MobileEntity>
+    fun selectMobileByPhone(phone: String): LiveData<MobileEntity?>
 }

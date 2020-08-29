@@ -2,10 +2,11 @@ package com.llj.setting.component
 
 import com.billy.cc.core.component.CC
 import com.billy.cc.core.component.IComponent
+import com.llj.application.AppApplication
+import com.llj.application.di.IModule
 import com.llj.component.service.IInject
-import com.llj.component.service.IModule
 import com.llj.component.service.MiddleApplication
-import com.llj.setting.DaggerSettingComponent
+import com.llj.setting.di.DaggerSettingComponent
 
 /**
  * ArchitectureDemo.
@@ -44,26 +45,26 @@ import com.llj.setting.DaggerSettingComponent
  * date 2019/3/25
  */
 class SettingModule : IComponent, IModule {
-    private var mComponent: IInject? = null
-    override fun getName(): String {
-        return "app-setting"
-    }
+  private var mComponent: IInject? = null
+  override fun getName(): String {
+    return "app-setting"
+  }
 
-    override fun initComponent(application: MiddleApplication) {
-        mComponent = DaggerSettingComponent.builder()
-                .middleComponent(application.mMiddleComponent)
-                .build()
-    }
+  override fun initComponent(application: AppApplication) {
+    mComponent = DaggerSettingComponent.builder()
+        .appComponent(application.mAppComponent)
+        .build()
+  }
 
-    override fun onCall(cc: CC?): Boolean {
-        if (cc == null) {
-            return false
-        }
-        return innerCall(cc)
+  override fun onCall(cc: CC?): Boolean {
+    if (cc == null) {
+      return false
     }
+    return innerCall(cc)
+  }
 
-    override fun getComponent(): IInject {
-        return checkComponent(mComponent)
-    }
+  override fun getComponent(): IInject {
+    return checkComponent(mComponent)
+  }
 
 }

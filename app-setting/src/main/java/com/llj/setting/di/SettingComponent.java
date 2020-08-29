@@ -1,5 +1,6 @@
-package com.llj.setting;
+package com.llj.setting.di;
 
+import com.llj.application.di.AppComponent;
 import com.llj.component.service.IInject;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
@@ -10,8 +11,9 @@ import dagger.android.support.AndroidSupportInjectionModule;
  */
 @SettingScope
 @Component(
-    dependencies = {com.llj.component.service.MiddleComponent.class},
-    modules = {AndroidInjectionModule.class,
+    dependencies = {AppComponent.class},
+    modules = {
+        AndroidInjectionModule.class,
         AndroidSupportInjectionModule.class,
         SettingComponentBuilder.class,
         SettingComponentModule.class

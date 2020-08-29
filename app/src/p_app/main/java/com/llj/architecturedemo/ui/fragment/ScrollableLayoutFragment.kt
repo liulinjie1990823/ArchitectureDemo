@@ -95,7 +95,7 @@ class ScrollableLayoutFragment : MiddleMvpBaseFragment<ViewBinding, ScrollableLa
             fun onHeaderReleasing(header: RefreshHeader, percent: Float, offset: Int, bottomHeight: Int, extendHeight: Int) {
 
             }
-        }).setEnableLoadMore(false).setEnableOverScrollDrag(true).setEnableOverScrollBounce(false).isEnabled = true
+        }).setEnableLoadMore(false).setEnableOverScrollDrag(true).setEnableOverScrollBounce(false)
 
         mScrollableLayout.setOnScrollListener(object : ScrollableLayout.OnScrollListener {
             override fun onScroll(currentY: Int, maxY: Int) {

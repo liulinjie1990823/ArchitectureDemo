@@ -8,16 +8,16 @@ buildscript {
     apply from: rootProject.file('gradle/configVersions.gradle')
     //工具类
     apply from: rootProject.file('gradle/utils.gradle')
-    ext {
-        kotlin_version = '1.3.72'
-    }
-    //
+
     addRepos(repositories)
     dependencies {
         //方法数检测
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.2'
+        if (useDexcount) {
+            classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.3'
+        }
         //maven库更新检测
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.28.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.29.0'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
         //android-plugin插件
         if (useNew) {
             classpath deps.android_gradle_plugin_new
@@ -33,15 +33,15 @@ buildscript {
         //butterknife插件
         classpath deps.butterknife_gradle_plugin
         //渠道包插件
-        classpath 'com.meituan.android.walle:plugin:1.1.6'
+        classpath 'com.meituan.android.walle:plugin:1.1.7'
         //上传bintray插件
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
+//        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+//        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         //组件化插件
         classpath 'com.billy.android:cc-register:1.1.2'
         //上传apk插件
         if (useApkUploadPlugin) {
-            classpath 'com.llj:plugin-upload:0.0.14'
+            classpath 'com.llj:plugin-upload:0.0.15'
         }
         //aspectj插件
         if (useAspectjx) {
@@ -58,10 +58,16 @@ buildscript {
         //保存页面字段
         //classpath "io.github.prototypez:save-state:0.2.3"
         //doraemonkit手机调试插件
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.4'
+        if (useDoraemonkit) {
+            classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.2.0'
+        }
         //方法耗时统计
         if (useMethodTrace) {
             classpath "gradle.plugin.cn.cxzheng.methodTracePlugin:tracemanplugin:1.0.4"
+        }
+        //帧统计
+        if (useAndroidDevMetrics) {
+            classpath 'com.frogermcs.androiddevmetrics:androiddevmetrics-plugin:0.7'
         }
         //排除jar中某个类插件
         classpath "com.github.nekocode:JarFilterPlugin:2.4"
@@ -125,15 +131,12 @@ allprojects {
     }
 
     //略过Javadoc中的编码问题
-    if (JavaVersion.current().isJava8Compatible()) {
-        allprojects {
-            tasks.withType(Javadoc) {
-                excludes = ['**/*.kt']
-                options.addStringOption('Xdoclint:none', '-quiet')
-                options.addStringOption('encoding', 'UTF-8')
-                options.addStringOption('charSet', 'UTF-8')
-            }
-        }
+    tasks.withType(Javadoc) {
+        failOnError false
+        excludes = ['**/*.kt']
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+        options.addStringOption('charSet', 'UTF-8')
     }
 }
 

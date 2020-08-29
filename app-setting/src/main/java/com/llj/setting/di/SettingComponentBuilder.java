@@ -1,4 +1,4 @@
-package com.llj.setting;
+package com.llj.setting.di;
 
 import com.llj.lib.base.di.component.BaseActivityComponent;
 import com.llj.lib.base.di.component.BaseFragmentComponent;

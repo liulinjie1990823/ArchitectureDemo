@@ -34,8 +34,8 @@ import java.util.*
 /**
  * ArchitectureDemo.
  * describe:登录界面
- * author llj
- * date 2018/8/22
+ * @author llj
+ * @date 2018/8/22
  */
 @Jump(outPath = CJump.JUMP_LOGIN_ACTIVITY, inPath = CRouter.LOGIN_LOGIN_ACTIVITY, needLogin = true, desc = "LoginActivity")
 @Route(path = CRouter.LOGIN_LOGIN_ACTIVITY)

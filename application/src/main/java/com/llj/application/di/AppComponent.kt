@@ -1,9 +1,15 @@
-package com.llj.architecturedemo
+package com.llj.application.di
 
+import android.app.Application
 import com.llj.component.service.IInject
+import com.llj.lib.base.di.ViewModelBuilder
+import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import javax.inject.Singleton
 
 
 /**
@@ -61,18 +67,14 @@ import dagger.android.support.AndroidSupportInjectionModule
  */
 
 
-@AppScope
+@Singleton
 @Component(
-    dependencies = [
-      com.llj.component.service.MiddleComponent::class
-    ],
     modules = [
+      AppComponentModule::class,//提供对象给AppComponent使用
       AndroidInjectionModule::class,
       AndroidSupportInjectionModule::class,
-      AppComponentBuilder::class, //将所有的Activity和Fragment注册进来
-      AppComponentModule::class//提供对象给AppComponent使用
     ])
-interface AppComponent : IInject {
+interface AppComponent  {
 
   //    @Component.Builder
   //    interface Builder {
@@ -128,5 +130,20 @@ interface AppComponent : IInject {
   //            }
   //        }
   //    }
+
+  @Component.Builder
+  interface Builder {
+
+    //提供给AppModule中方法中的Application入参用
+    @BindsInstance
+    fun application(application: Application): Builder
+
+    fun build(): AppComponent
+  }
+
+  //将ComponentModule中的实例提供出来给依赖的Component使用
+  fun retrofit(): Retrofit
+  fun okHttpClient(): OkHttpClient
+  fun application(): Application
 
 }

@@ -18,6 +18,14 @@ try {
 }
 
 //将根目录下的local.properties文件的属性赋值给根project的ext属性
+
+//获取编译任务的buildType
+ext.buildTypeDebug = false
+if (gradle.startParameter.taskNames.size() != 0) {
+    ext.buildTypeDebug = gradle.startParameter.taskNames.get(0).contains("Debug")
+}
+println("ext.buildTypeDebug:" + ext.buildTypeDebug)
+
 ext.applicationId = properties.getProperty("applicationId")
 
 ext.useComponent = properties.getProperty("useComponent") == "true"
@@ -31,6 +39,7 @@ ext.useOld = properties.getProperty("useOld") == "true"
 ext.useNew = properties.getProperty("useNew") == "true"
 ext.useMethodTrace = properties.getProperty("useMethodTrace") == "true"
 ext.useoOkbuck = properties.getProperty("useoOkbuck") == "true"
+ext.useAndroidDevMetrics = properties.getProperty("useAndroidDevMetrics") == "true"
 ext.useFlutterSrc = properties.getProperty("useFlutterSrc") == "true"
 
 //蒲公英相关秘钥
