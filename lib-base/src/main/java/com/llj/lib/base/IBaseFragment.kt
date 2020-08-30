@@ -8,11 +8,8 @@ import androidx.lifecycle.Lifecycle
  * @author liulj
  * @date 2018/5/24
  */
-interface IBaseFragment : IBaseFragmentLazy {
+interface IBaseFragment : IBaseFragmentLazy, IModuleName {
 
   fun initLifecycleObserver(lifecycle: Lifecycle)
 
-  fun getModuleName(): String {
-    return "app"
-  }
 }

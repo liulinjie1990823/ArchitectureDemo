@@ -9,6 +9,7 @@ import butterknife.BindView
 import com.llj.component.service.utils.CharInputFilter
 import com.llj.lib.base.MvcBaseFragment
 import com.llj.lib.base.listeners.SimpleTextWatcher
+import com.llj.login.LoginMvcBaseFragment
 import com.llj.login.R
 import com.llj.login.R2
 
@@ -18,7 +19,7 @@ import com.llj.login.R2
  * author llj
  * date 2018/10/12
  */
-class CodeLoginFragmentMvc : MvcBaseFragment<ViewBinding>() {
+class CodeLoginFragmentMvc : LoginMvcBaseFragment<ViewBinding>() {
     @BindView(R2.id.et_mobile) lateinit var mEtMobile: EditText
     @BindView(R2.id.et_code) lateinit var mEtCode: EditText
     @BindView(R2.id.tv_get_code) lateinit var mTvGetCode: TextView
@@ -35,6 +36,7 @@ class CodeLoginFragmentMvc : MvcBaseFragment<ViewBinding>() {
     }
 
     override fun initViews(savedInstanceState: Bundle?) {
+        super.initViews(savedInstanceState)
         mBtnLogin.isEnabled = false
 
         val charInputFilter = CharInputFilter()

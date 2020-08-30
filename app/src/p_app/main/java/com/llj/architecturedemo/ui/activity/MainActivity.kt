@@ -171,4 +171,8 @@ class MainActivity : BaseTabActivity<ViewBinding, MainPresenter>(), MainContract
   override fun onPause() {
     super.onPause()
   }
+
+  override fun getModuleName(): String {
+    return CRouter.MODULE_MAIN
+  }
 }

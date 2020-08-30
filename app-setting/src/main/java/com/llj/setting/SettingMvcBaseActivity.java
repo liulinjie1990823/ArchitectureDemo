@@ -2,6 +2,7 @@ package com.llj.setting;
 
 import com.llj.component.service.MiddleMvcBaseToolbarActivity;
 
+import com.llj.component.service.arouter.CRouter;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -14,6 +15,6 @@ public abstract class SettingMvcBaseActivity extends MiddleMvcBaseToolbarActivit
     @NotNull
     @Override
     public String getModuleName() {
-        return "app-setting";
+        return CRouter.MODULE_SETTING;
     }
 }

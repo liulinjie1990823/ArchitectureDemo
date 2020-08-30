@@ -15,7 +15,7 @@ import com.llj.lib.utils.AInputMethodManagerUtils
  * @author llj
  * @date 2018/5/24
  */
-interface IBaseActivity : IActivityStack {
+interface IBaseActivity : IActivityStack,IModuleName {
 
     fun setTranslucentStatusBar(window: Window, textBlackColor: Boolean) {
         StatusBarCompat.translucentStatusBar(window, true)
@@ -33,10 +33,5 @@ interface IBaseActivity : IActivityStack {
             AInputMethodManagerUtils.hideSoftInputFromWindow(activity)
         }
     }
-
-    fun getModuleName(): String {
-        return "app"
-    }
-
 
 }

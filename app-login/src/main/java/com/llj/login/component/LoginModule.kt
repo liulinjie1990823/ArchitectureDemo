@@ -4,6 +4,7 @@ import com.billy.cc.core.component.CC
 import com.billy.cc.core.component.IComponent
 import com.llj.application.AppApplication
 import com.llj.application.di.IModule
+import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.di.IInject
 import com.llj.login.di.DaggerLoginComponent
 
@@ -17,7 +18,7 @@ class LoginModule : IComponent, IModule {
     private lateinit var mComponent: IInject
 
     override fun getName(): String {
-        return "app-login"
+        return CRouter.MODULE_LOGIN
     }
 
     override fun initComponent(application: AppApplication) {

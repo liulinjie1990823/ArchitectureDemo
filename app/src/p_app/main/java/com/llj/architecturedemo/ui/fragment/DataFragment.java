@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 
+import com.llj.architecturedemo.AppMvcBaseFragment;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.ui.model.BabyHomeModuleItemVo;
 import com.llj.lib.base.MvcBaseFragment;
@@ -24,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
  * date 2018/11/2
  */
 @PageName(value = "DataFragment")
-public class DataFragment extends MvcBaseFragment
+public class DataFragment extends AppMvcBaseFragment
         implements View.OnClickListener,
         android.content.DialogInterface.OnClickListener,
         AdapterView.OnItemClickListener,
@@ -53,6 +54,7 @@ public class DataFragment extends MvcBaseFragment
     @Override
     public void initViews(@Nullable Bundle savedInstanceState) {
 
+        super.initViews(savedInstanceState);
         getView().findViewById(R.id.tv_title).setOnClickListener(v -> {
 
         });

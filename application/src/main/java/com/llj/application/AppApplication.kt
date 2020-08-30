@@ -3,13 +3,16 @@ package com.llj.application
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.ArrayMap
 import androidx.multidex.MultiDex
+import com.alibaba.android.arouter.launcher.ARouter
 import com.billy.cc.core.component.CC
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher
 import com.llj.application.di.AppComponent
 import com.llj.application.di.DaggerAppComponent
 import com.llj.application.di.IModule
+import com.llj.application.service.ModuleService
 import com.llj.component.service.MiddleApplication
 import com.llj.component.service.arouter.CJump
 import com.llj.component.service.arouter.CRouter
@@ -109,9 +112,9 @@ open class AppApplication : MiddleApplication() {
     JumpHelp.init(this)
 
     //调用LoginComponent中的dagger组件
-    CC.obtainBuilder("app").setActionName(IModule.INIT).build().callAsync()
-    CC.obtainBuilder("app-login").setActionName(IModule.INIT).build().callAsync()
-    CC.obtainBuilder("app-setting").setActionName(IModule.INIT).build().callAsync()
+    CC.obtainBuilder(CRouter.MODULE_MAIN).setActionName(IModule.INIT).build().callAsync()
+    CC.obtainBuilder(CRouter.MODULE_LOGIN).setActionName(IModule.INIT).build().callAsync()
+    CC.obtainBuilder(CRouter.MODULE_SETTING).setActionName(IModule.INIT).build().callAsync()
 
     //分享
     val config = SocialConfig.Builder(this, true).qqId(getString(R.string.qq_id))
@@ -157,34 +160,41 @@ open class AppApplication : MiddleApplication() {
         when (data) {
           is MvpBaseActivity<*, *> -> {
             //调用IModule中的对应action
-            CC.obtainBuilder(data.getModuleName())
-                .setContext(data)
-                .setActionName(IModule.INJECT_ACTIVITY)
-                .build()
-                .call()
+
+            val moduleService: ModuleService = ARouter.getInstance().build(data.getModuleName())
+                .navigation() as ModuleService
+            moduleService.call(data, IModule.INJECT_ACTIVITY, null)
+//            CC.obtainBuilder(data.getModuleName())
+//                .setContext(data)
+//                .setActionName(IModule.INJECT_ACTIVITY)
+//                .build()
+//                .call()
           }
           is MvcBaseActivity<*> -> {
             //调用IModule中的对应action
-            CC.obtainBuilder(data.getModuleName())
-                .setContext(data)
-                .setActionName(IModule.INJECT_ACTIVITY)
-                .build()
-                .call()
+            val moduleService: ModuleService = ARouter.getInstance().build(data.getModuleName())
+                .navigation() as ModuleService
+            moduleService.call(data, IModule.INJECT_ACTIVITY, null)
+//            CC.obtainBuilder(data.getModuleName())
+//                .setContext(data)
+//                .setActionName(IModule.INJECT_ACTIVITY)
+//                .build()
+//                .call()
           }
           is MvpBaseFragment<*, *> -> {
             //调用IModule中的对应action
-            CC.obtainBuilder(data.getModuleName())
-                .setContext(data.context)
-                .setActionName(IModule.INJECT_FRAGMENT)
-                .build()
-                .call()
+            val moduleService: ModuleService = ARouter.getInstance().build(data.getModuleName())
+                .navigation() as ModuleService
+            val arrayMap = ArrayMap<String, String>()
+            arrayMap["fragment"] = data.tag
+            moduleService.call(data.context!!, IModule.INJECT_FRAGMENT, arrayMap)
 
-            CC.obtainBuilder(data.getModuleName())
-                .setContext(data.context)
-                .addParam("fragment", data.tag)
-                .setActionName(IModule.INJECT_FRAGMENT)
-                .build()
-                .call()
+//            CC.obtainBuilder(data.getModuleName())
+//                .setContext(data.context)
+//                .addParam("fragment", data.tag)
+//                .setActionName(IModule.INJECT_FRAGMENT)
+//                .build()
+//                .call()
           }
         }
       }

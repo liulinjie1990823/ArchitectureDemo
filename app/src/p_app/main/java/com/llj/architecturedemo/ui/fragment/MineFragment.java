@@ -33,6 +33,9 @@ import com.llj.adapter.UniversalBind;
 import com.llj.adapter.UniversalBind.Builder;
 import com.llj.adapter.converter.UniversalConverterFactory;
 import com.llj.adapter.util.ViewHolderHelper;
+import com.llj.architecturedemo.AppMvcBaseFragment;
+import com.llj.architecturedemo.AppMvpBaseActivity;
+import com.llj.architecturedemo.AppMvpBaseFragment;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.analysis.AppAction;
 import com.llj.architecturedemo.ui.model.ExpoInfoVo;
@@ -71,7 +74,7 @@ import q.rorbin.badgeview.QBadgeView;
  * ArchitectureDemo. describe: author llj date 2018/11/5
  */
 public class MineFragment extends
-    MiddleMvpBaseFragment<ViewBinding, PersonalCenterPresenter> implements
+    AppMvpBaseFragment<ViewBinding, PersonalCenterPresenter> implements
     IMineView {
 
   @NotNull

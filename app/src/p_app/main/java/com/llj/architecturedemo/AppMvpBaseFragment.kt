@@ -1,4 +1,4 @@
-package com.llj.login
+package com.llj.architecturedemo
 
 import androidx.viewbinding.ViewBinding
 import com.llj.component.service.MiddleMvpBaseFragment
@@ -11,9 +11,9 @@ import com.llj.lib.base.mvp.IBasePresenter
  * author llj
  * date 2018/9/20
  */
-abstract class LoginMvpBaseFragment<P : IBasePresenter> : MiddleMvpBaseFragment<ViewBinding, P>() {
+abstract class AppMvpBaseFragment<V : ViewBinding, P : IBasePresenter> : MiddleMvpBaseFragment<V, P>() {
 
-    override fun getModuleName(): String {
-        return CRouter.MODULE_LOGIN
-    }
+  override fun getModuleName(): String {
+    return CRouter.MODULE_MAIN
+  }
 }

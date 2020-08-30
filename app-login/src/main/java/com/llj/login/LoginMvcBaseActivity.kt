@@ -2,6 +2,7 @@ package com.llj.login
 
 import androidx.viewbinding.ViewBinding
 import com.llj.component.service.MiddleMvcBaseActivity
+import com.llj.component.service.arouter.CRouter
 
 /**
  * ArchitectureDemo.
@@ -12,6 +13,6 @@ import com.llj.component.service.MiddleMvcBaseActivity
 abstract class LoginMvcBaseActivity<V : ViewBinding> : MiddleMvcBaseActivity<V>() {
 
     override fun getModuleName(): String {
-        return "app-login"
+        return CRouter.MODULE_LOGIN
     }
 }

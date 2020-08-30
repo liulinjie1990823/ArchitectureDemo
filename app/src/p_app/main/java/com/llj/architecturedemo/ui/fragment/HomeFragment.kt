@@ -10,6 +10,7 @@ import butterknife.BindView
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
+import com.llj.architecturedemo.AppMvcBaseFragment
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.flutter.PageRouter
 import com.llj.architecturedemo.ui.model.BabyHomeModuleItemVo
@@ -24,7 +25,7 @@ import com.llj.lib.webview.CWebViewActivity
  * author llj
  * date 2018/8/15
  */
-class HomeFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.ScrollableContainer {
+class HomeFragment : AppMvcBaseFragment<ViewBinding>(), ScrollableHelper.ScrollableContainer {
   override fun getScrollableView(): View {
     return mRecyclerView
   }

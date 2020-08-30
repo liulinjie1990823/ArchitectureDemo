@@ -27,6 +27,7 @@ import com.llj.adapter.MergedUniversalAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.converter.UniversalConverterFactory
 import com.llj.adapter.util.ViewHolderHelper
+import com.llj.architecturedemo.AppMvpBaseFragment
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.ui.model.BabyHomeModuleItemVo
 import com.llj.architecturedemo.ui.model.BabyHomeModuleVo
@@ -61,7 +62,7 @@ import kotlin.collections.ArrayList
  * author llj
  * date 2018/10/30
  */
-class ScrollableLayoutFragment : MiddleMvpBaseFragment<ViewBinding, ScrollableLayoutPresenter>(), IScrollableLayoutView {
+class ScrollableLayoutFragment : AppMvpBaseFragment<ViewBinding, ScrollableLayoutPresenter>(), IScrollableLayoutView {
     @BindView(R.id.cv_toolbar)
     lateinit var mCvToolbar: ConstraintLayout
     @BindView(R.id.refreshLayout)

@@ -2,6 +2,7 @@ package com.llj.setting
 
 import androidx.viewbinding.ViewBinding
 import com.llj.component.service.MiddleMvcBaseFragment
+import com.llj.component.service.arouter.CRouter
 
 /**
  * ArchitectureDemo.
@@ -12,6 +13,6 @@ import com.llj.component.service.MiddleMvcBaseFragment
 abstract class SettingMvcBaseFragment : MiddleMvcBaseFragment<ViewBinding>() {
 
     override fun getModuleName(): String {
-        return "app-setting"
+        return CRouter.MODULE_SETTING
     }
 }

@@ -1,9 +1,12 @@
 package com.llj.setting.component
 
 import android.content.Context
+import android.util.ArrayMap
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.application.AppApplication
 import com.llj.application.di.IModule
-import com.llj.component.service.IService
+import com.llj.application.service.ModuleService
+import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.di.IInject
 import com.llj.setting.di.DaggerSettingComponent
 
@@ -13,7 +16,8 @@ import com.llj.setting.di.DaggerSettingComponent
  * @author llj
  * @date 2020/4/29
  */
-class SettingService : IService, IModule {
+@Route(path = CRouter.MODULE_SETTING)
+class SettingService : ModuleService, IModule {
   private lateinit var mComponent: IInject
 
   override fun init(context: Context) {
@@ -22,9 +26,10 @@ class SettingService : IService, IModule {
     }
   }
 
-  override fun call(context: Context, action: String) {
-    innerCall(context, action, IService.sMap)
+  override fun call(context: Context, event: String, param: ArrayMap<String, String>?) {
+    innerCall(context, event, param)
   }
+
 
   override fun initComponent(application: AppApplication) {
     mComponent = DaggerSettingComponent.builder()

@@ -8,6 +8,7 @@ import butterknife.BindView
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
+import com.llj.architecturedemo.AppMvcBaseFragment
 import com.llj.architecturedemo.R
 import com.llj.component.service.MiddleMvcBaseFragment
 import com.llj.lib.scrollable.ScrollableHelper
@@ -18,7 +19,7 @@ import com.llj.lib.scrollable.ScrollableHelper
  * author llj
  * date 2018/8/16
  */
-class ItemFragment : MiddleMvcBaseFragment<ViewBinding>(), ScrollableHelper.ScrollableContainer {
+class ItemFragment : AppMvcBaseFragment<ViewBinding>(), ScrollableHelper.ScrollableContainer {
   override fun getScrollableView(): View {
     return mRecyclerView
   }

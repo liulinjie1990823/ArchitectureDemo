@@ -25,6 +25,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.github.demono.AutoScrollViewPager
 import com.github.demono.adapter.InfinitePagerAdapter
 import com.llj.adapter.util.ViewHolderHelper
+import com.llj.architecturedemo.AppMvpBaseFragment
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.ui.model.BabyHomeModuleItemVo
 import com.llj.architecturedemo.ui.model.BabyHomeModuleVo
@@ -54,7 +55,7 @@ import kotlin.collections.ArrayList
  * author llj
  * date 2018/10/24
  */
-class VLayoutFragment : MiddleMvpBaseFragment<ViewBinding, VLayoutPresenter>(), IVLayoutView {
+class VLayoutFragment : AppMvpBaseFragment<ViewBinding, VLayoutPresenter>(), IVLayoutView {
 
     override fun getParams1(taskId: Int): HashMap<String, Any>? {
         return HashMap()

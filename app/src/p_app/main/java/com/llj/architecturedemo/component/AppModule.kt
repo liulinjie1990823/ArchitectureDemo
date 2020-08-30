@@ -6,6 +6,7 @@ import com.llj.application.AppApplication
 import com.llj.application.di.IModule
 import com.llj.architecturedemo.di.DaggerMainComponent
 import com.llj.component.service.MiddleApplication
+import com.llj.component.service.arouter.CRouter
 import com.llj.lib.base.di.IInject
 
 /**
@@ -23,7 +24,7 @@ class AppModule : IComponent, IModule {
   private lateinit var mComponent: IInject
 
   override fun getName(): String {
-    return "app"
+    return CRouter.MODULE_MAIN
   }
 
   override fun initComponent(application: AppApplication) {
