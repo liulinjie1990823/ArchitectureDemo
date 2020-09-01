@@ -6,7 +6,7 @@ android {
 }
 
 dependencies {
-    implementation deps.multidex
+    implementation Deps.multidex
 
     implementation 'org.altbeacon:android-beacon-library:2.17.1'
 

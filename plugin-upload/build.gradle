@@ -14,9 +14,9 @@ dependencies {
 
     //android插件
     if (useOld) {
-        implementation deps.android_gradle_plugin_old
+        implementation Deps.android_gradle_plugin_old
     } else {
-        implementation deps.android_gradle_plugin
+        implementation Deps.android_gradle_plugin
     }
 
     //https://http-builder-ng.github.io/http-builder-ng/asciidoc/html5/#_introduction

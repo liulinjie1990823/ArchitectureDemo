@@ -2,7 +2,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     if (useMaven) {
-        api deps.component_annotation
+        api Deps.component_annotation
     } else {
         api project(':lib-component-annotation')
     }

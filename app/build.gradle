@@ -15,6 +15,18 @@ if (useDexcount && buildTypeDebug) {
     apply plugin: 'com.getkeepsafe.dexcount'
 }
 
+//Matrix
+if (useMatrix && buildTypeDebug) {
+    apply plugin: 'com.tencent.matrix-plugin'
+    matrix {
+        trace {
+            enable = true	//if you don't want to use trace canary, set false
+            baseMethodMapFile = "${project.buildDir}/matrix_output/Debug.methodmap"
+            blackListFile = "${project.projectDir}/matrixTrace/blackMethodList.txt"
+        }
+    }
+}
+
 //方法耗时统计
 if (useMethodTrace && buildTypeDebug) {
     apply plugin: "cn.cxzheng.asmtraceman"
@@ -90,9 +102,6 @@ if (useoOkbuck) {
 
 
 android {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
     compileSdkVersion build_versions.compileSdkVersion
     buildToolsVersion build_versions.buildToolsVersion
     defaultConfig {
@@ -271,9 +280,9 @@ dependencies {
     api project(':lib-record')
     api project(':lib-kodo')
     //    api project(':lib-player')
-    implementation deps.multidex
-    implementation deps.badgeview
-    implementation deps.viewpager2
+    implementation Deps.multidex
+    implementation Deps.badgeview
+    implementation Deps.viewpager2
     if (useComponent) {
         addComponent 'app-login'
         addComponent 'app-mine'
@@ -284,7 +293,7 @@ dependencies {
         api project(':app-setting')
     }
     if (useMaven) {
-        kapt deps.component_compiler
+        kapt Deps.component_compiler
     } else {
         kapt project(':lib-component-compiler')
         kapt project(':lib-jump-compiler')
@@ -309,6 +318,16 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
 
     implementation 'androidx.fragment:fragment-ktx:1.2.5'
+
+    //https://github.com/Tencent/matrix
+    implementation group: "com.tencent.matrix", name: "matrix-android-lib", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-android-commons", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-trace-canary", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-android", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-common", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-io-canary", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-sqlite-lint-android-sdk", version: MATRIX_VERSION, changing: true
+
 
 }
 

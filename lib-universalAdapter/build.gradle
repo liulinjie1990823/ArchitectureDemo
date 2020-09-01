@@ -9,21 +9,21 @@ dependencies {
 
     api "com.jakewharton.timber:timber:4.7.1"
 
-    implementation deps.viewpager2
+    implementation Deps.viewpager2
     debugImplementation 'androidx.databinding:viewbinding:3.6.3'
-    debugImplementation deps.recyclerview
-    debugImplementation deps.SmartRefreshLayout
-    debugImplementation deps.kotlin_stdlib_jdk8
+    debugImplementation Deps.recyclerview
+    debugImplementation Deps.SmartRefreshLayout
+    debugImplementation Deps.kotlin_stdlib_jdk8
 
 
     betaCompileOnly 'androidx.databinding:viewbinding:3.6.3'
-    betaCompileOnly deps.recyclerview
-    betaCompileOnly deps.SmartRefreshLayout
-    betaCompileOnly deps.kotlin_stdlib_jdk8
+    betaCompileOnly Deps.recyclerview
+    betaCompileOnly Deps.SmartRefreshLayout
+    betaCompileOnly Deps.kotlin_stdlib_jdk8
 
     releaseCompileOnly 'androidx.databinding:viewbinding:3.6.3'
-    releaseCompileOnly deps.recyclerview
-    releaseCompileOnly deps.SmartRefreshLayout
-    releaseCompileOnly deps.kotlin_stdlib_jdk8
+    releaseCompileOnly Deps.recyclerview
+    releaseCompileOnly Deps.SmartRefreshLayout
+    releaseCompileOnly Deps.kotlin_stdlib_jdk8
 }
 

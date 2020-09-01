@@ -145,17 +145,17 @@ give_advice ()
       ;;
     autoheader*)
       echo "You should only need it if you modified 'acconfig.h' or"
-      echo "$configure_deps."
+      echo "$configure_Deps."
       program_details 'autoheader'
       ;;
     automake*)
       echo "You should only need it if you modified 'Makefile.am' or"
-      echo "$configure_deps."
+      echo "$configure_Deps."
       program_details 'automake'
       ;;
     aclocal*)
       echo "You should only need it if you modified 'acinclude.m4' or"
-      echo "$configure_deps."
+      echo "$configure_Deps."
       program_details 'aclocal'
       ;;
    autom4te*)

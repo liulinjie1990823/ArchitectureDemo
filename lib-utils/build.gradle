@@ -1,8 +1,8 @@
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.recyclerview
-    implementation deps.localbroadcastmanager
-    implementation deps.gson
+    implementation Deps.recyclerview
+    implementation Deps.localbroadcastmanager
+    implementation Deps.gson
 
 }

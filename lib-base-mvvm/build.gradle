@@ -12,8 +12,8 @@ dependencies {
 
     implementation 'androidx.fragment:fragment-ktx:1.2.5'
     if (useMaven) {
-        api deps.base
-        implementation deps.net
+        api Deps.base
+        implementation Deps.net
     } else {
         api project(':lib-base')
         implementation project(':lib-net')

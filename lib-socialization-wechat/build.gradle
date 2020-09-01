@@ -1,8 +1,8 @@
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.okhttp
-    implementation deps.bolts
+    implementation Deps.okhttp
+    implementation Deps.bolts
     api project(':lib-socialization')
     api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.3.1'
 }

@@ -32,7 +32,7 @@ set XSRC=.
 if not "%XSRC%" == "." goto SmallEnv
 
 Rem Loop over all arguments.
-Rem Special arguments are: NLS, XSRC, CACHE, STATIC_LIBS, LIBICONV_PREFIX, LIBINTL_PREFIX and DEPS.
+Rem Special arguments are: NLS, XSRC, CACHE, STATIC_LIBS, LIBICONV_PREFIX, LIBINTL_PREFIX and Deps.
 Rem All other arguments are stored into ARGS.
 :ArgLoop
 if "%1" == "nls" goto NextArgument

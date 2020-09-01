@@ -20,18 +20,18 @@ buildscript {
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
         //android-plugin插件
         if (useNew) {
-            classpath deps.android_gradle_plugin_new
+            classpath Deps.android_gradle_plugin_new
         } else {
             if (useOld) {
-                classpath deps.android_gradle_plugin_old
+                classpath Deps.android_gradle_plugin_old
             } else {
-                classpath deps.android_gradle_plugin
+                classpath Deps.android_gradle_plugin
             }
         }
         //kotlin插件
-        classpath deps.kotlin_gradle_plugin
+        classpath Deps.kotlin_gradle_plugin
         //butterknife插件
-        classpath deps.butterknife_gradle_plugin
+        classpath Deps.butterknife_gradle_plugin
         //渠道包插件
         classpath 'com.meituan.android.walle:plugin:1.1.7'
         //上传bintray插件
@@ -61,6 +61,10 @@ buildscript {
         if (useDoraemonkit) {
             classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.2.0'
         }
+
+        if (useMatrix) {
+            classpath("com.tencent.matrix:matrix-gradle-plugin:${MATRIX_VERSION}") { changing = true }
+        }
         //方法耗时统计
         if (useMethodTrace) {
             classpath "gradle.plugin.cn.cxzheng.methodTracePlugin:tracemanplugin:1.0.4"
@@ -83,32 +87,32 @@ allprojects {
     //强制使依赖版本
     configurations.all {
         resolutionStrategy {
-            force deps.okhttp
-            force deps.gson
-            force deps.fresco
+            force Deps.okhttp
+            force Deps.gson
+            force Deps.fresco
             force 'com.blankj:utilcodex:1.28.4'
 
             force 'androidx.legacy:legacy-support-core-utils:1.0.0'
             force 'androidx.legacy:legacy-support-core-ui:1.0.0'
             force 'androidx.legacy:legacy-support-v4:1.0.0'
-            force deps.annotations
-            force deps.androidx_core
-            force deps.arch_common
-            force deps.arch_runtime
-            force deps.appcompat
-            force deps.lifecycle_runtime
-            force deps.lifecycle_service
-            force deps.lifecycle_java8
-            force deps.lifecycle_viewmodel
-            force deps.lifecycle_viewmodel_savedstate
-            force deps.lifecycle_livedata
-            force deps.activity
-            force deps.fragment
-            force deps.constraint_layout
-            force deps.recyclerview
-            force deps.viewpager
-            force deps.viewpager2
-            force deps.transition
+            force Deps.annotations
+            force Deps.androidx_core
+            force Deps.arch_common
+            force Deps.arch_runtime
+            force Deps.appcompat
+            force Deps.lifecycle_runtime
+            force Deps.lifecycle_service
+            force Deps.lifecycle_java8
+            force Deps.lifecycle_viewmodel
+            force Deps.lifecycle_viewmodel_savedstate
+            force Deps.lifecycle_livedata
+            force Deps.activity
+            force Deps.fragment
+            force Deps.constraint_layout
+            force Deps.recyclerview
+            force Deps.viewpager
+            force Deps.viewpager2
+            force Deps.transition
         }
     }
 

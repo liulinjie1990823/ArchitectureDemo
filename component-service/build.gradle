@@ -38,33 +38,33 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.walle
+    implementation Deps.walle
 
     api 'com.billy.android:cc:2.1.6'
-    api deps.arouter_api
-    api deps.permission
+    api Deps.arouter_api
+    api Deps.permission
 
     api project(':lib-swipeback')
 
     if (useMaven) {
-        api deps.statusbar
-        api deps.net
-        api deps.base
-        api deps.base_mvvm
-        api deps.component_api
-        api deps.imageLoader
-        api deps.imageSelect
-        api deps.socialization
-        api deps.socialization_qq
-        api deps.socialization_sina
-        api deps.socialization_wechat
-        api deps.statelayout
-        api deps.universalAdapter
-        api deps.utils
-        api deps.webView
-        api deps.tracker
-        api deps.map
-        api deps.oss
+        api Deps.statusbar
+        api Deps.net
+        api Deps.base
+        api Deps.base_mvvm
+        api Deps.component_api
+        api Deps.imageLoader
+        api Deps.imageSelect
+        api Deps.socialization
+        api Deps.socialization_qq
+        api Deps.socialization_sina
+        api Deps.socialization_wechat
+        api Deps.statelayout
+        api Deps.universalAdapter
+        api Deps.utils
+        api Deps.webView
+        api Deps.tracker
+        api Deps.map
+        api Deps.oss
         api project(':lib-scrollable')
         api project(':lib-zbar')
         api project(':lib-zxing')
@@ -96,27 +96,27 @@ dependencies {
 
 
     //imageLoader
-    api deps.fresco
-    api deps.fresco_animated_gif
-    api deps.fresco_animated_webp
-    api deps.fresco_webpsupport
-    api deps.fresco_imagepipeline_okhttp3
-    api deps.PersistentCookieJar
+    api Deps.fresco
+    api Deps.fresco_animated_gif
+    api Deps.fresco_animated_webp
+    api Deps.fresco_webpsupport
+    api Deps.fresco_imagepipeline_okhttp3
+    api Deps.PersistentCookieJar
 
     //ui
-    api deps.SmartRefreshLayout
-    api deps.MagicIndicator
-    api deps.vlayout
-    api deps.AutoScrollViewPager
-    api deps.support_design
-    api deps.recyclerview
-    api deps.constraint_layout
+    api Deps.SmartRefreshLayout
+    api Deps.MagicIndicator
+    api Deps.vlayout
+    api Deps.AutoScrollViewPager
+    api Deps.support_design
+    api Deps.recyclerview
+    api Deps.constraint_layout
 
     //skin
-    api deps.skin_support                   // skin-support 基础控件支持
-    api deps.skin_support_design            // skin-support-design material design 控件支持[可选]
-    api deps.skin_support_cardview          // skin-support-cardview CardView 控件支持[可选]
-    api deps.skin_support_constraint_layout
+    api Deps.skin_support                   // skin-support 基础控件支持
+    api Deps.skin_support_design            // skin-support-design material design 控件支持[可选]
+    api Deps.skin_support_cardview          // skin-support-cardview CardView 控件支持[可选]
+    api Deps.skin_support_constraint_layout
     // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
 
     //flipper应用调试
@@ -136,15 +136,15 @@ dependencies {
     betaImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
-    kapt deps.dagger_compiler
-    kapt deps.dagger_android_compiler
-    kapt deps.butterknife_compiler
+    kapt Deps.dagger_compiler
+    kapt Deps.dagger_android_compiler
+    kapt Deps.butterknife_compiler
 
     //线程调度
-    api deps.bolts
+    api Deps.bolts
     //日志相关
-    api deps.timber
-    api deps.logger
+    api Deps.timber
+    api Deps.logger
     //
     api 'com.blankj:utilcodex:1.28.4'
 

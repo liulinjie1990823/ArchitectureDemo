@@ -74,9 +74,9 @@ subprojects {
             }
             dependencies {
                 implementation fileTree(dir: 'libs', include: ['*.jar'])
-                implementation deps.annotations
-                implementation deps.recyclerview
-                implementation deps.appcompat
+                implementation Deps.annotations
+                implementation Deps.recyclerview
+                implementation Deps.appcompat
             }
         }
         //android-plugin升级后统一使用novoda-bintray来打包，之前的和插件有冲突

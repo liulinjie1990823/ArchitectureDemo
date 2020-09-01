@@ -3,25 +3,25 @@ apply plugin: 'kotlin-android'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     if (useMaven) {
-        implementation deps.utils
+        implementation Deps.utils
     } else {
         implementation project(':lib-utils')
     }
 
-    implementation deps.kotlin_stdlib_jdk8
+    implementation Deps.kotlin_stdlib_jdk8
 
-    implementation deps.rxjava2
-    implementation deps.rxandroid
+    implementation Deps.rxjava2
+    implementation Deps.rxandroid
 
-    implementation deps.autodispose
-    implementation deps.autodispose_android
-    implementation deps.autodispose_android_archcomponents
+    implementation Deps.autodispose
+    implementation Deps.autodispose_android
+    implementation Deps.autodispose_android_archcomponents
 
-    implementation deps.retrofit2
-    implementation deps.retrofit2_gson
-    implementation deps.retrofit2_adapter_rxjava2
-    api deps.okhttp_logging_interceptor
-    api deps.okhttp
-    implementation deps.PersistentCookieJar
+    implementation Deps.retrofit2
+    implementation Deps.retrofit2_gson
+    implementation Deps.retrofit2_adapter_rxjava2
+    api Deps.okhttp_logging_interceptor
+    api Deps.okhttp
+    implementation Deps.PersistentCookieJar
 }
 

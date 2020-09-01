@@ -8,7 +8,7 @@ android {
 
 dependencies {
 //    implementation project(':flutter')
-    implementation deps.multidex
+    implementation Deps.multidex
 
     if (useMaven) {
     } else {

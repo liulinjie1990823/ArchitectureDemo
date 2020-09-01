@@ -107,6 +107,10 @@ subprojects {
         }
         //app模块公用的配置参数
         android {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+
             defaultConfig {
                 ndk { abiFilters "armeabi-v7a" }
 //                ndk { abiFilters "armeabi-v7a", "x86" }
@@ -130,16 +134,16 @@ subprojects {
             if (useMaven) {
             } else {
                 //dagger
-                kapt deps.dagger_compiler
-                kapt deps.dagger_android_compiler
+                kapt Deps.dagger_compiler
+                kapt Deps.dagger_android_compiler
                 //lifecycle
-                kapt deps.lifecycle_compiler
+                kapt Deps.lifecycle_compiler
                 //db
-                kapt deps.room_compiler
+                kapt Deps.room_compiler
                 //butterknife
-                kapt deps.butterknife_compiler
+                kapt Deps.butterknife_compiler
                 //跳转路由
-                kapt deps.arouter_compiler
+                kapt Deps.arouter_compiler
                 //测试
                 kapt project(':lib-component-compiler')
                 //本地路由映射表

@@ -11,10 +11,10 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
 
     if (useMaven) {
-        implementation deps.utils
-        implementation deps.statusbar
-        implementation deps.net
-        api deps.base_event
+        implementation Deps.utils
+        implementation Deps.statusbar
+        implementation Deps.net
+        api Deps.base_event
     } else {
         implementation project(':lib-utils')
         implementation project(':lib-statusbar')
@@ -23,50 +23,50 @@ dependencies {
     }
 
     //kotlin
-    api deps.kotlin_stdlib_jdk8
+    api Deps.kotlin_stdlib_jdk8
 
     //support
-    api deps.annotations
-    api deps.appcompat
-    api deps.activity
-    api deps.fragment
-    api deps.constraint_layout
+    api Deps.annotations
+    api Deps.appcompat
+    api Deps.activity
+    api Deps.fragment
+    api Deps.constraint_layout
 
     //Architecture components
-    api deps.lifecycle_runtime
-    api deps.lifecycle_java8
-    api deps.lifecycle_viewmodel_savedstate
+    api Deps.lifecycle_runtime
+    api Deps.lifecycle_java8
+    api Deps.lifecycle_viewmodel_savedstate
 
     //db
-    api deps.room_runtime
+    api Deps.room_runtime
 
     //dagger解耦
-    api deps.dagger
-    api deps.dagger_android
-    api deps.dagger_android_support
-    kapt deps.dagger_compiler
-    kapt deps.dagger_android_compiler
-//    api deps.dagger_hilt
-//    kapt deps.dagger_hilt_compiler
+    api Deps.dagger
+    api Deps.dagger_android
+    api Deps.dagger_android_support
+    kapt Deps.dagger_compiler
+    kapt Deps.dagger_android_compiler
+//    api Deps.dagger_hilt
+//    kapt Deps.dagger_hilt_compiler
 
     //rx
-    api deps.rxjava2
-    api deps.rxandroid
+    api Deps.rxjava2
+    api Deps.rxandroid
 
     //autodispose
-    api deps.autodispose
-    api deps.autodispose_android
-    api deps.autodispose_android_archcomponents
+    api Deps.autodispose
+    api Deps.autodispose_android
+    api Deps.autodispose_android_archcomponents
 
     //butterknife
-    api deps.butterknife
+    api Deps.butterknife
 
     //网络
-    api deps.retrofit2
-    api deps.okhttp_logging_interceptor
-    api deps.gson
+    api Deps.retrofit2
+    api Deps.okhttp_logging_interceptor
+    api Deps.gson
 
-    implementation deps.timber
+    implementation Deps.timber
 }
 
 

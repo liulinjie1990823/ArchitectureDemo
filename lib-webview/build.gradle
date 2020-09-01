@@ -1,11 +1,11 @@
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation deps.eventbus
-    implementation deps.timber
+    implementation Deps.eventbus
+    implementation Deps.timber
 
-    implementation deps.lifecycle_runtime
-    implementation deps.lifecycle_java8
-    implementation deps.lifecycle_process
+    implementation Deps.lifecycle_runtime
+    implementation Deps.lifecycle_java8
+    implementation Deps.lifecycle_process
 }
 
