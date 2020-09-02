@@ -26,7 +26,7 @@ subprojects {
             } else {
 //            ext.alwaysLib = true
             }
-            apply from: rootProject.file('gradle/cc-settings-2.gradle')
+            apply from: rootProject.file('gradle/cc-settings-3.gradle')
 //            apply from: rootProject.file('gradle/cc-settings-3.gradle')
         } else {
             //不使用组件
@@ -51,6 +51,11 @@ subprojects {
 //                logTraceInfo = false //这里设置为true时可以在log日志里看到所有被插桩的类和方法
 //                traceConfigFile = "${project.projectDir}/traceconfig.txt"
 //            }
+//        }
+
+        apply plugin: 'bga-appinit-plugin'
+//        appInit {
+//            abortOnNotExist true
 //        }
 
         android.compileOptions {
@@ -151,8 +156,6 @@ subprojects {
                 //本地mvp映射表
 //                kapt project(':lib-mvp-compiler')
                 implementation project(':lib-mvp-annotation')
-
-                api "com.billy.android:cc:2.1.5"
 
             }
 

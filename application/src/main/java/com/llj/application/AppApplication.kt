@@ -1,7 +1,9 @@
 package com.llj.application
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.ArrayMap
 import androidx.multidex.MultiDex
@@ -16,10 +18,9 @@ import com.llj.application.service.ModuleService
 import com.llj.component.service.MiddleApplication
 import com.llj.component.service.arouter.CJump
 import com.llj.component.service.arouter.CRouter
-import com.llj.lib.base.AppManager
-import com.llj.lib.base.MvcBaseActivity
-import com.llj.lib.base.MvpBaseActivity
-import com.llj.lib.base.MvpBaseFragment
+import com.llj.component.service.preference.UserInfoPreference
+import com.llj.component.service.vo.UserInfoVo
+import com.llj.lib.base.*
 import com.llj.lib.base.config.JumpConfig
 import com.llj.lib.base.config.ToolbarConfig
 import com.llj.lib.base.config.UserInfoConfig
@@ -32,15 +33,21 @@ import com.llj.lib.statusbar.LightStatusBarCompat
 import com.llj.lib.statusbar.StatusBarCompat
 import com.llj.lib.tracker.Tracker
 import com.llj.lib.tracker.TrackerConfig
+import com.llj.lib.utils.helper.Utils
 import com.llj.lib.webview.manager.IWebViewClient
 import com.llj.lib.webview.manager.WebViewConfig
 import com.llj.lib.webview.manager.WebViewManager
 import com.llj.socialization.SocialConstants
 import com.llj.socialization.init.SocialConfig
 import com.llj.socialization.init.SocialManager
+import com.sankuai.erp.component.appinit.api.AppInitManager
+import com.sankuai.erp.component.appinit.common.AppInitCallback
+import com.sankuai.erp.component.appinit.common.AppInitItem
+import com.sankuai.erp.component.appinit.common.ChildInitTable
 import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.smtt.sdk.WebView
 import dagger.android.AndroidInjector
+import dagger.android.HasAndroidInjector
 import timber.log.Timber
 
 
@@ -50,109 +57,41 @@ import timber.log.Timber
  * @author llj
  * @date 2018/5/18
  */
-open class AppApplication : MiddleApplication() {
+open class AppApplication : Application(), HasAndroidInjector {
+
+  val TAG: String = this.javaClass.simpleName
 
   lateinit var mAppComponent: AppComponent
 
-  override fun initStrictMode() {
-  }
-
-  override fun attachBaseContext(base: Context?) {
-    super.attachBaseContext(base)
-    MultiDex.install(this)
+  companion object {
+    lateinit var mUserInfoVo: UserInfoVo //用户信息
   }
 
   override fun onCreate() {
+    super.onCreate()
+    Utils.init(this)
     mAppComponent = DaggerAppComponent.builder()
         .application(this)
         .build()
 
-    //设置共用的toolbar
-    val toolbarConfig = ToolbarConfig()
-    toolbarConfig.leftImageRes = R.drawable.service_icon_back
-    AppManager.getInstance().toolbarConfig = toolbarConfig
-
-    //跳转配置
-    val jumpConfig = JumpConfig()
-    jumpConfig.nativeScheme = CJump.SCHEME
-    jumpConfig.loadingPath = CRouter.APP_LOADING_ACTIVITY
-    jumpConfig.loginPath = CRouter.LOGIN_LOGIN_ACTIVITY
-    AppManager.getInstance().jumpConfig = jumpConfig
-
-    //用户信息配置
-    val userInfoConfig = UserInfoConfig()
-    userInfoConfig.isLogin = false
-    AppManager.getInstance().userInfoConfig = userInfoConfig
-
-    //WebView配置
-    val webViewConfig = WebViewConfig()
-    webViewConfig.scheme = CJump.SCHEME
-    webViewConfig.iWebViewClient = object : IWebViewClient {
-      override fun shouldOverrideUrlLoading(webView: WebView?, s: String?): Boolean {
-        if (s != null && s.startsWith(webViewConfig.scheme)) {
-
-        }
-        return false
+    AppInitManager.get().init(this, object : AppInitCallback {
+      override fun onInitStart(isMainProcess: Boolean, processName: String?) {
       }
-    }
-    WebViewManager.getInstance().webViewConfig = webViewConfig
 
-    super.onCreate()
-    //设置日志
-    Timber.plant(object : Timber.DebugTree() {
-      override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-        if (isDebug()) {
-          super.log(priority, tag, message, t)
-        }
+      override fun isDebug(): Boolean {
+        return BuildConfig.DEBUG
+      }
+
+      override fun getCoordinateAheadOfMap(): MutableMap<String, String>? {
+        return null
+      }
+
+      override fun onInitFinished(isMainProcess: Boolean, processName: String?, childInitTableList: MutableList<ChildInitTable>?, appInitItemList: MutableList<AppInitItem>?) {
       }
     })
-    //设置埋点
-    Tracker.init(this, TrackerConfig.Builder().build())
-    //页面跳转
-    JumpHelp.init(this)
-
-    //调用LoginComponent中的dagger组件
-    CC.obtainBuilder(CRouter.MODULE_MAIN).setActionName(IModule.INIT).build().callAsync()
-    CC.obtainBuilder(CRouter.MODULE_LOGIN).setActionName(IModule.INIT).build().callAsync()
-    CC.obtainBuilder(CRouter.MODULE_SETTING).setActionName(IModule.INIT).build().callAsync()
-
-    //分享
-    val config = SocialConfig.Builder(this, true).qqId(getString(R.string.qq_id))
-        .wx(getString(R.string.wx_id), getString(R.string.wx_secret))
-        .sign(getString(R.string.sina_id), getString(R.string.sina_url), SocialConstants.SCOPE)
-        .build()
-    SocialManager.init(config)
-
-    //bugly的Crash记录
-    CrashReport.initCrashReport(applicationContext, getString(R.string.bugly_id), false)
-
-
-    //设置状态栏监听
-    registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
-      override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        val simpleName = activity.javaClass.simpleName
-        if ("MainActivity" == simpleName) {
-          //status和界面中的布局覆盖布局，界面中加了fitWindow,有padding效果，覆盖白字
-          StatusBarCompat.translucentStatusBar(activity.window, true)
-          LightStatusBarCompat.setLightStatusBar(activity.window, false)
-        } else if (simpleName != "KeyboardStateActivity") {
-          //status和界面中的布局线性布局，白低黑字
-          StatusBarCompat.translucentStatusBar(activity.window, true)
-          LightStatusBarCompat.setLightStatusBar(activity.window, true)
-
-        }
-      }
-    })
-
-    DoraemonKit.install(this)
   }
 
-  override fun initImageLoader() {
-    super.initImageLoader()
-    FrescoUtils.initFresco(this.applicationContext, OkHttpNetworkFetcher(mAppComponent.okHttpClient()));
-    //图片加载引擎
-    ImageLoader.addImageLoadEngine(0, FrescoEngine())
-  }
+
 
   override fun androidInjector(): AndroidInjector<Any> {
     return object : AndroidInjector<Any> {
@@ -199,5 +138,25 @@ open class AppApplication : MiddleApplication() {
         }
       }
     }
+  }
+
+  override fun onTerminate() {
+    super.onTerminate()
+    AppInitManager.get().onTerminate()
+  }
+
+  override fun onConfigurationChanged(newConfig: Configuration?) {
+    super.onConfigurationChanged(newConfig)
+    AppInitManager.get().onConfigurationChanged(newConfig)
+  }
+
+  override fun onLowMemory() {
+    super.onLowMemory()
+    AppInitManager.get().onLowMemory()
+  }
+
+  override fun onTrimMemory(level: Int) {
+    super.onTrimMemory(level)
+    AppInitManager.get().onTrimMemory(level)
   }
 }

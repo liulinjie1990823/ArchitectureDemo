@@ -1,5 +1,6 @@
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt' // kapt 插件
+apply plugin: 'kotlin-kapt'
+apply plugin: 'bga-appinit-plugin'
 
 //app调试工具
 if (useDoraemonkit && buildTypeDebug) {
@@ -57,6 +58,22 @@ dependencies {
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
     implementation 'com.tencent.bugly:crashreport:3.2.33'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.471'
+
+    //flipper应用调试
+    debugImplementation 'com.facebook.soloader:soloader:0.9.0'
+    debugImplementation "com.facebook.flipper:flipper:0.52.1"
+    betaImplementation "com.facebook.flipper:flipper-noop:0.52.1"
+    releaseImplementation "com.facebook.flipper:flipper-noop:0.52.1"
+
+    debugImplementation 'com.facebook.flipper:flipper-litho-plugin:0.52.1'
+    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.52.1'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.52.1'
+    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.52.1'
+
+    //内存检测
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    betaImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
     //https://github.com/didi/DoraemonKit
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'

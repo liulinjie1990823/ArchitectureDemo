@@ -1,6 +1,7 @@
 package com.llj.architecturedemo.ui.fragment;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.llj.adapter.UniversalBind;
 import com.llj.adapter.UniversalBind.Builder;
 import com.llj.adapter.converter.UniversalConverterFactory;
 import com.llj.adapter.util.ViewHolderHelper;
+import com.llj.application.AppApplication;
 import com.llj.architecturedemo.AppMvcBaseFragment;
 import com.llj.architecturedemo.AppMvpBaseActivity;
 import com.llj.architecturedemo.AppMvpBaseFragment;
@@ -148,7 +150,7 @@ public class MineFragment extends
     if (!isHidden() && hasInLoading()) {
       showLoadingDialog();
     }
-    handleUserInfo(MiddleApplication.mUserInfoVo);
+    handleUserInfo(AppApplication.mUserInfoVo);
 
   }
 
@@ -708,9 +710,9 @@ public class MineFragment extends
 
     //用户信息
     if (data.getUser() != null) {
-      data.getUser().setAccess_token(MiddleApplication.mUserInfoVo.getAccess_token());
-      MiddleApplication.Companion.initUserInfo(data.getUser());
-      handleUserInfo(MiddleApplication.mUserInfoVo);
+      data.getUser().setAccess_token(AppApplication.mUserInfoVo.getAccess_token());
+      //MiddleApplication.Companion.initUserInfo(data.getUser());
+      handleUserInfo(AppApplication.mUserInfoVo);
     }
 
     //        UserInfoPreference.Companion.getInstance().(data.getServer_tel());

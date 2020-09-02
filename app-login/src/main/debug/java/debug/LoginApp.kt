@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.multidex.MultiDex
-import com.billy.cc.core.component.CC
 import com.llj.application.AppApplication
 import com.llj.lib.base.MvpBaseActivity
 import com.llj.lib.base.MvpBaseFragment
@@ -50,10 +49,6 @@ class LoginApp : AppApplication(), BootstrapNotifier {
     mLoginComponent = DaggerLoginComponent.builder()
         .appComponent(mAppComponent)
         .build()
-
-    CC.enableVerboseLog(true)
-    CC.enableDebug(true)
-    CC.enableRemoteCC(true)
 
     registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
 

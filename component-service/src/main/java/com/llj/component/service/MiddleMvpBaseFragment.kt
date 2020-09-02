@@ -1,6 +1,7 @@
 package com.llj.component.service
 
 import android.app.Activity
+import android.app.Application
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.annotation.CallSuper
@@ -72,14 +73,11 @@ abstract class MiddleMvpBaseFragment<V : ViewBinding, P : IBasePresenter> : MvpB
   }
 
   fun checkLogin(): Boolean {
-    return if (TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)) {
-      //            CRouter.start(CRouter.LOGIN_PHONE_LOGIN);
-      false
-    } else true
+    return false
   }
 
 
   fun isLogin(): Boolean {
-    return !TextUtils.isEmpty(MiddleApplication.mUserInfoVo.access_token)
+    return false
   }
 }

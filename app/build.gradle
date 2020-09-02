@@ -1,5 +1,6 @@
 //打渠道包
 apply plugin: 'walle'
+apply plugin: 'com.alibaba.arouter'
 
 walle {
     // 指定渠道包的输出路径

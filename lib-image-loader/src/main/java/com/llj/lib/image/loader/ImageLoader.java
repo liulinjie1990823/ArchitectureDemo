@@ -15,51 +15,43 @@ import com.llj.lib.image.loader.core.XImageView;
  */
 public class ImageLoader implements ICustomImageLoader<ImageView> {
 
-  private static SparseArray<ICustomImageLoader<ImageView>> mEngines = new SparseArray<>();
+  private static SparseArray<ImageLoader>      sEngines = new SparseArray<>();
+  private        ICustomImageLoader<ImageView> mEngine;
 
-  private static ImageLoader                   sImageLoader;
-  private static ICustomImageLoader<ImageView> sEngine;
+  public ImageLoader(ICustomImageLoader<ImageView> engine) {
+    mEngine = engine;
+  }
 
   public static ImageLoader getInstance() {
-    if (mEngines.size() == 0) {
+    if (sEngines.size() == 0) {
       throw new RuntimeException("no mEngines");
     }
-    sEngine = mEngines.get(ImageConfig.DEFAULT_ENGINE);
-    if (sEngine == null) {
+    ImageLoader engine = sEngines.get(ImageConfig.DEFAULT_ENGINE);
+    if (engine == null) {
       throw new RuntimeException("the type of engine is null");
     }
-    synchronized (ImageLoader.class) {
-      if (sImageLoader == null) {
-        sImageLoader = new ImageLoader();
-      }
-    }
-    return sImageLoader;
+    return engine;
   }
 
   public static ImageLoader getInstance(int type) {
-    if (mEngines.size() == 0) {
+    if (sEngines.size() == 0) {
       throw new RuntimeException("no mEngines");
     }
-    sEngine = mEngines.get(type);
-    if (sEngine == null) {
+    ImageLoader engine = sEngines.get(type);
+    if (engine == null) {
       throw new RuntimeException("the type of engine is null");
     }
-    synchronized (ImageLoader.class) {
-      if (sImageLoader == null) {
-        sImageLoader = new ImageLoader();
-      }
-    }
-    return sImageLoader;
+    return engine;
   }
 
 
   public static void addImageLoadEngine(int type,
       ICustomImageLoader engine) {
-    int indexOfKey = mEngines.indexOfKey(type);
+    int indexOfKey = sEngines.indexOfKey(type);
     if (indexOfKey >= 0) {
       throw new RuntimeException("the same engine exist");
     }
-    mEngines.put(type, engine);
+    sEngines.put(type, new ImageLoader(engine));
   }
 
   @Override
@@ -69,100 +61,100 @@ public class ImageLoader implements ICustomImageLoader<ImageView> {
 
   @Override
   public void loadImage(ImageView view, int resId, int width, int height) {
-    sEngine.loadImage(view, resId, width, height);
+    mEngine.loadImage(view, resId, width, height);
   }
 
   @Override
   public void loadImage(ImageView view, int resId, int width, int height, boolean isCircle) {
-    sEngine.loadImage(view, resId, width, height, isCircle);
+    mEngine.loadImage(view, resId, width, height, isCircle);
   }
 
   @Override
   public void loadImage(ImageView view, int resId, int width, int height, boolean isCircle,
       boolean autoPlayAnimations) {
-    sEngine.loadImage(view, resId, width, height, isCircle, autoPlayAnimations);
+    mEngine.loadImage(view, resId, width, height, isCircle, autoPlayAnimations);
   }
 
   @Override
   public void loadImage(ImageView view, int resId, int width, int height, boolean isCircle,
       int borderColor, float borderWidth, boolean autoPlayAnimations) {
-    sEngine.loadImage(view, resId, width, height, isCircle, borderColor, borderWidth,
+    mEngine.loadImage(view, resId, width, height, isCircle, borderColor, borderWidth,
         autoPlayAnimations);
   }
 
   @Override
   public void loadImage(ImageView view, int resId, int width, int height, float[] radii) {
-    sEngine.loadImage(view, resId, width, height, radii);
+    mEngine.loadImage(view, resId, width, height, radii);
   }
 
   @Override
   public void loadImage(ImageView view, int resId, int width, int height, float[] radii,
       boolean autoPlayAnimations) {
-    sEngine.loadImage(view, resId, width, height, radii, autoPlayAnimations);
+    mEngine.loadImage(view, resId, width, height, radii, autoPlayAnimations);
   }
 
   @Override
   public void loadImage(ImageView view, int resId, int width, int height, float[] radii,
       int borderColor, float borderWidth, boolean autoPlayAnimations) {
-    sEngine
+    mEngine
         .loadImage(view, resId, width, height, radii, borderColor, borderWidth, autoPlayAnimations);
   }
 
   @Override
   public void loadImage(ImageView view, @Nullable CharSequence urlOrPath, int width, int height) {
-    sEngine.loadImage(view, urlOrPath, width, height);
+    mEngine.loadImage(view, urlOrPath, width, height);
   }
 
   @Override
   public void loadImage(ImageView view, @Nullable CharSequence urlOrPath, int width, int height,
       boolean isCircle) {
-    sEngine.loadImage(view, urlOrPath, width, height, isCircle);
+    mEngine.loadImage(view, urlOrPath, width, height, isCircle);
   }
 
   @Override
   public void loadImage(ImageView view, @Nullable CharSequence urlOrPath, int width, int height,
       boolean isCircle, boolean autoPlayAnimations) {
-    sEngine.loadImage(view, urlOrPath, width, height, isCircle, autoPlayAnimations);
+    mEngine.loadImage(view, urlOrPath, width, height, isCircle, autoPlayAnimations);
   }
 
   @Override
   public void loadImage(ImageView view, @Nullable CharSequence urlOrPath, int width, int height,
       boolean isCircle, int borderColor, float borderWidth, boolean autoPlayAnimations) {
-    sEngine.loadImage(view, urlOrPath, width, height, isCircle, borderColor, borderWidth,
+    mEngine.loadImage(view, urlOrPath, width, height, isCircle, borderColor, borderWidth,
         autoPlayAnimations);
   }
 
   @Override
   public void loadImage(ImageView view, @Nullable CharSequence urlOrPath, int width, int height,
       float[] radii) {
-    sEngine.loadImage(view, urlOrPath, width, height, radii);
+    mEngine.loadImage(view, urlOrPath, width, height, radii);
   }
 
   @Override
   public void loadImage(ImageView view, @Nullable CharSequence urlOrPath, int width, int height,
       float[] radii, boolean autoPlayAnimations) {
-    sEngine.loadImage(view, urlOrPath, width, height, radii, autoPlayAnimations);
+    mEngine.loadImage(view, urlOrPath, width, height, radii, autoPlayAnimations);
   }
 
   @Override
   public void loadImage(ImageView view, @Nullable CharSequence urlOrPath, int width, int height,
       float[] radii, int borderColor, float borderWidth, boolean autoPlayAnimations) {
-    sEngine.loadImage(view, urlOrPath, width, height, radii, borderColor, borderWidth,
+    mEngine.loadImage(view, urlOrPath, width, height, radii, borderColor, borderWidth,
         autoPlayAnimations);
   }
 
   @Override
   public void clearMemoryCaches() {
-    sEngine.clearMemoryCaches();
+    mEngine.clearMemoryCaches();
   }
 
   @Override
   public void clearDiskCaches() {
-    sEngine.clearDiskCaches();
+    mEngine.clearDiskCaches();
   }
 
   @Override
   public void clearCaches() {
-    sEngine.clearCaches();
+    mEngine.clearCaches();
   }
 }

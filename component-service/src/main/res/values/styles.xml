@@ -25,7 +25,12 @@
     <style name="MyAppTheme.NoActionBar.Loading">
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
-        <item name="android:windowAnimationStyle">@style/activity_loading</item>
+<!--        <item name="android:windowAnimationStyle">@style/activity_loading</item>-->
+    </style>
+
+    <style name="MyAppTheme.NoActionBar.Tab">
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowAnimationStyle">@style/activity_tab</item>
     </style>
 
     <!--拖拽activity时可以看到底部的activity,就是拖拽的activity的背景半透明-->

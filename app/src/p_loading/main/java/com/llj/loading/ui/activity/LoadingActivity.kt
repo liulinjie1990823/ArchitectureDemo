@@ -26,6 +26,9 @@ import java.util.concurrent.TimeUnit
 /**
  * ArchitectureDemo.
  * describe:
+ * 1. 直接打开页面，使用主题中设置的动画即可
+ * 2. 使用finish关闭有很大概率动画不衔接，不推荐使用
+ * 3. （推荐）如果通过设置Flags来关闭页面，仅仅在主题中设置的动画会不衔接，也需要设置.withTransition(R.anim.fade_in, R.anim.no_fade)
  * @author llj
  * @date 2018/9/20
  */
@@ -52,8 +55,10 @@ class LoadingActivity : AppMvcBaseActivity<ActivityLoadingBinding>() {
 
       ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
           .withTransition(R.anim.fade_in, R.anim.no_fade)
-          .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//          .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
           .navigation(mContext)
+
+      finish()
     }
 
     PermissionManager.checkPhoneStateAndStorage(this) {
@@ -76,7 +81,7 @@ class LoadingActivity : AppMvcBaseActivity<ActivityLoadingBinding>() {
   }
 
   fun countDown() {
-    val count: Long = 15 //倒计时10秒
+    val count: Long = 4 //倒计时10秒
     Observable.interval(0, 1, TimeUnit.SECONDS)
         .take(count + 1)
         .map(object : Function<Long, Long> {

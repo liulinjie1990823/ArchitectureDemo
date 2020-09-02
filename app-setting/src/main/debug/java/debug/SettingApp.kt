@@ -1,6 +1,5 @@
 package debug
 
-import com.billy.cc.core.component.CC
 import com.llj.application.AppApplication
 import com.llj.setting.di.DaggerSettingComponent
 import com.llj.setting.di.SettingComponent
@@ -16,8 +15,5 @@ class SettingApp : AppApplication() {
         mSettingComponent = DaggerSettingComponent.builder()
                 .appComponent(mAppComponent)
                 .build()
-        CC.enableVerboseLog(true)
-        CC.enableDebug(true)
-        CC.enableRemoteCC(true)
     }
 }

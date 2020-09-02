@@ -18,78 +18,31 @@ import javax.inject.Inject
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/4/25
+ * @author liulj
+ * @date 2018/4/25
  */
-abstract class BaseApplication : Application(),
-        HasAndroidInjector {
-    val mTagLog: String = this.javaClass.simpleName
-
-    @Inject
-    lateinit var mActivityInjector: DispatchingAndroidInjector<Any>
+abstract class BaseApplication : Application() {
+  val mTagLog: String = this.javaClass.simpleName
 
 
-    @CallSuper
-    override fun onCreate() {
-        super.onCreate()
-        Utils.init(this)
+  @CallSuper
+  override fun onCreate() {
+    super.onCreate()
+  }
 
-        initDisplay() // 初始化屏幕宽高信息
-        initSavePath() // 初始化文件存储路径
+  protected open fun isDebug(): Boolean {
+    return false
+  }
 
-        initImageLoader() //图片加载器
-        initToast() //全局toast初始化
-        initCrashHandler() //异常捕捉
-
-        if (AActivityManagerUtils.isRunningProcess(this)) {
-            initFlipper() //设置okhttp请求调试
-            initStrictMode() //设置严格模式
-        }
+  //debug下启用
+  protected open fun initStrictMode() {
+    if (isDebug()) {
+      //设置线程策略
+      StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().detectAll().penaltyDialog().build())
+      //设置虚拟机策略
+      StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build())
     }
 
-    private fun initDisplay() {
-        DisplayHelper.init(this)
-    }
+  }
 
-    private fun initSavePath() {
-        FilePathHelper.init(this)
-    }
-
-    protected open fun isDebug(): Boolean {
-        return false
-    }
-
-    protected open fun initImageLoader() {
-    }
-
-
-    protected open fun initToast() {
-        AToastUtils.init()
-    }
-
-
-    //崩溃日志记录
-    protected open fun initCrashHandler() {
-        CrashHelper.getInstance().init(this) { LogUtil.LLJe(it) }
-    }
-
-    //debug下启用
-    protected open fun initFlipper() {
-    }
-
-    //debug下启用
-    protected open fun initStrictMode() {
-        if (isDebug()) {
-            //设置线程策略
-            StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().detectAll().penaltyDialog().build())
-            //设置虚拟机策略
-            StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build())
-        }
-
-    }
-
-
-    override fun androidInjector(): AndroidInjector<Any> {
-        return mActivityInjector
-    }
 }
