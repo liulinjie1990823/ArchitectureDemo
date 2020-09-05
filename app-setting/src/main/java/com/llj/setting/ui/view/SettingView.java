@@ -1,6 +1,6 @@
 package com.llj.setting.ui.view;
 
-import com.llj.component.service.vo.UserInfoVo;
+import com.llj.application.vo.UserInfoVo;
 import com.llj.lib.base.mvp.IBaseTaskView1;
 import com.llj.lib.base.mvp.IBaseTaskView2;
 import com.llj.setting.ui.model.MobileInfoVo;

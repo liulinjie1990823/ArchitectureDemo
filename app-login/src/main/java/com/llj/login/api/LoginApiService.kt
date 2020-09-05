@@ -1,6 +1,6 @@
 package com.llj.login.api
 
-import com.llj.component.service.vo.UserInfoVo
+import com.llj.application.vo.UserInfoVo
 import com.llj.lib.net.response.BaseResponse
 import com.llj.login.ui.model.MobileInfoVo
 import io.reactivex.Single

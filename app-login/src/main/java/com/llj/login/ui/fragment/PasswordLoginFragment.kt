@@ -7,7 +7,7 @@ import android.widget.EditText
 import butterknife.BindView
 import com.llj.component.service.permission.PermissionManager
 import com.llj.component.service.utils.CharInputFilter
-import com.llj.component.service.vo.UserInfoVo
+import com.llj.application.vo.UserInfoVo
 import com.llj.lib.base.listeners.OnMyClickListener
 import com.llj.lib.base.listeners.SimpleTextWatcher
 import com.llj.lib.utils.ARegexUtils

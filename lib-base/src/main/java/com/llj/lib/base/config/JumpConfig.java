@@ -11,6 +11,7 @@ public class JumpConfig {
     private String mNativeScheme;
     private String mLoginPath;
     private String mLoadingPath;
+    private String mMainPath;
 
     public String getLoginPath() {
         return mLoginPath;
@@ -34,5 +35,13 @@ public class JumpConfig {
 
     public void setNativeScheme(String nativeScheme) {
         mNativeScheme = nativeScheme;
+    }
+
+    public String getMainPath() {
+        return mMainPath;
+    }
+
+    public void setMainPath(String mainPath) {
+        mMainPath = mainPath;
     }
 }

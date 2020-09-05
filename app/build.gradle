@@ -21,7 +21,7 @@ if (useMatrix && buildTypeDebug) {
     apply plugin: 'com.tencent.matrix-plugin'
     matrix {
         trace {
-            enable = true	//if you don't want to use trace canary, set false
+            enable = true    //if you don't want to use trace canary, set false
             baseMethodMapFile = "${project.buildDir}/matrix_output/Debug.methodmap"
             blackListFile = "${project.projectDir}/matrixTrace/blackMethodList.txt"
         }
@@ -117,6 +117,33 @@ android {
         dataBinding { enabled = true }
 
     }
+    sourceSets {
+
+        main {
+//            def dirs = useFlutterSrc ? ['main', 'p_flutter'] : ['main']
+            def dirs = ['main']
+            //一个sourceSet下只能指定一个manifest文件，比如main为一个sourceSet，每一个productFlavor也是sourceSet
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            dirs.each { dir ->
+                java.srcDir("src/${dir}/java")
+                res.srcDir("src/${dir}/res")
+                assets.srcDir("src/${dir}/assets")
+            }
+        }
+        if (useFlutterSrc) {
+            p_flutter {
+                def dirs = ['p_flutter']
+                //一个sourceSet下只能指定一个manifest文件，
+                manifest.srcFile 'src/p_flutter/AndroidManifest.xml'
+                dirs.each { dir ->
+                    java.srcDir("src/${dir}/java")
+                    res.srcDir("src/${dir}/res")
+                    assets.srcDir("src/${dir}/assets")
+                }
+            }
+        }
+    }
+
     signingConfigs {
         release {
             storeFile file("../itotemHunbohui.keystore")
@@ -128,7 +155,9 @@ android {
     flavorDimensions "free"
 
     productFlavors {
-//        wm { dimension "free" }
+        if (useFlutterSrc) {
+            p_flutter { dimension "free" }
+        }
 //        mt { dimension "free" }
     }
 
@@ -158,30 +187,6 @@ android {
         type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
     }
 
-    sourceSets {
-        def dirs = ['p_app', 'p_widget', 'p_loading', 'p_mine', 'p_login']
-        main {
-            manifest.srcFile 'src/p_app/main/AndroidManifest.xml'
-            dirs.each { dir ->
-                java.srcDir("src/${dir}/main/java")
-                res.srcDir("src/${dir}/main/res")
-                assets.srcDirs("src/${dir}/main/assets")
-            }
-        }
-//        wm {
-//            dirs.each { dir ->
-//                java.srcDir("src/${dir}/wm/java")
-//                res.srcDir("src/${dir}/wm/res")
-//            }
-//        }
-//        mt {
-//            dirs.each { dir ->
-//                java.srcDir("src/${dir}/mt/java")
-//                res.srcDir("src/${dir}/mt/res")
-//            }
-//        }
-
-    }
 
     //buildFeatures {
     //    // Enables Jetpack Compose for this module
@@ -272,32 +277,20 @@ if (useApkUploadPlugin) {
 //}
 
 dependencies {
-//    implementation project(':flutter')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':lib-jni-test')
-    api project(':lib-opengl')
-    api project(':lib-opencv')
-    api project(':lib-jpeg-turbo-utils')
-    api project(':lib-record')
-    api project(':lib-kodo')
-    //    api project(':lib-player')
-    implementation Deps.multidex
     implementation Deps.badgeview
     implementation Deps.viewpager2
+
     if (useComponent) {
+        addComponent 'app-main'
         addComponent 'app-login'
         addComponent 'app-mine'
         addComponent 'app-setting'
     } else {
+        api project(':app-main')
         api project(':app-login')
         api project(':app-mine')
         api project(':app-setting')
-    }
-    if (useMaven) {
-        kapt Deps.component_compiler
-    } else {
-        kapt project(':lib-component-compiler')
-        kapt project(':lib-jump-compiler')
     }
     implementation 'com.github.Yuphee:RewardLayout:1.0.5.8'
 
@@ -311,12 +304,11 @@ dependencies {
     if (useFlutterSrc) {
         implementation project(':flutter')
         implementation project(':flutter_boost')
-    } else {
     }
 
     implementation 'com.github.florent37:shapeofview:1.4.7'
     implementation 'com.arthenica:mobile-ffmpeg-full:4.3.2'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation Deps.appcompat
 
     implementation 'androidx.fragment:fragment-ktx:1.2.5'
 

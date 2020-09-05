@@ -4,7 +4,7 @@ import com.billy.cc.core.component.CC
 import com.billy.cc.core.component.IComponent
 import com.llj.application.AppApplication
 import com.llj.application.di.IModule
-import com.llj.component.service.arouter.CRouter
+import com.llj.application.router.CRouter
 import com.llj.lib.base.di.IInject
 import com.llj.login.di.DaggerLoginComponent
 

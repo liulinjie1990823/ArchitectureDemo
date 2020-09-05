@@ -27,7 +27,7 @@ import javax.lang.model.util.Elements;
  * package com.llj.login.ui.presenter;
  *
  * import com.llj.adapter.refresh.IRefresh;
- * import com.llj.component.service.vo.UserInfoVo;
+ * import com.llj.application.vo.UserInfoVo;
  * import com.llj.lib.net.RxApiManager;
  * import com.llj.lib.net.observer.BaseApiObserver;
  * import com.llj.lib.net.response.BaseResponse;

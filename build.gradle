@@ -8,6 +8,9 @@ buildscript {
     apply from: rootProject.file('gradle/configVersions.gradle')
     //工具类
     apply from: rootProject.file('gradle/utils.gradle')
+    ext {
+        kotlin_version = '1.4.0'
+    }
 
     addRepos(repositories)
     dependencies {
@@ -17,7 +20,7 @@ buildscript {
         }
         //maven库更新检测
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.29.0'
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28.3-alpha'
         //android-plugin插件
         if (useNew) {
             classpath Deps.android_gradle_plugin_new
@@ -79,6 +82,7 @@ buildscript {
         classpath "com.github.nekocode:JarFilterPlugin:2.4"
         classpath 'com.github.yanbober:android-build-filter-gradle-plugin:1.0.1'
         classpath 'coder.siy:exclude-dependencies-plugin:1.0.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -149,7 +153,7 @@ allprojects {
 //配置library相关属性
 apply from: rootProject.file('gradle/configLibrary.gradle')
 //配置module相关属性
-apply from: rootProject.file('gradle/configApp.gradle')
+apply from: rootProject.file('gradle/configModule.gradle')
 
 
 afterEvaluate {

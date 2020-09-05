@@ -2,8 +2,8 @@ package com.llj.setting.ui.activity;
 
 import android.os.Bundle;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.llj.component.service.arouter.CRouter;
-import com.llj.component.service.vo.UserInfoVo;
+import com.llj.application.router.CRouter;
+import com.llj.application.vo.UserInfoVo;
 import com.llj.setting.R;
 import com.llj.setting.SettingMvpBaseActivity;
 import com.llj.setting.ui.model.MobileInfoVo;

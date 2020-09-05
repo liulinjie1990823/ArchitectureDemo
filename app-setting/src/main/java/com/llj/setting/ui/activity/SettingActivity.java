@@ -5,7 +5,7 @@ import android.view.View;
 import butterknife.BindViews;
 import butterknife.internal.DebouncingOnClickListener;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.llj.component.service.arouter.CRouter;
+import com.llj.application.router.CRouter;
 import com.llj.setting.R;
 import com.llj.setting.R2;
 import com.llj.setting.SettingMvcBaseActivity;

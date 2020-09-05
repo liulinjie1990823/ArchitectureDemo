@@ -9,7 +9,7 @@ import com.alibaba.android.arouter.facade.annotation.Interceptor;
 import com.alibaba.android.arouter.facade.callback.InterceptorCallback;
 import com.alibaba.android.arouter.facade.template.IInterceptor;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.llj.component.service.arouter.CRouter;
+import com.llj.application.router.CRouter;
 import com.llj.lib.base.AppManager;
 
 /**

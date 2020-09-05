@@ -6,7 +6,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.internal.DebouncingOnClickListener;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.llj.component.service.arouter.CRouter;
+import com.llj.application.router.CRouter;
 import com.llj.setting.R;
 import com.llj.setting.R2;
 import com.llj.setting.SettingMvcBaseFragment;
@@ -48,8 +48,11 @@ public class InjectFragment extends SettingMvcBaseFragment implements View.OnCli
         mTextView2.setText("mTextView2");
       }
     });
-    textView3.setOnClickListener(v -> {
-      textView3.setText("textView3");
+    textView3.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View v) {
+        textView3.setText("textView3");
+      }
     });
 
     mTextView4.setOnClickListener(this);

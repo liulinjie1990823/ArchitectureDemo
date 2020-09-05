@@ -13,8 +13,8 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
-import com.llj.component.service.arouter.CJump
-import com.llj.component.service.arouter.CRouter
+import com.llj.application.router.CJump
+import com.llj.application.router.CRouter
 import com.llj.lib.base.AppManager
 import com.llj.lib.jump.annotation.Jump
 import com.llj.login.LoginMvcBaseActivity

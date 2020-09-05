@@ -1,3 +1,4 @@
+
 include ':lib-opencv'
 include ':application'
 //
@@ -27,11 +28,12 @@ include ':lib-jni-test'
 //include ':module-java'
 //include ':lib-player'
 
-include 'app',
+include ':app',
         ':component-service',
         ':app-login',
         ':app-setting',
-        ':app-mine'
+        ':app-mine',
+        ':app-main'
 
 include ':plugin-code-inject'
 include ':plugin-upload'

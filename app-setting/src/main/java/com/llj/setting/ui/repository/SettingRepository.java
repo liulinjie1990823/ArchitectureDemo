@@ -1,6 +1,6 @@
 package com.llj.setting.ui.repository;
 
-import com.llj.component.service.vo.UserInfoVo;
+import com.llj.application.vo.UserInfoVo;
 import com.llj.lib.base.mvp.BaseRepository;
 import com.llj.lib.net.response.BaseResponse;
 import com.llj.setting.api.SettingApiService;

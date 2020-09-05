@@ -2,7 +2,7 @@ package com.llj.setting
 
 import androidx.viewbinding.ViewBinding
 import com.llj.component.service.MiddleMvcBaseFragment
-import com.llj.component.service.arouter.CRouter
+import com.llj.application.router.CRouter
 
 /**
  * ArchitectureDemo.

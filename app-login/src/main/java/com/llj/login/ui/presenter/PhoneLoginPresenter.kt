@@ -1,6 +1,6 @@
 package com.llj.login.ui.presenter
 
-import com.llj.component.service.vo.UserInfoVo
+import com.llj.application.vo.UserInfoVo
 import com.llj.lib.base.mvp.BaseActivityPresenter
 import com.llj.lib.net.RxApiManager
 import com.llj.lib.net.observer.BaseApiObserver

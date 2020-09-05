@@ -6,7 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.application.AppApplication
 import com.llj.application.di.IModule
 import com.llj.application.service.ModuleService
-import com.llj.component.service.arouter.CRouter
+import com.llj.application.router.CRouter
 import com.llj.lib.base.di.IInject
 import com.llj.login.di.DaggerLoginComponent
 

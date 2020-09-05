@@ -6,7 +6,7 @@ import androidx.viewbinding.ViewBinding;
 import com.alibaba.android.arouter.core.LogisticsCenter;
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.llj.component.service.arouter.CJump;
+import com.llj.lib.base.AppManager;
 import com.llj.lib.base.MvcBaseActivity;
 import com.llj.lib.base.event.BaseEvent;
 import com.llj.lib.jump.annotation.callback.JumpCallback;
@@ -18,15 +18,20 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * ArchitectureDemo. describe: author llj date 2018/12/13
+ * ArchitectureDemo
+ *
+ * describe
+ *
+ * @author liulinjie
+ * @date 2020/9/5 2:17 PM
  */
 public abstract class MiddleMvcBaseActivity<V extends ViewBinding> extends
     MvcBaseActivity<V> implements ITracker {
 
-  protected int mActivityOpenEnterAnimation;
-  protected int mActivityOpenExitAnimation;
-  protected int mActivityCloseEnterAnimation;
-  protected int mActivityCloseExitAnimation;
+  protected int     mActivityOpenEnterAnimation;
+  protected int     mActivityOpenExitAnimation;
+  protected int     mActivityCloseEnterAnimation;
+  protected int     mActivityCloseExitAnimation;
   protected boolean mIsWindowIsTranslucent;
 
   protected boolean mUseAnim;
@@ -109,7 +114,8 @@ public abstract class MiddleMvcBaseActivity<V extends ViewBinding> extends
   @Override
   public boolean inCurrentPage(@NotNull BaseEvent event) {
     String pageName = event.getPageName();
-    if (pageName != null && pageName.startsWith(CJump.SCHEME)) {
+    if (pageName != null && pageName
+        .startsWith(AppManager.getInstance().getJumpConfig().getNativeScheme())) {
       JumpCallback jumpCallback = Warehouse.sMap.get(pageName);
       if (jumpCallback != null) {
         //通过ciw获取内页地址

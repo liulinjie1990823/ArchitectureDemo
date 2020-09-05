@@ -1,3 +1,4 @@
+
 // load properties
 Properties localProperties = new Properties()
 Properties properties = new Properties()
@@ -44,9 +45,34 @@ def bintrayApiUser = localProperties.getProperty("bintray.user")
 def bintrayApikey = localProperties.getProperty("bintray.apikey")
 
 if (projectUserOrg != null) {
-//    0.9.2版本在gradle6.0上有bug
+// 0.9.2版本在gradle6.0上有bug
 
-    println("project.name:"+project.name)
+    println("project.name:" + project.name)
+
+    //https://github.com/novoda/bintray-release
+    //用于发布本地或远程自定义仓库，MavenLocal，bintray.com
+    //会增加publishing和upload组任务
+
+    //增加publishing组
+    //bintrayUpload
+    //generateMetadataFileForBetaPublication
+    //generateMetadataFileForDebugPublication
+    //generateMetadataFileForReleasePublication
+    //generatePomFileForBetaPublication
+    //generatePomFileForDebugPublication
+    //generatePomFileForReleasePublication
+    //publish
+    //publishBetaPublicationToMavenLocal
+    //publishDebugPublicationToMavenLocal
+    //publishReleasePublicationToMavenLocal
+    //publishToMavenLocal
+
+    //增加upload组
+    //uploadArchives
+
+
+    //publishToMavenLocal打本地包
+    //上传bintray.com使用bintrayUpload任务
 
     apply plugin: 'com.novoda.bintray-release'
 
@@ -71,15 +97,15 @@ if (projectUserOrg != null) {
         }
     } else {
         //文档
-//        task javadocJar(type: Jar, dependsOn: javadoc) {
-//            from javadoc.destinationDir
-//            classifier = 'javadoc'
-//        }
-//        //源码
-//        task sourcesJar(type: Jar, dependsOn: classes) {
-//            from sourceSets.main.allSource
-//            classifier = 'sources'
-//        }
+        task javadocJar(type: Jar, dependsOn: javadoc) {
+            from javadoc.destinationDir
+            classifier = 'javadoc'
+        }
+        //源码
+        task sourcesJar(type: Jar, dependsOn: classes) {
+            from sourceSets.main.allSource
+            classifier = 'sources'
+        }
     }
 
 //略过Javadoc中的编码问题
@@ -95,6 +121,26 @@ if (projectUserOrg != null) {
         }
     }
 
+    publishing {
+
+        //设置发布仓库
+        repositories {
+            maven {
+                //可以使本地路径，也可以是远程仓库
+                url = "../repo"
+                //指定要上传的maven私服仓库
+//            url = "http://jenkins.maxrocky.com:8080/maven/content/repositories/thirdparty/"
+                //远程的仓库名称，一般url就指定了仓库名称
+                name = "localRepo"
+
+                //认证用户和密码
+//            credentials {
+//                username 'admin'
+//                password 'maxrocky5721'
+//            }
+            }
+        }
+    }
 
     publish {
         userOrg = projectUserOrg

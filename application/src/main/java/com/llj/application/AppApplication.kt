@@ -1,54 +1,25 @@
 package com.llj.application
 
-import android.app.Activity
 import android.app.Application
-import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
-import android.os.Bundle
 import android.util.ArrayMap
-import androidx.multidex.MultiDex
 import com.alibaba.android.arouter.launcher.ARouter
-import com.billy.cc.core.component.CC
-import com.didichuxing.doraemonkit.DoraemonKit
-import com.facebook.imagepipeline.backends.okhttp3.OkHttpNetworkFetcher
 import com.llj.application.di.AppComponent
 import com.llj.application.di.DaggerAppComponent
 import com.llj.application.di.IModule
 import com.llj.application.service.ModuleService
-import com.llj.component.service.MiddleApplication
-import com.llj.component.service.arouter.CJump
-import com.llj.component.service.arouter.CRouter
-import com.llj.component.service.preference.UserInfoPreference
-import com.llj.component.service.vo.UserInfoVo
-import com.llj.lib.base.*
-import com.llj.lib.base.config.JumpConfig
-import com.llj.lib.base.config.ToolbarConfig
-import com.llj.lib.base.config.UserInfoConfig
-import com.llj.lib.base.listeners.ActivityLifecycleCallbacksAdapter
-import com.llj.lib.image.loader.ImageLoader
-import com.llj.lib.image.loader.engine.fresco.FrescoEngine
-import com.llj.lib.image.loader.engine.fresco.FrescoUtils
-import com.llj.lib.jump.api.JumpHelp
-import com.llj.lib.statusbar.LightStatusBarCompat
-import com.llj.lib.statusbar.StatusBarCompat
-import com.llj.lib.tracker.Tracker
-import com.llj.lib.tracker.TrackerConfig
+import com.llj.application.vo.UserInfoVo
+import com.llj.lib.base.MvcBaseActivity
+import com.llj.lib.base.MvpBaseActivity
+import com.llj.lib.base.MvpBaseFragment
 import com.llj.lib.utils.helper.Utils
-import com.llj.lib.webview.manager.IWebViewClient
-import com.llj.lib.webview.manager.WebViewConfig
-import com.llj.lib.webview.manager.WebViewManager
-import com.llj.socialization.SocialConstants
-import com.llj.socialization.init.SocialConfig
-import com.llj.socialization.init.SocialManager
 import com.sankuai.erp.component.appinit.api.AppInitManager
 import com.sankuai.erp.component.appinit.common.AppInitCallback
 import com.sankuai.erp.component.appinit.common.AppInitItem
 import com.sankuai.erp.component.appinit.common.ChildInitTable
-import com.tencent.bugly.crashreport.CrashReport
-import com.tencent.smtt.sdk.WebView
 import dagger.android.AndroidInjector
 import dagger.android.HasAndroidInjector
-import timber.log.Timber
 
 
 /**
@@ -79,7 +50,7 @@ open class AppApplication : Application(), HasAndroidInjector {
       }
 
       override fun isDebug(): Boolean {
-        return BuildConfig.DEBUG
+        return applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
       }
 
       override fun getCoordinateAheadOfMap(): MutableMap<String, String>? {
@@ -90,7 +61,6 @@ open class AppApplication : Application(), HasAndroidInjector {
       }
     })
   }
-
 
 
   override fun androidInjector(): AndroidInjector<Any> {

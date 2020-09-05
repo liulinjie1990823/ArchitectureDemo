@@ -2,7 +2,7 @@ package com.llj.setting;
 
 import androidx.viewbinding.ViewBinding;
 import com.llj.component.service.MiddleMvpBaseActivity;
-import com.llj.component.service.arouter.CRouter;
+import com.llj.application.router.CRouter;
 import com.llj.lib.base.mvp.IBasePresenter;
 import org.jetbrains.annotations.NotNull;
 

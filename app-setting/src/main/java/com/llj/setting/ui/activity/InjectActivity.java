@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.llj.lib.jump.annotation.Jump;
-import com.llj.component.service.arouter.CRouter;
+import com.llj.application.router.CRouter;
 import com.llj.lib.utils.AFragmentUtils;
 import com.llj.setting.R;
 import com.llj.setting.SettingMvcBaseActivity;

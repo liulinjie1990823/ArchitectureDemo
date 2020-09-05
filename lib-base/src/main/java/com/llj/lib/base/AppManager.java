@@ -29,10 +29,10 @@ public class AppManager {
   }
 
 
-  private ToolbarConfig  mToolbarConfig;//
-  private NetworkConfig  mNetworkConfig;//
-  private JumpConfig     mJumpConfig;//
-  private UserInfoConfig mUserInfoConfig;//
+  private ToolbarConfig  mToolbarConfig;
+  private NetworkConfig  mNetworkConfig;
+  private JumpConfig     mJumpConfig;
+  private UserInfoConfig mUserInfoConfig;
 
   public NetworkConfig getNetworkConfig() {
     return mNetworkConfig;

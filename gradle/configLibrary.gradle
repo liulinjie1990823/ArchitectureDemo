@@ -17,10 +17,9 @@ subprojects {
             || (it.name.startsWith('lib_'))
             || (it.name.startsWith('plugin-'))) {
         if (it.name.startsWith('plugin-code-inject')
-                || it.name.startsWith('plugin-upload')
-        ) {
+                || it.name.startsWith('plugin-upload')) {
             apply plugin: 'groovy'
-            apply from: rootProject.file('gradle/maven-publish.gradle')
+//            apply from: rootProject.file('gradle/maven-publish.gradle')
 
         } else if (it.name.startsWith('lib-component-annotation')
                 || it.name.startsWith('lib-component-compiler')

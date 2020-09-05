@@ -1,6 +1,6 @@
 package com.llj.setting.api;
 
-import com.llj.component.service.vo.UserInfoVo;
+import com.llj.application.vo.UserInfoVo;
 import com.llj.lib.net.response.BaseResponse;
 import com.llj.setting.ui.model.MobileInfoVo;
 

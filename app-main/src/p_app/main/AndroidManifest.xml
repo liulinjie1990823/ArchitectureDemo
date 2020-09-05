@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  package="com.llj.architecturedemo">
+
+
+  <application>
+    <activity android:name="com.llj.widget.ui.activity.ConstraintActivity" />
+    <activity android:name=".ui.activity.ShareActivity" />
+    <activity android:name="com.llj.widget.ui.activity.CircleViewActivity" />
+    <activity android:name=".ui.activity.TouchEventActivity" />
+    <activity android:name=".ui.activity.NestedScrollViewActivity" />
+    <activity android:name=".ui.activity.CoordinatorLayoutActivity" />
+    <activity android:name=".ui.activity.LinearLayoutActivity" />
+    <activity android:name=".ui.activity.ComponentActivity" />
+    <activity android:name=".ui.activity.ProxyActivity" />
+    <activity android:name=".ui.activity.HookActivity" />
+    <activity android:name=".ui.activity.StubActivity" />
+    <activity android:name=".ui.activity.AptActivity" />
+    <activity android:name=".ui.activity.AptActivity2" />
+    <activity android:name=".ui.activity.RxJava2Activity" />
+    <activity android:name=".ui.activity.RequestActivity" />
+    <activity android:name=".ui.activity.MvvmRequestActivity" />
+    <activity android:name=".ui.activity.SvgActivity" />
+
+    <activity
+      android:name=".ui.activity.MainActivity"
+      android:launchMode="singleTask"
+      android:theme="@style/MyAppTheme.NoActionBar.Tab" />
+
+    <activity android:name=".ui.activity.MemoryLeakActivity" />
+    <activity android:name=".ui.activity.JavaTypeActivity" />
+    <activity android:name=".ui.activity.SwipeBackLayoutActivity" />
+    <activity android:name=".ui.activity.RewardLayoutActivity" />
+    <activity android:name=".ui.activity.EventActivity" />
+    <activity android:name=".ui.activity.PermissionActivity" />
+    <activity android:name=".ui.activity.GLSurfaceViewActivity" />
+    <activity android:name=".ui.activity.RunnableActivity" />
+    <activity
+      android:name=".ui.activity.RecordVideoActivity"
+      android:screenOrientation="portrait" />
+    <activity android:name=".ui.activity.KodoActivity" />
+    <activity android:name=".ui.activity.RecordVideo2Activity" />
+    <activity android:name=".ui.activity.AdjustResizeActivity" />
+    <activity android:name=".ui.activity.ViewPager2Activity" />
+    <activity android:name=".ui.activity.OutlineProviderActivity" />
+    <activity
+      android:name=".ui.activity.FirstActivity"
+      android:exported="true"
+      android:launchMode="singleTask"
+      android:taskAffinity="com.llj.task2" />
+    <activity
+      android:name=".ui.activity.SecondActivity"
+      android:exported="true"
+      android:taskAffinity="com.llj.task2" />
+    <activity android:name=".ui.activity.CanvasActivity" />
+    <activity android:name=".ui.activity.KeyboardStateActivity" />
+    <activity android:name=".ui.activity.FragmentAnimActivity" />
+    <activity android:name=".ui.activity.FfmpegSwscaleActivity" />
+    <activity android:name=".ui.activity.JniTestActivity" />
+    <activity android:name=".ui.activity.RecycleViewActivity" />
+    <activity android:name=".ui.activity.OpenCvImageActivity" />
+    <activity android:name=".ui.activity.ActivityAnimActivity" />
+    <activity
+      android:name=".ui.activity.ActivityAnimFadeActivity"
+      android:theme="@style/MyAppTheme.NoActionBar.fade" />
+    <activity
+      android:name=".ui.activity.ActivityAnimSlideActivity"
+      android:theme="@style/MyAppTheme.NoActionBar.slide" />
+    <activity
+      android:name=".ui.activity.TransitionActivity"
+      android:theme="@style/MyAppTheme.NoActionBar.Transition" />
+    <activity
+      android:name=".ui.activity.TransitionShareActivity"
+      android:theme="@style/MyAppTheme.NoActionBar.Transition" />
+    <activity
+      android:name=".ui.activity.TransitionExplodeActivity"
+      android:theme="@style/MyAppTheme.NoActionBar.Transition" />
+    <activity
+      android:name=".ui.activity.TransitionFadeActivity"
+      android:theme="@style/MyAppTheme.NoActionBar.Transition" />
+    <activity
+      android:name=".ui.activity.TransitionSlideActivity"
+      android:theme="@style/MyAppTheme.NoActionBar.Transition" />
+    <activity android:name=".ui.activity.JpegTurboActivity" /> <!-- <activity android:name=".ui.activity.ThirdActivity"/> -->
+
+
+    <!-- <activity -->
+    <!-- android:name=".ui.activity.FourthActivity" -->
+    <!-- android:launchMode="singleTask" -->
+    <!-- android:taskAffinity="com.llj.architecturedemo2"/> -->
+    <!-- <activity android:name=".ui.activity.FifthActivity"/> -->
+    <service android:name=".ui.service.LoadingService" />
+  </application>
+
+</manifest>

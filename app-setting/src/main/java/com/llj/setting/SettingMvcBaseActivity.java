@@ -2,7 +2,7 @@ package com.llj.setting;
 
 import com.llj.component.service.MiddleMvcBaseToolbarActivity;
 
-import com.llj.component.service.arouter.CRouter;
+import com.llj.application.router.CRouter;
 import org.jetbrains.annotations.NotNull;
 
 /**

@@ -1,8 +1,8 @@
 package com.llj.application.di
 
 import android.app.Application
-import com.llj.component.service.http.ComponentHttpUrl
-import com.llj.component.service.http.HeaderInterceptor
+import com.llj.application.http.ComponentHttpUrl
+import com.llj.application.http.HeaderInterceptor
 import com.llj.lib.base.utils.AppExecutors
 import com.llj.lib.net.Interceptors.InterceptorFactory
 import com.llj.lib.net.utils.OkHttpClientUtils

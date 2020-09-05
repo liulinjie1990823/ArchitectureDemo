@@ -1,0 +1,2 @@
+# component-service
+该库为多个app的公用类，服务公司下的所有app，如果只是app中公用应该放在application中。

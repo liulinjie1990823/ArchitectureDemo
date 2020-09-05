@@ -39,13 +39,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation Deps.walle
 
+    //平台公用的组件
     api 'com.billy.android:cc:2.1.6'
     api Deps.arouter_api
     api Deps.permission
 
-    api project(':lib-swipeback')
 
     if (useMaven) {
         api Deps.statusbar
@@ -69,6 +68,7 @@ dependencies {
         api project(':lib-scrollable')
         api project(':lib-zbar')
         api project(':lib-zxing')
+        api project(':lib-swipeback')
     } else {
         api project(':lib-statusbar')
         api project(':lib-base')
@@ -93,6 +93,7 @@ dependencies {
         api project(':lib-scrollable')
         api project(':lib-zbar')
         api project(':lib-zxing')
+        api project(':lib-swipeback')
     }
 
 
@@ -119,8 +120,7 @@ dependencies {
     api Deps.skin_support_cardview          // skin-support-cardview CardView 控件支持[可选]
     api Deps.skin_support_constraint_layout
     // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
-
-
+    
     kapt Deps.dagger_compiler
     kapt Deps.dagger_android_compiler
     kapt Deps.butterknife_compiler
@@ -131,6 +131,6 @@ dependencies {
     api Deps.timber
     api Deps.logger
     //
-    api 'com.blankj:utilcodex:1.28.4'
+    api 'com.blankj:utilcodex:1.29.0'
 
 }

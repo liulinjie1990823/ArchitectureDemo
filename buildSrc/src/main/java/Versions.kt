@@ -57,7 +57,7 @@ object Deps {
   //https://developer.android.com/jetpack/androidx/releases/activity
   const val activity = "androidx.activity:activity:1.1.0"
   const val annotations = "androidx.annotation:annotation:1.1.0"
-  const val appcompat = "androidx.appcompat:appcompat:1.1.0"
+  const val appcompat = "androidx.appcompat:appcompat:1.2.0"
   const val fragment = "androidx.fragment:fragment:1.2.5"
   const val arch_common = "androidx.arch.core:core-common:2.1.0"
   const val arch_runtime = "androidx.arch.core:core-runtime:2.1.0"

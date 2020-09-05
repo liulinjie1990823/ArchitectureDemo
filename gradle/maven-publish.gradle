@@ -1,7 +1,3 @@
-//gradle1.3版本的发布
-//https://docs.gradle.org/current/userguide/publishing_maven.html
-apply plugin: 'maven-publish'
-
 // load properties
 Properties localProperties = new Properties()
 Properties properties = new Properties()
@@ -46,6 +42,31 @@ def bintrayApikey = localProperties.getProperty("bintray.apikey")
 def javadocName = properties.getProperty("javadoc.name")
 
 
+//gradle1.3版本新增maven-publish
+//https://docs.gradle.org/current/userguide/publishing_maven.html
+//用于发布本地或远程自定义仓库，MavenLocal
+
+//增加publishing组
+//设置了自定义的repositories（仓库可以是远程也可以是本地的）
+//generateMetadataFileForMavenJava1Publication
+//generatePomFileForMavenJava1Publication
+//publish
+//publishAllPublicationsToLocalRepoRepository
+//publishMavenJava1PublicationToLocalRepoRepository
+//publishMavenJava1PublicationToMavenLocal
+//publishToMavenLocal
+
+//没有设置repositories
+//generateMetadataFileForMavenJava1Publication
+//generatePomFileForMavenJava1Publication
+//publish
+//publishMavenJava1PublicationToMavenLocal
+//publishToMavenLocal
+
+//publications里可以设置多个组件
+//repositories可以不设置，默认提供发布到MavenLocal
+apply plugin: 'maven-publish'
+
 //定义文档task
 if (project.getPlugins().hasPlugin('com.android.application') ||
         project.getPlugins().hasPlugin('com.android.library')) {
@@ -87,9 +108,6 @@ publishing {
             groupId = projectGroupId
             artifactId = projectArtifactId
             version = projectVersionName
-
-            //components
-            from components.java
 
             //Custom artifacts
             artifact javadocJar
@@ -133,7 +151,7 @@ publishing {
             //指定要上传的maven私服仓库
 //            url = "http://jenkins.maxrocky.com:8080/maven/content/repositories/thirdparty/"
             //远程的仓库名称，一般url就指定了仓库名称
-            name = "repo"
+            name = "localRepo"
 
             //认证用户和密码
 //            credentials {
