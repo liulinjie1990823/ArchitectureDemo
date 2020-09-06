@@ -37,17 +37,18 @@ subprojects {
             apply plugin: 'com.android.library'
 
             android.compileOptions {
-                targetCompatibility build_versions.compileJdkVersion
-                sourceCompatibility build_versions.compileJdkVersion
+                targetCompatibility Versions.compileJdkVersion
+                sourceCompatibility Versions.compileJdkVersion
             }
 
             android {
-                compileSdkVersion build_versions.compileSdkVersion
-                buildToolsVersion build_versions.buildToolsVersion
+                compileSdkVersion Versions.compileSdkVersion
+                buildToolsVersion Versions.buildToolsVersion
 
                 defaultConfig {
-                    minSdkVersion build_versions.minSdkVersion
-                    targetSdkVersion build_versions.targetSdkVersion
+                    minSdkVersion Versions.minSdkVersion
+                    targetSdkVersion Versions.targetSdkVersion
+
                     ndk { abiFilters "armeabi-v7a" }
                 }
 

@@ -30,6 +30,8 @@ import kotlin.reflect.KClass
 class MvViewModelFactory @Inject constructor(
     private val creators: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
+
+
   override fun <T : ViewModel> create(modelClass: Class<T>): T {
     var creator: Provider<out ViewModel>? = creators[modelClass]
     if (creator == null) {

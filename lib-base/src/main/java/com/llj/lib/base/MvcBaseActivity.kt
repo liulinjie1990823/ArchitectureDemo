@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +20,6 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
 import java.lang.ref.WeakReference
-import java.lang.reflect.ParameterizedType
 
 /**
  * ArchitectureDemo.
@@ -30,8 +28,7 @@ import java.lang.reflect.ParameterizedType
  * @author llj
  * @date 2019/3/13
  */
-abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
-    , IBaseActivity, ICommon<V>, IUiHandler, IEvent, IBaseActivityView, IFragmentHandle {
+abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActivity, ICommon<V>, IUiHandler, IEvent, IBaseActivityView, IFragmentHandle {
 
   @JvmField
   val mTagLog: String = this.javaClass.simpleName
@@ -47,7 +44,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
   private val mCancelableTasks: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
   private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
 
-  var mCurrentMill: Long? = null//记录初始化时间用
+  private var mCurrentMill: Long = 0//记录初始化时间用
 
   override fun useEventBus(): Boolean {
     return true
@@ -57,14 +54,16 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
   override fun onCreate(savedInstanceState: Bundle?) {
     mCurrentMill = System.currentTimeMillis()
 
-    Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d", mTagLog, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onCreate", mTagLog, hashCode())
     mContext = this
 
     try {
       AndroidInjection.inject(this)
     } catch (e: Exception) {
-      Timber.tag(mTagLog).i("AndroidSupportInjection.inject failed：%s", e.message)
+      Timber.tag(mTagLog).i("Lifecycle %s（%d）inject failed：%s", mTagLog, hashCode(), e.message)
     }
+    val inject = (System.currentTimeMillis() - mCurrentMill)
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）inject：cost %d ms", mTagLog, hashCode(), inject)
 
     super.onCreate(savedInstanceState)
 
@@ -72,6 +71,8 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
 
     getIntentData(intent)
 
+
+    val inflaterStart = System.currentTimeMillis()
     var layoutViewBinding = layoutViewBinding()
     if (layoutViewBinding == null) {
       //如果忘记设置则使用反射设置
@@ -81,18 +82,20 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
     if (layoutViewBinding != null) {
       mViewBinder = layoutViewBinding
       setContentView(mViewBinder.root)
-      Timber.tag(mTagLog).i("Lifecycle %s layoutViewBinding success：%d", mTagLog, hashCode())
+      Timber.tag(mTagLog).i("Lifecycle %s（%d）layoutViewBinding success", mTagLog, hashCode())
     } else {
       val layoutView = layoutView()
       if (layoutView == null) {
         setContentView(layoutId())
-        Timber.tag(mTagLog).i("Lifecycle %s layoutId：%d", mTagLog, hashCode())
+        Timber.tag(mTagLog).i("Lifecycle %s（%d）layoutId", mTagLog, hashCode())
       } else {
         setContentView(layoutView)
-        Timber.tag(mTagLog).i("Lifecycle %s layoutView：%d", mTagLog, hashCode())
+        Timber.tag(mTagLog).i("Lifecycle %s（%d）layoutView", mTagLog, hashCode())
       }
       mUnBinder = ButterKnife.bind(this)
     }
+    val temp = (System.currentTimeMillis() - inflaterStart)
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）inflater and setContentView：cost %d ms", mTagLog, hashCode(), temp)
 
     checkLoadingDialog()
 
@@ -104,34 +107,35 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
 
     initData()
 
-    Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d cost %d ms", mTagLog, hashCode(), (System.currentTimeMillis() - mCurrentMill!!))
+    val temp2 = (System.currentTimeMillis() - mCurrentMill)
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onCreate end：cost %d ms", mTagLog, hashCode(), temp2)
   }
 
 
   override fun onStart() {
     super.onStart()
-    Timber.tag(mTagLog).i("Lifecycle %s onStart：%d", mTagLog, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onStart", mTagLog, hashCode())
   }
 
   override fun onResume() {
     super.onResume()
-    Timber.tag(mTagLog).i("Lifecycle %s onResume：%d", mTagLog, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onResume", mTagLog, hashCode())
   }
 
   override fun onPause() {
     super.onPause()
-    Timber.tag(mTagLog).i("Lifecycle %s onPause：%d", mTagLog, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onPause", mTagLog, hashCode())
   }
 
   override fun onStop() {
     super.onStop()
-    Timber.tag(mTagLog).i("Lifecycle %s onStop：%d", mTagLog, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onStop", mTagLog, hashCode())
   }
 
   @CallSuper
   override fun onDestroy() {
     super.onDestroy()
-    Timber.tag(mTagLog).i("Lifecycle %s onDestroy：%d", mTagLog, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onDestroy", mTagLog, hashCode())
 
     //防止窗口泄漏，关闭dialog同时结束相关请求
     val requestDialog = getLoadingDialog() as Dialog?
@@ -244,7 +248,8 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity()
       }
     }
     setRequestId(hashCode())
-    Timber.tag(mTagLog).i("Lifecycle %s initLoadingDialog %s ：%d", mTagLog, mRequestDialog!!.javaClass.simpleName, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）initLoadingDialog %s（%d）", mTagLog, hashCode(),
+        mRequestDialog!!.javaClass.simpleName, mRequestDialog!!.hashCode())
   }
 
   private class MyOnCancelListener : DialogInterface.OnCancelListener {

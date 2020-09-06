@@ -1,19 +1,11 @@
 android {
-    defaultConfig {
-        multiDexEnabled true
-    }
+
     resourcePrefix "setting_"
 }
 
 
 dependencies {
-//    implementation project(':flutter')
-    implementation Deps.multidex
 
-    if (useMaven) {
-    } else {
-        kapt project(':lib-jump-compiler')
-    }
 
 }
 

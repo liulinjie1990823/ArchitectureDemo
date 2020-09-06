@@ -19,7 +19,7 @@ import timber.log.Timber
  * @author liulinjie
  * @date 2020/9/1 5:15 PM
  */
-@AppInit(priority = 3, description = "CustomInit")
+@AppInit(priority = 50, description = "CustomInit")
 class CustomInit : SimpleAppInit() {
   override fun needAsyncInit(): Boolean {
     return true

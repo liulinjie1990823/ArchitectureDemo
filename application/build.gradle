@@ -74,6 +74,15 @@ dependencies {
     betaImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
+    //https://github.com/Tencent/matrix
+    implementation group: "com.tencent.matrix", name: "matrix-android-lib", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-android-commons", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-trace-canary", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-android", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-common", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-io-canary", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-sqlite-lint-android-sdk", version: MATRIX_VERSION, changing: true
+
     //https://github.com/didi/DoraemonKit
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
     betaImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
@@ -82,7 +91,7 @@ dependencies {
     //https://github.com/zhengcx/MethodTraceMan 方法耗时统计
     debugImplementation 'com.github.zhengcx:MethodTraceMan:1.0.7'
     betaImplementation 'com.github.zhengcx:MethodTraceMan:1.0.7'
-    releaseImplementation 'com.github.zhengcx:MethodTraceMan:1.0.7'
+    releaseImplementation 'com.github.zhengcx:MethodTraceMan:1.0.5-noop'
 
 
     kapt Deps.dagger_compiler

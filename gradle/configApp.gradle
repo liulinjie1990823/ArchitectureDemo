@@ -1,0 +1,265 @@
+//测试
+//apply from: rootProject.file('gradle/test.gradle')
+//打包任务
+apply from: rootProject.file('gradle/zipChannel.gradle')
+apply from: rootProject.file('gradle/git.gradle')
+apply plugin: 'com.alibaba.arouter'
+
+//打渠道包
+apply plugin: 'walle'
+walle {
+    // 指定渠道包的输出路径
+    apkOutputFolder = new File("${project.buildDir}/outputs/channels")
+    // 定制渠道包的APK的文件名称
+    apkFileNameFormat = '${appName}_${channel}_${flavorName}${buildType}_v${versionName}_${versionCode}-${buildTime}.apk'
+    // 渠道配置文件
+    channelFile = new File("${project.getProjectDir()}/channel")
+}
+
+//统计方法数
+if (useDexcount && buildTypeDebug) {
+    apply plugin: 'com.getkeepsafe.dexcount'
+}
+
+//Matrix
+if (useMatrix && buildTypeDebug) {
+    apply plugin: 'com.tencent.matrix-plugin'
+    matrix {
+        trace {
+            enable = true    //if you don't want to use trace canary, set false
+            baseMethodMapFile = "${project.buildDir}/matrix_output/Debug.methodmap"
+            blackListFile = "${project.projectDir}/matrixTrace/blackMethodList.txt"
+        }
+    }
+}
+
+//方法耗时统计
+if (useMethodTrace && buildTypeDebug) {
+    apply plugin: "cn.cxzheng.asmtraceman"
+    traceMan {
+        open = true //这里如果设置为false,则会关闭插桩
+        logTraceInfo = false //这里设置为true时可以在log日志里看到所有被插桩的类和方法
+        traceConfigFile = "${project.projectDir}/traceconfig.txt"
+    }
+}
+
+//耗时和帧数据统计
+if (useAndroidDevMetrics && buildTypeDebug) {
+    apply plugin: 'com.frogermcs.androiddevmetrics'
+}
+
+
+//使用okbuck编译
+if (useOkbuck) {
+    apply plugin: 'com.uber.okbuck'
+
+    okbuck {
+        buildToolVersion = Versions.compileSdkVersion
+        target = "android-28"
+        linearAllocHardLimit = [
+                app: 16 * 1024 * 1024
+        ]
+        primaryDexPatterns = [
+                app: [
+                        '^com/uber/okbuck/example/AppShell^',
+                        '^com/uber/okbuck/example/BuildConfig^',
+                        '^android/support/multidex/',
+                        '^com/facebook/buck/android/support/exopackage/',
+                        '^com/github/promeg/xlog_android/lib/XLogConfig^',
+                        '^com/squareup/leakcanary/LeakCanary^',
+                ]
+        ]
+        exopackage = [
+                appDebug: true
+        ]
+        appLibDependencies = [
+                'appProd': [
+                        'buck-android-support',
+                        'com.android.support:multidex',
+                        'libraries/javalibrary:main',
+                        'libraries/common:paidRelease',
+                ],
+                'appDev' : [
+                        'buck-android-support',
+                        'com.android.support:multidex',
+                        'libraries/javalibrary:main',
+                        'libraries/common:freeDebug',
+                ]
+        ]
+        annotationProcessors = [
+                "local-apt-dependency": ['com.okbuck.apt.ExampleProcessor']
+        ]
+        buckProjects = project.subprojects
+        extraBuckOpts = [
+                'appDebug': [
+                        "android_binary": ["trim_resource_ids = True"]
+                ]
+        ]
+
+        wrapper {
+            repo = 'https://github.com/facebook/buck.git'
+        }
+
+    }
+}
+
+//打包上传pgy
+if (useApkUploadPlugin) {
+    //使用插件
+    apply plugin: 'com.llj.plugin.upload.apkUploadPlugin'
+
+    upload {
+        testDingDing = false
+        dingTalkAccessToken = dingTalkDebugAccessToken
+        gitLog = "git log --pretty=format:%cn--%cd--%s --date=local --after=\"yesterday\" --grep=fix"
+
+        buildTypes {
+            debug {
+                pgyApiKey = pgyDebugApiKey
+                pgyUserKey = pgyDebugUserKey
+                pgyAppKey = ""
+                password = "123456"
+                installType = "2"
+            }
+            beta {
+                pgyApiKey = pgyBetaApiKey
+                pgyUserKey = pgyBetaUserKey
+                pgyAppKey = pgyBetaAppKey
+                password = "123456"
+                installType = "2"
+            }
+            release {
+                pgyApiKey = pgyReleaseApiKey
+                pgyUserKey = pgyReleaseUserKey
+                pgyAppKey = pgyReleaseAppKey
+                password = "123456"
+                installType = "2"
+            }
+        }
+    }
+}
+
+android {
+    compileSdkVersion Versions.compileSdkVersion
+    buildToolsVersion Versions.buildToolsVersion
+
+    defaultConfig {
+        applicationId Versions.applicationId
+        minSdkVersion Versions.minSdkVersion
+        targetSdkVersion Versions.targetSdkVersion
+
+        versionCode Versions.versionCode
+        versionName Versions.versionName
+
+        multiDexEnabled true
+        dataBinding { enabled = true }
+    }
+
+    sourceSets {
+        def dirs = ['p_app', 'p_widget', 'p_mine', 'p_login']
+        main {
+            manifest.srcFile 'src/p_app/main/AndroidManifest.xml'
+            dirs.each { dir ->
+                java.srcDir("src/${dir}/main/java")
+                res.srcDir("src/${dir}/main/res")
+                assets.srcDirs("src/${dir}/main/assets")
+            }
+        }
+        if (useFlutterSrc) {
+            p_flutter {
+                def dirs2 = ['p_flutter']
+                //一个sourceSet下只能指定一个manifest文件，
+                manifest.srcFile 'src/p_flutter/AndroidManifest.xml'
+                dirs2.each { dir ->
+                    java.srcDir("src/${dir}/java")
+                    res.srcDir("src/${dir}/res")
+                    assets.srcDir("src/${dir}/assets")
+                }
+            }
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../itotemHunbohui.keystore")
+            storePassword "itotem"
+            keyAlias "itotemapp"
+            keyPassword "itotem"
+        }
+    }
+    flavorDimensions "free"
+
+    productFlavors {
+        if (useFlutterSrc) {
+            p_flutter { dimension "free" }
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            useProguard false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+        beta {
+            minifyEnabled false
+            useProguard false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            useProguard true
+            shrinkResources true
+            signingConfig signingConfigs.release
+        }
+    }
+    buildTypes.all { type ->
+        type.matchingFallbacks = ['debug']
+        type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
+    }
+
+
+    lintOptions {
+        abortOnError false
+        ignoreWarnings true
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (output.outputFile != null && output.outputFile.name.endsWith('.apk')) {
+                //outputFileName = "v${variant.versionName}_${variant.value}_${releaseTime()}.apk"
+                outputFileName = getApkName(variant.versionName, variant.name)
+            }
+        }
+    }
+    //停用 PNG 处理
+    aaptOptions {
+        cruncherEnabled false
+    }
+
+    //DEX 构建特性
+    dexOptions {
+        preDexLibraries true
+        maxProcessCount 8
+        // Instead of setting the heap size for the DEX process, increase Gradle's
+        // heap size to enable dex-in-process. To learm more, read the next section.
+        // javaMaxHeapSize "2048m"
+    }
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+        exclude 'META-INF/androidx.core_core.version'
+        exclude 'META-INF/androidx.versionedparcelable_versionedparcelable.version'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    if (useFlutterSrc) {
+        implementation project(':flutter')
+        implementation project(':flutter_boost')
+    }
+}

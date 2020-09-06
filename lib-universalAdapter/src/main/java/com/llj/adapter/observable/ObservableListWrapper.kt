@@ -50,7 +50,7 @@ class ObservableListWrapper<T> : ObservableList<T> {
      *
      * @param list the data to update the underlying list with.
      */
-    fun updateFromList(list: List<T>?) {
+    fun updateFromList(list: List<T>) {
         val updateFromList = ArrayList(list)
 
         // Loop through the current list and find duplicate entries.

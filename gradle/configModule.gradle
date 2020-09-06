@@ -20,11 +20,14 @@ subprojects {
         }
         if (useComponent) {
             //使用组件
-            if (it.name == 'app') {
-                ext.mainApp = true
+            if (it.name == 'app-loading') {
+                apply plugin: 'com.android.library'
+            } else {
+                if (it.name == 'app') {
+                    ext.mainApp = true
+                }
+                apply from: rootProject.file('gradle/cc-settings-3.gradle')
             }
-            apply from: rootProject.file('gradle/cc-settings-3.gradle')
-//            apply from: rootProject.file('gradle/cc-settings-3.gradle')
         } else {
             //不使用组件
             if (it.name == 'app') {
@@ -40,28 +43,23 @@ subprojects {
         apply plugin: 'kotlin-android-extensions'
         //保存页面字段
         //apply plugin: 'save.state'
-//        //方法耗时统计
-//        if (useMethodTrace) {
-//            apply plugin: "cn.cxzheng.asmtraceman"
-//            traceMan {
-//                open = true //这里如果设置为false,则会关闭插桩
-//                logTraceInfo = false //这里设置为true时可以在log日志里看到所有被插桩的类和方法
-//                traceConfigFile = "${project.projectDir}/traceconfig.txt"
-//            }
-//        }
 
         apply plugin: 'bga-appinit-plugin'
 //        appInit {
 //            abortOnNotExist true
 //        }
 
+        if (it.ext.has("mainApp") && it.ext.mainApp == true) {
+            apply from: rootProject.file('gradle/configApp.gradle')
+        }
+
         if (!useNew && !useOld) {
             apply from: rootProject.file('gradle/novoda-bintray.gradle')
         }
 
         android.compileOptions {
-            targetCompatibility build_versions.compileJdkVersion
-            sourceCompatibility build_versions.compileJdkVersion
+            targetCompatibility Versions.compileJdkVersion
+            sourceCompatibility Versions.compileJdkVersion
         }
 
         kapt {
@@ -83,13 +81,13 @@ subprojects {
 
                 defaultConfig {
                     if (isApplication) {
-                        applicationId build_versions.applicationId
+                        applicationId Versions.applicationId
                     }
-                    minSdkVersion build_versions.minSdkVersion
-                    targetSdkVersion build_versions.targetSdkVersion
+                    minSdkVersion Versions.minSdkVersion
+                    targetSdkVersion Versions.targetSdkVersion
 
-                    versionCode build_versions.versionCode
-                    versionName build_versions.versionName
+                    versionCode Versions.versionCode
+                    versionName Versions.versionName
                 }
 
                 buildTypes {
@@ -132,11 +130,17 @@ subprojects {
 
         }
 
+        String tempName = it.name
 
         dependencies {
             implementation fileTree(include: ['*.jar'], dir: 'libs')
+
             implementation project(':application')
             implementation project(':component-service')
+
+            if (tempName != 'app-loading') {
+                api project(':app-loading')
+            }
 
             if (useMaven) {
             } else {

@@ -1,0 +1,21 @@
+android {
+    resourcePrefix "loading_"
+
+    sourceSets {
+        main {
+            def dirs = ['main']
+            //一个sourceSet下只能指定一个manifest文件，比如main为一个sourceSet，每一个productFlavor也是sourceSet
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            dirs.each { dir ->
+                java.srcDir("src/${dir}/java")
+                res.srcDir("src/${dir}/res")
+                assets.srcDir("src/${dir}/assets")
+            }
+        }
+    }
+}
+
+dependencies {
+}
+
+

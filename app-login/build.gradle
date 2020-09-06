@@ -1,22 +1,10 @@
 android {
-    defaultConfig {
-        multiDexEnabled true
-    }
     resourcePrefix "login_"
 }
 
 dependencies {
-    implementation Deps.multidex
-
     implementation 'org.altbeacon:android-beacon-library:2.17.1'
 
-    if (useMaven) {
-    } else {
-        kapt project(':lib-component-compiler')
-        kapt project(':lib-jump-compiler')
-//        kapt project(':lib-mvp-compiler')
-        implementation project(':lib-mvp-annotation')
-    }
 }
 
 

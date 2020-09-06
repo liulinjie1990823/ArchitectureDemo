@@ -48,10 +48,14 @@ boolean isBuildingAar(Properties localProperties) {
 //设置initByTask
 initByTask(project)
 
+//gradle中写死的mainApp
 def mainApp = isMainApp(project)
-def assembleFor = isAssembleFor(project)
-def buildingAar = isBuildingAar(localProperties)
+//gradle中写死的Lib
 def alwaysLib = isAlwaysLib(project)
+//当前运行额任务是assemble任务
+def assembleFor = isAssembleFor(project)
+//当前localProperties是否设置是打aar包
+def buildingAar = isBuildingAar(localProperties)
 
 boolean runAsApp = false
 if (mainApp) {

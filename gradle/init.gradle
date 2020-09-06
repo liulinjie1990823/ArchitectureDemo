@@ -39,7 +39,7 @@ ext.useMatrix = properties.getProperty("useMatrix") == "true"
 ext.useOld = properties.getProperty("useOld") == "true"
 ext.useNew = properties.getProperty("useNew") == "true"
 ext.useMethodTrace = properties.getProperty("useMethodTrace") == "true"
-ext.useoOkbuck = properties.getProperty("useoOkbuck") == "true"
+ext.useOkbuck = properties.getProperty("useOkbuck") == "true"
 ext.useAndroidDevMetrics = properties.getProperty("useAndroidDevMetrics") == "true"
 ext.useFlutterSrc = properties.getProperty("useFlutterSrc") == "true"
 

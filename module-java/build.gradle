@@ -3,18 +3,18 @@ apply from: "../cc-settings.gradle"
 def isApplication = pluginManager.hasPlugin("com.android.application")
 
 android {
-    compileSdkVersion build_versions.compileSdkVersion
-    buildToolsVersion build_versions.buildToolsVersion
+    compileSdkVersion Versions.compileSdkVersion
+    buildToolsVersion Versions.buildToolsVersion
 
     defaultConfig {
         if (isApplication) {
-            applicationId build_versions.applicationId
+            applicationId Versions.applicationId
         }
-        minSdkVersion build_versions.minSdkVersion
-        targetSdkVersion build_versions.targetSdkVersion
+        minSdkVersion Versions.minSdkVersion
+        targetSdkVersion Versions.targetSdkVersion
 
-        versionCode build_versions.versionCode
-        versionName build_versions.versionName
+        versionCode Versions.versionCode
+        versionName Versions.versionName
 
         resConfigs "en", "xxhdpi"
 
@@ -30,8 +30,8 @@ android {
         type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
     }
     compileOptions {
-        targetCompatibility build_versions.compileJdkVersion
-        sourceCompatibility build_versions.compileJdkVersion
+        targetCompatibility Versions.compileJdkVersion
+        sourceCompatibility Versions.compileJdkVersion
     }
     lintOptions {
         abortOnError false

@@ -59,7 +59,9 @@ buildscript {
         //arr打包上传jcenter插件
         classpath "com.novoda:bintray-release:0.9.2"
         //okbuck编译
-        classpath 'com.uber:okbuck:0.49.0'
+        if (useOkbuck) {
+            classpath 'com.uber:okbuck:0.51.2'
+        }
         //保存页面字段
         //classpath "io.github.prototypez:save-state:0.2.3"
         //doraemonkit手机调试插件
@@ -71,7 +73,7 @@ buildscript {
             classpath("com.tencent.matrix:matrix-gradle-plugin:${MATRIX_VERSION}") { changing = true }
         }
         //方法耗时统计
-        if (useMethodTrace) {
+        if (useMethodTrace && buildTypeDebug) {
             classpath "gradle.plugin.cn.cxzheng.methodTracePlugin:tracemanplugin:1.0.4"
         }
         //帧统计
