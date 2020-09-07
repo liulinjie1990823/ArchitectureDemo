@@ -68,6 +68,7 @@ object Deps {
   const val annotations = "androidx.annotation:annotation:1.1.0"
   const val appcompat = "androidx.appcompat:appcompat:1.2.0"
   const val fragment = "androidx.fragment:fragment:1.2.5"
+  const val fragment_ktx = "androidx.fragment:fragment-ktx:1.2.5"
   const val arch_common = "androidx.arch.core:core-common:2.1.0"
   const val arch_runtime = "androidx.arch.core:core-runtime:2.1.0"
   const val androidx_core = "androidx.core:core:1.3.0"
@@ -207,23 +208,43 @@ object Deps {
   const val indexablerecyclerview = "me.yokeyword:indexablerecyclerview:1.3.0"
 
   //工具
-  const val base = "com.llj:lib-base:0.0.9"
-  const val base_mvvm = "com.llj:lib-base-mvvm:0.0.9"
+  const val utils = "com.llj:lib-utils:0.0.10"
+  const val base_event = "com.llj:lib-base-event:0.0.1"
+  const val imageLoader = "com.llj:lib-image-loader:0.0.4"
+  const val imageSelect = "com.llj:lib-image-select:0.0.3"
+  const val statelayout = "com.llj:lib-statelayout:0.0.2"
+  const val statusbar = "com.llj:lib-statusbar:0.0.1"
+  const val swipeback = "com.llj:lib-swipeback:0.0.1"
+  const val universalAdapter = "com.llj:lib-universalAdapter:1.1.7"
+  const val scrollable = "com.llj:lib-scrollable:0.0.1"
+  const val webView = "com.llj:lib-webview:0.0.2"
+
   const val net = "com.llj:lib-net:0.0.9"
+
+  const val tracker = "com.llj:lib-tracker:0.0.1"
+
+  const val base = "com.llj:lib-base:0.0.12"
+
+
+  const val base_compiler = "com.llj:lib-base-compiler:0.0.1"
   const val component_annotation = "com.llj:lib-component-annotation:0.0.1"
   const val component_api = "com.llj:lib-component-api:0.0.1"
   const val component_compiler = "com.llj:lib-component-compiler:0.0.1"
-  const val imageLoader = "com.llj:lib-image-loader:0.0.4"
-  const val imageSelect = "com.llj:lib-image-select:0.0.3"
+
+  const val jump_annotation = "com.llj:lib-jump-annotation:0.0.2"
+  const val jump_api = "com.llj:lib-jump-api:0.0.2"
+  const val jump_compiler = "com.llj:lib-jump-compiler:0.0.2"
+  const val mvp_annotation = "com.llj:lib-mvp-annotation:0.0.1"
+  const val mvp_compiler = "com.llj:lib-mvp-compiler:0.0.1"
+
+
   const val socialization = "com.llj:lib-socialization:${Versions.socialization}"
   const val socialization_qq = "com.llj:lib-socialization-qq:${Versions.socialization}"
   const val socialization_sina = "com.llj:lib-socialization-sina:${Versions.socialization}"
   const val socialization_wechat = "com.llj:lib-socialization-wechat:${Versions.socialization}"
-  const val statelayout = "com.llj:lib-statelayout:0.0.1"
-  const val universalAdapter = "com.llj:lib-universalAdapter:1.1.7"
-  const val utils = "com.llj:lib-utils:0.0.10"
-  const val statusbar = "com.llj:lib-statusbar:0.0.1"
-  const val webView = "com.llj:lib-webview:0.0.2"
+  const val app_loading = "com.llj:app-loading:0.0.1"
+
+
   const val loadmore = "com.llj.loadmore:lib-loadmore:1.0.3"
   const val toast = "com.hjq:toast:6.0"
   //ui
@@ -231,6 +252,7 @@ object Deps {
   //换肤
   //https://github.com/ximsfei/Android-skin-support
   const val skin_support = "skin.support:skin-support:${Versions.skin}"
+  const val skin_support_appcompat = "skin.support:skin-support-appcompat:${Versions.skin}"
   const val skin_support_design = "skin.support:skin-support-design:${Versions.skin}"
   const val skin_support_cardview = "skin.support:skin-support-cardview:${Versions.skin}"
   const val skin_support_constraint_layout = "skin.support:skin-support-constraint-layout:${Versions.skin}"

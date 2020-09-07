@@ -2,22 +2,16 @@ package com.llj.architecturedemo.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.llj.application.router.CRouter;
 import com.llj.architecturedemo.MainMvcBaseActivity;
 import com.llj.architecturedemo.R;
-import com.llj.architecturedemo.R2;
 import com.llj.architecturedemo.vo.Animal;
 import com.llj.architecturedemo.vo.Cat;
 import com.llj.architecturedemo.vo.User;
-import com.llj.application.router.CRouter;
 import com.llj.lib.base.event.BaseEvent;
-import com.llj.lib.component.annotation.BindView;
-import com.llj.lib.component.annotation.IntentKey;
-import com.llj.lib.component.annotation.OnClick;
 import com.llj.lib.jump.annotation.Jump;
 import com.llj.lib.jump.annotation.JumpKey;
 import com.llj.lib.tracker.PageName;
@@ -32,9 +26,6 @@ import timber.log.Timber;
 @Route(path = CRouter.APP_APT_ACTIVITY2)
 public class AptActivity2 extends MainMvcBaseActivity {
 
-  @BindView(R2.id.root) ConstraintLayout mConstraintLayout;
-
-  @IntentKey(name = "outKey") String mKey;
 
   @JumpKey(outKey = "value", inKey = CRouter.KEY_NICKNAME)
   @Autowired(name = CRouter.KEY_NICKNAME) String mName;
@@ -49,12 +40,6 @@ public class AptActivity2 extends MainMvcBaseActivity {
   @JumpKey(outKey = "animal", inKey = "ANIMAL")                     Animal  mAnimal;
   @JumpKey(outKey = "user", inKey = "USER")                         User    mUser;
   @JumpKey(outKey = "cat", inKey = "CAT")                           Cat     mCat;
-
-  @OnClick({R2.id.root})
-  public void fabClick() {
-    Toast.makeText(this, "Neacy", Toast.LENGTH_LONG).show();
-  }
-
 
   @Override
   public int layoutId() {

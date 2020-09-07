@@ -10,7 +10,7 @@
  *
  */
 
-package com.llj.lib.base.di
+package com.llj.lib.base.mvvm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -27,7 +27,7 @@ import kotlin.reflect.KClass
  * @author llj
  * @date 2020/8/19
  */
-class MvViewModelFactory @Inject constructor(
+class MyViewModelFactory @Inject constructor(
     private val creators: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
 
@@ -57,7 +57,7 @@ class MvViewModelFactory @Inject constructor(
 @Module
  abstract class ViewModelBuilder {
   @Binds
-  internal abstract fun bindViewModelFactory(factory: MvViewModelFactory): ViewModelProvider.Factory
+  internal abstract fun bindViewModelFactory(factory: MyViewModelFactory): ViewModelProvider.Factory
 }
 
 @Target(

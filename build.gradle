@@ -135,12 +135,12 @@ allprojects {
 //                    || task.name.contains("Aidl")//编译Aidl文件
 //                    || task.name.contains("aidl")
                     || task.name.contains("Ndk")//使用ndk编译c++代码
-                    || task.name.contains("ndk")
-            ) {
+                    || task.name.contains("ndk")) {
                 task.enabled = false
             }
         }
     }
+
 
     //略过Javadoc中的编码问题
     tasks.withType(Javadoc) {

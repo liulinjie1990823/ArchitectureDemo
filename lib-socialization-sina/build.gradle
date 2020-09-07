@@ -1,7 +1,8 @@
 
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation Deps.bolts
-    api project(':lib-socialization')
+    implementation project(':lib-socialization')
     api 'com.sina.weibo.sdk:core:4.3.7:openDefaultRelease@aar'
 }

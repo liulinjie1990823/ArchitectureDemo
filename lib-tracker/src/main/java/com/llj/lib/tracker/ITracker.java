@@ -1,29 +1,26 @@
 package com.llj.lib.tracker;
 
 /**
- * ArchitectureDemo.
- * describe:
- * author llj
- * date 2019/3/14
+ * ArchitectureDemo. describe: author llj date 2019/3/14
  */
 public interface ITracker {
 
 
-    //如果是一个页面公用的情况使用该方法传递，否则用@PageName中的name
-    default String getPageName() {
-        return "";
-    }
+  //如果是一个页面公用的情况使用该方法传递，否则用@PageName中的name
+  default String getPageName() {
+    return "";
+  }
 
-    default String getPageId() {
-        return "";
-    }
+  default String getPageId() {
+    return "";
+  }
 
-    default boolean ignoreAction() {
-        return false;
-    }
+  default boolean ignoreAction() {
+    return false;
+  }
 
-    default boolean ignorePage() {
-        return false;
-    }
+  default boolean ignorePage() {
+    return false;
+  }
 
 }

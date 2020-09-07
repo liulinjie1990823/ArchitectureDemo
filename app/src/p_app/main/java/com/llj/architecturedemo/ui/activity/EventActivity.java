@@ -8,16 +8,14 @@ import butterknife.BindView;
 import butterknife.internal.DebouncingOnClickListener;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.llj.application.router.CJump;
+import com.llj.application.router.CRouter;
 import com.llj.architecturedemo.MainMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.R2.id;
 import com.llj.architecturedemo.vo.Cat;
-import com.llj.application.router.CJump;
-import com.llj.application.router.CRouter;
 import com.llj.lib.base.event.BaseEvent;
-import com.llj.lib.jni.test.JniTest;
 import com.llj.lib.jump.annotation.Jump;
-import com.llj.lib.utils.LogUtil;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -50,21 +48,12 @@ public class EventActivity extends MainMvcBaseActivity {
       }
     });
 
-    JniTest jniTest = new JniTest();
     ARouter.getInstance().build(CRouter.APP_MAIN_ACTIVITY)
         .withTransition(R.anim.fade_in, R.anim.no_fade)
         .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
         .navigation(mContext);
 
-    mTextView.setText(jniTest.stringFromJNI());
-
     mContext.databaseList();
-
-    LogUtil.DEBUGLLJ = true;
-    jniTest.test2();
-    LogUtil.i(mTagLog, jniTest.test3() + "");
-    LogUtil.i(mTagLog, jniTest.test4() + "");
-    LogUtil.i(mTagLog, jniTest.stringFromJNI2());
   }
 
   @Override

@@ -16,14 +16,14 @@ import com.llj.application.router.CRouter
 @Route(path = CRouter.WIDGET_CONSTRAINT_ACTIVITY)
 class ConstraintActivity : MainMvcBaseActivity<ViewBinding>() {
 
-    override fun layoutId(): Int {
-        return R.layout.activity_constraint
-    }
+  override fun layoutId(): Int {
+    return R.layout.activity_constraint
+  }
 
-    override fun initViews(savedInstanceState: Bundle?) {
-    }
+  override fun initViews(savedInstanceState: Bundle?) {
+  }
 
-    override fun initData() {
+  override fun initData() {
 
-    }
+  }
 }

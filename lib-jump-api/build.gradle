@@ -3,6 +3,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     if (useMaven) {
+        api Deps.jump_annotation
     } else {
         api project(':lib-jump-annotation')
     }

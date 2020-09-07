@@ -85,3 +85,11 @@ task syncAndroidIp(type: Exec) {
     commandLine './sync_android_ip.py'
 }
 
+
+task repoAar(type: Exec) {
+    description '打包aar'
+    group 'syncAndroidIp'
+    workingDir "$rootProject.projectDir"
+    commandLine 'python3', 'repo_aar.py'
+}
+

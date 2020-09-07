@@ -1,4 +1,3 @@
-
 // load properties
 Properties localProperties = new Properties()
 Properties properties = new Properties()
@@ -82,8 +81,17 @@ if (projectUserOrg != null) {
             project.getPlugins().hasPlugin('com.android.library')) {
         //文档
         task androidJavadocs(type: Javadoc) {
+            failOnError false
             source = android.sourceSets.main.java.source
             classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+
+            if (project.getPlugins().hasPlugin('com.android.library')) {
+                project.android.libraryVariants.all { variant ->
+                    if (variant.name == 'release') {
+                        owner.classpath += variant.javaCompileProvider.get().classpath
+                    }
+                }
+            }
         }
         //文档
         task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {

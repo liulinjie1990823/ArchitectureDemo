@@ -4,6 +4,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.sankuai.erp.component.appinit.api.SimpleAppInit
 import com.sankuai.erp.component.appinit.common.AppInit
 import skin.support.SkinCompatManager
+import skin.support.app.SkinAppCompatViewInflater
 import skin.support.app.SkinCardViewInflater
 import skin.support.constraint.app.SkinConstraintViewInflater
 import skin.support.design.app.SkinMaterialViewInflater
@@ -26,7 +27,8 @@ class SkinInit : SimpleAppInit() {
   override fun asyncOnCreate() {
     Timber.tag("init").e("SkinInit")
 
-    SkinCompatManager.withoutActivity(mApplication)                         // 基础控件换肤初始化
+    SkinCompatManager.withoutActivity(mApplication)
+        .addInflater(SkinAppCompatViewInflater())// 基础控件换肤初始化
         .addInflater(SkinMaterialViewInflater())            // material design 控件换肤初始化[可选]
         .addInflater(SkinConstraintViewInflater())          // ConstraintLayout 控件换肤初始化[可选]
         .addInflater(SkinCardViewInflater())                // CardView v7 控件换肤初始化[可选]

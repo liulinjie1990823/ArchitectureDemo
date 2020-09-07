@@ -1,6 +1,5 @@
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-
     //事件
     api Deps.eventbus
 }

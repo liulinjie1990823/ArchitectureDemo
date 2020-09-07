@@ -32,8 +32,8 @@ import java.util.concurrent.TimeUnit
  * @author llj
  * @date 2018/9/20
  */
-@Jump(outPath = CJump.JUMP_LOADING_ACTIVITY, inPath = CRouter.APP_LOADING_ACTIVITY, needLogin = true, desc = "LoadingActivity")
-@Route(path = CRouter.APP_LOADING_ACTIVITY)
+@Jump(outPath = CJump.JUMP_LOADING_ACTIVITY, inPath = CRouter.LOADING_LOADING_ACTIVITY, needLogin = true, desc = "LoadingActivity")
+@Route(path = CRouter.LOADING_LOADING_ACTIVITY)
 class LoadingActivity : LoadingMvcBaseActivity<ActivityLoadingBinding>() {
 
   private lateinit var mImageLoader: ImageLoader

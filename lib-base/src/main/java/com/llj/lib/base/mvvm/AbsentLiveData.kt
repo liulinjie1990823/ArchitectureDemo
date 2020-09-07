@@ -1,4 +1,4 @@
-package com.llj.lib.base.utils
+package com.llj.lib.base.mvvm
 
 import androidx.lifecycle.LiveData
 

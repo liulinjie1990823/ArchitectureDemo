@@ -8,65 +8,63 @@ android {
 }
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     if (useMaven) {
         implementation Deps.utils
         implementation Deps.statusbar
         implementation Deps.net
-        api Deps.base_event
+        implementation Deps.base_event
     } else {
         implementation project(':lib-utils')
         implementation project(':lib-statusbar')
         implementation project(':lib-net')
-        api project(':lib-base-event')
+        implementation project(':lib-base-event')
     }
 
     //kotlin
-    api Deps.kotlin_stdlib_jdk8
-
-    //support
-    api Deps.annotations
-    api Deps.appcompat
-    api Deps.activity
-    api Deps.fragment
-    api Deps.constraint_layout
+    implementation Deps.kotlin_stdlib_jdk8
+    implementation Deps.timber
 
     //Architecture components
-    api Deps.lifecycle_runtime
-    api Deps.lifecycle_java8
-    api Deps.lifecycle_viewmodel_savedstate
+    implementation Deps.lifecycle_runtime
+    implementation Deps.lifecycle_java8
+    implementation Deps.lifecycle_viewmodel_savedstate
 
-    //db
-    api Deps.room_runtime
+    //support
+    implementation Deps.annotations
+    implementation Deps.appcompat
+    implementation Deps.activity
+    implementation Deps.fragment
 
     //dagger解耦
-    api Deps.dagger
-    api Deps.dagger_android
-    api Deps.dagger_android_support
+    implementation Deps.dagger
+    implementation Deps.dagger_android
+    implementation Deps.dagger_android_support
     kapt Deps.dagger_compiler
     kapt Deps.dagger_android_compiler
-//    api Deps.dagger_hilt
-//    kapt Deps.dagger_hilt_compiler
-
-    //rx
-    api Deps.rxjava2
-    api Deps.rxandroid
-
-    //autodispose
-    api Deps.autodispose
-    api Deps.autodispose_android
-    api Deps.autodispose_android_archcomponents
 
     //butterknife
-    api Deps.butterknife
+    implementation Deps.butterknife
+
+    //rx
+    implementation Deps.rxjava2
+    implementation Deps.rxandroid
+
+    //autodispose
+    implementation Deps.autodispose
+    implementation Deps.autodispose_android
+    implementation Deps.autodispose_android_archcomponents
 
     //网络
-    api Deps.retrofit2
-    api Deps.okhttp_logging_interceptor
-    api Deps.gson
+    implementation Deps.retrofit2
+    implementation Deps.okhttp
+    implementation Deps.okhttp_logging_interceptor
+    implementation Deps.gson
 
-    implementation Deps.timber
+    implementation Deps.constraint_layout
+
+
 }
 
 

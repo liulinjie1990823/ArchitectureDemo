@@ -12,7 +12,7 @@ import com.llj.loading.databinding.ActivityGuideBinding
  * @author llj
  * @date 2018/9/20
  */
-@Route(path = CRouterClassName.APP_GUIDE_ACTIVITY)
+@Route(path = CRouterClassName.LOADING_GUIDE_ACTIVITY)
 class GuideActivity : LoadingMvcBaseActivity<ActivityGuideBinding>() {
 
   override fun initViews(savedInstanceState: Bundle?) {

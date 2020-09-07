@@ -36,7 +36,7 @@ class ConfigInit : SimpleAppInit() {
     //跳转配置
     val jumpConfig = JumpConfig()
     jumpConfig.nativeScheme = CJump.SCHEME
-    jumpConfig.loadingPath = CRouter.APP_LOADING_ACTIVITY
+    jumpConfig.loadingPath = CRouter.LOADING_LOADING_ACTIVITY
     jumpConfig.loginPath = CRouter.LOGIN_LOGIN_ACTIVITY
     jumpConfig.mainPath = CRouter.APP_MAIN_PATH
     AppManager.getInstance().jumpConfig = jumpConfig

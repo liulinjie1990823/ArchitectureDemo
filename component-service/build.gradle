@@ -39,63 +39,129 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     //平台公用的组件
-    api 'com.billy.android:cc:2.1.6'
-    api Deps.arouter_api
-    api Deps.permission
 
 
     if (useMaven) {
-        api Deps.statusbar
-        api Deps.net
-        api Deps.base
-        api Deps.base_mvvm
-        api Deps.component_api
+        api Deps.utils
+        api Deps.base_event
         api Deps.imageLoader
         api Deps.imageSelect
+        api Deps.statelayout
+        api Deps.statusbar
+        api Deps.swipeback
+        api Deps.scrollable
+        api Deps.universalAdapter
+        api Deps.webView
+        api project(':lib-jpeg-turbo-utils')
+
+        api Deps.net
+
+        api Deps.tracker
+
+        api Deps.jump_api
+
+        api Deps.base
+
         api Deps.socialization
         api Deps.socialization_qq
         api Deps.socialization_sina
         api Deps.socialization_wechat
-        api Deps.statelayout
-        api Deps.universalAdapter
-        api Deps.utils
-        api Deps.webView
-        api Deps.tracker
-        api Deps.map
-        api Deps.oss
-        api project(':lib-scrollable')
-        api project(':lib-zbar')
-        api project(':lib-zxing')
-        api project(':lib-swipeback')
+
     } else {
-        api project(':lib-statusbar')
-        api project(':lib-base')
-        api project(':lib-base-mvvm')
-        api project(':lib-jump-api')
-        api project(':lib-component-api')
+        api project(':lib-utils')
+        api project(':lib-base-event')
         api project(':lib-image-loader')
         api project(':lib-image-select')
-        api project(':lib-image-select-ui')
+        api project(':lib-statelayout')
+        api project(':lib-statusbar')
+        api project(':lib-swipeback')
+        api project(':lib-scrollable')
+        api project(':lib-universalAdapter')
+        api project(':lib-webview')
+        api project(':lib-jpeg-turbo-utils')
+
         api project(':lib-net')
+
+        api project(':lib-tracker')
+
+        api project(':lib-jump-api')
+
+        api project(':lib-base')
+
+
         api project(':lib-socialization')
         api project(':lib-socialization-qq')
         api project(':lib-socialization-sina')
         api project(':lib-socialization-wechat')
-        api project(':lib-statelayout')
-        api project(':lib-universalAdapter')
-        api project(':lib-utils')
-        api project(':lib-webview')
-        api project(':lib-tracker')
+
+        api project(':lib-kodo')
         api project(':lib-map')
         api project(':lib-oss')
-        api project(':lib-scrollable')
+        api project(':lib-qrcodecore')
+        api project(':lib-record')
         api project(':lib-zbar')
         api project(':lib-zxing')
-        api project(':lib-swipeback')
+        api project(':lib_calendar')
+        api project(':lib_crop')
+        api project(':lib_pickerview')
+        api project(':lib_push')
+        api project(':lib_swscale')
+        api project(':lib_update')
     }
 
+    api Deps.kotlin_stdlib_jdk8
+    //日志相关
+    api Deps.timber
+    api Deps.logger
+
+    //Architecture components
+    api Deps.lifecycle_runtime
+    api Deps.lifecycle_java8
+    api Deps.lifecycle_viewmodel_savedstate
+
+    //support
+    api Deps.annotations
+    api Deps.appcompat
+    api Deps.activity
+    api Deps.fragment
+
+    //dagger解耦
+    api Deps.dagger
+    api Deps.dagger_android
+    api Deps.dagger_android_support
+    kapt Deps.dagger_compiler
+    kapt Deps.dagger_android_compiler
+
+    //butterknife
+    api Deps.butterknife
+
+    //skin
+    api Deps.skin_support                   //
+    api Deps.skin_support_appcompat         // skin-support 基础控件支持
+    api Deps.skin_support_design            // skin-support-design material design 控件支持[可选]
+    api Deps.skin_support_cardview          // skin-support-cardview CardView 控件支持[可选]
+    api Deps.skin_support_constraint_layout
+    // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
+
+    //db
+    api Deps.room_runtime
+
+    api Deps.rxjava2
+    api Deps.rxandroid
+
+    api Deps.autodispose
+    api Deps.autodispose_android
+    api Deps.autodispose_android_archcomponents
+
+    //网络
+    api Deps.retrofit2
+    api Deps.okhttp
+    api Deps.okhttp_logging_interceptor
+    api Deps.gson
+
+    //线程调度
+    api Deps.bolts
 
     //imageLoader
     api Deps.fresco
@@ -113,24 +179,12 @@ dependencies {
     api Deps.support_design
     api Deps.recyclerview
     api Deps.constraint_layout
-
-    //skin
-    api Deps.skin_support                   // skin-support 基础控件支持
-    api Deps.skin_support_design            // skin-support-design material design 控件支持[可选]
-    api Deps.skin_support_cardview          // skin-support-cardview CardView 控件支持[可选]
-    api Deps.skin_support_constraint_layout
-    // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
-    
-    kapt Deps.dagger_compiler
-    kapt Deps.dagger_android_compiler
-    kapt Deps.butterknife_compiler
-
-    //线程调度
-    api Deps.bolts
-    //日志相关
-    api Deps.timber
-    api Deps.logger
     //
     api 'com.blankj:utilcodex:1.29.0'
+    api 'com.billy.android:cc:2.1.6'
+
+
+    api Deps.arouter_api
+    api Deps.permission
 
 }

@@ -5,7 +5,6 @@ import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
 import android.util.ArrayMap
 import com.alibaba.android.arouter.launcher.ARouter
-import com.facebook.flipper.plugins.navigation.NavigationFlipperPlugin
 import com.llj.application.di.AppComponent
 import com.llj.application.di.DaggerAppComponent
 import com.llj.application.di.IModule

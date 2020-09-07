@@ -134,36 +134,43 @@ subprojects {
 
         dependencies {
             implementation fileTree(include: ['*.jar'], dir: 'libs')
-
             implementation project(':application')
-            implementation project(':component-service')
+            api project(':component-service')
 
             if (tempName != 'app-loading') {
-                api project(':app-loading')
+                if (useMaven) {
+                    api Deps.app_loading
+                } else {
+                    api project(':app-loading')
+                }
             }
 
             if (useMaven) {
+//                kapt Deps.component_compiler
+                kapt Deps.jump_compiler
+                kapt Deps.mvp_annotation
+
             } else {
-                //dagger
-                kapt Deps.dagger_compiler
-                kapt Deps.dagger_android_compiler
-                //lifecycle
-                kapt Deps.lifecycle_compiler
-                //db
-                kapt Deps.room_compiler
-                //butterknife
-                kapt Deps.butterknife_compiler
-                //跳转路由
-                kapt Deps.arouter_compiler
                 //测试
-                kapt project(':lib-component-compiler')
+//                kapt project(':lib-component-compiler')
                 //本地路由映射表
                 kapt project(':lib-jump-compiler')
                 //本地mvp映射表
                 implementation project(':lib-mvp-annotation')
-                //                kapt project(':lib-mvp-compiler')
+//                kapt project(':lib-mvp-compiler')
             }
 
+            //dagger
+            kapt Deps.dagger_compiler
+            kapt Deps.dagger_android_compiler
+            //lifecycle
+            kapt Deps.lifecycle_compiler
+            //db
+            kapt Deps.room_compiler
+            //butterknife
+            kapt Deps.butterknife_compiler
+            //跳转路由
+            kapt Deps.arouter_compiler
         }
     }
 }

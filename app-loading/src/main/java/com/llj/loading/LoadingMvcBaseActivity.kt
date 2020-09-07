@@ -12,6 +12,6 @@ import com.llj.application.router.CRouter
  */
 abstract class LoadingMvcBaseActivity<V : ViewBinding> : MiddleMvcBaseActivity<V>(){
   override fun getModuleName(): String {
-    return CRouter.MODULE_APP
+    return CRouter.MODULE_LOADING
   }
 }

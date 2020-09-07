@@ -9,10 +9,9 @@ package com.llj.application.router;
 public class CRouterClassName {
 
 
-
   //app
-  public static final String APP_LOADING_ACTIVITY = "/app/LoadingActivity";
-  public static final String APP_GUIDE_ACTIVITY   = "/app/GuideActivity";
+  public static final String LOADING_LOADING_ACTIVITY = "/loading/LoadingActivity";
+  public static final String LOADING_GUIDE_ACTIVITY   = "/loading/GuideActivity";
 
   //main
   public static final String APP_MINE_MEMBER_CENTER_ACTIVITY  = "/main/MemberCentreActivity";

@@ -2,7 +2,7 @@ package com.llj.architecturedemo.di
 
 import com.llj.application.di.AppComponent
 import com.llj.lib.base.di.IInject
-import com.llj.lib.base.di.ViewModelBuilder
+import com.llj.lib.base.mvvm.ViewModelBuilder
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule

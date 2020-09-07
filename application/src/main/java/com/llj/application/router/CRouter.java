@@ -10,7 +10,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
  */
 public class CRouter extends CRouterClassName {
 
-  public static final String MODULE_APP     = "/app/module";
+  public static final String MODULE_LOADING = "/loading/module";
   public static final String MODULE_MAIN    = "/main/module";
   public static final String MODULE_LOGIN   = "/login/module";
   public static final String MODULE_SETTING = "/setting/module";

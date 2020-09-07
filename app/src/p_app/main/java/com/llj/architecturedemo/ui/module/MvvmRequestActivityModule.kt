@@ -5,7 +5,7 @@ import com.llj.architecturedemo.ui.activity.MainActivity
 import com.llj.architecturedemo.ui.activity.MvvmRequestActivity
 import com.llj.architecturedemo.ui.view.MainContractView
 import com.llj.architecturedemo.vm.MainContractViewModel
-import com.llj.lib.base.di.ViewModelKey
+import com.llj.lib.base.mvvm.ViewModelKey
 import dagger.Binds
 
 import dagger.Module

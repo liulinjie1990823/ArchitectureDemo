@@ -1,18 +1,14 @@
 package com.llj.architecturedemo.vm
 
-import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-
 import com.llj.architecturedemo.db.entity.MobileEntity
 import com.llj.architecturedemo.repository.MobileRepository
-import com.llj.lib.base.mvp.IBaseActivityView
+import com.llj.lib.base.mvvm.AbsentLiveData
 import com.llj.lib.base.mvvm.BaseViewModel
-import com.llj.lib.base.utils.AbsentLiveData
 import com.llj.lib.net.response.IResponse
 import com.llj.lib.utils.AParseUtils
-
 import javax.inject.Inject
 
 /**
@@ -26,6 +22,7 @@ class MainContractViewModel @Inject constructor(
 ) : BaseViewModel() {
 
   private val _query = MutableLiveData<HashMap<String, Any>?>()
+
   val query: LiveData<HashMap<String, Any>?> = _query
 
   fun setQuery(map: HashMap<String, Any>?) {

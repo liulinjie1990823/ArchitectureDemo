@@ -8,14 +8,14 @@ android {
 }
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation Deps.fragment_ktx
 
-    implementation 'androidx.fragment:fragment-ktx:1.2.5'
     if (useMaven) {
-        api Deps.base
+        implementation Deps.base
         implementation Deps.net
     } else {
-        api project(':lib-base')
+        implementation project(':lib-base')
         implementation project(':lib-net')
     }
 }

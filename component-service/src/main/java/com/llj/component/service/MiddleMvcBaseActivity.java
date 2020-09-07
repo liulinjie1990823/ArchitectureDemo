@@ -2,6 +2,9 @@ package com.llj.component.service;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.app.SkinAppCompatDelegateImpl;
 import androidx.viewbinding.ViewBinding;
 import com.alibaba.android.arouter.core.LogisticsCenter;
 import com.alibaba.android.arouter.facade.Postcard;
@@ -60,6 +63,13 @@ public abstract class MiddleMvcBaseActivity<V extends ViewBinding> extends
     }
     return mPageId;
   }
+
+  @NonNull
+  @Override
+  public AppCompatDelegate getDelegate() {
+    return SkinAppCompatDelegateImpl.get(this, this);
+  }
+
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
