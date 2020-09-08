@@ -4,14 +4,21 @@ android {
 
 
 dependencies {
+
     implementation Deps.badgeview
     implementation Deps.viewpager2
 
 //    api project(':lib-jni-test')
     api project(':lib-opengl')
     api project(':lib-opencv')
-    api project(':lib-record')
     api project(':lib-kodo')
+
+    if (useMaven) {
+        api Deps.lib_record
+    } else {
+        api project(':lib-record')
+    }
+
 
     if (useComponent) {
 //        addComponent 'app-login'
@@ -34,9 +41,8 @@ dependencies {
 
     implementation 'com.github.florent37:shapeofview:1.4.7'
     implementation 'com.arthenica:mobile-ffmpeg-full:4.3.2'
-    implementation Deps.appcompat
-
-    implementation 'androidx.fragment:fragment-ktx:1.2.5'
+    implementation Deps.androidx_appcompat
+    implementation Deps.androidx_fragment_ktx
 
 
 }

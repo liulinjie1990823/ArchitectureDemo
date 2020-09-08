@@ -1,6 +1,7 @@
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation Deps.androidx_annotations
     implementation Deps.bolts
     //调试的时候依赖
     implementation Deps.okhttp

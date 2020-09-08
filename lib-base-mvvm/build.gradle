@@ -9,7 +9,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation Deps.fragment_ktx
+    implementation Deps.androidx_fragment_ktx
 
     if (useMaven) {
         implementation Deps.base

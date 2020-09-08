@@ -1,9 +1,9 @@
-//限制在跟目录导入
+//限制只能在跟目录导入
 if (project.name != project.rootProject.name) {
     return
 }
 
-println("Custome Configure init.gradle")
+println("Custome Configure (init.gradle)")
 
 //先加载根目录下的local.properties文件
 Properties properties = new Properties()
@@ -81,7 +81,6 @@ task syncAndroidIp(type: Exec) {
     description '设置android端ip代理'
     group 'syncAndroidIp'
     workingDir "$rootProject.projectDir/python"
-    println workingDir
     commandLine './sync_android_ip.py'
 }
 

@@ -1,6 +1,6 @@
 //限制在跟目录导入
 
-println("Custome Configure gradleLifecycle.gradle")
+println("Custome Configure (gradleLifecycle.gradle)")
 
 gradle.addBuildListener(new BuildListener() {
 
@@ -11,15 +11,17 @@ gradle.addBuildListener(new BuildListener() {
     }
 
     void settingsEvaluated(Settings settings) {
+        //settings.gradle文件解析
         println("-----------------------------------------" + "settingsEvaluated" + "-----------------------------------------")
     }
 
     void projectsLoaded(Gradle gradle) {
+        //所有工程加载
         println("-----------------------------------------" + "projectsLoaded" + "-----------------------------------------")
     }
 
     void projectsEvaluated(Gradle gradle) {
-        //所有子工程都Evaluated
+        //所有子工程都Evaluated完毕
         println("-----------------------------------------" + "projectsEvaluated" + "-----------------------------------------")
     }
 
@@ -28,6 +30,7 @@ gradle.addBuildListener(new BuildListener() {
     }
 
     void buildFinished(BuildResult result) {
+        //任务结束调用
         println("-----------------------------------------" + "buildFinished" + "-----------------------------------------")
     }
 })
@@ -43,7 +46,7 @@ gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
 
         if (project.name == rootProject.name) {
             println("-----------------------------------------rootProject.ext begin----------------------------------------------------")
-            println(project.name + ".ext" + project.extensions.extraProperties.properties)
+//            println(project.name + ".ext" + project.extensions.extraProperties.properties)
             println("-----------------------------------------rootProject.ext end------------------------------------------------------")
         }
     }

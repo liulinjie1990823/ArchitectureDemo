@@ -68,7 +68,7 @@ if (mainApp) {
 project.ext.runAsApp = runAsApp
 
 println "${PLUGIN_NAME}: mainModuleName=${mainModuleName}, project=${project.name}, runAsApp=${runAsApp} . taskIsAssemble:${taskIsAssemble}. " +
-        "settings(mainApp:${mainApp}, alwaysLib:${alwaysLib}, assembleThisModule:${assembleFor}, buildingAar:${buildingAar})"
+        "settings(mainApp:${mainApp}, alwaysLib:${alwaysLib}, assembleFor:${assembleFor}, buildingAar:${buildingAar})"
 
 if (runAsApp) {
     project.apply plugin: 'com.android.application'

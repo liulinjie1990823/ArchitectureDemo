@@ -10,7 +10,6 @@ class BuildTypeExtensions1 {
 
     public BuildTypeExtensions1(String name) {
         this.name = name
-        println "BuildTypeExtensions name = " + name
     }
 
 

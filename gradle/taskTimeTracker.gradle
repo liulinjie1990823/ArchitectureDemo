@@ -1,6 +1,6 @@
 //限制在跟目录导入
 
-println("Custome Configure taskTimeTracker.gradle")
+println("Custome Configure (taskTimeTracker.gradle)")
 
 class Clock {
     long startTimeInMs

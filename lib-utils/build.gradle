@@ -1,6 +1,7 @@
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation Deps.androidx_fragment
     implementation Deps.recyclerview
     implementation Deps.localbroadcastmanager
     implementation Deps.gson

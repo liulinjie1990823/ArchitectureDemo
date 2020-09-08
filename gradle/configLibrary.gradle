@@ -7,19 +7,19 @@ if (project.name != project.rootProject.name) {
     return
 }
 
-println("Custome Configure configLibrary.gradle")
+println("Custome Configure (configLibrary.gradle)")
 
 
 subprojects {
     //配置类库公用的配置
-    if ((it.name.startsWith('application'))
+    if (it.name.startsWith('application')
+            || it.name.startsWith('component-service')
             || it.name.startsWith('lib-')
-            || (it.name.startsWith('lib_'))
-            || (it.name.startsWith('plugin-'))) {
+            || it.name.startsWith('lib_')
+            || it.name.startsWith('plugin-')) {
         if (it.name.startsWith('plugin-code-inject')
                 || it.name.startsWith('plugin-upload')) {
             apply plugin: 'groovy'
-//            apply from: rootProject.file('gradle/maven-publish.gradle')
 
         } else if (it.name.startsWith('lib-component-annotation')
                 || it.name.startsWith('lib-component-compiler')
@@ -27,8 +27,7 @@ subprojects {
                 || it.name.startsWith('lib-jump-compiler')
                 || it.name.startsWith('lib-base-compiler')
                 || it.name.startsWith('lib-mvp-compiler')
-                || it.name.startsWith('lib-mvp-annotation')
-        ) {
+                || it.name.startsWith('lib-mvp-annotation')) {
             apply plugin: 'java-library'
             sourceCompatibility = "1.8"
             targetCompatibility = "1.8"
@@ -74,9 +73,9 @@ subprojects {
             }
             dependencies {
                 implementation fileTree(dir: 'libs', include: ['*.jar'])
-                implementation Deps.annotations
-                implementation Deps.recyclerview
-                implementation Deps.appcompat
+//                implementation Deps.androidx_annotations
+//                implementation Deps.recyclerview
+//                implementation Deps.androidx_appcompat
             }
         }
         //android-plugin升级后统一使用novoda-bintray来打包，之前的和插件有冲突

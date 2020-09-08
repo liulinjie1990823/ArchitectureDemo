@@ -11,10 +11,10 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     if (useMaven) {
-        implementation Deps.utils
-        implementation Deps.statusbar
+        implementation Deps.lib_utils
+        implementation Deps.lib_statusbar
         implementation Deps.net
-        implementation Deps.base_event
+        implementation Deps.lib_base_event
     } else {
         implementation project(':lib-utils')
         implementation project(':lib-statusbar')
@@ -32,10 +32,10 @@ dependencies {
     implementation Deps.lifecycle_viewmodel_savedstate
 
     //support
-    implementation Deps.annotations
-    implementation Deps.appcompat
-    implementation Deps.activity
-    implementation Deps.fragment
+    implementation Deps.androidx_annotations
+    implementation Deps.androidx_appcompat
+    implementation Deps.androidx_activity
+    implementation Deps.androidx_fragment
 
     //dagger解耦
     implementation Deps.dagger

@@ -8,6 +8,8 @@ ext {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation Deps.androidx_annotations
+    implementation Deps.androidx_core
 
     //包含了javacv（java代码接口）和各个javacpp-presets库
 //    api(group: 'org.bytedeco', name: 'javacv-platform', version: versions.javacv) {

@@ -5,15 +5,11 @@ Properties properties = new Properties()
 File localPropertiesFile = project.parent.file("local.properties")
 if (localPropertiesFile.exists()) {
     localProperties.load(localPropertiesFile.newDataInputStream())
-} else {
-    println("local.properties not found")
 }
 
 File projectPropertiesFile = project.file("project.properties")
 if (projectPropertiesFile.exists()) {
     properties.load(projectPropertiesFile.newDataInputStream())
-} else {
-    println("project.properties not found")
 }
 
 // read properties

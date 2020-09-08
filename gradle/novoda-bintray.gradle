@@ -5,15 +5,11 @@ Properties properties = new Properties()
 File localPropertiesFile = project.parent.file("local.properties")
 if (localPropertiesFile.exists()) {
     localProperties.load(localPropertiesFile.newDataInputStream())
-} else {
-    println("local.properties not found")
 }
 
 File projectPropertiesFile = project.file("project.properties")
 if (projectPropertiesFile.exists()) {
     properties.load(projectPropertiesFile.newDataInputStream())
-} else {
-    println("project.properties not found")
 }
 
 // read properties
@@ -45,8 +41,6 @@ def bintrayApikey = localProperties.getProperty("bintray.apikey")
 
 if (projectUserOrg != null) {
 // 0.9.2版本在gradle6.0上有bug
-
-    println("project.name:" + project.name)
 
     //https://github.com/novoda/bintray-release
     //用于发布本地或远程自定义仓库，MavenLocal，bintray.com

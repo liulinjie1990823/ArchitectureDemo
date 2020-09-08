@@ -173,7 +173,6 @@ class BuildTypeExtensions {
 
     public BuildTypeExtensions(String name) {
         this.name = name
-        println "BuildTypeExtensions name = " + name
     }
 
 

@@ -24,6 +24,10 @@ os.system(
     "./gradlew lib-universalAdapter:publishReleasePublicationToLocalRepoRepository")
 os.system(
     "./gradlew lib-webview:publishReleasePublicationToLocalRepoRepository")
+os.system(
+    "./gradlew lib-jpeg-turbo-utils:publishReleasePublicationToLocalRepoRepository")
+os.system(
+    "./gradlew lib-record:publishReleasePublicationToLocalRepoRepository")
 
 os.system(
     "./gradlew lib-net:publishReleasePublicationToLocalRepoRepository")
@@ -59,6 +63,13 @@ os.system(
 os.system(
     "./gradlew lib-socialization-wechat:publishReleasePublicationToLocalRepoRepository")
 print("----------------socialization end------------------")
+
+
+os.system(
+    "./gradlew component-service:publishReleasePublicationToLocalRepoRepository")
+
+os.system(
+    "./gradlew app-application:publishDebugPublicationToLocalRepoRepository")
 
 os.system(
     "./gradlew app-loading:publishReleasePublicationToLocalRepoRepository")

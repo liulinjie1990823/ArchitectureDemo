@@ -26,6 +26,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation Deps.appcompat
+    implementation Deps.androidx_appcompat
     implementation 'androidx.core:core-ktx:1.0.2'
 }

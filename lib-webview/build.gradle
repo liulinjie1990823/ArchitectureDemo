@@ -1,6 +1,6 @@
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-
+    implementation Deps.androidx_appcompat
     implementation Deps.eventbus
     implementation Deps.timber
 

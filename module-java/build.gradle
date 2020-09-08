@@ -40,5 +40,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':component-service')
+    if (useMaven) {
+        api Deps.component_service
+    } else {
+        api project(':component-service')
+    }
 }

@@ -7,7 +7,7 @@ if (project.name != project.rootProject.name) {
     return
 }
 
-println("Custome Configure configModule.gradle")
+println("Custome Configure (configModule.gradle)")
 
 
 subprojects {
@@ -135,8 +135,8 @@ subprojects {
         dependencies {
             implementation fileTree(include: ['*.jar'], dir: 'libs')
             implementation project(':application')
-            api project(':component-service')
 
+            //非app-loading工程需要依赖
             if (tempName != 'app-loading') {
                 if (useMaven) {
                     api Deps.app_loading
@@ -146,11 +146,13 @@ subprojects {
             }
 
             if (useMaven) {
+                api Deps.component_service
 //                kapt Deps.component_compiler
                 kapt Deps.jump_compiler
                 kapt Deps.mvp_annotation
 
             } else {
+                api project(':component-service')
                 //测试
 //                kapt project(':lib-component-compiler')
                 //本地路由映射表

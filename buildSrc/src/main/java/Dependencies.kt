@@ -26,7 +26,7 @@ object Versions {
   const val dagger_hilt = "2.28-alpha"
   const val autodispose = "1.4.0"
 
-  const val butterknife = "10.2.1"
+  const val butterknife = "10.2.3"
 
   const val retrofit2 = "2.9.0"
   const val okhttp = "4.8.1"
@@ -64,14 +64,15 @@ object Deps {
 
   //支持库
   //https://developer.android.com/jetpack/androidx/releases/activity
-  const val activity = "androidx.activity:activity:1.1.0"
-  const val annotations = "androidx.annotation:annotation:1.1.0"
-  const val appcompat = "androidx.appcompat:appcompat:1.2.0"
-  const val fragment = "androidx.fragment:fragment:1.2.5"
-  const val fragment_ktx = "androidx.fragment:fragment-ktx:1.2.5"
-  const val arch_common = "androidx.arch.core:core-common:2.1.0"
-  const val arch_runtime = "androidx.arch.core:core-runtime:2.1.0"
+  const val androidx_activity = "androidx.activity:activity:1.1.0"
+  const val androidx_annotations = "androidx.annotation:annotation:1.1.0"
+  const val androidx_appcompat = "androidx.appcompat:appcompat:1.2.0"
+  const val androidx_fragment = "androidx.fragment:fragment:1.2.5"
+  const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.2.5"
+  const val androidx_arch_common = "androidx.arch.core:core-common:2.1.0"
+  const val androidx_arch_runtime = "androidx.arch.core:core-runtime:2.1.0"
   const val androidx_core = "androidx.core:core:1.3.0"
+  const val androidx_core_ktx = "androidx.core:core-ktx:1.3.1"
 
 
   //lifecycle
@@ -208,16 +209,18 @@ object Deps {
   const val indexablerecyclerview = "me.yokeyword:indexablerecyclerview:1.3.0"
 
   //工具
-  const val utils = "com.llj:lib-utils:0.0.10"
-  const val base_event = "com.llj:lib-base-event:0.0.1"
-  const val imageLoader = "com.llj:lib-image-loader:0.0.4"
-  const val imageSelect = "com.llj:lib-image-select:0.0.3"
-  const val statelayout = "com.llj:lib-statelayout:0.0.2"
-  const val statusbar = "com.llj:lib-statusbar:0.0.1"
-  const val swipeback = "com.llj:lib-swipeback:0.0.1"
-  const val universalAdapter = "com.llj:lib-universalAdapter:1.1.7"
-  const val scrollable = "com.llj:lib-scrollable:0.0.1"
-  const val webView = "com.llj:lib-webview:0.0.2"
+  const val lib_utils = "com.llj:lib-utils:0.0.10"
+  const val lib_base_event = "com.llj:lib-base-event:0.0.1"
+  const val lib_image_loader = "com.llj:lib-image-loader:0.0.5"
+  const val lib_image_select = "com.llj:lib-image-select:0.0.3"
+  const val lib_statelayout = "com.llj:lib-statelayout:0.0.2"
+  const val lib_statusbar = "com.llj:lib-statusbar:0.0.1"
+  const val lib_swipeback = "com.llj:lib-swipeback:0.0.1"
+  const val lib_universalAdapter = "com.llj:lib-universalAdapter:1.1.7"
+  const val lib_scrollable = "com.llj:lib-scrollable:0.0.1"
+  const val lib_webView = "com.llj:lib-webview:0.0.2"
+  const val lib_jpeg_turbo_utils = "com.llj:lib-jpeg-turbo-utils:0.0.1"
+  const val lib_record = "com.llj:lib-record:0.0.1"
 
   const val net = "com.llj:lib-net:0.0.9"
 
@@ -242,7 +245,11 @@ object Deps {
   const val socialization_qq = "com.llj:lib-socialization-qq:${Versions.socialization}"
   const val socialization_sina = "com.llj:lib-socialization-sina:${Versions.socialization}"
   const val socialization_wechat = "com.llj:lib-socialization-wechat:${Versions.socialization}"
+
+
   const val app_loading = "com.llj:app-loading:0.0.1"
+  const val app_application = "com.llj:app-application:0.0.1"
+  const val component_service = "com.llj:component-service:0.0.1"
 
 
   const val loadmore = "com.llj.loadmore:lib-loadmore:1.0.3"

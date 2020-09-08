@@ -1,4 +1,4 @@
-apply plugin: 'com.android.library'
+
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.jakewharton.butterknife'
@@ -10,50 +10,24 @@ kapt {
     }
 }
 
-android {
-    compileSdkVersion Versions.compileSdkVersion
-    buildToolsVersion Versions.buildToolsVersion
-
-    defaultConfig {
-        minSdkVersion Versions.minSdkVersion
-        targetSdkVersion Versions.targetSdkVersion
-    }
-
-    buildTypes {
-        debug {}
-        beta {}
-        release {}
-    }
-    buildTypes.all { type ->
-        type.matchingFallbacks = ['debug']
-        type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
-    }
-    compileOptions {
-        targetCompatibility Versions.compileJdkVersion
-        sourceCompatibility Versions.compileJdkVersion
-    }
-    lintOptions {
-        abortOnError false
-    }
-}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //平台公用的组件
 
-
     if (useMaven) {
-        api Deps.utils
-        api Deps.base_event
-        api Deps.imageLoader
-        api Deps.imageSelect
-        api Deps.statelayout
-        api Deps.statusbar
-        api Deps.swipeback
-        api Deps.scrollable
-        api Deps.universalAdapter
-        api Deps.webView
-        api project(':lib-jpeg-turbo-utils')
+        api Deps.lib_utils
+        api Deps.lib_base_event
+        api Deps.lib_image_loader
+        api Deps.lib_image_select
+        api Deps.lib_statelayout
+        api Deps.lib_statusbar
+        api Deps.lib_swipeback
+        api Deps.lib_scrollable
+        api Deps.lib_universalAdapter
+        api Deps.lib_webView
+        api Deps.lib_jpeg_turbo_utils
+        api Deps.lib_record
 
         api Deps.net
 
@@ -80,6 +54,7 @@ dependencies {
         api project(':lib-universalAdapter')
         api project(':lib-webview')
         api project(':lib-jpeg-turbo-utils')
+        api project(':lib-record')
 
         api project(':lib-net')
 
@@ -95,19 +70,18 @@ dependencies {
         api project(':lib-socialization-sina')
         api project(':lib-socialization-wechat')
 
-        api project(':lib-kodo')
-        api project(':lib-map')
-        api project(':lib-oss')
-        api project(':lib-qrcodecore')
-        api project(':lib-record')
-        api project(':lib-zbar')
-        api project(':lib-zxing')
-        api project(':lib_calendar')
-        api project(':lib_crop')
-        api project(':lib_pickerview')
-        api project(':lib_push')
-        api project(':lib_swscale')
-        api project(':lib_update')
+//        api project(':lib-kodo')
+//        api project(':lib-map')
+//        api project(':lib-oss')
+//        api project(':lib-qrcodecore')
+//        api project(':lib-zbar')
+//        api project(':lib-zxing')
+//        api project(':lib_calendar')
+//        api project(':lib_crop')
+//        api project(':lib_pickerview')
+//        api project(':lib_push')
+//        api project(':lib_swscale')
+//        api project(':lib_update')
     }
 
     api Deps.kotlin_stdlib_jdk8
@@ -121,10 +95,10 @@ dependencies {
     api Deps.lifecycle_viewmodel_savedstate
 
     //support
-    api Deps.annotations
-    api Deps.appcompat
-    api Deps.activity
-    api Deps.fragment
+    api Deps.androidx_annotations
+    api Deps.androidx_appcompat
+    api Deps.androidx_activity
+    api Deps.androidx_fragment
 
     //dagger解耦
     api Deps.dagger

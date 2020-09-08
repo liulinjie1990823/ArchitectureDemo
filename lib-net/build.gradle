@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     if (useMaven) {
-        implementation Deps.utils
+        implementation Deps.lib_utils
     } else {
         implementation project(':lib-utils')
     }

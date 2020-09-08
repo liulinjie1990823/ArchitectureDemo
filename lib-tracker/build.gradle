@@ -2,12 +2,14 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     if (useMaven) {
-        implementation Deps.utils
+        implementation Deps.lib_utils
     } else {
         implementation project(':lib-utils')
     }
 
     api 'org.aspectj:aspectjrt:1.8.9'
+    implementation Deps.androidx_fragment
+
     implementation Deps.lifecycle_runtime
     implementation Deps.lifecycle_java8
     implementation Deps.lifecycle_process

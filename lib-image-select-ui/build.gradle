@@ -2,7 +2,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     if (useMaven) {
-        implementation Deps.universalAdapter
+        implementation Deps.lib_universalAdapter
     } else {
         implementation project(':lib-universalAdapter')
     }

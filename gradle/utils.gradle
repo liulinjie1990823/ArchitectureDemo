@@ -2,12 +2,12 @@
  * 工程gradle相关工具
  */
 
-//限制在跟目录导入
+//限制只能在跟目录导入
 if (project.name != project.rootProject.name) {
     return
 }
 
-println("Custome Configure utils.gradle")
+println("Custome Configure (utils.gradle)")
 
 def getVersionNameAdvanced() {
     def xmlFile = project.file("AndroidManifest.xml")

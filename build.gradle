@@ -19,7 +19,7 @@ buildscript {
             classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.3'
         }
         //maven库更新检测
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.29.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.30.0'
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28.3-alpha'
         //android-plugin插件
         if (useNew) {
@@ -103,19 +103,19 @@ allprojects {
             force 'androidx.legacy:legacy-support-core-utils:1.0.0'
             force 'androidx.legacy:legacy-support-core-ui:1.0.0'
             force 'androidx.legacy:legacy-support-v4:1.0.0'
-            force Deps.annotations
+            force Deps.androidx_annotations
             force Deps.androidx_core
-            force Deps.arch_common
-            force Deps.arch_runtime
-            force Deps.appcompat
+            force Deps.androidx_arch_common
+            force Deps.androidx_arch_runtime
+            force Deps.androidx_appcompat
             force Deps.lifecycle_runtime
             force Deps.lifecycle_service
             force Deps.lifecycle_java8
             force Deps.lifecycle_viewmodel
             force Deps.lifecycle_viewmodel_savedstate
             force Deps.lifecycle_livedata
-            force Deps.activity
-            force Deps.fragment
+            force Deps.androidx_activity
+            force Deps.androidx_fragment
             force Deps.constraint_layout
             force Deps.recyclerview
             force Deps.viewpager

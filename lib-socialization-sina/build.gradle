@@ -2,6 +2,7 @@
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation Deps.androidx_annotations
     implementation Deps.bolts
     implementation project(':lib-socialization')
     api 'com.sina.weibo.sdk:core:4.3.7:openDefaultRelease@aar'

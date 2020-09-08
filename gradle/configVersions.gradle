@@ -7,7 +7,7 @@ if (project.name != project.rootProject.name) {
     return
 }
 
-println("Custome Configure configVersions.gradle")
+println("Custome Configure (configVersions.gradle)")
 
 def versions = [
         kotlin       : "1.4.0",
@@ -270,17 +270,17 @@ ext {
 
 
 def addRepos(RepositoryHandler handler) {
+    handler.maven { url uri("./repo") }//插件
     handler.mavenLocal()
     handler.maven { url "https://maven.aliyun.com/repository/jcenter" }
     handler.maven { url "https://maven.aliyun.com/repository/google" }
 //    handler.mavenCentral()
 
     //本地的maven仓库，需要maven格式的包
-    handler.maven { url uri("./repo") }//插件
     //工程中的lib文件夹，依赖aar和jar文件
 
-    handler.google()
-    handler.jcenter()
+//    handler.google()
+//    handler.jcenter()
 
     handler.maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     handler.maven { url "https://jitpack.io" }
@@ -288,8 +288,8 @@ def addRepos(RepositoryHandler handler) {
     //微博的maven地址
     handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
 //    handler.flatDir { dirs "../lib", "../libs" }
-    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
-    handler.maven { url "https://dl.bintray.com/liulinjie1990823/gradle/" }
+//    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
+//    handler.maven { url "https://dl.bintray.com/liulinjie1990823/gradle/" }
 
 }
 

@@ -1,7 +1,8 @@
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation Deps.androidx_annotations
+    
     if (useMaven) {
         api Deps.jump_annotation
     } else {

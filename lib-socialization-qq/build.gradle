@@ -1,6 +1,8 @@
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
+    implementation Deps.androidx_annotations
+    implementation Deps.androidx_fragment
     implementation Deps.bolts
     implementation project(':lib-socialization')
 
