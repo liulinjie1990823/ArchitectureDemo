@@ -94,6 +94,7 @@ public class MineFragment extends
       R2.id.iv_message1,
       R2.id.iv_setting1,}) List<ImageView> mIvBlack;
 
+  @BindView(R2.id.v_root)    ViewGroup        mVRoot;
   @BindView(R2.id.v_status_bar)    View        mVStatusBar;
   @BindView(R2.id.v_white_back)    View        mOverlayView;
   @BindView(R2.id.fl_toolbar_root) FrameLayout mFlToolbarRoot;
@@ -199,6 +200,8 @@ public class MineFragment extends
   @Override
   public void initViews(Bundle savedInstanceState) {
     super.initViews(savedInstanceState);
+
+
 
     mFlToolbarRoot.setBackgroundColor(Color.parseColor("#ffffff"));
     mFlToolbarRoot.getBackground().mutate().setAlpha(0);

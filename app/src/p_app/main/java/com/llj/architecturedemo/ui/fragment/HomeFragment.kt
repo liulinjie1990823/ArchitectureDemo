@@ -1,9 +1,12 @@
 package com.llj.architecturedemo.ui.fragment
 
 import android.content.Intent
+import android.graphics.Insets
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.WindowInsets
 import android.widget.TextView
 import androidx.viewbinding.ViewBinding
 import butterknife.BindView
@@ -30,6 +33,7 @@ class HomeFragment : MainMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scroll
     return mRecyclerView
   }
 
+  @BindView(R2.id.v_f_root1) lateinit var mVFRoot1: ViewGroup
   @BindView(R2.id.recyclerView) lateinit var mRecyclerView: androidx.recyclerview.widget.RecyclerView
   @BindView(R2.id.tv_update) lateinit var mUpdate: TextView
 
@@ -51,6 +55,7 @@ class HomeFragment : MainMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scroll
 
   override fun initViews(savedInstanceState: Bundle?) {
     super.initViews(savedInstanceState)
+
 
     val arrayList = arrayListOf<Data?>()
 

@@ -10,11 +10,17 @@ import com.llj.application.router.CRouter
 /**
  * ArchitectureDemo
  * describe:
- * author llj
- * date 2018/7/5
+ *
+ * @author llj
+ * @date 2018/7/5
  */
 @Route(path = CRouter.WIDGET_CONSTRAINT_ACTIVITY)
 class ConstraintActivity : MainMvcBaseActivity<ViewBinding>() {
+
+
+  override fun setContentView(layoutResID: Int) {
+    super.setContentView(layoutResID)
+  }
 
   override fun layoutId(): Int {
     return R.layout.activity_constraint

@@ -31,16 +31,22 @@ class CustomInit : SimpleAppInit() {
     //设置状态栏监听
     mApplication.registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
       override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        val simpleName = activity.javaClass.simpleName
-        if ("MainActivity" == simpleName) {
-          //status和界面中的布局覆盖布局，界面中加了fitWindow,有padding效果，覆盖白字
-          StatusBarCompat.translucentStatusBar(activity.window, true)
-          LightStatusBarCompat.setLightStatusBar(activity.window, false)
-        } else if (simpleName != "KeyboardStateActivity") {
-          //status和界面中的布局线性布局，白低黑字
-          StatusBarCompat.translucentStatusBar(activity.window, true)
-          LightStatusBarCompat.setLightStatusBar(activity.window, true)
+        StatusBarCompat.translucentStatusBarAndNavigation(activity.window, true)
 
+        val simpleName = activity.javaClass.simpleName
+        when {
+          "MainActivity" == simpleName -> {
+            //status和界面中的布局覆盖布局，界面中加了fitWindow,有padding效果，覆盖白字
+            LightStatusBarCompat.setLightStatusBar(activity.window, false)
+          }
+          "KeyboardStateActivity" != simpleName -> {
+            //status和界面中的布局线性布局，白低黑字
+            LightStatusBarCompat.setLightStatusBar(activity.window, false)
+
+          }
+          else -> {
+
+          }
         }
       }
     })

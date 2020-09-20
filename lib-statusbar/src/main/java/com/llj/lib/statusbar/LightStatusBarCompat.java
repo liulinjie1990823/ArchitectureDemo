@@ -29,7 +29,7 @@ public class LightStatusBarCompat {
     /**
      * Set whether ths status bar is light
      *
-     * @param window         The window to set
+     * @param window The window to set
      * @param lightStatusBar True if the status bar color is light
      */
     void setLightStatusBar(Window window, boolean lightStatusBar);
@@ -39,22 +39,32 @@ public class LightStatusBarCompat {
 
   static {
     if (MIUILightStatusBarImpl.isMe()) {
+      //小米
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         IMPL = new MLightStatusBarImpl() {
           private final ILightStatusBar DELEGATE = new MIUILightStatusBarImpl();
 
           @Override
           public void setLightStatusBar(Window window, boolean lightStatusBar) {
-            super.setLightStatusBar(window, lightStatusBar);
-            DELEGATE.setLightStatusBar(window, lightStatusBar);
+            //https://dev.mi.com/console/doc/detail?pId=1159
+            if (lightStatusBar) {
+              //白底黑字
+              super.setLightStatusBar(window, lightStatusBar);
+              DELEGATE.setLightStatusBar(window, lightStatusBar);
+            } else {
+              //黑底白字
+              super.setLightStatusBar(window, lightStatusBar);
+            }
           }
         };
       } else {
         IMPL = new MIUILightStatusBarImpl();
       }
     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      //6.0以上
       IMPL = new MLightStatusBarImpl();
     } else if (MeizuLightStatusBarImpl.isMe()) {
+      //魅族
       IMPL = new MeizuLightStatusBarImpl();
     } else {
       IMPL = new ILightStatusBar() {
@@ -87,14 +97,13 @@ public class LightStatusBarCompat {
         ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
       }
       decor.setSystemUiVisibility(ui);
-
     }
   }
 
   private static class MIUILightStatusBarImpl implements ILightStatusBar {
 
-    private static final String KEY_MIUI_VERSION_CODE = "ro.miui.ui.version.code";
-    private static final String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";
+    private static final String KEY_MIUI_VERSION_CODE     = "ro.miui.ui.version.code";
+    private static final String KEY_MIUI_VERSION_NAME     = "ro.miui.ui.version.name";
     private static final String KEY_MIUI_INTERNAL_STORAGE = "ro.miui.internal.storage";
 
     static boolean isMe() {

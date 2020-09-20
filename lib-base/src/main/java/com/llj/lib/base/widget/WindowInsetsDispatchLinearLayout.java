@@ -5,9 +5,8 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowInsets;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 /**
  * describe: 兼容存在多个tab的页面中，只有一个fragment中的布局有fitSystemWindow效果
@@ -15,20 +14,20 @@ import android.widget.FrameLayout;
  * @author llj
  * @date 2018/11/7
  */
-public class WindowInsetsFrameLayout extends FrameLayout {
+public class WindowInsetsDispatchLinearLayout extends LinearLayout {
 
-  public WindowInsetsFrameLayout(Context context) {
+  public WindowInsetsDispatchLinearLayout(Context context) {
     this(context, null);
   }
 
-  public WindowInsetsFrameLayout(Context context, AttributeSet attrs) {
+  public WindowInsetsDispatchLinearLayout(Context context, AttributeSet attrs) {
     this(context, attrs, 0);
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public WindowInsetsFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+  public WindowInsetsDispatchLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
-    setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
+    setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
       @Override
       public void onChildViewAdded(View parent, View child) {
         requestApplyInsets();

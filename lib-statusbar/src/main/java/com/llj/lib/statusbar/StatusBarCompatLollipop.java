@@ -32,7 +32,6 @@ class StatusBarCompatLollipop {
    * statusBar's Height in pixels.
    *
    * @param window window
-   *
    * @return statusBar's Height in pixels
    */
   private static int getStatusBarHeight(@NonNull Window window) {
@@ -51,19 +50,24 @@ class StatusBarCompatLollipop {
    * <p>1. set Flags to call setStatusBarColor 2. call setSystemUiVisibility to
    * clear translucentStatusBar's Flag. 3. set FitsSystemWindows to false
    */
-  static void setStatusBarColor(@NonNull Window window, @ColorInt int statusColor) {
 
-    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+  static void setStatusBarColor(@NonNull Window window,
+      @ColorInt int statusColor,
+      @ColorInt int navigationBarColor) {
+
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     window.setStatusBarColor(statusColor);
     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
 
-    ViewGroup contentView = window.findViewById(Window.ID_ANDROID_CONTENT);
-    View childView = contentView.getChildAt(0);
-    if (childView != null) {
-      ViewCompat.setFitsSystemWindows(childView, false);
-      ViewCompat.requestApplyInsets(childView);
+    if (navigationBarColor != 0) {
+      window.setNavigationBarColor(navigationBarColor);
     }
+  }
+
+  static void setStatusBarColor(@NonNull Window window, @ColorInt int statusColor) {
+    setStatusBarColor(window, statusColor, 0);
   }
 
   /**
@@ -73,25 +77,28 @@ class StatusBarCompatLollipop {
    *
    * @param hideStatusBarBackground hide statusBar's shadow
    */
-  static void translucentStatusBar(@NonNull Window window, boolean hideStatusBarBackground) {
+  static void translucentStatusBar(@NonNull Window window, boolean hideStatusBarBackground,
+      boolean hideNavigation) {
 
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
     if (hideStatusBarBackground) {
       window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
       window.setStatusBarColor(Color.TRANSPARENT);
       window.getDecorView().setSystemUiVisibility(
-          View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+          View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+              | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+      if (hideNavigation) {
+        window.setNavigationBarColor(Color.TRANSPARENT);
+        window.getDecorView().setSystemUiVisibility(
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+      }
     } else {
       window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
       window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
     }
 
-    ViewGroup contentView = window.findViewById(Window.ID_ANDROID_CONTENT);
-    View childView = contentView.getChildAt(0);
-    if (childView != null) {
-      childView.setFitsSystemWindows(false);
-      ViewCompat.requestApplyInsets(childView);
-    }
   }
 
   /**
@@ -124,17 +131,18 @@ class StatusBarCompatLollipop {
     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
 
     ViewCompat
-        .setOnApplyWindowInsetsListener(collapsingToolbarLayout, new OnApplyWindowInsetsListener() {
-          @Override
-          public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-            return insets;
-          }
-        });
+        .setOnApplyWindowInsetsListener(collapsingToolbarLayout,
+            new OnApplyWindowInsetsListener() {
+              @Override
+              public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
+                return insets;
+              }
+            });
 
     ViewGroup contentView = window.findViewById(Window.ID_ANDROID_CONTENT);
     View childView = contentView.getChildAt(0);
     if (childView != null) {
-      ViewCompat.setFitsSystemWindows(childView, false);
+      childView.setFitsSystemWindows(false);
       ViewCompat.requestApplyInsets(childView);
     }
 

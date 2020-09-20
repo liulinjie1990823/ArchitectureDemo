@@ -1,11 +1,10 @@
 package com.llj.lib.base;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import androidx.constraintlayout.widget.ConstraintLayout;
 import com.llj.lib.base.config.ToolbarConfig;
 
 /**
@@ -26,6 +25,8 @@ public abstract class MvcBaseToolbarActivity extends MvcBaseActivity {
     @Override
     public View layoutView() {
         ViewGroup mRootView = (ViewGroup) getLayoutInflater().inflate(R.layout.mvc_base_title_activity, null);
+        applyNavigationInsets(mRootView);
+
         if (layoutId() != 0) {
             mClToolbar = mRootView.findViewById(R.id.cl_toolbar);
             mIvTbClose = mRootView.findViewById(R.id.iv_close);
@@ -33,6 +34,8 @@ public abstract class MvcBaseToolbarActivity extends MvcBaseActivity {
             mTvTbRight = mRootView.findViewById(R.id.tv_right);
             mIvTbRight = mRootView.findViewById(R.id.iv_right);
             mVDivide = mRootView.findViewById(R.id.v_divide);
+
+
             initToolbar();
             getLayoutInflater().inflate(layoutId(), mRootView, true);
         }

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Trace
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import androidx.annotation.CallSuper
@@ -56,6 +57,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
   override fun onCreate(savedInstanceState: Bundle?) {
     mContext = this
     mCurrentMill = System.currentTimeMillis()
+    Trace.beginSection("MvcBaseActivity.onCreate")
 
     Timber.tag(mTagLog).i("Lifecycle %s（%d）onCreate", mTagLog, hashCode())
     try {
@@ -80,6 +82,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
 
     val layoutView = layoutView()
     if (layoutId() != 0) {
+
       val currentMill1 = System.currentTimeMillis()
       val inflateView = LayoutInflater.from(mContext).inflate(layoutId(), null)
       val temp4 = (System.currentTimeMillis() - currentMill1)
@@ -88,11 +91,15 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
       setContentView(inflateView)
       mUnBinder = ButterKnife.bind(this)
       Timber.tag(mTagLog).i("Lifecycle %s（%d）layoutId success", mTagLog, hashCode())
+
     } else if (layoutView != null) {
+
       setContentView(layoutView)
       mUnBinder = ButterKnife.bind(this)
       Timber.tag(mTagLog).i("Lifecycle %s（%d）layoutView success", mTagLog, hashCode())
+
     } else {
+
       var layoutViewBinding = layoutViewBinding()
       if (layoutViewBinding == null) {
         //如果忘记设置则使用反射设置
@@ -103,6 +110,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
         mViewBinder = layoutViewBinding
         setContentView(mViewBinder.root)
       }
+
     }
 
     val temp = (System.currentTimeMillis() - inflaterStart)
@@ -117,9 +125,12 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
 
     initData()
 
+    Trace.endSection()
+
     val temp2 = (System.currentTimeMillis() - mCurrentMill)
     Timber.tag(mTagLog).i("Lifecycle %s（%d）onCreate end：cost %d ms", mTagLog, hashCode(), temp2)
   }
+
 
 
   override fun onStart() {

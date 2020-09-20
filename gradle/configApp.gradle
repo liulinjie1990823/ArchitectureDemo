@@ -1,5 +1,4 @@
 
-
 android {
     compileSdkVersion Versions.compileSdkVersion
     buildToolsVersion Versions.buildToolsVersion
@@ -112,6 +111,8 @@ android {
         exclude 'META-INF/androidx.versionedparcelable_versionedparcelable.version'
     }
 }
+
+//apply plugin: 'android-x2j'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

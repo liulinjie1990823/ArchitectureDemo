@@ -26,21 +26,21 @@ import androidx.constraintlayout.widget.ConstraintLayout;
  * @author liulinjie
  * @date 2019-12-09 19:27
  */
-public class WindowInsetsConstraintLayout extends ConstraintLayout {
+public class WindowInsetsDispatchConstraintLayout extends ConstraintLayout {
 
-  public WindowInsetsConstraintLayout(Context context) {
+  public WindowInsetsDispatchConstraintLayout(Context context) {
     this(context, null, 0, 0);
   }
 
-  public WindowInsetsConstraintLayout(Context context, AttributeSet attrs) {
+  public WindowInsetsDispatchConstraintLayout(Context context, AttributeSet attrs) {
     this(context, attrs, 0, 0);
   }
 
-  public WindowInsetsConstraintLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+  public WindowInsetsDispatchConstraintLayout(Context context, AttributeSet attrs, int defStyleAttr) {
     this(context, attrs, defStyleAttr, 0);
   }
 
-  public WindowInsetsConstraintLayout(Context context, AttributeSet attrs, int defStyleAttr,
+  public WindowInsetsDispatchConstraintLayout(Context context, AttributeSet attrs, int defStyleAttr,
       int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
     setOnHierarchyChangeListener(new OnHierarchyChangeListener() {

@@ -1,6 +1,10 @@
 package com.llj.architecturedemo.ui.activity
 
+import android.graphics.Insets
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowInsets
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.viewbinding.ViewBinding
@@ -13,6 +17,7 @@ import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalBind
 import com.llj.adapter.util.ViewHolderHelper
 import com.llj.application.preference.ConfigPreference
+import com.llj.application.router.CRouter
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.R2
 import com.llj.architecturedemo.ui.fragment.*
@@ -20,7 +25,6 @@ import com.llj.architecturedemo.ui.model.TabListVo
 import com.llj.architecturedemo.ui.model.TabVo
 import com.llj.architecturedemo.ui.presenter.MainPresenter
 import com.llj.architecturedemo.ui.view.MainContractView
-import com.llj.application.router.CRouter
 import com.llj.lib.base.BaseTabActivity
 import com.llj.lib.base.IUiHandler
 import com.llj.lib.image.loader.ImageLoader
@@ -28,6 +32,7 @@ import com.llj.lib.net.response.BaseResponse
 
 @Route(path = CRouter.APP_MAIN_ACTIVITY)
 class MainActivity : BaseTabActivity<ViewBinding, MainPresenter>(), MainContractView {
+  @BindView(R2.id.v_root) lateinit var mVRoot: ViewGroup
   @BindView(R2.id.ll_footer_bar) lateinit var mLlFooterBar: LinearLayout
 
   private lateinit var mTabAdapter: TabAdapter
@@ -42,6 +47,19 @@ class MainActivity : BaseTabActivity<ViewBinding, MainPresenter>(), MainContract
 
   override fun initViews(savedInstanceState: Bundle?) {
 
+    mVRoot.setOnApplyWindowInsetsListener(object : View.OnApplyWindowInsetsListener {
+      override fun onApplyWindowInsets(v: View, insets: WindowInsets): WindowInsets {
+        val insetsTop = insets.replaceSystemWindowInsets(0, insets.systemWindowInsetTop, 0, 0)
+
+        val viewGroup:ViewGroup=v as ViewGroup
+        val childCount: Int = viewGroup.childCount
+        for (index in 0 until childCount) {
+          viewGroup.getChildAt(index).dispatchApplyWindowInsets(insetsTop)
+        }
+        val insetsBottom =insets.replaceSystemWindowInsets(0, 0, 0, insets.systemWindowInsetBottom)
+        return viewGroup.onApplyWindowInsets(insetsBottom)
+      }
+    })
 
     mTabAdapter = UniversalBind.Builder(mLlFooterBar, TabAdapter())
         .build()
@@ -50,6 +68,8 @@ class MainActivity : BaseTabActivity<ViewBinding, MainPresenter>(), MainContract
     updateTabByLocal()
 
     super.initViews(savedInstanceState)
+
+
   }
 
   private fun getDefaultTabList(): ArrayList<TabVo> {

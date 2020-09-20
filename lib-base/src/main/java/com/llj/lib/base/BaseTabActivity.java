@@ -111,7 +111,7 @@ public abstract class BaseTabActivity<V extends ViewBinding, P extends IBasePres
     // 选择image图片
     changeSelectImage(showItem, hideItem);
 
-    transaction.commitAllowingStateLoss();
+    transaction.commitNowAllowingStateLoss();
   }
 
   /**

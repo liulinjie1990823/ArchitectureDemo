@@ -76,8 +76,8 @@ subprojects {
         //除了app的其他module
         if (it.name != 'app') {
             android {
-                compileSdkVersion build_versions.compileSdkVersion
-                buildToolsVersion build_versions.buildToolsVersion
+                compileSdkVersion Versions.compileSdkVersion
+                buildToolsVersion Versions.buildToolsVersion
 
                 defaultConfig {
                     if (isApplication) {

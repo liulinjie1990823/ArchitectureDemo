@@ -53,8 +53,7 @@ class LoginApp : AppApplication(), BootstrapNotifier {
     registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            StatusBarCompat.setStatusBarColor(activity.window, ContextCompat.getColor(activity, com.llj.login.R.color.white))
-            LightStatusBarCompat.setLightStatusBar(activity.window, true)
+            LightStatusBarCompat.setLightStatusBar(activity.window, false)
         }
 
     })
