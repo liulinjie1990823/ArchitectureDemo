@@ -72,7 +72,8 @@
       android:exported="true"
       android:taskAffinity="com.llj.task2" />
     <activity android:name=".ui.activity.CanvasActivity" />
-    <activity android:name=".ui.activity.KeyboardStateActivity" />
+    <activity android:name=".ui.activity.KeyboardStateActivity"
+      android:windowSoftInputMode="adjustResize"/>
     <activity android:name=".ui.activity.FragmentAnimActivity" />
     <activity android:name=".ui.activity.FfmpegSwscaleActivity" />
     <activity android:name=".ui.activity.JniTestActivity" />

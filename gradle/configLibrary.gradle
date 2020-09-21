@@ -48,7 +48,8 @@ subprojects {
                     minSdkVersion Versions.minSdkVersion
                     targetSdkVersion Versions.targetSdkVersion
 
-                    ndk { abiFilters "armeabi-v7a" }
+//                    ndk { abiFilters "armeabi-v7a" }
+                    ndk { abiFilters "armeabi-v7a", "x86" }
                 }
 
                 buildTypes {

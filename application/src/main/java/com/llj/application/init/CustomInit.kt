@@ -31,15 +31,17 @@ class CustomInit : SimpleAppInit() {
     //设置状态栏监听
     mApplication.registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
       override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        StatusBarCompat.translucentStatusBarAndNavigation(activity.window, true)
+
 
         val simpleName = activity.javaClass.simpleName
         when {
           "MainActivity" == simpleName -> {
+            StatusBarCompat.translucentStatusBarAndNavigation(activity.window, true)
             //status和界面中的布局覆盖布局，界面中加了fitWindow,有padding效果，覆盖白字
             LightStatusBarCompat.setLightStatusBar(activity.window, false)
           }
           "KeyboardStateActivity" != simpleName -> {
+            StatusBarCompat.translucentStatusBarAndNavigation(activity.window, true)
             //status和界面中的布局线性布局，白低黑字
             LightStatusBarCompat.setLightStatusBar(activity.window, false)
 

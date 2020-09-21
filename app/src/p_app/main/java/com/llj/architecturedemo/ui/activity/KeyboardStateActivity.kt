@@ -29,17 +29,17 @@ class KeyboardStateActivity : MainMvcBaseActivity<ActivityKeyboardStateBinding>(
   override fun initViews(savedInstanceState: Bundle?) {
     ARouter.getInstance().inject(this);
     if (mType == 0) {
-      window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+//      window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
       setTranslucentStatusBar(window, true)
     } else if (mType == 1) {
-      window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+//      window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
       LightStatusBarCompat.setLightStatusBar(window, true)
     } else if (mType == 2) {
       //SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN下RESIZE会失效，需要自己设置布局高度
-      window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+//      window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
       setTranslucentStatusBar(window, true)
     } else if (mType == 3) {
-      window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+//      window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
       LightStatusBarCompat.setLightStatusBar(window, true)
     }
 

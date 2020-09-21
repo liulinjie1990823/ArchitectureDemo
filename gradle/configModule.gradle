@@ -117,8 +117,8 @@ subprojects {
             }
 
             defaultConfig {
-                ndk { abiFilters "armeabi-v7a" }
-//                ndk { abiFilters "armeabi-v7a", "x86" }
+//                ndk { abiFilters "armeabi-v7a" }
+                ndk { abiFilters "armeabi-v7a", "x86" }
                 resConfigs "zh", "xxhdpi"
 
                 manifestPlaceholders = [qq_id: qqId]

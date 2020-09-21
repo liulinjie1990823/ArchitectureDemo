@@ -17,7 +17,7 @@ class AdjustResizeActivity : DataListActivity() {
 
   override fun getData(data: ArrayList<DataVo?>) {
     data.add(DataVo("adjustPan Translucent true", 0))
-    data.add(DataVo("adjustResize Translucent false", 1))
+    data.add(DataVo("adjustPan Translucent false", 1))
     data.add(DataVo("adjustResize Translucent true", 2))
     data.add(DataVo("adjustResize Translucent false", 3))
   }

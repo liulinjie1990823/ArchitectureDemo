@@ -10,26 +10,26 @@ object Versions {
   const val compileSdkVersion = 29
   const val targetSdkVersion = 29
   const val compileJdkVersion = 1.8
-  const val buildToolsVersion = "28.0.3"
+  const val buildToolsVersion = "29.0.3"
   const val versionCode = 100
   const val versionName = "1.0.0"
 
 
-  const val kotlin = "1.4.0"
+  const val kotlin = "1.4.10"
   const val bintray_release = "0.8.1"
   const val walle = "1.1.7"
 
   const val lifecycle = "2.2.0"
   const val room = "2.2.5"
 
-  const val dagger = "2.28.3"
-  const val dagger_hilt = "2.28-alpha"
+  const val dagger = "2.29.1"
+  const val dagger_hilt = "2.29-alpha"
   const val autodispose = "1.4.0"
 
   const val butterknife = "10.2.3"
 
   const val retrofit2 = "2.9.0"
-  const val okhttp = "4.8.1"
+  const val okhttp = "4.9.0"
   const val fresco = "2.3.0"
 
   const val smartrefresh = "1.1.3"
@@ -103,16 +103,18 @@ object Deps {
   const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
   const val cardview = "androidx.cardview:cardview:1.0.0"
   const val coordinatorlayout = "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
-  const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.0.0"
-  const val slidingpanelayout = "androidx.slidingpanelayout:slidingpanelayout:1.0.0"
+  const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"
+  const val slidingpanelayout = "androidx.slidingpanelayout:slidingpanelayout:1.1.0"
   const val transition = "androidx.transition:transition:1.3.1"
 
   //room
+  //https://developer.android.com/jetpack/androidx/releases/room
   const val room_runtime = "androidx.room:room-runtime:${Versions.room}"
   const val room_compiler = "androidx.room:room-compiler:${Versions.room}"
   const val room_rxjava2 = "androidx.room:room-rxjava2:${Versions.room}"
 
   //权限
+  //https://github.com/yanzhenjie/AndPermission
   const val permission = "com.yanzhenjie:permission:2.0.3"
 
   //框架
@@ -174,6 +176,7 @@ object Deps {
   const val fresco_webpsupport = "com.facebook.fresco:webpsupport:${Versions.fresco}"
   const val fresco_imagepipeline_okhttp3 = "com.facebook.fresco:imagepipeline-okhttp3:${Versions.fresco}"
 
+  //glide
   //https://github.com/bumptech/glide
   const val glide = "com.github.bumptech.glide:glide:4.11.0"
   const val glide_compile = "com.github.bumptech.glide:compiler:4.11.0"
@@ -188,6 +191,7 @@ object Deps {
   const val leakcanary_android_no_op = "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
 
   //测试
+  //https://github.com/facebook/stetho
   const val stetho = "com.facebook.stetho:stetho:${Versions.stetho}"
   const val stetho_okhttp3 = "com.facebook.stetho:stetho-okhttp3:${Versions.stetho}"
   const val stetho_urlconnection = "com.facebook.stetho:stetho-urlconnection:${Versions.stetho}"
@@ -265,6 +269,7 @@ object Deps {
   const val skin_support_constraint_layout = "skin.support:skin-support-constraint-layout:${Versions.skin}"
 
   //必须组件
+  //https://github.com/scwang90/SmartRefreshLayout
   const val SmartRefreshLayout = "com.scwang.smartrefresh:SmartRefreshLayout:${Versions.smartrefresh}"
   const val SmartRefreshHeader = "com.scwang.smartrefresh:SmartRefreshHeader:${Versions.smartrefresh}"
   const val MagicIndicator = "com.github.hackware1993:MagicIndicator:1.6.0"//tab
