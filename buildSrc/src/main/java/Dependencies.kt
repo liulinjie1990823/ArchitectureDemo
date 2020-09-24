@@ -71,8 +71,9 @@ object Deps {
   const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.2.5"
   const val androidx_arch_common = "androidx.arch.core:core-common:2.1.0"
   const val androidx_arch_runtime = "androidx.arch.core:core-runtime:2.1.0"
-  const val androidx_core = "androidx.core:core:1.3.0"
+  const val androidx_core = "androidx.core:core:1.3.1"
   const val androidx_core_ktx = "androidx.core:core-ktx:1.3.1"
+  const val androidx_collection = "androidx.collection:collection:1.1.0"
 
 
   //lifecycle
@@ -99,8 +100,8 @@ object Deps {
   const val constraint_layout = "androidx.constraintlayout:constraintlayout:2.0.1"//约束布局
   const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
   const val recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.1.0"
-  const val viewpager = "androidx.viewpager:viewpager:1.0.0"
   const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
+  const val viewpager = "androidx.viewpager:viewpager:1.0.0"
   const val cardview = "androidx.cardview:cardview:1.0.0"
   const val coordinatorlayout = "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
   const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"

@@ -1,6 +1,6 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation Deps.androidx_fragment
     if (useMaven) {
         implementation Deps.lib_universalAdapter
     } else {

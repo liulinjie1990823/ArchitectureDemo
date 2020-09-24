@@ -1,6 +1,7 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation Deps.androidx_fragment
     if (useMaven) {
         api Deps.component_annotation
     } else {

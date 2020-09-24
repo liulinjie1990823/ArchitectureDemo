@@ -59,7 +59,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
     mCurrentMill = System.currentTimeMillis()
     Trace.beginSection("MvcBaseActivity.onCreate")
 
-    Timber.tag(mTagLog).i("Lifecycle %s（%d）onCreate", mTagLog, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onCreate start", mTagLog, hashCode())
     try {
       AndroidInjection.inject(this)
     } catch (e: Exception) {
@@ -67,6 +67,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
     }
     val inject = (System.currentTimeMillis() - mCurrentMill)
     Timber.tag(mTagLog).i("Lifecycle %s（%d）inject：cost %d ms", mTagLog, hashCode(), inject)
+
 
 
     val currentMill = System.currentTimeMillis()
@@ -80,11 +81,13 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
 
     val inflaterStart = System.currentTimeMillis()
 
+    val layoutId = layoutId()
     val layoutView = layoutView()
-    if (layoutId() != 0) {
+
+    if (layoutId != 0) {
 
       val currentMill1 = System.currentTimeMillis()
-      val inflateView = LayoutInflater.from(mContext).inflate(layoutId(), null)
+      val inflateView = LayoutInflater.from(mContext).inflate(layoutId, null)
       val temp4 = (System.currentTimeMillis() - currentMill1)
       Timber.tag(mTagLog).i("Lifecycle %s（%d）inflate：cost %d ms", mTagLog, hashCode(), temp4)
 
@@ -114,8 +117,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
     }
 
     val temp = (System.currentTimeMillis() - inflaterStart)
-    Timber.tag(mTagLog).i("Lifecycle %s（%d）inflate and setContentView：cost %d ms", mTagLog, hashCode
-    (), temp)
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）inflate and setContentView：cost %d ms", mTagLog, hashCode(), temp)
 
     initLifecycleObserver(lifecycle)
 
@@ -132,9 +134,8 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
   }
 
 
-
   override fun onStart() {
-    Timber.tag(mTagLog).i("Lifecycle %s（%d）onStart", mTagLog, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onStart start", mTagLog, hashCode())
     val currentMill = System.currentTimeMillis()
     super.onStart()
     val temp2 = (System.currentTimeMillis() - currentMill)
@@ -142,7 +143,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
   }
 
   override fun onResume() {
-    Timber.tag(mTagLog).i("Lifecycle %s（%d）onResume", mTagLog, hashCode())
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onResume start", mTagLog, hashCode())
     val currentMill = System.currentTimeMillis()
     super.onResume()
     val temp2 = (System.currentTimeMillis() - currentMill)
@@ -150,8 +151,11 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
   }
 
   override fun onPause() {
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onPause start", mTagLog, hashCode())
+    val currentMill = System.currentTimeMillis()
     super.onPause()
-    Timber.tag(mTagLog).i("Lifecycle %s（%d）onPause", mTagLog, hashCode())
+    val temp2 = (System.currentTimeMillis() - currentMill)
+    Timber.tag(mTagLog).i("Lifecycle %s（%d）onPause end：cost %d ms", mTagLog, hashCode(), temp2)
   }
 
   override fun onStop() {
@@ -165,7 +169,7 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
     Timber.tag(mTagLog).i("Lifecycle %s（%d）onDestroy", mTagLog, hashCode())
 
     //防止窗口泄漏，关闭dialog同时结束相关请求
-    val requestDialog = getLoadingDialog() as Dialog?
+    val requestDialog = mRequestDialog as Dialog?
     if (requestDialog != null && requestDialog.isShowing) {
       requestDialog.cancel()
       requestDialog.setOnCancelListener(null)

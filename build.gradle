@@ -107,6 +107,7 @@ allprojects {
             force 'androidx.legacy:legacy-support-v4:1.0.0'
             force Deps.androidx_annotations
             force Deps.androidx_core
+            force Deps.androidx_core_ktx
             force Deps.androidx_arch_common
             force Deps.androidx_arch_runtime
             force Deps.androidx_appcompat
@@ -118,10 +119,12 @@ allprojects {
             force Deps.lifecycle_livedata
             force Deps.androidx_activity
             force Deps.androidx_fragment
+            force Deps.androidx_collection
             force Deps.constraint_layout
             force Deps.recyclerview
             force Deps.viewpager
             force Deps.viewpager2
+            force Deps.drawerlayout
             force Deps.transition
         }
     }

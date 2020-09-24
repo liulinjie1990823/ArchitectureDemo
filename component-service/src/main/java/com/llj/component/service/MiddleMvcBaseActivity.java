@@ -1,5 +1,6 @@
 package com.llj.component.service;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -41,6 +42,12 @@ public abstract class MiddleMvcBaseActivity<V extends ViewBinding> extends
 
   private String mPageName;
   private String mPageId;
+
+
+  @Override
+  public void getIntentData(@NotNull Intent intent) {
+    ARouter.getInstance().inject(this);
+  }
 
   @Override
   public int layoutId() {

@@ -25,6 +25,7 @@ public class CRouterClassName {
   public static final String APP_GLSURFACE_VIEW_ACTIVITY      = "/main/GLSurfaceViewActivity";
   public static final String APP_PERMISSION_ACTIVITY          = "/main/PermissionActivity";
   public static final String APP_EVENT_ACTIVITY               = "/main/EventActivity";
+  public static final String MAIN_SAVED_STATE_ACTIVITY               = "/main/SavedStateActivity";
   public static final String APP_MAIN_ACTIVITY                = "/main/MainActivity";
   public static final String APP_SECOND_ACTIVITY              = "/main/SecondActivity";
   public static final String APP_TOUCH_EVENT_ACTIVITY         = "/main/TouchEventActivity";
