@@ -10,30 +10,39 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
  * author liulj
  * date 2018/7/20
  */
-class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item, Holder> {
+class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item?, Holder> {
 
   private lateinit var mPagerHelper: PagerHelper
 
-  private var mSmartRefreshLayout: SmartRefreshLayout
-  protected var mAdapter: ListBasedAdapter<Item, Holder>? = null
+  private var mSmartRefreshLayout: SmartRefreshLayout? = null
+  private var mAdapter: ListBasedAdapter<Item?, Holder>? = null
+
+  constructor(pageSize: Int) {
+    mPagerHelper = PagerHelper(pageSize)
+  }
 
   constructor(mSmartRefreshLayout: SmartRefreshLayout) {
     this.mSmartRefreshLayout = mSmartRefreshLayout
   }
 
-  constructor(mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item, Holder>) {
+  constructor(mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item?, Holder>) {
     this.mSmartRefreshLayout = mSmartRefreshLayout
     this.mAdapter = mAdapter
     mPagerHelper = PagerHelper()
   }
 
-  constructor(pageSize: Int, mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item, Holder>) {
+  constructor(pageSize: Int, mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item?, Holder>) {
     this.mSmartRefreshLayout = mSmartRefreshLayout
     this.mAdapter = mAdapter
     mPagerHelper = PagerHelper(pageSize)
   }
 
-  override fun getAdapter(): ListBasedAdapter<Item, Holder>? {
+  fun setRefreshLayout(mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item?, Holder>) {
+    this.mSmartRefreshLayout = mSmartRefreshLayout
+    this.mAdapter = mAdapter
+  }
+
+  override fun getAdapter(): ListBasedAdapter<Item?, Holder>? {
     return mAdapter
   }
 
@@ -47,23 +56,21 @@ class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item, Holder> {
 
   override fun finishRefreshOrLoadMore(success: Boolean, hasNextPage: Boolean) {
     if (isFirstPage()) {
-      mSmartRefreshLayout.finishRefresh(0, success, hasNextPage)
+      mSmartRefreshLayout?.finishRefresh(0, success, hasNextPage)
     } else {
-      mSmartRefreshLayout.finishLoadMore(0, success, hasNextPage)
+      mSmartRefreshLayout?.finishLoadMore(0, success, hasNextPage)
     }
   }
 
-  override fun handleData(hasNextPage: Boolean, list: Collection<Item>?) {
+  override fun handleData(hasNextPage: Boolean, list: Collection<Item?>?) {
     handleData(true, hasNextPage, list)
   }
 
-  override fun handleData(shouldSetEnableLoadMore: Boolean, hasNextPage: Boolean, list: Collection<Item>?) {
+  override fun handleData(shouldSetEnableLoadMore: Boolean, hasNextPage: Boolean, list: Collection<Item?>?) {
     if (isFirstPage()) {
       mAdapter?.getList()?.clear()
       mAdapter?.getList()?.addAll(list!!)
       mAdapter?.notifyDataSetChanged()
-//      mAdapter?.clear()
-//      mAdapter?.addAll(list!!)
     } else {
       if (isEmpty(list)) {
         return
@@ -84,7 +91,7 @@ class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item, Holder> {
     //在finishRefreshOrLoadMore(success: Boolean, hasNextPage: Boolean)中已经设置了是否有更多数据
 //    mSmartRefreshLayout.setNoMoreData(!hasNextPage)
     if (shouldSetEnableLoadMore)
-      mSmartRefreshLayout.setEnableLoadMore(hasNextPage)
+      mSmartRefreshLayout?.setEnableLoadMore(hasNextPage)
   }
 
   override fun getInitPageNum(): Int {

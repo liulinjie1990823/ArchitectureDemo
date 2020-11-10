@@ -1,6 +1,6 @@
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api project(':lib-qrcodecore')
-    api 'com.google.zxing:core:3.4.0'
+    api 'com.google.zxing:core:3.4.1'
 }
 

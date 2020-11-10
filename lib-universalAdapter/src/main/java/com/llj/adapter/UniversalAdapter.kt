@@ -303,7 +303,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     } else {
       //ViewBinding可以提前在外部inflate
       //viewHolder = ViewHolderHelperWrap.createViewHolder(mViewBindings[viewType].viewBinding)
-      val viewBinding = onCreateViewBinding(viewType)
+      val viewBinding = onCreateViewBinding(parent, viewType)
       if (viewBinding != null) {
         holder = ViewHolderHelperWrap.createViewHolder(viewBinding)
       } else {
@@ -317,7 +317,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     return holder
   }
 
-  open fun onCreateViewBinding(viewType: Int): ViewBinding? {
+  open fun onCreateViewBinding(parent: ViewGroup, viewType: Int): ViewBinding? {
     return null
   }
 
@@ -335,7 +335,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
         mFooterHolders[viewType]
       }
       else -> {
-        val viewBinding = onCreateViewBinding(viewType)
+        val viewBinding = onCreateViewBinding(parent, viewType)
         if (viewBinding != null) {
           ViewHolderHelperWrap.createViewHolder(viewBinding)
         } else {

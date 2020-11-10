@@ -67,7 +67,9 @@ if (projectUserOrg != null) {
     //publishToMavenLocal打本地包
     //上传bintray.com使用bintrayUpload任务
 
-    apply plugin: 'com.novoda.bintray-release'
+//    apply plugin: 'com.novoda.bintray-release'
+    //https://github.com/panpf/bintray-publish
+    apply plugin: 'com.github.panpf.bintray-publish'
 
 
     //定义文档task

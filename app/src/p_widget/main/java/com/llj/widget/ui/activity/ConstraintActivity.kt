@@ -3,9 +3,9 @@ package com.llj.widget.ui.activity
 import android.os.Bundle
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.llj.application.router.CRouter
 import com.llj.architecturedemo.MainMvcBaseActivity
 import com.llj.architecturedemo.R
-import com.llj.application.router.CRouter
 
 /**
  * ArchitectureDemo
@@ -14,7 +14,7 @@ import com.llj.application.router.CRouter
  * @author llj
  * @date 2018/7/5
  */
-@Route(path = CRouter.WIDGET_CONSTRAINT_ACTIVITY)
+@Route(path = CRouter.APP_CONSTRAINT_ACTIVITY)
 class ConstraintActivity : MainMvcBaseActivity<ViewBinding>() {
 
 

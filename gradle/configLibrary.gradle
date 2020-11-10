@@ -74,13 +74,10 @@ subprojects {
             }
             dependencies {
                 implementation fileTree(dir: 'libs', include: ['*.jar'])
-//                implementation Deps.androidx_annotations
-//                implementation Deps.recyclerview
-//                implementation Deps.androidx_appcompat
             }
         }
         //android-plugin升级后统一使用novoda-bintray来打包，之前的和插件有冲突
-        if (!useNew && !useOld) {
+        if ( !useOld) {
             apply from: rootProject.file('gradle/novoda-bintray.gradle')
         }
 //        if (useOld) {

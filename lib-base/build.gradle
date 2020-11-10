@@ -3,7 +3,9 @@ apply plugin: 'kotlin-kapt' // kapt 插件
 
 android {
     if (!useOld) {
-        viewBinding { enabled = true }
+        buildFeatures{
+            viewBinding = true
+        }
     }
 }
 

@@ -3,7 +3,6 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="com.llj.architecturedemo">
 
-
   <application
     android:name=".MainApp"
     android:allowBackup="false"
@@ -17,17 +16,12 @@
     android:testOnly="false"
     android:theme="@style/MyAppTheme.NoActionBar"
     tools:replace="android:appComponentFactory">
-
+    <activity android:name=".DisplayActivity"></activity>
     <activity
       android:name=".ui.activity.MainActivity"
       android:launchMode="singleTask"
-      android:theme="@style/MyAppTheme.NoActionBar.Tab">
-
-    </activity>
-
-    <activity android:name="com.llj.widget.ui.activity.ConstraintActivity">
-
-    </activity>
+      android:theme="@style/MyAppTheme.NoActionBar.Tab"></activity>
+    <activity android:name="com.llj.widget.ui.activity.ConstraintActivity"></activity>
     <activity android:name=".ui.activity.ShareActivity" />
     <activity android:name="com.llj.widget.ui.activity.CircleViewActivity" />
     <activity android:name=".ui.activity.TouchEventActivity" />
@@ -44,8 +38,6 @@
     <activity android:name=".ui.activity.RequestActivity" />
     <activity android:name=".ui.activity.MvvmRequestActivity" />
     <activity android:name=".ui.activity.SvgActivity" />
-
-
     <activity android:name=".ui.activity.MemoryLeakActivity" />
     <activity android:name=".ui.activity.JavaTypeActivity" />
     <activity android:name=".ui.activity.SwipeBackLayoutActivity" />
@@ -54,6 +46,7 @@
     <activity android:name=".ui.activity.PermissionActivity" />
     <activity android:name=".ui.activity.GLSurfaceViewActivity" />
     <activity android:name=".ui.activity.RunnableActivity" />
+    <activity android:name=".ui.activity.DisplayActivity" />
     <activity
       android:name=".ui.activity.RecordVideoActivity"
       android:screenOrientation="portrait" />
@@ -72,15 +65,15 @@
       android:exported="true"
       android:taskAffinity="com.llj.task2" />
     <activity android:name=".ui.activity.CanvasActivity" />
-    <activity android:name=".ui.activity.KeyboardStateActivity"
-      android:windowSoftInputMode="adjustResize"/>
+    <activity
+      android:name=".ui.activity.KeyboardStateActivity"
+      android:windowSoftInputMode="adjustResize" />
     <activity android:name=".ui.activity.FragmentAnimActivity" />
     <activity android:name=".ui.activity.FfmpegSwscaleActivity" />
     <activity android:name=".ui.activity.JniTestActivity" />
     <activity android:name=".ui.activity.RecycleViewActivity" />
     <activity android:name=".ui.activity.OpenCvImageActivity" />
     <activity android:name=".ui.activity.SavedStateActivity" />
-
     <activity android:name=".ui.activity.ActivityAnimActivity">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
@@ -93,7 +86,6 @@
           android:scheme="flipper" />
       </intent-filter>
     </activity>
-
     <activity
       android:name=".ui.activity.ActivityAnimFadeActivity"
       android:theme="@style/MyAppTheme.NoActionBar.fade" />
@@ -116,8 +108,6 @@
       android:name=".ui.activity.TransitionSlideActivity"
       android:theme="@style/MyAppTheme.NoActionBar.Transition" />
     <activity android:name=".ui.activity.JpegTurboActivity" /> <!-- <activity android:name=".ui.activity.ThirdActivity"/> -->
-
-
     <!-- <activity -->
     <!-- android:name=".ui.activity.FourthActivity" -->
     <!-- android:launchMode="singleTask" -->

@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  * @author llj
  * @date 2019-10-16
  */
-abstract public class MiddleMvcBaseFragment<V extends ViewBinding> extends
+abstract public class PlatformMvcBaseFragment<V extends ViewBinding> extends
     MvcBaseFragment<V> implements ITracker {
 
   private String mPageName;

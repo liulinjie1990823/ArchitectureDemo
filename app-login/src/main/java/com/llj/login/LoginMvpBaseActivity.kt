@@ -1,7 +1,7 @@
 package com.llj.login
 
 import androidx.viewbinding.ViewBinding
-import com.llj.component.service.MiddleMvpBaseActivity
+import com.llj.component.service.PlatformMvpBaseActivity
 import com.llj.application.router.CRouter
 import com.llj.lib.base.mvp.IBasePresenter
 
@@ -11,7 +11,7 @@ import com.llj.lib.base.mvp.IBasePresenter
  * author llj
  * date 2018/9/20
  */
-abstract class LoginMvpBaseActivity<P : IBasePresenter> : MiddleMvpBaseActivity<ViewBinding, P>() {
+abstract class LoginMvpBaseActivity<P : IBasePresenter> : PlatformMvpBaseActivity<ViewBinding, P>() {
 
   override fun getModuleName(): String {
     return CRouter.MODULE_LOGIN

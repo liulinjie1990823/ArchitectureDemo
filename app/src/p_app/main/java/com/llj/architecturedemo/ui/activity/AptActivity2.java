@@ -46,9 +46,17 @@ public class AptActivity2 extends MainMvcBaseActivity {
     return R.layout.activity_apt;
   }
 
+  public int layoutI() {
+    return R.layout.activity_apt;
+  }
+
   @Override
   public void initViews(@Nullable Bundle savedInstanceState) {
     //NeacyFinder.inject(this);
+
+    int a=10;
+    if(layoutI()==10)
+
 
     for (int i = 0; i < 5; i++) {
 

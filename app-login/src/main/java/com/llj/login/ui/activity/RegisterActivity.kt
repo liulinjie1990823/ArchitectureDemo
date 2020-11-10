@@ -3,7 +3,6 @@ package com.llj.login.ui.activity
 import android.os.Bundle
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.llj.component.service.MiddleMvcBaseActivity
 import com.llj.application.router.CRouter
 import com.llj.login.LoginMvcBaseActivity
 import com.llj.login.R

@@ -15,7 +15,7 @@ import java.lang.reflect.ParameterizedType
  * @author llj
  * @date 2018/5/24
  */
-interface ICommon<V : ViewBinding> {
+interface ICommon<V : ViewBinding> : IWindowInset {
 
   fun reflectViewBinder(layoutInflater: LayoutInflater, mTagLog: String): V? {
     Timber.tag(mTagLog).i("------------------------start-------------------------")
@@ -62,7 +62,7 @@ interface ICommon<V : ViewBinding> {
 
   fun getIntentData(intent: Intent) {}
 
-  fun getArgumentsData(bundle: Bundle) {}
+  fun getArgumentsData(bundle: Bundle?) {}
 
   fun layoutView(): View? {
     return null

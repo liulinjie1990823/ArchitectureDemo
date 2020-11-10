@@ -1,4 +1,5 @@
 
+
 android {
     compileSdkVersion Versions.compileSdkVersion
     buildToolsVersion Versions.buildToolsVersion
@@ -12,7 +13,6 @@ android {
         versionName Versions.versionName
 
         multiDexEnabled true
-        dataBinding { enabled = true }
     }
 
     sourceSets {
@@ -262,4 +262,9 @@ if (useApkUploadPlugin) {
             }
         }
     }
+}
+
+apply plugin: 'com.akaita.android.easylauncher'
+easylauncher {
+    foregroundIconNames "@mipmap/ic_launcher_foreground" // Foreground of adaptive launcher icon
 }

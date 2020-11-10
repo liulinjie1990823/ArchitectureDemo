@@ -1,7 +1,7 @@
 package com.llj.setting;
 
 import androidx.viewbinding.ViewBinding;
-import com.llj.component.service.MiddleMvpBaseActivity;
+import com.llj.component.service.PlatformMvpBaseActivity;
 import com.llj.application.router.CRouter;
 import com.llj.lib.base.mvp.IBasePresenter;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * @date 2020/8/30 1:20 PM
  */
 public abstract class SettingMvpBaseActivity<P extends IBasePresenter> extends
-    MiddleMvpBaseActivity<ViewBinding, P> {
+    PlatformMvpBaseActivity<ViewBinding, P> {
 
   @NotNull
   @Override

@@ -49,7 +49,7 @@ object Deps {
   //插件
   const val android_gradle_plugin_old = "com.android.tools.build:gradle:3.2.1"
   const val android_gradle_plugin = "com.android.tools.build:gradle:3.6.3"
-  const val android_gradle_plugin_new = "com.android.tools.build:gradle:4.0.0"
+  const val android_gradle_plugin_new = "com.android.tools.build:gradle:4.0.2"
   const val butterknife_gradle_plugin = "com.jakewharton:butterknife-gradle-plugin:${Versions.butterknife}"
   const val kotlin_gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
   const val walle_plugin = "com.meituan.android.walle:plugin:${Versions.walle}"
@@ -97,7 +97,7 @@ object Deps {
   const val multidex_instrumentation = "androidx.multidex:multidex-instrumentation:2.0.1"
 
   //ui
-  const val constraint_layout = "androidx.constraintlayout:constraintlayout:2.0.1"//约束布局
+  const val constraint_layout = "androidx.constraintlayout:constraintlayout:2.0.2"//约束布局
   const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
   const val recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.1.0"
   const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
@@ -273,7 +273,7 @@ object Deps {
   //https://github.com/scwang90/SmartRefreshLayout
   const val SmartRefreshLayout = "com.scwang.smartrefresh:SmartRefreshLayout:${Versions.smartrefresh}"
   const val SmartRefreshHeader = "com.scwang.smartrefresh:SmartRefreshHeader:${Versions.smartrefresh}"
-  const val MagicIndicator = "com.github.hackware1993:MagicIndicator:1.6.0"//tab
+  const val MagicIndicator = "com.github.hackware1993:MagicIndicator:1.7.0"//tab
   const val AutoScrollViewPager = "com.github.demoNo:AutoScrollViewPager:v1.0.2"//轮播
 
   const val vlayout = "com.alibaba.android:vlayout:1.2.20"

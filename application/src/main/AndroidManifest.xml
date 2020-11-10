@@ -15,6 +15,7 @@
   <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- 定位 -->
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 用于进行网络定位 -->
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于访问GPS定位 -->
+  <uses-permission android:name="android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE" />
   <!-- 麦克风 -->
   <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 电话 -->
   <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 用于读取手机当前的状态 -->

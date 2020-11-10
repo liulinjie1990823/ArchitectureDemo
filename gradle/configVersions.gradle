@@ -272,19 +272,23 @@ ext {
 def addRepos(RepositoryHandler handler) {
     handler.maven { url uri("./repo") }//插件
     handler.mavenLocal()
-    handler.maven { url "https://maven.aliyun.com/repository/jcenter" }
+    handler.google()
+    handler.jcenter()
+    handler.mavenCentral()
+    handler.maven { url "https://plugins.gradle.org/m2/" }
+
+    //https://maven.aliyun.com/mvn/guide
+    handler.maven { url "https://maven.aliyun.com/repository/public" }
     handler.maven { url "https://maven.aliyun.com/repository/google" }
-//    handler.mavenCentral()
+    handler.maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+
 
     //本地的maven仓库，需要maven格式的包
     //工程中的lib文件夹，依赖aar和jar文件
 
-//    handler.google()
-//    handler.jcenter()
-
     handler.maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     handler.maven { url "https://jitpack.io" }
-    handler.maven { url "https://plugins.gradle.org/m2/" }
+
     //微博的maven地址
     handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
 //    handler.flatDir { dirs "../lib", "../libs" }

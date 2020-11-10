@@ -117,7 +117,7 @@ class ViewPager2Activity : MainMvcBaseActivity<ActivityViewpager2Binding>() {
       return 10
     }
 
-    override fun onCreateViewBinding(viewType: Int): ViewBinding? {
+    override fun onCreateViewBinding(parent: ViewGroup, viewType: Int): ViewBinding? {
       return MvItemAeMakePicBinding.inflate(layoutInflater, viewGroup, false)
     }
 

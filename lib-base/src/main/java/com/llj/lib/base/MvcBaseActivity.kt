@@ -25,7 +25,7 @@ import java.lang.ref.WeakReference
 
 /**
  * ArchitectureDemo.
- * describe:
+ * describe:基础类库
  *
  * @author llj
  * @date 2019/3/13

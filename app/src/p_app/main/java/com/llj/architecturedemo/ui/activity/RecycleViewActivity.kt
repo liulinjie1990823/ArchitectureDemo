@@ -60,7 +60,7 @@ class RecycleViewActivity : MainMvcBaseActivity<ActivityRecycleViewBinding>() {
     constructor() : super() {
     }
 
-    override fun onCreateViewBinding(viewType: Int): ViewBinding? {
+    override fun onCreateViewBinding(parent: ViewGroup, viewType: Int): ViewBinding? {
       return ItemRecycleViewBinding.inflate(layoutInflater, mViewBinder.recyclerView2, false)
     }
 

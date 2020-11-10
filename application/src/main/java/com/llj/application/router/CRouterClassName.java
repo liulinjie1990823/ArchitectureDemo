@@ -15,6 +15,7 @@ public class CRouterClassName {
 
   //main
   public static final String APP_MINE_MEMBER_CENTER_ACTIVITY  = "/main/MemberCentreActivity";
+  public static final String APP_DISPLAY_ACTIVITY             = "/main/DisplayActivity";
   public static final String APP_MINE_MY_PROFILE_ACTIVITY     = "/main/MyProfileActivity";
   public static final String APP_MINE_MY_WALLET_ACTIVITY      = "/main/MyWalletActivity";
   public static final String APP_MINE_MY_COUPON_ACTIVITY      = "/main/MyCouponActivity";
@@ -25,7 +26,7 @@ public class CRouterClassName {
   public static final String APP_GLSURFACE_VIEW_ACTIVITY      = "/main/GLSurfaceViewActivity";
   public static final String APP_PERMISSION_ACTIVITY          = "/main/PermissionActivity";
   public static final String APP_EVENT_ACTIVITY               = "/main/EventActivity";
-  public static final String MAIN_SAVED_STATE_ACTIVITY               = "/main/SavedStateActivity";
+  public static final String APP_SAVED_STATE_ACTIVITY         = "/main/SavedStateActivity";
   public static final String APP_MAIN_ACTIVITY                = "/main/MainActivity";
   public static final String APP_SECOND_ACTIVITY              = "/main/SecondActivity";
   public static final String APP_TOUCH_EVENT_ACTIVITY         = "/main/TouchEventActivity";
@@ -68,8 +69,8 @@ public class CRouterClassName {
   public static final String APP_RUNNABLE_ACTIVITY            = "/main/RunnableActivity";
   public static final String APP_SWIPE_BACK_LAYOUT_ACTIVITY   = "/main/SwipeBackLayoutActivity";
   public static final String APP_FIRST_ACTIVITY               = "/main/FirstActivity";
-  public static final String WIDGET_CONSTRAINT_ACTIVITY       = "/main/widget/ConstraintActivity";
-  public static final String CIRCLE_VIEW_ACTIVITY             = "/main/widget/CircleViewActivity";
+  public static final String APP_CONSTRAINT_ACTIVITY          = "/main/ConstraintActivity";
+  public static final String APP_CIRCLE_VIEW_ACTIVITY         = "/main/CircleViewActivity";
   public static final String APP_ADV_ACTIVITY                 = "/main/AdvertisingActivity";
   public static final String APP_MAIN_TAB_ACTIVITY            = "/main/MainTabActivity";
 
@@ -83,7 +84,6 @@ public class CRouterClassName {
   public static final String SETTING_SETTING_ACTIVITY = "/setting/SettingActivity";
   public static final String SETTING_INJECT_ACTIVITY  = "/setting/InjectActivity";
   public static final String SETTING_INJECT_FRAGMENT  = "/setting/InjectFragment";
-
 
 
   public static final String APP_MAIN_PATH = APP_MAIN_ACTIVITY;

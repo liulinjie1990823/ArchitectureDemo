@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
  * @author liulinjie
  * @date 2020/9/5 2:17 PM
  */
-public abstract class MiddleMvcBaseActivity<V extends ViewBinding> extends
+public abstract class PlatformMvcBaseActivity<V extends ViewBinding> extends
     MvcBaseActivity<V> implements ITracker {
 
   protected int     mActivityOpenEnterAnimation;

@@ -277,7 +277,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     mContext = requireContext()
 
     if (arguments !== null) {
-      getArgumentsData(requireArguments())
+      getArgumentsData(arguments)
     }
 
     try {
@@ -320,7 +320,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
       mRootView = mViewBinder.root
     } else {
       val layoutView = layoutView()
-      mRootView = layoutView ?: inflater.inflate(layoutId(), null)
+      mRootView = layoutView ?: inflater.inflate(layoutId(), container,false)
       mUnBinder = ButterKnife.bind(this, mRootView!!)
     }
 

@@ -53,7 +53,7 @@ subprojects {
             apply from: rootProject.file('gradle/configApp.gradle')
         }
 
-        if (!useNew && !useOld) {
+        if ( !useOld) {
             apply from: rootProject.file('gradle/novoda-bintray.gradle')
         }
 
@@ -107,7 +107,6 @@ subprojects {
                     exclude 'META-INF/androidx.core_core.version'
                     exclude 'META-INF/androidx.versionedparcelable_versionedparcelable.version'
                 }
-                dataBinding { enabled = true }
             }
         }
         //app模块公用的配置参数
@@ -124,7 +123,10 @@ subprojects {
                 manifestPlaceholders = [qq_id: qqId]
 
                 if (!useOld) {
-                    viewBinding { enabled = true }
+                    buildFeatures{
+                        viewBinding = true
+                        dataBinding = true
+                    }
                 }
             }
 

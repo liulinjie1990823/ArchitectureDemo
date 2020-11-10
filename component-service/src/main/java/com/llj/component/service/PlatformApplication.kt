@@ -11,7 +11,7 @@ import com.llj.lib.base.BaseApplication
  * @author llj
  * @date 2018/7/3
  */
-abstract class MiddleApplication : BaseApplication() {
+abstract class PlatformApplication : BaseApplication() {
 
   @CallSuper
   override fun onCreate() {

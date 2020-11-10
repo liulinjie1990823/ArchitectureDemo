@@ -21,7 +21,7 @@ import com.llj.widget.ui.widget.CircleView
  * author liulj
  * date 2018/7/11
  */
-@Route(path = CRouter.CIRCLE_VIEW_ACTIVITY)
+@Route(path = CRouter.APP_CIRCLE_VIEW_ACTIVITY)
 class CircleViewActivity : MainMvpBaseActivity<CircleViewPresenter>(), CircleViewView {
     @BindView(R2.id.mIvTopBag) lateinit var mIvTopBag: CircleView
     @BindView(R2.id.mIvTopBagSticky) lateinit var mIvTopBagSticky: ImageView

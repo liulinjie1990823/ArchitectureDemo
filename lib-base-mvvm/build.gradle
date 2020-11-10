@@ -2,8 +2,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt' // kapt 插件
 
 android {
-    dataBinding {
-        enabled = true
+    if (!useOld) {
+        buildFeatures{
+            viewBinding = true
+        }
     }
 }
 

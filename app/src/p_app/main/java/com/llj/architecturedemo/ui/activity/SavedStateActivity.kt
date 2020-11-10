@@ -18,7 +18,7 @@ import timber.log.Timber
  * @author
  * @date
  */
-@Route(path = CRouter.MAIN_SAVED_STATE_ACTIVITY)
+@Route(path = CRouter.APP_SAVED_STATE_ACTIVITY)
 class SavedStateActivity : MainMvcBaseActivity<ActivitySavedStateBinding>() {
 
   private val mViewModel: SavedStateViewModel by viewModels()
@@ -53,8 +53,7 @@ class SavedStateActivity : MainMvcBaseActivity<ActivitySavedStateBinding>() {
   }
 
   class SavedStateViewModel(private val mApplication: Application,
-                            val mHandle: SavedStateHandle) :
-      AndroidViewModel(mApplication) {
+                            val mHandle: SavedStateHandle) : AndroidViewModel(mApplication) {
     companion object {
       const val USER_ID = "userId"
       const val USER_NAME = "userName"

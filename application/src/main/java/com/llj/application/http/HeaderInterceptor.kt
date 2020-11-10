@@ -55,7 +55,7 @@ class HeaderInterceptor : Interceptor {
     map["app-id"] = ComponentConstants.APP_ID
     map["app-channel"] = getChannel(context)
     map["client-id"] = ConfigPreference.getInstance().getClientId()
-    map["device-id"] = getDeviceId(context)
+//    map["device-id"] = getDeviceId(context)
     map["city-id"] = ConfigPreference.getInstance().getCityId()
     //        map["app-visit-ciw"] = PageReferHelper.getPagePath()
     //        map["page-id"] = Tracker.getInstance().getCurrentPageId()
