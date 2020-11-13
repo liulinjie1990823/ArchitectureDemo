@@ -111,6 +111,7 @@ abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
   protected abstract fun setWindowParam()
 
 
+
   protected fun setWindowParams(gravity: Int) {
     setWindowParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, gravity)
   }
@@ -121,6 +122,7 @@ abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
 
   /**
    * 在设置 设置dialog的一些属性
+   * dialog中尽量不要设置固定高度，使用MATCH_PARENT，然后在子布局中设置高度，否则adjustResize会失效
    *
    * @param width   一般布局和代码这里都设置match,要设置边距的直接布局里调好
    * @param height  一般布局height设置为wrap，这样可以调整dialog的上中下位置，要固定(非上中下)位置的直接在布局中调整， 设置match后，软键盘不会挤压布局

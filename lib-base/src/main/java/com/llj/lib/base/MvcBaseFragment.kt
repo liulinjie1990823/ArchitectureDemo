@@ -22,7 +22,6 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
 import java.lang.ref.WeakReference
-import java.lang.reflect.ParameterizedType
 
 
 /**
@@ -59,8 +58,7 @@ import java.lang.reflect.ParameterizedType
  * @author llj
  * @date 2018/8/15
  */
-abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDialogFragment()
-    , IBaseFragment, ICommon<V>, IUiHandler, IEvent, ITask, ILoadingDialogHandler<BaseDialog>, IFragmentHandle {
+abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDialogFragment(), IBaseFragment, ICommon<V>, IUiHandler, IEvent, ITask, ILoadingDialogHandler<BaseDialog>, IFragmentHandle {
   @JvmField
   val mTagLog: String = this.javaClass.simpleName
 
@@ -139,13 +137,9 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
       return
     }
     if (dialog == null) {
-      activity?.window?.decorView?.post(Runnable {
-        AInputMethodManagerUtils.showOrHideInput(activity, true)
-      })
+      activity?.window?.decorView?.post { AInputMethodManagerUtils.showOrHideInput(activity, true) }
     } else {
-      dialog?.window?.decorView?.post(Runnable {
-        AInputMethodManagerUtils.showOrHideInput(dialog, true)
-      })
+      dialog?.window?.decorView?.post { AInputMethodManagerUtils.showOrHideInput(dialog, true) }
     }
   }
   //</editor-fold>
@@ -184,7 +178,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   }
   //</editor-fold>
 
-  //<editor-fold desc="smartDismiss">
+  //region smartDismiss
   fun smartDismiss() {
     if (showsDialog) {
       //后续会调用hideSoftInput，onDismiss，走dispatchDismissListener
@@ -195,7 +189,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
       dispatchDismissListener()
     }
   }
-  //</editor-fold>
+  //endregion
 
 
   //<editor-fold desc="smartShow">
@@ -290,10 +284,9 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
     Timber.tag(mTagLog).i("Lifecycle %s onActivityCreated：%d", mTagLog, hashCode())
-    if (dialog == null || dialog!!.window == null) {
-      return
+    dialog?.window?.let {
+      setWindowParams(it, -1, -1, Gravity.CENTER)
     }
-    setWindowParams(dialog!!.window!!, -1, -1, Gravity.CENTER)
   }
 
   private var mRootView: View? = null
@@ -320,7 +313,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
       mRootView = mViewBinder.root
     } else {
       val layoutView = layoutView()
-      mRootView = layoutView ?: inflater.inflate(layoutId(), container,false)
+      mRootView = layoutView ?: inflater.inflate(layoutId(), container, false)
       mUnBinder = ButterKnife.bind(this, mRootView!!)
     }
 
@@ -499,50 +492,35 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     }
   }
 
-  private class MyOnCancelListener : DialogInterface.OnCancelListener {
-    val mFragment: WeakReference<ITask>
-    val mRequestId: Int
-
-    constructor(fragment: ITask, requestId: Int) {
-      this.mFragment = WeakReference<ITask>(fragment)
-      this.mRequestId = requestId
-    }
+  private class MyOnCancelListener(fragment: ITask, requestId: Int) : DialogInterface.OnCancelListener {
+    val mFragment: WeakReference<ITask> = WeakReference<ITask>(fragment)
+    val mRequestId: Int = requestId
 
     override fun onCancel(dialog: DialogInterface?) {
-      if (mFragment.get() == null) {
-        return
-      }
+      mFragment.get() ?: return
+      val task: ITask = mFragment.get()!!
       //移除任务
-      mFragment.get()!!.removeDisposable(mRequestId)
-
+      task.removeDisposable(mRequestId)
       //回调监听
-      if (mFragment.get() is ILoadingDialogHandler<*>) {
-        val iLoadingDialogHandler = mFragment.get() as ILoadingDialogHandler<*>
-        iLoadingDialogHandler.onLoadingDialogCancel(dialog)
+      if (task is ILoadingDialogHandler<*>) {
+        task.onLoadingDialogCancel(dialog)
       }
     }
   }
 
-  private class MyOnDismissListener : DialogInterface.OnDismissListener {
-    val mFragment: WeakReference<ITask>
-    val mRequestId: Int
-
-    constructor(fragment: ITask, requestId: Int) {
-      this.mFragment = WeakReference<ITask>(fragment)
-      this.mRequestId = requestId
-    }
+  private class MyOnDismissListener(fragment: ITask, requestId: Int) : DialogInterface.OnDismissListener {
+    val mFragment: WeakReference<ITask> = WeakReference<ITask>(fragment)
+    val mRequestId: Int = requestId
 
     override fun onDismiss(dialog: DialogInterface?) {
-      if (mFragment.get() == null) {
-        return
-      }
-      //移除任务
-      mFragment.get()!!.removeDisposable(mRequestId)
+      mFragment.get() ?: return
 
+      val task: ITask = mFragment.get()!!
+      //移除任务
+      task.removeDisposable(mRequestId)
       //回调监听
-      if (mFragment.get() is ILoadingDialogHandler<*>) {
-        val iLoadingDialogHandler = mFragment.get() as ILoadingDialogHandler<*>
-        iLoadingDialogHandler.onLoadingDialogDismiss(dialog)
+      if (task is ILoadingDialogHandler<*>) {
+        task.onLoadingDialogDismiss(dialog)
       }
     }
   }
@@ -580,7 +558,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     //        StatusBarCompat.translucentStatusBar(getWindow(), true);
     //         setCancelable(cancelable);
     //         setCanceledOnTouchOutside(cancel);
-    dialog?.window?.setBackgroundDrawable(ColorDrawable(0x00000000));
+    window.setBackgroundDrawable(ColorDrawable(0x00000000));
     val params = window.attributes
     // setContentView设置布局的透明度，0为透明，1为实际颜色,该透明度会使layout里的所有空间都有透明度，不仅仅是布局最底层的view
     // params.alpha = 1f;

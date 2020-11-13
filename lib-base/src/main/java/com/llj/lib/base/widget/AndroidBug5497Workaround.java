@@ -1,10 +1,10 @@
 package com.llj.lib.base.widget;
 
-import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 /**
@@ -28,33 +28,35 @@ public class AndroidBug5497Workaround {
 
   private boolean mEnable = true;
 
-  public static void assistActivity(Activity activity) {
-    new AndroidBug5497Workaround(activity);
+  public static void assistActivity(Window window) {
+    new AndroidBug5497Workaround(window);
   }
 
-  public AndroidBug5497Workaround(Activity activity) {
+  public AndroidBug5497Workaround(Window window) {
     //获取状态栏的高度
-    int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
-    mStatusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
+    int resourceId = window.getContext().getResources()
+        .getIdentifier("status_bar_height", "dimen", "android");
+    mStatusBarHeight = window.getContext().getResources().getDimensionPixelSize(resourceId);
 
-    FrameLayout content = activity.findViewById(android.R.id.content);
+    FrameLayout content = window.findViewById(android.R.id.content);
     mChildOfContent = content.getChildAt(0);
 
     //界面出现变动都会调用这个监听事件
-    ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-      @Override
-      public void onGlobalLayout() {
-        if (mEnable) {
-          if (mContentHeight == 0) {
-            mContentHeight = mChildOfContent.getHeight();//兼容华为等机型
+    ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener =
+        new ViewTreeObserver.OnGlobalLayoutListener() {
+          @Override
+          public void onGlobalLayout() {
+            if (mEnable) {
+              if (mContentHeight == 0) {
+                mContentHeight = mChildOfContent.getHeight();//兼容华为等机型
+              }
+              if (mUsableHeightSansKeyboard == 0) {
+                mUsableHeightSansKeyboard = mChildOfContent.getRootView().getHeight();
+              }
+              possiblyResizeChildOfContent();
+            }
           }
-          if (mUsableHeightSansKeyboard == 0) {
-            mUsableHeightSansKeyboard = mChildOfContent.getRootView().getHeight();
-          }
-          possiblyResizeChildOfContent();
-        }
-      }
-    };
+        };
 
     mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
     mFrameLayoutParams = (FrameLayout.LayoutParams) mChildOfContent.getLayoutParams();
@@ -96,7 +98,9 @@ public class AndroidBug5497Workaround {
    * <p/>
    * SOFT_INPUT_ADJUST_RESIZE属性，在透明模式和非透明模式下，软键盘的显示和隐藏，computeUsableHeight会有不同的值
    * <p/>
-   * SOFT_INPUT_ADJUST_PAN属性，activity在透明模式和非透明模式下，软键盘的显示和隐藏，computeUsableHeight会有不同的值（在透明模式下computeUsableHeight也有效果，但是将mFrameLayoutParams.height重新设置高度后，系统还会自动增加一个y轴向上的偏移量，显示会有问题），
+   * SOFT_INPUT_ADJUST_PAN属性，activity在透明模式和非透明模式下，软键盘的显示和隐藏，computeUsableHeight
+   * 会有不同的值（在透明模式下computeUsableHeight也有效果，但是将mFrameLayoutParams
+   * .height重新设置高度后，系统还会自动增加一个y轴向上的偏移量，显示会有问题），
    * dialog在透明模式和非透明模式下，软键盘的显示和隐藏，computeUsableHeight的值相等，所以不适用
    *
    * @return
