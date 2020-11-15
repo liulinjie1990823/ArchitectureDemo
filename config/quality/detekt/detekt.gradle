@@ -1,0 +1,53 @@
+//
+//buildscript {
+//    repositories {
+//        gradlePluginPortal()
+//    }
+//    dependencies {
+//        // 添加 plugin
+//        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.14.2"
+//    }
+//}
+
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+
+detekt {
+    toolVersion = "1.14.2"
+    failFast = true // fail build on any finding
+    input = files(                                        // The directories where detekt looks for source files. Defaults to `files("src/main/java", "src/main/kotlin")`.
+            "src/main/java",
+    )
+    parallel = false
+    buildUponDefaultConfig = true
+    // Interpret config files as updates to the default config. `false` by default.
+    // Define the detekt configuration(s) you want to use. Defaults to the default detekt configuration.
+//    config = files("$projectDir/config/quality/detekt/detekt.yml")
+    config = files("$projectDir/config/detekt.yml")
+    // a way of suppressing issues before introducing detekt
+//    baseline = file("$projectDir/config/quality/detekt/baseline.xml")
+//    baseline = file("$projectDir/config/baseline.xml")
+    // Adds debug output during task execution. `false` by default.
+//    debug = true
+    // If set to `true` the build does not fail when the maxIssues count was reached. Defaults to `false`.
+    ignoreFailures = false
+
+//    ignoredBuildTypes = ["release"]                       // Android: Don't create tasks for the specified build types (e.g. "release")
+//    ignoredFlavors = ["production"]                       // Android: Don't create tasks for the specified build flavor (e.g. "production")
+//    ignoredVariants = ["productionRelease"]               // Android: Don't create tasks for the specified build variants (e.g. "productionRelease")
+
+    reports {
+        // observe findings in your browser with structure and code snippets
+        html.enabled = true
+        // checkstyle like format mainly for integrations like Jenkins
+        xml.enabled = true
+        // similar to the console output, contains issue signature to manually edit baseline files
+        txt.enabled = true
+        custom {
+            reportId = "CustomJsonReport"                   // The simple class name of your custom report.
+            destination = file("build/reports/detekt/detekt.json") // Path where report will be stored
+        }
+    }
+}
+
+tasks.detekt.jvmTarget = "1.8"

@@ -17,14 +17,13 @@ class ActivityAnimActivity : MainMvcBaseActivity<ActivityActivityAnimBinding>() 
 
     mViewBinder.tvFade.setOnClickListener {
       ARouter.getInstance().build(CRouterClassName.APP_ACTIVITY_ANIM_FADE_ACTIVITY)
-          .withParcelable("Parcelable",Data())
+          .withParcelable("Parcelable", Data())
           .navigation(this)
     }
     mViewBinder.tvSlide.setOnClickListener {
       ARouter.getInstance().build(CRouterClassName.APP_ACTIVITY_ANIM_SLIDE_ACTIVITY)
           .navigation(this)
     }
-
   }
 
   override fun initData() {
@@ -35,7 +34,7 @@ class ActivityAnimActivity : MainMvcBaseActivity<ActivityActivityAnimBinding>() 
     super.onPause()
   }
 
-   class Data() :Parcelable{
+  class Data() : Parcelable {
 
     constructor(parcel: Parcel) : this() {
 

@@ -1,6 +1,8 @@
-plugins {
-    id 'kotlin-android'
-}
+
+
+plugins {id 'kotlin-android'}
+
+
 android {
     resourcePrefix "main_"
 }

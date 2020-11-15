@@ -20,4 +20,5 @@ class GuideActivity : LoadingMvcBaseActivity<ActivityGuideBinding>() {
 
   override fun initData() {
   }
+
 }

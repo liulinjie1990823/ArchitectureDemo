@@ -22,7 +22,8 @@ import timber.log.Timber;
  * ArchitectureDemo. describe: author llj date 2019/3/12
  */
 @PageName(value = "activity_apt")
-@Jump(outPath = "outPath://AptActivity2", inPath = CRouter.APP_APT_ACTIVITY2, needLogin = true, desc = "AptActivity2")
+@Jump(outPath = "outPath://AptActivity2", inPath = CRouter.APP_APT_ACTIVITY2, needLogin = true,
+    desc = "AptActivity2")
 @Route(path = CRouter.APP_APT_ACTIVITY2)
 public class AptActivity2 extends MainMvcBaseActivity {
 
@@ -54,12 +55,11 @@ public class AptActivity2 extends MainMvcBaseActivity {
   public void initViews(@Nullable Bundle savedInstanceState) {
     //NeacyFinder.inject(this);
 
-    int a=10;
-    if(layoutI()==10)
+    int a = 10;
+    if (layoutI() == 10) {
+      for (int i = 0; i < 5; i++) {
 
-
-    for (int i = 0; i < 5; i++) {
-
+      }
     }
     findViewById(R.id.text1).setOnClickListener(new View.OnClickListener() {
       @Override

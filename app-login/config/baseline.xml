@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ConstructorParameterNaming:MobileInfoVo.kt$MobileInfoVo$val city_code: String? = null</ID>
+    <ID>ConstructorParameterNaming:MobileInfoVo.kt$MobileInfoVo$val service_provider: String? = null</ID>
+    <ID>EmptyClassBlock:LoginComponent.kt$LoginComponent${ }</ID>
+    <ID>EmptyFunctionBlock:CodeLoginFragmentMvc.kt$CodeLoginFragmentMvc${ }</ID>
+    <ID>EmptyFunctionBlock:PasswordLoginFragment.kt$PasswordLoginFragment${ }</ID>
+    <ID>EmptyFunctionBlock:RegisterActivity.kt$RegisterActivity${ }</ID>
+    <ID>MagicNumber:CodeLoginFragmentMvc.kt$CodeLoginFragmentMvc$11</ID>
+    <ID>MagicNumber:CodeLoginFragmentMvc.kt$CodeLoginFragmentMvc$4</ID>
+    <ID>MagicNumber:CodeLoginFragmentMvc.kt$CodeLoginFragmentMvc.&lt;no name provided&gt;$11</ID>
+    <ID>MagicNumber:CodeLoginFragmentMvc.kt$CodeLoginFragmentMvc.&lt;no name provided&gt;$4</ID>
+    <ID>MagicNumber:LoginActivity.kt$LoginActivity.&lt;no name provided&gt;$15f</ID>
+    <ID>MagicNumber:LoginActivity.kt$LoginActivity.&lt;no name provided&gt;$17f</ID>
+    <ID>MagicNumber:PasswordLoginFragment.kt$PasswordLoginFragment$11</ID>
+    <ID>MagicNumber:PasswordLoginFragment.kt$PasswordLoginFragment.&lt;no name provided&gt;$11</ID>
+    <ID>MagicNumber:PasswordLoginFragment.kt$PasswordLoginFragment.&lt;no name provided&gt;$6</ID>
+    <ID>MaxLineLength:LoginActivity.kt$LoginActivity$@Jump(outPath = CJump.JUMP_LOGIN_ACTIVITY, inPath = CRouter.LOGIN_LOGIN_ACTIVITY, needLogin = true, desc = "LoginActivity")</ID>
+    <ID>NewLineAtEndOfFile:LoginActivity.kt$com.llj.login.ui.activity.LoginActivity.kt</ID>
+    <ID>NewLineAtEndOfFile:LoginApiService.kt$com.llj.login.api.LoginApiService.kt</ID>
+    <ID>NewLineAtEndOfFile:LoginComponent.kt$com.llj.login.di.LoginComponent.kt</ID>
+    <ID>NewLineAtEndOfFile:LoginComponentBuilder.kt$com.llj.login.di.LoginComponentBuilder.kt</ID>
+    <ID>NewLineAtEndOfFile:LoginModule.kt$com.llj.login.component.LoginModule.kt</ID>
+    <ID>NewLineAtEndOfFile:LoginMvcBaseActivity.kt$com.llj.login.LoginMvcBaseActivity.kt</ID>
+    <ID>NewLineAtEndOfFile:LoginMvpBaseActivity.kt$com.llj.login.LoginMvpBaseActivity.kt</ID>
+    <ID>NewLineAtEndOfFile:LoginMvpBaseFragment.kt$com.llj.login.LoginMvpBaseFragment.kt</ID>
+    <ID>NewLineAtEndOfFile:LoginRepository.kt$com.llj.login.ui.repository.LoginRepository.kt</ID>
+    <ID>NewLineAtEndOfFile:LoginService.kt$com.llj.login.component.LoginService.kt</ID>
+    <ID>NewLineAtEndOfFile:PasswordLoginFragment.kt$com.llj.login.ui.fragment.PasswordLoginFragment.kt</ID>
+    <ID>NewLineAtEndOfFile:PasswordLoginFragmentModule.kt$com.llj.login.ui.module.PasswordLoginFragmentModule.kt</ID>
+    <ID>NewLineAtEndOfFile:PhoneLoginActivityModule.kt$com.llj.login.ui.module.PhoneLoginActivityModule.kt</ID>
+    <ID>NewLineAtEndOfFile:PhoneLoginPresenter.kt$com.llj.login.ui.presenter.PhoneLoginPresenter.kt</ID>
+    <ID>NewLineAtEndOfFile:PhoneLoginView.kt$com.llj.login.ui.view.PhoneLoginView.kt</ID>
+    <ID>NewLineAtEndOfFile:RegisterActivity.kt$com.llj.login.ui.activity.RegisterActivity.kt</ID>
+    <ID>ReturnCount:LoginActivity.kt$LoginActivity.&lt;no name provided&gt;$override fun getItem(position: Int): Fragment</ID>
+    <ID>WildcardImport:LoginApiService.kt$import retrofit2.http.*</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>NewLineAtEndOfFile:SettingModule.kt$com.llj.setting.component.SettingModule.kt</ID>
+    <ID>NewLineAtEndOfFile:SettingMvcBaseFragment.kt$com.llj.setting.SettingMvcBaseFragment.kt</ID>
+    <ID>NewLineAtEndOfFile:SettingService.kt$com.llj.setting.component.SettingService.kt</ID>
+  </CurrentIssues>
+</SmellBaseline>

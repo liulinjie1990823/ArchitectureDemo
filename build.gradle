@@ -9,6 +9,8 @@ buildscript {
     //工具类
     apply from: rootProject.file('gradle/utils.gradle')
 
+
+
     addRepos(repositories)
     dependencies {
 //        classpath 'com.github.7hens:android-x2j:1.4'
@@ -89,6 +91,9 @@ buildscript {
         classpath "com.github.nekocode:JarFilterPlugin:2.4"
         classpath 'com.github.yanbober:android-build-filter-gradle-plugin:1.0.1'
         classpath 'coder.siy:exclude-dependencies-plugin:1.0.0'
+
+        //detekt
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.14.2"
 
     }
 }

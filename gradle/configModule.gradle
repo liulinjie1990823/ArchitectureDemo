@@ -36,6 +36,8 @@ subprojects {
                 apply plugin: 'com.android.library'
             }
         }
+        apply from: rootProject.file('config/quality/detekt/detekt.gradle')
+
         //app和module都生成R2文件，因为module要使用R2，切换为application的时候不用替换R2为R
         apply plugin: 'com.jakewharton.butterknife'
         apply plugin: 'kotlin-android'
