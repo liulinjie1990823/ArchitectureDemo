@@ -4,7 +4,7 @@ checkstyle {
     toolVersion = '8.0'
 }
 task checkstyle(type: Checkstyle) {
-    configFile = file("$configDir/checkstyle/checkstyle.xml")
+    configFile = file("$rootDir/config/quality/checkstyle/google_checks.xml")
     configProperties.checkstyleSuppressionsPath = file("$configDir/checkstyle/suppressions.xml").absolutePath
     source 'src'
     Iterator<String> iterator = project.getParent().getChildProjects().keySet().iterator()

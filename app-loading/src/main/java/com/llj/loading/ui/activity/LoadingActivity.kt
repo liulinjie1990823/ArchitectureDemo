@@ -44,7 +44,6 @@ class LoadingActivity : LoadingMvcBaseActivity<ActivityLoadingBinding>() {
     mUseAnim = false
     mImageLoader = ImageLoader.getInstance()
 
-
     val dip2px = dip2px(this, 50f)
     mImageLoader.loadImage(mViewBinder.sdvIcon, R.mipmap.ic_launcher, dip2px, dip2px)
 
@@ -80,14 +79,13 @@ class LoadingActivity : LoadingMvcBaseActivity<ActivityLoadingBinding>() {
   }
 
   fun countDown() {
-    val count: Long = 4 //倒计时10秒
+    val count: Long = 4 // 倒计时10秒
     Observable.interval(0, 1, TimeUnit.SECONDS)
         .take(count + 1)
         .map(object : Function<Long, Long> {
           override fun apply(t: Long): Long {
             return count - t
           }
-
         })
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(object : Observer<Long> {

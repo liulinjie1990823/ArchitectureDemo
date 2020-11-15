@@ -16,7 +16,6 @@ class LoadingApp : AppApplication() {
     var TAG = "LoadingApp"
   }
 
-
   private var mStartTime: Long = 0
 
   override fun onCreate() {
@@ -27,6 +26,4 @@ class LoadingApp : AppApplication() {
     val diff = System.currentTimeMillis() - mStartTime
     Timber.tag("AppInit").e("MainApp start up %d ms", diff)
   }
-
-
 }

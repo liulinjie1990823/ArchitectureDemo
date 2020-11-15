@@ -10,7 +10,7 @@ import com.llj.application.router.CRouter
  * author llj
  * date 2019/3/14
  */
-abstract class LoadingMvcBaseActivity<V : ViewBinding> : PlatformMvcBaseActivity<V>(){
+abstract class LoadingMvcBaseActivity<V : ViewBinding> : PlatformMvcBaseActivity<V>() {
   override fun getModuleName(): String {
     return CRouter.MODULE_LOADING
   }

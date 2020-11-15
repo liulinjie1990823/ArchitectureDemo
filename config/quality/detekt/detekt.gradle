@@ -1,19 +1,10 @@
-//
-//buildscript {
-//    repositories {
-//        gradlePluginPortal()
-//    }
-//    dependencies {
-//        // 添加 plugin
-//        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.14.2"
-//    }
-//}
-
 apply plugin: 'io.gitlab.arturbosch.detekt'
 
 
+//https://github.com/detekt/detekt/blob/master/detekt-gradle-plugin/src/main/kotlin/io/gitlab/arturbosch/detekt/extensions/DetektExtension.kt
 detekt {
     toolVersion = "1.14.2"
+    autoCorrect = true
     failFast = true // fail build on any finding
     input = files(                                        // The directories where detekt looks for source files. Defaults to `files("src/main/java", "src/main/kotlin")`.
             "src/main/java",
@@ -23,7 +14,7 @@ detekt {
     // Interpret config files as updates to the default config. `false` by default.
     // Define the detekt configuration(s) you want to use. Defaults to the default detekt configuration.
 //    config = files("$projectDir/config/quality/detekt/detekt.yml")
-    config = files("$projectDir/config/detekt.yml")
+    config = files("$rootDir/config/quality/detekt/detekt.yml")
     // a way of suppressing issues before introducing detekt
 //    baseline = file("$projectDir/config/quality/detekt/baseline.xml")
 //    baseline = file("$projectDir/config/baseline.xml")
@@ -44,10 +35,16 @@ detekt {
         // similar to the console output, contains issue signature to manually edit baseline files
         txt.enabled = true
         custom {
-            reportId = "CustomJsonReport"                   // The simple class name of your custom report.
-            destination = file("build/reports/detekt/detekt.json") // Path where report will be stored
+            reportId = "CustomJsonReport"
+            // The simple class name of your custom report.
+            destination = file("build/reports/detekt/detekt.json")
+            // Path where report will be stored
         }
     }
 }
 
 tasks.detekt.jvmTarget = "1.8"
+
+dependencies {
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.14.2"
+}

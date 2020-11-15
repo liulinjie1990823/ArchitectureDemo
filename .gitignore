@@ -77,3 +77,6 @@ buck-out
 
 .flutter-plugins-dependencies
 *pubspec.lock
+
+
+*baseline.xml
