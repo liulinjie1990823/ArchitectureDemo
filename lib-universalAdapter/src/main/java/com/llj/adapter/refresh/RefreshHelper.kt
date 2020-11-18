@@ -69,13 +69,14 @@ class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item?, Holder> {
   override fun handleData(shouldSetEnableLoadMore: Boolean, hasNextPage: Boolean, list: Collection<Item?>?) {
     if (isFirstPage()) {
       mAdapter?.getList()?.clear()
-      mAdapter?.getList()?.addAll(list!!)
+      if (!list.isNullOrEmpty()) {
+        mAdapter?.getList()?.addAll(list)
+      }
       mAdapter?.notifyDataSetChanged()
     } else {
-      if (isEmpty(list)) {
-        return
+      if (!list.isNullOrEmpty()) {
+        mAdapter?.addAll(list)
       }
-      mAdapter?.addAll(list!!)
     }
 
     checkHasMoreData(shouldSetEnableLoadMore, hasNextPage)
@@ -125,5 +126,4 @@ class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item?, Holder> {
   override fun resetPageNum() {
     mPagerHelper.resetPageNum()
   }
-
 }
