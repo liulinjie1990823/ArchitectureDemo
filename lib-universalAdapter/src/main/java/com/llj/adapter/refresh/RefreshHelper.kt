@@ -21,23 +21,23 @@ class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item?, Holder> {
     mPagerHelper = PagerHelper(pageSize)
   }
 
-  constructor(mSmartRefreshLayout: SmartRefreshLayout) {
+  constructor(mSmartRefreshLayout: SmartRefreshLayout?) {
     this.mSmartRefreshLayout = mSmartRefreshLayout
   }
 
-  constructor(mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item?, Holder>) {
+  constructor(mSmartRefreshLayout: SmartRefreshLayout?, mAdapter: ListBasedAdapter<Item?, Holder>?) {
     this.mSmartRefreshLayout = mSmartRefreshLayout
     this.mAdapter = mAdapter
     mPagerHelper = PagerHelper()
   }
 
-  constructor(pageSize: Int, mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item?, Holder>) {
+  constructor(pageSize: Int, mSmartRefreshLayout: SmartRefreshLayout?, mAdapter: ListBasedAdapter<Item?, Holder>?) {
     this.mSmartRefreshLayout = mSmartRefreshLayout
     this.mAdapter = mAdapter
     mPagerHelper = PagerHelper(pageSize)
   }
 
-  fun setRefreshLayout(mSmartRefreshLayout: SmartRefreshLayout, mAdapter: ListBasedAdapter<Item?, Holder>) {
+  fun setRefreshLayout(mSmartRefreshLayout: SmartRefreshLayout?, mAdapter: ListBasedAdapter<Item?, Holder>?) {
     this.mSmartRefreshLayout = mSmartRefreshLayout
     this.mAdapter = mAdapter
   }
