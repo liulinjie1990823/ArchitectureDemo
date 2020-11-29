@@ -15,14 +15,14 @@ object Versions {
   const val versionName = "1.0.0"
 
 
-  const val kotlin = "1.4.10"
+  const val kotlin = "1.4.20"
   const val bintray_release = "0.8.1"
   const val walle = "1.1.7"
 
   const val lifecycle = "2.2.0"
   const val room = "2.2.5"
 
-  const val dagger = "2.29.1"
+  const val dagger = "2.30.1"
   const val dagger_hilt = "2.29-alpha"
   const val autodispose = "1.4.0"
 
@@ -97,7 +97,7 @@ object Deps {
   const val multidex_instrumentation = "androidx.multidex:multidex-instrumentation:2.0.1"
 
   //ui
-  const val constraint_layout = "androidx.constraintlayout:constraintlayout:2.0.2"//约束布局
+  const val constraint_layout = "androidx.constraintlayout:constraintlayout:2.0.4"//约束布局
   const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
   const val recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.1.0"
   const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
@@ -130,7 +130,7 @@ object Deps {
 
   //https://github.com/ReactiveX/RxJava
   const val rxjava = "io.reactivex:rxjava:1.2.3"
-  const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.19"
+  const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.20"
   const val rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
 
 
@@ -140,8 +140,8 @@ object Deps {
 
   //页面路由
   //https://github.com/alibaba/ARouter
-  const val arouter_api = "com.alibaba:arouter-api:1.5.0"
-  const val arouter_compiler = "com.alibaba:arouter-compiler:1.2.2"
+  const val arouter_api = "com.alibaba:arouter-api:1.5.1"
+  const val arouter_compiler = "com.alibaba:arouter-compiler:1.5.1"
 
   //注解
   //https://github.com/JakeWharton/butterknife
