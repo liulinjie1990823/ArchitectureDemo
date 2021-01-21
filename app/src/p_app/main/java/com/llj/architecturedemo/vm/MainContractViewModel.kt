@@ -30,7 +30,7 @@ class MainContractViewModel @Inject constructor(
   }
 
   //监听参数_query的变化，会发起getMobile请求
-  val mobile: LiveData<IResponse<MobileEntity?>?> = Transformations.switchMap(_query) {
+  val mobileData: LiveData<IResponse<MobileEntity?>?> = Transformations.switchMap(_query) {
     if (it == null) {
       AbsentLiveData.create()
     } else {

@@ -154,7 +154,7 @@ dependencies {
     api Deps.recyclerview
     api Deps.constraint_layout
     //
-    api 'com.blankj:utilcodex:1.29.0'
+    api Deps.utilcodex
     api 'com.billy.android:cc:2.1.6'
 
 

@@ -36,15 +36,14 @@ subprojects {
                 apply plugin: 'com.android.library'
             }
         }
+        //kotlin版本lint
         apply from: rootProject.file('config/quality/detekt/detekt.gradle')
 
         //app和module都生成R2文件，因为module要使用R2，切换为application的时候不用替换R2为R
         apply plugin: 'com.jakewharton.butterknife'
         apply plugin: 'kotlin-android'
         apply plugin: 'kotlin-kapt'
-        apply plugin: 'kotlin-android-extensions'
-        //保存页面字段
-        //apply plugin: 'save.state'
+        apply plugin: 'kotlin-parcelize'
 
         apply plugin: 'bga-appinit-plugin'
 //        appInit {
@@ -140,14 +139,7 @@ subprojects {
             implementation fileTree(include: ['*.jar'], dir: 'libs')
             implementation project(':application')
 
-            //非app-loading工程需要依赖
-            if (tempName != 'app-loading') {
-                if (useMaven) {
-                    api Deps.app_loading
-                } else {
-                    api project(':app-loading')
-                }
-            }
+
 
             if (useMaven) {
                 api Deps.component_service
@@ -177,6 +169,16 @@ subprojects {
             kapt Deps.butterknife_compiler
             //跳转路由
             kapt Deps.arouter_compiler
+
+
+            //非app-loading工程需要依赖
+            if (tempName != 'app-loading') {
+                if (useMaven) {
+                    api Deps.app_loading
+                } else {
+                    api project(':app-loading')
+                }
+            }
         }
     }
 }

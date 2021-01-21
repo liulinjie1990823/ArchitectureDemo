@@ -16,11 +16,11 @@ buildscript {
 //        classpath 'com.github.7hens:android-x2j:1.4'
 
         //方法数检测
-        if (useDexcount) {
+        if (usePluginDexcount) {
             classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.3'
         }
         //maven库更新检测
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.33.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.36.0'
 
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.29.1-alpha'
         //android-plugin插件
@@ -51,40 +51,40 @@ buildscript {
         //组件化插件
 //        classpath 'com.billy.android:cc-register:1.1.2'
         //上传apk插件
-        if (useApkUploadPlugin) {
+        if (usePluginApkUpload) {
             classpath 'com.llj:plugin-upload:0.0.15'
         }
         //aspectj插件
-        if (useAspectjx) {
+        if (usePluginAspectjx) {
             classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
         }
         //asm代码注入插件
-        if (useCodeInject) {
+        if (usePluginCodeInject) {
             classpath 'com.llj:plugin-code-inject:0.0.1'
         }
         //arr打包上传jcenter插件
 //        classpath "com.novoda:bintray-release:0.9.2"
         classpath "com.github.panpf.bintray-publish:bintray-publish:1.0.0"
         //okbuck编译
-        if (useOkbuck) {
+        if (usePluginOkbuck) {
             classpath 'com.uber:okbuck:0.51.2'
         }
         //保存页面字段
         //classpath "io.github.prototypez:save-state:0.2.3"
         //doraemonkit手机调试插件
-        if (useDoraemonkit) {
+        if (usePluginDoraemonkit) {
             classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.2.0'
         }
         //性能检测
-        if (useMatrix) {
+        if (usePluginMatrix) {
             classpath("com.tencent.matrix:matrix-gradle-plugin:${MATRIX_VERSION}") { changing = true }
         }
         //方法耗时统计
-        if (useMethodTrace && buildTypeDebug) {
+        if (usePluginMethodTrace && buildTypeDebug) {
             classpath "gradle.plugin.cn.cxzheng.methodTracePlugin:tracemanplugin:1.0.4"
         }
         //帧统计
-        if (useAndroidDevMetrics) {
+        if (usePluginAndroidDevMetrics) {
             classpath 'com.frogermcs.androiddevmetrics:androiddevmetrics-plugin:0.7'
         }
         //排除jar中某个类插件
@@ -108,7 +108,7 @@ allprojects {
             force Deps.okhttp
             force Deps.gson
             force Deps.fresco
-            force 'com.blankj:utilcodex:1.28.4'
+            force Deps.utilcodex
 
             force 'androidx.legacy:legacy-support-core-utils:1.0.0'
             force 'androidx.legacy:legacy-support-core-ui:1.0.0'
@@ -125,15 +125,19 @@ allprojects {
             force Deps.lifecycle_viewmodel
             force Deps.lifecycle_viewmodel_savedstate
             force Deps.lifecycle_livedata
+            force Deps.lifecycle_reactivestreams_ktx
             force Deps.androidx_activity
             force Deps.androidx_fragment
             force Deps.androidx_collection
             force Deps.constraint_layout
+            force Deps.customview
             force Deps.recyclerview
             force Deps.viewpager
             force Deps.viewpager2
             force Deps.drawerlayout
             force Deps.transition
+            force Deps.room_runtime
+            force Deps.sqlite
         }
     }
 

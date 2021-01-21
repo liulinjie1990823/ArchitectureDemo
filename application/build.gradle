@@ -3,13 +3,13 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'bga-appinit-plugin'
 
 //app调试工具
-if (useDoraemonkit && buildTypeDebug) {
+if (usePluginDoraemonkit && buildTypeDebug) {
     apply plugin: 'com.didi.dokit'
 }
 
 
 //Aspectjx增加方法拦截
-if (useAspectjx) {
+if (usePluginAspectjx) {
     apply plugin: 'android-aspectjx'
     aspectjx {
         //AspectJX功能开关
@@ -18,7 +18,7 @@ if (useAspectjx) {
 }
 
 //ASM代码注入
-if (useCodeInject) {
+if (usePluginCodeInject) {
     apply plugin: 'plugin-code-inject'
     codeInjectConfig {
         enableModify = true
@@ -63,14 +63,14 @@ dependencies {
 
     //flipper应用调试
     debugImplementation 'com.facebook.soloader:soloader:0.9.0'
-    debugImplementation "com.facebook.flipper:flipper:0.66.0"
-    betaImplementation "com.facebook.flipper:flipper-noop:0.66.0"
-    releaseImplementation "com.facebook.flipper:flipper-noop:0.66.0"
+    debugImplementation "com.facebook.flipper:flipper:0.72.0"
+    betaImplementation "com.facebook.flipper:flipper-noop:0.72.0"
+    releaseImplementation "com.facebook.flipper:flipper-noop:0.72.0"
 
-    debugImplementation 'com.facebook.flipper:flipper-litho-plugin:0.66.0'
-    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.66.0'
-    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.66.0'
-    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.66.0'
+    debugImplementation 'com.facebook.flipper:flipper-litho-plugin:0.72.0'
+    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.72.0'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.72.0'
+    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.72.0'
 
     //内存检测
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'

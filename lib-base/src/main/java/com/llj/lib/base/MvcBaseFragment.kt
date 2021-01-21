@@ -10,6 +10,7 @@ import android.view.animation.Animation
 import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -137,11 +138,29 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
       return
     }
     if (dialog == null) {
-      activity?.window?.decorView?.post { AInputMethodManagerUtils.showOrHideInput(activity, true) }
+      activity?.window?.decorView?.post { performToggleSoftInput(true) }
     } else {
-      dialog?.window?.decorView?.post { AInputMethodManagerUtils.showOrHideInput(dialog, true) }
+      dialog?.window?.decorView?.post { performToggleSoftInput(true) }
     }
   }
+
+  private fun performToggleSoftInput(show: Boolean) {
+    if (show) {
+      if (dialog == null) {
+        AInputMethodManagerUtils.showOrHideInput(activity, true)
+      } else {
+        AInputMethodManagerUtils.showOrHideInput(dialog, true)
+      }
+    } else {
+      if (dialog == null) {
+        AInputMethodManagerUtils.hideSoftInputFromWindow(activity)
+      } else {
+        AInputMethodManagerUtils.hideSoftInputFromWindow(dialog)
+      }
+    }
+
+  }
+
   //</editor-fold>
 
   //<editor-fold desc="onDismiss">
@@ -169,11 +188,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     if (!mUseSoftInput) {
       return
     }
-    if (dialog == null) {
-      AInputMethodManagerUtils.hideSoftInputFromWindow(activity)
-    } else {
-      AInputMethodManagerUtils.hideSoftInputFromWindow(dialog)
-    }
+    performToggleSoftInput(false)
 
   }
   //</editor-fold>
@@ -270,6 +285,8 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
 
     mContext = requireContext()
 
+    checkLoadingDialog()
+
     if (arguments !== null) {
       getArgumentsData(arguments)
     }
@@ -298,7 +315,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     //为避免view泄露，onDestroyView里面会注销，所以这里需要重新注册
     registerEventBus(this)
 
-    if (mRootView != null) {
+    if (mShouldSaveView && mRootView != null) {
       return mRootView
     }
 
@@ -316,8 +333,6 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
       mRootView = layoutView ?: inflater.inflate(layoutId(), container, false)
       mUnBinder = ButterKnife.bind(this, mRootView!!)
     }
-
-    checkLoadingDialog()
 
     initViews(savedInstanceState)
 
@@ -367,18 +382,40 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     Timber.tag(mTagLog).i("Lifecycle %s onStop：%d", mTagLog, hashCode())
   }
 
+  //是否需要保存view，可能有些界面不需要重新加载，显示后需要保存在内存中；需要注意内存量
+  private var mShouldSaveView = false
+
+  //如果需要在内存中持有view，不需要在onDestroyView中移除observers，使用自身LifecycleOwner即可
+  open fun getCorrectLifecycleOwner(): LifecycleOwner? {
+    return if (mShouldSaveView) {
+      //使用自身LifecycleOwner，则
+      this
+    } else {
+      //特制的LifecycleOwner，onDestroyView中会分发onDestroy来移除observers
+      viewLifecycleOwner
+    }
+  }
+
   override fun onDestroyView() {
-    //移除所有的任务,有可能任务里面引用了RefreshLayout，导致无法回收引起内存泄露
+    Timber.tag(mTagLog).i("Lifecycle %s onDestroyView：%d", mTagLog, hashCode())
+
+    //移除所有的任务,因为有可能任务里面引用了RefreshLayout，导致onDestroyView无法回收view引起内存泄露
     removeAllDisposable()
     //取消事件监听,EventBus事件中有可能调用接口，会对RefreshLayout引用，导致无法回收引起内存泄露
     unregisterEventBus(this)
-    super.onDestroyView()
-    Timber.tag(mTagLog).i("Lifecycle %s onDestroyView：%d", mTagLog, hashCode())
+
 
     //将mRootView在parent中移除绑定，便于在重新attach的时候可以重用mRootView
     if (mRootView?.parent is ViewGroup) {
       (mRootView?.parent as ViewGroup).removeView(mRootView)
     }
+    if (!mShouldSaveView) {
+      //移除view绑定
+      mUnBinder?.unbind()
+      mRootView = null
+    }
+
+    super.onDestroyView()
   }
 
   override fun onDestroy() {
@@ -395,12 +432,6 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
 
       mRequestDialog = null
     }
-
-
-    //移除view绑定
-    mUnBinder?.unbind()
-
-    mRootView = null
   }
 
   override fun onDetach() {
@@ -475,6 +506,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
 
   //<editor-fold desc="ILoadingDialogHandler加载框">
   override fun getLoadingDialog(): BaseDialog? {
+    checkLoadingDialog()
     return mRequestDialog
   }
 

@@ -5,10 +5,10 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.llj.application.router.CRouter
 import com.llj.architecturedemo.MainMvcBaseActivity
 import com.llj.architecturedemo.databinding.ActivityRequestBinding
 import com.llj.architecturedemo.vm.MainContractViewModel
-import com.llj.application.router.CRouter
 import javax.inject.Inject
 
 
@@ -34,7 +34,7 @@ class MvvmRequestActivity : MainMvcBaseActivity<ActivityRequestBinding>() {
 
     }
 
-    mViewModel.mobile.observe(this, Observer {
+    mViewModel.mobileData.observe(this, Observer {
       it?.data?.run {
         showLongToast(this.phone)
       }

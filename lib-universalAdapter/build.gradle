@@ -2,6 +2,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
+    buildFeatures{
+        viewBinding = true
+    }
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -9,18 +12,18 @@ dependencies {
     api "com.jakewharton.timber:timber:4.7.1"
 
     implementation Deps.viewpager2
-    debugImplementation 'androidx.databinding:viewbinding:3.6.3'
+//    debugImplementation 'androidx.databinding:viewbinding:3.6.3'
     debugImplementation Deps.recyclerview
     debugImplementation Deps.SmartRefreshLayout
     debugImplementation Deps.kotlin_stdlib_jdk8
 
 
-    betaCompileOnly 'androidx.databinding:viewbinding:3.6.3'
+//    betaCompileOnly 'androidx.databinding:viewbinding:3.6.3'
     betaCompileOnly Deps.recyclerview
     betaCompileOnly Deps.SmartRefreshLayout
     betaCompileOnly Deps.kotlin_stdlib_jdk8
 
-    releaseCompileOnly 'androidx.databinding:viewbinding:3.6.3'
+//    releaseCompileOnly 'androidx.databinding:viewbinding:3.6.3'
     releaseCompileOnly Deps.recyclerview
     releaseCompileOnly Deps.SmartRefreshLayout
     releaseCompileOnly Deps.kotlin_stdlib_jdk8

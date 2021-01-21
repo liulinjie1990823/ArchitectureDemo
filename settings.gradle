@@ -35,7 +35,7 @@ include ':app',
         ':app-setting',
         ':app-mine'
 
-include ':plugin-code-inject'
+//include ':plugin-code-inject'
 include ':plugin-upload'
 //include ':plugin-task-time'
 

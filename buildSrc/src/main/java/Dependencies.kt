@@ -20,9 +20,10 @@ object Versions {
   const val walle = "1.1.7"
 
   const val lifecycle = "2.2.0"
-  const val room = "2.2.5"
+  const val room = "2.2.6"
+  const val sqlite = "2.1.0"
 
-  const val dagger = "2.30.1"
+  const val dagger = "2.31.1"
   const val dagger_hilt = "2.29-alpha"
   const val autodispose = "1.4.0"
 
@@ -62,6 +63,8 @@ object Deps {
 
   const val support_design = "com.google.android.material:material:1.0.0"
 
+  //kotlinx库
+  //https://developer.android.com/kotlin/ktx?hl=zh-cn#modules
   //支持库
   //https://developer.android.com/jetpack/androidx/releases/activity
   const val androidx_activity = "androidx.activity:activity:1.1.0"
@@ -83,36 +86,53 @@ object Deps {
   const val lifecycle_java8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
   const val lifecycle_compiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifecycle}"
   const val lifecycle_viewmodel = "androidx.lifecycle:lifecycle-viewmodel:${Versions.lifecycle}"
+  const val lifecycle_viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
   const val lifecycle_viewmodel_savedstate = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.lifecycle}"
   const val lifecycle_livedata = "androidx.lifecycle:lifecycle-livedata:${Versions.lifecycle}"
+  const val lifecycle_livedata_ktx = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
   const val lifecycle_process = "androidx.lifecycle:lifecycle-process:${Versions.lifecycle}"
+  const val lifecycle_reactivestreams_ktx = "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifecycle}"
   const val legacy_support_v4 = "androidx.legacy:legacy-support-v4:1.0.0"
 
-  const val work_runtime = "androidx.work:work-runtime:2.3.4"
-  const val work_runtime_ktx = "androidx.work:work-runtime-ktx:2.3.4"
-  const val localbroadcastmanager = "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
 
   //分包
   const val multidex = "androidx.multidex:multidex:2.0.1"
   const val multidex_instrumentation = "androidx.multidex:multidex-instrumentation:2.0.1"
 
   //ui
+  const val cardview = "androidx.cardview:cardview:1.0.0"
   const val constraint_layout = "androidx.constraintlayout:constraintlayout:2.0.4"//约束布局
+  const val coordinatorlayout = "androidx.coordinatorlayout:coordinatorlayout:1.1.0"//协调布局
+  const val customview = "androidx.customview:customview:1.1.0"
+  const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"
+  const val emoji = "androidx.emoji:emoji:1.1.0"
+  const val exifinterface = "androidx.exifinterface:exifinterface:1.3.1"
+  const val localbroadcastmanager = "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
+  const val navigation_fragment = "androidx.navigation:navigation-fragment:2.3.1"
+  const val navigation_ui = "androidx.navigation:navigation-ui:2.3.1"
   const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
   const val recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.1.0"
-  const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
-  const val viewpager = "androidx.viewpager:viewpager:1.0.0"
-  const val cardview = "androidx.cardview:cardview:1.0.0"
-  const val coordinatorlayout = "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
-  const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"
+  const val savedstate = "androidx.savedstate:savedstate:1.0.0"
   const val slidingpanelayout = "androidx.slidingpanelayout:slidingpanelayout:1.1.0"
+  const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
   const val transition = "androidx.transition:transition:1.3.1"
+  const val vectordrawable = "androidx.vectordrawable:vectordrawable:1.1.0"
+  const val vectordrawable_animated = "androidx.vectordrawable:vectordrawable-animated:1.1.0"
+  const val viewpager = "androidx.viewpager:viewpager:1.0.0"
+  const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
+  const val work_runtime = "androidx.work:work-runtime:2.4.0"
+  const val work_runtime_ktx = "androidx.work:work-runtime-ktx:2.4.0"
+  const val work_runtime_rxjava2 = "androidx.work:work-rxjava2:2.4.0"
+
 
   //room
   //https://developer.android.com/jetpack/androidx/releases/room
   const val room_runtime = "androidx.room:room-runtime:${Versions.room}"
+  const val room_ktx = "androidx.room:room-ktx:${Versions.room}"
   const val room_compiler = "androidx.room:room-compiler:${Versions.room}"
   const val room_rxjava2 = "androidx.room:room-rxjava2:${Versions.room}"
+  const val sqlite = "androidx.sqlite:sqlite:${Versions.sqlite}"
+  const val sqlite_ktx = "androidx.sqlite:sqlite-ktx:${Versions.sqlite}"
 
   //权限
   //https://github.com/yanzhenjie/AndPermission
@@ -316,5 +336,6 @@ object Deps {
 
   //悬浮窗
   const val float_window = "com.imuxuan:floatingview:1.5"
+  const val utilcodex = "com.blankj:utilcodex:1.29.0"
 
 }

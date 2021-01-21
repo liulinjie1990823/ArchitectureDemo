@@ -54,8 +54,8 @@ class ItemFragment : MainMvcBaseFragment<ViewBinding>(), ScrollableHelper.Scroll
   }
 
 
-  inner class MyAdapter : ListBasedAdapter<Data?, ViewHolderHelper> {
-    constructor(list: MutableList<Data?>) : super(list) {
+  inner class MyAdapter(list: MutableList<Data?>) : ListBasedAdapter<Data?, ViewHolderHelper>(list) {
+    init {
       addItemLayout(R.layout.item_home_fragment)
     }
 

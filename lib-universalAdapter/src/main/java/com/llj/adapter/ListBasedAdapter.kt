@@ -41,10 +41,8 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
 
 
   fun unbindList() {
-    if (mList != null) {
-      if (mList is ObservableList<Item?>) {
-        (mList as ObservableList<Item?>).getListObserver().removeListener(observableListener)
-      }
+    if (mList is ObservableList<Item?>) {
+      (mList as ObservableList<Item?>).getListObserver().removeListener(observableListener)
     }
   }
 
@@ -172,11 +170,11 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
 
 
   //region List<Item?>
-  override fun get(position: Int): Item? {
-    if (position >= mList.size) {
+  override fun get(index: Int): Item? {
+    if (index >= mList.size) {
       return null
     }
-    return mList[position]
+    return mList[index]
   }
 
   override operator fun contains(element: Item?): Boolean {

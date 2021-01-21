@@ -53,9 +53,9 @@ class LoadingActivity : LoadingMvcBaseActivity<ActivityLoadingBinding>() {
 
       ARouter.getInstance().build(AppManager.getInstance().jumpConfig.mainPath)
           .withTransition(R.anim.fade_in, R.anim.no_fade)
-//          .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//          .withFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent
+//              .FLAG_ACTIVITY_SINGLE_TOP)
           .navigation(mContext)
-
       finish()
     }
 

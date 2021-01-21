@@ -142,12 +142,12 @@ walle {
 }
 
 //统计方法数
-if (useDexcount && buildTypeDebug) {
+if (usePluginDexcount && buildTypeDebug) {
     apply plugin: 'com.getkeepsafe.dexcount'
 }
 
 //Matrix
-if (useMatrix && buildTypeDebug) {
+if (usePluginMatrix && buildTypeDebug) {
     apply plugin: 'com.tencent.matrix-plugin'
     matrix {
         trace {
@@ -159,7 +159,7 @@ if (useMatrix && buildTypeDebug) {
 }
 
 //方法耗时统计
-if (useMethodTrace && buildTypeDebug) {
+if (usePluginMethodTrace && buildTypeDebug) {
     apply plugin: "cn.cxzheng.asmtraceman"
     traceMan {
         open = true //这里如果设置为false,则会关闭插桩
@@ -169,13 +169,13 @@ if (useMethodTrace && buildTypeDebug) {
 }
 
 //耗时和帧数据统计
-if (useAndroidDevMetrics && buildTypeDebug) {
+if (usePluginAndroidDevMetrics && buildTypeDebug) {
     apply plugin: 'com.frogermcs.androiddevmetrics'
 }
 
 
 //使用okbuck编译
-if (useOkbuck) {
+if (usePluginOkbuck) {
     apply plugin: 'com.uber.okbuck'
 
     okbuck {
@@ -229,7 +229,7 @@ if (useOkbuck) {
 }
 
 //打包上传pgy
-if (useApkUploadPlugin) {
+if (usePluginApkUpload) {
     //使用插件
     apply plugin: 'com.llj.plugin.upload.apkUploadPlugin'
 

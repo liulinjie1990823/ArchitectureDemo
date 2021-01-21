@@ -69,7 +69,6 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
     Timber.tag(mTagLog).i("Lifecycle %s（%d）inject：cost %d ms", mTagLog, hashCode(), inject)
 
 
-
     val currentMill = System.currentTimeMillis()
     super.onCreate(savedInstanceState)
     val temp3 = (System.currentTimeMillis() - currentMill)
@@ -179,13 +178,13 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
       mRequestDialog = null
     }
 
-
-    //注销事件总线
-    unregisterEventBus(this)
-
-    //移除所有的任务
+    //移除所有的任务,因为有可能任务里面引用了RefreshLayout，导致onDestroy无法回收view引起内存泄露
     removeAllDisposable()
 
+    //取消事件监听,EventBus事件中有可能调用接口，会对RefreshLayout引用，导致无法回收引起内存泄露
+    unregisterEventBus(this)
+
+    //将所有的view置null,如果需要释放一些资源需要在super.onDestroy()之前处理
     mUnBinder?.unbind()
 
     //移除列表中的activity
@@ -286,14 +285,8 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
         mRequestDialog!!.javaClass.simpleName, mRequestDialog!!.hashCode())
   }
 
-  private class MyOnCancelListener : DialogInterface.OnCancelListener {
-    val mFragment: WeakReference<ITask>
-    val mRequestId: Int
-
-    constructor(fragment: ITask, requestId: Int) {
-      this.mFragment = WeakReference<ITask>(fragment)
-      this.mRequestId = requestId
-    }
+  private class MyOnCancelListener(fragment: ITask, private val mRequestId: Int) : DialogInterface.OnCancelListener {
+    val mFragment: WeakReference<ITask> = WeakReference<ITask>(fragment)
 
     override fun onCancel(dialog: DialogInterface?) {
       if (mFragment.get() == null) {
@@ -310,14 +303,8 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
     }
   }
 
-  private class MyOnDismissListener : DialogInterface.OnDismissListener {
-    val mFragment: WeakReference<ITask>
-    val mRequestId: Int
-
-    constructor(fragment: ITask, requestId: Int) {
-      this.mFragment = WeakReference<ITask>(fragment)
-      this.mRequestId = requestId
-    }
+  private class MyOnDismissListener(fragment: ITask, private val mRequestId: Int) : DialogInterface.OnDismissListener {
+    val mFragment: WeakReference<ITask> = WeakReference<ITask>(fragment)
 
     override fun onDismiss(dialog: DialogInterface?) {
       if (mFragment.get() == null) {
@@ -360,6 +347,11 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
 
   override fun getRequestId(): Int {
     return getLoadingDialog()?.getRequestId() ?: -1
+  }
+
+  fun releaseDialog() {
+
+
   }
   //</editor-fold >
 
