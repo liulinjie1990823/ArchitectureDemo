@@ -10,6 +10,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
  */
 public class CRouter extends CRouterClassName {
 
+  //dagger初始化服务
   public static final String MODULE_LOADING = "/loading/module";
   public static final String MODULE_MAIN    = "/main/module";
   public static final String MODULE_LOGIN   = "/login/module";
