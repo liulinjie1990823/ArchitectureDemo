@@ -80,3 +80,4 @@ buck-out
 
 
 *baseline.xml
+!/node_modules/
