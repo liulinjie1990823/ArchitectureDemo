@@ -80,4 +80,7 @@ buck-out
 
 
 *baseline.xml
-!/node_modules/
+/node_modules/
+/yarn.lock
+/sign/
+/z_keystore/
