@@ -3,9 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "yarn react-native start"
+    "start": "yarn react-native start",
+    "android": "yarn react-native run-android",
+    "bundle": "yarn react-native bundle --platform android --dev true --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res"
   },
   "dependencies": {
+    "react": "16.13.1",
     "react-native": "^0.63.4"
   }
 }

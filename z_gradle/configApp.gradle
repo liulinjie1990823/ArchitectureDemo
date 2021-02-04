@@ -1,5 +1,3 @@
-
-
 android {
     compileSdkVersion Versions.compileSdkVersion
     buildToolsVersion Versions.buildToolsVersion
@@ -14,6 +12,7 @@ android {
 
         multiDexEnabled true
     }
+
 
     sourceSets {
         def dirs = ['p_app', 'p_widget', 'p_mine', 'p_login']
@@ -41,7 +40,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("../itotemHunbohui.keystore")
+            storeFile file("../z_keystore/itotemHunbohui.keystore")
             storePassword "itotem"
             keyAlias "itotemapp"
             keyPassword "itotem"
@@ -109,6 +108,9 @@ android {
         exclude 'META-INF/proguard/androidx-annotations.pro'
         exclude 'META-INF/androidx.core_core.version'
         exclude 'META-INF/androidx.versionedparcelable_versionedparcelable.version'
+
+        pickFirst '**/libjsc.so'
+        pickFirst '**/libc++_shared.so'
     }
 }
 
@@ -126,8 +128,8 @@ dependencies {
 //测试
 //apply from: rootProject.file('gradle/test.gradle')
 //打包任务
-apply from: rootProject.file('gradle/zipChannel.gradle')
-apply from: rootProject.file('gradle/git.gradle')
+apply from: rootProject.file('z_gradle/zipChannel.gradle')
+apply from: rootProject.file('z_gradle/git.gradle')
 apply plugin: 'com.alibaba.arouter'
 
 //打渠道包

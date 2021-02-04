@@ -5,6 +5,10 @@ import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
 import android.util.ArrayMap
 import com.alibaba.android.arouter.launcher.ARouter
+import com.facebook.react.PackageList
+import com.facebook.react.ReactApplication
+import com.facebook.react.ReactNativeHost
+import com.facebook.react.ReactPackage
 import com.llj.application.di.AppComponent
 import com.llj.application.di.DaggerAppComponent
 import com.llj.application.di.IModule
@@ -28,7 +32,7 @@ import dagger.android.HasAndroidInjector
  * @author llj
  * @date 2018/5/18
  */
-open class AppApplication : Application(), HasAndroidInjector {
+open class AppApplication : Application(), ReactApplication, HasAndroidInjector {
 
   val TAG: String = this.javaClass.simpleName
 
@@ -115,7 +119,7 @@ open class AppApplication : Application(), HasAndroidInjector {
     AppInitManager.get().onTerminate()
   }
 
-  override fun onConfigurationChanged(newConfig: Configuration?) {
+  override fun onConfigurationChanged(newConfig: Configuration) {
     super.onConfigurationChanged(newConfig)
     AppInitManager.get().onConfigurationChanged(newConfig)
   }
@@ -128,5 +132,21 @@ open class AppApplication : Application(), HasAndroidInjector {
   override fun onTrimMemory(level: Int) {
     super.onTrimMemory(level)
     AppInitManager.get().onTrimMemory(level)
+  }
+
+
+  override fun getReactNativeHost(): ReactNativeHost {
+    TODO("Not yet implemented")
+  }
+
+  private val mReactNativeHost: ReactNativeHost = object : ReactNativeHost(this) {
+    override fun getUseDeveloperSupport(): Boolean {
+      return BuildConfig.DEBUG
+    }
+
+    override fun getPackages(): List<ReactPackage> {
+      // Packages that cannot be autolinked yet can be added manually here
+      return PackageList(this).getPackages()
+    }
   }
 }

@@ -304,10 +304,10 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
       //ViewBinding可以提前在外部inflate
       //viewHolder = ViewHolderHelperWrap.createViewHolder(mViewBindings[viewType].viewBinding)
       val viewBinding = onCreateViewBinding(parent, viewType)
-      if (viewBinding != null) {
-        holder = ViewHolderHelperWrap.createViewHolder(viewBinding)
+      holder = if (viewBinding != null) {
+        ViewHolderHelperWrap.createViewHolder(viewBinding)
       } else {
-        holder = onCreateViewHolder(parent, viewType)
+        onCreateViewHolder(parent, viewType)
       }
     }
     holder.itemView.setTag(R.id.com_viewholderTagID, holder)

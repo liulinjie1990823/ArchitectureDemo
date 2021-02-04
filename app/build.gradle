@@ -1,6 +1,4 @@
-
-
-plugins {id 'kotlin-android'}
+plugins { id 'kotlin-android' }
 
 
 android {
@@ -48,13 +46,14 @@ dependencies {
     implementation 'com.arthenica:mobile-ffmpeg-full:4.3.2'
     implementation Deps.androidx_appcompat
     implementation Deps.androidx_fragment_ktx
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation Deps.constraint_layout
 
 
 //    kapt "com.zhangyue.we:x2c-apt:1.1.2"
 //    implementation 'com.zhangyue.we:x2c-lib:1.0.6'
 
+    implementation "com.facebook.react:react-native:0.63.4" // From node_modules
+    implementation "org.webkit:android-jsc:r245459"
 
 }
 

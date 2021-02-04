@@ -26,7 +26,7 @@ subprojects {
                 if (it.name == 'app') {
                     ext.mainApp = true
                 }
-                apply from: rootProject.file('gradle/cc-settings-3.gradle')
+                apply from: rootProject.file('z_gradle/cc-settings-3.gradle')
             }
         } else {
             //不使用组件
@@ -37,7 +37,7 @@ subprojects {
             }
         }
         //kotlin版本lint
-        apply from: rootProject.file('config/quality/detekt/detekt.gradle')
+        apply from: rootProject.file('z_config/quality/detekt/detekt.gradle')
 
         //app和module都生成R2文件，因为module要使用R2，切换为application的时候不用替换R2为R
         apply plugin: 'com.jakewharton.butterknife'
@@ -51,11 +51,11 @@ subprojects {
 //        }
 
         if (it.ext.has("mainApp") && it.ext.mainApp == true) {
-            apply from: rootProject.file('gradle/configApp.gradle')
+            apply from: rootProject.file('z_gradle/configApp.gradle')
         }
 
         if ( !useOld) {
-            apply from: rootProject.file('gradle/novoda-bintray.gradle')
+            apply from: rootProject.file('z_gradle/novoda-bintray.gradle')
         }
 
         android.compileOptions {
@@ -107,6 +107,9 @@ subprojects {
                     exclude 'META-INF/proguard/androidx-annotations.pro'
                     exclude 'META-INF/androidx.core_core.version'
                     exclude 'META-INF/androidx.versionedparcelable_versionedparcelable.version'
+
+                    pickFirst '**/libjsc.so'
+                    pickFirst '**/libc++_shared.so'
                 }
             }
         }

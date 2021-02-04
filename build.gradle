@@ -3,11 +3,11 @@ apply plugin: 'com.github.ben-manes.versions'
 
 buildscript {
     //设置ext属性
-    apply from: rootProject.file('gradle/init.gradle')
+    apply from: rootProject.file('z_gradle/init.gradle')
     //依赖项
-    apply from: rootProject.file('gradle/configVersions.gradle')
+    apply from: rootProject.file('z_gradle/configVersions.gradle')
     //工具类
-    apply from: rootProject.file('gradle/utils.gradle')
+    apply from: rootProject.file('z_gradle/utils.gradle')
 
 
 
@@ -170,9 +170,9 @@ allprojects {
 }
 
 //配置library相关属性
-apply from: rootProject.file('gradle/configLibrary.gradle')
+apply from: rootProject.file('z_gradle/configLibrary.gradle')
 //配置module相关属性
-apply from: rootProject.file('gradle/configModule.gradle')
+apply from: rootProject.file('z_gradle/configModule.gradle')
 
 
 afterEvaluate {

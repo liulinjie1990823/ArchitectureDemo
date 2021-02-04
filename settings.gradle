@@ -1,10 +1,12 @@
 
+rootProject.name = "android"
+
 include ':lib-opencv'
 include ':application'
 //
 
-apply from: './gradle/gradleLifecycle.gradle'
-apply from: './gradle/taskTimeTracker.gradle'
+apply from: './z_gradle/gradleLifecycle.gradle'
+apply from: './z_gradle/taskTimeTracker.gradle'
 
 //先加载local.properties文件
 Properties properties = new Properties()
@@ -122,3 +124,7 @@ include ':flutter_inv'
 include ':lib-jpeg-turbo'
 include ':lib-jpeg-turbo-utils'
 include ':lib_swscale'
+
+
+
+apply from: file("node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)

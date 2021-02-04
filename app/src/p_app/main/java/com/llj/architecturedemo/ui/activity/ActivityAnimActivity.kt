@@ -5,10 +5,11 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.llj.application.router.CRouterClassName
 import com.llj.architecturedemo.MainMvcBaseActivity
 import com.llj.architecturedemo.databinding.ActivityActivityAnimBinding
-import com.llj.application.router.CRouterClassName
 import timber.log.Timber
+
 
 @Route(path = CRouterClassName.APP_ACTIVITY_ANIM_ACTIVITY)
 class ActivityAnimActivity : MainMvcBaseActivity<ActivityActivityAnimBinding>() {
@@ -24,6 +25,18 @@ class ActivityAnimActivity : MainMvcBaseActivity<ActivityActivityAnimBinding>() 
       ARouter.getInstance().build(CRouterClassName.APP_ACTIVITY_ANIM_SLIDE_ACTIVITY)
           .navigation(this)
     }
+
+//    val packages: List<ReactPackage> = PackageList(application).getPackages()
+
+//    ReactInstanceManager.builder()
+//        .setApplication(application)
+//        .setCurrentActivity(this)
+//        .setBundleAssetName("index.android.bundle")
+//        .setJSMainModulePath("index")
+//        .addPackages(packages)
+//        .setUseDeveloperSupport(BuildConfig.DEBUG)
+//        .setInitialLifecycleState(LifecycleState.RESUMED)
+//        .build();
   }
 
   override fun initData() {
