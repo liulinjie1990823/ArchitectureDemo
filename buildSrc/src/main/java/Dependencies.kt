@@ -4,26 +4,29 @@
  * @author liulinjie
  * @date 2020/9/1 11:06 AM
  */
-object Versions {
+
+object App {
   const val applicationId = "com.llj.architecturedemo"
   const val minSdkVersion = 21
   const val compileSdkVersion = 29
   const val targetSdkVersion = 29
-  const val compileJdkVersion = 1.8
   const val buildToolsVersion = "29.0.3"
   const val versionCode = 100
   const val versionName = "1.0.0"
+  const val compileJdkVersion = 1.8
+}
 
+object Versions {
 
-  const val kotlin = "1.4.20"
+  const val kotlin = "1.4.31"
   const val bintray_release = "0.8.1"
   const val walle = "1.1.7"
 
-  const val lifecycle = "2.2.0"
+  const val lifecycle = "2.3.0"
   const val room = "2.2.6"
   const val sqlite = "2.1.0"
 
-  const val dagger = "2.31.1"
+  const val dagger = "2.32"
   const val dagger_hilt = "2.29-alpha"
   const val autodispose = "1.4.0"
 
@@ -31,7 +34,7 @@ object Versions {
 
   const val retrofit2 = "2.9.0"
   const val okhttp = "4.9.0"
-  const val fresco = "2.3.0"
+  const val fresco = "2.4.0"
 
   const val smartrefresh = "1.1.3"
   const val skin = "4.0.5"
@@ -39,7 +42,9 @@ object Versions {
   const val auto_value = "1.6.2"
 
   const val stetho = "1.5.1"
-  const val leakcanary = "2.4"
+
+  //1.6.3
+  const val leakcanary = "2.6"
 
   const val nim = "7.5.0"
   const val socialization = "2.0.18"
@@ -56,7 +61,6 @@ object Deps {
   const val walle_plugin = "com.meituan.android.walle:plugin:${Versions.walle}"
 
   //语言
-  const val kotlin_stdlib_jdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
   const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
 
   const val walle = "com.meituan.android.walle:library:${Versions.walle}"
@@ -67,11 +71,12 @@ object Deps {
   //https://developer.android.com/kotlin/ktx?hl=zh-cn#modules
   //支持库
   //https://developer.android.com/jetpack/androidx/releases/activity
-  const val androidx_activity = "androidx.activity:activity:1.1.0"
+  const val androidx_activity = "androidx.activity:activity:1.2.0"
+  const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.2.0"
   const val androidx_annotations = "androidx.annotation:annotation:1.1.0"
   const val androidx_appcompat = "androidx.appcompat:appcompat:1.2.0"
-  const val androidx_fragment = "androidx.fragment:fragment:1.2.5"
-  const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.2.5"
+  const val androidx_fragment = "androidx.fragment:fragment:1.3.0"
+  const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.3.0"
   const val androidx_arch_common = "androidx.arch.core:core-common:2.1.0"
   const val androidx_arch_runtime = "androidx.arch.core:core-runtime:2.1.0"
   const val androidx_core = "androidx.core:core:1.3.1"
@@ -112,7 +117,8 @@ object Deps {
   const val navigation_ui = "androidx.navigation:navigation-ui:2.3.1"
   const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
   const val recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.1.0"
-  const val savedstate = "androidx.savedstate:savedstate:1.0.0"
+  const val savedstate = "androidx.savedstate:savedstate:1.1.0"
+  const val savedstate_ktx = "androidx.savedstate:savedstate-ktx:1.1.0"
   const val slidingpanelayout = "androidx.slidingpanelayout:slidingpanelayout:1.1.0"
   const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
   const val transition = "androidx.transition:transition:1.3.1"
@@ -209,7 +215,7 @@ object Deps {
   //监控内存泄露
   //https://github.com/square/leakcanary
   const val leakcanary_android = "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary}"
-  const val leakcanary_android_no_op = "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
+  const val leakcanary_android_no_op = "com.squareup.leakcanary:leakcanary-android-no-op:${Versions.leakcanary}"
 
   //测试
   //https://github.com/facebook/stetho
@@ -238,10 +244,10 @@ object Deps {
   const val lib_base_event = "com.llj:lib-base-event:0.0.1"
   const val lib_image_loader = "com.llj:lib-image-loader:0.0.5"
   const val lib_image_select = "com.llj:lib-image-select:0.0.3"
-  const val lib_statelayout = "com.llj:lib-statelayout:0.0.2"
-  const val lib_statusbar = "com.llj:lib-statusbar:0.0.1"
-  const val lib_swipeback = "com.llj:lib-swipeback:0.0.1"
-  const val lib_universalAdapter = "com.llj:lib-universalAdapter:1.1.7"
+  const val lib_state_layout = "com.llj:lib-statelayout:0.0.2"
+  const val lib_status_bar = "com.llj:lib-statusbar:0.0.3"
+  const val lib_swipe_back = "com.llj:lib-swipeback:0.0.1"
+  const val lib_universalAdapter = "com.llj:lib-universalAdapter:1.1.11"
   const val lib_scrollable = "com.llj:lib-scrollable:0.0.1"
   const val lib_webView = "com.llj:lib-webview:0.0.2"
   const val lib_jpeg_turbo_utils = "com.llj:lib-jpeg-turbo-utils:0.0.1"

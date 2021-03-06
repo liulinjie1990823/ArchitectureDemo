@@ -64,30 +64,33 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:3.7.471'
 
     //flipper应用调试
-//    debugImplementation 'com.facebook.soloader:soloader:0.9.0'
-//    debugImplementation("com.facebook.flipper:flipper:0.72.0")
-//            {
-//                exclude group: 'com.facebook.fbjni'
-//                exclude group: 'com.parse.bolts'
-//                exclude group: 'com.facebook.yoga'
-//                exclude group: 'com.facebook.litho', module: 'litho-annotations'
-//            }
-//    betaImplementation "com.facebook.flipper:flipper-noop:0.72.0"
-//    releaseImplementation "com.facebook.flipper:flipper-noop:0.72.0"
-//
-//    debugImplementation('com.facebook.flipper:flipper-litho-plugin:0.72.0') {
-//        exclude group: 'com.facebook.yoga'
+    debugImplementation 'com.facebook.soloader:soloader:0.10.1'
+    debugImplementation("com.facebook.flipper:flipper:0.79.1") {
+        exclude group:'com.facebook.yoga'
+        exclude group:'com.facebook.fbjni', module: 'fbjni'
+        exclude group:'com.facebook.litho', module: 'litho-annotations'
+    }
+    betaImplementation "com.facebook.flipper:flipper-noop:0.79.1"
+    releaseImplementation "com.facebook.flipper:flipper-noop:0.79.1"
+
+    //Litho插件
+    debugImplementation('com.facebook.flipper:flipper-litho-plugin:0.79.1') {
+        exclude group: 'com.facebook.yoga'
 //        exclude group: 'com.facebook.fbjni', module: 'fbjni'
 //        exclude group: 'com.facebook.litho', module: 'litho-annotations'
-//    }
-//    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.72.0'
-//    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.72.0'
-//    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.72.0'
+    }
+    //fresco插件
+    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.79.1'
+    //网络插件
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.79.1'
+    //leakcanary插件
+//    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.79.1'
+    debugImplementation 'com.facebook.flipper:flipper-leakcanary2-plugin:0.79.1'
 
     //内存检测
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
-    betaImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+    debugImplementation Deps.leakcanary_android
+    betaImplementation Deps.leakcanary_android_no_op
+    releaseImplementation Deps.leakcanary_android_no_op
 
     //https://github.com/Tencent/matrix
     implementation group: "com.tencent.matrix", name: "matrix-android-lib", version: MATRIX_VERSION, changing: true

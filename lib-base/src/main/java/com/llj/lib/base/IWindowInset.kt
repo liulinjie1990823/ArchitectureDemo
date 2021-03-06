@@ -15,13 +15,22 @@ import com.llj.lib.statusbar.StatusBarCompat
  */
 interface IWindowInset {
 
-  fun setTranslucentStatusBar(window: Window, textBlackColor: Boolean) {
+  //设置透明状态栏
+  fun setTranslucentStatusBar(window: Window, textBlackColor: Boolean = true) {
     StatusBarCompat.translucentStatusBar(window, true)
     LightStatusBarCompat.setLightStatusBar(window, textBlackColor)
   }
 
+  //设置透明状态栏和底部栏
+  fun setTranslucentAll(window: Window?, textBlackColor: Boolean = true) {
+    StatusBarCompat.translucentStatusBarAndNavigation(window!!, true)
+    LightStatusBarCompat.setLightStatusBar(window, textBlackColor)
+  }
+
+
+  //将insets事件分发到ViewPager里面
   fun dispatchApplyWindowInsets(view: ViewGroup) {
-    view.setOnApplyWindowInsetsListener { v, insets ->
+    view.setOnApplyWindowInsetsListener { _, insets ->
       val childCount = view.childCount
       for (index in 0 until childCount) {
         view.getChildAt(index).dispatchApplyWindowInsets(insets)
@@ -30,6 +39,7 @@ interface IWindowInset {
     }
   }
 
+  //状态栏添加padding，根据android:fitsSystemWindows="true"标记
   fun applyStatusBarInsets(view: View) {
     view.setOnApplyWindowInsetsListener { v: View, insets: WindowInsets ->
       val insetsBottom = insets
@@ -38,11 +48,8 @@ interface IWindowInset {
     }
   }
 
-  fun applyNavigationInsets(view: View) {
-    applyNavigationInsets(view, true)
-  }
-
-  fun applyNavigationInsets(view: View, needDispatch: Boolean) {
+  //底部栏添加padding，根据android:fitsSystemWindows="true"标记
+  fun applyNavigationInsets(view: View, needDispatch: Boolean = true) {
     if (view is ViewGroup) {
       view.setOnApplyWindowInsetsListener(object : View.OnApplyWindowInsetsListener {
         override fun onApplyWindowInsets(v: View, insets: WindowInsets): WindowInsets {

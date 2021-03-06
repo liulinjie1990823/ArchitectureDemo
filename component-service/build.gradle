@@ -20,9 +20,9 @@ dependencies {
         api Deps.lib_base_event
         api Deps.lib_image_loader
         api Deps.lib_image_select
-        api Deps.lib_statelayout
-        api Deps.lib_statusbar
-        api Deps.lib_swipeback
+        api Deps.lib_state_layout
+        api Deps.lib_status_bar
+        api Deps.lib_swipe_back
         api Deps.lib_scrollable
         api Deps.lib_universalAdapter
         api Deps.lib_webView

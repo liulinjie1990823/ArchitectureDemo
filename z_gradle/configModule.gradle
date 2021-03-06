@@ -59,8 +59,8 @@ subprojects {
         }
 
         android.compileOptions {
-            targetCompatibility Versions.compileJdkVersion
-            sourceCompatibility Versions.compileJdkVersion
+            targetCompatibility App.compileJdkVersion
+            sourceCompatibility App.compileJdkVersion
         }
 
         kapt {
@@ -77,18 +77,18 @@ subprojects {
         //除了app的其他module
         if (it.name != 'app') {
             android {
-                compileSdkVersion Versions.compileSdkVersion
-                buildToolsVersion Versions.buildToolsVersion
+                compileSdkVersion App.compileSdkVersion
+                buildToolsVersion App.buildToolsVersion
 
                 defaultConfig {
                     if (isApplication) {
-                        applicationId Versions.applicationId
+                        applicationId App.applicationId
                     }
-                    minSdkVersion Versions.minSdkVersion
-                    targetSdkVersion Versions.targetSdkVersion
+                    minSdkVersion App.minSdkVersion
+                    targetSdkVersion App.targetSdkVersion
 
-                    versionCode Versions.versionCode
-                    versionName Versions.versionName
+                    versionCode App.versionCode
+                    versionName App.versionName
                 }
 
                 buildTypes {

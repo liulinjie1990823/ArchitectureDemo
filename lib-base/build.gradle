@@ -14,7 +14,7 @@ dependencies {
 
     if (useMaven) {
         implementation Deps.lib_utils
-        implementation Deps.lib_statusbar
+        implementation Deps.lib_status_bar
         implementation Deps.net
         implementation Deps.lib_base_event
     } else {

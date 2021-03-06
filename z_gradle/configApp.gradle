@@ -1,14 +1,14 @@
 android {
-    compileSdkVersion Versions.compileSdkVersion
-    buildToolsVersion Versions.buildToolsVersion
+    compileSdkVersion App.compileSdkVersion
+    buildToolsVersion App.buildToolsVersion
 
     defaultConfig {
-        applicationId Versions.applicationId
-        minSdkVersion Versions.minSdkVersion
-        targetSdkVersion Versions.targetSdkVersion
+        applicationId App.applicationId
+        minSdkVersion App.minSdkVersion
+        targetSdkVersion App.targetSdkVersion
 
-        versionCode Versions.versionCode
-        versionName Versions.versionName
+        versionCode App.versionCode
+        versionName App.versionName
 
         multiDexEnabled true
     }
@@ -181,7 +181,7 @@ if (usePluginOkbuck) {
     apply plugin: 'com.uber.okbuck'
 
     okbuck {
-        buildToolVersion = Versions.buildToolsVersion
+        buildToolVersion = App.buildToolsVersion
         target = "android-29"
         linearAllocHardLimit = [
                 app: 16 * 1024 * 1024

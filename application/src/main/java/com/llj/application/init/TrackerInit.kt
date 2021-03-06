@@ -16,12 +16,18 @@ import timber.log.Timber
 @AppInit(priority = 70, description = "TrackerInit")
 class TrackerInit : SimpleAppInit() {
   override fun needAsyncInit(): Boolean {
-    return true
+    return false
   }
 
-  override fun asyncOnCreate() {
+  override fun onCreate() {
+    super.onCreate()
+
     Timber.tag(TAG).e("TrackerInit")
     //设置埋点
     Tracker.init(mApplication, TrackerConfig.Builder().build())
+  }
+
+  override fun asyncOnCreate() {
+
   }
 }

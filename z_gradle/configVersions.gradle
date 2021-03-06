@@ -9,275 +9,20 @@ if (project.name != project.rootProject.name) {
 
 println("Custome Configure (configVersions.gradle)")
 
-def versions = [
-        kotlin       : "1.4.0",
-        walle        : "1.1.7",
-
-        lifecycle    : "2.2.0",
-        room         : "2.2.5",
-
-        dagger       : "2.28.3",
-        dagger_hilt  : "2.28-alpha",
-        autodispose  : "1.4.0",
-
-        butterknife  : "10.2.3",
-
-        retrofit2    : "2.9.0",
-        okhttp       : "4.8.1",
-        fresco       : "2.3.0",
-
-        smartrefresh : "1.1.3",
-        skin         : "4.0.5",
-
-        auto_value   : "1.6.2",
-
-        stetho       : "1.5.1",
-        leakcanary   : "2.4",
-
-        glide        : "4.11.0",
-        socialization: "2.0.18",
-]
-
-ext {
-    build_versions = [
-            applicationId    : applicationId,
-            compileJdkVersion: 1.8,
-            compileSdkVersion: 28,
-            buildToolsVersion: "28.0.3",
-            minSdkVersion    : 21,
-            targetSdkVersion : 28,
-            versionCode      : 100,
-            versionName      : "1.0.0",
-    ]
-//    deps = [
-//            //插件
-//            android_gradle_plugin_old         : "com.android.tools.build:gradle:3.2.1",
-//            android_gradle_plugin             : "com.android.tools.build:gradle:3.6.3",
-//            android_gradle_plugin_new         : "com.android.tools.build:gradle:4.0.0",
-//            butterknife_gradle_plugin         : "com.jakewharton:butterknife-gradle-plugin:$versions.butterknife",
-//            kotlin_gradle_plugin              : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
-//            walle_plugin                      : "com.meituan.android.walle:plugin:$versions.walle",
-//
-//            //语言
-//            kotlin_stdlib_jdk7                : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
-//            kotlin_stdlib_jdk8                : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin",
-//
-//            //渠道包
-//            walle                             : "com.meituan.android.walle:library:$versions.walle",
-//
-//            support_design                    : "com.google.android.material:material:1.0.0",
-//
-//            //支持库
-//            //https://developer.android.com/jetpack/androidx/releases/activity
-//            annotations                       : "androidx.annotation:annotation:1.1.0",
-//            appcompat                         : "androidx.appcompat:appcompat:1.1.0",
-//            activity                          : "androidx.activity:activity:1.1.0",
-//            fragment                          : "androidx.fragment:fragment:1.2.5",
-//            arch_common                       : "androidx.arch.core:core-common:2.1.0",
-//            arch_runtime                      : "androidx.arch.core:core-runtime:2.1.0",
-//            androidx_core                     : "androidx.core:core:1.3.0",
-//
-//            // lifecycle
-//            lifecycle_common                  : "androidx.lifecycle:lifecycle-common:$versions.lifecycle",
-//            // ViewModel
-//            lifecycle_viewmodel               : "androidx.lifecycle:lifecycle-viewmodel:$versions.lifecycle",
-//            // Saved state module for ViewModel
-//            lifecycle_viewmodel_savedstate    : "androidx.lifecycle:lifecycle-viewmodel-savedstate:$versions.lifecycle",
-//            // LiveData
-//            lifecycle_livedata                : "androidx.lifecycle:lifecycle-livedata:$versions.lifecycle",
-//            // Lifecycles only (without ViewModel or LiveData)
-//            lifecycle_runtime                 : "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle",
-//            // Annotation processor
-//            lifecycle_compiler                : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
-//            // alternately - if using Java8, use the following instead of lifecycle-compiler
-//            lifecycle_java8                   : "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle",
-//            // optional - helpers for implementing LifecycleOwner in a Service
-//            lifecycle_service                 : "androidx.lifecycle:lifecycle-service:$versions.lifecycle",
-//            // optional - ReactiveStreams support for LiveData
-//            lifecycle_reactivestreams         : "androidx.lifecycle:lifecycle-reactivestreams:$versions.lifecycle",
-//            // optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
-//            lifecycle_process                 : "androidx.lifecycle:lifecycle-process:$versions.lifecycle",
-//            legacy_support_v4                 : "androidx.legacy:legacy-support-v4:1.0.0",
-//
-//            work_runtime                      : "androidx.work:work-runtime:2.3.4",
-//            work_runtime_ktx                  : "androidx.work:work-runtime-ktx:2.3.4",
-//            localbroadcastmanager             : "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0",
-//            //分包
-//            multidex                          : "androidx.multidex:multidex:2.0.1",
-//            multidex_instrumentation          : "androidx.multidex:multidex-instrumentation:2.0.1",
-//
-//
-//            //ui
-//            constraint_layout                 : "androidx.constraintlayout:constraintlayout:2.0.1",//约束布局
-//            recyclerview                      : "androidx.recyclerview:recyclerview:1.1.0",
-//            recyclerview_selection            : "androidx.recyclerview:recyclerview-selection:1.1.0",
-//            viewpager                         : "androidx.viewpager:viewpager:1.0.0",
-//            viewpager2                        : "androidx.viewpager2:viewpager2:1.0.0",
-//            cardview                          : "androidx.cardview:cardview:1.0.0",
-//            coordinatorlayout                 : "androidx.coordinatorlayout:coordinatorlayout:1.1.0",
-//            drawerlayout                      : "androidx.drawerlayout:drawerlayout:1.1.0",
-//            slidingpanelayout                 : "androidx.slidingpanelayout:slidingpanelayout:1.1.0",
-//            transition                        : "androidx.transition:transition:1.3.1",
-//
-//            //room
-//            room_runtime                      : "androidx.room:room-runtime:$versions.room",
-//            room_compiler                     : "androidx.room:room-compiler:$versions.room",
-//            room_rxjava2                      : "androidx.room:room-rxjava2:$versions.room",
-//
-//            //dbflow
-//            dbflow                            : "com.github.Raizlabs.DBFlow:dbflow::$versions.dbflow",
-//            dbflow_processor                  : "com.github.Raizlabs.DBFlow:dbflow-processor::$versions.dbflow",
-//            dbflow_core                       : "com.github.Raizlabs.DBFlow:dbflow-core::$versions.dbflow",
-//
-//            //权限
-//            permission                        : "com.yanzhenjie:permission:2.0.3",
-//
-//            //框架
-//            //https://github.com/google/dagger
-//            dagger                            : "com.google.dagger:dagger:$versions.dagger",
-//            dagger_compiler                   : "com.google.dagger:dagger-compiler:$versions.dagger",
-//            dagger_android                    : "com.google.dagger:dagger-android:$versions.dagger",
-//            dagger_android_support            : "com.google.dagger:dagger-android-support:$versions.dagger",
-//            dagger_android_compiler           : "com.google.dagger:dagger-android-processor:$versions.dagger",
-//            dagger_hilt                       : "com.google.dagger:hilt-android:$versions.dagger_hilt",
-//            dagger_hilt_compiler              : "com.google.dagger:hilt-android-compiler:$versions.dagger_hilt",
-//
-//
-//            //https://github.com/ReactiveX/RxJava
-//            rxjava2                           : "io.reactivex.rxjava2:rxjava:2.2.19",
-//            rxandroid                         : "io.reactivex.rxjava2:rxandroid:2.1.1",
-//
-//            autodispose                       : "com.uber.autodispose:autodispose:$versions.autodispose",
-//            autodispose_android               : "com.uber.autodispose:autodispose-android:$versions.autodispose",
-//            autodispose_android_archcomponents: "com.uber.autodispose:autodispose-android-archcomponents:$versions.autodispose",
-//
-//            //页面路由
-//            //https://github.com/alibaba/ARouter
-//            arouter_api                       : "com.alibaba:arouter-api:1.5.0",
-//            arouter_compiler                  : "com.alibaba:arouter-compiler:1.2.2",
-//
-//            //注解
-//            //https://github.com/JakeWharton/butterknife
-//            butterknife                       : "com.jakewharton:butterknife:$versions.butterknife",
-//            butterknife_compiler              : "com.jakewharton:butterknife-compiler:$versions.butterknife",
-//
-//            //事件
-//            //https://github.com/greenrobot/EventBus
-//            eventbus                          : "org.greenrobot:eventbus:3.2.0",
-//
-//            //网络
-//            //https://github.com/square/retrofit
-//            retrofit2                         : "com.squareup.retrofit2:retrofit:$versions.retrofit2",
-//            retrofit2_gson                    : "com.squareup.retrofit2:converter-gson:$versions.retrofit2",
-//            retrofit2_adapter_rxjava2         : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit2",
-//            retrofit2_adapter_rxjava          : "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit2",
-//            //https://github.com/square/okhttp
-//            okhttp                            : "com.squareup.okhttp3:okhttp:$versions.okhttp",
-//            okhttp_logging_interceptor        : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
-//
-//            //https://github.com/google/gson
-//            gson                              : "com.google.code.gson:gson:2.8.6",
-//            fastjson                          : "com.alibaba:fastjson:1.1.70.android",
-//            bolts                             : "com.parse.bolts:bolts-tasks:1.4.0",
-//            PersistentCookieJar               : "com.github.franmontiel:PersistentCookieJar:v1.0.1",
-//
-//            //图片加载
-//            //https://github.com/facebook/fresco
-//            fresco                            : "com.facebook.fresco:fresco:$versions.fresco",
-//            fresco_animated_gif               : "com.facebook.fresco:animated-gif:$versions.fresco",
-//            fresco_animated_webp              : "com.facebook.fresco:animated-webp:$versions.fresco",
-//            fresco_webpsupport                : "com.facebook.fresco:webpsupport:$versions.fresco",
-//            fresco_imagepipeline_okhttp3      : "com.facebook.fresco:imagepipeline-okhttp3:$versions.fresco",
-//
-//            //https://github.com/bumptech/glide
-//            glide                             : "com.github.bumptech.glide:glide:4.11.0",
-//            glide_compile                     : "com.github.bumptech.glide:compiler:4.11.0",
-//            glide_integration                 : "com.github.bumptech.glide:okhttp3-integration:4.11.0",
-//            glide_bitmappool                  : "com.amitshekhar.android:glide-bitmap-pool:0.0.1",
-//            glide_transformations             : "jp.wasabeef:glide-transformations:2.0.1",
-//            glidepalette                      : "com.github.florent37:glidepalette:2.1.2",
-//
-//            //监控内存泄露
-//            //https://github.com/square/leakcanary
-//            leakcanary_android                : "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary",
-//            leakcanary_android_no_op          : "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3",
-//            //测试
-//            stetho                            : "com.facebook.stetho:stetho:$versions.stetho",
-//            stetho_okhttp3                    : "com.facebook.stetho:stetho-okhttp3:$versions.stetho",
-//            stetho_urlconnection              : "com.facebook.stetho:stetho-urlconnection:$versions.stetho",
-//
-//            //日志
-//            timber                            : "com.jakewharton.timber:timber:4.7.1",
-//            logger                            : "com.orhanobut:logger:2.2.0",
-//
-//            auto_value_annotations            : "com.google.auto.value:auto-value-annotations:$versions.auto_value",
-//            auto_value_compile                : "com.google.auto.value:auto-value:$versions.auto_value",
-//
-//            lombok                            : "org.projectlombok:lombok:1.18.22",
-//
-//            //工具
-//            base                              : "com.llj:lib-base:0.0.11",
-//            base_event                        : "com.llj:lib-base-event:0.0.1",
-//            base_mvvm                         : "com.llj:lib-base-mvvm:0.0.11",
-//            net                               : "com.llj:lib-net:0.0.9",
-//            component_annotation              : "com.llj:lib-component-annotation:0.0.1",
-//            component_api                     : "com.llj:lib-component-api:0.0.1",
-//            component_compiler                : "com.llj:lib-component-compiler:0.0.1",
-//            imageLoader                       : "com.llj:lib-image-loader:0.0.4",
-//            imageSelect                       : "com.llj:lib-image-select:0.0.3",
-//            socialization                     : "com.llj:lib-socialization:$versions.socialization",
-//            socialization_qq                  : "com.llj:lib-socialization-qq:$versions.socialization",
-//            socialization_sina                : "com.llj:lib-socialization-sina:$versions.socialization",
-//            socialization_wechat              : "com.llj:lib-socialization-wechat:$versions.socialization",
-//            statelayout                       : "com.llj:lib-statelayout:0.0.1",
-//            universalAdapter                  : "com.llj.adapter:lib-universalAdapter:1.0.14",
-//            utils                             : "com.llj:lib-utils:0.0.6",
-//            statusbar                         : "com.llj:lib-statusbar:0.0.1",
-//            webView                           : "com.llj:lib-webview:0.0.2",
-//            map                               : "",
-//            oss                               : "",
-//            zbar                              : "",
-//            zxing                             : "",
-//
-//            //换肤
-//            //https://github.com/ximsfei/Android-skin-support
-//            skin_support                      : "skin.support:skin-support:$versions.skin",
-//            skin_support_design               : "skin.support:skin-support-design:$versions.skin",
-//            skin_support_cardview             : "skin.support:skin-support-cardview:$versions.skin",
-//            skin_support_constraint_layout    : "skin.support:skin-support-constraint-layout:$versions.skin",
-//
-//            //ui
-//            SmartRefreshLayout                : "com.scwang.smartrefresh:SmartRefreshLayout:$versions.smartrefresh",//下拉刷新
-//            SmartRefreshHeader                : "com.scwang.smartrefresh:SmartRefreshHeader:$versions.smartrefresh",
-//            MagicIndicator                    : "com.github.hackware1993:MagicIndicator:1.6.0",//tab
-//            AutoScrollViewPager               : "com.github.demoNo:AutoScrollViewPager:v1.0.2",//轮播
-//
-//            vlayout                           : "com.alibaba.android:vlayout:1.2.36",//列表
-//            ChipsLayoutManager                : "com.beloo.widget:ChipsLayoutManager:0.3.7@aar",//tags
-//            BasePopup                         : "com.github.razerdp:BasePopup:2.2.1",//window弹框
-//            BasePopup_support                 : "com.github.razerdp:BasePopup-compat-support:2.2.1",//window弹框
-//            circleprogressbar                 : "com.dinuscxj:circleprogressbar:1.3.0",//圆形进度
-//            pickerView                        : "com.contrarywind:Android-PickerView:3.2.7",//选择城市
-//            blurry                            : "jp.wasabeef:blurry:3.0.0",//高斯模糊
-//            ExpandableTextView                : "cn.carbs.android:ExpandableTextView:1.0.3",//折叠TextView
-//            badgeview                         : "q.rorbin:badgeview:1.1.3",//标签
-//            hyman_flowlayout                  : "com.hyman:flowlayout-lib:1.1.2",//流式布局
-//            lankton_flowlayout                : "cn.lankton:flowlayout:3.1.0",//支持单行流布局
-//            fillblankview                     : "com.xw.repo:fillblankview:2.1@aar",//密码输入
-//            gpuimage                          : "jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1",//滤镜
-//    ]
-}
-
 
 def addRepos(RepositoryHandler handler) {
     handler.maven { url uri("./repo") }//插件
     handler.mavenLocal()
-    handler.google()
+
+
     handler.jcenter()
     handler.mavenCentral()
+    handler.google()
     handler.maven { url "https://plugins.gradle.org/m2/" }
 
+
     //https://maven.aliyun.com/mvn/guide
+    //central仓和jcenter仓的聚合仓
     handler.maven { url "https://maven.aliyun.com/repository/public" }
     handler.maven { url "https://maven.aliyun.com/repository/google" }
     handler.maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
@@ -286,23 +31,19 @@ def addRepos(RepositoryHandler handler) {
     //本地的maven仓库，需要maven格式的包
     //工程中的lib文件夹，依赖aar和jar文件
 
-//    handler.maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    //handler.maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     handler.maven { url "https://jitpack.io" }
 
     //微博的maven地址
     handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
 //    handler.flatDir { dirs "../lib", "../libs" }
-//    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
-//    handler.maven { url "https://dl.bintray.com/liulinjie1990823/gradle/" }
+    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
+    handler.maven { url "https://dl.bintray.com/liulinjie1990823/gradle/" }
 
-    handler.maven {
-        // All of React Native (JS, Android binaries) is installed from npm
-        url "$rootDir/node_modules/react-native/android"
-    }
-    handler.maven {
-        // Android JSC is installed from npm
-        url("$rootDir/node_modules/jsc-android/dist")
-    }
+    // All of React Native (JS, Android binaries) is installed from npm
+    handler.maven { url "$rootDir/node_modules/react-native/android" }
+    // Android JSC is installed from npm
+    handler.maven { url("$rootDir/node_modules/jsc-android/dist") }
 }
 
 ext.addRepos = this.&addRepos

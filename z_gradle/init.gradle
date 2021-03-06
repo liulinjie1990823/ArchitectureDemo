@@ -79,15 +79,15 @@ ext.buglyId = properties.getProperty("buglyId")
 //同步android机代理任务
 task syncAndroidIp(type: Exec) {
     description '设置android端ip代理'
-    group 'syncAndroidIp'
-    workingDir "$rootProject.projectDir/python"
+    group 'llj'
+    workingDir "$rootProject.projectDir/z_python"
     commandLine './sync_android_ip.py'
 }
 
 
 task repoAar(type: Exec) {
     description '打包aar'
-    group 'syncAndroidIp'
+    group 'llj'
     workingDir "$rootProject.projectDir"
     commandLine 'python3', 'repo_aar.py'
 }

@@ -4,12 +4,14 @@ import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateHandle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.llj.application.router.CRouter
 import com.llj.architecturedemo.MainMvcBaseActivity
 import com.llj.architecturedemo.databinding.ActivitySavedStateBinding
-import com.llj.architecturedemo.vm.MainContractViewModel
 import timber.log.Timber
 
 /**
@@ -29,7 +31,35 @@ class SavedStateActivity : MainMvcBaseActivity<ActivitySavedStateBinding>() {
     //发起请求
   }
 
+  fun transform(color: String?): Int {
+    return when (color) {
+      null -> 0
+      "Red" -> 0
+      "Green" -> 1
+      "Blue" -> 2
+      else -> throw IllegalArgumentException("Invalid color param value")
+    }
+  }
+
+  object Resource {
+    val name = "Name"
+  }
+
   override fun initViews(savedInstanceState: Bundle?) {
+
+    val items = mutableListOf("apple", "banana", "kiwifruit", null)
+
+    items.filter { !it.isNullOrEmpty() }.map { }
+
+    items[0]?.let { print(it) } ?: { print("") }
+
+    if ("john@example.com" in items) {
+    }
+
+    val map = hashMapOf("a" to 1, "b" to 2, "c" to 3)
+    for ((k, v) in map) {
+      println("$k -> $v")
+    }
 
     val name = mViewModel.mHandle.get<String>(SavedStateViewModel.USER_NAME)
     Timber.tag(mTagLog).e("name:%s", nullToEmpty(name))

@@ -88,8 +88,8 @@ buildscript {
             classpath 'com.frogermcs.androiddevmetrics:androiddevmetrics-plugin:0.7'
         }
         //排除jar中某个类插件
-        classpath "com.github.nekocode:JarFilterPlugin:2.4"
-        classpath 'com.github.yanbober:android-build-filter-gradle-plugin:1.0.1'
+//        classpath "com.github.nekocode:JarFilterPlugin:2.4"
+//        classpath 'com.github.yanbober:android-build-filter-gradle-plugin:1.0.1'
         classpath 'coder.siy:exclude-dependencies-plugin:1.0.0'
 
         //detekt
@@ -104,6 +104,8 @@ allprojects {
 
     //强制使依赖版本
     configurations.all {
+        //只有全局才有效，不知道为啥
+        exclude group:'com.facebook.fbjni', module: 'fbjni'
         resolutionStrategy {
             force Deps.okhttp
             force Deps.gson
