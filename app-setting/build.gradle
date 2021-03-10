@@ -1,12 +1,10 @@
 android {
-
     resourcePrefix "setting_"
 }
 
 
 dependencies {
-
-
+    implementation project(':flutter')
 }
 
 

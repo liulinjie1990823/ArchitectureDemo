@@ -75,6 +75,4 @@ import dagger.android.support.AndroidSupportInjectionModule
       AndroidInjectionModule::class,
       AndroidSupportInjectionModule::class,
     ])
-interface MainComponent : IInject {
-
-}
+interface MainComponent : IInject

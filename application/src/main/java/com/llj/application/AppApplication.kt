@@ -77,22 +77,12 @@ open class AppApplication : Application(), ReactApplication, HasAndroidInjector 
             val moduleService: ModuleService = ARouter.getInstance().build(data.getModuleName())
                 .navigation() as ModuleService
             moduleService.call(data, IModule.INJECT_ACTIVITY, null)
-//            CC.obtainBuilder(data.getModuleName())
-//                .setContext(data)
-//                .setActionName(IModule.INJECT_ACTIVITY)
-//                .build()
-//                .call()
           }
           is MvcBaseActivity<*> -> {
             //调用IModule中的对应action
             val moduleService: ModuleService = ARouter.getInstance().build(data.getModuleName())
                 .navigation() as ModuleService
             moduleService.call(data, IModule.INJECT_ACTIVITY, null)
-//            CC.obtainBuilder(data.getModuleName())
-//                .setContext(data)
-//                .setActionName(IModule.INJECT_ACTIVITY)
-//                .build()
-//                .call()
           }
           is MvpBaseFragment<*, *> -> {
             //调用IModule中的对应action
@@ -102,12 +92,6 @@ open class AppApplication : Application(), ReactApplication, HasAndroidInjector 
             arrayMap["fragment"] = data.tag
             moduleService.call(data.context!!, IModule.INJECT_FRAGMENT, arrayMap)
 
-//            CC.obtainBuilder(data.getModuleName())
-//                .setContext(data.context)
-//                .addParam("fragment", data.tag)
-//                .setActionName(IModule.INJECT_FRAGMENT)
-//                .build()
-//                .call()
           }
         }
       }

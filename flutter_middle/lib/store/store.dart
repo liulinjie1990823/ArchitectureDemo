@@ -59,7 +59,7 @@ class BlocStore {
     return BlocConsumer<B, S>(
         listener: listener,
         builder: builder,
-        bloc: bloc,
+        cubit: bloc,
         buildWhen: buildWhen,
         listenWhen: listenWhen);
   }

@@ -10,10 +10,5 @@ import dagger.Module;
  */
 @Module
 public class SettingActivityModule {
-    /**
-     *  提供给Presenter的参数用的view
-     * @param activity activity中inject的对象
-     * @return
-     */
 
 }

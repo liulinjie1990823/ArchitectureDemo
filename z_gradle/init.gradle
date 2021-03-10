@@ -28,21 +28,6 @@ println("ext.buildTypeDebug:" + ext.buildTypeDebug)
 
 ext.applicationId = properties.getProperty("applicationId")
 
-ext.useComponent = properties.getProperty("useComponent") == "true"
-ext.useMaven = properties.getProperty("useMaven") == "true"
-ext.usePluginDexcount = properties.getProperty("usePluginDexcount") == "true"
-ext.usePluginAspectjx = properties.getProperty("usePluginAspectjx") == "true"
-ext.usePluginCodeInject = properties.getProperty("usePluginCodeInject") == "true"
-ext.usePluginApkUpload = properties.getProperty("usePluginApkUpload") == "true"
-ext.usePluginDoraemonkit = properties.getProperty("usePluginDoraemonkit") == "true"
-ext.usePluginMatrix = properties.getProperty("usePluginMatrix") == "true"
-ext.useOld = properties.getProperty("useOld") == "true"
-ext.useNew = properties.getProperty("useNew") == "true"
-ext.usePluginMethodTrace = properties.getProperty("usePluginMethodTrace") == "true"
-ext.usePluginOkbuck = properties.getProperty("usePluginOkbuck") == "true"
-ext.usePluginAndroidDevMetrics = properties.getProperty("usePluginAndroidDevMetrics") == "true"
-ext.useFlutterSrc = properties.getProperty("useFlutterSrc") == "true"
-
 //蒲公英相关秘钥
 ext.pgyDebugApiKey = properties.getProperty("pgyDebugApiKey")
 ext.pgyDebugUserKey = properties.getProperty("pgyDebugUserKey")
@@ -62,7 +47,6 @@ ext.pgyBuildDesc = properties.getProperty("pgyLocalBuildDesc")
 //钉钉token
 ext.dingTalkDebugAccessToken = properties.getProperty("dingTalkDebugAccessToken")
 
-
 //七牛秘钥
 ext.kodoAccessKey = properties.getProperty("kodoAccessKey")
 ext.kodoSecretKey = properties.getProperty("kodoSecretKey")
@@ -75,6 +59,25 @@ ext.sinaId = properties.getProperty("sinaId")
 ext.sinaUrl = properties.getProperty("sinaUrl")
 ext.buglyId = properties.getProperty("buglyId")
 
+ext.usePluginDexcount = properties.getProperty("usePluginDexcount") == "true"
+ext.usePluginAspectjx = properties.getProperty("usePluginAspectjx") == "true"
+ext.usePluginCodeInject = properties.getProperty("usePluginCodeInject") == "true"
+ext.usePluginApkUpload = properties.getProperty("usePluginApkUpload") == "true"
+ext.usePluginDoraemonkit = properties.getProperty("usePluginDoraemonkit") == "true"
+ext.usePluginMatrix = properties.getProperty("usePluginMatrix") == "true"
+ext.usePluginMethodTrace = properties.getProperty("usePluginMethodTrace") == "true"
+ext.usePluginOkbuck = properties.getProperty("usePluginOkbuck") == "true"
+ext.usePluginAndroidDevMetrics = properties.getProperty("usePluginAndroidDevMetrics") == "true"
+
+
+ext.useOld = properties.getProperty("useOld") == "true"
+ext.useNew = properties.getProperty("useNew") == "true"
+ext.useComponent = properties.getProperty("useComponent") == "true"
+ext.useMaven = properties.getProperty("useMaven") == "true"
+ext.useFlutterSrc = properties.getProperty("useFlutterSrc") == "true"
+ext.useFlutterSrc = properties.getProperty("useFlutterSrc") == "true"
+ext.useReactNative = properties.getProperty("useReactNative") == "true"
+ext.enableHermes = properties.getProperty("enableHermes") == "false"
 
 //同步android机代理任务
 task syncAndroidIp(type: Exec) {
@@ -85,6 +88,7 @@ task syncAndroidIp(type: Exec) {
 }
 
 
+//打包aar的脚本
 task repoAar(type: Exec) {
     description '打包aar'
     group 'llj'

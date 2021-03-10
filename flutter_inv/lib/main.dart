@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boost/flutter_boost.dart';
-import 'package:flutter_inv/inv/pages/page_inv/invitation.dart';
 import 'package:flutter_inv/inv/router/router.dart';
 import 'package:flutter_middle/api/api_manager.dart';
+
 import 'simple_page_widgets.dart';
 
 void main() {

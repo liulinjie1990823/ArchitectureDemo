@@ -83,7 +83,13 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
     val layoutId = layoutId()
     val layoutView = layoutView()
 
-    if (layoutId != 0) {
+    if (layoutView != null) {
+      //这里先判断layoutView，因为layoutView()方法中有可能从layoutId()和layoutViewBinding()中拿数据，如果先判断layoutId则MvcBaseToolbarActivity的layoutView()会失效
+      setContentView(layoutView)
+      mUnBinder = ButterKnife.bind(this)
+      Timber.tag(mTagLog).i("Lifecycle %s（%d）layoutView success", mTagLog, hashCode())
+
+    } else if (layoutId != 0) {
 
       val currentMill1 = System.currentTimeMillis()
       val inflateView = LayoutInflater.from(mContext).inflate(layoutId, null)
@@ -93,12 +99,6 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
       setContentView(inflateView)
       mUnBinder = ButterKnife.bind(this)
       Timber.tag(mTagLog).i("Lifecycle %s（%d）layoutId success", mTagLog, hashCode())
-
-    } else if (layoutView != null) {
-
-      setContentView(layoutView)
-      mUnBinder = ButterKnife.bind(this)
-      Timber.tag(mTagLog).i("Lifecycle %s（%d）layoutView success", mTagLog, hashCode())
 
     } else {
 

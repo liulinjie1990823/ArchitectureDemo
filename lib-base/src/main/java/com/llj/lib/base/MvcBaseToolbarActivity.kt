@@ -3,6 +3,7 @@ package com.llj.lib.base
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewbinding.ViewBinding
@@ -24,25 +25,43 @@ abstract class MvcBaseToolbarActivity<V : ViewBinding> : MvcBaseActivity<V>() {
   lateinit var mVDivide: View
 
 
+  override fun layoutId(): Int {
+    return 0
+  }
+
   override fun layoutView(): View? {
     val mRootView = layoutInflater.inflate(R.layout.mvc_base_title_activity, null) as ViewGroup
 
     applyNavigationInsets(mRootView)
 
     if (layoutId() != 0) {
-      mClToolbar = mRootView.findViewById(R.id.cl_toolbar)
-      mIvTbClose = mRootView.findViewById(R.id.iv_close)
-      mTvTbTitle = mRootView.findViewById(R.id.tv_title)
-      mTvTbRight = mRootView.findViewById(R.id.tv_right)
-      mIvTbRight = mRootView.findViewById(R.id.iv_right)
-      mVDivide = mRootView.findViewById(R.id.v_divide)
-      initToolbar()
+      initToolbar(mRootView)
       layoutInflater.inflate(layoutId(), mRootView, true)
+    } else {
+      var layoutViewBinding = layoutViewBinding()
+      if (layoutViewBinding == null) {
+        //如果忘记设置则使用反射设置
+        layoutViewBinding = reflectViewBinder(layoutInflater, mTagLog)
+      }
+      if (layoutViewBinding != null) {
+        mViewBinder = layoutViewBinding
+        mRootView.addView(mViewBinder.root, LinearLayout.LayoutParams(-1, -1))
+      }
     }
     return mRootView
   }
 
-  private fun initToolbar() {
+  private fun initToolbar(view: View) {
+
+    mClToolbar = view.findViewById(R.id.cl_toolbar)
+    mIvTbClose = view.findViewById(R.id.iv_close)
+    mTvTbTitle = view.findViewById(R.id.tv_title)
+    mTvTbRight = view.findViewById(R.id.tv_right)
+    mIvTbRight = view.findViewById(R.id.iv_right)
+    mVDivide = view.findViewById(R.id.v_divide)
+
+
+    //根据配置文件设置toolbar
     val toolbarConfig = AppManager.getInstance().toolbarConfig
     if (toolbarConfig != null) {
       if (toolbarConfig.toolbarBackgroundColorRes >= 0) {

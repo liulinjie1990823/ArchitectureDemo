@@ -18,7 +18,7 @@ def addRepos(RepositoryHandler handler) {
     handler.jcenter()
     handler.mavenCentral()
     handler.google()
-    handler.maven { url "https://plugins.gradle.org/m2/" }
+//    handler.maven { url "https://plugins.gradle.org/m2/" }
 
 
     //https://maven.aliyun.com/mvn/guide

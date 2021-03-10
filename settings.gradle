@@ -77,26 +77,26 @@ if (!useMaven) {
 //        'flutter_main/.android/include_flutter.groovy'
 //))
 //单独运行里面的dart，需要include
-include ':flutter_base'
-include ':flutter_middle'
-include ':flutter_login'
-include ':flutter_main'
+//include ':flutter_base'
+//include ':flutter_middle'
+//include ':flutter_login'
+//include ':flutter_main'
 
-if(useFlutterSrc){
-    setBinding(new Binding([gradle: this]))
-    evaluate(new File(
-            settingsDir,
-            'flutter_integrate/.android/include_flutter.groovy'
-    ))
-}
-include ':flutter_integrate'
-include ':flutter_inv'
+//if (useFlutterSrc){
+//    setBinding(new Binding([gradle: this]))
+//    evaluate(new File(
+//            settingsDir,
+//            'flutter_integrate/.android/include_flutter.groovy'
+//    ))
+//}
+//include ':flutter_integrate'
+//include ':flutter_inv'
 
-//setBinding(new Binding([gradle: this]))
-//evaluate(new File(
-//        settingsDir,
-//        'flutter_setting/.android/include_flutter.groovy'
-//))
+setBinding(new Binding([gradle: this]))
+evaluate(new File(
+        settingsDir,
+        'flutter_setting/.android/include_flutter.groovy'
+))
 //include ':flutter_setting'
 
 //setBinding(new Binding([gradle: this]))

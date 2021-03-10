@@ -4,7 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_setting/setting/application.dart';
 import 'package:flutter_setting/setting/pages/page_setting/setting.dart';
-import 'package:flutter_setting/setting/route/router.dart';
+import 'package:flutter_setting/setting/route/routes.dart';
 
 void main() => runApp(_widgetForRoute(window.defaultRouteName));
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
 //页面跳转
 Widget _widgetForRoute(String route) {
-  final router = Router();
+  final router = FluroRouter();
   Routes.configureRoutes(router);
   Application.router = router;
 
