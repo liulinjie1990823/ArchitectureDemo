@@ -26,7 +26,7 @@ object Versions {
   const val room = "2.2.6"
   const val sqlite = "2.1.0"
 
-  const val dagger = "2.32"
+  const val dagger = "2.33"
   const val dagger_hilt = "2.29-alpha"
   const val autodispose = "1.4.0"
 
@@ -53,6 +53,7 @@ object Versions {
 object Deps {
 
   //插件
+  //https://developer.android.com/studio/releases/gradle-plugin#updating-gradle
   const val android_gradle_plugin_old = "com.android.tools.build:gradle:3.2.1"
   const val android_gradle_plugin = "com.android.tools.build:gradle:3.6.3"
   const val android_gradle_plugin_new = "com.android.tools.build:gradle:4.0.2"
@@ -70,6 +71,7 @@ object Deps {
   //kotlinx库
   //https://developer.android.com/kotlin/ktx?hl=zh-cn#modules
   //支持库
+  //https://developer.android.com/jetpack/androidx/versions
   //https://developer.android.com/jetpack/androidx/releases/activity
   const val androidx_activity = "androidx.activity:activity:1.2.0"
   const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.2.0"
@@ -79,8 +81,8 @@ object Deps {
   const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.3.0"
   const val androidx_arch_common = "androidx.arch.core:core-common:2.1.0"
   const val androidx_arch_runtime = "androidx.arch.core:core-runtime:2.1.0"
-  const val androidx_core = "androidx.core:core:1.3.1"
-  const val androidx_core_ktx = "androidx.core:core-ktx:1.3.1"
+  const val androidx_core = "androidx.core:core:1.3.2"
+  const val androidx_core_ktx = "androidx.core:core-ktx:1.3.2"
   const val androidx_collection = "androidx.collection:collection:1.1.0"
 
 
@@ -113,22 +115,22 @@ object Deps {
   const val emoji = "androidx.emoji:emoji:1.1.0"
   const val exifinterface = "androidx.exifinterface:exifinterface:1.3.1"
   const val localbroadcastmanager = "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
-  const val navigation_fragment = "androidx.navigation:navigation-fragment:2.3.1"
-  const val navigation_ui = "androidx.navigation:navigation-ui:2.3.1"
+  const val navigation_fragment = "androidx.navigation:navigation-fragment:2.3.3"
+  const val navigation_ui = "androidx.navigation:navigation-ui:2.3.3"
   const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
   const val recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.1.0"
   const val savedstate = "androidx.savedstate:savedstate:1.1.0"
   const val savedstate_ktx = "androidx.savedstate:savedstate-ktx:1.1.0"
   const val slidingpanelayout = "androidx.slidingpanelayout:slidingpanelayout:1.1.0"
   const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-  const val transition = "androidx.transition:transition:1.3.1"
+  const val transition = "androidx.transition:transition:1.4.0"
   const val vectordrawable = "androidx.vectordrawable:vectordrawable:1.1.0"
   const val vectordrawable_animated = "androidx.vectordrawable:vectordrawable-animated:1.1.0"
   const val viewpager = "androidx.viewpager:viewpager:1.0.0"
   const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
-  const val work_runtime = "androidx.work:work-runtime:2.4.0"
-  const val work_runtime_ktx = "androidx.work:work-runtime-ktx:2.4.0"
-  const val work_runtime_rxjava2 = "androidx.work:work-rxjava2:2.4.0"
+  const val work_runtime = "androidx.work:work-runtime:2.5.0"
+  const val work_runtime_ktx = "androidx.work:work-runtime-ktx:2.5.0"
+  const val work_runtime_rxjava2 = "androidx.work:work-rxjava2:2.5.0"
 
 
   //room
@@ -156,7 +158,7 @@ object Deps {
 
   //https://github.com/ReactiveX/RxJava
   const val rxjava = "io.reactivex:rxjava:1.2.3"
-  const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.20"
+  const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.21"
   const val rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
 
 

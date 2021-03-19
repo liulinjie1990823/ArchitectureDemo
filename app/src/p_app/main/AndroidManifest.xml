@@ -74,6 +74,7 @@
     <activity android:name=".ui.activity.RecycleViewActivity" />
     <activity android:name=".ui.activity.OpenCvImageActivity" />
     <activity android:name=".ui.activity.SavedStateActivity" />
+    <activity android:name=".ui.activity.NotificationActivity" />
     <activity android:name=".ui.activity.ActivityAnimActivity">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />

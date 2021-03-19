@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_toLeftOf="@+id/icon"
+      android:layout_weight="1"
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="周大福时尚大表盘情侣手表周大福大表盘情侣手表敌法表周大福大表盘情侣手表"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        android:textStyle="normal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="#FFAD26" />
+
+
+      <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="2"
+        android:text="周大福时尚大表盘情侣手表周大福大表盘情侣手表敌法表周大福大表盘情侣手表"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        android:textStyle="normal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:background="#FFAD26" />
+
+
+    </LinearLayout>
+
+
+  </LinearLayout>
+  <ImageView
+    android:id="@+id/iv_large_icon"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:layout_alignParentEnd="true"
+    android:background="#FFAD26"
+    android:scaleType="centerCrop"
+    android:visibility="visible"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+      android:id="@+id/tv_confirm"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="#FFAD26"
+      android:ellipsize="end"
+      android:gravity="center"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="确定"
+      android:textColor="@color/white"
+      android:textSize="34dp"
+      android:textStyle="normal"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/tv_content" />
+
+    <TextView
+      android:id="@+id/tv_cancel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="right"
+      android:background="#FFAD26"
+      android:ellipsize="end"
+      android:gravity="center"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="取消"
+      android:textColor="@color/white"
+      android:textSize="34dp"
+      android:textStyle="normal"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/tv_content" />
+  </FrameLayout>
+</LinearLayout>

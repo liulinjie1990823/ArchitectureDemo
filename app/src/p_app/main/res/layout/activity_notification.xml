@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/white">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="#FFAD26"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="权限检查"
+      android:textColor="@color/black"
+      android:textSize="30dp"
+      android:textStyle="normal" />
+
+    <TextView
+      android:id="@+id/tv_check_notification"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="检查通知总体是否开启"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+    <TextView
+      android:id="@+id/tv_check_notification_channel"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="检查某个通知渠道是否开启"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="#FFAD26"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="基础通知"
+      android:textColor="@color/black"
+      android:textSize="30dp"
+      android:textStyle="normal" />
+
+    <TextView
+      android:id="@+id/tv_small_icon"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="普通文本小图标通知"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+    <TextView
+      android:id="@+id/tv_large_icon"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="普通文本大图标通知"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+    <TextView
+      android:id="@+id/tv_custom_content_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="customContentView通知"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+    <TextView
+      android:id="@+id/tv_custom_big_content_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="customBigContentView通知"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="#FFAD26"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="需要api 16"
+      android:textColor="@color/black"
+      android:textSize="30dp"
+      android:textStyle="normal" />
+    <TextView
+      android:id="@+id/tv_big_text_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="长文本类型通知（BigTextStyle）"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+    <TextView
+      android:id="@+id/tv_big_picture_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="大图类型通知（BigPictureStyle）"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+    <TextView
+      android:id="@+id/tv_inbox_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="收件箱类型通知（InboxStyle）"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="#FFAD26"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="需要api 21"
+      android:textColor="@color/black"
+      android:textSize="30dp"
+      android:textStyle="normal" />
+
+    <TextView
+      android:id="@+id/tv_media_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="媒体类型通知（MediaStyle）"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+    <TextView
+      android:id="@+id/tv_head_up"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="可悬浮类型通知"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="#FFAD26"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="需要api 24"
+      android:textColor="@color/black"
+      android:textSize="30dp"
+      android:textStyle="normal" />
+
+    <TextView
+      android:id="@+id/tv_message_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="消息类型通知（MessageStyle）"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+    <TextView
+      android:id="@+id/tv_add_remote_input"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="可回复类型通知（addRemoteInput）"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+    <TextView
+      android:id="@+id/tv_decorated_custom_view_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="自定义view类型通知（DecoratedCustomViewStyle）"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+    <TextView
+      android:id="@+id/tv_decorated_media_custom_view_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="自定义媒体类型通知（DecoratedMediaCustomViewStyle）"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="#FFAD26"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="需要api 28"
+      android:textColor="@color/black"
+      android:textSize="30dp"
+      android:textStyle="normal" />
+    <TextView
+      android:id="@+id/textView100"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="含对方头像和图片的通知"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+
+  </LinearLayout>
+</ScrollView>

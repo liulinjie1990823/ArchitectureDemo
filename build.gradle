@@ -20,7 +20,7 @@ buildscript {
             classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.3'
         }
         //maven库更新检测
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.36.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.38.0'
 
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.29.1-alpha'
         //android-plugin插件
@@ -93,7 +93,7 @@ buildscript {
         classpath 'coder.siy:exclude-dependencies-plugin:1.0.0'
 
         //detekt
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.14.2"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0"
 
     }
 }
