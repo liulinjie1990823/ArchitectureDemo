@@ -50,6 +50,7 @@ subprojects {
 
 //                    ndk { abiFilters "armeabi-v7a" }
                     ndk { abiFilters "armeabi-v7a", "x86" }
+                    resValue("string", "main_path", mainPath)
                 }
 
                 buildTypes {

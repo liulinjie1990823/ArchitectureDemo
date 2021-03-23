@@ -38,7 +38,7 @@ class ConfigInit : SimpleAppInit() {
     jumpConfig.nativeScheme = CJump.SCHEME
     jumpConfig.loadingPath = CRouter.LOADING_LOADING_ACTIVITY
     jumpConfig.loginPath = CRouter.LOGIN_LOGIN_ACTIVITY
-    jumpConfig.mainPath = CRouter.APP_MAIN_PATH
+    jumpConfig.mainPath = mApplication.getString(R.string.main_path)
     AppManager.getInstance().jumpConfig = jumpConfig
 
     //用户信息配置

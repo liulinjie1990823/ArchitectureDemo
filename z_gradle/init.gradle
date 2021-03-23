@@ -21,10 +21,24 @@ try {
 
 //获取编译任务的buildType
 ext.buildTypeDebug = false
+String startTaskName = ""
 if (gradle.startParameter.taskNames.size() != 0) {
     ext.buildTypeDebug = gradle.startParameter.taskNames.get(0).contains("Debug")
+    startTaskName = gradle.startParameter.taskNames.get(0)
 }
-println("ext.buildTypeDebug:" + ext.buildTypeDebug)
+println("ext.buildTypeDebug:  " + ext.buildTypeDebug)
+println("startTaskName:  " + startTaskName)
+
+if (startTaskName.contains("app:")) {
+    ext.mainPath = "/main/MainActivity"
+} else if (startTaskName.contains("app-login:")) {
+    ext.mainPath = "/login/LoginActivity"
+} else if (startTaskName.contains("app-setting:")) {
+    ext.mainPath ="/setting/SettingActivity"
+}else {
+    ext.mainPath = "/main/MainActivity"
+}
+
 
 ext.applicationId = properties.getProperty("applicationId")
 
