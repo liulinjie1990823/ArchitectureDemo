@@ -1,18 +1,4 @@
 android {
-    compileSdkVersion App.compileSdkVersion
-    buildToolsVersion App.buildToolsVersion
-
-    defaultConfig {
-        applicationId App.applicationId
-        minSdkVersion App.minSdkVersion
-        targetSdkVersion App.targetSdkVersion
-
-        versionCode App.versionCode
-        versionName App.versionName
-
-        multiDexEnabled true
-    }
-
 
     sourceSets {
         def dirs = ['p_app', 'p_widget', 'p_mine', 'p_login']
@@ -38,14 +24,6 @@ android {
         }
     }
 
-    signingConfigs {
-        release {
-            storeFile file("../z_keystore/itotemHunbohui.keystore")
-            storePassword "itotem"
-            keyAlias "itotemapp"
-            keyPassword "itotem"
-        }
-    }
     flavorDimensions "free"
 
     productFlavors {
@@ -54,34 +32,6 @@ android {
         }
     }
 
-    buildTypes {
-        debug {
-            minifyEnabled false
-            shrinkResources false
-            signingConfig signingConfigs.release
-        }
-        beta {
-            minifyEnabled false
-            shrinkResources false
-            signingConfig signingConfigs.release
-        }
-        release {
-            debuggable false
-            minifyEnabled true
-            shrinkResources true
-            signingConfig signingConfigs.release
-        }
-    }
-    buildTypes.all { type ->
-        type.matchingFallbacks = ['debug']
-        type.proguardFiles = [getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro']
-    }
-
-
-    lintOptions {
-        abortOnError false
-        ignoreWarnings true
-    }
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->

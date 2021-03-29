@@ -61,11 +61,11 @@ class NotificationActivity : MainMvcBaseActivity<ActivityNotificationBinding>() 
       val intent = PendingIntent.getActivity(this, 0, Intent(this, MvvmRequestActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
 
       val customContentView = RemoteViews(packageName, R.layout.item_notification_custom)
-      customContentView.setTextViewText(R.id.tv_title, title)
+      customContentView.setTextViewText(R.id.tv_title, "customContentView" + title)
 
       val customBigContentView = RemoteViews(packageName, R.layout.item_notification_custom_big)
-      customBigContentView.setTextViewText(R.id.tv_title, title)
-      customBigContentView.setTextViewText(R.id.tv_content, content)
+      customBigContentView.setTextViewText(R.id.tv_title, "customBigContentView" + title)
+      customBigContentView.setTextViewText(R.id.tv_content, "customBigContentView" + content)
       customBigContentView.setImageViewBitmap(R.id.iv_large_icon, bigPicture)
       customBigContentView.setOnClickPendingIntent(R.id.tv_confirm, intent)
       customBigContentView.setOnClickPendingIntent(R.id.tv_cancel, intent)
@@ -119,6 +119,18 @@ class NotificationActivity : MainMvcBaseActivity<ActivityNotificationBinding>() 
             null
           }
 
+          val notification = getNotification(smallIcon, title, content, channelId, intent, largeIcon, null, customContentView).build()
+          notificationManager.notify(generateNotificationId(), notification)
+        }
+
+        R.id.tv_custom_content_view2 -> {
+          //setCustomContentView
+          val channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channelId(notificationManager, "活动通知3")
+          } else {
+            null
+          }
+
           val notification = getNotification(smallIcon, title, content, channelId, intent, largeIcon, null, customBigContentView).build()
           notificationManager.notify(generateNotificationId(), notification)
         }
@@ -130,6 +142,18 @@ class NotificationActivity : MainMvcBaseActivity<ActivityNotificationBinding>() 
             null
           }
           val notification = getNotification(smallIcon, title, content, channelId, intent, largeIcon, null, null, customContentView)
+              .build()
+          notificationManager.notify(generateNotificationId(), notification)
+        }
+
+        R.id.tv_custom_big_content_view2 -> {
+          //setCustomBigContentView
+          val channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channelId(notificationManager, "活动通知3")
+          } else {
+            null
+          }
+          val notification = getNotification(smallIcon, title, content, channelId, intent, largeIcon, null, null, customBigContentView)
               .build()
           notificationManager.notify(generateNotificationId(), notification)
         }
@@ -300,7 +324,9 @@ class NotificationActivity : MainMvcBaseActivity<ActivityNotificationBinding>() 
     mViewBinder.tvSmallIcon.setOnClickListener(value)
     mViewBinder.tvLargeIcon.setOnClickListener(value)
     mViewBinder.tvCustomContentView.setOnClickListener(value)
+    mViewBinder.tvCustomContentView2.setOnClickListener(value)
     mViewBinder.tvCustomBigContentView.setOnClickListener(value)
+    mViewBinder.tvCustomBigContentView2.setOnClickListener(value)
     mViewBinder.tvBigTextStyle.setOnClickListener(value)
     mViewBinder.tvBigPictureStyle.setOnClickListener(value)
     mViewBinder.tvInboxStyle.setOnClickListener(value)

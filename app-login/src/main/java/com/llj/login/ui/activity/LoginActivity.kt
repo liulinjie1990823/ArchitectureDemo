@@ -44,10 +44,6 @@ class LoginActivity : LoginMvcBaseActivity<LoginActivityLoginBinding>() {
   @Autowired(name = CRouter.AROUTER_FORWARD_PATH)
   lateinit var mForwardPath: String
 
-  override fun layoutId(): Int {
-    return R.layout.login_activity_login
-  }
-
   override fun initViews(savedInstanceState: Bundle?) {
     ARouter.getInstance().inject(this)
   }

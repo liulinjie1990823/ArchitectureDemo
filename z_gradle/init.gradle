@@ -3,7 +3,7 @@ if (project.name != project.rootProject.name) {
     return
 }
 
-println("Custome Configure (init.gradle)")
+println("Custome Configure (init.gradle)-------------------------------------")
 
 //先加载根目录下的local.properties文件
 Properties properties = new Properties()

@@ -7,7 +7,7 @@ if (project.name != project.rootProject.name) {
     return
 }
 
-println("Custome Configure (configVersions.gradle)")
+println("Custome Configure (configVersions.gradle)-------------------------------------")
 
 
 def addRepos(RepositoryHandler handler) {

@@ -22,8 +22,8 @@ interface IWindowInset {
   }
 
   //设置透明状态栏和底部栏
-  fun setTranslucentAll(window: Window?, textBlackColor: Boolean = true) {
-    StatusBarCompat.translucentStatusBarAndNavigation(window!!, true)
+  fun setTranslucentAll(window: Window, textBlackColor: Boolean = true) {
+    StatusBarCompat.translucentStatusBarAndNavigation(window, true)
     LightStatusBarCompat.setLightStatusBar(window, textBlackColor)
   }
 

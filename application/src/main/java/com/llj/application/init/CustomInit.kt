@@ -40,14 +40,12 @@ class CustomInit : SimpleAppInit() {
             //status和界面中的布局覆盖布局，界面中加了fitWindow,有padding效果，覆盖白字
             LightStatusBarCompat.setLightStatusBar(activity.window, false)
           }
-          "KeyboardStateActivity" != simpleName -> {
+          "KeyboardStateActivity" == simpleName -> {
+          }
+          else -> {
             StatusBarCompat.translucentStatusBarAndNavigation(activity.window, true)
             //status和界面中的布局线性布局，白低黑字
             LightStatusBarCompat.setLightStatusBar(activity.window, false)
-
-          }
-          else -> {
-
           }
         }
       }

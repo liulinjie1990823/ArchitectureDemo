@@ -7,7 +7,7 @@ if (project.name != project.rootProject.name) {
     return
 }
 
-println("Custome Configure (utils.gradle)")
+println("Custome Configure (utils.gradle)-------------------------------------")
 
 def getVersionNameAdvanced() {
     def xmlFile = project.file("AndroidManifest.xml")

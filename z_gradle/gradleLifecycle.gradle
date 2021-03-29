@@ -16,7 +16,7 @@ gradle.addBuildListener(new BuildListener() {
     }
 
     void projectsLoaded(Gradle gradle) {
-        //所有工程加载
+        //所有工程加载完成
         println("-----------------------------------------" + "projectsLoaded" + "-----------------------------------------")
     }
 

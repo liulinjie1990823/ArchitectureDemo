@@ -95,7 +95,20 @@
       android:ellipsize="end"
       android:includeFontPadding="false"
       android:maxLines="1"
-      android:text="customContentView通知"
+      android:text="customContentView通知内容少"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
+
+    <TextView
+      android:id="@+id/tv_custom_content_view2"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="customContentView通知内容多"
       android:textColor="@color/black"
       android:textSize="20dp"
       android:textStyle="normal"
@@ -108,12 +121,23 @@
       android:ellipsize="end"
       android:includeFontPadding="false"
       android:maxLines="1"
-      android:text="customBigContentView通知"
+      android:text="customBigContentView通知内容少"
       android:textColor="@color/black"
       android:textSize="20dp"
       android:textStyle="normal"
       tools:background="#FFAD26" />
-
+    <TextView
+      android:id="@+id/tv_custom_big_content_view2"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:text="customBigContentView通知内容多"
+      android:textColor="@color/black"
+      android:textSize="20dp"
+      android:textStyle="normal"
+      tools:background="#FFAD26" />
 
     <TextView
       android:layout_width="match_parent"
