@@ -59,6 +59,9 @@ subprojects {
                     ndk { abiFilters "armeabi-v7a", "x86" }
                     //以模块运行时设置loading页后跳转的页面
                     resValue("string", "main_path", mainPath)
+                    //设置工程scheme，如ciw,ybs，在gradle.properties中设置
+                    resValue("string", "native_scheme", native_scheme)
+                    manifestPlaceholders = [native_scheme: native_scheme]
                 }
 
                 buildTypes {
