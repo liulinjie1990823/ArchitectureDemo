@@ -5,7 +5,7 @@
   "scripts": {
     "start": "yarn react-native start",
     "android": "yarn react-native run-android",
-    "bundle": "yarn react-native bundle --platform android --dev true --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res"
+    "bundle": "yarn react-native bundle --platform android --dev true --entry-file index.js --bundle-output app/src/p_app/main/assets/index.android.bundle --assets-dest app/src/main/res"
   },
   "dependencies": {
     "react": "16.13.1",

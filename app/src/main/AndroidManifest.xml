@@ -17,6 +17,7 @@
     <activity android:name=".ui.activity.LinearLayoutActivity" />
     <activity android:name=".ui.activity.ComponentActivity" />
     <activity android:name=".ui.activity.ProxyActivity" />
+
     <activity android:name=".ui.activity.HookActivity" />
     <activity android:name=".ui.activity.StubActivity" />
     <activity android:name=".ui.activity.AptActivity" />
@@ -98,6 +99,7 @@
     <activity android:name=".ui.activity.JpegTurboActivity" />
 
     <service android:name=".ui.service.LoadingService" />
+    <activity android:name=".ui.activity.ReactNativeDemoActivity" />
   </application>
 
 </manifest>

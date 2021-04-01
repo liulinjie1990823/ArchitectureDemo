@@ -70,8 +70,8 @@ import dagger.android.support.AndroidSupportInjectionModule
     ],
     modules = [
       ViewModelBuilder::class,
-      MainComponentBuilder::class, //将所有的Activity和Fragment注册进来
-      MainComponentModule::class,//提供对象给AppComponent使用
+//      MainComponentBuilder::class, //将所有的Activity和Fragment注册进来
+//      MainComponentModule::class,//提供对象给AppComponent使用
       AndroidInjectionModule::class,
       AndroidSupportInjectionModule::class,
     ])

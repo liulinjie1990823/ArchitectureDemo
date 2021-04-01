@@ -4,8 +4,8 @@ import com.billy.cc.core.component.CC
 import com.billy.cc.core.component.IComponent
 import com.llj.application.AppApplication
 import com.llj.application.di.IModule
-import com.llj.architecturedemo.di.DaggerMainComponent
 import com.llj.application.router.CRouter
+import com.llj.architecturedemo.di.DaggerMainComponent
 import com.llj.lib.base.di.IInject
 
 /**

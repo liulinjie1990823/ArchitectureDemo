@@ -1,36 +1,5 @@
 android {
 
-    sourceSets {
-        def dirs = ['p_app', 'p_widget', 'p_mine', 'p_login']
-        main {
-            manifest.srcFile 'src/p_app/main/AndroidManifest.xml'
-            dirs.each { dir ->
-                java.srcDir("src/${dir}/main/java")
-                res.srcDir("src/${dir}/main/res")
-                assets.srcDirs("src/${dir}/main/assets")
-            }
-        }
-        if (useFlutterSrc) {
-            p_flutter {
-                def dirs2 = ['p_flutter']
-                //一个sourceSet下只能指定一个manifest文件，
-                manifest.srcFile 'src/p_flutter/AndroidManifest.xml'
-                dirs2.each { dir ->
-                    java.srcDir("src/${dir}/java")
-                    res.srcDir("src/${dir}/res")
-                    assets.srcDir("src/${dir}/assets")
-                }
-            }
-        }
-    }
-
-    flavorDimensions "free"
-
-    productFlavors {
-        if (useFlutterSrc) {
-            p_flutter { dimension "free" }
-        }
-    }
 
 
     applicationVariants.all { variant ->

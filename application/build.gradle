@@ -2,8 +2,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'bga-appinit-plugin'
 
-apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
-
 //app调试工具
 if (usePluginDoraemonkit && buildTypeDebug) {
     apply plugin: 'com.didi.dokit'
@@ -64,27 +62,27 @@ dependencies {
 
     //flipper应用调试
     debugImplementation 'com.facebook.soloader:soloader:0.10.1'
-    debugImplementation("com.facebook.flipper:flipper:0.79.1") {
+    debugImplementation("com.facebook.flipper:flipper:0.81.0") {
         exclude group: 'com.facebook.yoga'
         exclude group: 'com.facebook.fbjni', module: 'fbjni'
         exclude group: 'com.facebook.litho', module: 'litho-annotations'
     }
-    betaImplementation "com.facebook.flipper:flipper-noop:0.79.1"
-    releaseImplementation "com.facebook.flipper:flipper-noop:0.79.1"
+    betaImplementation "com.facebook.flipper:flipper-noop:0.81.0"
+    releaseImplementation "com.facebook.flipper:flipper-noop:0.81.0"
 
     //Litho插件
-    debugImplementation('com.facebook.flipper:flipper-litho-plugin:0.79.1') {
+    debugImplementation('com.facebook.flipper:flipper-litho-plugin:0.81.0') {
         exclude group: 'com.facebook.yoga'
 //        exclude group: 'com.facebook.fbjni', module: 'fbjni'
 //        exclude group: 'com.facebook.litho', module: 'litho-annotations'
     }
     //fresco插件
-    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.79.1'
+    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.81.0'
     //网络插件
-    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.79.1'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.81.0'
     //leakcanary插件
-//    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.79.1'
-    debugImplementation 'com.facebook.flipper:flipper-leakcanary2-plugin:0.80.0'
+//    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.81.0'
+    debugImplementation 'com.facebook.flipper:flipper-leakcanary2-plugin:0.81.0'
 
     //内存检测
     debugImplementation Deps.leakcanary_android
@@ -114,15 +112,4 @@ dependencies {
     kapt Deps.dagger_compiler
     kapt Deps.dagger_android_compiler
 
-    api "com.facebook.react:react-native:+"
-    if (enableHermes) {
-        def hermesPath = "../node_modules/hermes-engine/android/";
-        debugImplementation files(hermesPath + "hermes-debug.aar")
-        releaseImplementation files(hermesPath + "hermes-release.aar")
-    } else {
-        api "org.webkit:android-jsc:+"
-    }
-
-//    api "com.facebook.react:react-native:0.63.4"
-//    api "org.webkit:android-jsc:r245459"
 }

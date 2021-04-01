@@ -30,7 +30,8 @@ println("ext.buildTypeDebug:  " + ext.buildTypeDebug)
 println("startTaskName:  " + startTaskName)
 
 if (startTaskName.contains("app:")) {
-    ext.mainPath = "/main/MainActivity"
+//    ext.mainPath = "/main/MainActivity"
+    ext.mainPath = "/main/ReactNativeDemoActivity"
 } else if (startTaskName.contains("app-login:")) {
     ext.mainPath = "/login/LoginActivity"
 } else if (startTaskName.contains("app-setting:")) {

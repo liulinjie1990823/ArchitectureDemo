@@ -5,13 +5,13 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.viewbinding.ViewBinding
 import butterknife.BindView
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.llj.architecturedemo.MainMvpBaseActivity
+import com.llj.application.router.CRouter
+import com.llj.architecturedemo.MainMvcBaseActivity
 import com.llj.architecturedemo.R
 import com.llj.architecturedemo.R2
-import com.llj.application.router.CRouter
-import com.llj.widget.ui.presenter.CircleViewPresenter
 import com.llj.widget.ui.view.CircleViewView
 import com.llj.widget.ui.widget.CircleView
 
@@ -22,7 +22,7 @@ import com.llj.widget.ui.widget.CircleView
  * date 2018/7/11
  */
 @Route(path = CRouter.APP_CIRCLE_VIEW_ACTIVITY)
-class CircleViewActivity : MainMvpBaseActivity<CircleViewPresenter>(), CircleViewView {
+class CircleViewActivity : MainMvcBaseActivity<ViewBinding>(), CircleViewView {
     @BindView(R2.id.mIvTopBag) lateinit var mIvTopBag: CircleView
     @BindView(R2.id.mIvTopBagSticky) lateinit var mIvTopBagSticky: ImageView
     override fun layoutId(): Int {

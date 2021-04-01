@@ -37,6 +37,7 @@ public class CRouterClassName {
   public static final String APP_MVVM_REQUEST_ACTIVITY        = "/main/MvvmRequestActivity";
   public static final String APP_JAVA_TYPE_ACTIVITY           = "/main/JavaTypeActivity";
   public static final String APP_PROXY_ACTIVITY               = "/main/ProxyActivity";
+  public static final String APP_REACT_NATIVE_DEMO_ACTIVITY   = "/main/ReactNativeDemoActivity";
   public static final String APP_NESTED_SCROLLVIEW_ACTIVITY   = "/main/NestedScrollViewActivity";
   public static final String APP_LINEAR_LAYOUT_ACTIVITY       = "/main/LinearLayoutActivity";
   public static final String APP_COMPONENT_ACTIVITY           = "/main/ComponentActivity";
@@ -62,18 +63,18 @@ public class CRouterClassName {
   public static final String APP_FRAGMENT_ANIM_ACTIVITY       = "/main/FragmentAnimActivity";
   public static final String APP_CANVAS_FRAGMENT              = "/main/CanvasFragment";
   public static final String APP_OUTLINE_PROVIDER_ACTIVITY    = "/main/OutlineProviderActivity";
-  public static final String APP_VIEWPAGER2_ACTIVITY        = "/main/ViewPager2Activity";
-  public static final String APP_APT_ACTIVITY2              = "/main/AptActivity2";
-  public static final String APP_HOOK_ACTIVITY              = "/main/HookActivity";
-  public static final String APP_REWARD_LAYOUT_ACTIVITY     = "/main/RewardLayoutActivity";
-  public static final String APP_RUNNABLE_ACTIVITY          = "/main/RunnableActivity";
-  public static final String APP_SWIPE_BACK_LAYOUT_ACTIVITY = "/main/SwipeBackLayoutActivity";
-  public static final String APP_FIRST_ACTIVITY             = "/main/FirstActivity";
-  public static final String APP_CONSTRAINT_ACTIVITY        = "/main/ConstraintActivity";
-  public static final String APP_CIRCLE_VIEW_ACTIVITY       = "/main/CircleViewActivity";
-  public static final String APP_ADV_ACTIVITY               = "/main/AdvertisingActivity";
-  public static final String APP_MAIN_TAB_ACTIVITY          = "/main/MainTabActivity";
-  public static final String APP_NOTIFICATION_ACTIVITY      = "/main/NotificationActivity";
+  public static final String APP_VIEWPAGER2_ACTIVITY          = "/main/ViewPager2Activity";
+  public static final String APP_APT_ACTIVITY2                = "/main/AptActivity2";
+  public static final String APP_HOOK_ACTIVITY                = "/main/HookActivity";
+  public static final String APP_REWARD_LAYOUT_ACTIVITY       = "/main/RewardLayoutActivity";
+  public static final String APP_RUNNABLE_ACTIVITY            = "/main/RunnableActivity";
+  public static final String APP_SWIPE_BACK_LAYOUT_ACTIVITY   = "/main/SwipeBackLayoutActivity";
+  public static final String APP_FIRST_ACTIVITY               = "/main/FirstActivity";
+  public static final String APP_CONSTRAINT_ACTIVITY          = "/main/ConstraintActivity";
+  public static final String APP_CIRCLE_VIEW_ACTIVITY         = "/main/CircleViewActivity";
+  public static final String APP_ADV_ACTIVITY                 = "/main/AdvertisingActivity";
+  public static final String APP_MAIN_TAB_ACTIVITY            = "/main/MainTabActivity";
+  public static final String APP_NOTIFICATION_ACTIVITY        = "/main/NotificationActivity";
 
   //app-login
   public static final String LOGIN_LOGIN_ACTIVITY       = "/login/LoginActivity";

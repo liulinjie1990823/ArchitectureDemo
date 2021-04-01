@@ -1,8 +1,8 @@
 package com.llj.architecturedemo
 
 import androidx.viewbinding.ViewBinding
-import com.llj.component.service.PlatformMvcBaseFragment
 import com.llj.application.router.CRouter
+import com.llj.component.service.PlatformMvcBaseFragment
 
 /**
  * ArchitectureDemo.

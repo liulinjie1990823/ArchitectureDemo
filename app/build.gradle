@@ -1,8 +1,57 @@
-
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 
 android {
     resourcePrefix "main_"
+
+    sourceSets {
+        //用文件夹来控制编译，可以提高编译速度
+        def dirs = ['p_widget', 'p_mine', 'p_login']
+        if (useReactNative) {
+            //这样来控制编译文件夹的方式不会合并AndroidManifest，所有所有的activity需要全部写在主AndroidManifest中
+            dirs.add('main_react_native')
+        } else {
+            dirs.add('p_app')
+        }
+//        dirs.add('p_app')
+        main {
+            //除了这里设置的dirs目录，还包括了默认的目录main，这些是所有buildType所共享的
+            //可以使用sourceSets任务查看
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            dirs.each { dir ->
+                java.srcDir("src/${dir}/main/java")
+                res.srcDir("src/${dir}/main/res")
+                assets.srcDirs("src/${dir}/main/assets")
+            }
+        }
+
+        if (useFlutterSrc) {
+            p_flutter {
+                def dirs2 = ['p_flutter']
+                //一个sourceSet下只能指定一个manifest文件，
+                manifest.srcFile 'src/p_flutter/AndroidManifest.xml'
+                dirs2.each { dir ->
+                    java.srcDir("src/${dir}/java")
+                    res.srcDir("src/${dir}/res")
+                    assets.srcDir("src/${dir}/assets")
+                }
+            }
+        }
+    }
+
+    flavorDimensions "free"
+
+    productFlavors {
+        if (useFlutterSrc) {
+            p_flutter { dimension "free" }
+        }
+
+    }
 }
+
+project.ext.react = [
+        enableHermes: true,  // clean and rebuild if changing
+]
+def enableHermes = project.ext.react.get("enableHermes", false);
 
 
 dependencies {
@@ -51,8 +100,17 @@ dependencies {
 //    kapt "com.zhangyue.we:x2c-apt:1.1.2"
 //    implementation 'com.zhangyue.we:x2c-lib:1.0.6'
 
-    implementation "com.facebook.react:react-native:0.63.4" // From node_modules
-    implementation "org.webkit:android-jsc:r245459"
+    if (useReactNative) {
+        implementation "com.facebook.react:react-native:+"
+        if (enableHermes) {
+            def hermesPath = "../node_modules/hermes-engine/android/";
+            debugImplementation files(hermesPath + "hermes-debug.aar")
+            betaImplementation files(hermesPath + "hermes-debug.aar")
+            releaseImplementation files(hermesPath + "hermes-release.aar")
+        } else {
+            implementation "org.webkit:android-jsc:+"
+        }
+    }
 
 }
 
