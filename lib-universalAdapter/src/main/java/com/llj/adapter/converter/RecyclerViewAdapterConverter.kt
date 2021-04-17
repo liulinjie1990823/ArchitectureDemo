@@ -17,15 +17,20 @@ import com.llj.adapter.util.ThreadingUtils
 /**
  * PROJECT:UniversalAdapter DESCRIBE: Created by llj on 2017/2/10.
  */
-class RecyclerViewAdapterConverter<Item, Holder : XViewHolder> : RecyclerView.Adapter<XViewHolder>,
+class RecyclerViewAdapterConverter<Item, Holder : XViewHolder>
+internal constructor(universalAdapter: UniversalAdapter<Item, Holder>, recyclerView: RecyclerView)
+  : RecyclerView.Adapter<XViewHolder>(),
     HeaderListenerAdapter<Item, Holder>,
     FooterListenerAdapter<Item, Holder>,
     ItemListenerAdapter<Item, Holder>,
     UniversalConverter<Item, Holder> {
 
-  internal constructor(universalAdapter: UniversalAdapter<Item, Holder>, recyclerView: RecyclerView) : super() {
+  private var mUniversalAdapter: UniversalAdapter<Item, Holder>? = null
+  private var mRecyclerItemClickListener: RecyclerItemClickListener<Holder>? = null
+  private val mObserverListener: RecyclerViewListObserverListener<Item> = RecyclerViewListObserverListener(this)
 
-    mObserverListener = RecyclerViewListObserverListener(this)
+
+  init {
     universalAdapter.checkIfBoundAndSet()
     setAdapter(universalAdapter)
     recyclerView.adapter = this
@@ -65,10 +70,6 @@ class RecyclerViewAdapterConverter<Item, Holder : XViewHolder> : RecyclerView.Ad
      */
     fun onItemClick(viewHolder: Holder, parent: RecyclerView?, position: Int, x: Float, y: Float)
   }
-
-  private var mUniversalAdapter: UniversalAdapter<Item, Holder>? = null
-  private var mRecyclerItemClickListener: RecyclerItemClickListener<Holder>? = null
-  private val mObserverListener: RecyclerViewListObserverListener<Item>
 
   fun setRecyclerItemClickListener(
       recyclerItemClickListener: RecyclerItemClickListener<Holder>?) {

@@ -6,24 +6,16 @@ import com.llj.adapter.observable.ListObserverListener
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 /**
  * Merges adapters together into one large [UniversalAdapter].
  */
 class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
-  // region Constants
   private val listPieces = ArrayList<ListPiece>()
 
-  // endregion Constants
-  // region Inherited Methods
   override fun notifyDataSetChanged() {
     onGenericChange()
     recalculateStartPositions()
-  }
-
-  override fun onBindViewHolder(holder: XViewHolder, item: Any?, position: Int) {
-    val piece = getPieceAt(position)
-    val adjusted = piece!!.getAdjustedItemPosition(position)
-    piece.adapter.bindViewHolder(holder, adjusted)
   }
 
   override fun onCreateViewHolder(parent: ViewGroup, itemType: Int): XViewHolder {
@@ -37,6 +29,16 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
     checkNotNull(viewHolder) { "ViewHolder returned a null for itemType $itemType" }
     return viewHolder
   }
+
+  override fun onBindViewHolder(holder: XViewHolder, item: Any?, position: Int) {
+    val piece = getPieceAt(position)
+    //分发到各自的UniversalAdapter中
+    piece?.let {
+      val adjusted = it.getAdjustedItemPosition(position)
+      it.adapter.bindViewHolder(holder, adjusted)
+    }
+  }
+
 
   override fun getItemViewTypeCount(): Int {
     var count = 0
@@ -61,12 +63,12 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
 
   override fun isEnabled(position: Int): Boolean {
     val piece = getPieceAt(position)
-    return piece!!.isEnabled(position)
+    return piece?.isEnabled(position) ?: true
   }
 
   override fun getItemId(position: Int): Long {
     val piece = getPieceAt(position)
-    return piece!!.getItemId(position)
+    return piece?.getItemId(position) ?: 0
   }
 
   override fun get(position: Int): Any? {
@@ -74,8 +76,6 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
     return piece?.getAdjustedItem(position)
   }
 
-  // endregion Inherited Methods
-  // region Instance Methods
   /**
    * Adds an adapter at the end of this [MergedUniversalAdapter].
    *
@@ -157,8 +157,7 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
       currentStartIndex += listPiece.count
     }
   }
-  // endregion Instance Methods
-  // region Anonymous Classes
+
   /**
    * Whenever a singular [ListPiece] changes, we refresh the adapter and notify content
    * changed.
@@ -188,32 +187,20 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
       this@MergedUniversalAdapter.onGenericChange()
     }
   }
-  // endregion Anonymous Classes
-  // region Inner Classes
+
 
   override fun addListener(listener: ListObserverListener<Any?>) {
     super.addListener(listener)
   }
 
-  class ListPiece {
+  class ListPiece internal constructor(val adapter: UniversalAdapter<out Any?, out XViewHolder>, mergedUniversalAdapter: MergedUniversalAdapter) {
 
-    val adapter: UniversalAdapter<out Any?, out XViewHolder>
-
-    private val itemViewTypes: MutableSet<Int>
-
-    private val forwardingChangeListener: ForwardingChangeListener
-
+    private val itemViewTypes: MutableSet<Int> = HashSet()
+    private val forwardingChangeListener: ForwardingChangeListener = ForwardingChangeListener(this, mergedUniversalAdapter.cascadingListObserver)
 
     var startPosition = 0
 
-    internal constructor(adapter: UniversalAdapter<out Any?, out XViewHolder>, mergedUniversalAdapter: MergedUniversalAdapter) {
-      this.adapter = adapter
-      this.itemViewTypes = HashSet()
-      forwardingChangeListener = ForwardingChangeListener(this, mergedUniversalAdapter.cascadingListObserver)
-    }
 
-
-    // region Instance Methods
     fun isEnabled(position: Int): Boolean {
       return adapter.internalIsEnabled(getAdjustedItemPosition(position))
     }
@@ -246,7 +233,7 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
       get() = adapter.internalCount
 
     fun getAdjustedItem(position: Int): Any? {
-      return adapter[getAdjustedItemPosition(position)]
+      return adapter.get(getAdjustedItemPosition(position))
     }
 
     fun getAdjustedItemViewType(position: Int): Int {
@@ -255,22 +242,16 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
 
     fun getAdjustedItemPosition(position: Int): Int {
       return position - startPosition
-    } // endregion Instance Methods
-
+    }
   }
 
   /**
    * Forwards internal adapter changes to the merged adapter.
    */
-  class ForwardingChangeListener : ListObserverListener<Any?> {
+  class ForwardingChangeListener(private val listPiece: ListPiece, private val listObserverListener: ListObserverListener<Any?>) : ListObserverListener<Any?> {
 
-    private val listPiece: ListPiece
-    private val listObserverListener: ListObserverListener<Any?>
-
-    constructor(listPiece: ListPiece, listObserverListener: ListObserverListener<Any?>) {
-      this.listPiece = listPiece
-      this.listObserverListener = listObserverListener
-      listPiece.adapter.mListObserver.addListener(listObserverListener);
+    init {
+      listPiece.adapter.mListObserver.addListener(listObserverListener)
     }
 
     override fun onItemRangeChanged(observer: ListObserver<Any?>, startPosition: Int, count: Int, payload: Any?) {
@@ -302,5 +283,5 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
       listObserverListener.onGenericChange(observer)
     }
 
-  } // endregion Inner Classes
+  }
 }

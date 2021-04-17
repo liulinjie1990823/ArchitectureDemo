@@ -10,32 +10,25 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
  * author liulj
  * date 2018/7/20
  */
-class RefreshHelper<Item, Holder : XViewHolder> : IRefresh<Item?, Holder> {
+class RefreshHelper<Item, Holder : XViewHolder>(private val pageSize: Int,
+                                                private var mSmartRefreshLayout: SmartRefreshLayout?,
+                                                private var mAdapter: ListBasedAdapter<Item?, Holder>?)
+  : IRefresh<Item?, Holder> {
 
-  private lateinit var mPagerHelper: PagerHelper
+  private var mPagerHelper: PagerHelper = PagerHelper(pageSize)
 
-  private var mSmartRefreshLayout: SmartRefreshLayout? = null
-  private var mAdapter: ListBasedAdapter<Item?, Holder>? = null
+  //如果需要在getIntentData中请求数据，需要RefreshHelper提前初始化，之后再通过setRefreshLayout设置SmartRefreshLayout和ListBasedAdapter
+  constructor(pageSize: Int)
+      : this(pageSize, null, null)
 
-  constructor(pageSize: Int) {
-    mPagerHelper = PagerHelper(pageSize)
-  }
+  //不设置ListBasedAdapter，针对自己处理数据的情况
+  constructor(mSmartRefreshLayout: SmartRefreshLayout?)
+      : this(20, mSmartRefreshLayout, null)
 
-  constructor(mSmartRefreshLayout: SmartRefreshLayout?) {
-    this.mSmartRefreshLayout = mSmartRefreshLayout
-  }
 
-  constructor(mSmartRefreshLayout: SmartRefreshLayout?, mAdapter: ListBasedAdapter<Item?, Holder>?) {
-    this.mSmartRefreshLayout = mSmartRefreshLayout
-    this.mAdapter = mAdapter
-    mPagerHelper = PagerHelper()
-  }
+  constructor(mSmartRefreshLayout: SmartRefreshLayout?, mAdapter: ListBasedAdapter<Item?, Holder>?)
+      : this(20, mSmartRefreshLayout, mAdapter)
 
-  constructor(pageSize: Int, mSmartRefreshLayout: SmartRefreshLayout?, mAdapter: ListBasedAdapter<Item?, Holder>?) {
-    this.mSmartRefreshLayout = mSmartRefreshLayout
-    this.mAdapter = mAdapter
-    mPagerHelper = PagerHelper(pageSize)
-  }
 
   fun setRefreshLayout(mSmartRefreshLayout: SmartRefreshLayout?, mAdapter: ListBasedAdapter<Item?, Holder>?) {
     this.mSmartRefreshLayout = mSmartRefreshLayout

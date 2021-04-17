@@ -17,19 +17,18 @@ import java.lang.reflect.Field
 /**
  * PROJECT:CommonAdapter DESCRIBE: Created by llj on 2017/2/11.
  */
-class ViewGroupAdapterConverter<Item, Holder : XViewHolder> :
+class ViewGroupAdapterConverter<Item, Holder : XViewHolder>
+internal constructor(adapter: UniversalAdapter<Item, Holder>, private val mViewGroup: ViewGroup) :
     HeaderListenerAdapter<Item, Holder>,
     FooterListenerAdapter<Item, Holder>,
     ItemListenerAdapter<Item, Holder>,
     UniversalConverter<Item, Holder> {
 
+  private var mUniversalAdapter: UniversalAdapter<Item, Holder>? = null
+  private val mItemClickWrapper: ItemClickWrapper<Item, Holder> = ItemClickWrapper(this)
+  private val mObserverListener: ListObserverListener<Item>
 
-  val mViewGroup: ViewGroup
-
-  internal constructor(adapter: UniversalAdapter<Item, Holder>, viewGroup: ViewGroup) {
-    this.mViewGroup = viewGroup
-    this.mItemClickWrapper = ItemClickWrapper(this)
-
+  init {
     this.mObserverListener = object : SimpleListObserverListener<Item>() {
       override fun onGenericChange(observer: ListObserver<Item>) {
         populateAll()
@@ -37,21 +36,16 @@ class ViewGroupAdapterConverter<Item, Holder : XViewHolder> :
 
       override fun onItemRangeChanged(observer: ListObserver<Item>, startPosition: Int, count: Int) {
         for (i in startPosition until startPosition + count) {
-          val childAt = viewGroup.getChildAt(i) as ViewGroup
+          val childAt = mViewGroup.getChildAt(i) as ViewGroup
           getAdapter().bindViewHolder(UniversalAdapterUtils.getViewHolder(childAt), i)
         }
       }
     }
-
     adapter.checkIfBoundAndSet()
     setAdapter(adapter)
     populateAll()
   }
 
-
-  private var mUniversalAdapter: UniversalAdapter<Item, Holder>? = null
-  private val mItemClickWrapper: ItemClickWrapper<Item, Holder>
-  private val mObserverListener: ListObserverListener<Item>
 
   ///////////////////////////////////////////////////////////////////////////
   //

@@ -15,15 +15,13 @@ import com.llj.adapter.observable.ObservableList
  */
 abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<Item?, Holder>, ObservableList<Item?> {
 
-  private lateinit var mList: MutableList<Item?>
+  private var mList = mutableListOf<Item?>()
 
   var clickPosition = 0
 
-  constructor() : super() {
-    setItemsList(null)
-  }
+  constructor() : this(null)
 
-  constructor(list: MutableList<Item?>) : super() {
+  constructor(list: MutableList<Item?>?) : super() {
     setItemsList(list)
   }
 
@@ -47,12 +45,10 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
   }
 
   fun setItemsList(list: MutableList<Item?>?) {
-    var listNew = list
-//    unbindList()
-    if (listNew == null) {
-      listNew = ArrayList()
+    unbindList()
+    if (list != null) {
+      mList = list
     }
-    mList = listNew
     notifyDataSetChanged()
   }
 
@@ -68,19 +64,11 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
   //
   ///////////////////////////////////////////////////////////////////////////
 
-  //List
-  override val size: Int
-    get() = mList.size
-
 
   override fun getCount(): Int {
     return mList.size
   }
 
-  //List
-  override fun isEmpty(): Boolean {
-    return mList.isEmpty()
-  }
 
   private fun isCollectionEmpty(list: Collection<Item?>?): Boolean {
     return list == null || list.isEmpty()
@@ -122,6 +110,16 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
     return false
   }
 
+  override fun replaceAll(elements: Collection<Item?>?) {
+    if (mList.isNotEmpty()) {
+      mList.clear()
+    }
+    if (!elements.isNullOrEmpty()) {
+      mList.addAll(elements)
+    }
+    onGenericChange()
+  }
+
   override fun removeAt(index: Int): Item? {
     val result = mList.removeAt(index)
     onItemRangeRemoved(index, 1)
@@ -155,21 +153,28 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
 
   override fun clear() {
     val count = size
-    mList.clear()
-    onItemRangeRemoved(0, count)
+    if (count != 0) {
+      mList.clear()
+      onItemRangeRemoved(0, count)
+    }
   }
 
   override fun set(index: Int, element: Item?): Item? {
     val result = mList.set(index, element)
-    if (result != element) {
-      onItemRangeChanged(index, 1)
-    }
+    onItemRangeChanged(index, 1)
     return result
   }
   //endregion
 
 
   //region List<Item?>
+  override val size: Int
+    get() = mList.size
+
+  override fun isEmpty(): Boolean {
+    return mList.isEmpty()
+  }
+
   override fun get(index: Int): Item? {
     if (index >= mList.size) {
       return null

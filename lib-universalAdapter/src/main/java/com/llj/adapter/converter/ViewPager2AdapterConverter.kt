@@ -21,15 +21,13 @@ import com.llj.adapter.util.ThreadingUtils
  * @author liulinjie
  * @date 2020/5/17 11:28 AM
  */
-class ViewPager2AdapterConverter<Item, Holder : XViewHolder> : RecyclerView.Adapter<XViewHolder>,
+class ViewPager2AdapterConverter<Item, Holder : XViewHolder>(universalAdapter: UniversalAdapter<Item, Holder>, viewPager2: ViewPager2) : RecyclerView.Adapter<XViewHolder>(),
     HeaderListenerAdapter<Item, Holder>,
     FooterListenerAdapter<Item, Holder>,
     ItemListenerAdapter<Item, Holder>,
     UniversalConverter<Item, Holder> {
 
-  constructor(universalAdapter: UniversalAdapter<Item, Holder>, viewPager2: ViewPager2) : super() {
-
-    mObserverListener = RecyclerViewListObserverListener(this)
+  init {
     universalAdapter.checkIfBoundAndSet()
     setAdapter(universalAdapter)
     viewPager2.adapter = this
@@ -73,7 +71,7 @@ class ViewPager2AdapterConverter<Item, Holder : XViewHolder> : RecyclerView.Adap
 
   private var mUniversalAdapter: UniversalAdapter<Item, Holder>? = null
   private var mRecyclerItemClickListener: RecyclerItemClickListener<Holder>? = null
-  private val mObserverListener: RecyclerViewListObserverListener<Item>
+  private val mObserverListener: RecyclerViewListObserverListener<Item> = RecyclerViewListObserverListener(this)
 
   fun setRecyclerItemClickListener(
       recyclerItemClickListener: RecyclerItemClickListener<Holder>?) {
@@ -258,5 +256,6 @@ class ViewPager2AdapterConverter<Item, Holder : XViewHolder> : RecyclerView.Adap
     abstract fun onItemLongClick(holder: Holder, parent: RecyclerView?, position: Int,
                                  x: Float, y: Float)
   }
+
 
 }

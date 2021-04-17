@@ -140,7 +140,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     return PagerAdapter.POSITION_UNCHANGED
   }
 
-  abstract operator fun get(position: Int): Item?
+  abstract fun get(position: Int): Item?
 
   abstract fun getCount(): Int
 
