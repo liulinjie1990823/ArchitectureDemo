@@ -94,6 +94,8 @@ buildscript {
         //detekt
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0"
 
+//        classpath "com.squareup.anvil:gradle-plugin:2.2.1"
+
     }
 }
 
@@ -103,8 +105,10 @@ allprojects {
 
     //强制使依赖版本
     configurations.all {
-        //只有全局才有效，不知道为啥
-        exclude group:'com.facebook.fbjni', module: 'fbjni'
+        if (useReactNative) {
+            //只有在这里全局才有效，不知道为啥
+            exclude group: 'com.facebook.fbjni', module: 'fbjni'
+        }
         resolutionStrategy {
             force Deps.okhttp
             force Deps.gson

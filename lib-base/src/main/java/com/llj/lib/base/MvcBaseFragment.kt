@@ -35,11 +35,13 @@ import java.lang.ref.WeakReference
  * 08-11 11:33:36.158    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ onCreate
  * 08-11 11:33:36.159    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ onCreateView
  * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ onActivityCreated
+ * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ onStart
  * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment1﹕ onResume()
  * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ onAttach
  * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ onCreate
  * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ onCreateView
  * 08-11 11:33:36.161    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ onActivityCreated
+ * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ onStart
  * 08-11 11:33:36.161    7162-7162/com.example.yinsgo.myui V/Fragment2﹕ onResume()
  *
  * 当切换到第二个fragment时打印日志：
@@ -51,7 +53,13 @@ import java.lang.ref.WeakReference
  * 08-11 11:33:54.085    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ onCreate
  * 08-11 11:33:54.085    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ onCreateView
  * 08-11 11:33:54.085    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ onActivityCreated
+ * 08-11 11:33:36.160    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ onStart
  * 08-11 11:33:54.085    7162-7162/com.example.yinsgo.myui V/Fragment3﹕ onResume()
+ *
+ *
+ * FragmentPagerAdapter 通过attach和detach，会保存Fragment实例
+ *
+ * FragmentStatePagerAdapter 通过add和remove，完整生命周期添加移除，但是状态会保存在SavedState以备恢复
  *
  * ArchitectureDemo.
  *
@@ -60,12 +68,14 @@ import java.lang.ref.WeakReference
  * @date 2018/8/15
  */
 abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDialogFragment(), IBaseFragment, ICommon<V>, IUiHandler, IEvent, ITask, ILoadingDialogHandler<BaseDialog>, IFragmentHandle {
-  @JvmField
-  val mTagLog: String = this.javaClass.simpleName
+  @JvmField val mTagLog: String = this.javaClass.simpleName
 
   lateinit var mContext: Context
 
   private var mInit: Boolean = false //是否已经初始化
+  private var mPreLoadData: Boolean = false //是否预加载数据，比如使用了ViewModel预加载
+
+  private var mRootView: View? = null
 
   lateinit var mViewBinder: V//ViewBinding
 
@@ -74,7 +84,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   private var mRequestDialog: BaseDialog? = null
 
   private val mCancelableTasks: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
-  private val mDelayMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
+  private val mResumedMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
 
   var mUseSoftInput: Boolean = false //是否使用软键盘，用来自动显示输入法
   var mUseTranslucent: Boolean = false //是否使用透明模式
@@ -208,11 +218,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
 
 
   //<editor-fold desc="smartShow">
-  fun smartShow(manager: FragmentManager, tag: String) {
-    smartShow(manager, tag, Window.ID_ANDROID_CONTENT)
-  }
-
-  fun smartShow(manager: FragmentManager, tag: String, @IdRes containerViewId: Int) {
+  fun smartShow(manager: FragmentManager, tag: String = mTagLog, @IdRes containerViewId: Int = Window.ID_ANDROID_CONTENT) {
     if (showsDialog) {
       try {
         super.show(manager, tag)
@@ -223,19 +229,15 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
 
     } else {
       //添加到ID_ANDROID_CONTENT里
-      addFragment(manager.beginTransaction(), containerViewId, this, tag, true)
+      addFragment(manager.beginTransaction(), this, containerViewId, tag)
     }
   }
   //</editor-fold>
 
   //<editor-fold desc="smartShowNow">
-  fun smartShowNow(manager: FragmentManager, tag: String) {
-    smartShowNow(manager, tag, Window.ID_ANDROID_CONTENT)
-  }
-
   //1.先添加fragment
   //2.在fragment的生命周期的onStart中显示dialog
-  fun smartShowNow(manager: FragmentManager, tag: String, @IdRes containerViewId: Int) {
+  fun smartShowNow(manager: FragmentManager, tag: String = mTagLog, @IdRes containerViewId: Int = Window.ID_ANDROID_CONTENT) {
     if (showsDialog) {
       try {
         super.showNow(manager, tag)
@@ -246,29 +248,31 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
 
     } else {
       //添加到ID_ANDROID_CONTENT里
-      addFragmentNow(manager.beginTransaction(), containerViewId, this, tag, true)
+      addFragmentNow(manager.beginTransaction(), this, containerViewId, tag)
     }
   }
   //</editor-fold>
   //</editor-fold >
+
+
+  //<editor-fold desc="生命周期">
+  override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
+    Timber.tag(mTagLog).i("Lifecycle %s onCreateAnimation：%d", mTagLog, hashCode())
+    return super.onCreateAnimation(transit, enter, nextAnim)
+  }
 
   override fun setUserVisibleHint(isVisibleToUser: Boolean) {
     super.setUserVisibleHint(isVisibleToUser)
     Timber.tag(mTagLog).i("Lifecycle %s setUserVisibleHint %s ：%d", mTagLog, isVisibleToUser, hashCode())
     //当fragment在viewPager中的时候需要实现懒加载的模式
     //当使用viewPager进行预加载fragment的时候,先调用setUserVisibleHint,后调用onViewCreated
-    //所以刚开始是mIsInit=true,mIsVisible为false
+    //所以切换到第二个fragment的时候mIsInit=true，而后面调用到setUserVisibleHint后再刷新
+    //最新和viewPager搭配的时候最好设置BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT，在onResume中来控制懒加载
 
     // 加载数据
     if (useLazyLoad() && hasInitAndVisible()) {
       initData()
     }
-  }
-
-  //<editor-fold desc="生命周期">
-  override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
-    Timber.tag(mTagLog).i("Lifecycle %s onCreateAnimation：%d", mTagLog, hashCode())
-    return super.onCreateAnimation(transit, enter, nextAnim)
   }
 
   override fun onAttach(context: Context) {
@@ -287,9 +291,10 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
 
     checkLoadingDialog()
 
-    if (arguments !== null) {
-      getArgumentsData(arguments)
-    }
+    getArgumentsData(arguments)
+
+    //如果有预加载数据的可以实现这个方法
+    mPreLoadData = preLoadData()
 
     try {
       AndroidSupportInjection.inject(this)
@@ -298,15 +303,6 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     }
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-    Timber.tag(mTagLog).i("Lifecycle %s onActivityCreated：%d", mTagLog, hashCode())
-    dialog?.window?.let {
-      setWindowParams(it, -1, -1, Gravity.CENTER)
-    }
-  }
-
-  private var mRootView: View? = null
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     mCurrentMill = System.currentTimeMillis()
@@ -338,6 +334,15 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
 
     Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d cost %d ms", mTagLog, hashCode(), (System.currentTimeMillis() - mCurrentMill!!))
     return mRootView
+  }
+
+  //当fragment被添加到activity中会调用
+  override fun onActivityCreated(savedInstanceState: Bundle?) {
+    super.onActivityCreated(savedInstanceState)
+    Timber.tag(mTagLog).i("Lifecycle %s onActivityCreated：%d", mTagLog, hashCode())
+    dialog?.window?.let {
+      setWindowParams(it, -1, -1, Gravity.CENTER)
+    }
   }
 
 
@@ -469,13 +474,17 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   //<editor-fold desc="事件总线">
   @Subscribe(threadMode = ThreadMode.MAIN)
   fun onEvent(event: BaseEvent) {
-    if (!isEmpty(event.delayMessage)) {
+    if (!isEmpty(event.resumedMessage)) {
       //延迟消息
-      mDelayMessages.add(event.delayMessage)
+      mResumedMessages.add(event.resumedMessage)
     } else {
       if ("refresh" == event.message && inCurrentPage(event)) {
         //限定界面
-        initData()
+        if (mPreLoadData) {
+          preLoadData()
+        } else {
+          initData()
+        }
       } else {
         onReceiveEvent(event)
       }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -7,11 +7,29 @@ import {
     View
 } from 'react-native';
 
+const PizzaTranslator = () => {
+    const [text, setText] = useState('test');
+    return (
+        <View style={{padding: 10}}>
+            <TextInput
+                style={{height: 40}}
+                placeholder="Type here to translate!"
+                onChangeText={text => setText(text)}
+                defaultValue={text}
+            />
+            <Text style={{padding: 10, fontSize: 42}}>
+                {text.split(' ').map((word) => word && '🍕').join(' ')}
+            </Text>
+        </View>
+    );
+}
+
 const HelloWorld = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.hello}>Hello, World342424</Text>
+            <Text style={styles.hello}>Hello, World22233344566677</Text>
             <TextInput style={styles.input} defaultValue="Name me!"/>
+            <PizzaTranslator/>
         </View>
     );
 }

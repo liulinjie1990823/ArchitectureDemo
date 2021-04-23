@@ -1,10 +1,7 @@
 package com.llj.architecturedemo.ui.activity
 
-import android.graphics.Insets
 import android.os.Bundle
-import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.viewbinding.ViewBinding
@@ -47,19 +44,8 @@ class MainActivity : BaseTabActivity<ViewBinding, MainPresenter>(), MainContract
 
   override fun initViews(savedInstanceState: Bundle?) {
 
-    mVRoot.setOnApplyWindowInsetsListener(object : View.OnApplyWindowInsetsListener {
-      override fun onApplyWindowInsets(v: View, insets: WindowInsets): WindowInsets {
-        val insetsTop = insets.replaceSystemWindowInsets(0, insets.systemWindowInsetTop, 0, 0)
+    applyNavigationInsets(mVRoot)
 
-        val viewGroup:ViewGroup=v as ViewGroup
-        val childCount: Int = viewGroup.childCount
-        for (index in 0 until childCount) {
-          viewGroup.getChildAt(index).dispatchApplyWindowInsets(insetsTop)
-        }
-        val insetsBottom =insets.replaceSystemWindowInsets(0, 0, 0, insets.systemWindowInsetBottom)
-        return viewGroup.onApplyWindowInsets(insetsBottom)
-      }
-    })
 
     mTabAdapter = UniversalBind.Builder(mLlFooterBar, TabAdapter())
         .build()
@@ -73,15 +59,13 @@ class MainActivity : BaseTabActivity<ViewBinding, MainPresenter>(), MainContract
   }
 
   private fun getDefaultTabList(): ArrayList<TabVo> {
-    val tabList = ArrayList<TabVo>()
-
-    tabList.add(TabVo(getString(R.string.tab_home), R.drawable.ic_tab_home_normal, R.drawable.ic_tab_home_selected, TAB_INDEX))
-    tabList.add(TabVo(getString(R.string.tab_community), R.drawable.ic_tab_baby_show_normal, R.drawable.ic_tab_baby_show_selected, TAB_TONGSHANG))
-    tabList.add(TabVo("测试", R.drawable.ic_tab_ybs, R.drawable.ic_tab_ybs, TAB_EXPO))
-    tabList.add(TabVo(getString(R.string.tab_coupon), R.drawable.ic_tab_coupon_normal, R.drawable.ic_tab_coupon_selected, TAB_CASH))
-    tabList.add(TabVo(getString(R.string.tab_mine), R.drawable.ic_tab_mine_normal, R.drawable.ic_tab_mine_selected, TAB_MY))
-
-    return tabList
+    return ArrayList<TabVo>().apply {
+      add(TabVo(getString(R.string.tab_home), R.drawable.ic_tab_home_normal, R.drawable.ic_tab_home_selected, TAB_INDEX))
+      add(TabVo(getString(R.string.tab_community), R.drawable.ic_tab_baby_show_normal, R.drawable.ic_tab_baby_show_selected, TAB_TONGSHANG))
+      add(TabVo("测试", R.drawable.ic_tab_ybs, R.drawable.ic_tab_ybs, TAB_EXPO))
+      add(TabVo(getString(R.string.tab_coupon), R.drawable.ic_tab_coupon_normal, R.drawable.ic_tab_coupon_selected, TAB_CASH))
+      add(TabVo(getString(R.string.tab_mine), R.drawable.ic_tab_mine_normal, R.drawable.ic_tab_mine_selected, TAB_MY))
+    }
   }
 
   private fun updateTabByLocal() {
@@ -116,12 +100,12 @@ class MainActivity : BaseTabActivity<ViewBinding, MainPresenter>(), MainContract
     }
 
 
-    override fun onBindViewHolder(viewHolder: ViewHolderHelper, item: TabVo?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolderHelper, item: TabVo?, position: Int) {
       if (item == null) {
         return
       }
-      val image = viewHolder.getView<SimpleDraweeView>(R.id.iv_tab_image)
-      val text = viewHolder.getView<TextView>(R.id.tv_tab_text)
+      val image = holder.getView<SimpleDraweeView>(R.id.iv_tab_image)
+      val text = holder.getView<TextView>(R.id.tv_tab_text)
 
       //设置图片改变
       if (item.default_img_id != 0) {
@@ -134,11 +118,11 @@ class MainActivity : BaseTabActivity<ViewBinding, MainPresenter>(), MainContract
 
       setText(text, item.title)
       //设置字体颜色的改变
-      viewHolder.itemView.isSelected = mShowItem == item.type
+      holder.itemView.isSelected = mShowItem == item.type
 
-      viewHolder.itemView.tag = item.type
+      holder.itemView.tag = item.type
 
-      viewHolder.itemView.setOnClickListener {
+      holder.itemView.setOnClickListener {
         selectItemFromTagByClick(it)
       }
     }

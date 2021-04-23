@@ -11,7 +11,7 @@ public class BaseEvent {
   private int    code;
   private String pageName;
   private String message;
-  private String delayMessage;//用于在页面resume后调用
+  private String resumedMessage;//用于在页面resume后调用
   private Object data;
 
   public BaseEvent() {
@@ -51,12 +51,12 @@ public class BaseEvent {
     this.message = message;
   }
 
-  public String getDelayMessage() {
-    return delayMessage;
+  public String getResumedMessage() {
+    return resumedMessage;
   }
 
-  public void setDelayMessage(String delayMessage) {
-    this.delayMessage = delayMessage;
+  public void setResumedMessage(String resumedMessage) {
+    this.resumedMessage = resumedMessage;
   }
 
   public Object getData() {

@@ -12,6 +12,7 @@
 - Android ButterKnife Zelezny ButterKnife自动化
 - Android Resource Usage Count 资源引用数量显示
 - Android Parcelable code generator Parcelable代码生成
+- JSON To Kotlin Class ​(JsonToKotlinClass)​ 
 - Json Parser
 - JSONOnlineViewer
 - Alibaba Java Coding Guidelines 阿里代码规范检测
@@ -24,6 +25,8 @@
 - Statistic 代码统计
 - Rainbow Brackets 显示彩虹括号
 - ok gradle 搜索依赖
+- String Manipulation
+- detekt kotlin格式检测
 
 
 # 扩展插件

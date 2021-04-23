@@ -30,7 +30,7 @@ class ReactNativeDemoActivity : MainMvcBaseActivity<ActivityReactNativeDemoBindi
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     SoLoader.init(this, false)
-    mReactRootView = ReactRootView(this)
+
     val packages: List<ReactPackage> = PackageList(application).packages
     // 有一些第三方可能不能自动链接，对于这些包我们可以用下面的方式手动添加进来：
     // packages.add(new MyReactNativePackage());
@@ -46,6 +46,7 @@ class ReactNativeDemoActivity : MainMvcBaseActivity<ActivityReactNativeDemoBindi
         .build()
     // 注意这里的MyReactNativeApp 必须对应"index.js"中的
     // "AppRegistry.registerComponent()"的第一个参数
+    mReactRootView = ReactRootView(this)
     mReactRootView.startReactApplication(mReactInstanceManager, "MyReactNativeApp", null)
 //    setContentView(mReactRootView)
 

@@ -88,9 +88,20 @@ public class KeyboardStateObserver {
   /**
    * 计算mUserRootView可见高度，不包括statusBar的高度
    * <p/>
-   * SOFT_INPUT_ADJUST_RESIZE属性，在透明模式和非透明模式下，软键盘的显示和隐藏，computeUsableHeight会有不同的值
+   * SOFT_INPUT_ADJUST_RESIZE属性:
+   *
+   * 1. activity在透明模式下，软键盘的显示和隐藏，computeUsableHeight会有不同的值：2220->1336
+   * ，但是布局本身的高度没有变化，这时候需要手动设置布局高度重新绘制
+   *
+   * 2. activity在非透明模式下，软键盘的显示和隐藏，computeUsableHeight会有不同的值：2220->1336，布局本身的高度也会resize
+   * ，变成和computeUsableHeight一样的1336
    * <p/>
-   * SOFT_INPUT_ADJUST_PAN属性，activity在透明模式和非透明模式下，软键盘的显示和隐藏，computeUsableHeight会有不同的值（在透明模式下computeUsableHeight也有效果，但是将mFrameLayoutParams.height重新设置高度后，系统还会自动增加一个y轴向上的偏移量，显示会有问题），
+   * SOFT_INPUT_ADJUST_PAN属性：
+   *
+   * 1. activity在透明模式下，软键盘的显示和隐藏，computeUsableHeight会有不同的值：2220->1336，但布局本身的高度不变，只是通过平移向上移动
+   *
+   * 2. activity在非透明模式下，软键盘的显示和隐藏，computeUsableHeight会有不同的值：2220->1336，但布局本身的高度不变，只是通过平移向上移动
+   *
    * dialog在透明模式和非透明模式下，软键盘的显示和隐藏，computeUsableHeight的值相等，所以不适用
    *
    * @return

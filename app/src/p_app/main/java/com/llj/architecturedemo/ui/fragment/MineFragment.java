@@ -34,6 +34,8 @@ import com.llj.adapter.UniversalBind.Builder;
 import com.llj.adapter.converter.UniversalConverterFactory;
 import com.llj.adapter.util.ViewHolderHelper;
 import com.llj.application.AppApplication;
+import com.llj.application.router.CRouter;
+import com.llj.application.vo.UserInfoVo;
 import com.llj.architecturedemo.MainMvpBaseFragment;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.R2;
@@ -44,9 +46,7 @@ import com.llj.architecturedemo.ui.model.PersonalCenterVo;
 import com.llj.architecturedemo.ui.model.PersonalCenterVo.ToolsMenuVo;
 import com.llj.architecturedemo.ui.presenter.PersonalCenterPresenter;
 import com.llj.architecturedemo.ui.view.IMineView;
-import com.llj.application.router.CRouter;
 import com.llj.component.service.refreshLayout.JHSmartRefreshLayout;
-import com.llj.application.vo.UserInfoVo;
 import com.llj.lib.base.help.DisplayHelper;
 import com.llj.lib.image.loader.ImageLoader;
 import com.llj.lib.net.response.BaseResponse;
@@ -163,15 +163,15 @@ public class MineFragment extends
         mIvMemberTag.setVisibility(View.GONE);
       } else {
         mIvMemberTag.setVisibility(View.VISIBLE);
-        setText(mIvMemberTag, userInfoVo.getUlevel_name());
+        setText(mIvMemberTag, userInfoVo.getUlevel_name(), null);
       }
       //积分
       if (isEmpty(userInfoVo.getPutong_score())) {
         mTvDiamondPoints.setVisibility(View.GONE);
       } else {
         mTvDiamondPoints.setVisibility(View.VISIBLE);
-        setText(mTvDiamondPoints,
-            getString(R.string.score_num, nullToEmpty(userInfoVo.getPutong_score())));
+        setText(mTvDiamondPoints, getString(R.string.score_num,
+            nullToEmpty(userInfoVo.getPutong_score())), null);
       }
     } else {
       //未登录

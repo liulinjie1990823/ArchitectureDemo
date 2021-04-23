@@ -220,9 +220,9 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
   //<editor-fold desc="IEvent事件总线">
   @Subscribe(threadMode = ThreadMode.MAIN)
   fun onEvent(event: BaseEvent) {
-    if (!isEmpty(event.delayMessage)) {
+    if (!isEmpty(event.resumedMessage)) {
       //延迟消息
-      mDelayMessages.add(event.delayMessage)
+      mDelayMessages.add(event.resumedMessage)
     } else {
       //即时消息
       onReceiveEvent(event)

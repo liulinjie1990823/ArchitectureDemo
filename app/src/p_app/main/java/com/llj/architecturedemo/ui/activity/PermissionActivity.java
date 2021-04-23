@@ -8,10 +8,10 @@ import butterknife.BindView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.llj.adapter.ListBasedAdapter;
 import com.llj.adapter.util.ViewHolderHelper;
+import com.llj.application.router.CRouter;
 import com.llj.architecturedemo.MainMvcBaseActivity;
 import com.llj.architecturedemo.R;
 import com.llj.architecturedemo.R2;
-import com.llj.application.router.CRouter;
 import com.llj.component.service.permission.PermissionManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class PermissionActivity extends MainMvcBaseActivity {
     protected void onBindViewHolder(@NonNull ViewHolderHelper viewHolder, @Nullable String item,
         int position) {
       TextView textView = viewHolder.getView(R.id.tv_permission);
-      setText(textView, item);
+      setText(textView, item, null);
 
       viewHolder.itemView.setOnClickListener(v -> {
         String textStr = getTextStr(textView);

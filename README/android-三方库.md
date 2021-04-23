@@ -10,27 +10,28 @@
 - butterknife <https://github.com/JakeWharton/butterknife> com.jakewharton:butterknife:9.0.0-rc2
 
 ##### 解耦
-- dagger2 <https://github.com/google/dagger>
+- [dagger2]https://github.com/google/dagger
+- [anvil](https://github.com/square/anvil)
 
 ##### 事件
-- eventbus <https://github.com/greenrobot/EventBus> org.greenrobot:eventbus:3.1.1
+- [EventBus](https://github.com/greenrobot/EventBus)
 
 ##### 页面路由
-- arouter <https://github.com/alibaba/ARouter>
+- [arouter](https://github.com/alibaba/ARouter)
 
 ##### rxjava2
-- rxjava2 <https://github.com/ReactiveX/RxJava> io.reactivex.rxjava2:rxjava:2.2.5
-- AutoDispose <https://github.com/uber/AutoDispose>
+- [rxJava2](https://github.com/ReactiveX/RxJava)
+- [AutoDispose](https://github.com/uber/AutoDispose)
 
 ##### 应用启动框架
-- alpha <https://github.com/alibaba/alpha>
+- [alpha](https://github.com/alibaba/alpha)
 
 ##### 线程操作
-- bolt <https://github.com/BoltsFramework/Bolts-Android>
+- [bolt](https://github.com/BoltsFramework/Bolts-Android)
 
 ##### 网络
-- okhttp <https://github.com/square/okhttp> com.squareup.okhttp3:okhttp:3.12.1
-- retrofit <https://github.com/square/retrofit> com.squareup.retrofit2:retrofit:2.5.0
+- [okhttp](https://github.com/square/okhttp) com.squareup.okhttp3:okhttp:3.12.1
+- [retrofit](https://github.com/square/retrofit) com.squareup.retrofit2:retrofit:2.5.0
 - okhttp_logging_interceptor
 - PersistentCookieJar
 
@@ -38,12 +39,13 @@
 - SaveState <https://github.com/PrototypeZ/SaveState>
 
 ##### json解析
-- gson <https://github.com/google/gson> com.google.code.gson:gson:2.8.5
+- [gson](https://github.com/google/gson)
 - fastjson-android
+- [moshi](https://github.com/square/moshi)
 
 ##### 图片加载
-- fresco <https://github.com/facebook/fresco>
-- glide <https://github.com/bumptech/glide>
+- [fresco](https://github.com/facebook/fresco)
+- [glide](https://github.com/bumptech/glide)
 
 ##### 权限校验
 - permission：<https://github.com/yanzhenjie/AndPermission> com.yanzhenjie:permission:2.0.0-rc12
@@ -57,7 +59,8 @@
 - VasDolly <https://github.com/Tencent/VasDolly/>
 
 ##### 文件下载
-- okdownload <https://github.com/lingochamp/okdownload>
+- [okdownload](https://github.com/lingochamp/okdownload)
+- [aria](https://github.com/AriaLyy/Aria)
 
 
 ##### 进程通信
@@ -75,7 +78,7 @@
 - tinker <https://github.com/Tencent/tinker>
 
 ##### 数据库
-- DBFlow <https://github.com/agrosner/DBFlow>
+- [DBFlow](https://github.com/agrosner/DBFlow)
 
 ##### KV存储
 - MMKV <https://github.com/Tencent/MMKV>
@@ -85,20 +88,20 @@
 - CheckVersionLib <https://github.com/AlexLiuSheng/CheckVersionLib>  com.allenliu.versionchecklib:library:2.1.9
 
 ##### 反射工具类
-- jOOR：<https://github.com/jOOQ/jOOR>
+- [jOOR](https://github.com/jOOQ/jOOR)
 
 ##### ffmpeg
 - javacv <https://github.com/bytedeco/javacv>
 - FFmpeg-Android <https://github.com/bravobit/FFmpeg-Android>
 
 ##### 繁体和简体转换
-- opencc：<https://github.com/qichuan/android-opencc>
+- [opencc](https://github.com/qichuan/android-opencc)
 
 ##### 性能检测
-- flipper：<https://github.com/facebook/flipper> com.facebook.flipper:flipper:0.14.1
-- leakcanary：<https://github.com/square/leakcanary>
-- Matrix:<https://github.com/Tencent/matrix>
-- AndroidGodEye:<https://github.com/Kyson/AndroidGodEye>
+- [flipper](https://github.com/facebook/flipper) com.facebook.flipper:flipper:0.14.1
+- [leakcanary](https://github.com/square/leakcanary)
+- [matrix](https://github.com/Tencent/matrix)
+- [AndroidGodEye](https://github.com/Kyson/AndroidGodEye)
 
 
 ##### ui库

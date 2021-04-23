@@ -66,6 +66,11 @@ subprojects {
                     arg("serializer", "gson")
                 }
             }
+            android{
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
         }
 
         boolean isApplication = it.pluginManager.hasPlugin("com.android.application")
@@ -158,10 +163,6 @@ subprojects {
             compileOptions {
                 targetCompatibility App.compileJdkVersion
                 sourceCompatibility App.compileJdkVersion
-            }
-
-            kotlinOptions {
-                jvmTarget = "1.8"
             }
 
         }

@@ -22,7 +22,7 @@ object Versions {
   const val bintray_release = "0.8.1"
   const val walle = "1.1.7"
 
-  const val lifecycle = "2.3.0"
+  const val lifecycle = "2.3.1"
   const val room = "2.2.6"
   const val sqlite = "2.1.0"
 
@@ -73,12 +73,12 @@ object Deps {
   //支持库
   //https://developer.android.com/jetpack/androidx/versions
   //https://developer.android.com/jetpack/androidx/releases/activity
-  const val androidx_activity = "androidx.activity:activity:1.2.0"
-  const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.2.0"
-  const val androidx_annotations = "androidx.annotation:annotation:1.1.0"
+  const val androidx_activity = "androidx.activity:activity:1.2.2"
+  const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.2.2"
+  const val androidx_annotations = "androidx.annotation:annotation:1.2.0"
   const val androidx_appcompat = "androidx.appcompat:appcompat:1.2.0"
-  const val androidx_fragment = "androidx.fragment:fragment:1.3.0"
-  const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.3.0"
+  const val androidx_fragment = "androidx.fragment:fragment:1.3.2"
+  const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.3.2"
   const val androidx_arch_common = "androidx.arch.core:core-common:2.1.0"
   const val androidx_arch_runtime = "androidx.arch.core:core-runtime:2.1.0"
   const val androidx_core = "androidx.core:core:1.3.2"
@@ -115,10 +115,10 @@ object Deps {
   const val emoji = "androidx.emoji:emoji:1.1.0"
   const val exifinterface = "androidx.exifinterface:exifinterface:1.3.1"
   const val localbroadcastmanager = "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
-  const val navigation_fragment = "androidx.navigation:navigation-fragment:2.3.3"
-  const val navigation_ui = "androidx.navigation:navigation-ui:2.3.3"
-  const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
-  const val recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.1.0"
+  const val navigation_fragment = "androidx.navigation:navigation-fragment:2.3.5"
+  const val navigation_ui = "androidx.navigation:navigation-ui:2.3.5"
+  const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0"
+  const val recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.2.0"
   const val savedstate = "androidx.savedstate:savedstate:1.1.0"
   const val savedstate_ktx = "androidx.savedstate:savedstate-ktx:1.1.0"
   const val slidingpanelayout = "androidx.slidingpanelayout:slidingpanelayout:1.1.0"

@@ -18,29 +18,6 @@ try {
 }
 
 //将根目录下的local.properties文件的属性赋值给根project的ext属性
-
-//获取编译任务的buildType
-ext.buildTypeDebug = false
-String startTaskName = ""
-if (gradle.startParameter.taskNames.size() != 0) {
-    ext.buildTypeDebug = gradle.startParameter.taskNames.get(0).contains("Debug")
-    startTaskName = gradle.startParameter.taskNames.get(0)
-}
-println("ext.buildTypeDebug:  " + ext.buildTypeDebug)
-println("startTaskName:  " + startTaskName)
-
-if (startTaskName.contains("app:")) {
-//    ext.mainPath = "/main/MainActivity"
-    ext.mainPath = "/main/ReactNativeDemoActivity"
-} else if (startTaskName.contains("app-login:")) {
-    ext.mainPath = "/login/LoginActivity"
-} else if (startTaskName.contains("app-setting:")) {
-    ext.mainPath ="/setting/SettingActivity"
-}else {
-    ext.mainPath = "/main/MainActivity"
-}
-
-
 ext.applicationId = properties.getProperty("applicationId")
 
 //蒲公英相关秘钥
@@ -94,6 +71,7 @@ ext.useFlutterSrc = properties.getProperty("useFlutterSrc") == "true"
 ext.useReactNative = properties.getProperty("useReactNative") == "true"
 ext.enableHermes = properties.getProperty("enableHermes") == "false"
 
+
 //同步android机代理任务
 task syncAndroidIp(type: Exec) {
     description '设置android端ip代理'
@@ -110,4 +88,30 @@ task repoAar(type: Exec) {
     workingDir "$rootProject.projectDir"
     commandLine 'python3', 'repo_aar.py'
 }
+
+
+//获取编译任务的buildType
+ext.buildTypeDebug = false
+String startTaskName = ""
+if (gradle.startParameter.taskNames.size() != 0) {
+    ext.buildTypeDebug = gradle.startParameter.taskNames.get(0).contains("Debug")
+    startTaskName = gradle.startParameter.taskNames.get(0)
+}
+println("ext.buildTypeDebug:  " + ext.buildTypeDebug)
+println("startTaskName:  " + startTaskName)
+
+if (startTaskName.contains("app:")) {
+    if (useReactNative) {
+        ext.mainPath = "/main/ReactNativeDemoActivity"
+    } else {
+        ext.mainPath = "/main/MainActivity"
+    }
+} else if (startTaskName.contains("app-login:")) {
+    ext.mainPath = "/login/LoginActivity"
+} else if (startTaskName.contains("app-setting:")) {
+    ext.mainPath = "/setting/SettingActivity"
+} else {
+    ext.mainPath = "/main/MainActivity"
+}
+
 

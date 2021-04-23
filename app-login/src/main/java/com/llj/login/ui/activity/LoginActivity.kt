@@ -71,17 +71,17 @@ class LoginActivity : LoginMvcBaseActivity<LoginActivityLoginBinding>() {
       addItemLayout(R.layout.login_item_third_login)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolderHelper, item: Data?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolderHelper, item: Data?, position: Int) {
       if (item == null) {
         return
       }
 
-      val imageView = viewHolder.getView<ImageView>(R.id.iv_login)
-      val textView = viewHolder.getView<TextView>(R.id.tv_login)
+      val imageView = holder.getView<ImageView>(R.id.iv_login)
+      val textView = holder.getView<TextView>(R.id.tv_login)
       imageView?.setImageResource(item.resId)
       setText(textView, position.toString() + "  " + item.text)
 
-      viewHolder.itemView.setOnClickListener {
+      holder.itemView.setOnClickListener {
 
         finish()
         AppManager.getInstance().userInfoConfig.isLogin = true

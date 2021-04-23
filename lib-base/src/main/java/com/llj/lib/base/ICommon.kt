@@ -16,7 +16,13 @@ interface ICommon<V : ViewBinding> : IWindowInset, IReflectView<V> {
 
   fun getIntentData(intent: Intent) {}
 
+
   fun getArgumentsData(bundle: Bundle?) {}
+
+  //返回Boolean说明是否预加载数据
+  fun preLoadData(): Boolean {
+    return false
+  }
 
   fun layoutView(): View? {
     return null

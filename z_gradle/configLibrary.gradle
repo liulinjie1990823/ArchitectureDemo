@@ -46,6 +46,11 @@ subprojects {
                         arg("serializer", "gson")
                     }
                 }
+                android{
+                    kotlinOptions {
+                        jvmTarget = "1.8"
+                    }
+                }
             }
 
             android {

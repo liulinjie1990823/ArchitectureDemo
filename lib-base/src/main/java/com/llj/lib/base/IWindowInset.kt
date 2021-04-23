@@ -28,7 +28,7 @@ interface IWindowInset {
   }
 
 
-  //将insets事件分发到ViewPager里面
+  //将insets事件分发到ViewPager里面，或者分发子fragment
   fun dispatchApplyWindowInsets(view: ViewGroup) {
     view.setOnApplyWindowInsetsListener { _, insets ->
       val childCount = view.childCount
@@ -73,6 +73,18 @@ interface IWindowInset {
           return v.onApplyWindowInsets(insetsBottom)
         }
       })
+    C.callNonStatic()
+    C.callStatic()
   }
 
+}
+
+class C {
+  companion object {
+    @JvmStatic
+    fun callStatic() {
+    }
+
+    fun callNonStatic() {}
+  }
 }
