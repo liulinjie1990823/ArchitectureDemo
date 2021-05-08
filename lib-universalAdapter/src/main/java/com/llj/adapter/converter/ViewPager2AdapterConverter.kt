@@ -21,11 +21,17 @@ import com.llj.adapter.util.ThreadingUtils
  * @author liulinjie
  * @date 2020/5/17 11:28 AM
  */
-class ViewPager2AdapterConverter<Item, Holder : XViewHolder>(universalAdapter: UniversalAdapter<Item, Holder>, viewPager2: ViewPager2) : RecyclerView.Adapter<XViewHolder>(),
-    HeaderListenerAdapter<Item, Holder>,
-    FooterListenerAdapter<Item, Holder>,
-    ItemListenerAdapter<Item, Holder>,
-    UniversalConverter<Item, Holder> {
+class ViewPager2AdapterConverter<Item, Holder : XViewHolder>(universalAdapter: UniversalAdapter<Item, Holder>, viewPager2: ViewPager2) :
+  RecyclerView.Adapter<XViewHolder>(),
+  HeaderListenerAdapter<Item, Holder>,
+  FooterListenerAdapter<Item, Holder>,
+  ItemListenerAdapter<Item, Holder>,
+  UniversalConverter<Item, Holder> {
+
+  private var mUniversalAdapter: UniversalAdapter<Item, Holder>? = null
+  private var mRecyclerItemClickListener: RecyclerItemClickListener<Holder>? = null
+  private val mObserverListener: RecyclerViewListObserverListener<Item> = RecyclerViewListObserverListener(this)
+
 
   init {
     universalAdapter.checkIfBoundAndSet()
@@ -33,8 +39,10 @@ class ViewPager2AdapterConverter<Item, Holder : XViewHolder>(universalAdapter: U
     viewPager2.adapter = this
     val recycleView = viewPager2.getChildAt(0) as RecyclerView
     recycleView.addOnItemTouchListener(object : RecyclerViewItemClickListener() {
-      override fun onItemClick(holder: Holder, parent: RecyclerView?, position: Int, x: Float,
-                               y: Float) {
+      override fun onItemClick(
+        holder: Holder, parent: RecyclerView?, position: Int, x: Float,
+        y: Float
+      ) {
         if (getAdapter().internalIsEnabled(position)) {
           if (mRecyclerItemClickListener != null) {
             mRecyclerItemClickListener!!.onItemClick(holder, parent, position, x, y)
@@ -43,13 +51,17 @@ class ViewPager2AdapterConverter<Item, Holder : XViewHolder>(universalAdapter: U
         }
       }
 
-      override fun onItemDoubleClick(holder: Holder, parent: RecyclerView?, position: Int, x: Float,
-                                     y: Float) {
+      override fun onItemDoubleClick(
+        holder: Holder, parent: RecyclerView?, position: Int, x: Float,
+        y: Float
+      ) {
         getAdapter().onItemDoubleClicked(position, holder)
       }
 
-      override fun onItemLongClick(holder: Holder, parent: RecyclerView?, position: Int, x: Float,
-                                   y: Float) {
+      override fun onItemLongClick(
+        holder: Holder, parent: RecyclerView?, position: Int, x: Float,
+        y: Float
+      ) {
         getAdapter().onItemLongClicked(position, holder)
       }
     })
@@ -69,12 +81,10 @@ class ViewPager2AdapterConverter<Item, Holder : XViewHolder>(universalAdapter: U
     fun onItemClick(viewHolder: Holder, parent: RecyclerView?, position: Int, x: Float, y: Float)
   }
 
-  private var mUniversalAdapter: UniversalAdapter<Item, Holder>? = null
-  private var mRecyclerItemClickListener: RecyclerItemClickListener<Holder>? = null
-  private val mObserverListener: RecyclerViewListObserverListener<Item> = RecyclerViewListObserverListener(this)
 
   fun setRecyclerItemClickListener(
-      recyclerItemClickListener: RecyclerItemClickListener<Holder>?) {
+    recyclerItemClickListener: RecyclerItemClickListener<Holder>?
+  ) {
     mRecyclerItemClickListener = recyclerItemClickListener
   }
 
@@ -110,8 +120,10 @@ class ViewPager2AdapterConverter<Item, Holder : XViewHolder>(universalAdapter: U
     getAdapter().bindViewHolder(holder, position)
   }
 
-  override fun onBindViewHolder(holder: XViewHolder, position: Int,
-                                payloads: List<Any>) {
+  override fun onBindViewHolder(
+    holder: XViewHolder, position: Int,
+    payloads: List<Any>
+  ) {
     if (payloads.isEmpty()) {
       getAdapter().bindViewHolder(holder, position)
     } else {
@@ -188,49 +200,49 @@ class ViewPager2AdapterConverter<Item, Holder : XViewHolder>(universalAdapter: U
     override fun onInterceptTouchEvent(view: RecyclerView, e: MotionEvent): Boolean {
       if (gestureDetector == null) {
         gestureDetector = GestureDetector(view.context,
-            object : SimpleOnGestureListener() {
-              override fun onSingleTapUp(e: MotionEvent): Boolean {
-                //1.如果支持双击，返回false,则gestureDetector.onTouchEvent(e)返回false，不会触发后面的单击代码
-                //单击事件在onSingleTapConfirmed中触发
-                //2.如果不支持双击，返回true,则gestureDetector.onTouchEvent(e)返回true，直接触发后面的单击代码，
-                //这样在onSingleTapUp后就返回true,就触发了单击，单击只需100ms左右，如果放在onSingleTapConfirmed里面执行单击则需要至少300ms的延时判断
-                return !getAdapter().isSupportDoubleClick
-              }
+          object : SimpleOnGestureListener() {
+            override fun onSingleTapUp(e: MotionEvent): Boolean {
+              //1.如果支持双击，返回false,则gestureDetector.onTouchEvent(e)返回false，不会触发后面的单击代码
+              //单击事件在onSingleTapConfirmed中触发
+              //2.如果不支持双击，返回true,则gestureDetector.onTouchEvent(e)返回true，直接触发后面的单击代码，
+              //这样在onSingleTapUp后就返回true,就触发了单击，单击只需100ms左右，如果放在onSingleTapConfirmed里面执行单击则需要至少300ms的延时判断
+              return !getAdapter().isSupportDoubleClick
+            }
 
-              override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                //300ms外没有迎来第二次点击
-                if (getAdapter().isSupportDoubleClick) {
-                  val childView = view.findChildViewUnder(e.x, e.y)
-                  if (childView != null) {
-                    val position = view.getChildAdapterPosition(childView)
-                    val holder = view.getChildViewHolder(childView) as Holder
-                    onItemClick(holder, view, position, e.x, e.y)
-                  }
-                }
-                return super.onSingleTapConfirmed(e)
-              }
-
-              override fun onDoubleTap(e: MotionEvent): Boolean {
-                //必须300ms内触发
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+              //300ms外没有迎来第二次点击
+              if (getAdapter().isSupportDoubleClick) {
                 val childView = view.findChildViewUnder(e.x, e.y)
                 if (childView != null) {
                   val position = view.getChildAdapterPosition(childView)
                   val holder = view.getChildViewHolder(childView) as Holder
-                  onItemDoubleClick(holder, view, position, e.x, e.y)
+                  onItemClick(holder, view, position, e.x, e.y)
                 }
-                return super.onDoubleTap(e)
               }
+              return super.onSingleTapConfirmed(e)
+            }
 
-              override fun onLongPress(e: MotionEvent) {
-                //长按，超过600ms
-                val childView = view.findChildViewUnder(e.x, e.y)
-                if (childView != null) {
-                  val position = view.getChildAdapterPosition(childView)
-                  val holder = view.getChildViewHolder(childView) as Holder
-                  onItemLongClick(holder, view, position, e.x, e.y)
-                }
+            override fun onDoubleTap(e: MotionEvent): Boolean {
+              //必须300ms内触发
+              val childView = view.findChildViewUnder(e.x, e.y)
+              if (childView != null) {
+                val position = view.getChildAdapterPosition(childView)
+                val holder = view.getChildViewHolder(childView) as Holder
+                onItemDoubleClick(holder, view, position, e.x, e.y)
               }
-            })
+              return super.onDoubleTap(e)
+            }
+
+            override fun onLongPress(e: MotionEvent) {
+              //长按，超过600ms
+              val childView = view.findChildViewUnder(e.x, e.y)
+              if (childView != null) {
+                val position = view.getChildAdapterPosition(childView)
+                val holder = view.getChildViewHolder(childView) as Holder
+                onItemLongClick(holder, view, position, e.x, e.y)
+              }
+            }
+          })
         gestureDetector!!.setIsLongpressEnabled(getAdapter().isSupportLongClick)
       }
       if (gestureDetector!!.onTouchEvent(e)) {
@@ -246,15 +258,21 @@ class ViewPager2AdapterConverter<Item, Holder : XViewHolder>(universalAdapter: U
 
     override fun onTouchEvent(recyclerView: RecyclerView, motionEvent: MotionEvent) {}
     override fun onRequestDisallowInterceptTouchEvent(b: Boolean) {}
-    abstract fun onItemClick(holder: Holder, parent: RecyclerView?, position: Int,
-                             x: Float, y: Float)
+    abstract fun onItemClick(
+      holder: Holder, parent: RecyclerView?, position: Int,
+      x: Float, y: Float
+    )
 
-    abstract fun onItemDoubleClick(holder: Holder, parent: RecyclerView?,
-                                   position: Int,
-                                   x: Float, y: Float)
+    abstract fun onItemDoubleClick(
+      holder: Holder, parent: RecyclerView?,
+      position: Int,
+      x: Float, y: Float
+    )
 
-    abstract fun onItemLongClick(holder: Holder, parent: RecyclerView?, position: Int,
-                                 x: Float, y: Float)
+    abstract fun onItemLongClick(
+      holder: Holder, parent: RecyclerView?, position: Int,
+      x: Float, y: Float
+    )
   }
 
 
