@@ -23,7 +23,7 @@ object Versions {
   const val walle = "1.1.7"
 
   const val lifecycle = "2.3.1"
-  const val room = "2.2.6"
+  const val room = "2.3.0"
   const val sqlite = "2.1.0"
 
   const val dagger = "2.33"
@@ -48,6 +48,9 @@ object Versions {
 
   const val nim = "7.5.0"
   const val socialization = "2.0.18"
+
+  const val FLIPPER_VERSION = "0.87.0"
+  const val MATRIX_VERSION = "0.9.0"
 }
 
 object Deps {
@@ -77,8 +80,8 @@ object Deps {
   const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.2.2"
   const val androidx_annotations = "androidx.annotation:annotation:1.2.0"
   const val androidx_appcompat = "androidx.appcompat:appcompat:1.2.0"
-  const val androidx_fragment = "androidx.fragment:fragment:1.3.2"
-  const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.3.2"
+  const val androidx_fragment = "androidx.fragment:fragment:1.3.3"
+  const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.3.3"
   const val androidx_arch_common = "androidx.arch.core:core-common:2.1.0"
   const val androidx_arch_runtime = "androidx.arch.core:core-runtime:2.1.0"
   const val androidx_core = "androidx.core:core:1.3.2"
@@ -123,7 +126,7 @@ object Deps {
   const val savedstate_ktx = "androidx.savedstate:savedstate-ktx:1.1.0"
   const val slidingpanelayout = "androidx.slidingpanelayout:slidingpanelayout:1.1.0"
   const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-  const val transition = "androidx.transition:transition:1.4.0"
+  const val transition = "androidx.transition:transition:1.4.1"
   const val vectordrawable = "androidx.vectordrawable:vectordrawable:1.1.0"
   const val vectordrawable_animated = "androidx.vectordrawable:vectordrawable-animated:1.1.0"
   const val viewpager = "androidx.viewpager:viewpager:1.0.0"

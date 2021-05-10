@@ -131,17 +131,17 @@ if (projectUserOrg != null) {
         repositories {
             maven {
                 //可以使本地路径，也可以是远程仓库
-                url = "../repo"
+//                url = "../repo"
                 //指定要上传的maven私服仓库
-//            url = "http://jenkins.maxrocky.com:8080/maven/content/repositories/thirdparty/"
+                url = "http://nexus.jiehun.tech/repository/android/"
                 //远程的仓库名称，一般url就指定了仓库名称
-                name = "localRepo"
+                name = "hbhNexus"
 
                 //认证用户和密码
-//            credentials {
-//                username 'admin'
-//                password 'maxrocky5721'
-//            }
+                credentials {
+                    username 'admin'
+                    password 'admin123'
+                }
             }
         }
     }

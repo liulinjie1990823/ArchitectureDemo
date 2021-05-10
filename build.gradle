@@ -94,7 +94,6 @@ buildscript {
         //detekt
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0"
 
-//        classpath "com.squareup.anvil:gradle-plugin:2.2.1"
 
     }
 }

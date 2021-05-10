@@ -73,15 +73,7 @@ dependencies {
     }
 
 
-    if (useComponent) {
-        addComponent 'app-login'
-//        addComponent 'app-mine'
-        addComponent 'app-setting'
-    } else {
-        api project(':app-login')
-        api project(':app-mine')
-        api project(':app-setting')
-    }
+
     implementation 'com.github.Yuphee:RewardLayout:1.0.5.8'
 
     //svg

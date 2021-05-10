@@ -14,7 +14,7 @@ detekt {
     // Interpret config files as updates to the default config. `false` by default.
     // Define the detekt configuration(s) you want to use. Defaults to the default detekt configuration.
 //    config = files("$projectDir/config/quality/detekt/detekt.yml")
-    config = files("$rootDir/config/quality/detekt/detekt.yml")
+    config = files("$rootDir/z_config/quality/detekt/detekt.yml")
     // a way of suppressing issues before introducing detekt
 //    baseline = file("$projectDir/config/quality/detekt/baseline.xml")
 //    baseline = file("$projectDir/config/baseline.xml")

@@ -1,0 +1,18 @@
+//组装需要依赖的组件,只支持ap开头的module
+
+if (startTaskName.contains("ap_mv:")) {
+    if (useMaven) {
+    } else {
+    }
+} else {
+    //默认全部集成
+    if (useComponent) {
+        addComponent 'app-login'
+//        addComponent 'app-mine'
+        addComponent 'app-setting'
+    } else {
+        api project(':app-login')
+        api project(':app-mine')
+        api project(':app-setting')
+    }
+}

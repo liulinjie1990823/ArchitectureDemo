@@ -6,112 +6,180 @@
 ## 类库选择
 
 ### 必须
-##### 注解view
-- butterknife <https://github.com/JakeWharton/butterknife> com.jakewharton:butterknife:9.0.0-rc2
+#### 注解view
+- [butterknife](https://github.com/JakeWharton/butterknife)
 
-##### 解耦
-- [dagger2]https://github.com/google/dagger
+#### 注入框架
+- [dagger2](https://github.com/google/dagger)
 - [anvil](https://github.com/square/anvil)
+- [koin](https://github.com/InsertKoinIO/koin)
 
-##### 事件
+#### 事件
 - [EventBus](https://github.com/greenrobot/EventBus)
 
-##### 页面路由
+#### 页面路由
 - [arouter](https://github.com/alibaba/ARouter)
 
-##### rxjava2
+#### rxjava2
 - [rxJava2](https://github.com/ReactiveX/RxJava)
 - [AutoDispose](https://github.com/uber/AutoDispose)
 
-##### 应用启动框架
+#### 应用启动框架
 - [alpha](https://github.com/alibaba/alpha)
 
-##### 线程操作
+#### 线程操作
 - [bolt](https://github.com/BoltsFramework/Bolts-Android)
 
-##### 网络
+#### 网络
+- [okio](https://github.com/square/okio)
 - [okhttp](https://github.com/square/okhttp) com.squareup.okhttp3:okhttp:3.12.1
 - [retrofit](https://github.com/square/retrofit) com.squareup.retrofit2:retrofit:2.5.0
 - okhttp_logging_interceptor
 - PersistentCookieJar
 
-##### 内存回收存储
+#### 内存回收存储
 - SaveState <https://github.com/PrototypeZ/SaveState>
 
-##### json解析
+#### json解析
 - [gson](https://github.com/google/gson)
-- fastjson-android
+- [fastjson-android](https://github.com/alibaba/fastjson)
 - [moshi](https://github.com/square/moshi)
 
-##### 图片加载
+#### 图片加载
 - [fresco](https://github.com/facebook/fresco)
 - [glide](https://github.com/bumptech/glide)
+- [lottie-android](https://github.com/airbnb/lottie-android)
 
-##### 权限校验
-- permission：<https://github.com/yanzhenjie/AndPermission> com.yanzhenjie:permission:2.0.0-rc12
+#### 权限校验
+- [AndPermission](https://github.com/yanzhenjie/AndPermission)
 
-##### 二维码
-- ZXing：
+#### 二维码
+- [ZXing](https://github.com/zxing/zxing)
 - ZBar：
 
-##### 渠道包
-- walle <https://github.com/Meituan-Dianping/walle>
-- VasDolly <https://github.com/Tencent/VasDolly/>
+#### 渠道包
+- [walle](https://github.com/Meituan-Dianping/walle)
+- [VasDolly](https://github.com/Tencent/VasDolly)
 
-##### 文件下载
+#### 文件下载
 - [okdownload](https://github.com/lingochamp/okdownload)
 - [aria](https://github.com/AriaLyy/Aria)
 
+#### 播放器
+- [ijkplayer](https://github.com/bilibili/ijkplayer)
+- [ExoPlayer](https://github.com/google/ExoPlayer)
+- [GSYVideoPlayer](https://github.com/CarGuo/GSYVideoPlayer)
 
-##### 进程通信
-- Andromeda <https://github.com/iqiyi/Andromeda>
+#### 文件存储服务
+- [oss](https://github.com/aliyun/aliyun-oss-android-sdk)
 
-
-### 选择
-##### 文件存储服务
-- oss <https://github.com/aliyun/aliyun-oss-android-sdk> com.aliyun.dpa:oss-android-sdk:2.9.2
-
-##### 组件化
-- cc <https://github.com/luckybilly/CC>
-
-##### 插件化
-- tinker <https://github.com/Tencent/tinker>
-
-##### 数据库
+#### 数据库
 - [DBFlow](https://github.com/agrosner/DBFlow)
+- [wcdb](https://github.com/Tencent/wcdb)
 
-##### KV存储
-- MMKV <https://github.com/Tencent/MMKV>
+#### KV存储
+- [MMKV](https://github.com/Tencent/MMKV)
 - Treasure <https://github.com/baoyongzhang/Treasure>
 
-##### app更新
+### 选择性类库
+
+#### 进程通信
+- [Andromeda](https://github.com/iqiyi/Andromeda)
+
+#### 跨平台
+- [flutter](https://github.com/flutter/flutter)
+- [react-native](https://github.com/facebook/react-native)
+- [RIBs](https://github.com/uber/RIBs)
+- [NativeScript](https://github.com/NativeScript/NativeScript)
+
+#### 图表
+- [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
+
+#### 工具类
+- [AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
+
+#### 游戏
+- [libgdx](https://github.com/libgdx/libgdx)
+
+#### 控制手机
+- [stf](https://github.com/openstf/stf)
+- [scrcpy](https://github.com/Genymobile/scrcpy)
+
+#### 逆向
+- 
+
+#### 图片剪裁
+- [uCrop](https://github.com/Yalantis/uCrop)
+
+#### 图片压缩
+- [Compressor](https://github.com/zetbaitsu/Compressor)
+- [ImageCompress](https://github.com/WGDrzjz/ImageCompress)
+
+#### 图片选择器
+- [PictureSelector](https://github.com/LuckSiege/PictureSelector)
+
+#### 阅读器
+- [tachiyomi](https://github.com/tachiyomiorg/tachiyomi)
+- [BookReader](https://github.com/smuyyh/BookReader)
+
+#### 识别
+- [mediapipe](https://github.com/google/mediapipe)
+- [ncnn](https://github.com/Tencent/ncnn)
+
+#### 列表动画
+- [recyclerview-animators](https://github.com/wasabeef/recyclerview-animators)
+
+#### 组件化
+- cc <https://github.com/luckybilly/CC>
+
+#### 插件化
+- [Shadow](https://github.com/Tencent/Shadow)
+
+#### 热修复
+- [tinker](https://github.com/Tencent/tinker)
+
+#### app更新
 - CheckVersionLib <https://github.com/AlexLiuSheng/CheckVersionLib>  com.allenliu.versionchecklib:library:2.1.9
 
-##### 反射工具类
+#### 反射工具类
 - [jOOR](https://github.com/jOOQ/jOOR)
 
-##### ffmpeg
-- javacv <https://github.com/bytedeco/javacv>
-- FFmpeg-Android <https://github.com/bravobit/FFmpeg-Android>
+#### ffmpeg
+- [javacv](https://github.com/bytedeco/javacv)
+- [FFmpeg-Android](https://github.com/bravobit/FFmpeg-Android)
 
-##### 繁体和简体转换
+#### 繁体和简体转换
 - [opencc](https://github.com/qichuan/android-opencc)
 
-##### 性能检测
-- [flipper](https://github.com/facebook/flipper) com.facebook.flipper:flipper:0.14.1
+#### rn库
+- [react-native-elements](https://github.com/react-native-elements/react-native-elements)
+
+#### 性能检测
+- [flipper](https://github.com/facebook/flipper)
 - [leakcanary](https://github.com/square/leakcanary)
 - [matrix](https://github.com/Tencent/matrix)
 - [AndroidGodEye](https://github.com/Kyson/AndroidGodEye)
+- [DoraemonKit](https://github.com/didi/DoraemonKit)
+
+#### 自动化
+- [Appium](https://github.com/appium/appium)
+- [Auto.js](https://github.com/hyb1996/Auto.js)
+- [Detox](https://github.com/wix/Detox)
+- [fastlane](https://github.com/fastlane/fastlane)
+
+#### 日历
+- [CalendarView](https://github.com/huanghaibin-dev/CalendarView)
+
 
 
 ##### ui库
+- [flexbox-layout](https://github.com/google/flexbox-layout)
 - webView：tbs服务
-- 约束布局：com.android.support.constraint:constraint-layout:2.0.0-beta3
-- 换肤：<https://github.com/ximsfei/Android-skin-support>
-- vlayout：<https://github.com/alibaba/vlayout> com.alibaba.android:vlayout:1.2.18@aar
-- 刷新：<https://github.com/scwang90/SmartRefreshLayout>  com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-19
-- 指示器：<https://github.com/hackware1993/MagicIndicator> com.github.hackware1993:MagicIndicator:1.5.0
-- 轮播：<https://github.com/demoNo/AutoScrollViewPager> com.github.demoNo:AutoScrollViewPager:v1.0.2
+- [Android-skin-support](https://github.com/ximsfei/Android-skin-support)换肤
+- [vlayout](https://github.com/alibaba/vlayout)
+- [SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)下拉刷新
+- [MagicIndicator](https://github.com/hackware1993/MagicIndicator)指示器
+- [AutoScrollViewPager](https://github.com/demoNo/AutoScrollViewPager)轮播
 - PageTransformer：
 - 日期城市选择器：<https://github.com/Bigkoo/Android-PickerView> com.contrarywind:Android-PickerView:3.2.7
 - tag标签：<https://github.com/qstumn/BadgeView> q.rorbin:badgeview:1.1.3

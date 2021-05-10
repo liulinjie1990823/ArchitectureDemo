@@ -63,35 +63,35 @@ dependencies {
     //flipper应用调试
     debugImplementation 'com.facebook.soloader:soloader:0.10.1'
     if (useReactNative) {
-        debugImplementation("com.facebook.flipper:flipper:0.85.0") {
+        debugImplementation("com.facebook.flipper:flipper:${Versions.FLIPPER_VERSION}") {
             exclude group: 'com.facebook.yoga'
             exclude group: 'com.facebook.fbjni', module: 'fbjni'
             exclude group: 'com.facebook.litho', module: 'litho-annotations'
         }
     } else {
-        debugImplementation("com.facebook.flipper:flipper:0.85.0")
+        debugImplementation("com.facebook.flipper:flipper:${Versions.FLIPPER_VERSION}")
     }
 
-    betaImplementation "com.facebook.flipper:flipper-noop:0.85.0"
-    releaseImplementation "com.facebook.flipper:flipper-noop:0.85.0"
+    betaImplementation "com.facebook.flipper:flipper-noop:${Versions.FLIPPER_VERSION}"
+    releaseImplementation "com.facebook.flipper:flipper-noop:${Versions.FLIPPER_VERSION}"
 
     //Litho插件
     if (useReactNative) {
-        debugImplementation('com.facebook.flipper:flipper-litho-plugin:0.85.0') {
+        debugImplementation("com.facebook.flipper:flipper-litho-plugin:${Versions.FLIPPER_VERSION}") {
             exclude group: 'com.facebook.yoga'
 //        exclude group: 'com.facebook.fbjni', module: 'fbjni'
 //        exclude group: 'com.facebook.litho', module: 'litho-annotations'
         }
     } else {
-        debugImplementation('com.facebook.flipper:flipper-litho-plugin:0.85.0')
+        debugImplementation("com.facebook.flipper:flipper-litho-plugin:${Versions.FLIPPER_VERSION}")
     }
     //fresco插件
-    debugImplementation 'com.facebook.flipper:flipper-fresco-plugin:0.85.0'
+    debugImplementation "com.facebook.flipper:flipper-fresco-plugin:${Versions.FLIPPER_VERSION}"
     //网络插件
-    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.85.0'
+    debugImplementation "com.facebook.flipper:flipper-network-plugin:${Versions.FLIPPER_VERSION}"
     //leakcanary插件
-//    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:0.85.0'
-    debugImplementation 'com.facebook.flipper:flipper-leakcanary2-plugin:0.85.0'
+//    debugImplementation 'com.facebook.flipper:flipper-leakcanary-plugin:${Versions.FLIPPER_VERSION}'
+    debugImplementation "com.facebook.flipper:flipper-leakcanary2-plugin:${Versions.FLIPPER_VERSION}"
 
     //内存检测
     debugImplementation Deps.leakcanary_android
@@ -99,13 +99,14 @@ dependencies {
 //    releaseImplementation Deps.leakcanary_android_no_op
 
     //https://github.com/Tencent/matrix
-    implementation group: "com.tencent.matrix", name: "matrix-android-lib", version: MATRIX_VERSION, changing: true
-    implementation group: "com.tencent.matrix", name: "matrix-android-commons", version: MATRIX_VERSION, changing: true
-    implementation group: "com.tencent.matrix", name: "matrix-trace-canary", version: MATRIX_VERSION, changing: true
-    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-android", version: MATRIX_VERSION, changing: true
-    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-common", version: MATRIX_VERSION, changing: true
-    implementation group: "com.tencent.matrix", name: "matrix-io-canary", version: MATRIX_VERSION, changing: true
-    implementation group: "com.tencent.matrix", name: "matrix-sqlite-lint-android-sdk", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-android-lib", version: Versions.MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-android-commons", version: Versions.MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-trace-canary", version: Versions.MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-android", version: Versions.MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-common", version: Versions.MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-io-canary", version: Versions.MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-sqlite-lint-android-sdk", version: Versions.MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-battery-canary", version: Versions.MATRIX_VERSION, changing: true
 
     //https://github.com/didi/DoraemonKit
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'

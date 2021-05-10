@@ -1,0 +1,23 @@
+//获取编译任务的buildType
+ext.buildTypeDebug = false
+ext.startTaskName = ""
+if (gradle.startParameter.taskNames.size() != 0) {
+    ext.buildTypeDebug = gradle.startParameter.taskNames.get(0).contains("Debug")
+    ext.startTaskName = gradle.startParameter.taskNames.get(0)
+}
+println("ext.buildTypeDebug:  " + ext.buildTypeDebug)
+println("ext.startTaskName:  " + ext.startTaskName)
+
+if (ext.startTaskName.contains("app:")) {
+    if (useReactNative) {
+        ext.mainPath = "/main/ReactNativeDemoActivity"
+    } else {
+        ext.mainPath = "/main/MainActivity"
+    }
+} else if (ext.startTaskName.contains("app-login:")) {
+    ext.mainPath = "/login/LoginActivity"
+} else if (ext.startTaskName.contains("app-setting:")) {
+    ext.mainPath = "/setting/SettingActivity"
+} else {
+    ext.mainPath = "/main/MainActivity"
+}
