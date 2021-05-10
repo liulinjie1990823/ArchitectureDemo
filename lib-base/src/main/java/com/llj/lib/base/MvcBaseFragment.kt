@@ -599,7 +599,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     //        StatusBarCompat.translucentStatusBar(getWindow(), true);
     //         setCancelable(cancelable);
     //         setCanceledOnTouchOutside(cancel);
-    window.setBackgroundDrawable(ColorDrawable(0x00000000));
+    window.setBackgroundDrawable(ColorDrawable(0x00000000))
     val params = window.attributes
     // setContentView设置布局的透明度，0为透明，1为实际颜色,该透明度会使layout里的所有空间都有透明度，不仅仅是布局最底层的view
     // params.alpha = 1f;

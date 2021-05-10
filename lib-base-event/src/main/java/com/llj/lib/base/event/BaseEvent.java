@@ -11,7 +11,7 @@ public class BaseEvent {
   private int    code;
   private String pageName;
   private String message;
-  private String resumedMessage;//用于在页面resume后调用
+  private String resumedMessage; //用于在页面resume后调用
   private Object data;
 
   public BaseEvent() {

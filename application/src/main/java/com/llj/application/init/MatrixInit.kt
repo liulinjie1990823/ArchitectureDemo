@@ -71,10 +71,11 @@ class MatrixInit : SimpleAppInit() {
       MatrixLog.i(TAG, "Dump Activity Leak Mode=%s", mode)
       intent.setClassName(mApplication.packageName, "com.tencent.mm.ui.matrix.ManualDumpActivity")
       val resourceConfig: ResourceConfig = ResourceConfig.Builder()
-          .dynamicConfig(dynamicConfig)
-          .setAutoDumpHprofMode(mode) //                .setDetectDebuger(true) //matrix test code
-          .setNotificationContentIntent(intent)
-          .build()
+        .dynamicConfig(dynamicConfig)
+        .setAutoDumpHprofMode(mode) //                .setDetectDebuger(true) //matrix test code
+//          .setNotificationContensettIntent(intent)
+//        .setManualDumpTargetActivity(ManualDumpActivity.class.getName())
+        .build()
       builder.plugin(ResourcePlugin(resourceConfig))
       ResourcePlugin.activityLeakFixer(mApplication)
 

@@ -30,7 +30,8 @@ import java.lang.ref.WeakReference
  * @author llj
  * @date 2019/3/13
  */
-abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActivity, ICommon<V>, IUiHandler, IEvent, IBaseActivityView, IFragmentHandle {
+abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActivity, ICommon<V>, IUiHandler, IEvent, IBaseActivityView,
+  IFragmentHandle {
 
   @JvmField
   val mTagLog: String = this.javaClass.simpleName
@@ -281,8 +282,10 @@ abstract class MvcBaseActivity<V : ViewBinding> : AppCompatActivity(), IBaseActi
       }
     }
     setRequestId(hashCode())
-    Timber.tag(mTagLog).i("Lifecycle %s（%d）initLoadingDialog %s（%d）", mTagLog, hashCode(),
-        mRequestDialog!!.javaClass.simpleName, mRequestDialog!!.hashCode())
+    Timber.tag(mTagLog).i(
+      "Lifecycle %s（%d）initLoadingDialog %s（%d）", mTagLog, hashCode(),
+      mRequestDialog!!.javaClass.simpleName, mRequestDialog!!.hashCode()
+    )
   }
 
   private class MyOnCancelListener(fragment: ITask, private val mRequestId: Int) : DialogInterface.OnCancelListener {

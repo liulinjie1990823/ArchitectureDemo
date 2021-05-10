@@ -10,7 +10,7 @@ import com.llj.component.service.PlatformMvcBaseActivity
  * author llj
  * date 2019/3/14
  */
-abstract class MainMvcBaseActivity<V : ViewBinding> : PlatformMvcBaseActivity<V>(){
+abstract class MainMvcBaseActivity<V : ViewBinding> : PlatformMvcBaseActivity<V>() {
   override fun getModuleName(): String {
     return CRouter.MODULE_MAIN
   }
