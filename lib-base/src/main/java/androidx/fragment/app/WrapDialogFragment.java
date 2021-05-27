@@ -534,6 +534,11 @@ public class WrapDialogFragment extends Fragment
     }
   }
 
+  public void superOnStart() {
+    super.onStart();
+  }
+
+
   @MainThread
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {

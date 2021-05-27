@@ -44,10 +44,10 @@ gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
     void afterEvaluate(Project project, ProjectState state) {
         println("-----------------------------------------" + "afterEvaluate:[" + project.name + "]-----------------------------------------")
 
-        if (project.name == rootProject.name) {
-//            println("-----------------------------------------rootProject.ext begin----------------------------------------------------")
-//            println(project.name + ".ext" + project.extensions.extraProperties.properties)
-            println("-----------------------------------------rootProject.ext end------------------------------------------------------")
-        }
+//        if (project.name == rootProject.name) {
+        println("-----------------------------------------" + project.name + ".ext begin----------------------------------------------------")
+//        println(project.name + ".ext" + project.extensions.extraProperties.properties)
+        println("-----------------------------------------" + project.name + ".ext end------------------------------------------------------")
+//        }
     }
 })

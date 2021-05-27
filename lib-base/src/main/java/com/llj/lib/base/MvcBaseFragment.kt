@@ -67,7 +67,8 @@ import java.lang.ref.WeakReference
  * @author llj
  * @date 2018/8/15
  */
-abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDialogFragment(), IBaseFragment, ICommon<V>, IUiHandler, IEvent, ITask, ILoadingDialogHandler<BaseDialog>, IFragmentHandle {
+abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDialogFragment(), IBaseFragment, ICommon<V>, IUiHandler, IEvent, ITask,
+  ILoadingDialogHandler<BaseDialog>, IFragmentHandle {
   @JvmField val mTagLog: String = this.javaClass.simpleName
 
   lateinit var mContext: Context
@@ -86,8 +87,12 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   private val mCancelableTasks: androidx.collection.ArrayMap<Int, Disposable> = androidx.collection.ArrayMap()
   private val mResumedMessages: androidx.collection.ArraySet<String> = androidx.collection.ArraySet()
 
+  //是否需要保存view，可能有些界面不需要重新加载，显示后需要保存在内存中；需要注意内存量
+  //配合FragmentPagerAdapter时候使用，如果是dialog模式则不支持
+  var mShouldSaveView = false
   var mUseSoftInput: Boolean = false //是否使用软键盘，用来自动显示输入法
   var mUseTranslucent: Boolean = false //是否使用透明模式
+  var mDialogUseDismiss: Boolean = false //是否使用Dismiss模式，Dismiss模式关闭的时候不会移除fragment，这样不会重新onCreateView
   var mTextColorBlack: Boolean? = null //是否使用黑色字体，mUseTranslucent=true的前提下起作用
 
   private var mCurrentMill: Long? = null//记录初始化时间用
@@ -96,7 +101,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     showsDialog = false
   }
 
-  //<editor-fold desc="对话框相关">
+  //region 对话框相关
   private var mOnDismissListener: DialogInterface.OnDismissListener? = null
   private var mOnShowListener: DialogInterface.OnShowListener? = null
 
@@ -130,7 +135,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     return baseDialogImpl
   }
 
-  //<editor-fold desc="onShow">
+  //region onShow
   //如果是DialogFragment，会在该方法中显示dialog
   private fun dispatchShowListener() {
     //设置回调方法
@@ -171,15 +176,16 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
 
   }
 
-  //</editor-fold>
+  //endregion
 
-  //<editor-fold desc="onDismiss">
+  //region onDismiss
   //如果有dialog，dialog的dismiss会回调该方法
   //不要设置dialog的setOnDismissListener，因为DialogFragment中会覆盖
   //在fragment中提供了mOnDismissListener的回调
   override fun onDismiss(dialog: DialogInterface) {
-    super.onDismiss(dialog)
-
+    if (!mDialogUseDismiss) {
+      super.onDismiss(dialog)
+    }
     dispatchDismissListener()
   }
 
@@ -201,13 +207,17 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     performToggleSoftInput(false)
 
   }
-  //</editor-fold>
+  //endregion
 
   //region smartDismiss
   fun smartDismiss() {
     if (showsDialog) {
-      //后续会调用hideSoftInput，onDismiss，走dispatchDismissListener
-      dismissAllowingStateLoss()
+      if (mDialogUseDismiss) {
+        dialog?.dismiss()
+      } else {
+        //后续会调用hideSoftInput，onDismiss，走dispatchDismissListener
+        dismissAllowingStateLoss()
+      }
     } else {
       hideSoftInput()
       removeFragment(parentFragmentManager, this)
@@ -217,11 +227,16 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   //endregion
 
 
-  //<editor-fold desc="smartShow">
+  //region smartShow
   fun smartShow(manager: FragmentManager, tag: String = mTagLog, @IdRes containerViewId: Int = Window.ID_ANDROID_CONTENT) {
     if (showsDialog) {
       try {
-        super.show(manager, tag)
+        if (mDialogUseDismiss && dialog != null) {
+          dialog!!.show()
+        } else {
+          super.show(manager, tag)
+        }
+
       } catch (ignore: IllegalStateException) {
         //  容错处理,不做操作
         Timber.tag(mTagLog).i("Lifecycle %s smartShow：%d %s", mTagLog, hashCode(), ignore.message)
@@ -232,9 +247,9 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
       addFragment(manager.beginTransaction(), this, containerViewId, tag)
     }
   }
-  //</editor-fold>
+  //endregion
 
-  //<editor-fold desc="smartShowNow">
+  //region smartShowNow
   //1.先添加fragment
   //2.在fragment的生命周期的onStart中显示dialog
   fun smartShowNow(manager: FragmentManager, tag: String = mTagLog, @IdRes containerViewId: Int = Window.ID_ANDROID_CONTENT) {
@@ -243,7 +258,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
         super.showNow(manager, tag)
       } catch (ignore: IllegalStateException) {
         //  容错处理,不做操作
-        Timber.tag(mTagLog).i("Lifecycle %s onCreateView：%d %s", mTagLog, hashCode(), ignore.message)
+        Timber.tag(mTagLog).i("Lifecycle %s smartShowNow：%d %s", mTagLog, hashCode(), ignore.message)
       }
 
     } else {
@@ -251,11 +266,11 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
       addFragmentNow(manager.beginTransaction(), this, containerViewId, tag)
     }
   }
-  //</editor-fold>
-  //</editor-fold >
+  //endregion
+  //endregion
 
 
-  //<editor-fold desc="生命周期">
+  //region生命周期
   override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
     Timber.tag(mTagLog).i("Lifecycle %s onCreateAnimation：%d", mTagLog, hashCode())
     return super.onCreateAnimation(transit, enter, nextAnim)
@@ -283,6 +298,10 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     Timber.tag(mTagLog).i("Lifecycle %s onCreate：%d", mTagLog, hashCode())
+
+    if (showsDialog && mShouldSaveView) {
+      throw RuntimeException("使用dialog模式时不支持 mShouldSaveView=true")
+    }
 
     //设置dialog的style
     setStyle(STYLE_NO_TITLE, R.style.no_dim_dialog)
@@ -364,12 +383,23 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   }
 
   override fun onStart() {
-    super.onStart()
+    if (mDialogUseDismiss) {
+      val temp = dialog
+      if ((temp is BaseDialog) && !temp.mCreate) {
+        //第一次还是使用默认的方式， mDialog.show()
+        super.onStart()
+        dispatchShowListener()
+        showSoftInput()
+      } else {
+        //后面就不主动显示dialog
+        superOnStart()
+      }
+    } else {
+      super.onStart()
+      dispatchShowListener()
+      showSoftInput()
+    }
     Timber.tag(mTagLog).i("Lifecycle %s onStart：%d", mTagLog, hashCode())
-
-    dispatchShowListener()
-
-    showSoftInput()
   }
 
   override fun onResume() {
@@ -387,8 +417,6 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     Timber.tag(mTagLog).i("Lifecycle %s onStop：%d", mTagLog, hashCode())
   }
 
-  //是否需要保存view，可能有些界面不需要重新加载，显示后需要保存在内存中；需要注意内存量
-  private var mShouldSaveView = false
 
   //如果需要在内存中持有view，不需要在onDestroyView中移除observers，使用自身LifecycleOwner即可
   open fun getCorrectLifecycleOwner(): LifecycleOwner? {
@@ -443,10 +471,10 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
     super.onDetach()
     Timber.tag(mTagLog).i("Lifecycle %s onDetach：%d", mTagLog, hashCode())
   }
-  //</editor-fold >
+  //endregion
 
 
-  //<editor-fold desc="任务处理">
+  //region任务处理
   override fun addDisposable(taskId: Int, disposable: Disposable) {
     mCancelableTasks[taskId] = disposable
   }
@@ -469,9 +497,9 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
       removeDisposable(apiKey)
     }
   }
-  //</editor-fold >
+  //endregion
 
-  //<editor-fold desc="事件总线">
+  //region事件总线
   @Subscribe(threadMode = ThreadMode.MAIN)
   fun onEvent(event: BaseEvent) {
     if (!isEmpty(event.resumedMessage)) {
@@ -498,22 +526,21 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   override fun inCurrentPage(event: BaseEvent): Boolean {
     return mTagLog == event.pageName
   }
-  //</editor-fold >
+  //endregion
 
-  //<editor-fold desc="IBaseFragment">
+  //region IBaseFragment
   override fun initLifecycleObserver(lifecycle: Lifecycle) {
     //将mPresenter作为生命周期观察者添加到lifecycle中
   }
-  //</editor-fold >
+  //endregion
 
-  //<editor-fold desc="IBaseFragmentLazy">
+  //region IBaseFragmentLazy
   override fun hasInitAndVisible(): Boolean {
     return mInit && userVisibleHint
   }
+  //endregion
 
-  //</editor-fold >
-
-  //<editor-fold desc="ILoadingDialogHandler加载框">
+  //region ILoadingDialogHandler加载框
   override fun getLoadingDialog(): BaseDialog? {
     checkLoadingDialog()
     return mRequestDialog
@@ -592,7 +619,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   override fun getRequestId(): Int {
     return getLoadingDialog()?.getRequestId() ?: -1
   }
-  //</editor-fold >
+  //endregion
 
 
   fun setWindowParams(window: Window, width: Int, height: Int, gravity: Int) {

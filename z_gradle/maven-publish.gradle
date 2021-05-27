@@ -13,7 +13,6 @@ if (projectPropertiesFile.exists()) {
 }
 
 // read properties
-def projectUserOrg = properties.getProperty("project.userOrg")
 def projectRepo = properties.getProperty("project.repo")
 
 def projectGroupId = properties.getProperty("project.groupId")
@@ -25,7 +24,7 @@ def projectPackaging = properties.getProperty("project.packaging")
 def projectDescription = properties.getProperty("project.description")
 def webSiteUrl = properties.getProperty("project.webSiteUrl")
 def issueUrl = properties.getProperty("project.issueTrackerUrl")
-def vscUrl = properties.getProperty("project.vscUrl")
+def vcsUrl = properties.getProperty("project.vcsUrl")
 def projectLicense = properties.getProperty("project.license")
 
 def developerId = properties.getProperty("developer.id")
@@ -117,8 +116,8 @@ publishing {
                 url = webSiteUrl
 
                 scm {
-                    connection = vscUrl
-                    developerConnection = vscUrl
+                    connection = vcsUrl
+                    developerConnection = vcsUrl
                     url = webSiteUrl
                 }
 

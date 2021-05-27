@@ -39,13 +39,11 @@ abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
 
   private var mLazyInit: Boolean = false //是否延迟加载，在show的时候[onCreate]中加载
 
-  constructor(context: Context) : this(context, R.style.dim_dialog, false)
+  var mCreate = false
 
-  constructor(context: Context, lazyInit: Boolean) : this(context, R.style.dim_dialog, lazyInit)
 
-  constructor(context: Context, themeResId: Int) : this(context, themeResId, false)
-
-  constructor(context: Context, themeResId: Int, lazyInit: Boolean) : super(context, themeResId) {
+  @JvmOverloads
+  constructor(context: Context, themeResId: Int = R.style.dim_dialog, lazyInit: Boolean = false) : super(context, themeResId) {
     mContext = context
     mLazyInit = lazyInit;
     allInit()//如果用init方法，会在赋值前调用，所以直接手动调用
@@ -93,6 +91,9 @@ abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
   override fun onCreate(savedInstanceState: Bundle?) {
     Timber.tag(mTagLog).i("Lifecycle %s onCreate with %s ：%d", mTagLog, mContext.javaClass.simpleName, hashCode())
     super.onCreate(savedInstanceState)
+    if (!mCreate) {
+      mCreate = true
+    }
 
     if (mLazyInit) {
       bindViews()
@@ -109,7 +110,6 @@ abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
 
   //<editor-fold desc="设置dialog属性">
   protected abstract fun setWindowParam()
-
 
 
   protected fun setWindowParams(gravity: Int) {
@@ -199,8 +199,10 @@ abstract class BaseDialog : AppCompatDialog, ILoadingDialogHandler<BaseDialog> {
       //软键盘就使用非透明模式。不用自己计算布局的高度
       //Here's the magic..
       //Set the dialog to not focusable (makes navigation ignore us adding the window)
-      window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-          WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+      window?.setFlags(
+        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+      )
 
       //Show the dialog!
       super.show()

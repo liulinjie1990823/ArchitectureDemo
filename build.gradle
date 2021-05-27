@@ -112,27 +112,39 @@ allprojects {
             force Deps.okhttp
             force Deps.gson
             force Deps.fresco
+            force Deps.fresco_animated_gif
+            force Deps.fresco_animated_webp
+            force Deps.fresco_imagepipeline_okhttp3
             force Deps.utilcodex
 
             force 'androidx.legacy:legacy-support-core-utils:1.0.0'
             force 'androidx.legacy:legacy-support-core-ui:1.0.0'
             force 'androidx.legacy:legacy-support-v4:1.0.0'
+            force Deps.androidx_activity
+            force Deps.androidx_activity_ktx
             force Deps.androidx_annotations
-            force Deps.androidx_core
-            force Deps.androidx_core_ktx
+            force Deps.androidx_annotations_experimental
+            force Deps.androidx_appcompat
+            force Deps.androidx_fragment
+            force Deps.androidx_fragment_ktx
             force Deps.androidx_arch_common
             force Deps.androidx_arch_runtime
-            force Deps.androidx_appcompat
+            force Deps.androidx_core
+            force Deps.androidx_core_ktx
+            force Deps.androidx_collection
+
+            force Deps.lifecycle_common
             force Deps.lifecycle_runtime
             force Deps.lifecycle_service
             force Deps.lifecycle_java8
+            force Deps.lifecycle_compiler
             force Deps.lifecycle_viewmodel
+            force Deps.lifecycle_viewmodel_ktx
             force Deps.lifecycle_viewmodel_savedstate
             force Deps.lifecycle_livedata
+            force Deps.lifecycle_livedata_ktx
             force Deps.lifecycle_reactivestreams_ktx
-            force Deps.androidx_activity
-            force Deps.androidx_fragment
-            force Deps.androidx_collection
+
             force Deps.constraint_layout
             force Deps.customview
             force Deps.recyclerview
@@ -140,6 +152,7 @@ allprojects {
             force Deps.viewpager2
             force Deps.drawerlayout
             force Deps.transition
+
             force Deps.room_runtime
             force Deps.sqlite
         }

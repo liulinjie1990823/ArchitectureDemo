@@ -30,6 +30,8 @@ object Versions {
   const val dagger_hilt = "2.29-alpha"
   const val autodispose = "1.4.0"
 
+  const val arouter_api = "1.5.1"
+  const val arouter_compiler = "1.5.1"
   const val butterknife = "10.2.3"
 
   const val retrofit2 = "2.9.0"
@@ -49,7 +51,7 @@ object Versions {
   const val nim = "7.5.0"
   const val socialization = "2.0.18"
 
-  const val FLIPPER_VERSION = "0.87.0"
+  const val FLIPPER_VERSION = "0.90.2"
   const val MATRIX_VERSION = "0.9.0"
 }
 
@@ -69,16 +71,18 @@ object Deps {
 
   const val walle = "com.meituan.android.walle:library:${Versions.walle}"
 
-  const val support_design = "com.google.android.material:material:1.0.0"
+  const val support_design = "com.google.android.material:material:1.2.1"
 
   //kotlinx库
   //https://developer.android.com/kotlin/ktx?hl=zh-cn#modules
   //支持库
+  //最近更新2021 年 5 月 5 日
   //https://developer.android.com/jetpack/androidx/versions
   //https://developer.android.com/jetpack/androidx/releases/activity
-  const val androidx_activity = "androidx.activity:activity:1.2.2"
-  const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.2.2"
+  const val androidx_activity = "androidx.activity:activity:1.2.3"
+  const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.2.3"
   const val androidx_annotations = "androidx.annotation:annotation:1.2.0"
+  const val androidx_annotations_experimental = "androidx.annotation:annotation-experimental:1.1.0"
   const val androidx_appcompat = "androidx.appcompat:appcompat:1.2.0"
   const val androidx_fragment = "androidx.fragment:fragment:1.3.3"
   const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.3.3"
@@ -171,8 +175,8 @@ object Deps {
 
   //页面路由
   //https://github.com/alibaba/ARouter
-  const val arouter_api = "com.alibaba:arouter-api:1.5.1"
-  const val arouter_compiler = "com.alibaba:arouter-compiler:1.5.1"
+  const val arouter_api = "com.alibaba:arouter-api:${Versions.arouter_api}"
+  const val arouter_compiler = "com.alibaba:arouter-compiler:${Versions.arouter_compiler}"
 
   //注解
   //https://github.com/JakeWharton/butterknife

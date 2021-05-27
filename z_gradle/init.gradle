@@ -95,12 +95,20 @@ task deSyncAndroidIp(type: Exec) {
 
 
 //打包aar的脚本
-task repoAar(type: Exec) {
-    description '打包aar'
+task publishAarToLocal(type: Exec) {
+    description '打包aar到本地repo文件夹'
     group 'llj'
     workingDir "$rootProject.projectDir"
-    commandLine 'python3', 'repo_aar.py'
+    commandLine 'python3', 'publish_aar_local.py'
 }
+
+task publishAarToHbhNexus(type: Exec) {
+    description '打包aar到HbhNexus'
+    group 'llj'
+    workingDir "$rootProject.projectDir"
+    commandLine 'python3', 'publish_aar_romote.py'
+}
+
 
 
 

@@ -13,7 +13,6 @@ if (projectPropertiesFile.exists()) {
 }
 
 // read properties
-def projectUserOrg = properties.getProperty("project.userOrg")
 def projectRepo = properties.getProperty("project.repo")
 
 def projectGroupId = properties.getProperty("project.groupId")
@@ -21,12 +20,12 @@ def projectArtifactId = properties.getProperty("project.artifactId")
 def projectVersionName = properties.getProperty("project.versionName")
 
 def projectName = properties.getProperty("project.name")
-def projectPackaging = properties.getProperty("project.packaging")
+def projectPackaging = properties.getProperty("project.packaging")//打包的类型aar或者jar
 def projectDescription = properties.getProperty("project.description")
-def webSiteUrl = properties.getProperty("project.webSiteUrl")
-def issueUrl = properties.getProperty("project.issueTrackerUrl")
-def vscUrl = properties.getProperty("project.vscUrl")
-def projectLicense = properties.getProperty("project.license")
+def webSiteUrl = properties.getProperty("project.webSiteUrl") //仓库地址
+def issueUrl = properties.getProperty("project.issueTrackerUrl") //问题跟踪地址
+def vcsUrl = properties.getProperty("project.vcsUrl") //带有git后缀的仓库地址
+def projectLicense = properties.getProperty("project.license") //
 
 def developerId = properties.getProperty("developer.id")
 def developerName = properties.getProperty("developer.name")
@@ -34,20 +33,24 @@ def developerEmail = properties.getProperty("developer.email")
 
 
 def javadocName = properties.getProperty("javadoc.name")
-def isDryRun = properties.getProperty("dryRun") == "true"
 
+
+def bintrayUserOrg = localProperties.getProperty("bintray.userOrg")
 def bintrayApiUser = localProperties.getProperty("bintray.user")
 def bintrayApikey = localProperties.getProperty("bintray.apikey")
+def isDryRun = properties.getProperty("dryRun") == "true"
+def isOverride = properties.getProperty("override") == "false"
+def isSign = properties.getProperty("sign") == "false"
 
-if (projectUserOrg != null) {
-// 0.9.2版本在gradle6.0上有bug
+
+if (projectGroupId != null) {
 
     //https://github.com/novoda/bintray-release
     //用于发布本地或远程自定义仓库，MavenLocal，bintray.com
     //会增加publishing和upload组任务
 
     //增加publishing组
-    //bintrayUpload
+    //bintrayUpload 往bintray上提交
     //generateMetadataFileForBetaPublication
     //generateMetadataFileForDebugPublication
     //generateMetadataFileForReleasePublication
@@ -58,16 +61,16 @@ if (projectUserOrg != null) {
     //publishBetaPublicationToMavenLocal
     //publishDebugPublicationToMavenLocal
     //publishReleasePublicationToMavenLocal
-    //publishToMavenLocal
+    //publishToMavenLocal 打本地包
 
     //增加upload组
     //uploadArchives
 
 
-    //publishToMavenLocal打本地包
     //上传bintray.com使用bintrayUpload任务
 
-//    apply plugin: 'com.novoda.bintray-release'
+    // 0.9.2版本在gradle6.0上有bug
+    //apply plugin: 'com.novoda.bintray-release'
     //https://github.com/panpf/bintray-publish
     apply plugin: 'com.github.panpf.bintray-publish'
 
@@ -128,10 +131,9 @@ if (projectUserOrg != null) {
     publishing {
 
         //设置发布仓库
+        //https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:repositories
         repositories {
             maven {
-                //可以使本地路径，也可以是远程仓库
-//                url = "../repo"
                 //指定要上传的maven私服仓库
                 url = "http://nexus.jiehun.tech/repository/android/"
                 //远程的仓库名称，一般url就指定了仓库名称
@@ -143,21 +145,37 @@ if (projectUserOrg != null) {
                     password 'admin123'
                 }
             }
+
+            maven {
+                //可以使本地路径
+                url = "../repo"
+                name = "repoDir"
+            }
         }
     }
 
+    //https://github.com/novoda/bintray-release/wiki/Configuration-of-the-publish-closure
     publish {
-        userOrg = projectUserOrg
         repoName = projectRepo
+
         groupId = projectGroupId
         artifactId = projectArtifactId
         publishVersion = projectVersionName
+
         desc = projectDescription
         website = webSiteUrl
-        repository = vscUrl
+        repository = vcsUrl
         issueTracker = issueUrl
+
+        userOrg = bintrayUserOrg
         bintrayUser = bintrayApiUser
         bintrayKey = bintrayApikey
         dryRun = isDryRun
+        override = isOverride
+        override = isSign
+    }
+    //https://stackoverflow.com/questions/62464873/gradle-downloads-unrequired-dependencies
+    tasks.withType(GenerateModuleMetadata) {
+        enabled = false
     }
 }
