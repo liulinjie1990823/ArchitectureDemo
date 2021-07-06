@@ -14,7 +14,6 @@ import bolts.Continuation;
 import bolts.Task;
 import com.llj.socialization.R;
 import com.llj.socialization.ResponseActivity;
-import com.llj.socialization.log.INFO;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShare;
 import com.llj.socialization.share.model.ShareResult;
@@ -336,16 +335,36 @@ public class ShareUtil {
     }
   }
 
-  public static void handleResult(int requestCode, int resultCode, Intent data) {
-    // 微博分享会同时回调onActivityResult和onNewIntent， 而且前者返回的intent为null
-    if (sIShare != null && data != null) {
-      sIShare.handleResult(requestCode, resultCode, data);
-    } else if (data == null) {
-      if (mPlatform != SharePlatformType.SINA) {
-        Log.e(TAG, INFO.HANDLE_DATA_NULL);
+
+  public static void onNewIntent(Activity activity, Intent data) {
+    if (sIShare != null) {
+      sIShare.onNewIntent(data);
+    }
+  }
+
+  public static void handleResult(Activity activity, int requestCode, int resultCode, Intent data) {
+    Log.e(TAG, "requestCode:" + requestCode + " resultCode:" + resultCode);
+
+    if (resultCode == Activity.RESULT_CANCELED) {
+      if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity
+          .isDestroyed()) {
+        activity.finish();
       }
-    } else {
-      Log.e(TAG, INFO.UNKNOWN_ERROR);
+      return;
+    }
+
+    if (sIShare != null) {
+      sIShare.handleResult(requestCode, resultCode, data);
+    }
+  }
+
+  void finishActivity(Context context) {
+    if (context instanceof Activity) {
+      Activity activity = (Activity) context;
+      if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity
+          .isDestroyed()) {
+        activity.finish();
+      }
     }
   }
 

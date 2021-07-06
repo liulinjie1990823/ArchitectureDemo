@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-
+import androidx.annotation.NonNull;
+import bolts.Continuation;
+import bolts.Task;
 import com.llj.socialization.R;
 import com.llj.socialization.init.SocialManager;
 import com.llj.socialization.log.Logger;
@@ -24,13 +25,9 @@ import com.tencent.connect.share.QzoneShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
-
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-
-import bolts.Continuation;
-import bolts.Task;
 
 /**
  * PROJECT:babyphoto_app
@@ -331,6 +328,11 @@ public class ShareQzone implements IShareQzone {
 
     private void shareToQzone(final Activity activity, Bundle params) {
         mTencent.shareToQzone(activity, params, mIUiListener);
+    }
+
+    @Override
+    public void onNewIntent(Intent data) {
+
     }
 
     @Override

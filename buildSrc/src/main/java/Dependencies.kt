@@ -49,7 +49,7 @@ object Versions {
   const val leakcanary = "2.6"
 
   const val nim = "7.5.0"
-  const val socialization = "2.0.18"
+  const val socialization = "2.0.19"
 
   const val FLIPPER_VERSION = "0.90.2"
   const val MATRIX_VERSION = "0.9.0"
@@ -83,13 +83,13 @@ object Deps {
   const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.2.3"
   const val androidx_annotations = "androidx.annotation:annotation:1.2.0"
   const val androidx_annotations_experimental = "androidx.annotation:annotation-experimental:1.1.0"
-  const val androidx_appcompat = "androidx.appcompat:appcompat:1.2.0"
-  const val androidx_fragment = "androidx.fragment:fragment:1.3.3"
+  const val androidx_appcompat = "androidx.appcompat:appcompat:1.3.0"
+  const val androidx_fragment = "androidx.fragment:fragment:1.3.4"
   const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.3.3"
   const val androidx_arch_common = "androidx.arch.core:core-common:2.1.0"
   const val androidx_arch_runtime = "androidx.arch.core:core-runtime:2.1.0"
-  const val androidx_core = "androidx.core:core:1.3.2"
-  const val androidx_core_ktx = "androidx.core:core-ktx:1.3.2"
+  const val androidx_core = "androidx.core:core:1.5.0"
+  const val androidx_core_ktx = "androidx.core:core-ktx:1.5.0"
   const val androidx_collection = "androidx.collection:collection:1.1.0"
 
 
@@ -124,8 +124,8 @@ object Deps {
   const val localbroadcastmanager = "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
   const val navigation_fragment = "androidx.navigation:navigation-fragment:2.3.5"
   const val navigation_ui = "androidx.navigation:navigation-ui:2.3.5"
-  const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0"
-  const val recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.2.0"
+  const val recyclerview = "androidx.recyclerview:recyclerview:1.2.1"
+  const val recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.1.0"
   const val savedstate = "androidx.savedstate:savedstate:1.1.0"
   const val savedstate_ktx = "androidx.savedstate:savedstate-ktx:1.1.0"
   const val slidingpanelayout = "androidx.slidingpanelayout:slidingpanelayout:1.1.0"

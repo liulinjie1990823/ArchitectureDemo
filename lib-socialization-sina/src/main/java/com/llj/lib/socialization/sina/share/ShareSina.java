@@ -3,10 +3,11 @@ package com.llj.lib.socialization.sina.share;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-
+import androidx.annotation.NonNull;
+import bolts.Continuation;
+import bolts.Task;
 import com.llj.socialization.init.SocialManager;
 import com.llj.socialization.share.ShareObject;
 import com.llj.socialization.share.ShareUtil;
@@ -20,9 +21,6 @@ import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.share.WbShareCallback;
 import com.sina.weibo.sdk.share.WbShareHandler;
-
-import bolts.Continuation;
-import bolts.Task;
 
 /**
  * PROJECT:babyphoto_app DESCRIBE: Created by llj on 2017/1/18.
@@ -60,6 +58,7 @@ public class ShareSina implements IShareSinaCustom {
     mWbShareCallback = new WbShareCallback() {
       @Override
       public void onWbShareSuccess() {
+        finishActivity(context);
         mShareListener.onShareResponse(
             new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
       }
@@ -200,6 +199,10 @@ public class ShareSina implements IShareSinaCustom {
   public void shareCustom(Activity activity, int platform, ShareObject shareObject,
       ShareListener listener) {
 
+  }
+
+  @Override
+  public void onNewIntent(Intent data) {
   }
 
   @Override

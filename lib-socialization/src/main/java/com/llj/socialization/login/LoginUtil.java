@@ -3,7 +3,6 @@ package com.llj.socialization.login;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-
 import com.llj.socialization.ResponseActivity;
 import com.llj.socialization.log.INFO;
 import com.llj.socialization.log.Logger;
@@ -99,7 +98,14 @@ public class LoginUtil {
         return login;
     }
 
-    public static void handleResult(int requestCode, int resultCode, Intent data) {
+    public static void onNewIntent(Activity activity, Intent data) {
+        if (mLoginInstance != null) {
+            mLoginInstance.onNewIntent(data);
+        }
+    }
+
+    public static void handleResult(Activity activity, int requestCode, int resultCode,
+        Intent data) {
         if (mLoginInstance != null) {
             mLoginInstance.handleResult(requestCode, resultCode, data);
         }

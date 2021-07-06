@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.llj.socialization.init.SocialManager;
 import com.llj.socialization.log.INFO;
 import com.llj.socialization.pay.PayPlatformType;
@@ -19,139 +18,157 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
 import java.security.MessageDigest;
 import java.util.Locale;
 
 /**
- * project:android
- * describe:
- * Created by llj on 2017/8/14.
+ * project:android describe: Created by llj on 2017/8/14.
  */
 
 public class PayWechat implements IPay {
 
-    private IWXAPI mIWXAPI;
+  private IWXAPI mIWXAPI;
 
-    private PayListener        mPayListener;
-    private IWXAPIEventHandler mIWXAPIEventHandler;
+  private PayListener        mPayListener;
+  private IWXAPIEventHandler mIWXAPIEventHandler;
 
 
-    @Override
-    public void init(Context context, PayListener listener) {
-        mIWXAPI = WXAPIFactory.createWXAPI(context, SocialManager.getConfig(context).getWxId());
-        mPayListener = listener;
+  @Override
+  public void init(Context context, PayListener listener) {
+    mIWXAPI = WXAPIFactory.createWXAPI(context, SocialManager.getConfig(context).getWxId());
+    mPayListener = listener;
 
-        mIWXAPIEventHandler = new IWXAPIEventHandler() {
-            @Override
-            public void onReq(BaseReq baseReq) {
-            }
+    mIWXAPIEventHandler = new IWXAPIEventHandler() {
+      @Override
+      public void onReq(BaseReq baseReq) {
+      }
 
-            @Override
-            public void onResp(BaseResp baseResp) {
-                Log.e("PayWeChat", "onResp:" + "resp.getType()=" + baseResp.getType() + " resp.errCode=" + baseResp.errCode + " resp.errStr=" + baseResp.errStr);
+      @Override
+      public void onResp(BaseResp baseResp) {
+        Log.e("PayWeChat",
+            "onResp:" + "resp.getType()=" + baseResp.getType() + " resp.errCode=" + baseResp.errCode
+                + " resp.errStr=" + baseResp.errStr);
 
-                if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-                    switch (baseResp.errCode) {
-                        case BaseResp.ErrCode.ERR_OK:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_SUCCESS));
-                            break;
-                        case BaseResp.ErrCode.ERR_USER_CANCEL:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_HAS_CANCEL));
-                            break;
-                        case BaseResp.ErrCode.ERR_SENT_FAILED:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_SENT_FAILED));
-                            break;
-                        case BaseResp.ErrCode.ERR_UNSUPPORT:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_UNSUPPORT));
-                            break;
-                        case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_AUTH_DENIED, INFO.WX_ERR_AUTH_DENIED));
-                            break;
-                        default:
-                            mPayListener.onPayResponse(new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE, INFO.WX_ERR_AUTH_ERROR));
-                    }
-                }
-            }
-        };
-    }
-
-    @Override
-    public void doPay(PayParam payParam) {
-        PayReq request = new PayReq();
-        request.appId = payParam.getAppId();
-        request.partnerId = payParam.getPartnerId();
-        request.prepayId = payParam.getPrepayId();
-        request.nonceStr = payParam.getNonceStr();
-        request.packageValue = payParam.getPackageValue();
-        request.timeStamp = payParam.getTimeStamp() + "";
-        request.sign = TextUtils.isEmpty(payParam.getSign()) ? genAppSign(request, payParam.getMch_key()) : payParam.getSign();
-        mIWXAPI.sendReq(request);
-    }
-
-    private static String genAppSign(PayReq reques, String key) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("appid=");
-        stringBuilder.append(reques.appId);
-        stringBuilder.append("&noncestr=");
-        stringBuilder.append(reques.nonceStr);//
-        stringBuilder.append("&package=");
-        stringBuilder.append(reques.packageValue);
-        stringBuilder.append("&partnerid=");
-        stringBuilder.append(reques.partnerId);
-        stringBuilder.append("&prepayid=");//
-        stringBuilder.append(reques.prepayId);
-        stringBuilder.append("&timestamp=");//
-        stringBuilder.append(reques.timeStamp);
-        stringBuilder.append("&key=");
-        stringBuilder.append(key);
-
-        return MD5(stringBuilder.toString());
-    }
-
-    /**
-     * MD5加密，大写
-     *
-     * @return 加密后String
-     */
-    public static final String MD5(String s) {
-        char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-        try {
-            byte[] strTemp = s.getBytes();
-            // 使用MD5创建MessageDigest对象
-            MessageDigest mdTemp = MessageDigest.getInstance("MD5");
-            mdTemp.update(strTemp);
-            byte[] md = mdTemp.digest();
-            int j = md.length;
-            char str[] = new char[j * 2];
-            int k = 0;
-            for (int i = 0; i < j; i++) {
-                byte b = md[i];
-                str[k++] = hexDigits[b >> 4 & 0xf];
-                str[k++] = hexDigits[b & 0xf];
-            }
-            return new String(str).toUpperCase(Locale.getDefault());
-        } catch (Exception e) {
-            return null;
+        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+          switch (baseResp.errCode) {
+            case BaseResp.ErrCode.ERR_OK:
+              mPayListener.onPayResponse(
+                  new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_SUCCESS));
+              break;
+            case BaseResp.ErrCode.ERR_USER_CANCEL:
+              mPayListener.onPayResponse(
+                  new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_HAS_CANCEL));
+              break;
+            case BaseResp.ErrCode.ERR_SENT_FAILED:
+              mPayListener.onPayResponse(
+                  new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE,
+                      INFO.WX_ERR_SENT_FAILED));
+              break;
+            case BaseResp.ErrCode.ERR_UNSUPPORT:
+              mPayListener.onPayResponse(
+                  new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE,
+                      INFO.WX_ERR_UNSUPPORT));
+              break;
+            case BaseResp.ErrCode.ERR_AUTH_DENIED:
+              mPayListener.onPayResponse(
+                  new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_AUTH_DENIED,
+                      INFO.WX_ERR_AUTH_DENIED));
+              break;
+            default:
+              mPayListener.onPayResponse(
+                  new PayResult(PayPlatformType.WECHAT, PayResult.RESPONSE_PAY_FAILURE,
+                      INFO.WX_ERR_AUTH_ERROR));
+          }
         }
+
+        finishActivity(context);
+      }
+    };
+  }
+
+  @Override
+  public void doPay(PayParam payParam) {
+    PayReq request = new PayReq();
+    request.appId = payParam.getAppId();
+    request.partnerId = payParam.getPartnerId();
+    request.prepayId = payParam.getPrepayId();
+    request.nonceStr = payParam.getNonceStr();
+    request.packageValue = payParam.getPackageValue();
+    request.timeStamp = payParam.getTimeStamp() + "";
+    request.sign =
+        TextUtils.isEmpty(payParam.getSign()) ? genAppSign(request, payParam.getMch_key())
+            : payParam.getSign();
+    mIWXAPI.sendReq(request);
+  }
+
+  private static String genAppSign(PayReq reques, String key) {
+    StringBuilder stringBuilder = new StringBuilder();
+
+    stringBuilder.append("appid=");
+    stringBuilder.append(reques.appId);
+    stringBuilder.append("&noncestr=");
+    stringBuilder.append(reques.nonceStr);//
+    stringBuilder.append("&package=");
+    stringBuilder.append(reques.packageValue);
+    stringBuilder.append("&partnerid=");
+    stringBuilder.append(reques.partnerId);
+    stringBuilder.append("&prepayid=");//
+    stringBuilder.append(reques.prepayId);
+    stringBuilder.append("&timestamp=");//
+    stringBuilder.append(reques.timeStamp);
+    stringBuilder.append("&key=");
+    stringBuilder.append(key);
+
+    return MD5(stringBuilder.toString());
+  }
+
+  /**
+   * MD5加密，大写
+   *
+   * @return 加密后String
+   */
+  public static final String MD5(String s) {
+    char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e',
+        'f'};
+    try {
+      byte[] strTemp = s.getBytes();
+      // 使用MD5创建MessageDigest对象
+      MessageDigest mdTemp = MessageDigest.getInstance("MD5");
+      mdTemp.update(strTemp);
+      byte[] md = mdTemp.digest();
+      int j = md.length;
+      char str[] = new char[j * 2];
+      int k = 0;
+      for (int i = 0; i < j; i++) {
+        byte b = md[i];
+        str[k++] = hexDigits[b >> 4 & 0xf];
+        str[k++] = hexDigits[b & 0xf];
+      }
+      return new String(str).toUpperCase(Locale.getDefault());
+    } catch (Exception e) {
+      return null;
     }
+  }
+
+  @Override
+  public void onNewIntent(Intent data) {
+    mIWXAPI.handleIntent(data, mIWXAPIEventHandler);
+  }
+
+  @Override
+  public void handleResult(int requestCode, int resultCode, Intent data) {
+  }
 
 
-    @Override
-    public void handleResult(int requestCode, int resultCode, Intent data) {
-        mIWXAPI.handleIntent(data, mIWXAPIEventHandler);
-    }
+  @Override
+  public boolean isInstalled(Context context) {
+    return mIWXAPI.isWXAppInstalled();
+  }
 
-    @Override
-    public boolean isInstalled(Context context) {
-        return mIWXAPI.isWXAppInstalled();
+  @Override
+  public void recycle() {
+    if (mIWXAPI != null) {
+      mIWXAPI.detach();
     }
-
-    @Override
-    public void recycle() {
-        if (mIWXAPI != null) {
-            mIWXAPI.detach();
-        }
-    }
+  }
 }
