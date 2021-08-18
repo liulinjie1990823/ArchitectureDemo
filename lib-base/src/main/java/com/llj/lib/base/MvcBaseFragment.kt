@@ -184,6 +184,8 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   //在fragment中提供了mOnDismissListener的回调
   override fun onDismiss(dialog: DialogInterface) {
     if (!mDialogUseDismiss) {
+      //因为super.onDismiss会触发removeFragment
+      //mDialogUseDismiss模式dismiss的时候不需要removeFragment
       super.onDismiss(dialog)
     }
     dispatchDismissListener()
@@ -213,6 +215,7 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   fun smartDismiss() {
     if (showsDialog) {
       if (mDialogUseDismiss) {
+        hideSoftInput()
         dialog?.dismiss()
       } else {
         //后续会调用hideSoftInput，onDismiss，走dispatchDismissListener
@@ -227,38 +230,40 @@ abstract class MvcBaseFragment<V : ViewBinding> : androidx.fragment.app.WrapDial
   //endregion
 
 
-  //region smartShow
-  fun smartShow(manager: FragmentManager, tag: String = mTagLog, @IdRes containerViewId: Int = Window.ID_ANDROID_CONTENT) {
+  //region smartShowNow
+  //1.先添加fragment
+  //2.在fragment的生命周期的onStart中显示dialog
+  fun smartShowNow(
+    manager: FragmentManager, tag: String = mTagLog,
+    @IdRes containerViewId: Int = Window.ID_ANDROID_CONTENT,
+    showNow: Boolean = true,
+  ) {
     if (showsDialog) {
       try {
         if (mDialogUseDismiss && dialog != null) {
           dialog!!.show()
         } else {
-          super.show(manager, tag)
+          if (showNow) {
+            super.showNow(manager, tag)
+          } else {
+            super.show(manager, tag)
+          }
+
+        }
+      } catch (ignore: IllegalStateException) {
+        //  容错处理,不做操作
+        if (showNow) {
+          Timber.tag(mTagLog).i("Lifecycle %s smartShowNow：%d %s", mTagLog, hashCode(), ignore.message)
+        } else {
+          Timber.tag(mTagLog).i("Lifecycle %s smartShow：%d %s", mTagLog, hashCode(), ignore.message)
         }
 
-      } catch (ignore: IllegalStateException) {
-        //  容错处理,不做操作
-        Timber.tag(mTagLog).i("Lifecycle %s smartShow：%d %s", mTagLog, hashCode(), ignore.message)
-      }
-
-    } else {
-      //添加到ID_ANDROID_CONTENT里
-      addFragment(manager.beginTransaction(), this, containerViewId, tag)
-    }
-  }
-  //endregion
-
-  //region smartShowNow
-  //1.先添加fragment
-  //2.在fragment的生命周期的onStart中显示dialog
-  fun smartShowNow(manager: FragmentManager, tag: String = mTagLog, @IdRes containerViewId: Int = Window.ID_ANDROID_CONTENT) {
-    if (showsDialog) {
-      try {
-        super.showNow(manager, tag)
-      } catch (ignore: IllegalStateException) {
-        //  容错处理,不做操作
-        Timber.tag(mTagLog).i("Lifecycle %s smartShowNow：%d %s", mTagLog, hashCode(), ignore.message)
+      } finally {
+        if (showNow) {
+          Timber.tag(mTagLog).i("Lifecycle %s smartShowNow：%d %s", mTagLog, hashCode(), "success")
+        } else {
+          Timber.tag(mTagLog).i("Lifecycle %s smartShow：%d %s", mTagLog, hashCode(), "success")
+        }
       }
 
     } else {

@@ -13,7 +13,7 @@ import android.os.Message
  */
 class ActivityThreadHandlerCallback(private var mBase: Handler) : Handler.Callback {
 
-    override fun handleMessage(msg: Message?): Boolean {
+    override fun handleMessage(msg: Message): Boolean {
         when (msg?.what) {
             // ActivityThread里面 "LAUNCH_ACTIVITY" 这个字段的值是100
             // 本来使用反射的方式获取最好, 这里为了简便直接使用硬编码
@@ -48,7 +48,7 @@ class ActivityThreadHandlerCallback(private var mBase: Handler) : Handler.Callba
             val raw = intent.get(obj) as Intent
 
             val target = raw.getParcelableExtra<Intent>(AMSHookHelper.EXTRA_TARGET_INTENT)
-            raw.component = target.component
+            raw.component = target!!.component
 
         } catch (e: NoSuchFieldException) {
             e.printStackTrace()
