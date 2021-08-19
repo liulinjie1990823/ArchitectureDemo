@@ -19,7 +19,7 @@ buildscript {
             classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.3'
         }
         //maven库更新检测
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.38.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.39.0'
 
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.29.1-alpha'
         //android-plugin插件
@@ -35,7 +35,7 @@ buildscript {
         //kotlin插件
         classpath Deps.kotlin_gradle_plugin
         //渠道包插件
-        classpath 'com.meituan.android.walle:plugin:1.1.7'
+        classpath Deps.walle_plugin
         //启动图标
         classpath 'com.akaita.android:easylauncher:1.3.1'
         //butterknife插件
@@ -72,7 +72,7 @@ buildscript {
         //classpath "io.github.prototypez:save-state:0.2.3"
         //doraemonkit手机调试插件
         if (usePluginDoraemonkit) {
-            classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.2.0'
+            classpath Deps.doraemonkit_plugin
         }
         //性能检测
         if (usePluginMatrix) {

@@ -8,16 +8,19 @@
 object App {
   const val applicationId = "com.llj.architecturedemo"
   const val minSdkVersion = 21
-  const val compileSdkVersion = 29
-  const val targetSdkVersion = 29
-  const val buildToolsVersion = "29.0.3"
+  const val compileSdkVersion = 30
+  const val targetSdkVersion = 30
+  const val buildToolsVersion = "30.0.2"
   const val versionCode = 100
   const val versionName = "1.0.0"
-  const val compileJdkVersion = 1.8
+  const val compileJdkVersion = "1.8"
 }
 
 object Versions {
+  //  https://developer.android.com/reference/tools/gradle-api
+  const val agp = "4.0.2"
 
+  //  const val agp = "7.0.0"
   const val kotlin = "1.4.31"
   const val bintray_release = "0.8.1"
   const val walle = "1.1.7"
@@ -44,6 +47,7 @@ object Versions {
   const val auto_value = "1.6.2"
 
   const val stetho = "1.5.1"
+  const val doraemonkit = "3.3.5"
 
   //1.6.3
   const val leakcanary = "2.6"
@@ -61,7 +65,7 @@ object Deps {
   //https://developer.android.com/studio/releases/gradle-plugin#updating-gradle
   const val android_gradle_plugin_old = "com.android.tools.build:gradle:3.2.1"
   const val android_gradle_plugin = "com.android.tools.build:gradle:3.6.3"
-  const val android_gradle_plugin_new = "com.android.tools.build:gradle:4.0.2"
+  const val android_gradle_plugin_new = "com.android.tools.build:gradle:${Versions.agp}"
   const val butterknife_gradle_plugin = "com.jakewharton:butterknife-gradle-plugin:${Versions.butterknife}"
   const val kotlin_gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
   const val walle_plugin = "com.meituan.android.walle:plugin:${Versions.walle}"
@@ -220,6 +224,23 @@ object Deps {
   const val glide_bitmappool = "com.amitshekhar.android:glide-bitmap-pool:0.0.1"
   const val glide_transformations = "jp.wasabeef:glide-transformations:2.0.1"
   const val glidepalette = "com.github.florent37:glidepalette:2.1.2"
+
+  //
+  //https://github.com/didi/DoraemonKit/tree/master/Android
+  //>=3.4.0
+//  const val doraemonkit = "io.github.didi.dokit:dokitx:${Versions.doraemonkit}"
+//  const val doraemonkit_no_op = "io.github.didi.dokit:dokitx-no-op:${Versions.doraemonkit}"
+//  const val doraemonkit_plugin = "io.github.didi.dokit:dokitx-plugin:${Versions.doraemonkit}"
+
+  //>=3.3.1
+  const val doraemonkit = "com.didichuxing.doraemonkit:dokitx:${Versions.doraemonkit}"
+  const val doraemonkit_no_op = "com.didichuxing.doraemonkit:dokitx-no-op:${Versions.doraemonkit}"
+  const val doraemonkit_plugin = "com.didichuxing.doraemonkit:dokitx-plugin:${Versions.doraemonkit}"
+
+
+//  const val doraemonkit = "com.didichuxing.doraemonkit:doraemonkit:${Versions.doraemonkit}"
+//  const val doraemonkit_no_op = "com.didichuxing.doraemonkit:doraemonkit-no-op:${Versions.doraemonkit}"
+//  const val doraemonkit_plugin = "com.didichuxing.doraemonkit:doraemonkit-plugin:${Versions.doraemonkit}"
 
   //监控内存泄露
   //https://github.com/square/leakcanary

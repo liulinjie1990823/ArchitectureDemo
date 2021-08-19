@@ -37,8 +37,8 @@ def addRepos(RepositoryHandler handler) {
     //微博的maven地址
     handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
 //    handler.flatDir { dirs "../lib", "../libs" }
-    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
-    handler.maven { url "https://dl.bintray.com/liulinjie1990823/gradle/" }
+//    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
+//    handler.maven { url "https://dl.bintray.com/liulinjie1990823/gradle/" }
 
     // All of React Native (JS, Android binaries) is installed from npm
     handler.maven { url "$rootDir/node_modules/react-native/android" }

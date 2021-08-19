@@ -109,9 +109,9 @@ dependencies {
     implementation group: "com.tencent.matrix", name: "matrix-battery-canary", version: Versions.MATRIX_VERSION, changing: true
 
     //https://github.com/didi/DoraemonKit
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
-    betaImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.2.0'
+    debugImplementation Deps.doraemonkit
+    betaImplementation Deps.doraemonkit
+    releaseImplementation Deps.doraemonkit_no_op
 
     //https://github.com/zhengcx/MethodTraceMan 方法耗时统计
     debugImplementation 'com.github.zhengcx:MethodTraceMan:1.0.7'
