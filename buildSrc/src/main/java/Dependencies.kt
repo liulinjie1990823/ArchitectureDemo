@@ -19,9 +19,10 @@ object App {
 object Versions {
   //  https://developer.android.com/reference/tools/gradle-api
   const val agp = "4.0.2"
-
   //  const val agp = "7.0.0"
-  const val kotlin = "1.4.31"
+
+  //https://github.com/JetBrains/kotlin/releases/tag/v1.5.21
+  const val kotlin = "1.5.21"
   const val bintray_release = "0.8.1"
   const val walle = "1.1.7"
 
@@ -81,20 +82,20 @@ object Deps {
   //kotlinx库
   //https://developer.android.com/kotlin/ktx?hl=zh-cn#modules
   //支持库
-  //最近更新2021 年 5 月 5 日
+  //上次更新时间：2021 年 7 月 28 日
   //https://developer.android.com/jetpack/androidx/versions
   //https://developer.android.com/jetpack/androidx/releases/activity
-  const val androidx_activity = "androidx.activity:activity:1.2.3"
-  const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.2.3"
+  const val androidx_activity = "androidx.activity:activity:1.3.0"
+  const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.3.0"
   const val androidx_annotations = "androidx.annotation:annotation:1.2.0"
   const val androidx_annotations_experimental = "androidx.annotation:annotation-experimental:1.1.0"
-  const val androidx_appcompat = "androidx.appcompat:appcompat:1.3.0"
-  const val androidx_fragment = "androidx.fragment:fragment:1.3.4"
-  const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.3.3"
+  const val androidx_appcompat = "androidx.appcompat:appcompat:1.3.1"
+  const val androidx_fragment = "androidx.fragment:fragment:1.3.6"
+  const val androidx_fragment_ktx = "androidx.fragment:fragment-ktx:1.3.6"
   const val androidx_arch_common = "androidx.arch.core:core-common:2.1.0"
   const val androidx_arch_runtime = "androidx.arch.core:core-runtime:2.1.0"
-  const val androidx_core = "androidx.core:core:1.5.0"
-  const val androidx_core_ktx = "androidx.core:core-ktx:1.5.0"
+  const val androidx_core = "androidx.core:core:1.6.0"
+  const val androidx_core_ktx = "androidx.core:core-ktx:1.6.0"
   const val androidx_collection = "androidx.collection:collection:1.1.0"
 
 
@@ -120,12 +121,12 @@ object Deps {
 
   //ui
   const val cardview = "androidx.cardview:cardview:1.0.0"
-  const val constraint_layout = "androidx.constraintlayout:constraintlayout:2.0.4"//约束布局
+  const val constraint_layout = "androidx.constraintlayout:constraintlayout:2.1.0"//约束布局
   const val coordinatorlayout = "androidx.coordinatorlayout:coordinatorlayout:1.1.0"//协调布局
   const val customview = "androidx.customview:customview:1.1.0"
   const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"
   const val emoji = "androidx.emoji:emoji:1.1.0"
-  const val exifinterface = "androidx.exifinterface:exifinterface:1.3.1"
+  const val exifinterface = "androidx.exifinterface:exifinterface:1.3.3"
   const val localbroadcastmanager = "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
   const val navigation_fragment = "androidx.navigation:navigation-fragment:2.3.5"
   const val navigation_ui = "androidx.navigation:navigation-ui:2.3.5"

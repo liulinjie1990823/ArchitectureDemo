@@ -110,6 +110,8 @@ allprojects {
             exclude group: 'com.facebook.fbjni', module: 'fbjni'
         }
         resolutionStrategy {
+            force Deps.kotlin_stdlib_jdk8
+
             force Deps.okhttp
             force Deps.gson
             force Deps.fresco
