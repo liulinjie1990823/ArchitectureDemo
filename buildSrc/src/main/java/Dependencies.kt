@@ -29,8 +29,8 @@ object Versions {
   const val room = "2.3.0"
   const val sqlite = "2.1.0"
 
-  const val dagger = "2.33"
-  const val dagger_hilt = "2.29-alpha"
+  const val dagger = "2.38.1"
+  const val dagger_hilt = "2.38.1"
   const val autodispose = "1.4.0"
 
   const val arouter_api = "1.5.2"
@@ -167,6 +167,7 @@ object Deps {
   const val dagger_android_compiler = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
   const val dagger_hilt = "com.google.dagger:hilt-android:${Versions.dagger_hilt}"
   const val dagger_hilt_compiler = "com.google.dagger:hilt-android-compiler:${Versions.dagger_hilt}"
+  const val dagger_hilt_plugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.dagger_hilt}"
 
   //https://github.com/ReactiveX/RxJava
   const val rxjava = "io.reactivex:rxjava:1.2.3"

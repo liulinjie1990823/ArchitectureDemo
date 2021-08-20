@@ -21,7 +21,6 @@ buildscript {
         //maven库更新检测
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.39.0'
 
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.29.1-alpha'
         //android-plugin插件
         if (useNew) {
             classpath Deps.android_gradle_plugin_new
@@ -36,6 +35,8 @@ buildscript {
         classpath Deps.kotlin_gradle_plugin
         //渠道包插件
         classpath Deps.walle_plugin
+        //hilt
+        classpath Deps.dagger_hilt_plugin
         //启动图标
         classpath 'com.akaita.android:easylauncher:1.3.1'
         //butterknife插件
