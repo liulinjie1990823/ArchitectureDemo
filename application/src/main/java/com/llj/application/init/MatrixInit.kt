@@ -46,7 +46,7 @@ class MatrixInit : SimpleAppInit() {
     MatrixLog.i(TAG, "MatrixApplication.onCreate")
 
     val builder: Matrix.Builder = Matrix.Builder(mApplication)
-    builder.patchListener(TestPluginListener(mApplication))
+    builder.pluginListener(TestPluginListener(mApplication))
 
     //trace
     val traceConfig: TraceConfig = TraceConfig.Builder()

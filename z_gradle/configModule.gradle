@@ -158,6 +158,7 @@ subprojects {
 
                 pickFirst '**/libjsc.so'
                 pickFirst '**/libc++_shared.so'
+                pickFirst '**/libwechatbacktrace.so'
             }
 
             compileOptions {

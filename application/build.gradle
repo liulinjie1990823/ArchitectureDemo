@@ -107,6 +107,7 @@ dependencies {
     implementation group: "com.tencent.matrix", name: "matrix-io-canary", version: Versions.MATRIX_VERSION, changing: true
     implementation group: "com.tencent.matrix", name: "matrix-sqlite-lint-android-sdk", version: Versions.MATRIX_VERSION, changing: true
     implementation group: "com.tencent.matrix", name: "matrix-battery-canary", version: Versions.MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-hooks", version: Versions.MATRIX_VERSION, changing: true
 
     //https://github.com/didi/DoraemonKit
     debugImplementation Deps.doraemonkit

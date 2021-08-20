@@ -33,13 +33,13 @@ object Versions {
   const val dagger_hilt = "2.29-alpha"
   const val autodispose = "1.4.0"
 
-  const val arouter_api = "1.5.1"
-  const val arouter_compiler = "1.5.1"
+  const val arouter_api = "1.5.2"
+  const val arouter_compiler = "1.5.2"
   const val butterknife = "10.2.3"
 
   const val retrofit2 = "2.9.0"
   const val okhttp = "4.9.0"
-  const val fresco = "2.4.0"
+  const val fresco = "2.5.0"
 
   const val smartrefresh = "1.1.3"
   const val skin = "4.0.5"
@@ -50,19 +50,20 @@ object Versions {
   const val doraemonkit = "3.3.5"
 
   //1.6.3
-  const val leakcanary = "2.6"
+  const val leakcanary = "2.7"
 
   const val nim = "7.5.0"
   const val socialization = "2.0.19"
 
-  const val FLIPPER_VERSION = "0.90.2"
-  const val MATRIX_VERSION = "0.9.0"
+  const val FLIPPER_VERSION = "0.103.0"
+  const val MATRIX_VERSION = "2.0.0"
 }
 
 object Deps {
 
   //插件
   //https://developer.android.com/studio/releases/gradle-plugin#updating-gradle
+  //https://developer.android.com/reference/tools/gradle-api
   const val android_gradle_plugin_old = "com.android.tools.build:gradle:3.2.1"
   const val android_gradle_plugin = "com.android.tools.build:gradle:3.6.3"
   const val android_gradle_plugin_new = "com.android.tools.build:gradle:${Versions.agp}"

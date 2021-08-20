@@ -114,6 +114,7 @@ allprojects {
             force Deps.fresco
             force Deps.fresco_animated_gif
             force Deps.fresco_animated_webp
+            force Deps.fresco_webpsupport
             force Deps.fresco_imagepipeline_okhttp3
             force Deps.utilcodex
 
