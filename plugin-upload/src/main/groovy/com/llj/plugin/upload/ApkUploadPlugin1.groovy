@@ -104,7 +104,7 @@ class ApkUploadPlugin1 implements Plugin<Project> {
             return
         }
 
-        HttpBuilder http = OkHttpBuilder.configure {
+        OkHttpBuilderWrap http = OkHttpBuilderWrap.configure {
             client.clientCustomizer(new Consumer<OkHttpClient.Builder>() {
                 @Override
                 void accept(OkHttpClient.Builder builder1) {
@@ -292,7 +292,7 @@ class ApkUploadPlugin1 implements Plugin<Project> {
     private void noticeDingTalk(Project project, ApkUploadExtensions1 upload, String commitAuthor, String branch, String commit, String variantName, PgyVo.DataVo data) {
         println "----------------------------------" + "noticeDingTalk begin" + "----------------------------------"
         try {
-            HttpBuilder http = OkHttpBuilder.configure {
+            OkHttpBuilderWrap http = OkHttpBuilderWrap.configure {
                 SslUtils.ignoreSslIssues(execution)
                 request.uri = DING_TALK_URL
                 request.uri.path = DING_TALK_SEND_PATH

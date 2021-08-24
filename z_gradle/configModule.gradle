@@ -52,7 +52,7 @@ subprojects {
         }
 
         if (!useOld) {
-//            apply from: rootProject.file('z_gradle/novoda-bintray.gradle')
+            apply from: rootProject.file('z_gradle/novoda-bintray.gradle')
         }
 
 

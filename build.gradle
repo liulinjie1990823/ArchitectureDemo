@@ -52,7 +52,7 @@ buildscript {
 //        classpath 'com.billy.android:cc-register:1.1.2'
         //上传apk插件
         if (usePluginApkUpload) {
-            classpath 'com.llj:plugin-upload:0.0.15'
+            classpath 'com.llj:plugin-upload:0.0.16'
         }
         //aspectj插件
         if (usePluginAspectjx) {

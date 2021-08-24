@@ -20,7 +20,10 @@ dependencies {
     }
 
     //https://http-builder-ng.github.io/http-builder-ng/asciidoc/html5/#_introduction
-    implementation 'io.github.http-builder-ng:http-builder-ng-okhttp:1.0.4'
+    implementation ('io.github.http-builder-ng:http-builder-ng-okhttp:1.0.4') {
+        exclude group: 'com.squareup.okhttp3'
+    }
+    implementation ('com.squareup.okhttp3:okhttp:4.9.0 ')
 
 //    implementation('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2') {
 //        exclude(module: 'groovy')

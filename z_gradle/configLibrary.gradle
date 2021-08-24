@@ -105,7 +105,7 @@ subprojects {
         }
         //android-plugin升级后统一使用novoda-bintray来打包，之前的和插件有冲突
         if (!useOld) {
-//            apply from: rootProject.file('z_gradle/novoda-bintray.gradle')
+            apply from: rootProject.file('z_gradle/novoda-bintray.gradle')
         }
 //        if (useOld) {
 //            //打包本地
