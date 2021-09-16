@@ -3,8 +3,10 @@ package com.llj.lib.socialization.wechat.share;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import bolts.Continuation;
 import bolts.Task;
 import com.llj.socialization.R;
@@ -13,6 +15,7 @@ import com.llj.socialization.log.Logger;
 import com.llj.socialization.share.ShareObject;
 import com.llj.socialization.share.SharePlatformType;
 import com.llj.socialization.share.ShareUtil;
+import com.llj.socialization.share.ShareUtil.ImageEncodeToFileCallable;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShare;
 import com.llj.socialization.share.model.ShareResult;
@@ -29,6 +32,7 @@ import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import java.io.File;
 import java.lang.ref.WeakReference;
 
 /**
@@ -165,11 +169,35 @@ public class ShareWechat implements IShare {
     sendMessage(platform, message, buildTransaction("text"));
   }
 
+  // 判断微信版本是否为7.0.13及以上
+  public boolean checkVersionValid(Context context) {
+    return mIWXAPI.getWXAppSupportAPI() >= 0x27000D00;
+  }
+
+  // 判断Android版本是否7.0及以上
+  public boolean checkAndroidNotBelowN() {
+    return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N;
+  }
+
+  public String getFileUri(Context context, File file) {
+    if (file == null || !file.exists()) {
+      return null;
+    }
+    // 要与`AndroidManifest.xml`里配置的`authorities`一致，假设你的应用包名为com.example.app
+    String authority = context.getApplicationInfo().packageName + ".share.wechat.fileprovider";
+    Uri contentUri = FileProvider.getUriForFile(context, authority, file);
+
+    // 授权给微信访问路径
+    context.grantUriPermission("com.tencent.mm",  // 这里填微信包名
+        contentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+    return contentUri.toString();   // contentUri.toString() 即是以"content://"开头的用于共享的路径
+  }
 
   /**
-   * 微信朋友圈:纯图片分享,使用本地file路径有效,url有些无效 微信:纯图片分享,可以使用url
-   * <p>
-   * 这里统一转换为本地地址
+   * 微信朋友圈:纯图片分享,使用本地file路径有效,url有些无效 微信:纯图片分享,可以使用url 所以这里统一转换为本地地址路劲。
+   * <p/>
+   * 7.0以上需要使用FileProvide进行分享
    *
    * @param activity
    * @param platform
@@ -180,23 +208,36 @@ public class ShareWechat implements IShare {
 
     final WXMediaMessage message = new WXMediaMessage();
 
-    Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+    Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
         .continueWith(task -> {
           if (task.getError() != null) {
             Logger.e(TAG, task.getError());
             sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
             return null;
           }
-          if (ShareUtil.isGifPath(task.getResult()) || shareObject.isShareEmoji()) {
+          //这个是单纯的本地地址，传给下一个Continuation获取缩略图用
+          String imageLocalPath = task.getResult();
+
+          String imageLocalContentPath = task.getResult();
+          //7.0以上需要使用FileProvide进行分享
+          if (checkVersionValid(activity) && checkAndroidNotBelowN()) {
+            // 使用contentPath作为文件路径进行分享
+            String filePath = task.getResult();
+            File file = new File(filePath);
+            imageLocalContentPath = getFileUri(activity, file);
+          }
+
+          if (ShareUtil.isGifPath(imageLocalPath) || shareObject.isShareEmoji()) {
             WXEmojiObject emoji = new WXEmojiObject();
-            emoji.emojiPath = task.getResult();//图片路径
+            emoji.emojiPath = imageLocalContentPath;//图片路径
             message.mediaObject = emoji;
           } else {
             WXImageObject imageObject = new WXImageObject();
-            imageObject.imagePath = task.getResult();//图片路径
+            imageObject.imagePath = imageLocalContentPath;//图片路径
             message.mediaObject = imageObject;
           }
-          return task.getResult();
+
+          return imageLocalPath;
         })
         .continueWith(new ShareUtil.ThumbDataContinuation(TARGET_SIZE, THUMB_SIZE))
         .continueWith((Continuation<byte[], Void>) task -> {
@@ -233,7 +274,7 @@ public class ShareWechat implements IShare {
     message.title = shareObject.getTitle();//网页标题
     message.description = shareObject.getDescription();//网页描述
 
-    Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+    Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
         .continueWith(new ShareUtil.ThumbDataContinuation(TARGET_SIZE, THUMB_SIZE))
         .continueWith((Continuation<byte[], Void>) task -> {
           if (task.getError() != null) {
@@ -266,7 +307,7 @@ public class ShareWechat implements IShare {
     WXMediaMessage message = new WXMediaMessage(miniProgramObj);
     message.title = shareObject.getTitle();                    // 小程序消息title
     message.description = shareObject.getDescription();               // 小程序消息desc
-    Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+    Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
         .continueWith(new ShareUtil.ThumbDataContinuation(500, THUMB_SIZE_128))
         .continueWith((Continuation<byte[], Void>) task -> {
           if (task.getError() != null) {

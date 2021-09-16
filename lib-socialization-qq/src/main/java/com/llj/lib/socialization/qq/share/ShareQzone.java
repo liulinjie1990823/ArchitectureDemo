@@ -13,11 +13,11 @@ import com.llj.socialization.R;
 import com.llj.socialization.init.SocialManager;
 import com.llj.socialization.log.Logger;
 import com.llj.socialization.share.ShareObject;
-import com.llj.socialization.share.ShareUtil;
+import com.llj.socialization.share.ShareUtil.ImageEncodeToFileCallable;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShareQzone;
 import com.llj.socialization.share.model.ShareResult;
-import com.llj.socialization.share.process.ImageDecoder;
+import com.llj.socialization.share.process.ImageEncode;
 import com.llj.socialization.utils.InstallUtil;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzonePublish;
@@ -177,7 +177,7 @@ public class ShareQzone implements IShareQzone {
             params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
         }
 
-        Task.callInBackground(() -> ImageDecoder.decode(activity, shareObject))
+      Task.callInBackground(() -> ImageEncode.encode(activity, shareObject))
                 .continueWith((Continuation<String, Void>) task -> {
                     if (task.getError() != null) {
                         Log.e(TAG, Log.getStackTraceString(task.getError()));
@@ -217,7 +217,7 @@ public class ShareQzone implements IShareQzone {
             params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
         }
 
-        Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+      Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
                 .continueWith(new Continuation<String, Void>() {
                     @Override
                     public Void then(Task<String> task) throws Exception {
@@ -249,7 +249,7 @@ public class ShareQzone implements IShareQzone {
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);  //注意，要向qq空间分享纯图片，只能传这三个参数，不能传其他的
         params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
 
-        Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+      Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
                 .continueWith(new Continuation<String, Void>() {
                     @Override
                     public Void then(Task<String> task) throws Exception {
@@ -301,7 +301,7 @@ public class ShareQzone implements IShareQzone {
             params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
         }
 
-        Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+      Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
                 .continueWith((Continuation<String, Void>) task -> {
                     if (task.getError() != null) {
                         Logger.e(task.getError());

@@ -1,17 +1,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.llj.lib.socialization.wechat">
+  package="com.llj.lib.socialization.wechat">
 
-    <application>
+  <!--  指定微信包名-->
+  <queries>
+    <package android:name="com.tencent.mm" />
+  </queries>
 
-        <!--设置微信回调界面重定向-->
-        <activity-alias
-            android:name="${applicationId}.wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:targetActivity="com.llj.socialization.ResponseActivity"/>
+  <application>
 
-        <activity-alias
-            android:name="${applicationId}.wxapi.WXEntryActivity"
-            android:exported="true"
-            android:targetActivity="com.llj.socialization.ResponseActivity"/>
-    </application>
+    <!--设置微信回调界面重定向-->
+    <activity-alias
+      android:name="${applicationId}.wxapi.WXPayEntryActivity"
+      android:exported="true"
+      android:targetActivity="com.llj.socialization.ResponseActivity" />
+
+    <activity-alias
+      android:name="${applicationId}.wxapi.WXEntryActivity"
+      android:exported="true"
+      android:targetActivity="com.llj.socialization.ResponseActivity" />
+
+
+    <provider
+      android:name=".ShareWechatFileProvider"
+      android:authorities="${applicationId}.share.wechat.fileprovider"
+      android:exported="false"
+      android:grantUriPermissions="true">
+      <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/wechat_fire_provider_paths" />
+    </provider>
+  </application>
 </manifest>

@@ -1,5 +1,6 @@
 package com.llj.socialization.share;
 
+
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -17,7 +18,7 @@ import com.llj.socialization.ResponseActivity;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShare;
 import com.llj.socialization.share.model.ShareResult;
-import com.llj.socialization.share.process.ImageDecoder;
+import com.llj.socialization.share.process.ImageEncode;
 import java.util.concurrent.Callable;
 
 /**
@@ -247,22 +248,23 @@ public class ShareUtil {
         Log.e(TAG, Log.getStackTraceString(task.getError()));
         return null;
       }
-      return ImageDecoder.compress2Byte(task.getResult(), mSize, mLength);
+      return ImageEncode.compress2Byte(task.getResult(), mSize, mLength);
     }
   }
 
-  public static class ImageDecoderCallable implements Callable<String> {
+  public static class ImageEncodeToFileCallable implements Callable<String> {
 
     private Context       mContext;
     private ShareObject   mShareObject;
     private ShareListener mShareListener;
 
-    public ImageDecoderCallable(Activity activity, ShareObject shareObject,
+    public ImageEncodeToFileCallable(Activity activity, ShareObject shareObject,
         ShareListener shareListener) {
       mContext = activity.getApplicationContext();
       mShareObject = shareObject;
       mShareListener = shareListener;
     }
+
 
     @Override
     public String call() throws Exception {
@@ -270,12 +272,12 @@ public class ShareUtil {
         return null;
       }
       //解析用户设置的url或者bitmap
-      String imageLocalPath = ImageDecoder.decode(mContext, mShareObject);
+      String imageLocalPath = ImageEncode.encode(mContext, mShareObject);
 
       //尝试解析bitmap，看看是否可用
       BitmapFactory.Options options = null;
       try {
-        options = ImageDecoder.tryCompress2Byte(imageLocalPath);
+        options = ImageEncode.tryCompress2Byte(imageLocalPath);
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -285,7 +287,7 @@ public class ShareUtil {
           options.outWidth == 0)) {
         mShareObject.setImageUrlOrPath("");
         mShareObject.setImageBitmap(mShareListener.getExceptionImage());
-        imageLocalPath = ImageDecoder.decode(mContext, mShareObject);
+        imageLocalPath = ImageEncode.encode(mContext, mShareObject);
       }
       //抛出
       if (TextUtils.isEmpty(imageLocalPath)) {
@@ -294,12 +296,13 @@ public class ShareUtil {
                 "图片加载失败"));
         return null;
       }
+      //如果对路劲进行了处理，则返回处理后的
       String imageLocalPathWrap = mShareListener.imageLocalPathWrap(imageLocalPath);
-      if (TextUtils.isEmpty(imageLocalPathWrap)) {
-        return imageLocalPath;
-      } else {
+      if (!TextUtils.isEmpty(imageLocalPathWrap)) {
         return imageLocalPathWrap;
       }
+
+      return imageLocalPath;
     }
   }
 

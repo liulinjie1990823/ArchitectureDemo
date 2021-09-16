@@ -5,11 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Environment;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
+import androidx.annotation.NonNull;
 import com.llj.socialization.log.INFO;
 import com.llj.socialization.log.Logger;
 import com.llj.socialization.share.ShareObject;
@@ -31,7 +31,7 @@ import okio.BufferedSink;
 import okio.Okio;
 
 
-public class ImageDecoder {
+public class ImageEncode {
 
   public static final  String TAG                 = "ImageDecoder";
   /**
@@ -59,11 +59,11 @@ public class ImageDecoder {
    * @return 文件路径
    * @throws Exception
    */
-  public static String decode(Context context, ShareObject shareObject) {
+  public static String encode(Context context, ShareObject shareObject) {
     String resultPath = null;
     try {
       if (!TextUtils.isEmpty(shareObject.getImageUrlOrPath())) {
-        //路径，则需要解析(网络地址则下载，本地地址则复制一个副本)
+        //有路径，则需要解析(网络地址则下载，本地地址则复制一个副本)
         resultPath = pathToFile(context, shareObject.getImageUrlOrPath());
 
       } else if (shareObject.getImageBitmap() != null) {

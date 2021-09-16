@@ -13,7 +13,7 @@ import com.llj.socialization.R;
 import com.llj.socialization.init.SocialManager;
 import com.llj.socialization.log.Logger;
 import com.llj.socialization.share.ShareObject;
-import com.llj.socialization.share.ShareUtil;
+import com.llj.socialization.share.ShareUtil.ImageEncodeToFileCallable;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShare;
 import com.llj.socialization.share.model.ShareResult;
@@ -174,7 +174,7 @@ public class ShareQq implements IShare {
             params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
         }
 
-        Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+      Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
                 .continueWith(new Continuation<String, Void>() {
                     @Override
                     public Void then(Task<String> task) throws Exception {
@@ -217,7 +217,7 @@ public class ShareQq implements IShare {
         params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareObject.getDescription());
         params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
 
-        Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+      Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
                 .continueWith((Continuation<String, Void>) task -> {
                     if (task.getError() != null) {
                         Logger.e(TAG, task.getError());

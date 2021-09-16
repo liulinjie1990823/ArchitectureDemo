@@ -11,6 +11,7 @@ import bolts.Task;
 import com.llj.socialization.init.SocialManager;
 import com.llj.socialization.share.ShareObject;
 import com.llj.socialization.share.ShareUtil;
+import com.llj.socialization.share.ShareUtil.ImageEncodeToFileCallable;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShareSinaCustom;
 import com.llj.socialization.share.model.ShareResult;
@@ -121,7 +122,7 @@ public class ShareSina implements IShareSinaCustom {
   @Override
   public void shareImage(Activity activity, int platform, @NonNull ShareObject shareObject) {
     final ImageObject imageObject = new ImageObject();
-    Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+    Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
         .continueWith(task -> {
           if (task.getError() != null) {
             mShareListener.onShareResponse(
@@ -159,7 +160,7 @@ public class ShareSina implements IShareSinaCustom {
     final String text = String
         .format("%s %s", shareObject.getDescription(), shareObject.getTargetUrl());
 
-    Task.callInBackground(new ShareUtil.ImageDecoderCallable(activity, shareObject, mShareListener))
+    Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
         .continueWith(task -> {
           if (task.getError() != null) {
             mShareListener.onShareResponse(
