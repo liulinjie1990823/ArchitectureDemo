@@ -77,19 +77,23 @@ class StatusBarCompatLollipop {
    *
    * @param hideStatusBarBackground hide statusBar's shadow
    */
-  static void translucentStatusBar(@NonNull Window window, boolean hideStatusBarBackground,
+  static void translucentStatusBarAndNavigation(@NonNull Window window,
+      boolean hideStatusBarBackground,
       boolean hideNavigation) {
 
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
     if (hideStatusBarBackground) {
       window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
+      //设置状态栏背景透明
       window.setStatusBarColor(Color.TRANSPARENT);
+      //设置状态栏LAYOUT_FULLSCREEN模式
       window.getDecorView().setSystemUiVisibility(
           View.SYSTEM_UI_FLAG_LAYOUT_STABLE
               | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
       if (hideNavigation) {
-        window.setNavigationBarColor(Color.TRANSPARENT);
+        //设置导航栏背景默认白色，如果要修改可以在外面设置
+        window.setNavigationBarColor(Color.WHITE);
+        //设置导航栏LAYOUT_HIDE_NAVIGATION模式
         window.getDecorView().setSystemUiVisibility(
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);

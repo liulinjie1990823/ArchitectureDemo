@@ -1,12 +1,12 @@
 package com.llj.lib.statusbar;
 
 import android.os.Build;
+import android.view.Window;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import androidx.appcompat.widget.Toolbar;
-import android.view.Window;
 
 /**
  * Utils for status bar Created by qiu on 3/29/16.
@@ -59,7 +59,8 @@ public class StatusBarCompat {
    */
   public static void translucentStatusBar(@NonNull Window window, boolean hideStatusBarBackground) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      StatusBarCompatLollipop.translucentStatusBar(window, hideStatusBarBackground, false);
+      StatusBarCompatLollipop
+          .translucentStatusBarAndNavigation(window, hideStatusBarBackground, false);
     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       StatusBarCompatKitKat.translucentStatusBar(window);
     }
@@ -68,7 +69,8 @@ public class StatusBarCompat {
   public static void translucentStatusBarAndNavigation(@NonNull Window window,
       boolean hideStatusBarBackground) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      StatusBarCompatLollipop.translucentStatusBar(window, hideStatusBarBackground, true);
+      StatusBarCompatLollipop
+          .translucentStatusBarAndNavigation(window, hideStatusBarBackground, true);
     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       StatusBarCompatKitKat.translucentStatusBar(window);
     }
