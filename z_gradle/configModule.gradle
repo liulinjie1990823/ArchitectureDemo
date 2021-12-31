@@ -52,7 +52,7 @@ subprojects {
         }
 
         if (!useOld) {
-            apply from: rootProject.file('z_gradle/novoda-bintray.gradle')
+//            apply from: rootProject.file('z_gradle/novoda-bintray.gradle')
         }
 
 
@@ -94,7 +94,7 @@ subprojects {
                 versionName App.versionName
 
 
-                ndk { abiFilters "armeabi-v7a", "x86" }
+                ndk { abiFilters "armeabi-v7a", "arm64-v8a" }
                 resConfigs "zh", "xxhdpi"
                 //设置工程scheme，如ciw,ybs，在gradle.properties中设置
                 resValue("string", "native_scheme", native_scheme)

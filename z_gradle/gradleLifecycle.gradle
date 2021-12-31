@@ -35,6 +35,7 @@ gradle.addBuildListener(new BuildListener() {
     }
 })
 
+//每个project的评估过程
 gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
     void beforeEvaluate(Project project) {
         println("-----------------------------------------" + "beforeEvaluate:[" + project.name + "]-----------------------------------------")

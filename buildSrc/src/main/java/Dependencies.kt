@@ -19,10 +19,10 @@ object App {
 object Versions {
   //  https://developer.android.com/reference/tools/gradle-api
   const val agp = "4.0.2"
-  //  const val agp = "7.0.0"
+//    const val agp = "7.0.4"
 
-  //https://github.com/JetBrains/kotlin/releases/tag/v1.5.21
-  const val kotlin = "1.5.21"
+  //https://github.com/JetBrains/kotlin/releases/tag/v1.6.10
+  const val kotlin = "1.6.10"
   const val bintray_release = "0.8.1"
   const val walle = "1.1.7"
 
@@ -48,13 +48,13 @@ object Versions {
   const val auto_value = "1.6.2"
 
   const val stetho = "1.5.1"
-  const val doraemonkit = "3.3.5"
+  const val doraemonkit = "3.5.0.1"
 
   //1.6.3
   const val leakcanary = "2.7"
 
   const val nim = "7.5.0"
-  const val socialization = "2.0.19"
+  const val socialization = "2.0.20"
 
   const val FLIPPER_VERSION = "0.103.0"
   const val MATRIX_VERSION = "2.0.0"
@@ -82,12 +82,12 @@ object Deps {
   //kotlinx库
   //https://developer.android.com/kotlin/ktx?hl=zh-cn#modules
   //支持库
-  //上次更新时间：2021 年 7 月 28 日
+  //上次更新时间：2021 年 12 月 1 日
   //https://developer.android.com/jetpack/androidx/versions
   //https://developer.android.com/jetpack/androidx/releases/activity
-  const val androidx_activity = "androidx.activity:activity:1.3.0"
-  const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.3.0"
-  const val androidx_annotations = "androidx.annotation:annotation:1.2.0"
+  const val androidx_activity = "androidx.activity:activity:1.3.1"
+  const val androidx_activity_ktx = "androidx.activity:activity-ktx:1.3.1"
+  const val androidx_annotations = "androidx.annotation:annotation:1.3.0"
   const val androidx_annotations_experimental = "androidx.annotation:annotation-experimental:1.1.0"
   const val androidx_appcompat = "androidx.appcompat:appcompat:1.3.1"
   const val androidx_fragment = "androidx.fragment:fragment:1.3.6"
@@ -96,7 +96,8 @@ object Deps {
   const val androidx_arch_runtime = "androidx.arch.core:core-runtime:2.1.0"
   const val androidx_core = "androidx.core:core:1.6.0"
   const val androidx_core_ktx = "androidx.core:core-ktx:1.6.0"
-  const val androidx_collection = "androidx.collection:collection:1.1.0"
+  const val androidx_collection = "androidx.collection:collection:1.2.0"
+  const val androidx_collection_ktx = "androidx.collection:collection-ktx:1.2.0"
 
 
   //lifecycle
@@ -121,7 +122,7 @@ object Deps {
 
   //ui
   const val cardview = "androidx.cardview:cardview:1.0.0"
-  const val constraint_layout = "androidx.constraintlayout:constraintlayout:2.1.0"//约束布局
+  const val constraint_layout = "androidx.constraintlayout:constraintlayout:2.1.2"//约束布局
   const val coordinatorlayout = "androidx.coordinatorlayout:coordinatorlayout:1.1.0"//协调布局
   const val customview = "androidx.customview:customview:1.1.0"
   const val drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"
@@ -141,9 +142,9 @@ object Deps {
   const val vectordrawable_animated = "androidx.vectordrawable:vectordrawable-animated:1.1.0"
   const val viewpager = "androidx.viewpager:viewpager:1.0.0"
   const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
-  const val work_runtime = "androidx.work:work-runtime:2.5.0"
-  const val work_runtime_ktx = "androidx.work:work-runtime-ktx:2.5.0"
-  const val work_runtime_rxjava2 = "androidx.work:work-rxjava2:2.5.0"
+  const val work_runtime = "androidx.work:work-runtime:2.7.1"
+  const val work_runtime_ktx = "androidx.work:work-runtime-ktx:2.7.1"
+  const val work_runtime_rxjava2 = "androidx.work:work-rxjava2:2.7.1"
 
 
   //room
@@ -231,14 +232,14 @@ object Deps {
   //
   //https://github.com/didi/DoraemonKit/tree/master/Android
   //>=3.4.0
-//  const val doraemonkit = "io.github.didi.dokit:dokitx:${Versions.doraemonkit}"
-//  const val doraemonkit_no_op = "io.github.didi.dokit:dokitx-no-op:${Versions.doraemonkit}"
-//  const val doraemonkit_plugin = "io.github.didi.dokit:dokitx-plugin:${Versions.doraemonkit}"
+  const val doraemonkit = "io.github.didi.dokit:dokitx:${Versions.doraemonkit}"
+  const val doraemonkit_no_op = "io.github.didi.dokit:dokitx-no-op:${Versions.doraemonkit}"
+  const val doraemonkit_plugin = "io.github.didi.dokit:dokitx-plugin:${Versions.doraemonkit}"
 
   //>=3.3.1
-  const val doraemonkit = "com.didichuxing.doraemonkit:dokitx:${Versions.doraemonkit}"
-  const val doraemonkit_no_op = "com.didichuxing.doraemonkit:dokitx-no-op:${Versions.doraemonkit}"
-  const val doraemonkit_plugin = "com.didichuxing.doraemonkit:dokitx-plugin:${Versions.doraemonkit}"
+//  const val doraemonkit = "com.didichuxing.doraemonkit:dokitx:${Versions.doraemonkit}"
+//  const val doraemonkit_no_op = "com.didichuxing.doraemonkit:dokitx-no-op:${Versions.doraemonkit}"
+//  const val doraemonkit_plugin = "com.didichuxing.doraemonkit:dokitx-plugin:${Versions.doraemonkit}"
 
 
 //  const val doraemonkit = "com.didichuxing.doraemonkit:doraemonkit:${Versions.doraemonkit}"
@@ -278,7 +279,7 @@ object Deps {
   const val lib_image_loader = "com.llj:lib-image-loader:0.0.5"
   const val lib_image_select = "com.llj:lib-image-select:0.0.3"
   const val lib_state_layout = "com.llj:lib-statelayout:0.0.2"
-  const val lib_status_bar = "com.llj:lib-statusbar:0.0.3"
+  const val lib_status_bar = "com.llj:lib-statusbar:0.0.5"
   const val lib_swipe_back = "com.llj:lib-swipeback:0.0.1"
   const val lib_universalAdapter = "com.llj:lib-universalAdapter:1.1.11"
   const val lib_scrollable = "com.llj:lib-scrollable:0.0.1"

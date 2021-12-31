@@ -61,7 +61,7 @@ subprojects {
                     minSdkVersion App.minSdkVersion
                     targetSdkVersion App.targetSdkVersion
 
-                    ndk { abiFilters "armeabi-v7a", "x86" }
+                    ndk { abiFilters "armeabi-v7a", "arm64-v8a" }
                     //以模块运行时设置loading页后跳转的页面
                     resValue("string", "main_path", mainPath)
                     //设置工程scheme，如ciw,ybs，在gradle.properties中设置
@@ -105,7 +105,7 @@ subprojects {
         }
         //android-plugin升级后统一使用novoda-bintray来打包，之前的和插件有冲突
         if (!useOld) {
-            apply from: rootProject.file('z_gradle/novoda-bintray.gradle')
+//            apply from: rootProject.file('z_gradle/novoda-bintray.gradle')
         }
 //        if (useOld) {
 //            //打包本地

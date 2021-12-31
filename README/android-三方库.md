@@ -14,21 +14,11 @@
 - [anvil](https://github.com/square/anvil)
 - [koin](https://github.com/InsertKoinIO/koin)
 
-#### 事件
-- [EventBus](https://github.com/greenrobot/EventBus)
-
 #### 页面路由
 - [arouter](https://github.com/alibaba/ARouter)
 
-#### rxjava2
-- [rxJava2](https://github.com/ReactiveX/RxJava)
-- [AutoDispose](https://github.com/uber/AutoDispose)
-
-#### 应用启动框架
-- [alpha](https://github.com/alibaba/alpha)
-
-#### 线程操作
-- [bolt](https://github.com/BoltsFramework/Bolts-Android)
+#### KV存储
+- [MMKV](https://github.com/Tencent/MMKV)
 
 #### 网络
 - [okio](https://github.com/square/okio)
@@ -36,9 +26,6 @@
 - [retrofit](https://github.com/square/retrofit) com.squareup.retrofit2:retrofit:2.5.0
 - okhttp_logging_interceptor
 - PersistentCookieJar
-
-#### 内存回收存储
-- SaveState <https://github.com/PrototypeZ/SaveState>
 
 #### json解析
 - [gson](https://github.com/google/gson)
@@ -53,14 +40,17 @@
 #### 权限校验
 - [AndPermission](https://github.com/yanzhenjie/AndPermission)
 
-#### 二维码
-- [ZXing](https://github.com/zxing/zxing)
-- ZBar：
+#### 线程操作
+- [bolt](https://github.com/BoltsFramework/Bolts-Android)
+
+#### 事件
+- [EventBus](https://github.com/greenrobot/EventBus)
 
 #### 渠道包
 - [walle](https://github.com/Meituan-Dianping/walle)
 - [VasDolly](https://github.com/Tencent/VasDolly)
 
+### 非必须
 #### 文件下载
 - [okdownload](https://github.com/lingochamp/okdownload)
 - [aria](https://github.com/AriaLyy/Aria)
@@ -77,11 +67,20 @@
 - [DBFlow](https://github.com/agrosner/DBFlow)
 - [wcdb](https://github.com/Tencent/wcdb)
 
-#### KV存储
-- [MMKV](https://github.com/Tencent/MMKV)
-- Treasure <https://github.com/baoyongzhang/Treasure>
+#### rxjava2
+- [rxJava2](https://github.com/ReactiveX/RxJava)
+- [AutoDispose](https://github.com/uber/AutoDispose)
 
-### 选择性类库
+#### 应用启动框架
+- [alpha](https://github.com/alibaba/alpha)
+
+#### 内存回收存储
+- [SaveState](https://github.com/PrototypeZ/SaveState)
+
+#### 二维码
+- [ZXing](https://github.com/zxing/zxing)
+- [ZBar]
+
 
 #### 进程通信
 - [Andromeda](https://github.com/iqiyi/Andromeda)

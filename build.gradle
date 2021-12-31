@@ -52,7 +52,13 @@ buildscript {
 //        classpath 'com.billy.android:cc-register:1.1.2'
         //上传apk插件
         if (usePluginApkUpload) {
-            classpath 'com.llj:plugin-upload:0.0.16'
+            if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
+                //java 11使用
+                classpath 'com.llj:plugin-upload:0.0.16'
+            } else {
+                //java 8 使用
+                classpath 'com.llj:plugin-upload:0.0.15'
+            }
         }
         //aspectj插件
         if (usePluginAspectjx) {
@@ -95,6 +101,8 @@ buildscript {
         //detekt
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0"
 
+        //检测so库文件
+        classpath 'com.github.pengxurui:EasyPrivacy:v1.0.5'
 
     }
 }
@@ -159,6 +167,7 @@ allprojects {
 
             force Deps.room_runtime
             force Deps.sqlite
+            force Deps.exifinterface
         }
     }
 

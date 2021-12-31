@@ -5,7 +5,7 @@ dependencies {
         api Deps.base_compiler
         implementation Deps.jump_annotation
     } else {
-        api project(':lib-base-compiler')
+        implementation project(':lib-base-compiler')
         implementation project(':lib-jump-annotation')
     }
 

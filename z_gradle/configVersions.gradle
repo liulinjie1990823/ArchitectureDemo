@@ -35,7 +35,7 @@ def addRepos(RepositoryHandler handler) {
     handler.maven { url "https://jitpack.io" }
 
     //微博的maven地址
-    handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
+//    handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
 //    handler.flatDir { dirs "../lib", "../libs" }
 //    handler.maven { url "https://dl.bintray.com/liulinjie1990823/android/" }
 //    handler.maven { url "https://dl.bintray.com/liulinjie1990823/gradle/" }

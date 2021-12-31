@@ -15,14 +15,6 @@ android {
         cruncherEnabled false
     }
 
-    //DEX 构建特性
-    dexOptions {
-        preDexLibraries true
-        maxProcessCount 8
-        // Instead of setting the heap size for the DEX process, increase Gradle's
-        // heap size to enable dex-in-process. To learm more, read the next section.
-        // javaMaxHeapSize "2048m"
-    }
     packagingOptions {
         exclude 'META-INF/proguard/androidx-annotations.pro'
         exclude 'META-INF/androidx.core_core.version'
@@ -186,7 +178,9 @@ if (usePluginApkUpload) {
     }
 }
 
-apply plugin: 'com.akaita.android.easylauncher'
-easylauncher {
-    foregroundIconNames "@mipmap/ic_launcher_foreground" // Foreground of adaptive launcher icon
-}
+//apply plugin: 'com.akaita.android.easylauncher'
+//easylauncher {
+//    foregroundIconNames "@mipmap/ic_launcher_foreground" // Foreground of adaptive launcher icon
+//}
+
+apply plugin: 'com.pengxr.easyprivacy'
