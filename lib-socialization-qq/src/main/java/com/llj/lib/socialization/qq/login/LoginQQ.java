@@ -136,7 +136,7 @@ public class LoginQQ implements ILogin {
   }
 
   @Override
-  public void handleResult(int requestCode, int resultCode, Intent data) {
+  public void handleResult(Activity activity, int requestCode, int resultCode, Intent data) {
     Tencent.handleResultData(data, mIUiListener);
   }
 

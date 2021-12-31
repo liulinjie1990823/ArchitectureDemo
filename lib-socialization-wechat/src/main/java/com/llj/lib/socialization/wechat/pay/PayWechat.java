@@ -1,5 +1,6 @@
 package com.llj.lib.socialization.wechat.pay;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -156,7 +157,7 @@ public class PayWechat implements IPay {
   }
 
   @Override
-  public void handleResult(int requestCode, int resultCode, Intent data) {
+  public void handleResult(Activity activity, int requestCode, int resultCode, Intent data) {
   }
 
 

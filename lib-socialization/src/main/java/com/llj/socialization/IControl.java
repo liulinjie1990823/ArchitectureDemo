@@ -10,7 +10,7 @@ import android.content.Intent;
 public interface IControl {
 
     //处理结果
-    void handleResult(int requestCode, int resultCode, Intent data);
+    void handleResult(Activity activity, int requestCode, int resultCode, Intent data);
 
     void onNewIntent(Intent data);
 

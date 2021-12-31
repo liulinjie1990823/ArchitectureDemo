@@ -3,7 +3,7 @@ package com.llj.lib.socialization.sina.login;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import com.llj.lib.socialization.sina.api.UsersAPI;
+import com.llj.lib.socialization.sina.api.AccessTokenKeeper;
 import com.llj.lib.socialization.sina.login.model.WeiboToken;
 import com.llj.socialization.init.SocialManager;
 import com.llj.socialization.login.LoginPlatformType;
@@ -11,13 +11,13 @@ import com.llj.socialization.login.callback.LoginListener;
 import com.llj.socialization.login.interfaces.ILogin;
 import com.llj.socialization.login.model.BaseToken;
 import com.llj.socialization.login.model.LoginResult;
-import com.sina.weibo.sdk.WbSdk;
-import com.sina.weibo.sdk.auth.AccessTokenKeeper;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbAuthListener;
-import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
-import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.common.UiError;
+import com.sina.weibo.sdk.openapi.IWBAPI;
+import com.sina.weibo.sdk.openapi.SdkListener;
+import com.sina.weibo.sdk.openapi.WBAPIFactory;
 
 /**
  * PROJECT:babyphoto_app DESCRIBE: Created by llj on 2017/2/16.
@@ -26,7 +26,7 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 public class LoginSina implements ILogin {
 
 
-  private SsoHandler    mSsoHandler;
+  private IWBAPI        mWbApi;
   private LoginListener mLoginListener;
 
   private boolean mFetchUserInfo;
@@ -40,9 +40,18 @@ public class LoginSina implements ILogin {
         SocialManager.getConfig(context.getApplicationContext()).getSignId(),
         SocialManager.getConfig(context.getApplicationContext()).getSignRedirectUrl(),
         SocialManager.getConfig(context.getApplicationContext()).getSignScope());
-    WbSdk.install(context.getApplicationContext(), authInfo);
+    mWbApi = WBAPIFactory.createWBAPI(context.getApplicationContext());
+    mWbApi.registerApp(context.getApplicationContext(), authInfo, new SdkListener() {
+      @Override
+      public void onInitSuccess() {
 
-    mSsoHandler = new SsoHandler((Activity) context);
+      }
+
+      @Override
+      public void onInitFailure(Exception e) {
+
+      }
+    });
 
     mLoginListener = listener;
   }
@@ -50,9 +59,9 @@ public class LoginSina implements ILogin {
 
   @Override
   public void doLogin(final Activity activity) {
-    mSsoHandler.authorizeClientSso(new WbAuthListener() {
+    mWbApi.authorize(activity, new WbAuthListener() {
       @Override
-      public void onSuccess(Oauth2AccessToken oauth2AccessToken) {
+      public void onComplete(Oauth2AccessToken oauth2AccessToken) {
         AccessTokenKeeper.writeAccessToken(activity, oauth2AccessToken);
         //
         WeiboToken weiboToken = WeiboToken.parse(oauth2AccessToken);
@@ -69,48 +78,23 @@ public class LoginSina implements ILogin {
       }
 
       @Override
-      public void cancel() {
+      public void onCancel() {
         mLoginListener.onLoginResponse(
             new LoginResult(LoginPlatformType.SINA, LoginResult.RESPONSE_LOGIN_HAS_CANCEL));
       }
 
       @Override
-      public void onFailure(WbConnectErrorMessage wbConnectErrorMessage) {
+      public void onError(UiError uiError) {
         mLoginListener.onLoginResponse(
             new LoginResult(LoginPlatformType.SINA, LoginResult.RESPONSE_LOGIN_FAILURE,
-                wbConnectErrorMessage.getErrorMessage()));
+                uiError.errorMessage));
       }
+
     });
   }
 
   public void fetchUserInfo(Context context, final BaseToken token, Oauth2AccessToken accessToken) {
-    UsersAPI mUsersAPI = new UsersAPI(context, SocialManager.getConfig(context).getSignId(),
-        accessToken);
-    //        mUsersAPI.show(Long.parseLong(accessToken.getUid()), new RequestListener() {
-    //            @Override
-    //            public void onComplete(String response) {
-    //                Logger.e("sinaLogin:" + response);
-    //                if (!TextUtils.isEmpty(response)) {
-    ////                    User user = User.parse(response);
-    ////                    RequestUtil.loginThird(baseFragmentActivity, user, mAccessToken
-    // .getUid(), mAccessToken.getExpiresTime());
-    //                    WeiboUser user = null;
-    //                    try {
-    //                        user = WeiboUser.parse(new JSONObject(response));
-    //                    } catch (JSONException e) {
-    //                        e.printStackTrace();
-    //                    }
-    //                    mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.SINA,
-    //                    LoginResult.RESPONSE_LOGIN_SUCCESS, token, user));
-    //                }
-    //            }
-    //
-    //            @Override
-    //            public void onWeiboException(WeiboException e) {
-    //                mLoginListener.onLoginResponse(new LoginResult(LoginPlatformType.SINA,
-    //                LoginResult.RESPONSE_LOGIN_FAILURE, e.getMessage()));
-    //            }
-    //        });
+
   }
 
   @Override
@@ -123,18 +107,18 @@ public class LoginSina implements ILogin {
   }
 
   @Override
-  public void handleResult(int requestCode, int resultCode, Intent data) {
-    mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+  public void handleResult(Activity activity, int requestCode, int resultCode, Intent data) {
+    mWbApi.authorizeCallback(activity, requestCode, resultCode, data);
   }
 
   @Override
   public boolean isInstalled(Context context) {
-    return WbSdk.isWbInstall(context);
+    return mWbApi.isWBAppInstalled();
   }
 
   @Override
   public void recycle() {
-    mSsoHandler = null;
+    mWbApi = null;
     mLoginListener = null;
   }
 }

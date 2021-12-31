@@ -87,7 +87,7 @@ public class PayUtil {
 
   public static void handleResult(Activity activity, int requestCode, int resultCode, Intent data) {
     if (sMIPay != null) {
-      sMIPay.handleResult(requestCode, resultCode, data);
+      sMIPay.handleResult(activity, requestCode, resultCode, data);
     }
   }
 

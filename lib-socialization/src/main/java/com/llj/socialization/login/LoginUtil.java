@@ -107,7 +107,7 @@ public class LoginUtil {
     public static void handleResult(Activity activity, int requestCode, int resultCode,
         Intent data) {
         if (mLoginInstance != null) {
-            mLoginInstance.handleResult(requestCode, resultCode, data);
+            mLoginInstance.handleResult(activity, requestCode, resultCode, data);
         }
     }
 

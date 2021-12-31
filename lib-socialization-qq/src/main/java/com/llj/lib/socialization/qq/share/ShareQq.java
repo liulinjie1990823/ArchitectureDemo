@@ -26,246 +26,253 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 
 /**
- * PROJECT:babyphoto_app
- * DESCRIBE:
- * Created by llj on 2017/1/18.
+ * PROJECT:babyphoto_app DESCRIBE: Created by llj on 2017/1/18.
  */
 
 public class ShareQq implements IShare {
-    //1.标题+链接
-    //2.标题+内容+链接
-    //PARAM_TITLE、PARAM_IMAGE_URL、PARAM_SUMMARY不能全为空，最少必须有一个是有值的。
-    /**
-     * qq分享
-     * public static final int SHARE_TO_QQ_TYPE_DEFAULT = 1;图文
-     * public static final int SHARE_TO_QQ_TYPE_AUDIO = 2;音频
-     * public static final int SHARE_TO_QQ_TYPE_IMAGE = 5;//纯图
-     * public static final int SHARE_TO_QQ_TYPE_APP = 6;//
-     */
-    public static final String TAG = "ShareQq";
+  //1.标题+链接
+  //2.标题+内容+链接
+  //PARAM_TITLE、PARAM_IMAGE_URL、PARAM_SUMMARY不能全为空，最少必须有一个是有值的。
+  /**
+   * qq分享 public static final int SHARE_TO_QQ_TYPE_DEFAULT = 1;图文 public static final int
+   * SHARE_TO_QQ_TYPE_AUDIO = 2;音频 public static final int SHARE_TO_QQ_TYPE_IMAGE = 5;//纯图 public
+   * static final int SHARE_TO_QQ_TYPE_APP = 6;//
+   */
+  public static final String TAG = "ShareQq";
 
-    private Tencent mTencent;
-    private String  mAppName;
+  private Tencent mTencent;
+  private String  mAppName;
 
-    private ShareListener mShareListener;
-    private MyIUiListener mIUiListener;
+  private ShareListener mShareListener;
+  private MyIUiListener mIUiListener;
 
-    @Override
-    public void init(Context context, ShareListener listener) {
-        mTencent = Tencent.createInstance(SocialManager.getConfig(context.getApplicationContext()).getQqId(), context.getApplicationContext());
-        mShareListener = listener;
+  @Override
+  public void init(Context context, ShareListener listener) {
+    mTencent = Tencent
+        .createInstance(SocialManager.getConfig(context.getApplicationContext()).getQqId(),
+            context.getApplicationContext());
+    mShareListener = listener;
 
-        mIUiListener = new MyIUiListener(context, listener);
+    mIUiListener = new MyIUiListener(context, listener);
+  }
+
+  private static class MyIUiListener implements IUiListener {
+
+    private WeakReference<Context> mWeakReference;
+    private ShareListener          mShareListener;
+
+    public MyIUiListener(Context context, ShareListener shareListener) {
+      mWeakReference = new WeakReference<>(context);
+      mShareListener = shareListener;
     }
 
-    private static class MyIUiListener implements IUiListener {
-        private WeakReference<Context> mWeakReference;
-        private ShareListener          mShareListener;
-
-        public MyIUiListener(Context context, ShareListener shareListener) {
-            mWeakReference = new WeakReference<>(context);
-            mShareListener = shareListener;
+    void finishActivity(Context context) {
+      if (context instanceof Activity) {
+        Activity activity = (Activity) context;
+        if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity
+            .isDestroyed()) {
+          activity.finish();
         }
+      }
+    }
 
-        void finishActivity(Context context) {
-            if (context instanceof Activity) {
-                Activity activity = (Activity) context;
-                if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity.isDestroyed()) {
-                    activity.finish();
-                }
+    @Override
+    public void onComplete(Object o) {
+      mShareListener.onShareResponse(
+          new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
+      finishActivity(mWeakReference.get());
+    }
+
+    @Override
+    public void onError(UiError uiError) {
+      mShareListener.onShareResponse(
+          new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE,
+              uiError.errorMessage));
+      finishActivity(mWeakReference.get());
+    }
+
+    @Override
+    public void onCancel() {
+      mShareListener.onShareResponse(
+          new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
+      finishActivity(mWeakReference.get());
+    }
+  }
+
+  public String getAppName() {
+    return mAppName;
+  }
+
+  public void setAppName(String appName) {
+    mAppName = appName;
+  }
+
+
+  @Override
+  public void shareTitle(Activity activity, int platform, @NonNull ShareObject shareObject) {
+
+    final Bundle params = new Bundle();
+    params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+
+    if (!TextUtils.isEmpty(mAppName)) {
+      params.putString(QQShare.SHARE_TO_QQ_APP_NAME, mAppName);
+    }
+    params.putString(QQShare.SHARE_TO_QQ_TITLE, shareObject.getTitle());
+
+    if (!TextUtils.isEmpty(shareObject.getTargetUrl())) {
+      params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
+    }
+    shareQQ(activity, params);
+  }
+
+
+  @Override
+  public void shareDescription(Activity activity, int platform, @NonNull ShareObject shareObject) {
+
+    final Bundle params = new Bundle();
+    params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+
+    if (!TextUtils.isEmpty(mAppName)) {
+      params.putString(QQShare.SHARE_TO_QQ_APP_NAME, mAppName);
+    }
+    params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareObject.getDescription());
+    if (!TextUtils.isEmpty(shareObject.getTargetUrl())) {
+      params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
+    }
+    shareQQ(activity, params);
+  }
+
+  @Override
+  public void shareText(Activity activity, int platform, @NonNull ShareObject shareObject) {
+
+    final Bundle params = new Bundle();
+    params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+
+    if (!TextUtils.isEmpty(mAppName)) {
+      params.putString(QQShare.SHARE_TO_QQ_APP_NAME, mAppName);
+    }
+    params.putString(QQShare.SHARE_TO_QQ_TITLE, shareObject.getTitle());
+    params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareObject.getDescription());
+    if (!TextUtils.isEmpty(shareObject.getTargetUrl())) {
+      params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
+    }
+    shareQQ(activity, params);
+  }
+
+  /**
+   * 纯图分享只支持本地图片
+   *
+   * @param activity
+   * @param platform
+   * @param shareObject
+   */
+  @Override
+  public void shareImage(Activity activity, int platform, @NonNull ShareObject shareObject) {
+    final Bundle params = new Bundle();
+    params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
+
+    if (!TextUtils.isEmpty(mAppName)) {
+      params.putString(QQShare.SHARE_TO_QQ_APP_NAME, mAppName);
+    }
+    if (!TextUtils.isEmpty(shareObject.getTargetUrl())) {
+      params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
+    }
+
+    Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
+        .continueWith(new Continuation<String, Void>() {
+          @Override
+          public Void then(Task<String> task) throws Exception {
+            if (task.getError() != null) {
+              Log.e(TAG, Log.getStackTraceString(task.getError()));
+              sendFailure(activity, mShareListener,
+                  activity.getString(R.string.share_image_failure));
+              return null;
             }
-        }
+            if (TextUtils.isEmpty(task.getResult())) {
+              sendFailure(activity, mShareListener,
+                  activity.getString(R.string.load_image_failure));
+              return null;
+            }
+            if (!new File(task.getResult()).exists()) {
+              Log.e(TAG, activity.getString(R.string.local_file_does_not_exist));
+              sendFailure(activity, mShareListener,
+                  activity.getString(R.string.local_file_does_not_exist));
+              return null;
+            }
+            params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, task.getResult());
+            shareQQ(activity, params);
+            return null;
+          }
+        }, Task.UI_THREAD_EXECUTOR);
+  }
 
-        @Override
-        public void onComplete(Object o) {
-            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
-            finishActivity(mWeakReference.get());
-        }
+  /**
+   * 分享web
+   *
+   * @param activity
+   * @param platform
+   * @param shareObject
+   */
+  @Override
+  public void shareWeb(Activity activity, int platform, @NonNull ShareObject shareObject) {
 
-        @Override
-        public void onError(UiError uiError) {
-            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, uiError.errorMessage));
-            finishActivity(mWeakReference.get());
-        }
+    final Bundle params = new Bundle();
+    params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
 
-        @Override
-        public void onCancel() {
-            mShareListener.onShareResponse(new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
-            finishActivity(mWeakReference.get());
-        }
+    params.putString(QQShare.SHARE_TO_QQ_APP_NAME, mAppName);
+    params.putString(QQShare.SHARE_TO_QQ_TITLE, shareObject.getTitle());
+    params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareObject.getDescription());
+    params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
+
+    Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
+        .continueWith((Continuation<String, Void>) task -> {
+          if (task.getError() != null) {
+            Logger.e(TAG, task.getError());
+            sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
+            return null;
+          }
+          if (TextUtils.isEmpty(task.getResult())) {
+            sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
+            return null;
+          }
+          if (new File(task.getResult()).exists()) {
+            //本地文件
+            params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, task.getResult());
+          } else {
+            //网络文件
+            params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, task.getResult());
+          }
+          shareQQ(activity, params);
+          return null;
+        }, Task.UI_THREAD_EXECUTOR);
+  }
+
+
+  private void shareQQ(final Activity activity, Bundle params) {
+    mTencent.shareToQQ(activity, params, mIUiListener);
+  }
+
+  @Override
+  public void onNewIntent(Intent data) {
+
+  }
+
+  @Override
+  public void handleResult(Activity activity, int requestCode, int resultCode, Intent data) {
+    Tencent.handleResultData(data, mIUiListener);
+  }
+
+  @Override
+  public boolean isInstalled(Context context) {
+    return InstallUtil.isQQInstalled(context);
+  }
+
+  @Override
+  public void recycle() {
+    if (mTencent != null) {
+      mTencent.releaseResource();
+      mTencent = null;
     }
 
-    public String getAppName() {
-        return mAppName;
-    }
-
-    public void setAppName(String appName) {
-        mAppName = appName;
-    }
-
-
-    @Override
-    public void shareTitle(Activity activity, int platform, @NonNull ShareObject shareObject) {
-
-        final Bundle params = new Bundle();
-        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-
-        if (!TextUtils.isEmpty(mAppName)) {
-            params.putString(QQShare.SHARE_TO_QQ_APP_NAME, mAppName);
-        }
-        params.putString(QQShare.SHARE_TO_QQ_TITLE, shareObject.getTitle());
-
-        if (!TextUtils.isEmpty(shareObject.getTargetUrl())) {
-            params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
-        }
-        shareQQ(activity, params);
-    }
-
-
-    @Override
-    public void shareDescription(Activity activity, int platform, @NonNull ShareObject shareObject) {
-
-        final Bundle params = new Bundle();
-        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-
-        if (!TextUtils.isEmpty(mAppName)) {
-            params.putString(QQShare.SHARE_TO_QQ_APP_NAME, mAppName);
-        }
-        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareObject.getDescription());
-        if (!TextUtils.isEmpty(shareObject.getTargetUrl())) {
-            params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
-        }
-        shareQQ(activity, params);
-    }
-
-    @Override
-    public void shareText(Activity activity, int platform, @NonNull ShareObject shareObject) {
-
-        final Bundle params = new Bundle();
-        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-
-        if (!TextUtils.isEmpty(mAppName)) {
-            params.putString(QQShare.SHARE_TO_QQ_APP_NAME, mAppName);
-        }
-        params.putString(QQShare.SHARE_TO_QQ_TITLE, shareObject.getTitle());
-        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareObject.getDescription());
-        if (!TextUtils.isEmpty(shareObject.getTargetUrl())) {
-            params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
-        }
-        shareQQ(activity, params);
-    }
-
-    /**
-     * 纯图分享只支持本地图片
-     *
-     * @param activity
-     * @param platform
-     * @param shareObject
-     */
-    @Override
-    public void shareImage(Activity activity, int platform, @NonNull ShareObject shareObject) {
-        final Bundle params = new Bundle();
-        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
-
-        if (!TextUtils.isEmpty(mAppName)) {
-            params.putString(QQShare.SHARE_TO_QQ_APP_NAME, mAppName);
-        }
-        if (!TextUtils.isEmpty(shareObject.getTargetUrl())) {
-            params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
-        }
-
-      Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
-                .continueWith(new Continuation<String, Void>() {
-                    @Override
-                    public Void then(Task<String> task) throws Exception {
-                        if (task.getError() != null) {
-                            Log.e(TAG, Log.getStackTraceString(task.getError()));
-                            sendFailure(activity, mShareListener, activity.getString(R.string.share_image_failure));
-                            return null;
-                        }
-                        if (TextUtils.isEmpty(task.getResult())) {
-                            sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
-                            return null;
-                        }
-                        if (!new File(task.getResult()).exists()) {
-                            Log.e(TAG, activity.getString(R.string.local_file_does_not_exist));
-                            sendFailure(activity, mShareListener, activity.getString(R.string.local_file_does_not_exist));
-                            return null;
-                        }
-                        params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, task.getResult());
-                        shareQQ(activity, params);
-                        return null;
-                    }
-                }, Task.UI_THREAD_EXECUTOR);
-    }
-
-    /**
-     * 分享web
-     *
-     * @param activity
-     * @param platform
-     * @param shareObject
-     */
-    @Override
-    public void shareWeb(Activity activity, int platform, @NonNull ShareObject shareObject) {
-
-        final Bundle params = new Bundle();
-        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-
-        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, mAppName);
-        params.putString(QQShare.SHARE_TO_QQ_TITLE, shareObject.getTitle());
-        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareObject.getDescription());
-        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareObject.getTargetUrl());
-
-      Task.callInBackground(new ImageEncodeToFileCallable(activity, shareObject, mShareListener))
-                .continueWith((Continuation<String, Void>) task -> {
-                    if (task.getError() != null) {
-                        Logger.e(TAG, task.getError());
-                        sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
-                        return null;
-                    }
-                    if (TextUtils.isEmpty(task.getResult())) {
-                        sendFailure(activity, mShareListener, activity.getString(R.string.load_image_failure));
-                        return null;
-                    }
-                    if (new File(task.getResult()).exists()) {
-                        //本地文件
-                        params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, task.getResult());
-                    } else {
-                        //网络文件
-                        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, task.getResult());
-                    }
-                    shareQQ(activity, params);
-                    return null;
-                }, Task.UI_THREAD_EXECUTOR);
-    }
-
-
-    private void shareQQ(final Activity activity, Bundle params) {
-        mTencent.shareToQQ(activity, params, mIUiListener);
-    }
-
-    @Override
-    public void onNewIntent(Intent data) {
-
-    }
-
-    @Override
-    public void handleResult(int requestCode, int resultCode, Intent data) {
-        Tencent.handleResultData(data, mIUiListener);
-    }
-
-    @Override
-    public boolean isInstalled(Context context) {
-        return InstallUtil.isQQInstalled(context);
-    }
-
-    @Override
-    public void recycle() {
-        if (mTencent != null) {
-            mTencent.releaseResource();
-            mTencent = null;
-        }
-
-    }
+  }
 }

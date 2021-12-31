@@ -333,7 +333,7 @@ public class ShareWechat implements IShare {
   }
 
   @Override
-  public void handleResult(int requestCode, int resultCode, Intent data) {
+  public void handleResult(Activity activity, int requestCode, int resultCode, Intent data) {
   }
 
 

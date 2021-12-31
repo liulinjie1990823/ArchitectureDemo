@@ -15,13 +15,15 @@ import com.llj.socialization.share.ShareUtil.ImageEncodeToFileCallable;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShareSinaCustom;
 import com.llj.socialization.share.model.ShareResult;
-import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.common.UiError;
+import com.sina.weibo.sdk.openapi.IWBAPI;
+import com.sina.weibo.sdk.openapi.SdkListener;
+import com.sina.weibo.sdk.openapi.WBAPIFactory;
 import com.sina.weibo.sdk.share.WbShareCallback;
-import com.sina.weibo.sdk.share.WbShareHandler;
 
 /**
  * PROJECT:babyphoto_app DESCRIBE: Created by llj on 2017/1/18.
@@ -29,12 +31,12 @@ import com.sina.weibo.sdk.share.WbShareHandler;
 
 public class ShareSina implements IShareSinaCustom {
 
-  public static final String         TAG = ShareSina.class.getSimpleName();
+  public static final String TAG = ShareSina.class.getSimpleName();
   /**
    * 微博分享限制thumb image必须小于2097152，否则点击分享会没有反应
    */
 
-  private             WbShareHandler mWbShareHandler;
+  private             IWBAPI mWbApi;
 
   private static final int TARGET_SIZE   = 1024;
   private static final int TARGET_LENGTH = 256 * 1024;
@@ -49,30 +51,40 @@ public class ShareSina implements IShareSinaCustom {
         SocialManager.getConfig(context.getApplicationContext()).getSignId(),
         SocialManager.getConfig(context.getApplicationContext()).getSignRedirectUrl(),
         SocialManager.getConfig(context.getApplicationContext()).getSignScope());
-    WbSdk.install(context.getApplicationContext(), authInfo);
+    mWbApi = WBAPIFactory.createWBAPI(context.getApplicationContext());
+    mWbApi.registerApp(context.getApplicationContext(), authInfo, new SdkListener() {
+      @Override
+      public void onInitSuccess() {
 
-    mWbShareHandler = new WbShareHandler((Activity) context);
-    mWbShareHandler.registerApp();
+      }
+
+      @Override
+      public void onInitFailure(Exception e) {
+
+      }
+    });
 
     mShareListener = listener;
 
     mWbShareCallback = new WbShareCallback() {
       @Override
-      public void onWbShareSuccess() {
+      public void onComplete() {
         finishActivity(context);
         mShareListener.onShareResponse(
             new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
       }
 
       @Override
-      public void onWbShareFail() {
+      public void onError(UiError uiError) {
         finishActivity(context);
         mShareListener.onShareResponse(
-            new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE));
+            new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE,
+                uiError.errorMessage));
       }
 
+
       @Override
-      public void onWbShareCancel() {
+      public void onCancel() {
         finishActivity(context);
         mShareListener.onShareResponse(
             new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
@@ -207,21 +219,21 @@ public class ShareSina implements IShareSinaCustom {
   }
 
   @Override
-  public void handleResult(int requestCode, int resultCode, Intent data) {
-    mWbShareHandler.doResultIntent(data, mWbShareCallback);
+  public void handleResult(Activity activity, int requestCode, int resultCode, Intent data) {
+    mWbApi.doResultIntent(data, mWbShareCallback);
   }
 
   @Override
   public boolean isInstalled(Context context) {
-    return WbSdk.isWbInstall(context);
+    return mWbApi.isWBAppInstalled();
   }
 
   @Override
   public void recycle() {
-    mWbShareHandler = null;
+    mWbApi = null;
   }
 
   private void sendRequest(Activity activity, WeiboMultiMessage message) {
-    mWbShareHandler.shareMessage(message, false);
+    mWbApi.shareMessage(activity, message, false);
   }
 }

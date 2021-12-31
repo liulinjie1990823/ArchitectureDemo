@@ -357,7 +357,7 @@ public class ShareUtil {
     }
 
     if (sIShare != null) {
-      sIShare.handleResult(requestCode, resultCode, data);
+      sIShare.handleResult(activity, requestCode, resultCode, data);
     }
   }
 
