@@ -38,7 +38,7 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
   }
 
 
-  fun unbindList() {
+  private fun unbindList() {
     if (mList is ObservableList<Item?>) {
       (mList as ObservableList<Item?>).getListObserver().removeListener(observableListener)
     }
@@ -182,19 +182,19 @@ abstract class ListBasedAdapter<Item, Holder : XViewHolder> : UniversalAdapter<I
     return mList[index]
   }
 
-  override operator fun contains(element: Item?): Boolean {
+  override operator fun contains(element: @UnsafeVariance Item?): Boolean {
     return mList.contains(element)
   }
 
-  override fun containsAll(elements: Collection<Item?>): Boolean {
+  override fun containsAll(elements: Collection<@UnsafeVariance Item?>): Boolean {
     return mList.containsAll(elements)
   }
 
-  override fun indexOf(element: Item?): Int {
+  override fun indexOf(element: @UnsafeVariance Item?): Int {
     return mList.indexOf(element)
   }
 
-  override fun lastIndexOf(element: Item?): Int {
+  override fun lastIndexOf(element: @UnsafeVariance Item?): Int {
     return mList.lastIndexOf(element)
   }
 

@@ -171,9 +171,6 @@ class ViewHolderHelper : ViewHolderHelperWrap<ViewBinding> {
   }
 
   companion object {
-    fun createViewHolder(itemView: View): ViewHolderHelper {
-      return ViewHolderHelper(itemView)
-    }
 
     @JvmStatic
     fun createViewHolder(parent: ViewGroup, layoutId: Int): ViewHolderHelper {

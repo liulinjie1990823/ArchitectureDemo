@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import androidx.viewpager.widget.PagerAdapter
 import com.llj.adapter.listener.*
+import com.llj.adapter.model.TypeItem
 import com.llj.adapter.observable.ListObserver
 import com.llj.adapter.observable.ListObserverListener
 import com.llj.adapter.observable.SimpleListObserver
@@ -21,9 +22,9 @@ import java.util.*
  * PROJECT:UniversalAdapter DESCRIBE: Created by llj on 2017/1/14.
  */
 abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>,
-    HeaderListenerAdapter<Item, Holder>,
-    FooterListenerAdapter<Item, Holder>,
-    ItemListenerAdapter<Item, Holder> {
+  HeaderListenerAdapter<Item, Holder>,
+  FooterListenerAdapter<Item, Holder>,
+  ItemListenerAdapter<Item, Holder> {
   private val mHeaderHolders = SparseArray<Holder>()
   private val mFooterHolders = SparseArray<Holder>()
   private val mItemLayouts = SparseArray<LayoutConfig>()
@@ -151,17 +152,26 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   val internalItemViewTypeCount: Int
     get() = getItemViewTypeCount() + footersCount + headersCount
 
+
+  @Deprecated(
+    message = "使用onCreateViewHolder，将ViewBinding传到ViewHolder中",
+    replaceWith = ReplaceWith("this.onCreateViewHolder")
+  )
+  open fun onCreateViewBinding(parent: ViewGroup, viewType: Int): ViewBinding? {
+    return null
+  }
+
   protected open fun onCreateViewHolder(parent: ViewGroup, itemType: Int): XViewHolder {
-    return ViewHolderHelper.createViewHolder(parent, mItemLayouts[itemType].layoutId);
+    return ViewHolderHelper.createViewHolder(parent, mItemLayouts[itemType].layoutId)
   }
 
   private fun onCreateDropDownViewHolder(parent: ViewGroup, itemType: Int): XViewHolder {
     return onCreateViewHolder(parent, itemType)
   }
 
-  protected abstract fun onBindViewHolder(holder: Holder, item: Item?, position: Int)
+  abstract fun onBindViewHolder(holder: Holder, item: Item?, position: Int)
 
-  protected open fun onBindViewHolder(holder: Holder, item: Item?, position: Int, payloads: List<*>) {
+  open fun onBindViewHolder(holder: Holder, item: Item?, position: Int, payloads: List<*>) {
   }
 
   protected open fun onBindHeaderViewHolder(holder: XViewHolder, position: Int) {}
@@ -202,6 +212,10 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     return COMMON_ITEM_TYPE
   }
 
+  open fun canFindItemViewType(item: TypeItem?, position: Int): Boolean {
+    return false
+  }
+
   open fun getItemViewTypeCount(): Int {
     return 1
   }
@@ -217,7 +231,8 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   //<editor-fold desc="添加布局方法">
   private fun addHeaderHolder(type: Int, viewHolder: Holder) {
     tryThrowAlreadyBoundException(
-        "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
+      "Cannot bind a header holder post-bind due to limitations of view types and recycling."
+    )
     if (mHeaderHolders.indexOfKey(type) < 0) {
       tryThrowAlreadyBoundException("type exits")
     }
@@ -227,7 +242,8 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
   private fun addFooterHolder(type: Int, viewHolder: Holder) {
     tryThrowAlreadyBoundException(
-        "Cannot bind a footer holder post-bind due to limitations of view types and recycling.")
+      "Cannot bind a footer holder post-bind due to limitations of view types and recycling."
+    )
     check(mFooterHolders.indexOfKey(type) < 0) { "type exits" }
     mFooterHolders.put(type, viewHolder)
     onItemRangeInserted(footerStartIndex - 1 + footersCount, 1)
@@ -235,14 +251,16 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
   fun addItemLayout(layoutConfig: LayoutConfig) {
     tryThrowAlreadyBoundException(
-        "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
+      "Cannot bind a header holder post-bind due to limitations of view types and recycling."
+    )
     check(mItemLayouts.indexOfKey(layoutConfig.type) < 0) { "type exits" }
     mItemLayouts.put(layoutConfig.type, layoutConfig)
   }
 
   fun addItemLayout(@LayoutRes layoutId: Int) {
     tryThrowAlreadyBoundException(
-        "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
+      "Cannot bind a header holder post-bind due to limitations of view types and recycling."
+    )
     val layoutConfig = LayoutConfig(layoutId)
     check(mItemLayouts.indexOfKey(layoutConfig.type) < 0) { "type exits" }
     mItemLayouts.put(layoutConfig.type, layoutConfig)
@@ -250,7 +268,8 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
   fun addItemLayout(@LayoutRes layoutId: Int, type: Int) {
     tryThrowAlreadyBoundException(
-        "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
+      "Cannot bind a header holder post-bind due to limitations of view types and recycling."
+    )
     val layoutConfig = LayoutConfig(layoutId, type)
     check(mItemLayouts.indexOfKey(layoutConfig.type) < 0) { "type exits" }
     mItemLayouts.put(layoutConfig.type, layoutConfig)
@@ -259,14 +278,16 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
   fun addViewBinding(viewBindingConfig: ViewBindingConfig) {
     tryThrowAlreadyBoundException(
-        "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
+      "Cannot bind a header holder post-bind due to limitations of view types and recycling."
+    )
     check(mViewBindings.indexOfKey(viewBindingConfig.type) < 0) { "type exits" }
     mViewBindings.put(viewBindingConfig.type, viewBindingConfig)
   }
 
   fun addViewBinding(viewBinding: ViewBinding) {
     tryThrowAlreadyBoundException(
-        "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
+      "Cannot bind a header holder post-bind due to limitations of view types and recycling."
+    )
     val viewBindingConfig = ViewBindingConfig(viewBinding)
     check(mItemLayouts.indexOfKey(viewBindingConfig.type) < 0) { "type exits" }
     mViewBindings.put(viewBindingConfig.type, viewBindingConfig)
@@ -274,7 +295,8 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
   fun addViewBinding(viewBinding: ViewBinding, type: Int) {
     tryThrowAlreadyBoundException(
-        "Cannot bind a header holder post-bind due to limitations of view types and recycling.")
+      "Cannot bind a header holder post-bind due to limitations of view types and recycling."
+    )
     val viewBindingConfig = ViewBindingConfig(viewBinding, type)
     check(mItemLayouts.indexOfKey(viewBindingConfig.type) < 0) { "type exits" }
     mViewBindings.put(viewBindingConfig.type, viewBindingConfig)
@@ -317,9 +339,6 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     return holder
   }
 
-  open fun onCreateViewBinding(parent: ViewGroup, viewType: Int): ViewBinding? {
-    return null
-  }
 
   internal fun createDropDownViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
     mCreateCurrentTimeMillis = System.currentTimeMillis()
@@ -362,8 +381,10 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
         } else {
           extra = ""
         }
-        Timber.tag(TAG).i("%s%s mCachedViews:%s,view:%s,position:%d",
-            extra, TAG, viewHolder.hashCode(), viewHolder.itemView.hashCode(), viewHolder.adapterPosition)
+        Timber.tag(TAG).i(
+          "%s%s mCachedViews:%s,view:%s,position:%d",
+          extra, TAG, viewHolder.hashCode(), viewHolder.itemView.hashCode(), viewHolder.adapterPosition
+        )
       }
     }
 
@@ -372,16 +393,20 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   private fun logOnBindViewHolderTime(method: String, holder: XViewHolder, position: Int) {
     if (DEBUG) {
       val spend = System.currentTimeMillis() - mCurrentTimeMillis!!
-      Timber.tag(TAG).i("%s %s:%s,view:%s,position:%d,spend:%d",
-          TAG, method, holder.hashCode(), holder.itemView.hashCode(), position, spend)
+      Timber.tag(TAG).i(
+        "%s %s:%s,view:%s,position:%d,spend:%d",
+        TAG, method, holder.hashCode(), holder.itemView.hashCode(), position, spend
+      )
     }
   }
 
   private fun logonCreateViewHolderTime(method: String, holder: XViewHolder) {
     if (DEBUG) {
       val spend = System.currentTimeMillis() - mCreateCurrentTimeMillis!!
-      Timber.tag(TAG).i("%s %s:%s,view:%s",
-          TAG, method, holder.hashCode(), holder.itemView.hashCode())
+      Timber.tag(TAG).i(
+        "%s %s:%s,view:%s",
+        TAG, method, holder.hashCode(), holder.itemView.hashCode()
+      )
     }
   }
 
@@ -543,7 +568,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
       } else if (isFooterPosition(position)) {
         if (mFooterClickListener != null) {
           mFooterClickListener!!
-              .onFooterDoubleClicked(this, null, holder, getAdjustedFooterPosition(position))
+            .onFooterDoubleClicked(this, null, holder, getAdjustedFooterPosition(position))
         }
       } else {
         if (mItemClickListener != null) {
@@ -676,7 +701,8 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
       }
     } else {
       throw IllegalStateException(
-          "Tried to end a transaction when no transaction was running!")
+        "Tried to end a transaction when no transaction was running!"
+      )
     }
   }
 
@@ -708,8 +734,10 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
 
   protected val observableListener: ListObserverListener<Item> = object : ListObserverListener<Item> {
-    override fun onItemRangeChanged(observer: ListObserver<Item>, startPosition: Int, count: Int,
-                                    payload: Any?) {
+    override fun onItemRangeChanged(
+      observer: ListObserver<Item>, startPosition: Int, count: Int,
+      payload: Any?
+    ) {
       this@UniversalAdapter.onItemRangeChanged(startPosition, count, payload)
     }
 

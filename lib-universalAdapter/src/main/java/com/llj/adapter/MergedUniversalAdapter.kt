@@ -11,6 +11,7 @@ import kotlin.collections.ArrayList
  * Merges adapters together into one large [UniversalAdapter].
  */
 class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
+
   private val listPieces = ArrayList<ListPiece>()
 
   override fun notifyDataSetChanged() {
@@ -36,6 +37,15 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
     piece?.let {
       val adjusted = it.getAdjustedItemPosition(position)
       it.adapter.bindViewHolder(holder, adjusted)
+    }
+  }
+
+  override fun onBindViewHolder(holder: XViewHolder, item: Any?, position: Int, payloads: List<*>) {
+    val piece = getPieceAt(position)
+    //分发到各自的UniversalAdapter中
+    piece?.let {
+      val adjusted = it.getAdjustedItemPosition(position)
+      it.adapter.bindViewHolder(holder, adjusted, payloads)
     }
   }
 
@@ -163,8 +173,10 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
    * changed.
    */
   private val cascadingListObserver: ListObserverListener<Any?> = object : ListObserverListener<Any?> {
-    override fun onItemRangeChanged(observer: ListObserver<Any?>, startPosition: Int, count: Int,
-                                    payload: Any?) {
+    override fun onItemRangeChanged(
+      observer: ListObserver<Any?>, startPosition: Int, count: Int,
+      payload: Any?
+    ) {
       this@MergedUniversalAdapter.onItemRangeChanged(startPosition, count, payload)
     }
 
@@ -248,7 +260,8 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
   /**
    * Forwards internal adapter changes to the merged adapter.
    */
-  class ForwardingChangeListener(private val listPiece: ListPiece, private val listObserverListener: ListObserverListener<Any?>) : ListObserverListener<Any?> {
+  class ForwardingChangeListener(private val listPiece: ListPiece, private val listObserverListener: ListObserverListener<Any?>) :
+    ListObserverListener<Any?> {
 
     init {
       listPiece.adapter.mListObserver.addListener(listObserverListener)
@@ -257,25 +270,25 @@ class MergedUniversalAdapter : UniversalAdapter<Any?, XViewHolder>() {
     override fun onItemRangeChanged(observer: ListObserver<Any?>, startPosition: Int, count: Int, payload: Any?) {
       listPiece.initializeItemViewTypes()
       listObserverListener
-          .onItemRangeChanged(observer, listPiece.startPosition + startPosition, count, payload)
+        .onItemRangeChanged(observer, listPiece.startPosition + startPosition, count, payload)
     }
 
     override fun onItemRangeChanged(observer: ListObserver<Any?>, startPosition: Int, count: Int) {
       listPiece.initializeItemViewTypes()
       listObserverListener
-          .onItemRangeChanged(observer, listPiece.startPosition + startPosition, count)
+        .onItemRangeChanged(observer, listPiece.startPosition + startPosition, count)
     }
 
     override fun onItemRangeInserted(observer: ListObserver<Any?>, startPosition: Int, count: Int) {
       listPiece.initializeItemViewTypes()
       listObserverListener
-          .onItemRangeInserted(observer, listPiece.startPosition + startPosition, count)
+        .onItemRangeInserted(observer, listPiece.startPosition + startPosition, count)
     }
 
     override fun onItemRangeRemoved(observer: ListObserver<Any?>, startPosition: Int, count: Int) {
       listPiece.initializeItemViewTypes()
       listObserverListener
-          .onItemRangeRemoved(observer, listPiece.startPosition + startPosition, count)
+        .onItemRangeRemoved(observer, listPiece.startPosition + startPosition, count)
     }
 
     override fun onGenericChange(observer: ListObserver<Any?>) {
