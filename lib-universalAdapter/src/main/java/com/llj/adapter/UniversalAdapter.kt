@@ -161,9 +161,9 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     return null
   }
 
-  protected open fun onCreateViewHolder(parent: ViewGroup, itemType: Int): XViewHolder {
-    return ViewHolderHelper.createViewHolder(parent, mItemLayouts[itemType].layoutId)
-  }
+   open fun onCreateViewHolder(parent: ViewGroup, itemType: Int): XViewHolder {
+     return ViewHolderHelper.createViewHolder(parent, mItemLayouts[itemType].layoutId)
+   }
 
   private fun onCreateDropDownViewHolder(parent: ViewGroup, itemType: Int): XViewHolder {
     return onCreateViewHolder(parent, itemType)

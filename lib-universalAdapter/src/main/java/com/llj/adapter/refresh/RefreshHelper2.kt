@@ -1,7 +1,9 @@
 package com.llj.adapter.refresh
 
+import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.UniversalAdapter
 import com.llj.adapter.XViewHolder
+import com.llj.adapter.model.TypeItem
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 
 /**
@@ -10,10 +12,10 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
  * author liulj
  * date 2018/7/20
  */
-class RefreshHelper2<Item, Holder : XViewHolder>(
+class RefreshHelper2<Item : TypeItem, Holder : XViewHolder>(
   private val pageSize: Int,
   private var mSmartRefreshLayout: SmartRefreshLayout?,
-  private var mAdapter: UniversalAdapter<Item?, Holder>?
+  private var mAdapter: ListBasedAdapter<Item?, Holder>?
 ) : IRefresh2<Item?, Holder> {
 
   private var mPagerHelper: PagerHelper = PagerHelper(pageSize)
@@ -22,16 +24,8 @@ class RefreshHelper2<Item, Holder : XViewHolder>(
   constructor(pageSize: Int)
       : this(pageSize, null, null)
 
-  //不设置ListBasedAdapter，针对自己处理数据的情况
-  constructor(mSmartRefreshLayout: SmartRefreshLayout?)
-      : this(20, mSmartRefreshLayout, null)
 
-
-  constructor(mSmartRefreshLayout: SmartRefreshLayout?, mAdapter: UniversalAdapter<Item?, Holder>?)
-      : this(20, mSmartRefreshLayout, mAdapter)
-
-
-  fun setRefreshLayout(mSmartRefreshLayout: SmartRefreshLayout?, mAdapter: UniversalAdapter<Item?, Holder>?) {
+  fun setRefreshLayout(mSmartRefreshLayout: SmartRefreshLayout?, mAdapter: ListBasedAdapter<Item?, Holder>?) {
     this.mSmartRefreshLayout = mSmartRefreshLayout
     this.mAdapter = mAdapter
   }

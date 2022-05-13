@@ -1,7 +1,6 @@
 package com.llj.adapter.multitype
 
 import android.view.ViewGroup
-import androidx.viewbinding.ViewBinding
 import com.llj.adapter.ListBasedAdapter
 import com.llj.adapter.XViewHolder
 import com.llj.adapter.model.TypeItem
@@ -21,9 +20,9 @@ class MultiTypeListAdapter : ListBasedAdapter<TypeItem?, XViewHolder>() {
     return multiTypeManager.getItemViewType(get(position), position)
   }
 
-  override fun onCreateViewBinding(parent: ViewGroup, viewType: Int): ViewBinding? {
-    val listBasedAdapter = multiTypeManager.getAdapterByItemViewType(viewType)
-    return listBasedAdapter?.onCreateViewBinding(parent, viewType)
+  override fun onCreateViewHolder(parent: ViewGroup, itemType: Int): XViewHolder {
+    val listBasedAdapter = multiTypeManager.getAdapterByItemViewType(itemType)
+    return listBasedAdapter!!.onCreateViewHolder(parent, itemType)
   }
 
   override fun onBindViewHolder(holder: XViewHolder, item: TypeItem?, position: Int) {

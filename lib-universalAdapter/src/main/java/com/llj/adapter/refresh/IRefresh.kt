@@ -10,14 +10,14 @@ import com.llj.adapter.XViewHolder
  * date 2018/7/20
  */
 interface IRefresh<Item, Holder : XViewHolder> : IPager {
-    fun finishRefreshOrLoadMore(success: Boolean)
+  fun finishRefreshOrLoadMore(success: Boolean)
 
-    fun finishRefreshOrLoadMore(success: Boolean,hasNextPage: Boolean)
+  fun finishRefreshOrLoadMore(success: Boolean, hasNextPage: Boolean)
 
-    fun handleData(hasNextPage: Boolean, list: Collection<Item>?)
-    fun handleData(shouldSetEnableLoadMore: Boolean,hasNextPage: Boolean, list: Collection<Item>?)
+  fun handleData(hasNextPage: Boolean, list: Collection<Item>?)
+  fun handleData(shouldSetEnableLoadMore: Boolean, hasNextPage: Boolean, list: Collection<Item>?)
 
-    fun size(): Int
+  fun size(): Int
 
-    fun getAdapter(): ListBasedAdapter<Item, Holder>?
+  fun getAdapter(): ListBasedAdapter<Item, Holder>?
 }

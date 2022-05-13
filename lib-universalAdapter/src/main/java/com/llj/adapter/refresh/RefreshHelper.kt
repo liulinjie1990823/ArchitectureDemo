@@ -10,10 +10,11 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
  * author liulj
  * date 2018/7/20
  */
-class RefreshHelper<Item, Holder : XViewHolder>(private val pageSize: Int,
-                                                private var mSmartRefreshLayout: SmartRefreshLayout?,
-                                                private var mAdapter: ListBasedAdapter<Item?, Holder>?)
-  : IRefresh<Item?, Holder> {
+class RefreshHelper<Item, Holder : XViewHolder>(
+  private val pageSize: Int,
+  private var mSmartRefreshLayout: SmartRefreshLayout?,
+  private var mAdapter: ListBasedAdapter<Item?, Holder>?
+) : IRefresh<Item?, Holder> {
 
   private var mPagerHelper: PagerHelper = PagerHelper(pageSize)
 
