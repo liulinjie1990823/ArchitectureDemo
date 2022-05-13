@@ -6,8 +6,8 @@ import com.llj.adapter.XViewHolder
 /**
  * ArchitectureDemo
  * describe:
- * author liulj
- * date 2018/7/20
+ * @author liulj
+ * @date 2018/7/20
  */
 interface IRefresh2<Item, Holder : XViewHolder> : IPager {
   fun finishRefreshOrLoadMore(success: Boolean)

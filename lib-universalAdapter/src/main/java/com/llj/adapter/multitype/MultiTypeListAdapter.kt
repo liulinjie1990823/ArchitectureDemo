@@ -12,9 +12,17 @@ import com.llj.adapter.model.TypeItem
  * @author liulinjie
  * @date 2022/3/31 4:54 下午
  */
-class MultiTypeListAdapter : ListBasedAdapter<TypeItem?, XViewHolder>() {
+open class MultiTypeListAdapter(private val hasStableIds: Boolean = false) : ListBasedAdapter<TypeItem?, XViewHolder>() {
 
   private val multiTypeManager = MultiTypeManager()
+
+  override fun getItemId(position: Int): Long {
+    return get(position)?.hashCode()?.toLong() ?: 0
+  }
+
+  override fun hasStableIds(): Boolean {
+    return hasStableIds
+  }
 
   override fun getItemViewType(position: Int): Int {
     return multiTypeManager.getItemViewType(get(position), position)

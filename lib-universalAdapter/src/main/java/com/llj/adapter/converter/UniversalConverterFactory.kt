@@ -11,9 +11,10 @@ import com.llj.adapter.UniversalConverter
 import com.llj.adapter.XViewHolder
 
 /**
- * PROJECT:CommonAdapter
- * DESCRIBE:
- * Created by llj on 2017/2/11.
+ * UniversalConverterFactory
+ *
+ * @author liulinjie
+ * @date 2017/2/11
  */
 object UniversalConverterFactory {
 

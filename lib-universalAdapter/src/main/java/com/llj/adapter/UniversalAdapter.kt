@@ -19,16 +19,14 @@ import timber.log.Timber
 import java.util.*
 
 /**
- * PROJECT:UniversalAdapter DESCRIBE: Created by llj on 2017/1/14.
+ * UniversalAdapter
+ *
+ * @author liulinjie
+ * @date 2017/1/14
  */
 abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>,
-  HeaderListenerAdapter<Item, Holder>,
-  FooterListenerAdapter<Item, Holder>,
   ItemListenerAdapter<Item, Holder> {
-  private val mHeaderHolders = SparseArray<Holder>()
-  private val mFooterHolders = SparseArray<Holder>()
   private val mItemLayouts = SparseArray<LayoutConfig>()
-  private val mViewBindings = SparseArray<ViewBindingConfig>()
 
   private var TAG: String = this.javaClass.simpleName
 
@@ -53,19 +51,6 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     }
   }
 
-  class ViewBindingConfig {
-    private val viewBinding: ViewBinding
-    var type = COMMON_ITEM_TYPE
-
-    constructor(viewBinding: ViewBinding, type: Int) {
-      this.viewBinding = viewBinding
-      this.type = type
-    }
-
-    constructor(viewBinding: ViewBinding) {
-      this.viewBinding = viewBinding
-    }
-  }
 
   val mListObserver: SimpleListObserver<Any?> = SimpleListObserver()
 
@@ -74,8 +59,6 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   private var isBound = false
 
   private var mItemClickListener: ItemClickListener<Item, Holder>? = null
-  private var mHeaderClickListener: HeaderClickListener<Item, Holder>? = null
-  private var mFooterClickListener: FooterClickListener<Item, Holder>? = null
 
   var isSupportDoubleClick = false
   var isSupportLongClick = false
@@ -118,25 +101,10 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     mListObserver.removeListener(listener)
     return true
   }
-  //</editor-fold >
-
-  //<editor-fold desc="设置item监听器">
-  override fun setFooterClickListener(footerClickListener: FooterClickListener<Item, Holder>) {
-    mFooterClickListener = footerClickListener
-  }
-
-  override fun setHeaderClickListener(headerClickListener: HeaderClickListener<Item, Holder>) {
-    mHeaderClickListener = headerClickListener
-  }
+  //endregion
 
 
-  override fun setItemClickedListener(listener: ItemClickListener<Item, Holder>) {
-    mItemClickListener = listener
-  }
-  //</editor-fold >
-
-
-  //<editor-fold desc="基本方法">
+  //region 基本方法
   open fun getItemPosition(`object`: Any): Int {
     return PagerAdapter.POSITION_UNCHANGED
   }
@@ -146,11 +114,11 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   abstract fun getCount(): Int
 
   val internalCount: Int
-    get() = headersCount + getCount() + footersCount
+    get() = getCount()
 
   //ListView使用
   val internalItemViewTypeCount: Int
-    get() = getItemViewTypeCount() + footersCount + headersCount
+    get() = getItemViewTypeCount()
 
 
   @Deprecated(
@@ -161,9 +129,9 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     return null
   }
 
-   open fun onCreateViewHolder(parent: ViewGroup, itemType: Int): XViewHolder {
-     return ViewHolderHelper.createViewHolder(parent, mItemLayouts[itemType].layoutId)
-   }
+  open fun onCreateViewHolder(parent: ViewGroup, itemType: Int): XViewHolder {
+    return ViewHolderHelper.createViewHolder(parent, mItemLayouts[itemType].layoutId)
+  }
 
   private fun onCreateDropDownViewHolder(parent: ViewGroup, itemType: Int): XViewHolder {
     return onCreateViewHolder(parent, itemType)
@@ -173,11 +141,6 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
 
   open fun onBindViewHolder(holder: Holder, item: Item?, position: Int, payloads: List<*>) {
   }
-
-  protected open fun onBindHeaderViewHolder(holder: XViewHolder, position: Int) {}
-
-  protected open fun onBindFooterViewHolder(holder: XViewHolder, position: Int) {}
-
 
   private fun onBindDropDownViewHolder(holder: Holder, item: Item?, position: Int) {
     onBindViewHolder(holder, item, position)
@@ -198,15 +161,6 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     return true
   }
 
-  //子类重写，header是否可用
-  open fun isHeaderEnabled(position: Int): Boolean {
-    return true
-  }
-
-  //子类重写,footer是否可用
-  open fun isFooterEnabled(position: Int): Boolean {
-    return true
-  }
 
   open fun getItemViewType(position: Int): Int {
     return COMMON_ITEM_TYPE
@@ -225,30 +179,12 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     initCachedView()
     return false
   }
-  //</editor-fold >
+  //endregion
 
-
-  //<editor-fold desc="添加布局方法">
-  private fun addHeaderHolder(type: Int, viewHolder: Holder) {
-    tryThrowAlreadyBoundException(
-      "Cannot bind a header holder post-bind due to limitations of view types and recycling."
-    )
-    if (mHeaderHolders.indexOfKey(type) < 0) {
-      tryThrowAlreadyBoundException("type exits")
-    }
-    mHeaderHolders.put(type, viewHolder)
-    onItemRangeInserted(headersCount - 1, 1)
-  }
-
-  private fun addFooterHolder(type: Int, viewHolder: Holder) {
-    tryThrowAlreadyBoundException(
-      "Cannot bind a footer holder post-bind due to limitations of view types and recycling."
-    )
-    check(mFooterHolders.indexOfKey(type) < 0) { "type exits" }
-    mFooterHolders.put(type, viewHolder)
-    onItemRangeInserted(footerStartIndex - 1 + footersCount, 1)
-  }
-
+  @Deprecated(
+    message = "使用MultiTypeListAdapter来代替，将布局和实现绑定在一起，方便解耦",
+    replaceWith = ReplaceWith("MultiTypeListAdapter")
+  )
   fun addItemLayout(layoutConfig: LayoutConfig) {
     tryThrowAlreadyBoundException(
       "Cannot bind a header holder post-bind due to limitations of view types and recycling."
@@ -257,6 +193,10 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     mItemLayouts.put(layoutConfig.type, layoutConfig)
   }
 
+  @Deprecated(
+    message = "使用MultiTypeListAdapter来代替，将布局和实现绑定在一起，方便解耦",
+    replaceWith = ReplaceWith("MultiTypeListAdapter")
+  )
   fun addItemLayout(@LayoutRes layoutId: Int) {
     tryThrowAlreadyBoundException(
       "Cannot bind a header holder post-bind due to limitations of view types and recycling."
@@ -266,6 +206,10 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     mItemLayouts.put(layoutConfig.type, layoutConfig)
   }
 
+  @Deprecated(
+    message = "使用MultiTypeListAdapter来代替，将布局和实现绑定在一起，方便解耦",
+    replaceWith = ReplaceWith("MultiTypeListAdapter")
+  )
   fun addItemLayout(@LayoutRes layoutId: Int, type: Int) {
     tryThrowAlreadyBoundException(
       "Cannot bind a header holder post-bind due to limitations of view types and recycling."
@@ -276,36 +220,10 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   }
 
 
-  fun addViewBinding(viewBindingConfig: ViewBindingConfig) {
-    tryThrowAlreadyBoundException(
-      "Cannot bind a header holder post-bind due to limitations of view types and recycling."
-    )
-    check(mViewBindings.indexOfKey(viewBindingConfig.type) < 0) { "type exits" }
-    mViewBindings.put(viewBindingConfig.type, viewBindingConfig)
-  }
-
-  fun addViewBinding(viewBinding: ViewBinding) {
-    tryThrowAlreadyBoundException(
-      "Cannot bind a header holder post-bind due to limitations of view types and recycling."
-    )
-    val viewBindingConfig = ViewBindingConfig(viewBinding)
-    check(mItemLayouts.indexOfKey(viewBindingConfig.type) < 0) { "type exits" }
-    mViewBindings.put(viewBindingConfig.type, viewBindingConfig)
-  }
-
-  fun addViewBinding(viewBinding: ViewBinding, type: Int) {
-    tryThrowAlreadyBoundException(
-      "Cannot bind a header holder post-bind due to limitations of view types and recycling."
-    )
-    val viewBindingConfig = ViewBindingConfig(viewBinding, type)
-    check(mItemLayouts.indexOfKey(viewBindingConfig.type) < 0) { "type exits" }
-    mViewBindings.put(viewBindingConfig.type, viewBindingConfig)
-  }
-
   fun inflateView(parent: ViewGroup, layoutResId: Int): View {
     return LayoutInflater.from(parent.context).inflate(layoutResId, parent, false)
   }
-  //</editor-fold >
+  //endregion
 
   private var mCreateCurrentTimeMillis: Long? = null
   private var mCurrentTimeMillis: Long? = null
@@ -318,10 +236,6 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     if (mItemLayouts.indexOfKey(viewType) >= 0) {
       //createViewHolder中会进行inflate操作
       holder = ViewHolderHelper.createViewHolder(parent, mItemLayouts[viewType].layoutId)
-    } else if (mHeaderHolders.indexOfKey(viewType) >= 0) {
-      holder = mHeaderHolders[viewType]
-    } else if (mFooterHolders.indexOfKey(viewType) >= 0) {
-      holder = mFooterHolders[viewType]
     } else {
       //ViewBinding可以提前在外部inflate
       //viewHolder = ViewHolderHelperWrap.createViewHolder(mViewBindings[viewType].viewBinding)
@@ -346,12 +260,6 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     val holder: XViewHolder = when {
       mItemLayouts.indexOfKey(viewType) >= 0 -> {
         ViewHolderHelper.createViewHolder(parent, mItemLayouts[viewType].layoutId)
-      }
-      mHeaderHolders.indexOfKey(viewType) >= 0 -> {
-        mHeaderHolders[viewType]
-      }
-      mFooterHolders.indexOfKey(viewType) >= 0 -> {
-        mFooterHolders[viewType]
       }
       else -> {
         val viewBinding = onCreateViewBinding(parent, viewType)
@@ -415,25 +323,9 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     logCachedViews()
     mCurrentTimeMillis = System.currentTimeMillis()
 
-    if (headersCount == 0 && footersCount == 0) {
-      //没有头部和底部
-      val adjustedPosition = getAdjustedPosition(position)
-      holder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition)
-      onBindViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition)
-    } else {
-      if (isHeaderPosition(position)) {
-        //前面的是header
-        onBindHeaderViewHolder(holder, position)
-      } else if (isFooterPosition(position)) {
-        //后面的是footer
-        onBindFooterViewHolder(holder, getAdjustedFooterPosition(position))
-      } else {
-        //item的位置
-        val adjustedPosition = getAdjustedPosition(position)
-        holder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition)
-        onBindViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition)
-      }
-    }
+    val adjustedPosition = getAdjustedPosition(position)
+    holder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition)
+    onBindViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition)
 
     //record onBindViewHolder spend time
     logOnBindViewHolderTime("bindViewHolder", holder, position)
@@ -443,25 +335,10 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     logCachedViews()
     mCurrentTimeMillis = System.currentTimeMillis()
 
-    if (headersCount == 0 && footersCount == 0) {
-      //没有头部和底部
-      val adjustedPosition = getAdjustedPosition(position)
-      holder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition)
-      onBindViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition, payloads)
-    } else {
-      if (isHeaderPosition(position)) {
-        //前面的是header
-        onBindHeaderViewHolder(holder, position)
-      } else if (isFooterPosition(position)) {
-        //后面的是footer
-        onBindFooterViewHolder(holder, getAdjustedFooterPosition(position))
-      } else {
-        //item的位置
-        val adjustedPosition = getAdjustedPosition(position)
-        holder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition)
-        onBindViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition, payloads)
-      }
-    }
+    val adjustedPosition = getAdjustedPosition(position)
+    holder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition)
+    onBindViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition, payloads)
+
     //record onBindViewHolder spend time
     logOnBindViewHolderTime("bindViewHolderPayloads", holder, position)
   }
@@ -470,40 +347,28 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
     logCachedViews()
     mCurrentTimeMillis = System.currentTimeMillis()
 
-    if (headersCount == 0 && footersCount == 0) {
-      val adjustedPosition = getAdjustedPosition(position)
-      holder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition)
-      onBindDropDownViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition)
-    } else {
-      if (isHeaderPosition(position)) {
-        onBindHeaderViewHolder(holder, position)
-      } else if (isFooterPosition(position)) {
-        onBindFooterViewHolder(holder, getAdjustedFooterPosition(position))
-      } else {
-        val adjustedPosition = getAdjustedPosition(position)
-        holder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition)
-        onBindDropDownViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition)
-      }
-    }
+    val adjustedPosition = getAdjustedPosition(position)
+    holder.itemView.setTag(R.id.com_viewholderIndexID, adjustedPosition)
+    onBindDropDownViewHolder(holder as Holder, get(adjustedPosition), adjustedPosition)
+
     //record onBindViewHolder spend time
     logOnBindViewHolderTime("bindDropDownViewHolder", holder, position)
   }
 
   fun getInternalItemViewType(position: Int): Int {
-    return when {
-      isHeaderPosition(position) -> {
-        mHeaderHolders.keyAt(position)
-      }
-      isFooterPosition(position) -> {
-        mFooterHolders.keyAt(getAdjustedFooterPosition(position))
-      }
-      else -> {
-        getItemViewType(getAdjustedPosition(position))
-      }
-    }
+    return getItemViewType(getAdjustedPosition(position))
   }
-  //</editor-fold >
-  //<editor-fold desc="点击监听">
+  //endregion
+
+
+  //region 设置item监听器
+  override fun setItemClickedListener(listener: ItemClickListener<Item, Holder>) {
+    mItemClickListener = listener
+  }
+  //endregion
+
+
+  //region 点击监听回调
   /**
    * ListView的点击事件
    *
@@ -535,19 +400,9 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
    */
   fun onItemClicked(position: Int, holder: Holder): Boolean {
     if (internalIsEnabled(position)) {
-      if (isHeaderPosition(position)) {
-        if (mHeaderClickListener != null) {
-          mHeaderClickListener!!.onHeaderClicked(this, null, holder, position)
-        }
-      } else if (isFooterPosition(position)) {
-        if (mFooterClickListener != null) {
-          mFooterClickListener!!.onFooterClicked(this, null, holder, getAdjustedFooterPosition(position))
-        }
-      } else {
-        if (mItemClickListener != null) {
-          val adjusted = getAdjustedPosition(position)
-          mItemClickListener?.onItemClicked(this, get(adjusted), holder, adjusted)
-        }
+      if (mItemClickListener != null) {
+        val adjusted = getAdjustedPosition(position)
+        mItemClickListener?.onItemClicked(this, get(adjusted), holder, adjusted)
       }
     }
     return false;
@@ -561,20 +416,9 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
    */
   fun onItemDoubleClicked(position: Int, holder: Holder) {
     if (internalIsEnabled(position)) {
-      if (isHeaderPosition(position)) {
-        if (mHeaderClickListener != null) {
-          mHeaderClickListener!!.onHeaderDoubleClicked(this, null, holder, position)
-        }
-      } else if (isFooterPosition(position)) {
-        if (mFooterClickListener != null) {
-          mFooterClickListener!!
-            .onFooterDoubleClicked(this, null, holder, getAdjustedFooterPosition(position))
-        }
-      } else {
-        if (mItemClickListener != null) {
-          val adjusted = getAdjustedPosition(position)
-          mItemClickListener!!.onItemDoubleClicked(this, get(adjusted), holder, adjusted)
-        }
+      if (mItemClickListener != null) {
+        val adjusted = getAdjustedPosition(position)
+        mItemClickListener!!.onItemDoubleClicked(this, get(adjusted), holder, adjusted)
       }
     }
   }
@@ -587,28 +431,16 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
    */
   fun onItemLongClicked(position: Int, holder: Holder): Boolean {
     if (internalIsEnabled(position)) {
-      if (isHeaderPosition(position)) {
-        if (mHeaderClickListener != null) {
-          mHeaderClickListener!!.onHeaderLongClicked(this, null, holder, position)
-          return true
-        }
-      } else if (isFooterPosition(position)) {
-        if (mFooterClickListener != null) {
-          mFooterClickListener!!.onFooterLongClicked(this, null, holder, getAdjustedFooterPosition(position))
-          return true
-        }
-      } else {
-        if (mItemClickListener != null) {
-          val adjusted = getAdjustedPosition(position)
-          mItemClickListener!!.onItemLongClicked(this, get(adjusted), holder, adjusted)
-          return true
-        }
+      if (mItemClickListener != null) {
+        val adjusted = getAdjustedPosition(position)
+        mItemClickListener!!.onItemLongClicked(this, get(adjusted), holder, adjusted)
+        return true
       }
     }
     return false
   }
 
-  //</editor-fold >
+  //endregion
   ///////////////////////////////////////////////////////////////////////////
   // 刷新方法,遍历观察者里面的所有监听器
   ///////////////////////////////////////////////////////////////////////////
@@ -645,30 +477,15 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   ///////////////////////////////////////////////////////////////////////////
   //操作header和footer位置的方法
   ///////////////////////////////////////////////////////////////////////////
-  private val headersCount: Int
-    get() = mHeaderHolders.size()
 
-  private val footersCount: Int
-    get() = mFooterHolders.size()
-
-  private val footerStartIndex: Int
-    get() = headersCount + getCount()
-
-  fun isHeaderPosition(rawPosition: Int): Boolean {
-    return rawPosition < headersCount
-  }
-
-  fun isFooterPosition(rawPosition: Int): Boolean {
-    return rawPosition >= footerStartIndex
-  }
 
   fun getAdjustedPosition(rawPosition: Int): Int {
-    return rawPosition - headersCount
+    return rawPosition
   }
-
-  fun getAdjustedFooterPosition(rawPosition: Int): Int {
-    return rawPosition - footerStartIndex
-  }
+//
+//  fun getAdjustedFooterPosition(rawPosition: Int): Int {
+//    return rawPosition - footerStartIndex
+//  }
 
 
   ///////////////////////////////////////////////////////////////////////////
@@ -707,17 +524,7 @@ abstract class UniversalAdapter<Item, Holder : XViewHolder> : ListObserver<Any?>
   }
 
   fun internalIsEnabled(position: Int): Boolean {
-    return when {
-      isHeaderPosition(position) -> {
-        isHeaderEnabled(position)
-      }
-      isFooterPosition(position) -> {
-        isFooterEnabled(getAdjustedFooterPosition(position))
-      }
-      else -> {
-        isEnabled(getAdjustedPosition(position))
-      }
-    }
+    return isEnabled(getAdjustedPosition(position))
   }
 
   private fun tryTransactionModification(): Boolean {

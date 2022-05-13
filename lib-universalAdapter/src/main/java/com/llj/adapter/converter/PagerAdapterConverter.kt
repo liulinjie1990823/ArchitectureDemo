@@ -7,7 +7,9 @@ import androidx.viewpager.widget.ViewPager
 import com.llj.adapter.UniversalAdapter
 import com.llj.adapter.UniversalConverter
 import com.llj.adapter.XViewHolder
-import com.llj.adapter.listener.*
+import com.llj.adapter.listener.ItemClickListener
+import com.llj.adapter.listener.ItemClickWrapper
+import com.llj.adapter.listener.ItemListenerAdapter
 import com.llj.adapter.observable.ListObserver
 import com.llj.adapter.observable.ListObserverListener
 import com.llj.adapter.observable.SimpleListObserverListener
@@ -15,17 +17,15 @@ import com.llj.adapter.util.ThreadingUtils
 import com.llj.adapter.util.UniversalAdapterUtils.setViewHolder
 
 /**
- * PROJECT:UniversalAdapter
- * DESCRIBE:
- * Created by llj on 2017/2/11.
+ * PagerAdapterConverter
+ *
+ * @author liulinjie
+ * @date 2017/2/11
  */
 class PagerAdapterConverter<Item, Holder : XViewHolder>
-internal constructor(universalAdapter: UniversalAdapter<Item, Holder>, viewPager: ViewPager)
-  : PagerAdapter(),
-    HeaderListenerAdapter<Item, Holder>,
-    FooterListenerAdapter<Item, Holder>,
-    ItemListenerAdapter<Item, Holder>,
-    UniversalConverter<Item, Holder> {
+internal constructor(universalAdapter: UniversalAdapter<Item, Holder>, viewPager: ViewPager) : PagerAdapter(),
+  ItemListenerAdapter<Item, Holder>,
+  UniversalConverter<Item, Holder> {
 
   private var mUniversalAdapter: UniversalAdapter<Item, Holder>? = null
   private val mItemClickedWrapper: ItemClickWrapper<Item, Holder>
@@ -49,15 +49,6 @@ internal constructor(universalAdapter: UniversalAdapter<Item, Holder>, viewPager
   ///////////////////////////////////////////////////////////////////////////
   //
   ///////////////////////////////////////////////////////////////////////////
-  override fun setFooterClickListener(footerClickListener: FooterClickListener<Item, Holder>) {
-    getAdapter().setFooterClickListener(footerClickListener)
-  }
-
-
-  override fun setHeaderClickListener(headerClickListener: HeaderClickListener<Item, Holder>) {
-    getAdapter().setHeaderClickListener(headerClickListener)
-  }
-
   override fun setItemClickedListener(listener: ItemClickListener<Item, Holder>) {
     getAdapter().setItemClickedListener(listener)
   }

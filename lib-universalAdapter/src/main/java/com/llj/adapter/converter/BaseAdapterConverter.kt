@@ -4,12 +4,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.AdapterView
-import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.BaseAdapter
 import com.llj.adapter.UniversalAdapter
 import com.llj.adapter.UniversalConverter
 import com.llj.adapter.XViewHolder
-import com.llj.adapter.listener.*
+import com.llj.adapter.listener.ItemClickListener
+import com.llj.adapter.listener.ItemListenerAdapter
 import com.llj.adapter.observable.ListObserver
 import com.llj.adapter.observable.ListObserverListener
 import com.llj.adapter.observable.SimpleListObserverListener
@@ -17,19 +17,17 @@ import com.llj.adapter.util.ThreadingUtils
 import com.llj.adapter.util.UniversalAdapterUtils
 
 /**
- * PROJECT:CommonAdapter DESCRIBE: Created by llj on 2017/2/11.
+ * BaseAdapterConverter
+ *
+ * @author liulinjie
+ * @date 2017/2/11
  */
 class BaseAdapterConverter<Item, Holder : XViewHolder>
-internal constructor(universalAdapter: UniversalAdapter<Item, Holder>, adapterView: AbsListView)
-  : BaseAdapter(),
-    HeaderListenerAdapter<Item, Holder>,
-    FooterListenerAdapter<Item, Holder>,
-    ItemListenerAdapter<Item, Holder>,
-    UniversalConverter<Item, Holder> {
+internal constructor(universalAdapter: UniversalAdapter<Item, Holder>, adapterView: AbsListView) : BaseAdapter(),
+  ItemListenerAdapter<Item, Holder>,
+  UniversalConverter<Item, Holder> {
 
   private var mUniversalAdapter: UniversalAdapter<Item, Holder>? = null
-  private val mItemClickListener: AdapterView.OnItemClickListener
-  private val mLongClickListener: AdapterView.OnItemLongClickListener
   private val mObserverListener: ListObserverListener<Item>
   private val superDataSetChangedRunnable: Runnable = Runnable { superNotifyDataSetChanged() }
 
@@ -39,13 +37,13 @@ internal constructor(universalAdapter: UniversalAdapter<Item, Holder>, adapterVi
         superNotifyDataSetChangedOnUIThread()
       }
     }
-    this.mItemClickListener = AdapterView.OnItemClickListener { _, view, position, _ -> getAdapter().onItemClicked(position, view) }
-    this.mLongClickListener = OnItemLongClickListener { _, view, position, _ -> getAdapter().onItemLongClicked(position, view) }
+    val itemClickListener = AdapterView.OnItemClickListener { _, view, position, _ -> getAdapter().onItemClicked(position, view) }
+    val longClickListener = AdapterView.OnItemLongClickListener { _, view, position, _ -> getAdapter().onItemLongClicked(position, view) }
     universalAdapter.checkIfBoundAndSet()
     setAdapter(universalAdapter)
     adapterView.adapter = this
-    adapterView.onItemClickListener = mItemClickListener
-    adapterView.onItemLongClickListener = mLongClickListener
+    adapterView.onItemClickListener = itemClickListener
+    adapterView.onItemLongClickListener = longClickListener
     notifyDataSetChanged()
   }
 
@@ -68,16 +66,6 @@ internal constructor(universalAdapter: UniversalAdapter<Item, Holder>, adapterVi
   ///////////////////////////////////////////////////////////////////////////
   //
   ///////////////////////////////////////////////////////////////////////////
-  override fun setFooterClickListener(
-      footerClickListener: FooterClickListener<Item, Holder>) {
-    getAdapter().setFooterClickListener(footerClickListener)
-  }
-
-  override fun setHeaderClickListener(
-      headerClickListener: HeaderClickListener<Item, Holder>) {
-    getAdapter().setHeaderClickListener(headerClickListener)
-  }
-
   override fun setItemClickedListener(listener: ItemClickListener<Item, Holder>) {
     getAdapter().setItemClickedListener(listener)
   }
