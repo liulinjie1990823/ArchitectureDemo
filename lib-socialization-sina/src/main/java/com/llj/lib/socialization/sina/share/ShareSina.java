@@ -142,7 +142,7 @@ public class ShareSina implements IShareSinaCustom {
                     Log.getStackTraceString(task.getError())));
             return null;
           }
-          imageObject.imagePath = task.getResult();
+          //imageObject.imagePath = task.getResult();
           return task.getResult();
         })
         .continueWith(new ShareUtil.ThumbDataContinuation(TARGET_SIZE, TARGET_LENGTH))
