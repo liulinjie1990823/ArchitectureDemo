@@ -44,7 +44,9 @@ public class LoginQQ implements ILogin {
 
     mTencent = Tencent
         .createInstance(SocialManager.getConfig(context.getApplicationContext()).getQqId(),
-            context.getApplicationContext());
+            context.getApplicationContext(), context.getApplicationContext().getPackageName() +
+                ".shareFileProvider");
+    Tencent.setIsPermissionGranted(true);
     mLoginListener = listener;
     mIUiListener = new IUiListener() {
       @Override
@@ -85,6 +87,11 @@ public class LoginQQ implements ILogin {
         Logger.e(INFO.AUTH_CANCEL);
         mLoginListener.onLoginResponse(
             new LoginResult(LoginPlatformType.QQ, LoginResult.RESPONSE_LOGIN_HAS_CANCEL));
+      }
+
+      @Override
+      public void onWarning(int i) {
+
       }
     };
   }
@@ -127,6 +134,11 @@ public class LoginQQ implements ILogin {
         mLoginListener.onLoginResponse(
             new LoginResult(LoginPlatformType.QQ, LoginResult.RESPONSE_LOGIN_HAS_CANCEL));
       }
+
+      @Override
+      public void onWarning(int i) {
+
+      }
     });
   }
 
@@ -148,7 +160,7 @@ public class LoginQQ implements ILogin {
 
   @Override
   public void recycle() {
-    mTencent.releaseResource();
+    //mTencent.releaseResource();
     mIUiListener = null;
     mLoginListener = null;
     mTencent = null;

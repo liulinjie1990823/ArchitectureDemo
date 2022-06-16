@@ -14,11 +14,11 @@ public class WeiboToken extends BaseToken {
     private String uid;
 
     public static WeiboToken parse(Oauth2AccessToken token) {
-        WeiboToken target = new WeiboToken();
-        target.setUid(token.getUid());
+      WeiboToken target = new WeiboToken();
+      target.setUid(token.getUid());
       target.setAccessToken(token.getAccessToken());
       target.setRefreshToken(token.getRefreshToken());
-        return target;
+      return target;
     }
 
     public String getRefreshToken() {

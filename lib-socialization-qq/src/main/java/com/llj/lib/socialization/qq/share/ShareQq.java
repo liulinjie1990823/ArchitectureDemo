@@ -50,7 +50,9 @@ public class ShareQq implements IShare {
   public void init(Context context, ShareListener listener) {
     mTencent = Tencent
         .createInstance(SocialManager.getConfig(context.getApplicationContext()).getQqId(),
-            context.getApplicationContext());
+            context.getApplicationContext(), context.getApplicationContext().getPackageName() +
+                ".shareFileProvider");
+    Tencent.setIsPermissionGranted(true);
     mShareListener = listener;
 
     mIUiListener = new MyIUiListener(context, listener);
@@ -96,6 +98,11 @@ public class ShareQq implements IShare {
       mShareListener.onShareResponse(
           new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
       finishActivity(mWeakReference.get());
+    }
+
+    @Override
+    public void onWarning(int i) {
+
     }
   }
 
@@ -270,7 +277,7 @@ public class ShareQq implements IShare {
   @Override
   public void recycle() {
     if (mTencent != null) {
-      mTencent.releaseResource();
+      //mTencent.releaseResource();
       mTencent = null;
     }
 

@@ -13,3 +13,7 @@
 //    api 'com.sina.weibo.sdk:core:4.3.7:openDefaultRelease@aar'
     api 'io.github.sinaweibosdk:core:11.12.0@aar'
 ```
+
+## 2.1.1
+1.qq分享图片增加fileProvide模式，以兼容微信客户端
+[分享功能存储权限适配](https://wiki.connect.qq.com/%e5%88%86%e4%ba%ab%e5%8a%9f%e8%83%bd%e5%ad%98%e5%82%a8%e6%9d%83%e9%99%90%e9%80%82%e9%85%8d)

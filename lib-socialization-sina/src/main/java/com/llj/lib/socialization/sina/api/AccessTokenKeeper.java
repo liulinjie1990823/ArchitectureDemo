@@ -48,7 +48,7 @@ public class AccessTokenKeeper {
 
         SharedPreferences pref = context
             .getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        Editor editor = pref.edit();
+      Editor editor = pref.edit();
         editor.putString(KEY_UID, token.getUid());
         editor.putString(KEY_ACCESS_TOKEN, token.getAccessToken());
         editor.putString(KEY_REFRESH_TOKEN, token.getRefreshToken());
@@ -67,9 +67,8 @@ public class AccessTokenKeeper {
             return;
         }
 
-        SharedPreferences pref = context
-            .getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        Editor editor = pref.edit();
+      SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+      Editor editor = pref.edit();
         editor.clear();
         editor.commit();
     }
