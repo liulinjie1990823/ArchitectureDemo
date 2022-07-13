@@ -9,23 +9,15 @@ import android.content.Intent;
  */
 public interface IControl {
 
-    //处理结果
-    void handleResult(Activity activity, int requestCode, int resultCode, Intent data);
+  //处理结果
+  void handleResult(Activity activity, int requestCode, int resultCode, Intent data);
 
-    void onNewIntent(Intent data);
+  void onNewIntent(Intent data);
 
-    //是否安装相关应用
-    boolean isInstalled(Context context);
+  //是否安装相关应用
+  boolean isInstalled(Context context);
 
-    //垃圾回收
-    void recycle();
+  //垃圾回收
+  void recycle();
 
-    default void finishActivity(Context context) {
-        if (context instanceof Activity) {
-            Activity activity = (Activity) context;
-            if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity.isDestroyed()) {
-                activity.finish();
-            }
-        }
-    }
 }

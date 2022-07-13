@@ -3,11 +3,11 @@ package com.llj.socialization.share.interfaces;
 import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.NonNull;
-
 import com.llj.socialization.IControl;
 import com.llj.socialization.share.ShareObject;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.model.ShareResult;
+import com.llj.socialization.utils.Utils;
 
 /**
  * PROJECT:babyphoto_app
@@ -38,8 +38,10 @@ public interface IShare extends IControl {
     }
 
     default void sendFailure(Context context, ShareListener shareListener, String message) {
-        finishActivity(context);
-        shareListener.onShareResponse(new ShareResult(shareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE, message));
+        Utils.finishActivity(context);
+        shareListener.onShareResponse(
+            new ShareResult(shareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE,
+                message));
     }
 
 

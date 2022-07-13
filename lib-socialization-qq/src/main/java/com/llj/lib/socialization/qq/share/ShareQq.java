@@ -18,6 +18,7 @@ import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShare;
 import com.llj.socialization.share.model.ShareResult;
 import com.llj.socialization.utils.InstallUtil;
+import com.llj.socialization.utils.Utils;
 import com.tencent.connect.share.QQShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -68,21 +69,12 @@ public class ShareQq implements IShare {
       mShareListener = shareListener;
     }
 
-    void finishActivity(Context context) {
-      if (context instanceof Activity) {
-        Activity activity = (Activity) context;
-        if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity
-            .isDestroyed()) {
-          activity.finish();
-        }
-      }
-    }
 
     @Override
     public void onComplete(Object o) {
       mShareListener.onShareResponse(
           new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
-      finishActivity(mWeakReference.get());
+      Utils.finishActivity(mWeakReference.get());
     }
 
     @Override
@@ -90,14 +82,14 @@ public class ShareQq implements IShare {
       mShareListener.onShareResponse(
           new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE,
               uiError.errorMessage));
-      finishActivity(mWeakReference.get());
+      Utils.finishActivity(mWeakReference.get());
     }
 
     @Override
     public void onCancel() {
       mShareListener.onShareResponse(
           new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
-      finishActivity(mWeakReference.get());
+      Utils.finishActivity(mWeakReference.get());
     }
 
     @Override

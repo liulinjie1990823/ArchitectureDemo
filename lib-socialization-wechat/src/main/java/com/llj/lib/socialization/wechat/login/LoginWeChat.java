@@ -17,6 +17,7 @@ import com.llj.socialization.login.model.BaseToken;
 import com.llj.socialization.login.model.LoginResult;
 import com.llj.socialization.login.model.WxToken;
 import com.llj.socialization.login.model.WxUser;
+import com.llj.socialization.utils.Utils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -124,7 +125,7 @@ public class LoginWeChat implements ILogin {
           }
         }
 
-        finishActivity(context);
+        Utils.finishActivity(context);
       }
     };
   }

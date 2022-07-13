@@ -19,6 +19,7 @@ import com.llj.socialization.share.interfaces.IShareQzone;
 import com.llj.socialization.share.model.ShareResult;
 import com.llj.socialization.share.process.ImageEncode;
 import com.llj.socialization.utils.InstallUtil;
+import com.llj.socialization.utils.Utils;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzonePublish;
 import com.tencent.connect.share.QzoneShare;
@@ -71,21 +72,12 @@ public class ShareQzone implements IShareQzone {
       mShareListener = shareListener;
     }
 
-    void finishActivity(Context context) {
-      if (context instanceof Activity) {
-        Activity activity = (Activity) context;
-        if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity
-            .isDestroyed()) {
-          activity.finish();
-        }
-      }
-    }
 
     @Override
     public void onComplete(Object o) {
       mShareListener.onShareResponse(
           new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
-      finishActivity(mWeakReference.get());
+      Utils.finishActivity(mWeakReference.get());
     }
 
     @Override
@@ -93,14 +85,14 @@ public class ShareQzone implements IShareQzone {
       mShareListener.onShareResponse(
           new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE,
               uiError.errorMessage));
-      finishActivity(mWeakReference.get());
+      Utils.finishActivity(mWeakReference.get());
     }
 
     @Override
     public void onCancel() {
       mShareListener.onShareResponse(
           new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
-      finishActivity(mWeakReference.get());
+      Utils.finishActivity(mWeakReference.get());
     }
 
     @Override

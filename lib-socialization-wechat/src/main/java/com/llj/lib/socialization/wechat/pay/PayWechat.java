@@ -12,6 +12,7 @@ import com.llj.socialization.pay.callback.PayListener;
 import com.llj.socialization.pay.interfaces.IPay;
 import com.llj.socialization.pay.model.PayParam;
 import com.llj.socialization.pay.model.PayResult;
+import com.llj.socialization.utils.Utils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -82,7 +83,7 @@ public class PayWechat implements IPay {
           }
         }
 
-        finishActivity(context);
+        Utils.finishActivity(context);
       }
     };
   }

@@ -361,15 +361,6 @@ public class ShareUtil {
     }
   }
 
-  void finishActivity(Context context) {
-    if (context instanceof Activity) {
-      Activity activity = (Activity) context;
-      if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity
-          .isDestroyed()) {
-        activity.finish();
-      }
-    }
-  }
 
   public static void recycle() {
 

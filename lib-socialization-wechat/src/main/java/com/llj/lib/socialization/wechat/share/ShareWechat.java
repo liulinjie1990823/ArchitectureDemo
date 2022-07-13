@@ -19,6 +19,7 @@ import com.llj.socialization.share.ShareUtil.ImageEncodeToFileCallable;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShare;
 import com.llj.socialization.share.model.ShareResult;
+import com.llj.socialization.utils.Utils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -64,8 +65,8 @@ public class ShareWechat implements IShare {
 
   private static class MyIWXAPIEventHandler implements IWXAPIEventHandler {
 
-    private WeakReference<Context> mWeakReference;
-    private ShareListener          mShareListener;
+    private final WeakReference<Context> mWeakReference;
+    private final ShareListener          mShareListener;
 
     public MyIWXAPIEventHandler(Context context, ShareListener shareListener) {
       mWeakReference = new WeakReference<>(context);
@@ -77,15 +78,6 @@ public class ShareWechat implements IShare {
 
     }
 
-    void finishActivity(Context context) {
-      if (context instanceof Activity) {
-        Activity activity = (Activity) context;
-        if (activity.getClass().getSimpleName().equals("ResponseActivity") && !activity
-            .isDestroyed()) {
-          activity.finish();
-        }
-      }
-    }
 
     @Override
     public void onResp(BaseResp baseResp) {
@@ -120,7 +112,7 @@ public class ShareWechat implements IShare {
             break;
         }
       }
-      finishActivity(mWeakReference.get());
+      Utils.finishActivity(mWeakReference.get());
     }
   }
 

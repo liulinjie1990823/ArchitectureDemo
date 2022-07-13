@@ -15,6 +15,7 @@ import com.llj.socialization.share.ShareUtil.ImageEncodeToFileCallable;
 import com.llj.socialization.share.callback.ShareListener;
 import com.llj.socialization.share.interfaces.IShareSinaCustom;
 import com.llj.socialization.share.model.ShareResult;
+import com.llj.socialization.utils.Utils;
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
@@ -24,6 +25,7 @@ import com.sina.weibo.sdk.openapi.IWBAPI;
 import com.sina.weibo.sdk.openapi.SdkListener;
 import com.sina.weibo.sdk.openapi.WBAPIFactory;
 import com.sina.weibo.sdk.share.WbShareCallback;
+import java.lang.ref.WeakReference;
 
 /**
  * PROJECT:babyphoto_app DESCRIBE: Created by llj on 2017/1/18.
@@ -66,31 +68,41 @@ public class ShareSina implements IShareSinaCustom {
 
     mShareListener = listener;
 
-    mWbShareCallback = new WbShareCallback() {
-      @Override
-      public void onComplete() {
-        finishActivity(context);
-        mShareListener.onShareResponse(
-            new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
-      }
+    mWbShareCallback = new MyWbShareCallback(context, mShareListener);
+  }
 
-      @Override
-      public void onError(UiError uiError) {
-        finishActivity(context);
-        mShareListener.onShareResponse(
-            new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE,
-                uiError.errorMessage));
-      }
+  private static class MyWbShareCallback implements WbShareCallback {
+
+    private final WeakReference<Context> mWeakContext;
+    private final ShareListener          mShareListener;
+
+    public MyWbShareCallback(Context context, ShareListener shareListener) {
+      mWeakContext = new WeakReference<>(context);
+      mShareListener = shareListener;
+    }
+
+    @Override
+    public void onComplete() {
+      mShareListener.onShareResponse(
+          new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_SUCCESS));
+      Utils.finishActivity(mWeakContext.get());
+    }
+
+    @Override
+    public void onError(UiError uiError) {
+      mShareListener.onShareResponse(
+          new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_FAILURE,
+              uiError.errorMessage));
+      Utils.finishActivity(mWeakContext.get());
+    }
 
 
-      @Override
-      public void onCancel() {
-        finishActivity(context);
-        mShareListener.onShareResponse(
-            new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
-      }
-
-    };
+    @Override
+    public void onCancel() {
+      mShareListener.onShareResponse(
+          new ShareResult(mShareListener.getPlatform(), ShareResult.RESPONSE_SHARE_HAS_CANCEL));
+      Utils.finishActivity(mWeakContext.get());
+    }
   }
 
   @Override
